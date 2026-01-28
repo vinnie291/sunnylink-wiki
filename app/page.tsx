@@ -8,6 +8,7 @@ import CategoryFilter from '../components/CategoryFilter';
 import EmptyState from '../components/EmptyState';
 import ModelLibrary from '../components/ModelLibrary';
 import FeatureGuide from '../components/FeatureGuide';
+import ScrollToTop from '../components/ScrollToTop';
 
 interface ToggleSetting {
   key: string;
@@ -364,6 +365,7 @@ export default function Home() {
           </p>
         </footer>
       </div>
-    </main>
+      <ScrollToTop />
+    </main >
   );
 }
