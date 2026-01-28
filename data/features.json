@@ -1,0 +1,148 @@
+{
+    "appName": "Sunnylink Database",
+    "version": "5.0",
+    "dataSource": "Official Sunnypilot Documentation",
+    "lastUpdated": "2026-01-26",
+    "features": [
+        {
+            "id": "mads",
+            "name": "M.A.D.S.",
+            "fullName": "Modular Assistive Driving System",
+            "category": "Core Control",
+            "officialDefinition": "Decouples lateral control (steering) from longitudinal control (gas/brake), enabling the car to steer itself even when cruise control is disengaged.",
+            "userSummary": "Steering stays on even if you brake or coast.",
+            "userTranslation": "\"Always-On Steering.\" The car steers for you even if you are in full control of the speed. You can coast, brake, or accelerate without the steering turning off.",
+            "settingsKeys": [
+                "mads_enabled",
+                "mads_steering_mode",
+                "mads_main_cruise_allowed",
+                "mads_unified_engagement"
+            ]
+        },
+        {
+            "id": "nnlc",
+            "name": "NNLC",
+            "fullName": "Neural Network Lateral Control",
+            "category": "Core Control",
+            "officialDefinition": "Replaces the traditional PID/Indi controller with a neural network model that inputs past curvature to predict future steering paths. Directly outputs curvature for lateral control.",
+            "userSummary": "AI-based steering. Smoother, but can 'ping-pong' on some cars.",
+            "userTranslation": "\"AI Steering.\" Instead of using math equations to stay in the lane, it uses an AI brain. It feels smoother and more \"human,\" but if it starts ping-ponging (bouncing left/right), turn it off.",
+            "settingsKeys": [
+                "nnlc_enabled"
+            ]
+        },
+        {
+            "id": "dec",
+            "name": "DEC",
+            "fullName": "Dynamic Experimental Control",
+            "category": "Core Control",
+            "officialDefinition": "Automatically toggles between Chill Mode (Standard Longitudinal) and Experimental Mode (Traffic Light/Stop Sign handling) based on driving context (e.g., speed, road type).",
+            "userSummary": "Auto-switches driving modes. Note: Can cause late braking.",
+            "userTranslation": "\"City/Highway Switcher.\" Automatically switches modes based on context. Tradeoff: Can make testing specific models harder and may brake late for signs. Useful, but adds complexity.",
+            "settingsKeys": [
+                "dynamic_experimental_control"
+            ]
+        },
+        {
+            "id": "icbm",
+            "name": "ICBM",
+            "fullName": "Intelligent Cruise Button Management",
+            "category": "Compatibility",
+            "officialDefinition": "A system designed to manage vehicle speed by electronically \"pressing\" the car's native cruise control buttons (RES+/SET-) to mimic full longitudinal control on cars that do not support it natively.",
+            "userSummary": "Allows 'smart' speed control on unsupported cars by simulating button presses.",
+            "userTranslation": "\"Cruise Hacker.\" If your car doesn't support full self-driving gas/brake, this feature \"spams\" your steering wheel buttons to force the car to slow down for curves or speed limits.",
+            "settingsKeys": [
+                "icbm_enabled"
+            ]
+        },
+        {
+            "id": "scc_v",
+            "name": "SCC-V",
+            "fullName": "Vision-Based Turn Speed Control",
+            "category": "Speed Control",
+            "officialDefinition": "Uses the driving model's real-time vision (curvature prediction) to calculate safe cornering speeds. Automatically lowers the ACC set speed before entering a turn.",
+            "userSummary": "Slows down for curves it 'sees' with the camera.",
+            "userTranslation": "\"Eyes-On Curve Slowdown.\" The car sees a sharp turn coming and slows down, just like you would.",
+            "settingsKeys": [
+                "vision_turn_control"
+            ]
+        },
+        {
+            "id": "scc_m",
+            "name": "SCC-M",
+            "fullName": "Map-Based Turn Speed Control",
+            "category": "Speed Control",
+            "officialDefinition": "Uses OpenStreetMap (OSM) data to anticipate upcoming road curvature and lower the ACC set speed accordingly.",
+            "userSummary": "Slows down for curves using map data.",
+            "userTranslation": "\"Map-Based Curve Slowdown.\" The car looks at the map, sees a curve ahead, and slows down before you can even see it.",
+            "settingsKeys": [
+                "map_turn_control"
+            ]
+        },
+        {
+            "id": "sla",
+            "name": "SLA",
+            "fullName": "Speed Limit Assist",
+            "category": "Speed Control",
+            "officialDefinition": "Automatically adjusts the vehicle's cruise set speed to match the current speed limit. Sourced from Map Data, Dashboard Camera (TSR), or a combination of both.",
+            "userSummary": "Auto-sets cruise to speed limit.",
+            "userTranslation": "\"Auto-Speeding.\" Automatically sets your cruise control to the speed limit (plus your custom offset, e.g., +5 mph).",
+            "settingsKeys": [
+                "speed_limit_assist",
+                "speed_limit_source",
+                "speed_limit_offset_type",
+                "speed_limit_offset_value"
+            ]
+        },
+        {
+            "id": "alc",
+            "name": "ALC",
+            "fullName": "Automatic Lane Change",
+            "category": "Navigation",
+            "officialDefinition": "Initiates a lane change after a blinker input and a configurable delay timer, without requiring a torque \"nudge\" on the steering wheel. Can integrate with Blind Spot Monitoring (BSM) for safety.",
+            "userSummary": "Click blinker -> Car moves over automatically.",
+            "userTranslation": "\"Hands-Free Lane Change.\" You click the blinker, the car checks the blind spot (if enabled), waits 1 second, and moves over automatically.",
+            "settingsKeys": [
+                "auto_lane_change_timer",
+                "auto_lane_change_bsm_delay"
+            ]
+        },
+        {
+            "id": "hkg_tuning",
+            "name": "HKG Tuning",
+            "fullName": "Hyundai Longitudinal Tuning",
+            "category": "Vehicle Specific",
+            "officialDefinition": "Applies specific tuning profiles (\"Stock\" or \"Dynamic\") to the longitudinal control policy for Hyundai/Kia/Genesis (HKG) vehicles. Integrates with native Highway Driving Assist (HDA) status.",
+            "userSummary": "Gas pedal responsiveness for Hyundai/Kia.",
+            "userTranslation": "\"Hyundai Gas Pedal Fix.\" If your Kia accelerates too slowly in \"Eco\" mode, switching this to \"Dynamic\" makes the gas pedal more responsive.",
+            "settingsKeys": [
+                "hyundai_longitudinal_tuning"
+            ]
+        },
+        {
+            "id": "custom_acc",
+            "name": "Custom ACC",
+            "fullName": "Custom ACC Increments",
+            "category": "Vehicle Specific",
+            "officialDefinition": "Allows configuration of the speed increment/decrement values for Short Press (e.g., ±1) and Long Press (e.g., ±5) of the cruise buttons.",
+            "userSummary": "Remap cruise button speed changes.",
+            "userTranslation": "\"Button Remapper.\" Change your steering wheel buttons so one click changes speed by 5mph instead of 1mph.",
+            "settingsKeys": [
+                "custom_acc_increments"
+            ]
+        }
+    ],
+    "glossary": {
+        "ACC": "Adaptive Cruise Control - Maintains set speed and follows traffic",
+        "ALC": "Automatic Lane Centering - Keeps car centered in lane",
+        "BSM": "Blind Spot Monitoring - Detects vehicles in blind spots",
+        "E2E": "End-to-End - AI model that handles all driving decisions",
+        "HDA": "Highway Driving Assist - Hyundai's native ADAS system",
+        "HKG": "Hyundai/Kia/Genesis - Korean car platforms",
+        "LDW": "Lane Departure Warning - Alerts when leaving lane",
+        "OSM": "OpenStreetMap - Open source map data",
+        "PID": "Proportional-Integral-Derivative - Traditional control algorithm",
+        "TSR": "Traffic Sign Recognition - Camera-based sign reading",
+        "WMI": "World Model Iteration - Latest E2E model architecture"
+    }
+}

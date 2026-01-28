@@ -1,0 +1,10 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [
+    'build',
+    '-t', 'gcr.io/sunnylink-wiki/wiki-app:latest',
+    '--build-arg', 'NEXT_PUBLIC_GOOGLE_SCRIPT_URL=${_NEXT_PUBLIC_GOOGLE_SCRIPT_URL}',
+    '.'
+  ]
+images:
+- 'gcr.io/sunnylink-wiki/wiki-app:latest'
