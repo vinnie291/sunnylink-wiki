@@ -1,2 +1,115 @@
-# sunnylink-wiki
-A comprehensive, community-driven database and wiki for Sunnypilot settings and driving models
+# ☀️ Sunnylink Database Wiki
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Status: Alpha](https://img.shields.io/badge/Status-Alpha-orange.svg)]()
+[![Stack: Next.js 14](https://img.shields.io/badge/Tech-Next.js%2014-black)]()
+
+**The "Missing Manual" for Sunnypilot.** A community-driven database decoding the complex settings, toggles, and driving models of the [sunnypilot](https://github.com/sunnypilot/sunnypilot) ecosystem.
+
+<img width="1448" height="1142" alt="vwEIcgLrhY" src="https://github.com/user-attachments/assets/c4dc3055-df88-4b39-8b28-56a512f5c067" />
+
+### Check it out here: https://vinhle.co/sp
+
+---
+
+## 🚀 Overview
+
+Sunnypilot (a fork of openpilot) offers incredible customization, with over **100+ toggles** and **60+ driving models**. However, for new users, understanding the difference between *"MADS"* and *"NNLC"* or choosing between *"WMI v12"* and *"Recertified Herbalist"* can be overwhelming.
+
+**Sunnylink Database** solves this by acting as the single source of truth. It is a mobile-first web app that translates technical settings into plain English, helping drivers configure their Comma devices with confidence.
+
+### ✨ Key Features
+
+* **🎛️ Toggle Encyclopedia:** A searchable wiki for every setting (MADS, Dynamic Experimental Control, etc.) with definitions, safety warnings, and dependencies.
+* **🧠 Model "Vibe Check" Explorer:** A breakdown of driving models not just by version, but by *feel* (e.g., "Aggressive," "Comfort," "Legacy").
+* **📱 Mobile-First Design:** Optimized for in-car reference, allowing you to look up settings while sitting in your driver's seat.
+* **🔌 Antigravity Ready:** All data is stored in structured JSON, serving as the backend for the Sunnylink "Antigravity" app ecosystem.
+
+---
+
+## 🛠️ Tech Stack
+
+* **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+* **Data:** Local JSON (No database required for local dev)
+* **Icons:** [Lucide React](https://lucide.dev/)
+
+---
+
+## 🏁 Getting Started
+
+This is a standard Next.js project. You can have it running locally in minutes.
+
+### Prerequisites
+* Node.js 18+
+* npm or yarn
+
+### Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/your-username/sunnylink-database.git](https://github.com/your-username/sunnylink-database.git)
+    cd sunnylink-database
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+
+4.  **Open your browser:**
+    Navigate to `http://localhost:3000` to see the wiki live.
+
+---
+
+## 💾 Data Structure
+
+The heart of this project lies in the `data/` directory. We strictly separate content from code to allow non-developers to contribute easily.
+
+### `data/toggles.json`
+Stores the definitions for system settings.
+```json
+{
+  "key": "mads_enabled",
+  "label": "MADS Enabled",
+  "category": "steering",
+  "description": "Decouples steering from gas/brake...",
+  "safety_level": "safe"
+}
+data/models.json
+Stores the "Vibe Check" data for driving models.
+
+JSON
+
+{
+  "name": "WMI V12",
+  "tags": ["Flagship", "Smart"],
+  "consensus": "Current daily driver. Best for intersections.",
+  "vibe": "Modern & Smart"
+}
+🤝 Contributing
+We welcome contributions from the community! Whether you are a React developer or just a driver who wants to fix a typo in a model description.
+
+How to help:
+Verify Data: If you see a model description that doesn't match reality, submit a PR to update models.json.
+
+Add Examples: We need more "Real World Scenarios" for the Toggle Wiki.
+
+Code: Check the Issues tab for open tasks.
+
+Please read our CONTRIBUTING.md for details on our code of conduct and submission process.
+
+📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+🙏 Acknowledgments
+Sunnyhaibin & the Sunnypilot Team: For building the incredible software this wiki documents.
+
+Comma.ai: For the openpilot platform that started it all.
+
+The Sunnypilot Discord Community: For the endless testing and feedback that powers our "Community Consensus" data.
