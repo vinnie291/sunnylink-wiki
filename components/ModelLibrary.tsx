@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import modelsData from '../data/models.json';
+import FlagFeedback from './FlagFeedback';
 
 interface SentimentData {
     great: number;
@@ -56,7 +57,7 @@ function SentimentBar({ sentiment }: { sentiment: SentimentData }) {
 }
 
 // Model Card Component
-function ModelCard({ model }: { model: Model }) {
+function ModelCard({ model, onFlag }: { model: Model; onFlag: (model: Model) => void }) {
     const [expanded, setExpanded] = useState(false);
 
     const getBadgeColor = (badge?: string) => {
@@ -125,6 +126,20 @@ function ModelCard({ model }: { model: Model }) {
                         )}
                     </div>
                 )}
+
+                {/* Flag Button */}
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onFlag(model);
+                    }}
+                    className="ml-2 p-2 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
+                    title="Flag this model"
+                >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+                    </svg>
+                </button>
             </div>
 
             {/* Sentiment Bar */}
@@ -218,6 +233,7 @@ export default function ModelLibrary() {
     const [activeCategory, setActiveCategory] = useState<string>('favorites');
     const [showVibeGuide, setShowVibeGuide] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [feedbackModel, setFeedbackModel] = useState<Model | null>(null);
 
     const categories = modelsData.categories as ModelCategory[];
     const vibeGuide = modelsData.vibeGuide as Record<string, VibeGuide>;
@@ -397,7 +413,11 @@ export default function ModelLibrary() {
                 {activeModels.length > 0 ? (
                     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
                         {activeModels.map((model) => (
-                            <ModelCard key={model.name} model={model} />
+                            <ModelCard
+                                key={model.name}
+                                model={model}
+                                onFlag={(m) => setFeedbackModel(m)}
+                            />
                         ))}
                     </div>
                 ) : (
@@ -407,7 +427,17 @@ export default function ModelLibrary() {
                         <p className="text-slate-400">Try adjusting your search terms</p>
                     </div>
                 )}
+
             </div>
+
+            {/* Feedback Modal */}
+            {feedbackModel && (
+                <FlagFeedback
+                    settingKey={`model_${feedbackModel.name}`}
+                    settingLabel={`Model: ${feedbackModel.name}`}
+                    onClose={() => setFeedbackModel(null)}
+                />
+            )}
         </div>
     );
 }

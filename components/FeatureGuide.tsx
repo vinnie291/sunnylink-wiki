@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import featuresData from '../data/features.json';
+import FlagFeedback from './FlagFeedback';
 
 interface Feature {
     id: string;
@@ -17,6 +18,7 @@ interface Feature {
 export default function FeatureGuide() {
     const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
     const [showGlossary, setShowGlossary] = useState(false);
+    const [feedbackFeature, setFeedbackFeature] = useState<Feature | null>(null);
 
     const features = featuresData.features as Feature[];
     const glossary = featuresData.glossary as Record<string, string>;
@@ -73,6 +75,19 @@ export default function FeatureGuide() {
                                 viewBox="0 0 24 24"
                             >
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setFeedbackFeature(feature);
+                            }}
+                            className="absolute top-4 right-12 p-1 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
+                            title="Flag this feature"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
                             </svg>
                         </button>
 
@@ -137,6 +152,15 @@ export default function FeatureGuide() {
                         </div>
                     ))}
                 </div>
+            )}
+
+            {/* Feedback Modal */}
+            {feedbackFeature && (
+                <FlagFeedback
+                    settingKey={`feature_${feedbackFeature.id}`}
+                    settingLabel={`Feature: ${feedbackFeature.name}`}
+                    onClose={() => setFeedbackFeature(null)}
+                />
             )}
         </div>
     );
