@@ -5,7 +5,7 @@ import FlagFeedback from './FlagFeedback';
 import WizardHero from './WizardHero';
 
 // --- Types ---
-type WizardStep = 'intro' | 'disclaimer' | 'hardware' | 'complexity' | 'vibe' | 'capabilities' | 'results';
+type WizardStep = 'intro' | 'disclaimer' | 'hardware' | 'complexity' | 'vibe' | 'capabilities' | 'laneChange' | 'mads' | 'results';
 
 interface WizardState {
     device: 'comma3' | 'comma4';
@@ -14,6 +14,8 @@ interface WizardState {
     drivingStyle: 'limo' | 'standard' | 'rush_hour';
     cityDriving: boolean;
     roadType: 'winding' | 'straight';
+    laneChangeType: 'nudge' | 'instant' | 'assist';
+    madsMode: 'default' | 'always_on';
 }
 
 interface RecipeItem {
@@ -35,6 +37,8 @@ export default function SetupWizard() {
         drivingStyle: 'standard',
         cityDriving: false,
         roadType: 'straight',
+        laneChangeType: 'nudge',
+        madsMode: 'default',
     });
     const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
     const [showFeedback, setShowFeedback] = useState(false);
@@ -55,12 +59,26 @@ export default function SetupWizard() {
         let modelName = 'Certified DTR (Down to Ride)';
         let modelReason = 'Balanced starting point.';
 
-        if (answers.drivingStyle === 'limo') {
-            modelName = 'Certified DTR (Down to Ride)';
-            modelReason = 'Prioritizes passenger comfort.';
-        } else if (answers.drivingStyle === 'rush_hour') {
+        // Diverse Model Logic
+        if (answers.carMake === 'toyota_lexus') {
+            if (answers.drivingStyle === 'rush_hour') {
+                modelName = 'North Dakota';
+                modelReason = 'Known for better torque handling on Toyotas.';
+            } else {
+                modelName = 'Tomb Raider';
+                modelReason = 'Smooth, popular choice for Toyota fleet.';
+            }
+        } else if (answers.carMake === 'honda_acura') {
             modelName = 'North Dakota';
-            modelReason = 'More rigid compliance.';
+            modelReason = 'Stable and reliable for Honda torque limits.';
+        } else if (answers.carMake === 'hyundai_kia') {
+            if (answers.drivingStyle === 'limo') {
+                modelName = 'SunnyPilot Default';
+                modelReason = 'Most stable/stock-like feel.';
+            } else {
+                modelName = 'Certified DTR (Down to Ride)';
+                modelReason = 'Great balance for HKG vehicles.';
+            }
         }
 
         recipe.push({
@@ -80,11 +98,42 @@ export default function SetupWizard() {
             reason: 'Critical for Sunnypilot.',
         });
 
+        if (isAdvanced) {
+            // Advanced MADS Logic
+            recipe.push({
+                category: '🎯 Steering',
+                key: 'mads_steering_mode',
+                label: 'MADS Steering Mode',
+                value: answers.madsMode === 'always_on' ? 'Remain Active' : 'Default',
+                reason: answers.madsMode === 'always_on'
+                    ? 'Steering stays active while braking.'
+                    : 'Steering disengages on brake.',
+                isAdvanced: true,
+            });
+
+            // Advanced Lane Change Logic
+            let alcTimer = 'Nudge';
+            if (answers.laneChangeType === 'instant') alcTimer = 'Instant';
+            // Note: 'assist' effectively means we might disable ALC or set to Nudge with high caution, 
+            // but for toggle mapping 'Nudge' is the safe default for Assist-like behavior if ALC is on.
+            // If they wanted "Assist Only" we might want to ensure ALC is separate, but we map to Timer here for safety if 'assist' was chosen implies caution.
+            if (answers.laneChangeType === 'assist') alcTimer = 'Timer';
+
+            recipe.push({
+                category: '🔄 Lane Change',
+                key: 'auto_lane_change_timer',
+                label: 'Auto Lane Change',
+                value: alcTimer,
+                reason: answers.laneChangeType === 'instant' ? 'Fast changes.' : 'Safer confirmation.',
+                isAdvanced: true,
+            });
+        }
+
         if (answers.roadType === 'winding' && isAdvanced) {
             recipe.push({
                 category: '🎯 Steering',
                 key: 'nnlc_enabled',
-                label: 'Neural Network Consrol (NNLC)',
+                label: 'Neural Network Control',
                 value: true,
                 reason: 'Better curve handling.',
                 isAdvanced: true,
@@ -226,17 +275,24 @@ export default function SetupWizard() {
 
             {step !== 'intro' && step !== 'results' && step !== 'disclaimer' && (
                 <div className="flex gap-2 mb-12">
-                    {['hardware', 'complexity', 'vibe', 'capabilities'].map((s) => {
-                        const steps = ['hardware', 'complexity', 'vibe', 'capabilities'];
-                        const currentIndex = steps.indexOf(step as string);
-                        const targetIndex = steps.indexOf(s);
-                        const isActive = targetIndex <= currentIndex;
-                        return (
-                            <div key={s} className={`h-2 flex-1 rounded-full bg-slate-800/50 overflow-hidden`}>
-                                <div className={`h-full transition-all duration-500 ease-out ${isActive ? 'bg-cyan-500 w-full' : 'w-0'}`} />
-                            </div>
-                        );
-                    })}
+                    {(() => {
+                        const baseSteps = ['hardware', 'complexity', 'vibe', 'capabilities'];
+                        const advSteps = ['laneChange', 'mads'];
+                        const allSteps = answers.complexity === 'advanced'
+                            ? [...baseSteps, ...advSteps]
+                            : baseSteps;
+
+                        return allSteps.map((s) => {
+                            const currentIndex = allSteps.indexOf(step as string);
+                            const targetIndex = allSteps.indexOf(s);
+                            const isActive = targetIndex <= currentIndex;
+                            return (
+                                <div key={s} className={`h-2 flex-1 rounded-full bg-slate-800/50 overflow-hidden`}>
+                                    <div className={`h-full transition-all duration-500 ease-out ${isActive ? 'bg-cyan-500 w-full' : 'w-0'}`} />
+                                </div>
+                            );
+                        });
+                    })()}
                 </div>
             )}
 
@@ -527,6 +583,77 @@ export default function SetupWizard() {
                     </div>
                     <div className="pt-8 flex justify-between">
                         <button onClick={() => setStep('vibe')} className="text-slate-500 hover:text-white">← Back</button>
+                        <button
+                            onClick={() => {
+                                if (answers.complexity === 'advanced') {
+                                    setStep('laneChange');
+                                } else {
+                                    setStep('results');
+                                }
+                            }}
+                            className="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold shadow-green-500/20 hover:scale-105 transition-transform"
+                        >
+                            {answers.complexity === 'advanced' ? 'Next ➔' : 'Generate ⚡'}
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {step === 'laneChange' && (
+                <div className="animate-fade-in space-y-8">
+                    <StepHeader title="Step 5: Lane Changes" icon="↔️" />
+                    <div className="space-y-4">
+                        {[
+                            { id: 'nudge', icon: '👋', title: 'Nudge (Recommended)', desc: 'You confirm the change by nudging the wheel.' },
+                            { id: 'instant', icon: '⚡', title: 'Instant', desc: 'Car changes lane immediately when blinker is on.' },
+                            { id: 'assist', icon: '🛡️', title: 'Assist Only', desc: 'No auto change, just keeps lane until you steer.' }
+                        ].map(opt => (
+                            <button
+                                key={opt.id}
+                                onClick={() => updateAnswer('laneChangeType', opt.id as WizardState['laneChangeType'])}
+                                className={`w-full p-6 rounded-xl border text-left transition-all flex items-center gap-4 ${answers.laneChangeType === opt.id ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
+                            >
+                                <div className="text-4xl">{opt.icon}</div>
+                                <div>
+                                    <div className="font-bold text-white text-lg">{opt.title}</div>
+                                    <div className="text-slate-400 text-sm">{opt.desc}</div>
+                                </div>
+                            </button>
+                        ))}
+                    </div>
+                    <div className="pt-8 flex justify-between">
+                        <button onClick={() => setStep('capabilities')} className="text-slate-500 hover:text-white">← Back</button>
+                        <button onClick={() => setStep('mads')} className="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-200 transition-colors">
+                            Next ➔
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {step === 'mads' && (
+                <div className="animate-fade-in space-y-8">
+                    <StepHeader title="Step 6: MADS Behavior" icon="🧠" />
+                    <p className="text-slate-400 mb-6">Modular Automated Driving System (MADS) keeps steering active even when you use the gas or brake.</p>
+                    <div className="grid grid-cols-1 gap-4">
+                        <button
+                            onClick={() => updateAnswer('madsMode', 'default')}
+                            className={`p-6 rounded-xl border text-left transition-all ${answers.madsMode === 'default' ? 'bg-slate-700 border-slate-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
+                        >
+                            <div className="text-3xl mb-3">🛑</div>
+                            <h3 className="text-xl font-bold text-white mb-2">Default MADS</h3>
+                            <p className="text-sm text-slate-400">Steering disconnects when you hit the brake.</p>
+                        </button>
+                        <button
+                            onClick={() => updateAnswer('madsMode', 'always_on')}
+                            className={`p-6 rounded-xl border text-left transition-all ${answers.madsMode === 'always_on' ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
+                        >
+                            <div className="text-3xl mb-3">🛡️</div>
+                            <h3 className="text-xl font-bold text-white mb-2">Always-On Steering (Recommended)</h3>
+                            <p className="text-sm text-slate-400">Steering remains active while braking. Great for highway cruising.</p>
+                        </button>
+                    </div>
+                    <div className="pt-8 flex justify-between">
+                        <button onClick={() => setStep('laneChange')} className="text-slate-500 hover:text-white">← Back</button>
                         <button onClick={() => setStep('results')} className="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold shadow-green-500/20 hover:scale-105 transition-transform">
                             Generate ⚡
                         </button>
@@ -536,3 +663,4 @@ export default function SetupWizard() {
         </div>
     );
 }
+
