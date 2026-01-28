@@ -56,6 +56,25 @@ This page is powered by data/models.json, ensuring that as new models are releas
 
 ---
 
+🧙‍♂️ The Setup Wizard
+"Like TurboTax for your sunnylink configuration."
+
+![comet_dgWzKlbboj](https://github.com/user-attachments/assets/abbd31e8-ad72-4bbf-8fec-b49e3237f9b1)
+
+Configuring Sunnypilot involves over 100+ variables, from Neural Network Lateral Control to Dynamic Experimental Control. Instead of forcing users to guess what these mean, the Setup Wizard acts as an expert consultant that interviews the driver.
+
+🚀 Why we built this
+We intentionally moved away from a "JSON Config Generator" to avoid the risk of corrupting device files or breaking hardware fingerprints. Instead, the Wizard focuses on education and safety.
+
+✨ How it works
+Hardware Handshake: Filters settings based on the user's specific device (C3/C3X/C4) and vehicle make (e.g., hiding Hyundai-only toggles for Toyota drivers).
+
+Psychographic Profiling: Asks plain-English questions like "Do you drive like a Limo Driver or a Commuter?" to map vague preferences into concrete settings (e.g., DrivingPersonality: Relaxed, Model: Down To Ride).
+
+The "Build Sheet": Generates a mobile-optimized, interactive checklist. Users mount their phone in the car and toggle settings manually, learning what they are changing and why.
+
+---
+
 ## 🛠️ Tech Stack
 
 * **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
