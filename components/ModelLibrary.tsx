@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import modelsData from '../data/models.json';
 import FlagFeedback from './FlagFeedback';
 
@@ -235,22 +235,56 @@ export default function ModelLibrary() {
     const [searchQuery, setSearchQuery] = useState('');
     const [feedbackModel, setFeedbackModel] = useState<Model | null>(null);
 
-    const categories = modelsData.categories as ModelCategory[];
+    const [sortBy, setSortBy] = useState<'name' | 'popularity' | 'score'>('popularity');
+
+    const rawCategories = modelsData.categories as ModelCategory[];
     const vibeGuide = modelsData.vibeGuide as Record<string, VibeGuide>;
 
+    const categories = useMemo(() => {
+        const uniqueModels = new Map<string, Model>();
+        rawCategories.flatMap(c => c.models).forEach(m => {
+            if (!uniqueModels.has(m.name)) uniqueModels.set(m.name, m);
+        });
+
+        const allCategory: ModelCategory = {
+            id: 'all',
+            name: 'All Models',
+            description: 'Browse the complete collection of driving models.',
+            icon: '📚',
+            models: Array.from(uniqueModels.values())
+        };
+
+        return [allCategory, ...rawCategories];
+    }, []);
+
     // Filter models based on search
-    const filteredCategories = categories.map(cat => ({
-        ...cat,
-        models: cat.models.filter(model =>
+
+
+    const baseModels = searchQuery
+        ? categories.flatMap(cat => cat.models) // Note: This might have duplicates if searching global, but usually search filters unique models. Actually 'categories' now has 'All Models' which contains everything. 
+        // If we search, we should maybe just search 'All Models'. 
+        // Let's rely on 'All Models' being first if search is present, or just use deduplicated list.
+        : categories.find(c => c.id === activeCategory)?.models || [];
+
+    // Fix search overlap: If searching, use the 'All Models' list (which is index 0) to avoid duplicates from multiple categories
+    const modelsToDisplay = searchQuery
+        ? categories[0].models.filter(model =>
             model.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             model.consensus?.toLowerCase().includes(searchQuery.toLowerCase()) ||
             model.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
         )
-    })).filter(cat => cat.models.length > 0 || !searchQuery);
+        : baseModels;
 
-    const activeModels = searchQuery
-        ? filteredCategories.flatMap(cat => cat.models)
-        : categories.find(c => c.id === activeCategory)?.models || [];
+    const activeModels = useMemo(() => {
+        return [...modelsToDisplay].sort((a, b) => {
+            switch (sortBy) {
+                case 'name': return a.name.localeCompare(b.name);
+                case 'popularity': return (b.totalVotes || 0) - (a.totalVotes || 0);
+                case 'score': return (b.communityScore || 0) - (a.communityScore || 0);
+                default: return 0;
+            }
+        });
+    }, [modelsToDisplay, sortBy]);
 
     return (
         <div className="lg:flex lg:gap-8">
@@ -373,24 +407,52 @@ export default function ModelLibrary() {
                     </button>
                 </div>
 
-                {/* Header (Desktop hidden, kept for mobile if needed, or unify) */}
-                <div className="mb-6">
-                    <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
-                        {searchQuery ? (
-                            <><span>🔍</span> Search Results</>
-                        ) : (
-                            <>
-                                <span>{categories.find(c => c.id === activeCategory)?.icon}</span>
-                                {categories.find(c => c.id === activeCategory)?.name}
-                            </>
-                        )}
-                    </h2>
-                    <p className="text-slate-400 text-sm">
-                        {searchQuery
-                            ? `Found ${activeModels.length} models matching "${searchQuery}"`
-                            : categories.find(c => c.id === activeCategory)?.description
-                        }
-                    </p>
+                {/* Header with Sort */}
+                <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+                            {searchQuery ? (
+                                <><span>🔍</span> Search Results</>
+                            ) : (
+                                <>
+                                    <span>{categories.find(c => c.id === activeCategory)?.icon}</span>
+                                    {categories.find(c => c.id === activeCategory)?.name}
+                                </>
+                            )}
+                        </h2>
+                        <p className="text-slate-400 text-sm">
+                            {searchQuery
+                                ? `Found ${activeModels.length} models matching "${searchQuery}"`
+                                : categories.find(c => c.id === activeCategory)?.description
+                            }
+                        </p>
+                    </div>
+
+                    {/* Sort Dropdown */}
+                    <div className="relative group min-w-[160px]">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">Sort:</span>
+                        </div>
+                        <select
+                            value={sortBy}
+                            onChange={(e) => setSortBy(e.target.value as any)}
+                            className="
+                                appearance-none w-full bg-slate-800/50 border border-slate-700/50 rounded-xl
+                                pl-14 pr-10 py-2.5 text-sm font-medium text-white
+                                focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50
+                                transition-all cursor-pointer hover:bg-slate-800
+                            "
+                        >
+                            <option value="name">Name</option>
+                            <option value="popularity">Popularity</option>
+                            <option value="score">Score</option>
+                        </select>
+                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Vibe Guide Content (Shows above grid if active) */}
