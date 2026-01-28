@@ -1,0 +1,1057 @@
+{
+  "appName": "Sunnylink Database",
+  "version": "5.0",
+  "schemaVersion": "v2_expanded",
+  "categories": [
+    {
+      "id": "models",
+      "name": "Model Settings",
+      "icon": "🧠",
+      "description": "AI model configuration and driving behavior tuning.",
+      "settings": [
+        {
+          "key": "adjust_camera_offset",
+          "label": "Adjust Camera Offset",
+          "type": "slider",
+          "default": 0.0,
+          "min": -0.35,
+          "max": 0.35,
+          "unit": "meters",
+          "description": "Virtually shift camera's perspective to move model's center to Left (+ values) or Right (- values).",
+          "useCase": "Correct for camera mounting position or driver preference for lane position.",
+          "tradeoffs": [
+            "Positive values shift car towards left side of lane.",
+            "Negative values shift car towards right side of lane.",
+            "Too much offset can cause lane departure warnings."
+          ],
+          "userNote": "Default 0.00. Adjust if you feel the car drives too far left or right in the lane."
+        },
+        {
+          "key": "live_learning_steer_delay",
+          "label": "Live Learning Steer Delay",
+          "type": "toggle",
+          "default": true,
+          "description": "Allow device to learn and adapt car's steering response time.",
+          "recommended": true,
+          "useCase": "Automatically compensates for vehicle-specific steering latency.",
+          "deepDive": "Measures the delay between commanded steering angle and actual wheel movement, then adjusts predictions to compensate.",
+          "userNote": "Keep ON for optimal steering response."
+        },
+        {
+          "key": "lane_turn_desire",
+          "label": "Lane Turn Desire",
+          "type": "toggle",
+          "default": false,
+          "description": "Force model to plan an intent to turn based on blinker.",
+          "useCase": "Makes the model more aggressive about initiating lane changes when blinker is activated.",
+          "tradeoffs": [
+            "Can make lane changes feel more natural.",
+            "May be too aggressive in tight traffic."
+          ],
+          "userNote": "Enable if lane changes feel sluggish or delayed."
+        },
+        {
+          "key": "model_selector",
+          "label": "Driving Model",
+          "type": "dropdown",
+          "description": "Select the AI driving model. Each model has unique driving characteristics.",
+          "useCase": "Choose a model that matches your driving style and road conditions.",
+          "userNote": "See the Model Library for detailed descriptions of all 66+ available models."
+        },
+        {
+          "key": "model_library_link",
+          "label": "📚 Model Library",
+          "type": "action",
+          "description": "Browse the complete library of 66+ driving models with descriptions, release dates, and community consensus.",
+          "useCase": "Find the perfect model for your driving style.",
+          "userNote": "Includes WMI Series, Dark Souls, Down to Ride, Tomb Raider, and Legacy models."
+        }
+      ]
+    },
+    {
+      "id": "device",
+      "name": "Device Settings",
+      "icon": "📱",
+      "description": "Hardware management, cellular, and power settings.",
+      "settings": [
+        {
+          "key": "gsm_metered",
+          "label": "GSM Metered",
+          "type": "toggle",
+          "default": true,
+          "description": "Enables cellular data metering to track and limit data usage.",
+          "useCase": "Monitor data consumption when using mobile hotspot or cellular connection.",
+          "userNote": "Keep ON to track data usage on metered connections."
+        },
+        {
+          "key": "gsm_roaming",
+          "label": "GSM Roaming",
+          "type": "toggle",
+          "default": false,
+          "description": "Allow cellular roaming when outside your carrier's network.",
+          "useCase": "Enable when traveling internationally and need connectivity.",
+          "tradeoffs": [
+            "Can incur significant roaming charges.",
+            "May have slower connection speeds."
+          ],
+          "warning": "May incur roaming charges. Keep OFF unless traveling."
+        },
+        {
+          "key": "gsm_apn",
+          "label": "GSM APN",
+          "type": "text",
+          "default": "",
+          "description": "Access Point Name for cellular data connection.",
+          "useCase": "Configure custom APN settings for your cellular carrier.",
+          "userNote": "Only modify if your carrier requires specific APN settings."
+        },
+        {
+          "key": "create_backup",
+          "label": "Create Backup",
+          "type": "action",
+          "description": "Backup current settings to device storage.",
+          "useCase": "Save your current configuration before updates or changes.",
+          "userNote": "Recommended before major updates or reinstalls."
+        },
+        {
+          "key": "restore_version",
+          "label": "Restore Version",
+          "type": "action",
+          "description": "Restore settings from a previous backup.",
+          "useCase": "Recover your configuration after a reset or new installation.",
+          "warning": "This will overwrite current settings."
+        },
+        {
+          "key": "uninstall_sunnypilot",
+          "label": "Uninstall sunnypilot",
+          "type": "action",
+          "description": "Completely remove sunnypilot from the device.",
+          "useCase": "Clean uninstall before switching to a different fork.",
+          "warning": "This will remove all sunnypilot data and settings.",
+          "safetyLevel": "critical"
+        },
+        {
+          "key": "max_time_offroad",
+          "label": "Max Time Offroad",
+          "type": "slider",
+          "default": 1800,
+          "description": "Maximum idle time (in seconds) before the device shuts down when offroad.",
+          "useCase": "Control how long the device stays on after parking.",
+          "tradeoffs": [
+            "Higher values keep device ready longer but drain battery.",
+            "Lower values save battery but may not complete uploads."
+          ],
+          "userNote": "Default 1800 seconds (30 minutes). Increase if uploads aren't completing."
+        },
+        {
+          "key": "force_power_down",
+          "label": "Force Power Down",
+          "type": "toggle",
+          "default": false,
+          "description": "Force immediate shutdown of the device.",
+          "useCase": "Quickly power off when leaving the vehicle for extended periods.",
+          "userNote": "Use to immediately shut down instead of waiting for timeout."
+        },
+        {
+          "key": "reboot",
+          "label": "Reboot",
+          "type": "action",
+          "description": "Restart the device immediately.",
+          "useCase": "Apply settings changes or fix software issues.",
+          "userNote": "Use after making significant configuration changes."
+        },
+        {
+          "key": "power_off",
+          "label": "Power Off",
+          "type": "action",
+          "description": "Power off the device immediately.",
+          "useCase": "Safely shut down before disconnecting power.",
+          "userNote": "Use instead of unplugging for graceful shutdown."
+        },
+        {
+          "key": "github_username",
+          "label": "GitHub Username",
+          "type": "text",
+          "default": "",
+          "description": "Connected GitHub account for development and updates.",
+          "useCase": "Link your GitHub account for custom fork management.",
+          "userNote": "Required for pushing custom changes or accessing private forks."
+        },
+        {
+          "key": "enable_sunnypilot",
+          "label": "Enable sunnypilot",
+          "type": "toggle",
+          "default": true,
+          "description": "Master toggle for sunnypilot functionality.",
+          "recommended": true,
+          "useCase": "Quickly enable/disable all sunnypilot features.",
+          "warning": "Disabling turns off all assisted driving features.",
+          "userNote": "Keep ON for normal operation."
+        },
+        {
+          "key": "lane_departure_warnings",
+          "label": "Lane Departure Warnings",
+          "type": "toggle",
+          "default": false,
+          "description": "Enable lane departure warning alerts.",
+          "useCase": "Get audible alerts when drifting out of lane without blinker.",
+          "tradeoffs": [
+            "Can be annoying on roads with poor lane markings.",
+            "May conflict with intentional lane changes."
+          ],
+          "userNote": "Useful for long highway drives to maintain alertness."
+        },
+        {
+          "key": "record_front_lock",
+          "label": "Record Front Lock",
+          "type": "toggle",
+          "default": false,
+          "description": "Prevents the device from deleting front camera footage.",
+          "useCase": "Preserve specific drive recordings for evidence or review.",
+          "userNote": "Useful if you need to save a specific drive for evidence."
+        },
+        {
+          "key": "device_id",
+          "label": "Device ID",
+          "type": "readonly",
+          "description": "Unique device identifier.",
+          "userNote": "Read-only. Used for device identification and support."
+        },
+        {
+          "key": "git_commit",
+          "label": "Git Commit",
+          "type": "readonly",
+          "description": "Current software version hash.",
+          "userNote": "Read-only. Useful for bug reports."
+        },
+        {
+          "key": "openpilot_version",
+          "label": "openpilot Version",
+          "type": "readonly",
+          "description": "Software version number.",
+          "userNote": "Read-only. Shows current installed version."
+        },
+        {
+          "key": "git_branch",
+          "label": "Git Branch",
+          "type": "readonly",
+          "description": "Current git branch name.",
+          "userNote": "Read-only. Shows which branch you're running (e.g., 'dev', 'release')."
+        },
+        {
+          "key": "uptime_offroad",
+          "label": "Uptime Offroad",
+          "type": "readonly",
+          "description": "System idle time in seconds.",
+          "userNote": "Read-only. Shows how long device has been on while parked."
+        },
+        {
+          "key": "serial_number",
+          "label": "Serial Number",
+          "type": "readonly",
+          "description": "Hardware serial number.",
+          "userNote": "Read-only. Used for device identification."
+        },
+        {
+          "key": "route_count",
+          "label": "Route Count",
+          "type": "readonly",
+          "description": "Total number of recorded routes.",
+          "userNote": "Read-only. Shows how many drives have been recorded."
+        },
+        {
+          "key": "git_commit_date",
+          "label": "Git Commit Date",
+          "type": "readonly",
+          "description": "Date of current commit.",
+          "userNote": "Read-only. Shows when current version was built."
+        },
+        {
+          "key": "uptime_onroad",
+          "label": "Uptime Onroad",
+          "type": "readonly",
+          "description": "Session driving time in seconds.",
+          "userNote": "Read-only. Shows total driving time for current session."
+        }
+      ]
+    },
+    {
+      "id": "toggles",
+      "name": "Toggles",
+      "icon": "🔘",
+      "description": "General toggles and miscellaneous configuration.",
+      "settings": [
+        {
+          "key": "force_offroad",
+          "label": "Force Offroad Mode",
+          "type": "toggle",
+          "default": false,
+          "description": "Disables all driving features. The device becomes a passive dashcam.",
+          "safetyLevel": "safe",
+          "useCase": "Valet mode or lending your car to someone unfamiliar with the system.",
+          "userNote": "Use when valeting the car or lending it to a non-tech driver."
+        },
+        {
+          "key": "sunnylink_uploader",
+          "label": "Enable sunnylink Uploader",
+          "type": "toggle",
+          "default": false,
+          "description": "Uploads drive data to Sunnylink servers for analysis.",
+          "useCase": "Review your drives online and contribute to model training.",
+          "tradeoffs": [
+            "Uses mobile data if WiFi not available.",
+            "Privacy considerations - drive data is uploaded."
+          ],
+          "userNote": "Required if you want to view your drives online."
+        },
+        {
+          "key": "show_advanced_controls",
+          "label": "Show Advanced Controls",
+          "type": "toggle",
+          "default": true,
+          "description": "Unlocks hidden settings menus.",
+          "recommended": true,
+          "useCase": "Access all available configuration options.",
+          "userNote": "Keep ON to see everything in this list."
+        },
+        {
+          "key": "quick_boot",
+          "label": "Quick Boot",
+          "type": "toggle",
+          "default": false,
+          "description": "Attempts to boot the software faster by skipping checks.",
+          "useCase": "Faster startup for impatient users.",
+          "tradeoffs": [
+            "May miss important initialization steps.",
+            "Can cause instability or crashes."
+          ],
+          "warning": "Can cause instability. Keep OFF unless boot times are annoying."
+        },
+        {
+          "key": "disengage_on_accelerator",
+          "label": "Disengage On Accelerator",
+          "type": "toggle",
+          "default": true,
+          "description": "Cancels openpilot when you touch the gas pedal.",
+          "useCase": "Keep OFF if you want to help accelerate without disengaging.",
+          "tradeoffs": [
+            "OFF: Can assist with acceleration but steering stays active.",
+            "ON: Any gas pedal input fully disengages the system."
+          ],
+          "userNote": "Keep OFF if you want to be able to help the car accelerate without canceling steering."
+        },
+        {
+          "key": "always_on_driver_monitor",
+          "label": "Always-on Driver Monitor",
+          "type": "toggle",
+          "default": false,
+          "description": "Keeps the driver facing camera active even when not engaged.",
+          "useCase": "Continuous attention tracking for added safety.",
+          "tradeoffs": [
+            "Always watching - privacy consideration.",
+            "Higher power consumption."
+          ],
+          "userNote": "Tracks your attention 24/7."
+        },
+        {
+          "key": "disable_power_down",
+          "label": "Disable Power Down",
+          "type": "toggle",
+          "default": false,
+          "description": "Keeps the device on forever.",
+          "useCase": "Testing or development where you need constant uptime.",
+          "tradeoffs": [
+            "Will drain car battery if left unplugged.",
+            "Device runs hot continuously."
+          ],
+          "warning": "Will drain car battery."
+        },
+        {
+          "key": "disable_updates",
+          "label": "Disable Updates",
+          "type": "toggle",
+          "default": false,
+          "description": "Stops automatic software updates.",
+          "useCase": "Lock in a known-good version.",
+          "tradeoffs": [
+            "Misses bug fixes and new features.",
+            "May become incompatible with Sunnylink services over time."
+          ],
+          "userNote": "Use if you find a version you love and don't want it to change."
+        }
+      ]
+    },
+    {
+      "id": "steering",
+      "name": "Steering Settings",
+      "icon": "🎯",
+      "description": "Configuration for lateral control and lane keeping.",
+      "settings": [
+        {
+          "key": "mads_enabled",
+          "label": "MADS Enabled",
+          "type": "toggle",
+          "default": false,
+          "description": "Modular Automated Driving System. Decouples steering from gas/brake, allowing steering to remain active during manual pedal input.",
+          "recommended": true,
+          "useCase": "Essential for highway driving where you want to manually coast or brake for traffic without losing lane keeping.",
+          "tradeoffs": [
+            "Requires changing your mental model (Braking does NOT disengage steering).",
+            "Can feel like the car is 'fighting' you if you change lanes without a blinker."
+          ],
+          "deepDive": "Separates the Lateral Control state machine from the Longitudinal Cruise state. MADS remains in 'Active' state even when 'Cruise' state goes to 'Disabled'.",
+          "userNote": "Critical. This is the core feature of Sunnypilot. Keep ON."
+        },
+        {
+          "key": "mads_steering_mode",
+          "label": "MADS Steering Mode",
+          "type": "dropdown",
+          "options": [
+            "Default",
+            "Remain Active"
+          ],
+          "default": "Default",
+          "description": "Controls behavior when cruise is canceled. 'Remain Active' keeps steering engaged after braking.",
+          "recommended": "Remain Active",
+          "useCase": "When you want to maintain lane centering during manual speed adjustments in traffic.",
+          "tradeoffs": [
+            "May surprise new users who expect steering to stop when braking.",
+            "Requires more attention to override steering when intentionally changing lanes."
+          ],
+          "userNote": "Set to 'Remain Active' to keep lane centering while manually braking."
+        },
+        {
+          "key": "mads_main_cruise_allowed",
+          "label": "MADS Main Cruise Allowed",
+          "type": "toggle",
+          "default": true,
+          "description": "Allows MADS to be active simultaneously with the main cruise control system.",
+          "recommended": true,
+          "userNote": "Keep ON."
+        },
+        {
+          "key": "mads_unified_engagement",
+          "label": "MADS Unified Engagement Mode",
+          "type": "toggle",
+          "default": false,
+          "description": "If enabled, engaging the main cruise control will also automatically engage MADS steering.",
+          "useCase": "Simplifies activation - one button press enables both speed control and steering.",
+          "userNote": "Convenient for one-button activation."
+        },
+        {
+          "key": "nnlc_enabled",
+          "label": "Neural Network Lateral Control",
+          "type": "toggle",
+          "default": false,
+          "description": "Replaces PID controller with a neural network for smoother, human-like steering.",
+          "recommended": true,
+          "useCase": "Fixes 'ping-pong' (oscillation) on straight roads common in Hyundai/Kia vehicles.",
+          "tradeoffs": [
+            "Can feel 'loose' or unresponsive if the model is not well-tuned for your specific car.",
+            "Does not increase physical torque limits; cannot take turns sharper than the hardware allows."
+          ],
+          "deepDive": "Uses an end-to-end lateral planning policy (e.g., North Nevada model) to predict path curvature rather than reacting to current lane deviation.",
+          "userNote": "Highly Recommended. Provides human-like smoothness."
+        },
+        {
+          "key": "dynamic_experimental_control",
+          "label": "Dynamic Experimental Control",
+          "type": "toggle",
+          "default": false,
+          "description": "Automatically switches between Chill Mode (Highway) and Experimental Mode (City) based on driving context.",
+          "recommended": true,
+          "useCase": "Perfect for mixed commutes involving both freeways and city streets with traffic lights.",
+          "tradeoffs": [
+            "Can cause phantom braking if it falsely detects a red light or stop sign.",
+            "May switch modes unpredictably in complex intersections."
+          ],
+          "deepDive": "Monitors the 'slow_down_prob' from the model. If probability > threshold, injects Experimental Mode longitudinal plan.",
+          "userNote": "Best of both worlds. Prevents the car from driving too slowly on highways."
+        },
+        {
+          "key": "driving_personality",
+          "label": "Driving Personality",
+          "type": "dropdown",
+          "options": [
+            "Relaxed",
+            "Standard",
+            "Aggressive"
+          ],
+          "default": "Standard",
+          "description": "Adjusts following distance and acceleration aggression.",
+          "useCase": "Customize driving feel - Relaxed for safety, Aggressive for keeping up with traffic.",
+          "tradeoffs": [
+            "Aggressive mode may feel unsafe in stop-and-go traffic.",
+            "Relaxed mode may frustrate drivers behind you with large gaps."
+          ],
+          "userNote": "'Standard' is the default. 'Aggressive' follows closer; 'Relaxed' leaves more gaps."
+        },
+        {
+          "key": "enforce_torque_control",
+          "label": "Enforce Torque Control",
+          "type": "toggle",
+          "default": false,
+          "description": "Forces the car to use a torque-based controller for steering.",
+          "useCase": "For vehicles that respond better to direct torque commands vs angle commands.",
+          "userNote": "Usually kept OFF if using NNLC."
+        },
+        {
+          "key": "self_tune",
+          "label": "Self-Tune",
+          "type": "toggle",
+          "default": true,
+          "description": "Allows the car to self-calibrate steering parameters over time.",
+          "recommended": true,
+          "useCase": "Improves steering feel as the system learns your car's specific characteristics.",
+          "tradeoffs": [
+            "Takes time to learn - steering may feel off initially.",
+            "Values can drift if driving conditions are unusual."
+          ],
+          "userNote": "Keep ON for better performance as you drive more."
+        },
+        {
+          "key": "less_restrict_self_tune",
+          "label": "Less Restrict Settings for Self-Tune",
+          "type": "toggle",
+          "default": false,
+          "description": "Beta feature that allows the self-tuner to be more aggressive/forgiving when learning.",
+          "tradeoffs": [
+            "Faster learning but potentially unstable values.",
+            "May need manual reset if values drift too far."
+          ],
+          "warning": "Use with caution; allows faster learning but potentially wilder values."
+        },
+        {
+          "key": "custom_torque_tuning",
+          "label": "Enable Custom Torque Tuning",
+          "type": "toggle",
+          "default": false,
+          "description": "Unlocks manual sliders for torque friction and lat-accel factors.",
+          "useCase": "For advanced users who want precise control over steering feel.",
+          "tradeoffs": [
+            "Requires deep understanding of vehicle dynamics.",
+            "Wrong values can make steering dangerous."
+          ],
+          "warning": "Advanced Only. Don't touch unless you know your car's specific physics."
+        },
+        {
+          "key": "blinker_min_speed",
+          "label": "Blinker Min Lateral Control Speed",
+          "type": "slider",
+          "default": 0,
+          "description": "The minimum speed at which the car will continue steering while the blinker is on.",
+          "useCase": "Prevents steering fight during slow turns at intersections.",
+          "userNote": "Prevents the wheel from fighting you during slow turns at intersections."
+        },
+        {
+          "key": "blinker_pause_lateral",
+          "label": "Blinker Pause Lateral Control",
+          "type": "toggle",
+          "default": false,
+          "description": "Pauses steering assistance immediately when the blinker is activated.",
+          "useCase": "For drivers who want complete manual control during lane changes.",
+          "tradeoffs": [
+            "Steering immediately releases - can feel sudden.",
+            "No lane keeping during intentional lane changes."
+          ],
+          "userNote": "Preferred by drivers who want full control during lane changes."
+        },
+        {
+          "key": "hyundai_longitudinal_tuning",
+          "label": "Hyundai Longitudinal Tuning",
+          "type": "dropdown",
+          "options": [
+            "Stock",
+            "Dynamic"
+          ],
+          "default": "Stock",
+          "description": "Custom tuning for Hyundai/Kia acceleration profiles.",
+          "recommended": "Dynamic",
+          "useCase": "Fixes the sluggish throttle response in Eco/Normal drive modes.",
+          "tradeoffs": [
+            "Dynamic can feel too aggressive for some users.",
+            "May affect fuel efficiency."
+          ],
+          "userNote": "'Dynamic' can fix sluggish acceleration in Eco/Normal modes."
+        },
+        {
+          "key": "longitudinal_maneuver_mode",
+          "label": "Longitudinal Maneuver Mode",
+          "type": "toggle",
+          "default": false,
+          "description": "Specialized handling for low-speed maneuvers.",
+          "useCase": "Smoother stop-and-go traffic behavior.",
+          "userNote": "Helps with stop-and-go smoothness."
+        }
+      ]
+    },
+    {
+      "id": "cruise",
+      "name": "Cruise & Speed",
+      "icon": "🚀",
+      "description": "Configuration for speed management and longitudinal control.",
+      "settings": [
+        {
+          "key": "experimental_mode",
+          "label": "Experimental Mode",
+          "type": "toggle",
+          "default": false,
+          "description": "Enables stopping for traffic lights and stop signs using vision only.",
+          "useCase": "City driving where you encounter frequent traffic lights and stop signs.",
+          "tradeoffs": [
+            "Can brake suddenly for false positives (shadows, markings).",
+            "Drives aggressively between stops.",
+            "Not recommended for highway-only driving."
+          ],
+          "warning": "Drives aggressively. Monitor closely.",
+          "userNote": "Required for 'Dynamic Experimental Control.'"
+        },
+        {
+          "key": "alpha_longitudinal",
+          "label": "Alpha Longitudinal",
+          "type": "toggle",
+          "default": true,
+          "description": "Uses Openpilot's end-to-end model for gas/brake control instead of stock ACC.",
+          "recommended": true,
+          "useCase": "Smoother following distance management than stock adaptive cruise.",
+          "tradeoffs": [
+            "Can be jerky in stop-and-go on some vehicles.",
+            "May brake harder or softer than expected."
+          ],
+          "userNote": "Usually smoother than stock, but can be jerky in stop-and-go on some cars."
+        },
+        {
+          "key": "vision_turn_control",
+          "label": "Vision-Based Turn Speed Control",
+          "type": "toggle",
+          "default": true,
+          "description": "Slows the car automatically for sharp curves based on camera vision.",
+          "recommended": true,
+          "useCase": "Driving on winding back roads where maintaining a constant 55mph would be dangerous.",
+          "tradeoffs": [
+            "Often slows down too aggressively (e.g., 20mph below safe speed).",
+            "Can annoy drivers behind you due to frequent slowing.",
+            "Late braking compared to seeing warning signs."
+          ],
+          "deepDive": "Calculates projected lateral acceleration based on model path. Reduces speed to keep lateral G-forces under ~0.3g.",
+          "userNote": "Very helpful on winding back roads."
+        },
+        {
+          "key": "map_turn_control",
+          "label": "Smart Cruise Control - Map",
+          "type": "toggle",
+          "default": false,
+          "description": "Uses map data to slow down for curves.",
+          "useCase": "Backup for vision-based control when camera visibility is poor.",
+          "tradeoffs": [
+            "Relies on map accuracy - may not reflect actual road conditions.",
+            "Can slow prematurely for curves that have been straightened."
+          ],
+          "userNote": "Good backup, but Vision is usually faster/reactive."
+        },
+        {
+          "key": "speed_limit_assist",
+          "label": "Speed Limit Assist Mode",
+          "type": "dropdown",
+          "options": [
+            "Information",
+            "Auto",
+            "User Confirm"
+          ],
+          "default": "Information",
+          "description": "Determines if the car automatically adjusts speed to posted limits.",
+          "useCase": "Long road trips through towns with varying speed traps.",
+          "tradeoffs": [
+            "Extremely reliant on map data accuracy.",
+            "Can cause dangerous rapid braking if it reads an off-ramp speed limit while on the highway.",
+            "May trigger on conditional signs (school zones) when not active."
+          ],
+          "deepDive": "Aggregates data from OpenStreetMap (OSM), car camera (TSR), and navigation data to determine the current limit.",
+          "userNote": "'Information' just shows the sign. 'Auto' changes your speed for you."
+        },
+        {
+          "key": "speed_limit_source",
+          "label": "Speed Limit Source",
+          "type": "dropdown",
+          "options": [
+            "Map Data",
+            "Car State",
+            "Combined"
+          ],
+          "default": "Map Data",
+          "description": "Where the car gets speed data (Map Data, Car State, or Combined).",
+          "recommended": "Map Data",
+          "useCase": "Choose the most reliable source for your driving area.",
+          "tradeoffs": [
+            "Map Data: Most consistent but can be outdated.",
+            "Car State: Real-time but only works where camera can read signs.",
+            "Combined: Best coverage but potential conflicts."
+          ],
+          "userNote": "'Map Data Priority' is usually most accurate in the US."
+        },
+        {
+          "key": "speed_limit_offset_type",
+          "label": "Speed Limit Offset Type",
+          "type": "dropdown",
+          "options": [
+            "Fixed",
+            "Percentage"
+          ],
+          "default": "Fixed",
+          "description": "Choose between a fixed number (e.g., +5 mph) or a percentage (e.g., +10%).",
+          "useCase": "Fixed for consistent speeding; Percentage for proportional adjustments.",
+          "userNote": "Set to 'Fixed' for consistent speeding."
+        },
+        {
+          "key": "speed_limit_offset_value",
+          "label": "Speed Limit Offset Value",
+          "type": "slider",
+          "default": 0,
+          "description": "The actual amount to speed over the limit.",
+          "useCase": "Match local traffic flow (commonly 5-10 mph over in most US areas).",
+          "userNote": "Set to your comfort level (e.g., 5-10 mph over)."
+        },
+        {
+          "key": "auto_lane_change_timer",
+          "label": "Auto Lane Change Timer",
+          "type": "dropdown",
+          "options": [
+            "Instant",
+            "Nudge",
+            "Timer"
+          ],
+          "default": "Nudge",
+          "description": "Sets the delay/confirmation method for automatic lane changes.",
+          "useCase": "Choose comfort level with automated lane changes.",
+          "tradeoffs": [
+            "Instant: Fast but less safe - no confirmation.",
+            "Nudge: Requires slight wheel input - good balance.",
+            "Timer: Adds delay - safest but slowest."
+          ],
+          "userNote": "'Nudge' requires wheel input; 'Instant' is automatic."
+        },
+        {
+          "key": "auto_lane_change_bsm_delay",
+          "label": "Auto Lane Change BSM Delay",
+          "type": "toggle",
+          "default": true,
+          "description": "Adds a safety delay if the Blind Spot Monitor (BSM) detects a car.",
+          "recommended": true,
+          "useCase": "Prevents lane change attempts when a vehicle is in your blind spot.",
+          "userNote": "Safety: Keep ON."
+        },
+        {
+          "key": "map_advisory_speed_limit",
+          "label": "Map Advisory Speed Limit",
+          "type": "toggle",
+          "default": true,
+          "description": "Respects yellow 'advisory' speed signs on curves/ramps.",
+          "recommended": true,
+          "useCase": "Automatically slow for highway off-ramp advisory speeds.",
+          "userNote": "Keep ON for safety on off-ramps."
+        },
+        {
+          "key": "custom_acc_increments",
+          "label": "Custom ACC Increments",
+          "type": "toggle",
+          "default": false,
+          "description": "Changes how much the speed changes when you press +/- on the wheel.",
+          "useCase": "Fine-tune speed adjustments - small taps for precision.",
+          "userNote": "Customize short press to ±1 and long press to ±5."
+        }
+      ]
+    },
+    {
+      "id": "visuals",
+      "name": "Visuals & UI",
+      "icon": "🎨",
+      "description": "Customizes the screen layout and information displayed.",
+      "settings": [
+        {
+          "key": "rainbow_mode",
+          "label": "Rainbow Mode",
+          "type": "toggle",
+          "default": false,
+          "description": "Easter egg: Makes the lane lines flash colors.",
+          "useCase": "Fun visual effect for showing off the system.",
+          "tradeoffs": [
+            "Distracting while driving.",
+            "May cause eye strain."
+          ],
+          "userNote": "Fun, but distracting."
+        },
+        {
+          "key": "display_road_name",
+          "label": "Display Road Name",
+          "type": "toggle",
+          "default": true,
+          "description": "Shows the current street name on the UI.",
+          "useCase": "Situational awareness when navigating unfamiliar areas.",
+          "userNote": "Nice for situational awareness."
+        },
+        {
+          "key": "green_light_alert",
+          "label": "Green Light Alert",
+          "type": "toggle",
+          "default": false,
+          "description": "Chimes when a red light turns green.",
+          "recommended": true,
+          "useCase": "Alert distracted drivers to proceed when light changes.",
+          "deepDive": "Uses the traffic light recognition model to detect state changes from red/yellow to green.",
+          "userNote": "Very useful feature for distracted drivers."
+        },
+        {
+          "key": "lead_depart_alert",
+          "label": "Lead Depart Alert",
+          "type": "toggle",
+          "default": false,
+          "description": "Chimes when the car in front starts moving.",
+          "recommended": true,
+          "useCase": "Prevents getting honked at in stop-and-go traffic.",
+          "userNote": "Good for stop-and-go traffic."
+        },
+        {
+          "key": "show_turn_signals",
+          "label": "Show Turn Signals",
+          "type": "toggle",
+          "default": true,
+          "description": "Visualizes your blinkers on the device screen.",
+          "useCase": "Visual confirmation that blinker is active.",
+          "userNote": "Mostly cosmetic verification."
+        },
+        {
+          "key": "rocket_fuel_bar",
+          "label": "Display Rocket Fuel Bar",
+          "type": "toggle",
+          "default": false,
+          "description": "Visualizes real-time acceleration and deceleration intensity.",
+          "useCase": "Understand how hard the system is braking or accelerating.",
+          "userNote": "Cool visual, helps you see how hard the car is braking."
+        },
+        {
+          "key": "blind_spot_detection",
+          "label": "Blind Spot Detection",
+          "type": "toggle",
+          "default": true,
+          "description": "Shows an icon when a car is in your blind spot.",
+          "recommended": true,
+          "useCase": "Redundant BSM warning if you miss the mirror indicator.",
+          "userNote": "Extra safety layer if you don't look at mirrors (please look at mirrors)."
+        },
+        {
+          "key": "screen_brightness",
+          "label": "Screen Brightness",
+          "type": "dropdown",
+          "options": [
+            "Auto",
+            "Low",
+            "Medium",
+            "High"
+          ],
+          "default": "Auto",
+          "description": "Sets the display backlight level.",
+          "recommended": "Auto",
+          "userNote": "'Auto' usually works best."
+        },
+        {
+          "key": "onroad_brightness",
+          "label": "Onroad Brightness",
+          "type": "dropdown",
+          "options": [
+            "Auto",
+            "Low",
+            "Medium",
+            "High"
+          ],
+          "default": "Auto",
+          "description": "Sets brightness specifically when driving.",
+          "recommended": "Auto"
+        }
+      ]
+    },
+    {
+      "id": "developer",
+      "name": "Developer Settings",
+      "icon": "👨‍💻",
+      "description": "Advanced tools for debugging and development.",
+      "settings": [
+        {
+          "key": "ssh_enabled",
+          "label": "Enable SSH",
+          "type": "toggle",
+          "default": false,
+          "description": "Opens a secure shell for remote command-line access.",
+          "warning": "Security Risk. Keep OFF unless you are coding.",
+          "safetyLevel": "critical",
+          "useCase": "Developer access for debugging and advanced configuration.",
+          "tradeoffs": [
+            "Security vulnerability if device is on public network.",
+            "Can allow unauthorized access if password is weak."
+          ]
+        },
+        {
+          "key": "adb_enabled",
+          "label": "Enable ADB",
+          "type": "toggle",
+          "default": false,
+          "description": "Android Debug Bridge. Allows USB debugging.",
+          "useCase": "Developer access via USB cable.",
+          "userNote": "Developer use only."
+        },
+        {
+          "key": "copyparty_service",
+          "label": "copyparty Service",
+          "type": "toggle",
+          "default": false,
+          "description": "Runs a local file server on the device.",
+          "useCase": "Download drive videos over WiFi without SSH.",
+          "userNote": "Easy way to download drive videos via WiFi."
+        },
+        {
+          "key": "manual_software_delay",
+          "label": "Manual Software Delay",
+          "type": "slider",
+          "default": 0,
+          "description": "Manually adjusts the delay between command and action.",
+          "warning": "Don't touch. Leave on '0.00' unless instructed by devs.",
+          "useCase": "Developer-only: Override learned steering delay."
+        },
+        {
+          "key": "disable_logging",
+          "label": "Disable Logging",
+          "type": "toggle",
+          "default": false,
+          "description": "Stops saving drive data to disk.",
+          "useCase": "Save storage space or for privacy.",
+          "tradeoffs": [
+            "Loses all drive evidence in case of accident.",
+            "Cannot review or upload drives."
+          ],
+          "warning": "Saves space, but you lose evidence if an accident happens."
+        },
+        {
+          "key": "manual_realtime_tuning",
+          "label": "Manual Real-Time Tuning",
+          "type": "toggle",
+          "default": false,
+          "description": "Allows you to override torque values while driving.",
+          "warning": "Debug Only. Dangerous for normal use.",
+          "safetyLevel": "critical"
+        }
+      ]
+    },
+    {
+      "id": "other",
+      "name": "Other Settings",
+      "icon": "🔧",
+      "description": "Miscellaneous settings including AGNOS, plan controls, and car-specific configurations.",
+      "settings": [
+        {
+          "key": "last_agnos_power_monitor_shutdown",
+          "label": "Last AGNOS Power Monitor Shutdown",
+          "type": "readonly",
+          "description": "Timestamp of the last AGNOS power monitor shutdown event.",
+          "userNote": "Read-only. Shows when device last shut down due to power monitoring."
+        },
+        {
+          "key": "plan_plus_controls",
+          "label": "Plan Plus Controls",
+          "type": "slider",
+          "default": 1.0,
+          "min": 0.0,
+          "max": 2.0,
+          "description": "Adjust planplus model recentering strength. The higher this number, the more aggressively the model will recenter to lanecenter. Too high and it will ping-pong.",
+          "useCase": "Fine-tune how aggressively the model corrects back to center lane position.",
+          "tradeoffs": [
+            "Higher values = more aggressive centering but potential ping-pong.",
+            "Lower values = smoother but may drift from center."
+          ],
+          "userNote": "Default 1.0. Increase if car drifts too much, decrease if ping-ponging."
+        },
+        {
+          "key": "display_rocket_fuel_bar",
+          "label": "Display Rocket Fuel Bar",
+          "type": "toggle",
+          "default": false,
+          "description": "Show an indicator on the left side of the screen to display real-time vehicle acceleration and deceleration.",
+          "useCase": "Visualize how hard the system is accelerating or braking.",
+          "userNote": "Cool visual indicator showing throttle/brake intensity."
+        },
+        {
+          "key": "has_accepted_sunnypilot_terms",
+          "label": "Has Accepted sunnypilot Terms",
+          "type": "readonly",
+          "description": "Indicates whether user has accepted sunnypilot terms of service.",
+          "userNote": "Read-only. Shows acceptance status."
+        },
+        {
+          "key": "supported_car_list",
+          "label": "Supported Car List",
+          "type": "action",
+          "description": "View all supported platforms in sunnypilot.",
+          "useCase": "Check if your vehicle is officially supported.",
+          "userNote": "Opens JSON list of all compatible vehicles."
+        },
+        {
+          "key": "completed_sunnylink_consent_version",
+          "label": "Completed sunnylink Consent Version",
+          "type": "readonly",
+          "description": "Version of sunnylink consent form that was completed.",
+          "userNote": "Read-only. Shows which consent version you've agreed to."
+        },
+        {
+          "key": "toyota_enforce_factory_longitudinal",
+          "label": "Toyota: Enforce Factory Longitudinal Control",
+          "type": "toggle",
+          "default": false,
+          "description": "When enabled, sunnypilot will not take over control of gas and brakes. Factory Toyota longitudinal control will be used.",
+          "useCase": "Use Toyota's stock ACC instead of sunnypilot's longitudinal control.",
+          "tradeoffs": [
+            "Factory ACC may be smoother but less intelligent.",
+            "Loses sunnypilot's advanced stop-and-go features."
+          ],
+          "userNote": "Enable if you prefer Toyota's stock adaptive cruise behavior."
+        },
+        {
+          "key": "plan_plus_controls_2",
+          "label": "Plan Plus Controls",
+          "type": "slider",
+          "default": 1.0,
+          "min": 0.0,
+          "max": 2.0,
+          "description": "Adjust planplus model recentering strength. The higher this number, the more aggressively the model will recenter to lanecenter. Too high and it will ping-pong.",
+          "useCase": "Secondary adjustment for Plan Plus lane centering behavior.",
+          "userNote": "Default 1.0. Fine-tune lane centering aggression."
+        },
+        {
+          "key": "has_accepted_sunnypilot_terms_2",
+          "label": "Has Accepted sunnypilot Terms",
+          "type": "readonly",
+          "description": "Indicates whether user has accepted sunnypilot terms of service.",
+          "userNote": "Read-only. Duplicate consent status field."
+        },
+        {
+          "key": "completed_sunnylink_consent_version_2",
+          "label": "Completed sunnylink Consent Version",
+          "type": "readonly",
+          "description": "Version of sunnylink consent form that was completed.",
+          "userNote": "Read-only. Shows consent version."
+        },
+        {
+          "key": "last_agnos_power_monitor_shutdown_2",
+          "label": "Last AGNOS Power Monitor Shutdown",
+          "type": "readonly",
+          "description": "Timestamp of the last AGNOS power monitor shutdown event.",
+          "userNote": "Read-only. Alternative power shutdown timestamp."
+        },
+        {
+          "key": "sunnylink_dongle_id",
+          "label": "sunnylink Dongle ID",
+          "type": "readonly",
+          "description": "Unique sunnylink device identifier for cloud connectivity.",
+          "userNote": "Read-only. Your device's unique ID for sunnylink services."
+        }
+      ]
+    }
+  ]
+}
