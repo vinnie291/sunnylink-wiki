@@ -8,6 +8,7 @@ import CategoryFilter from '../components/CategoryFilter';
 import EmptyState from '../components/EmptyState';
 import ModelLibrary from '../components/ModelLibrary';
 import FeatureGuide from '../components/FeatureGuide';
+import SetupWizard from '../components/SetupWizard';
 import ScrollToTop from '../components/ScrollToTop';
 
 interface ToggleSetting {
@@ -32,7 +33,7 @@ interface Category {
 }
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'settings' | 'models' | 'features'>('settings');
+  const [activeTab, setActiveTab] = useState<'settings' | 'models' | 'features' | 'wizard'>('settings');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
   const [highlightedKey, setHighlightedKey] = useState<string | null>(null);
@@ -50,6 +51,8 @@ export default function Home() {
             setActiveTab('models');
           } else if (decodedHash === 'features') {
             setActiveTab('features');
+          } else if (decodedHash === 'wizard') {
+            setActiveTab('wizard');
           } else {
             setHighlightedKey(decodedHash);
             setSearchQuery('');
@@ -185,6 +188,18 @@ export default function Home() {
               `}
             >
               📖 Features
+            </button>
+            <button
+              onClick={() => setActiveTab('wizard')}
+              className={`
+                px-6 py-2.5 rounded-xl text-sm font-medium transition-all
+                ${activeTab === 'wizard'
+                  ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-700/50'
+                }
+              `}
+            >
+              🧙‍♂️ Setup Wizard
             </button>
           </div>
         </header>
@@ -325,10 +340,15 @@ export default function Home() {
           <div className="">
             <ModelLibrary />
           </div>
-        ) : (
+        ) : activeTab === 'features' ? (
           /* Features Tab */
           <div className="max-w-4xl mx-auto">
             <FeatureGuide />
+          </div>
+        ) : (
+          /* Wizard Tab */
+          <div className="max-w-4xl mx-auto">
+            <SetupWizard />
           </div>
         )}
 
