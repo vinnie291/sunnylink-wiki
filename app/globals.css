@@ -44,9 +44,12 @@ html {
 
 /* Highlight animation for deep-linked cards */
 @keyframes highlight-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 0 0 rgba(6, 182, 212, 0);
   }
+
   50% {
     box-shadow: 0 0 20px 4px rgba(6, 182, 212, 0.3);
   }
@@ -54,6 +57,22 @@ html {
 
 .animate-highlight {
   animation: highlight-pulse 1.5s ease-in-out 2;
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in-up 0.5s ease-out forwards;
 }
 
 /* Focus visible styles */

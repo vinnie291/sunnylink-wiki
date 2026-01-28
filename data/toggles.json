@@ -824,15 +824,6 @@
           "userNote": "Mostly cosmetic verification."
         },
         {
-          "key": "rocket_fuel_bar",
-          "label": "Display Rocket Fuel Bar",
-          "type": "toggle",
-          "default": false,
-          "description": "Visualizes real-time acceleration and deceleration intensity.",
-          "useCase": "Understand how hard the system is braking or accelerating.",
-          "userNote": "Cool visual, helps you see how hard the car is braking."
-        },
-        {
           "key": "blind_spot_detection",
           "label": "Blind Spot Detection",
           "type": "toggle",
@@ -1015,38 +1006,6 @@
             "Loses sunnypilot's advanced stop-and-go features."
           ],
           "userNote": "Enable if you prefer Toyota's stock adaptive cruise behavior."
-        },
-        {
-          "key": "plan_plus_controls_2",
-          "label": "Plan Plus Controls",
-          "type": "slider",
-          "default": 1.0,
-          "min": 0.0,
-          "max": 2.0,
-          "description": "Adjust planplus model recentering strength. The higher this number, the more aggressively the model will recenter to lanecenter. Too high and it will ping-pong.",
-          "useCase": "Secondary adjustment for Plan Plus lane centering behavior.",
-          "userNote": "Default 1.0. Fine-tune lane centering aggression."
-        },
-        {
-          "key": "has_accepted_sunnypilot_terms_2",
-          "label": "Has Accepted sunnypilot Terms",
-          "type": "readonly",
-          "description": "Indicates whether user has accepted sunnypilot terms of service.",
-          "userNote": "Read-only. Duplicate consent status field."
-        },
-        {
-          "key": "completed_sunnylink_consent_version_2",
-          "label": "Completed sunnylink Consent Version",
-          "type": "readonly",
-          "description": "Version of sunnylink consent form that was completed.",
-          "userNote": "Read-only. Shows consent version."
-        },
-        {
-          "key": "last_agnos_power_monitor_shutdown_2",
-          "label": "Last AGNOS Power Monitor Shutdown",
-          "type": "readonly",
-          "description": "Timestamp of the last AGNOS power monitor shutdown event.",
-          "userNote": "Read-only. Alternative power shutdown timestamp."
         },
         {
           "key": "sunnylink_dongle_id",

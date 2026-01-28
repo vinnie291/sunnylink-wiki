@@ -8,6 +8,8 @@ import CategoryFilter from '../components/CategoryFilter';
 import EmptyState from '../components/EmptyState';
 import ModelLibrary from '../components/ModelLibrary';
 import FeatureGuide from '../components/FeatureGuide';
+import SetupWizard from '../components/SetupWizard';
+import ScrollToTop from '../components/ScrollToTop';
 
 interface ToggleSetting {
   key: string;
@@ -31,7 +33,7 @@ interface Category {
 }
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'settings' | 'models' | 'features'>('settings');
+  const [activeTab, setActiveTab] = useState<'settings' | 'models' | 'features' | 'wizard'>('settings');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
   const [highlightedKey, setHighlightedKey] = useState<string | null>(null);
@@ -49,6 +51,8 @@ export default function Home() {
             setActiveTab('models');
           } else if (decodedHash === 'features') {
             setActiveTab('features');
+          } else if (decodedHash === 'wizard') {
+            setActiveTab('wizard');
           } else {
             setHighlightedKey(decodedHash);
             setSearchQuery('');
@@ -146,6 +150,7 @@ export default function Home() {
             Search and explore all Sunnypilot settings. Find the perfect configuration for your vehicle.
           </p>
 
+
           {/* Tab Switcher */}
           <div className="inline-flex gap-2 p-1.5 rounded-2xl bg-slate-800/50 border border-slate-700/50">
             <button
@@ -183,6 +188,24 @@ export default function Home() {
               `}
             >
               📖 Features
+            </button>
+            <button
+              onClick={() => setActiveTab('wizard')}
+              className={`
+                group relative px-6 py-2.5 rounded-xl text-sm font-medium transition-all overflow-hidden
+                ${activeTab === 'wizard'
+                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30'
+                  : 'text-slate-400 hover:text-white bg-transparent hover:bg-slate-800'
+                }
+              `}
+            >
+              {/* Sparkle effects on hover */}
+              <span className={`absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer ${activeTab === 'wizard' ? 'hidden' : ''}`} />
+
+              <span className="relative flex items-center gap-2">
+                <span>🧙‍♂️</span>
+                <span>Setup Wizard</span>
+              </span>
             </button>
           </div>
         </header>
@@ -261,6 +284,22 @@ export default function Home() {
                     Click the flag icon on any setting to report issues or suggest improvements.
                   </p>
                 </div>
+
+                {/* GitHub Contribute Box */}
+                <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-2xl border border-slate-700/50 p-4">
+                  <h3 className="text-sm font-medium text-white mb-2">👋 Contribute</h3>
+                  <a
+                    href="https://github.com/vinnie291/sunnylink-wiki"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                    </svg>
+                    Contribute on GitHub
+                  </a>
+                </div>
               </div>
             </aside>
 
@@ -307,10 +346,15 @@ export default function Home() {
           <div className="">
             <ModelLibrary />
           </div>
-        ) : (
+        ) : activeTab === 'features' ? (
           /* Features Tab */
           <div className="max-w-4xl mx-auto">
             <FeatureGuide />
+          </div>
+        ) : (
+          /* Wizard Tab */
+          <div className="max-w-4xl mx-auto">
+            <SetupWizard />
           </div>
         )}
 
@@ -333,11 +377,21 @@ export default function Home() {
               rel="noopener noreferrer"
               className="text-cyan-500 hover:text-cyan-400 transition-colors"
             >
-              GitHub
+              GitHub (sunnypilot)
+            </a>
+            {' '}•{' '}
+            <a
+              href="https://github.com/vinnie291/sunnylink-wiki"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-cyan-500 hover:text-cyan-400 transition-colors"
+            >
+              Contribute to Wiki
             </a>
           </p>
         </footer>
       </div>
-    </main>
+      <ScrollToTop />
+    </main >
   );
 }
