@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import FlagFeedback from './FlagFeedback';
+import WizardHero from './WizardHero';
 
 // --- Types ---
 type WizardStep = 'intro' | 'disclaimer' | 'hardware' | 'complexity' | 'vibe' | 'capabilities' | 'results';
@@ -244,24 +245,18 @@ export default function SetupWizard() {
                     <div className="absolute top-4 right-4">
                         {renderFeedbackButton()}
                     </div>
-                    <div className="mb-8 text-8xl animate-bounce">🧙‍♂️</div>
+
                     <h1 className="text-4xl font-bold text-white mb-6">Sunnylink Setup Wizard</h1>
                     <p className="text-xl text-slate-300 mb-8 leading-relaxed">
                         Personalize your Sunnypilot experience.<br />
                         Answer a few questions to generate a custom configuration.
                     </p>
-                    <div className="relative inline-block group">
-                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
-                        <button
-                            onClick={(e) => {
-                                triggerSparkles(e);
-                                setStep('disclaimer');
-                            }}
-                            className="relative px-8 py-4 bg-slate-900 ring-1 ring-slate-900/50 rounded-2xl leading-none flex items-center group-hover:bg-slate-800 transition-colors"
-                        >
-                            <span className="text-xl font-bold text-cyan-100 group-hover:text-white transition-colors">Start Wizard</span>
-                        </button>
-                    </div>
+                    <WizardHero
+                        onStart={(e: any) => {
+                            triggerSparkles(e);
+                            setStep('disclaimer');
+                        }}
+                    />
                 </div>
             )}
 
