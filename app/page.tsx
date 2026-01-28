@@ -192,14 +192,21 @@ export default function Home() {
             <button
               onClick={() => setActiveTab('wizard')}
               className={`
-                px-6 py-2.5 rounded-xl text-sm font-medium transition-all
+                group relative px-6 py-2.5 rounded-xl text-sm font-medium transition-all overflow-hidden
                 ${activeTab === 'wizard'
-                  ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-700/50'
+                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30'
+                  : 'text-slate-400 hover:text-white bg-transparent hover:bg-slate-800'
                 }
               `}
             >
-              🧙‍♂️ Setup Wizard
+              {/* Sparkle effects on hover */}
+              <span className={`absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer ${activeTab === 'wizard' ? 'hidden' : ''}`} />
+
+              <span className="relative flex items-center gap-2">
+                <span>🧙‍♂️</span>
+                <span>Setup Wizard</span>
+                <span className="opacity-0 group-hover:opacity-100 transition-opacity text-xs">✨</span>
+              </span>
             </button>
           </div>
         </header>

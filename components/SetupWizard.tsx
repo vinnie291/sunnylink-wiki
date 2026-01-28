@@ -1,13 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 // --- Types ---
-type WizardStep = 'intro' | 'hardware' | 'vibe' | 'capabilities' | 'results';
+type WizardStep = 'intro' | 'disclaimer' | 'hardware' | 'complexity' | 'vibe' | 'capabilities' | 'results';
 
 interface WizardState {
-    device: 'comma3' | 'comma2';
-    carMake: 'hyundai_kia' | 'toyota_lexus' | 'honda_acura' | 'other';
+    device: 'comma3' | 'comma4';
+    carMake: 'hyundai_kia' | 'toyota_lexus' | 'honda_acura' | 'subaru' | 'ford' | 'vw' | 'gm' | 'other';
+    complexity: 'easy' | 'advanced';
     drivingStyle: 'limo' | 'standard' | 'rush_hour';
     cityDriving: boolean;
     roadType: 'winding' | 'straight';
@@ -19,6 +20,7 @@ interface RecipeItem {
     label: string;
     value: string | boolean;
     reason: string;
+    isAdvanced?: boolean;
 }
 
 // --- Component ---
@@ -27,26 +29,44 @@ export default function SetupWizard() {
     const [answers, setAnswers] = useState<WizardState>({
         device: 'comma3',
         carMake: 'hyundai_kia',
+        complexity: 'easy',
         drivingStyle: 'standard',
         cityDriving: false,
         roadType: 'straight',
     });
     const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
 
+    // --- Feedback Logic ---
+    const handleFeedback = (currentStep: string) => {
+        const subject = encodeURIComponent(`Setup Wizard Feedback - Step: ${currentStep}`);
+        const body = encodeURIComponent(`I have feedback about the ${currentStep} step of the Setup Wizard:\n\n`);
+        window.open(`https://github.com/vinnie291/sunnylink-wiki/issues/new?title=${subject}&body=${body}`, '_blank');
+    };
+
+    // --- Sparkle Effect ---
+    const triggerSparkles = (e: React.MouseEvent<HTMLButtonElement>) => {
+        // Simple manual keyframe animation trigger via class or just rely on CSS
+        // For a burst, we can create elements, but strictly staying within React/Tailwind:
+        const btn = e.currentTarget;
+        btn.classList.add('animate-ping-once');
+        setTimeout(() => btn.classList.remove('animate-ping-once'), 500);
+    };
+
     // --- Logic Engine ---
     const generateRecipe = (): RecipeItem[] => {
         const recipe: RecipeItem[] = [];
+        const isAdvanced = answers.complexity === 'advanced';
 
         // 1. Model Selection
-        let modelName = 'Certified DTR (Down to Ride)'; // Default fallback
+        let modelName = 'Certified DTR (Down to Ride)';
         let modelReason = 'Balanced starting point.';
 
         if (answers.drivingStyle === 'limo') {
             modelName = 'Certified DTR (Down to Ride)';
-            modelReason = 'Prioritizes passenger comfort and smooth inputs.';
+            modelReason = 'Prioritizes passenger comfort.';
         } else if (answers.drivingStyle === 'rush_hour') {
-            modelName = 'North Dakota'; // Often associated with stricter lane keeping, though simplifying here
-            modelReason = 'More rigid adherence to lane, good for decisive traffic moves.';
+            modelName = 'North Dakota';
+            modelReason = 'More rigid compliance.';
         }
 
         recipe.push({
@@ -57,86 +77,93 @@ export default function SetupWizard() {
             reason: modelReason,
         });
 
-        // 2. Lateral Control (Steering)
+        // 2. Lateral Control
         recipe.push({
             category: '🎯 Steering',
             key: 'mads_enabled',
             label: 'MADS Enabled',
             value: true,
-            reason: 'Critical for all Sunnypilot features.',
+            reason: 'Critical for Sunnypilot.',
         });
 
-        if (answers.roadType === 'winding') {
+        if (answers.roadType === 'winding' && isAdvanced) {
             recipe.push({
                 category: '🎯 Steering',
                 key: 'nnlc_enabled',
-                label: 'Neural Network Lateral Control (NNLC)',
+                label: 'Neural Network Consrol (NNLC)',
                 value: true,
-                reason: 'Handles curves better than stock PID.',
+                reason: 'Better curve handling.',
+                isAdvanced: true,
             });
             recipe.push({
                 category: '🚀 Cruise',
                 key: 'vision_turn_control',
-                label: 'Vision-Based Turn Speed Control',
+                label: 'Vision Turn Speed',
                 value: true,
-                reason: 'Slows down automatically for sharp corners.',
+                reason: 'Slows for corners.',
+                isAdvanced: true,
             });
         }
 
-        // 3. Longitudinal Control (Gas/Brake)
+        // 3. Longitudinal Control
         if (answers.cityDriving) {
             recipe.push({
                 category: '🚀 Cruise',
                 key: 'experimental_mode',
                 label: 'Experimental Mode',
                 value: true,
-                reason: 'Required for traffic light and stop sign handling in city.',
+                reason: 'Required for city handling.',
             });
-            recipe.push({
-                category: '🚀 Cruise',
-                key: 'alpha_longitudinal',
-                label: 'Alpha Longitudinal',
-                value: true,
-                reason: 'Optimized for end-to-end longitudinal control.',
-            });
+
+            if (isAdvanced) {
+                recipe.push({
+                    category: '🚀 Cruise',
+                    key: 'alpha_longitudinal',
+                    label: 'Alpha Longitudinal',
+                    value: true,
+                    reason: 'End-to-end control.',
+                    isAdvanced: true,
+                });
+            }
 
             if (answers.drivingStyle === 'rush_hour') {
                 recipe.push({
                     category: '🚀 Cruise',
                     key: 'dynamic_experimental_control',
-                    label: 'Dynamic Experimental Control',
-                    value: false, // Force full experimental
-                    reason: 'You want aggressive response; Dynamic might be too chill.',
+                    label: 'Dynamic Experimental',
+                    value: false,
+                    reason: 'Force full experimental for responsiveness.',
+                    isAdvanced: true,
                 });
             } else {
                 recipe.push({
                     category: '🚀 Cruise',
                     key: 'dynamic_experimental_control',
-                    label: 'Dynamic Experimental Control',
-                    value: true, // Use dynamic
-                    reason: 'Automatically switches between Chill (Highway) and City modes.',
+                    label: 'Dynamic Experimental',
+                    value: true,
+                    reason: 'Switches modes automatically.',
+                    isAdvanced: true,
                 });
             }
-
         } else {
-            // Highway/Chill
             recipe.push({
                 category: '🚀 Cruise',
                 key: 'experimental_mode',
                 label: 'Experimental Mode',
                 value: false,
-                reason: 'You preferred highway cruising; Chill mode is smoother.',
+                reason: 'Chill mode for highway.',
             });
         }
 
         // 4. Car Specifics
-        if (answers.carMake === 'hyundai_kia') {
+        if (answers.carMake === 'hyundai_kia' && isAdvanced) {
             recipe.push({
                 category: '🔧 Car Specific',
                 key: 'hyundai_longitudinal_tuning',
-                label: 'Hyundai Longitudinal Tuning',
+                label: 'Hyundai Long Tuning',
                 value: answers.drivingStyle === 'limo' ? 'Stock' : 'Dynamic',
-                reason: answers.drivingStyle === 'limo' ? 'Keep stock for gentler acceleration.' : 'Fixes sluggish stock acceleration.',
+                reason: 'Adjusts acceleration profile.',
+                isAdvanced: true,
             });
         }
 
@@ -150,7 +177,7 @@ export default function SetupWizard() {
             key: 'driving_personality',
             label: 'Driving Personality',
             value: personality,
-            reason: `Matches your '${answers.drivingStyle}' vibe preference.`,
+            reason: `Matches '${answers.drivingStyle}' vibe.`,
         });
 
         return recipe;
@@ -167,22 +194,68 @@ export default function SetupWizard() {
         setCheckedItems(newSet);
     };
 
-    // --- Render Steps ---
+    // --- Render ---
+
+    const renderFeedbackButton = () => (
+        <button
+            onClick={() => handleFeedback(step)}
+            className="absolute top-4 right-4 text-slate-500 hover:text-cyan-400 p-2 rounded-full hover:bg-slate-800 transition-colors"
+            title="Report an issue with this step"
+        >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-8a2 2 0 012-2h14a2 2 0 012 2v8M3 21h18M5 11V7a5 5 0 0110 0v4" /></svg>
+            <span className="sr-only">Feedback</span>
+        </button>
+    );
 
     if (step === 'intro') {
         return (
-            <div className="max-w-2xl mx-auto py-12 px-4 text-center">
-                <div className="mb-8 text-8xl">🧙‍♂️</div>
+            <div className="max-w-2xl mx-auto py-12 px-4 text-center relative">
+                {renderFeedbackButton()}
+                <div className="mb-8 text-8xl animate-bounce">🧙‍♂️</div>
                 <h1 className="text-4xl font-bold text-white mb-6">Sunnylink Setup Wizard</h1>
                 <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-                    Not sure which settings to pick? <br />
-                    Answer a few simple questions about your car and driving style, and we'll generate a custom configuration for you.
+                    Personalize your Sunnypilot experience.<br />
+                    Answer a few questions to generate a custom configuration.
                 </p>
+                <div className="relative inline-block group">
+                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
+                    <button
+                        onClick={(e) => {
+                            triggerSparkles(e);
+                            setStep('disclaimer');
+                        }}
+                        className="relative px-8 py-4 bg-slate-900 ring-1 ring-slate-900/50 rounded-2xl leading-none flex items-center divide-x divide-slate-600"
+                    >
+                        <span className="pr-6 text-xl font-bold text-cyan-100 group-hover:text-white transition-colors">Start Wizard</span>
+                        <span className="pl-6 text-indigo-400 group-hover:text-indigo-300 transition-colors">✨</span>
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    if (step === 'disclaimer') {
+        return (
+            <div className="max-w-2xl mx-auto py-12 px-4 text-center relative animate-fade-in">
+                {renderFeedbackButton()}
+                <h2 className="text-3xl font-bold text-red-500 mb-6">⚠️ Disclaimer</h2>
+                <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6 text-left mb-8">
+                    <p className="text-slate-300 mb-4">
+                        This wizard provides recommendations based on community testing.
+                        <strong> Sunnypilot is beta software.</strong>
+                    </p>
+                    <ul className="list-disc list-inside text-slate-300 space-y-2">
+                        <li>You are responsible for the safe operation of your vehicle.</li>
+                        <li>Always keep your eyes on the road.</li>
+                        <li>Test new settings in a safe environment.</li>
+                        <li>Your mileage may vary depending on your specific car model and conditions.</li>
+                    </ul>
+                </div>
                 <button
                     onClick={() => setStep('hardware')}
-                    className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-2xl text-xl font-bold shadow-lg shadow-cyan-500/20 hover:scale-105 transition-transform"
+                    className="w-full py-4 bg-red-600 hover:bg-red-500 text-white rounded-xl font-bold transition-colors"
                 >
-                    Start Wizard
+                    I Understand & Accept
                 </button>
             </div>
         );
@@ -193,11 +266,14 @@ export default function SetupWizard() {
         const progress = (checkedItems.size / recipe.length) * 100;
 
         return (
-            <div className="max-w-3xl mx-auto py-8 px-4">
+            <div className="max-w-3xl mx-auto py-8 px-4 relative">
+                {renderFeedbackButton()}
                 <div className="flex items-center justify-between mb-8">
                     <div>
-                        <h2 className="text-3xl font-bold text-white mb-2">Your Build Sheet</h2>
-                        <p className="text-slate-400">Apply these settings in your car.</p>
+                        <h2 className="text-3xl font-bold text-white mb-2">My Build Sheet</h2>
+                        <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider ${answers.complexity === 'advanced' ? 'bg-purple-500/20 text-purple-400' : 'bg-green-500/20 text-green-400'}`}>
+                            {answers.complexity} Setup
+                        </span>
                     </div>
                     <button
                         onClick={() => {
@@ -210,8 +286,6 @@ export default function SetupWizard() {
                     </button>
                 </div>
 
-
-                {/* Progress Bar */}
                 <div className="bg-slate-800 rounded-full h-4 mb-8 overflow-hidden">
                     <div
                         className="bg-green-500 h-full transition-all duration-500"
@@ -219,33 +293,38 @@ export default function SetupWizard() {
                     />
                 </div>
 
-                <div className="space-y-6">
+                <div className="space-y-4">
                     {recipe.map((item, idx) => (
                         <div
                             key={`${item.key}-${idx}`}
                             onClick={() => toggleCheck(item.key)}
                             className={`
-                group relative p-6 rounded-2xl border cursor-pointer transition-all duration-200
-                ${checkedItems.has(item.key)
+                                group relative p-6 rounded-2xl border cursor-pointer transition-all duration-200
+                                ${checkedItems.has(item.key)
                                     ? 'bg-green-900/10 border-green-500/50 opacity-75'
                                     : 'bg-slate-800/50 border-slate-700 hover:border-cyan-500/50 hover:bg-slate-800'
                                 }
-              `}
+                            `}
                         >
                             <div className="flex items-start gap-4">
                                 <div className={`
-                  mt-1 w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors
-                  ${checkedItems.has(item.key)
+                                    mt-1 w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors
+                                    ${checkedItems.has(item.key)
                                         ? 'bg-green-500 border-green-500 text-slate-900'
                                         : 'border-slate-500 group-hover:border-cyan-400'
                                     }
-                `}>
+                                `}>
                                     {checkedItems.has(item.key) && (
                                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" /></svg>
                                     )}
                                 </div>
-                                <div>
-                                    <div className="text-xs font-bold tracking-wider text-slate-500 mb-1 uppercase">{item.category}</div>
+                                <div className="flex-1">
+                                    <div className="flex justify-between items-start">
+                                        <div className="text-xs font-bold tracking-wider text-slate-500 mb-1 uppercase">{item.category}</div>
+                                        {item.isAdvanced && (
+                                            <span className="text-[10px] font-bold bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded">ADV</span>
+                                        )}
+                                    </div>
                                     <h3 className="text-lg font-medium text-white mb-1">{item.label}</h3>
                                     <div className="text-2xl font-bold text-cyan-400 mb-2">
                                         {typeof item.value === 'boolean' ? (item.value ? 'ON' : 'OFF') : item.value}
@@ -256,41 +335,37 @@ export default function SetupWizard() {
                         </div>
                     ))}
                 </div>
-
-                <div className="mt-12 p-6 bg-blue-500/10 rounded-2xl border border-blue-500/20">
-                    <h4 className="text-blue-400 font-bold mb-2">🏁 Test Drive Verification</h4>
-                    <p className="text-slate-300 text-sm">
-                        After applying these settings, go for a short drive. If the car feels like it's "ping-ponging" (bouncing between lane lines),
-                        switch <strong>Neural Network Lateral Control</strong> to <strong>OFF</strong>.
-                    </p>
-                </div>
             </div>
         );
     }
 
-    // --- Wizard Questions ---
-    return (
-        <div className="max-w-2xl mx-auto py-8 px-4">
-            {/* Progress */}
-            <div className="flex gap-2 mb-12">
-                {['hardware', 'vibe', 'capabilities'].map((s, i) => {
-                    const steps = ['hardware', 'vibe', 'capabilities'];
-                    const currentIndex = steps.indexOf(step as string);
-                    const targetIndex = steps.indexOf(s);
-                    const isActive = targetIndex <= currentIndex;
+    // --- Helper for Wizard Steps ---
+    const ProgressBar = () => (
+        <div className="flex gap-2 mb-12">
+            {['hardware', 'complexity', 'vibe', 'capabilities'].map((s) => {
+                const steps = ['hardware', 'complexity', 'vibe', 'capabilities'];
+                const currentIndex = steps.indexOf(step as string);
+                const targetIndex = steps.indexOf(s);
+                const isActive = targetIndex <= currentIndex;
 
-                    return (
-                        <div key={s} className={`h-2 flex-1 rounded-full ${isActive ? 'bg-cyan-500' : 'bg-slate-800'}`} />
-                    );
-                })}
-            </div>
+                return (
+                    <div key={s} className={`h-2 flex-1 rounded-full ${isActive ? 'bg-cyan-500' : 'bg-slate-800'}`} />
+                );
+            })}
+        </div>
+    );
+
+    return (
+        <div className="max-w-2xl mx-auto py-8 px-4 relative">
+            {renderFeedbackButton()}
+            <ProgressBar />
 
             {step === 'hardware' && (
                 <div className="animate-fade-in space-y-8">
-                    <h2 className="text-3xl font-bold text-white">Step 1: The Hardware Handshake 🤝</h2>
+                    <h2 className="text-3xl font-bold text-white">Step 1: Hardware 🛠️</h2>
 
                     <div className="space-y-4">
-                        <h3 className="text-lg text-slate-300">Which device do you have?</h3>
+                        <h3 className="text-lg text-slate-300">Device Model</h3>
                         <div className="grid grid-cols-2 gap-4">
                             <button
                                 onClick={() => updateAnswer('device', 'comma3')}
@@ -300,17 +375,17 @@ export default function SetupWizard() {
                                 <div className="font-bold text-white">Comma 3 / 3X</div>
                             </button>
                             <button
-                                onClick={() => updateAnswer('device', 'comma2')}
-                                className={`p-6 rounded-xl border text-left transition-all ${answers.device === 'comma2' ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
+                                onClick={() => updateAnswer('device', 'comma4')}
+                                className={`p-6 rounded-xl border text-left transition-all ${answers.device === 'comma4' ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
                             >
-                                <div className="text-2xl mb-2">📱</div>
-                                <div className="font-bold text-white">Comma 2 / Other</div>
+                                <div className="text-2xl mb-2">🔮</div>
+                                <div className="font-bold text-white">Comma 4</div>
                             </button>
                         </div>
                     </div>
 
                     <div className="space-y-4">
-                        <h3 className="text-lg text-slate-300">What vehicle are you driving?</h3>
+                        <h3 className="text-lg text-slate-300">Vehicle Make</h3>
                         <select
                             value={answers.carMake}
                             onChange={(e) => updateAnswer('carMake', e.target.value)}
@@ -319,16 +394,53 @@ export default function SetupWizard() {
                             <option value="hyundai_kia">Hyundai / Kia / Genesis</option>
                             <option value="toyota_lexus">Toyota / Lexus</option>
                             <option value="honda_acura">Honda / Acura</option>
+                            <option value="subaru">Subaru</option>
+                            <option value="ford">Ford</option>
+                            <option value="vw">Volkswagen / Audi</option>
+                            <option value="gm">GM / Chevrolet</option>
                             <option value="other">Other / Not Listed</option>
                         </select>
                     </div>
 
                     <div className="pt-8 flex justify-end">
                         <button
+                            onClick={() => setStep('complexity')}
+                            className="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-200 transition-colors"
+                        >
+                            Next ➔
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {step === 'complexity' && (
+                <div className="animate-fade-in space-y-8">
+                    <h2 className="text-3xl font-bold text-white">Step 2: Expertise Level 🧠</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <button
+                            onClick={() => updateAnswer('complexity', 'easy')}
+                            className={`p-6 rounded-xl border text-left transition-all ${answers.complexity === 'easy' ? 'bg-green-500/20 border-green-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
+                        >
+                            <div className="text-3xl mb-3">🟢</div>
+                            <h3 className="text-xl font-bold text-white mb-2">Easy Setup</h3>
+                            <p className="text-sm text-slate-400">Just the core essentials. Best for new users.</p>
+                        </button>
+                        <button
+                            onClick={() => updateAnswer('complexity', 'advanced')}
+                            className={`p-6 rounded-xl border text-left transition-all ${answers.complexity === 'advanced' ? 'bg-purple-500/20 border-purple-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
+                        >
+                            <div className="text-3xl mb-3">🟣</div>
+                            <h3 className="text-xl font-bold text-white mb-2">Advanced Setup</h3>
+                            <p className="text-sm text-slate-400">Full control over internal parameters. For power users.</p>
+                        </button>
+                    </div>
+                    <div className="pt-8 flex justify-between">
+                        <button onClick={() => setStep('hardware')} className="text-slate-500 hover:text-white">← Back</button>
+                        <button
                             onClick={() => setStep('vibe')}
                             className="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-200 transition-colors"
                         >
-                            Next Step ➔
+                            Next ➔
                         </button>
                     </div>
                 </div>
@@ -336,19 +448,17 @@ export default function SetupWizard() {
 
             {step === 'vibe' && (
                 <div className="animate-fade-in space-y-8">
-                    <h2 className="text-3xl font-bold text-white">Step 2: The Vibe Check 😎</h2>
-                    <p className="text-slate-400">How do you want the car to drive?</p>
-
+                    <h2 className="text-3xl font-bold text-white">Step 3: Vibe Check 😎</h2>
                     <div className="space-y-4">
                         {[
-                            { id: 'limo', icon: '🎩', title: 'Like a Limo Driver', desc: 'Smooth, slow turns, gentle braking. Prioritizes comfort.' },
-                            { id: 'standard', icon: '🤖', title: 'Like Me (Standard)', desc: 'Balanced and predictable. Good for everyday.' },
-                            { id: 'rush_hour', icon: '🏎️', title: 'Rush Hour Commuter', desc: 'Aggressive. Closes gaps, accelerates fast.' }
+                            { id: 'limo', icon: '🎩', title: 'Limo Driver', desc: 'Smooth, slow turns. Comfort first.' },
+                            { id: 'standard', icon: '🤖', title: 'Standard', desc: 'Balanced and predictable.' },
+                            { id: 'rush_hour', icon: '🏎️', title: 'Rush Hour', desc: 'Aggressive gap closing.' }
                         ].map(opt => (
                             <button
                                 key={opt.id}
                                 onClick={() => updateAnswer('drivingStyle', opt.id)}
-                                className={`w-full p-6 rounded-xl border text-left transition-all flex items-center gap-4 ${answers.drivingStyle === opt.id ? 'bg-cyan-500/20 border-cyan-500 ring-1 ring-cyan-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
+                                className={`w-full p-6 rounded-xl border text-left transition-all flex items-center gap-4 ${answers.drivingStyle === opt.id ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
                             >
                                 <div className="text-4xl">{opt.icon}</div>
                                 <div>
@@ -358,14 +468,10 @@ export default function SetupWizard() {
                             </button>
                         ))}
                     </div>
-
                     <div className="pt-8 flex justify-between">
-                        <button onClick={() => setStep('hardware')} className="text-slate-500 hover:text-white">← Back</button>
-                        <button
-                            onClick={() => setStep('capabilities')}
-                            className="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-200 transition-colors"
-                        >
-                            Next Step ➔
+                        <button onClick={() => setStep('complexity')} className="text-slate-500 hover:text-white">← Back</button>
+                        <button onClick={() => setStep('capabilities')} className="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-200 transition-colors">
+                            Next ➔
                         </button>
                     </div>
                 </div>
@@ -373,55 +479,38 @@ export default function SetupWizard() {
 
             {step === 'capabilities' && (
                 <div className="animate-fade-in space-y-8">
-                    <h2 className="text-3xl font-bold text-white">Step 3: Capabilities 🚦</h2>
-
+                    <h2 className="text-3xl font-bold text-white">Step 4: Capabilities 🚦</h2>
                     <div className="space-y-6">
                         <div className="space-y-4">
-                            <h3 className="text-lg text-slate-300">Do you want stopping for red lights/stop signs?</h3>
+                            <h3 className="text-lg text-slate-300">Stop for lights/signs?</h3>
                             <div className="flex gap-4">
-                                <button
-                                    onClick={() => updateAnswer('cityDriving', true)}
-                                    className={`flex-1 p-4 rounded-xl border transition-all ${answers.cityDriving ? 'bg-green-500/20 border-green-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
-                                >
-                                    <div className="text-center font-bold text-white">Yes ✅</div>
-                                    <div className="text-center text-xs text-slate-400 mt-1">Full City Handling</div>
+                                <button onClick={() => updateAnswer('cityDriving', true)} className={`flex-1 p-4 rounded-xl border ${answers.cityDriving ? 'bg-green-500/20 border-green-500' : 'bg-slate-800 border-slate-700'}`}>
+                                    <div className="font-bold text-white">Yes ✅</div>
+                                    <div className="text-xs text-slate-400">City + Highway</div>
                                 </button>
-                                <button
-                                    onClick={() => updateAnswer('cityDriving', false)}
-                                    className={`flex-1 p-4 rounded-xl border transition-all ${!answers.cityDriving ? 'bg-slate-700 border-slate-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
-                                >
-                                    <div className="text-center font-bold text-white">No 🛣️</div>
-                                    <div className="text-center text-xs text-slate-400 mt-1">Highway Cruising Only</div>
+                                <button onClick={() => updateAnswer('cityDriving', false)} className={`flex-1 p-4 rounded-xl border ${!answers.cityDriving ? 'bg-slate-700 border-slate-500' : 'bg-slate-800 border-slate-700'}`}>
+                                    <div className="font-bold text-white">No 🛣️</div>
+                                    <div className="text-xs text-slate-400">Highway Only</div>
                                 </button>
                             </div>
                         </div>
 
                         <div className="space-y-4">
-                            <h3 className="text-lg text-slate-300">Typical road type?</h3>
+                            <h3 className="text-lg text-slate-300">Road Type?</h3>
                             <div className="flex gap-4">
-                                <button
-                                    onClick={() => updateAnswer('roadType', 'winding')}
-                                    className={`flex-1 p-4 rounded-xl border transition-all ${answers.roadType === 'winding' ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
-                                >
-                                    <div className="text-center font-bold text-white">Winding / Curves ⛰️</div>
+                                <button onClick={() => updateAnswer('roadType', 'winding')} className={`flex-1 p-4 rounded-xl border ${answers.roadType === 'winding' ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700'}`}>
+                                    Winding ⛰️
                                 </button>
-                                <button
-                                    onClick={() => updateAnswer('roadType', 'straight')}
-                                    className={`flex-1 p-4 rounded-xl border transition-all ${answers.roadType === 'straight' ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
-                                >
-                                    <div className="text-center font-bold text-white">Mostly Straight 🛤️</div>
+                                <button onClick={() => updateAnswer('roadType', 'straight')} className={`flex-1 p-4 rounded-xl border ${answers.roadType === 'straight' ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700'}`}>
+                                    Straight 🛤️
                                 </button>
                             </div>
                         </div>
                     </div>
-
                     <div className="pt-8 flex justify-between">
                         <button onClick={() => setStep('vibe')} className="text-slate-500 hover:text-white">← Back</button>
-                        <button
-                            onClick={() => setStep('results')}
-                            className="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold shadow-lg shadow-green-500/20 hover:scale-105 transition-transform"
-                        >
-                            Generate Build Sheet ⚡
+                        <button onClick={() => setStep('results')} className="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold shadow-green-500/20 hover:scale-105 transition-transform">
+                            Generate ⚡
                         </button>
                     </div>
                 </div>
