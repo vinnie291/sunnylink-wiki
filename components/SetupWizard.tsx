@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 // --- Types ---
 type WizardStep = 'intro' | 'disclaimer' | 'hardware' | 'complexity' | 'vibe' | 'capabilities' | 'results';
@@ -45,8 +45,6 @@ export default function SetupWizard() {
 
     // --- Sparkle Effect ---
     const triggerSparkles = (e: React.MouseEvent<HTMLButtonElement>) => {
-        // Simple manual keyframe animation trigger via class or just rely on CSS
-        // For a burst, we can create elements, but strictly staying within React/Tailwind:
         const btn = e.currentTarget;
         btn.classList.add('animate-ping-once');
         setTimeout(() => btn.classList.remove('animate-ping-once'), 500);
@@ -199,7 +197,7 @@ export default function SetupWizard() {
     const renderFeedbackButton = () => (
         <button
             onClick={() => handleFeedback(step)}
-            className="absolute top-4 right-4 text-slate-500 hover:text-cyan-400 p-2 rounded-full hover:bg-slate-800 transition-colors"
+            className="text-slate-500 hover:text-cyan-400 p-2 rounded-full hover:bg-slate-800 transition-colors"
             title="Report an issue with this step"
         >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-8a2 2 0 012-2h14a2 2 0 012 2v8M3 21h18M5 11V7a5 5 0 0110 0v4" /></svg>
@@ -207,10 +205,22 @@ export default function SetupWizard() {
         </button>
     );
 
+    const StepHeader = ({ title, icon }: { title: string, icon?: string }) => (
+        <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-bold text-white flex items-center gap-2">
+                <span>{title}</span>
+                {icon && <span>{icon}</span>}
+            </h2>
+            {renderFeedbackButton()}
+        </div>
+    );
+
     if (step === 'intro') {
         return (
             <div className="max-w-2xl mx-auto py-12 px-4 text-center relative">
-                {renderFeedbackButton()}
+                <div className="absolute top-4 right-4">
+                    {renderFeedbackButton()}
+                </div>
                 <div className="mb-8 text-8xl animate-bounce">🧙‍♂️</div>
                 <h1 className="text-4xl font-bold text-white mb-6">Sunnylink Setup Wizard</h1>
                 <p className="text-xl text-slate-300 mb-8 leading-relaxed">
@@ -224,10 +234,9 @@ export default function SetupWizard() {
                             triggerSparkles(e);
                             setStep('disclaimer');
                         }}
-                        className="relative px-8 py-4 bg-slate-900 ring-1 ring-slate-900/50 rounded-2xl leading-none flex items-center divide-x divide-slate-600"
+                        className="relative px-8 py-4 bg-slate-900 ring-1 ring-slate-900/50 rounded-2xl leading-none flex items-center group-hover:bg-slate-800 transition-colors"
                     >
-                        <span className="pr-6 text-xl font-bold text-cyan-100 group-hover:text-white transition-colors">Start Wizard</span>
-                        <span className="pl-6 text-indigo-400 group-hover:text-indigo-300 transition-colors">✨</span>
+                        <span className="text-xl font-bold text-cyan-100 group-hover:text-white transition-colors">Start Wizard</span>
                     </button>
                 </div>
             </div>
@@ -237,7 +246,9 @@ export default function SetupWizard() {
     if (step === 'disclaimer') {
         return (
             <div className="max-w-2xl mx-auto py-12 px-4 text-center relative animate-fade-in">
-                {renderFeedbackButton()}
+                <div className="absolute top-4 right-4">
+                    {renderFeedbackButton()}
+                </div>
                 <h2 className="text-3xl font-bold text-red-500 mb-6">⚠️ Disclaimer</h2>
                 <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6 text-left mb-8">
                     <p className="text-slate-300 mb-4">
@@ -267,7 +278,9 @@ export default function SetupWizard() {
 
         return (
             <div className="max-w-3xl mx-auto py-8 px-4 relative">
-                {renderFeedbackButton()}
+                <div className="absolute top-8 right-4 z-10">
+                    {renderFeedbackButton()}
+                </div>
                 <div className="flex items-center justify-between mb-8">
                     <div>
                         <h2 className="text-3xl font-bold text-white mb-2">My Build Sheet</h2>
@@ -275,15 +288,6 @@ export default function SetupWizard() {
                             {answers.complexity} Setup
                         </span>
                     </div>
-                    <button
-                        onClick={() => {
-                            setStep('intro');
-                            setCheckedItems(new Set());
-                        }}
-                        className="text-sm text-slate-500 hover:text-white underline"
-                    >
-                        Restart
-                    </button>
                 </div>
 
                 <div className="bg-slate-800 rounded-full h-4 mb-8 overflow-hidden">
@@ -335,6 +339,17 @@ export default function SetupWizard() {
                         </div>
                     ))}
                 </div>
+                <div className="mt-8 text-center text-sm text-slate-500">
+                    <button
+                        onClick={() => {
+                            setStep('intro');
+                            setCheckedItems(new Set());
+                        }}
+                        className="hover:text-white underline"
+                    >
+                        Restart Wizard
+                    </button>
+                </div>
             </div>
         );
     }
@@ -357,12 +372,11 @@ export default function SetupWizard() {
 
     return (
         <div className="max-w-2xl mx-auto py-8 px-4 relative">
-            {renderFeedbackButton()}
             <ProgressBar />
 
             {step === 'hardware' && (
                 <div className="animate-fade-in space-y-8">
-                    <h2 className="text-3xl font-bold text-white">Step 1: Hardware 🛠️</h2>
+                    <StepHeader title="Step 1: Hardware" icon="🛠️" />
 
                     <div className="space-y-4">
                         <h3 className="text-lg text-slate-300">Device Model</h3>
@@ -386,20 +400,25 @@ export default function SetupWizard() {
 
                     <div className="space-y-4">
                         <h3 className="text-lg text-slate-300">Vehicle Make</h3>
-                        <select
-                            value={answers.carMake}
-                            onChange={(e) => updateAnswer('carMake', e.target.value)}
-                            className="w-full p-4 rounded-xl bg-slate-800 border border-slate-700 text-white focus:border-cyan-500 outline-none"
-                        >
-                            <option value="hyundai_kia">Hyundai / Kia / Genesis</option>
-                            <option value="toyota_lexus">Toyota / Lexus</option>
-                            <option value="honda_acura">Honda / Acura</option>
-                            <option value="subaru">Subaru</option>
-                            <option value="ford">Ford</option>
-                            <option value="vw">Volkswagen / Audi</option>
-                            <option value="gm">GM / Chevrolet</option>
-                            <option value="other">Other / Not Listed</option>
-                        </select>
+                        <div className="relative">
+                            <select
+                                value={answers.carMake}
+                                onChange={(e) => updateAnswer('carMake', e.target.value)}
+                                className="w-full p-4 pr-12 rounded-xl bg-slate-800 border border-slate-700 text-white focus:border-cyan-500 outline-none appearance-none cursor-pointer"
+                            >
+                                <option value="hyundai_kia">Hyundai / Kia / Genesis</option>
+                                <option value="toyota_lexus">Toyota / Lexus</option>
+                                <option value="honda_acura">Honda / Acura</option>
+                                <option value="subaru">Subaru</option>
+                                <option value="ford">Ford</option>
+                                <option value="vw">Volkswagen / Audi</option>
+                                <option value="gm">GM / Chevrolet</option>
+                                <option value="other">Other / Not Listed</option>
+                            </select>
+                            <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-cyan-500">
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="pt-8 flex justify-end">
@@ -415,7 +434,7 @@ export default function SetupWizard() {
 
             {step === 'complexity' && (
                 <div className="animate-fade-in space-y-8">
-                    <h2 className="text-3xl font-bold text-white">Step 2: Expertise Level 🧠</h2>
+                    <StepHeader title="Step 2: Expertise Level" icon="🧠" />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <button
                             onClick={() => updateAnswer('complexity', 'easy')}
@@ -448,7 +467,7 @@ export default function SetupWizard() {
 
             {step === 'vibe' && (
                 <div className="animate-fade-in space-y-8">
-                    <h2 className="text-3xl font-bold text-white">Step 3: Vibe Check 😎</h2>
+                    <StepHeader title="Step 3: Vibe Check" icon="😎" />
                     <div className="space-y-4">
                         {[
                             { id: 'limo', icon: '🎩', title: 'Limo Driver', desc: 'Smooth, slow turns. Comfort first.' },
@@ -479,7 +498,7 @@ export default function SetupWizard() {
 
             {step === 'capabilities' && (
                 <div className="animate-fade-in space-y-8">
-                    <h2 className="text-3xl font-bold text-white">Step 4: Capabilities 🚦</h2>
+                    <StepHeader title="Step 4: Capabilities" icon="🚦" />
                     <div className="space-y-6">
                         <div className="space-y-4">
                             <h3 className="text-lg text-slate-300">Stop for lights/signs?</h3>
