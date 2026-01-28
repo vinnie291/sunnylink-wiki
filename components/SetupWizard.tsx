@@ -297,22 +297,46 @@ export default function SetupWizard() {
             )}
 
             {step === 'intro' && (
-                <div className="max-w-2xl mx-auto py-12 px-4 text-center relative animate-fade-in">
+                <div className="max-w-2xl mx-auto py-6 sm:py-12 px-4 text-center relative animate-fade-in">
                     <div className="absolute top-4 right-4">
                         {renderFeedbackButton()}
                     </div>
 
-                    <h1 className="text-4xl font-bold text-white mb-6">Sunnylink Setup Wizard</h1>
-                    <p className="text-xl text-slate-300 mb-8 leading-relaxed">
+                    {/* Wizard Image - At top for mobile visibility */}
+                    <WizardHero showButton={false} />
+
+                    {/* Title */}
+                    <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4 sm:mb-6">Sunnylink Setup Wizard</h1>
+
+                    {/* Subtitle */}
+                    <p className="text-lg sm:text-xl text-slate-300 mb-6 sm:mb-8 leading-relaxed">
                         Personalize your Sunnypilot experience.<br />
                         Answer a few questions to generate a custom configuration.
                     </p>
-                    <WizardHero
-                        onStart={(e: any) => {
+
+                    {/* Start Button - Above the fold */}
+                    <button
+                        onClick={(e) => {
                             triggerSparkles(e);
                             setStep('disclaimer');
                         }}
-                    />
+                        className="
+                            relative overflow-hidden group
+                            px-10 py-4 rounded-2xl
+                            bg-gradient-to-r from-cyan-500 to-blue-600
+                            hover:from-cyan-400 hover:to-blue-500
+                            text-white font-bold text-xl
+                            shadow-lg shadow-cyan-500/25
+                            transition-all duration-300
+                            transform hover:scale-105 hover:-translate-y-1
+                        "
+                    >
+                        <span className="relative z-10 flex items-center gap-2">
+                            Start Setup
+                            <span className="animate-bounce-x">➔</span>
+                        </span>
+                        <span className="absolute inset-0 rounded-2xl ring-2 ring-white/30 animate-ping opacity-20" />
+                    </button>
                 </div>
             )}
 
