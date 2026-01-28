@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import FlagFeedback from './FlagFeedback';
 
 // --- Types ---
 type WizardStep = 'intro' | 'disclaimer' | 'hardware' | 'complexity' | 'vibe' | 'capabilities' | 'results';
@@ -35,13 +36,7 @@ export default function SetupWizard() {
         roadType: 'straight',
     });
     const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
-
-    // --- Feedback Logic ---
-    const handleFeedback = (currentStep: string) => {
-        const subject = encodeURIComponent(`Setup Wizard Feedback - Step: ${currentStep}`);
-        const body = encodeURIComponent(`I have feedback about the ${currentStep} step of the Setup Wizard:\n\n`);
-        window.open(`https://github.com/vinnie291/sunnylink-wiki/issues/new?title=${subject}&body=${body}`, '_blank');
-    };
+    const [showFeedback, setShowFeedback] = useState(false);
 
     // --- Sparkle Effect ---
     const triggerSparkles = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -196,7 +191,7 @@ export default function SetupWizard() {
 
     const renderFeedbackButton = () => (
         <button
-            onClick={() => handleFeedback(step)}
+            onClick={() => setShowFeedback(true)}
             className="text-slate-500 hover:text-cyan-400 p-2 rounded-full hover:bg-slate-800 transition-colors"
             title="Report an issue with this step"
         >
@@ -215,164 +210,171 @@ export default function SetupWizard() {
         </div>
     );
 
-    if (step === 'intro') {
-        return (
-            <div className="max-w-2xl mx-auto py-12 px-4 text-center relative">
-                <div className="absolute top-4 right-4">
-                    {renderFeedbackButton()}
-                </div>
-                <div className="mb-8 text-8xl animate-bounce">🧙‍♂️</div>
-                <h1 className="text-4xl font-bold text-white mb-6">Sunnylink Setup Wizard</h1>
-                <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-                    Personalize your Sunnypilot experience.<br />
-                    Answer a few questions to generate a custom configuration.
-                </p>
-                <div className="relative inline-block group">
-                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
-                    <button
-                        onClick={(e) => {
-                            triggerSparkles(e);
-                            setStep('disclaimer');
-                        }}
-                        className="relative px-8 py-4 bg-slate-900 ring-1 ring-slate-900/50 rounded-2xl leading-none flex items-center group-hover:bg-slate-800 transition-colors"
-                    >
-                        <span className="text-xl font-bold text-cyan-100 group-hover:text-white transition-colors">Start Wizard</span>
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
-    if (step === 'disclaimer') {
-        return (
-            <div className="max-w-2xl mx-auto py-12 px-4 text-center relative animate-fade-in">
-                <div className="absolute top-4 right-4">
-                    {renderFeedbackButton()}
-                </div>
-                <h2 className="text-3xl font-bold text-red-500 mb-6">⚠️ Disclaimer</h2>
-                <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6 text-left mb-8">
-                    <p className="text-slate-300 mb-4">
-                        This wizard provides recommendations based on community testing.
-                        <strong> Sunnypilot is beta software.</strong>
-                    </p>
-                    <ul className="list-disc list-inside text-slate-300 space-y-2">
-                        <li>You are responsible for the safe operation of your vehicle.</li>
-                        <li>Always keep your eyes on the road.</li>
-                        <li>Test new settings in a safe environment.</li>
-                        <li>Your mileage may vary depending on your specific car model and conditions.</li>
-                    </ul>
-                </div>
-                <button
-                    onClick={() => setStep('hardware')}
-                    className="w-full py-4 bg-red-600 hover:bg-red-500 text-white rounded-xl font-bold transition-colors"
-                >
-                    I Understand & Accept
-                </button>
-            </div>
-        );
-    }
-
-    if (step === 'results') {
-        const recipe = generateRecipe();
-        const progress = (checkedItems.size / recipe.length) * 100;
-
-        return (
-            <div className="max-w-3xl mx-auto py-8 px-4 relative">
-                <div className="absolute top-8 right-4 z-10">
-                    {renderFeedbackButton()}
-                </div>
-                <div className="flex items-center justify-between mb-8">
-                    <div>
-                        <h2 className="text-3xl font-bold text-white mb-2">My Build Sheet</h2>
-                        <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider ${answers.complexity === 'advanced' ? 'bg-purple-500/20 text-purple-400' : 'bg-green-500/20 text-green-400'}`}>
-                            {answers.complexity} Setup
-                        </span>
-                    </div>
-                </div>
-
-                <div className="bg-slate-800 rounded-full h-4 mb-8 overflow-hidden">
-                    <div
-                        className="bg-green-500 h-full transition-all duration-500"
-                        style={{ width: `${progress}%` }}
-                    />
-                </div>
-
-                <div className="space-y-4">
-                    {recipe.map((item, idx) => (
-                        <div
-                            key={`${item.key}-${idx}`}
-                            onClick={() => toggleCheck(item.key)}
-                            className={`
-                                group relative p-6 rounded-2xl border cursor-pointer transition-all duration-200
-                                ${checkedItems.has(item.key)
-                                    ? 'bg-green-900/10 border-green-500/50 opacity-75'
-                                    : 'bg-slate-800/50 border-slate-700 hover:border-cyan-500/50 hover:bg-slate-800'
-                                }
-                            `}
-                        >
-                            <div className="flex items-start gap-4">
-                                <div className={`
-                                    mt-1 w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors
-                                    ${checkedItems.has(item.key)
-                                        ? 'bg-green-500 border-green-500 text-slate-900'
-                                        : 'border-slate-500 group-hover:border-cyan-400'
-                                    }
-                                `}>
-                                    {checkedItems.has(item.key) && (
-                                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" /></svg>
-                                    )}
-                                </div>
-                                <div className="flex-1">
-                                    <div className="flex justify-between items-start">
-                                        <div className="text-xs font-bold tracking-wider text-slate-500 mb-1 uppercase">{item.category}</div>
-                                        {item.isAdvanced && (
-                                            <span className="text-[10px] font-bold bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded">ADV</span>
-                                        )}
-                                    </div>
-                                    <h3 className="text-lg font-medium text-white mb-1">{item.label}</h3>
-                                    <div className="text-2xl font-bold text-cyan-400 mb-2">
-                                        {typeof item.value === 'boolean' ? (item.value ? 'ON' : 'OFF') : item.value}
-                                    </div>
-                                    <p className="text-sm text-slate-400 italic">"{item.reason}"</p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <div className="mt-8 text-center text-sm text-slate-500">
-                    <button
-                        onClick={() => {
-                            setStep('intro');
-                            setCheckedItems(new Set());
-                        }}
-                        className="hover:text-white underline"
-                    >
-                        Restart Wizard
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
-    // --- Helper for Wizard Steps ---
-    const ProgressBar = () => (
-        <div className="flex gap-2 mb-12">
-            {['hardware', 'complexity', 'vibe', 'capabilities'].map((s) => {
-                const steps = ['hardware', 'complexity', 'vibe', 'capabilities'];
-                const currentIndex = steps.indexOf(step as string);
-                const targetIndex = steps.indexOf(s);
-                const isActive = targetIndex <= currentIndex;
-
-                return (
-                    <div key={s} className={`h-2 flex-1 rounded-full ${isActive ? 'bg-cyan-500' : 'bg-slate-800'}`} />
-                );
-            })}
-        </div>
-    );
-
     return (
         <div className="max-w-2xl mx-auto py-8 px-4 relative">
-            <ProgressBar />
+            {/* Feedback Modal */}
+            {showFeedback && (
+                <FlagFeedback
+                    settingKey={`wizard_step_${step}`}
+                    settingLabel={`Setup Wizard - Step: ${step.charAt(0).toUpperCase() + step.slice(1)}`}
+                    onClose={() => setShowFeedback(false)}
+                />
+            )}
+
+            {step !== 'intro' && step !== 'results' && step !== 'disclaimer' && (
+                <div className="flex gap-2 mb-12">
+                    {['hardware', 'complexity', 'vibe', 'capabilities'].map((s) => {
+                        const steps = ['hardware', 'complexity', 'vibe', 'capabilities'];
+                        const currentIndex = steps.indexOf(step as string);
+                        const targetIndex = steps.indexOf(s);
+                        const isActive = targetIndex <= currentIndex;
+                        return (
+                            <div key={s} className={`h-2 flex-1 rounded-full bg-slate-800/50 overflow-hidden`}>
+                                <div className={`h-full transition-all duration-500 ease-out ${isActive ? 'bg-cyan-500 w-full' : 'w-0'}`} />
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
+
+            {step === 'intro' && (
+                <div className="max-w-2xl mx-auto py-12 px-4 text-center relative animate-fade-in">
+                    <div className="absolute top-4 right-4">
+                        {renderFeedbackButton()}
+                    </div>
+                    <div className="mb-8 text-8xl animate-bounce">🧙‍♂️</div>
+                    <h1 className="text-4xl font-bold text-white mb-6">Sunnylink Setup Wizard</h1>
+                    <p className="text-xl text-slate-300 mb-8 leading-relaxed">
+                        Personalize your Sunnypilot experience.<br />
+                        Answer a few questions to generate a custom configuration.
+                    </p>
+                    <div className="relative inline-block group">
+                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
+                        <button
+                            onClick={(e) => {
+                                triggerSparkles(e);
+                                setStep('disclaimer');
+                            }}
+                            className="relative px-8 py-4 bg-slate-900 ring-1 ring-slate-900/50 rounded-2xl leading-none flex items-center group-hover:bg-slate-800 transition-colors"
+                        >
+                            <span className="text-xl font-bold text-cyan-100 group-hover:text-white transition-colors">Start Wizard</span>
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {step === 'disclaimer' && (
+                <div className="max-w-2xl mx-auto py-12 px-4 text-center relative animate-fade-in">
+                    <div className="absolute top-4 right-4">
+                        {renderFeedbackButton()}
+                    </div>
+                    <h2 className="text-3xl font-bold text-red-500 mb-6">⚠️ Disclaimer</h2>
+                    <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6 text-left mb-8">
+                        <p className="text-slate-300 mb-4">
+                            This wizard provides recommendations based on community testing.
+                            <strong> Sunnypilot is beta software.</strong>
+                        </p>
+                        <ul className="list-disc list-inside text-slate-300 space-y-2">
+                            <li>You are responsible for the safe operation of your vehicle.</li>
+                            <li>Always keep your eyes on the road.</li>
+                            <li>Test new settings in a safe environment.</li>
+                            <li>Your mileage may vary depending on your specific car model and conditions.</li>
+                        </ul>
+                    </div>
+                    <button
+                        onClick={() => setStep('hardware')}
+                        className="w-full py-4 bg-red-600 hover:bg-red-500 text-white rounded-xl font-bold transition-colors"
+                    >
+                        I Understand & Accept
+                    </button>
+                </div>
+            )}
+
+            {step === 'results' && (
+                <div className="max-w-3xl mx-auto py-8 px-4 relative animate-fade-in">
+                    <div className="absolute top-8 right-4 z-10">
+                        {renderFeedbackButton()}
+                    </div>
+                    <div className="flex items-center justify-between mb-8">
+                        <div>
+                            <h2 className="text-3xl font-bold text-white mb-2">My Build Sheet</h2>
+                            <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider ${answers.complexity === 'advanced' ? 'bg-purple-500/20 text-purple-400' : 'bg-green-500/20 text-green-400'}`}>
+                                {answers.complexity} Setup
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Results Progress - Shows how many checkboxes checked */}
+                    <div className="bg-slate-800 rounded-full h-4 mb-8 overflow-hidden">
+                        <div
+                            className="bg-green-500 h-full transition-all duration-500"
+                            style={{ width: `${(checkedItems.size / generateRecipe().length) * 100}%` }}
+                        />
+                    </div>
+
+                    <div className="space-y-4">
+                        {generateRecipe().map((item, idx) => (
+                            <div
+                                key={`${item.key}-${idx}`}
+                                onClick={() => toggleCheck(item.key)}
+                                className={`
+                                    group relative p-6 rounded-2xl border cursor-pointer transition-all duration-200
+                                    ${checkedItems.has(item.key)
+                                        ? 'bg-green-900/10 border-green-500/50 opacity-75'
+                                        : 'bg-slate-800/50 border-slate-700 hover:border-cyan-500/50 hover:bg-slate-800'
+                                    }
+                                `}
+                            >
+                                <div className="flex items-start gap-4">
+                                    <div className={`
+                                        mt-1 w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors
+                                        ${checkedItems.has(item.key)
+                                            ? 'bg-green-500 border-green-500 text-slate-900'
+                                            : 'border-slate-500 group-hover:border-cyan-400'
+                                        }
+                                    `}>
+                                        {checkedItems.has(item.key) && (
+                                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" /></svg>
+                                        )}
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="flex justify-between items-start">
+                                            <div className="text-xs font-bold tracking-wider text-slate-500 mb-1 uppercase">{item.category}</div>
+                                            {item.isAdvanced && (
+                                                <span className="text-[10px] font-bold bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded">ADV</span>
+                                            )}
+                                        </div>
+                                        <h3 className="text-lg font-medium text-white mb-1">{item.label}</h3>
+                                        <div className="text-2xl font-bold text-cyan-400 mb-2">
+                                            {typeof item.value === 'boolean' ? (item.value ? 'ON' : 'OFF') : item.value}
+                                        </div>
+                                        <p className="text-sm text-slate-400 italic">"{item.reason}"</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="mt-12 text-center">
+                        <button
+                            onClick={() => {
+                                setStep('intro');
+                                setCheckedItems(new Set());
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }}
+                            className="
+                                px-6 py-3 rounded-xl 
+                                bg-slate-800 text-slate-400 
+                                hover:text-white hover:bg-slate-700 
+                                transition-all duration-200 
+                                font-medium flex items-center justify-center gap-2 mx-auto
+                            "
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                            Restart Wizard
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {step === 'hardware' && (
                 <div className="animate-fade-in space-y-8">

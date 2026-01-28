@@ -205,7 +205,6 @@ export default function Home() {
               <span className="relative flex items-center gap-2">
                 <span>🧙‍♂️</span>
                 <span>Setup Wizard</span>
-                <span className="opacity-0 group-hover:opacity-100 transition-opacity text-xs">✨</span>
               </span>
             </button>
           </div>
