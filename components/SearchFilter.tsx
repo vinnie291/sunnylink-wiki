@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 interface SearchFilterProps {
     value: string;
@@ -11,6 +11,7 @@ interface SearchFilterProps {
 
 export default function SearchFilter({ value, onChange, resultCount, totalCount }: SearchFilterProps) {
     const [localValue, setLocalValue] = useState(value);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     // Debounce search input
     useEffect(() => {
@@ -26,9 +27,26 @@ export default function SearchFilter({ value, onChange, resultCount, totalCount 
         setLocalValue(value);
     }, [value]);
 
+    // Keyboard Shortcut (Cmd+K / Ctrl+K)
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                // Only focus if the element is visible (offsetParent is not null)
+                if (inputRef.current && inputRef.current.offsetParent !== null) {
+                    inputRef.current.focus();
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
+
     const handleClear = useCallback(() => {
         setLocalValue('');
         onChange('');
+        inputRef.current?.focus();
     }, [onChange]);
 
     return (
@@ -47,10 +65,11 @@ export default function SearchFilter({ value, onChange, resultCount, totalCount 
                     </div>
 
                     <input
+                        ref={inputRef}
                         type="text"
                         value={localValue}
                         onChange={(e) => setLocalValue(e.target.value)}
-                        placeholder="Search..."
+                        placeholder="Search... (Cmd+K)"
                         className="
               w-full py-4 pl-12 pr-12 
               bg-slate-800/80 backdrop-blur-sm

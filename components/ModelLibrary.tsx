@@ -1,8 +1,11 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import modelsData from '../data/models.json';
 import FlagFeedback from './FlagFeedback';
+import ViewToggle from './ViewToggle';
+import { useViewMode } from '../hooks/useViewMode';
 
 interface SentimentData {
     great: number;
@@ -229,13 +232,47 @@ function ModelCard({ model, onFlag }: { model: Model; onFlag: (model: Model) => 
     );
 }
 
+// Helper for Vibe Icons
+const getVibeIcon = (consensus?: string) => {
+    switch (consensus?.toLowerCase()) {
+        case 'aggressive': return '🚀';
+        case 'standard': return '⚖️';
+        case 'relaxed': return '🛋️';
+        case 'comfort': return '🧸';
+        default: return '🤖';
+    }
+};
+
 export default function ModelLibrary() {
     const [activeCategory, setActiveCategory] = useState<string>('favorites');
     const [showVibeGuide, setShowVibeGuide] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [feedbackModel, setFeedbackModel] = useState<Model | null>(null);
 
-    const [sortBy, setSortBy] = useState<'name' | 'popularity' | 'score'>('popularity');
+    const desktopInputRef = useRef<HTMLInputElement>(null);
+    const mobileInputRef = useRef<HTMLInputElement>(null);
+
+    // Keyboard Shortcut (Cmd+K / Ctrl+K)
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                // Check visible input
+                if (desktopInputRef.current && desktopInputRef.current.offsetParent !== null) {
+                    desktopInputRef.current.focus();
+                } else if (mobileInputRef.current && mobileInputRef.current.offsetParent !== null) {
+                    mobileInputRef.current.focus();
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
+
+    const [sortBy, setSortBy] = useState<'name' | 'popularity' | 'score' | 'date'>('popularity');
+    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+    const { viewMode, setViewMode } = useViewMode('models_page', 'grid');
 
     const rawCategories = modelsData.categories as ModelCategory[];
     const vibeGuide = modelsData.vibeGuide as Record<string, VibeGuide>;
@@ -276,15 +313,37 @@ export default function ModelLibrary() {
         : baseModels;
 
     const activeModels = useMemo(() => {
-        return [...modelsToDisplay].sort((a, b) => {
+        const sorted = [...modelsToDisplay].sort((a, b) => {
+            let diff = 0;
             switch (sortBy) {
-                case 'name': return a.name.localeCompare(b.name);
-                case 'popularity': return (b.totalVotes || 0) - (a.totalVotes || 0);
-                case 'score': return (b.communityScore || 0) - (a.communityScore || 0);
-                default: return 0;
+                case 'name':
+                    diff = a.name.localeCompare(b.name);
+                    break;
+                case 'popularity':
+                    diff = (b.totalVotes || 0) - (a.totalVotes || 0);
+                    break;
+                case 'score':
+                    diff = (b.communityScore || 0) - (a.communityScore || 0);
+                    break;
+                case 'date':
+                    // Parse dates if possible, or string compare
+                    diff = (b.date || '').localeCompare(a.date || '');
+                    break;
+                default: diff = 0;
             }
+            return sortDirection === 'asc' ? -diff : diff;
         });
-    }, [modelsToDisplay, sortBy]);
+        return sorted;
+    }, [modelsToDisplay, sortBy, sortDirection]);
+
+    const handleSort = (key: 'name' | 'popularity' | 'score' | 'date') => {
+        if (sortBy === key) {
+            setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortBy(key);
+            setSortDirection('desc'); // Default to desc for new keys usually
+        }
+    };
 
     return (
         <div className="lg:flex lg:gap-8">
@@ -295,10 +354,11 @@ export default function ModelLibrary() {
                     <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-4">
                         <div className="relative">
                             <input
+                                ref={desktopInputRef}
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder="Search models..."
+                                placeholder="Search models... (Cmd+K)"
                                 className="w-full px-4 py-3 pl-10 rounded-xl bg-slate-800/50 border border-slate-700/50 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 text-sm"
                             />
                             <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -363,10 +423,11 @@ export default function ModelLibrary() {
                 <div className="lg:hidden space-y-4 mb-6">
                     <div className="relative">
                         <input
+                            ref={mobileInputRef}
                             type="text"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Search models..."
+                            placeholder="Search models... (Cmd+K)"
                             className="w-full px-4 py-3 pl-10 rounded-xl bg-slate-800/50 border border-slate-700/50 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50"
                         />
                         <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -415,8 +476,8 @@ export default function ModelLibrary() {
                                 <><span>🔍</span> Search Results</>
                             ) : (
                                 <>
-                                    <span>{categories.find(c => c.id === activeCategory)?.icon}</span>
-                                    {categories.find(c => c.id === activeCategory)?.name}
+                                    <span>{categories.find(c => c.id === activeCategory)?.icon || '📚'}</span>
+                                    {categories.find(c => c.id === activeCategory)?.name || 'All Models'}
                                 </>
                             )}
                         </h2>
@@ -428,29 +489,32 @@ export default function ModelLibrary() {
                         </p>
                     </div>
 
-                    {/* Sort Dropdown */}
-                    <div className="relative group min-w-[160px]">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">Sort:</span>
-                        </div>
-                        <select
-                            value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value as any)}
-                            className="
-                                appearance-none w-full bg-slate-800/50 border border-slate-700/50 rounded-xl
-                                pl-14 pr-10 py-2.5 text-sm font-medium text-white
-                                focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50
-                                transition-all cursor-pointer hover:bg-slate-800
-                            "
-                        >
-                            <option value="name">Name</option>
-                            <option value="popularity">Popularity</option>
-                            <option value="score">Score</option>
-                        </select>
-                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
+                    {/* Sort Dropdown & View Toggle */}
+                    <div className="flex flex-wrap items-center gap-4">
+                        <ViewToggle viewMode={viewMode} onChange={setViewMode} id="models-view" />
+
+                        <div className="relative group min-w-[160px]">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">Sort:</span>
+                            </div>
+                            <select
+                                value={sortBy}
+                                onChange={(e) => setSortBy(e.target.value as any)}
+                                className="
+                                    appearance-none w-full bg-slate-800/50 border border-slate-700/50 rounded-xl
+                                    pl-14 pr-10 py-2.5 text-sm font-medium text-white
+                                    focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50
+                                    transition-all cursor-pointer hover:bg-slate-800
+                                "
+                            >
+                                <option value="name">Name</option>
+                                <option value="popularity">Popularity</option>
+                                <option value="score">Score</option>
+                                <option value="date">Date</option>
+                            </select>
+                            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <span className="text-slate-400 text-xs">{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -471,17 +535,83 @@ export default function ModelLibrary() {
                     </div>
                 )}
 
-                {/* Model Grid */}
+                {/* Model Grid / List */}
                 {activeModels.length > 0 ? (
-                    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
-                        {activeModels.map((model) => (
-                            <ModelCard
-                                key={model.name}
-                                model={model}
-                                onFlag={(m) => setFeedbackModel(m)}
-                            />
-                        ))}
-                    </div>
+                    <AnimatePresence mode="wait">
+                        {viewMode === 'list' ? (
+                            <motion.div
+                                key="list-view"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="bg-slate-900/50 rounded-2xl border border-slate-800 overflow-hidden"
+                            >
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr className="bg-slate-800/80 text-slate-400 text-sm uppercase tracking-wider">
+                                                <th className="p-4 font-medium cursor-pointer hover:text-white" onClick={() => handleSort('name')}>Name</th>
+                                                <th className="p-4 font-medium cursor-pointer hover:text-white" onClick={() => handleSort('date')}>Release Date</th>
+                                                <th className="p-4 font-medium cursor-pointer hover:text-white" onClick={() => handleSort('score')}>Vibe Score</th>
+                                                <th className="p-4 font-medium">Badges</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-slate-800">
+                                            {activeModels.map((model) => (
+                                                <motion.tr
+                                                    layout
+                                                    layoutId={`model-${model.name}`}
+                                                    key={model.name}
+                                                    onClick={() => setFeedbackModel(model)}
+                                                    className="group hover:bg-slate-800/50 cursor-pointer transition-colors"
+                                                >
+                                                    <td className="p-4 font-medium text-white flex items-center gap-3">
+                                                        <span className="text-2xl">{getVibeIcon(model.consensus)}</span>
+                                                        <div>
+                                                            <div>{model.name}</div>
+                                                            <div className="text-xs text-slate-500">{model.consensus}</div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="p-4 text-slate-400 text-sm whitespace-nowrap">{model.date}</td>
+                                                    <td className="p-4">
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="text-cyan-400 font-bold">{model.communityScore}</span>
+                                                            <div className="w-16 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                                                <div className="h-full bg-cyan-500" style={{ width: `${(model.communityScore || 0) * 10}%` }} />
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="p-4">
+                                                        {model.badge && (
+                                                            <span className="px-2 py-1 rounded text-xs font-medium bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                                                                {model.badge}
+                                                            </span>
+                                                        )}
+                                                    </td>
+                                                </motion.tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </motion.div>
+                        ) : (
+                            <div key="grid-view" className="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
+                                {activeModels.map((model) => (
+                                    <motion.div
+                                        layout
+                                        layoutId={`model-${model.name}`}
+                                        key={model.name}
+                                        className="h-full"
+                                    >
+                                        <ModelCard
+                                            model={model}
+                                            onFlag={(m) => setFeedbackModel(m)}
+                                        />
+                                    </motion.div>
+                                ))}
+                            </div>
+                        )}
+                    </AnimatePresence>
                 ) : (
                     <div className="text-center py-20 bg-slate-800/30 rounded-2xl border border-slate-700/50">
                         <span className="text-4xl mb-4 block">🔍</span>
