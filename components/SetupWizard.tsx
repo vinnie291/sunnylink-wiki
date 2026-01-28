@@ -195,7 +195,9 @@ export default function SetupWizard() {
             className="text-slate-500 hover:text-cyan-400 p-2 rounded-full hover:bg-slate-800 transition-colors"
             title="Report an issue with this step"
         >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-8a2 2 0 012-2h14a2 2 0 012 2v8M3 21h18M5 11V7a5 5 0 0110 0v4" /></svg>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+            </svg>
             <span className="sr-only">Feedback</span>
         </button>
     );
