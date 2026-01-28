@@ -142,3 +142,7 @@ Sunnyhaibin & the Sunnypilot Team: For building the incredible software this wik
 Comma.ai: For the openpilot platform that started it all.
 
 The Sunnypilot Discord Community: For the endless testing and feedback that powers our "Community Consensus" data.
+
+Disclaimer: This whole thing was vibecoded with Antigravity using Gemini 3 Pro & Opus 4.5
+<img width="281" height="179" alt="image" src="https://github.com/user-attachments/assets/3998bb44-998e-49c3-b299-0a36498eef5f" />
+
