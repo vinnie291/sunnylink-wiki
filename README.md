@@ -56,7 +56,7 @@ This page is powered by data/models.json, ensuring that as new models are releas
 
 ---
 
-🧙‍♂️ The Setup Wizard
+### 🧙‍♂️ The Setup Wizard
 "Like TurboTax for your sunnylink configuration."
 
 ![comet_dgWzKlbboj](https://github.com/user-attachments/assets/abbd31e8-ad72-4bbf-8fec-b49e3237f9b1)
