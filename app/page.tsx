@@ -1,15 +1,9 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import togglesData from '../data/toggles.json';
-import ToggleCard from '../components/ToggleCard';
-import SearchFilter from '../components/SearchFilter';
-import CategoryFilter from '../components/CategoryFilter';
-import EmptyState from '../components/EmptyState';
-import ModelLibrary from '../components/ModelLibrary';
-import FeatureGuide from '../components/FeatureGuide';
-import SetupWizard from '../components/SetupWizard';
 import SettingsDatabase from '../components/SettingsDatabase';
+import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/ScrollToTop';
 
 interface ToggleSetting {
@@ -34,43 +28,11 @@ interface Category {
 }
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'settings' | 'models' | 'features' | 'wizard'>('settings');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
-  const [highlightedKey, setHighlightedKey] = useState<string | null>(null);
+  const highlightedKey = null; // Removed hash based highlighting for simplicity in main view, or could re-add if needed via search params
 
   const categories = togglesData.categories as Category[];
-
-  // Handle deep linking on mount and hash changes
-  useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.slice(1);
-      if (hash) {
-        try {
-          const decodedHash = decodeURIComponent(hash);
-          if (decodedHash === 'models') {
-            setActiveTab('models');
-          } else if (decodedHash === 'features') {
-            setActiveTab('features');
-          } else if (decodedHash === 'wizard') {
-            setActiveTab('wizard');
-          } else {
-            setHighlightedKey(decodedHash);
-            setSearchQuery('');
-            setActiveCategories([]);
-            setActiveTab('settings');
-            setTimeout(() => setHighlightedKey(null), 3000);
-          }
-        } catch (e) {
-          console.error('Failed to decode hash:', e);
-        }
-      }
-    };
-
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
 
   // Flatten all settings with their category info
   const allSettings = useMemo(() => {
@@ -142,7 +104,7 @@ export default function Home() {
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-violet-500/5 rounded-full blur-3xl" />
       </div>
 
-      {/* Dashboard Button - Viewport Absolute */}
+      {/* Dashboard Button */}
       <div className="absolute top-4 right-4 sm:top-8 sm:right-8 z-30">
         <a
           href="https://www.sunnylink.ai/dashboard"
@@ -170,97 +132,21 @@ export default function Home() {
           <p className="text-slate-400 text-lg max-w-2xl mx-auto mb-6">
             Search and explore all Sunnypilot settings. Find the perfect configuration for your vehicle.
           </p>
-
-
-          {/* Tab Switcher - Responsive */}
-          <div className="inline-flex flex-wrap justify-center gap-1 sm:gap-2 p-1 sm:p-1.5 rounded-2xl bg-slate-800/50 border border-slate-700/50 max-w-full">
-            <button
-              onClick={() => setActiveTab('settings')}
-              className={`
-                px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all
-                ${activeTab === 'settings'
-                  ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-700/50'
-                }
-              `}
-            >
-              <span className="hidden sm:inline">⚙️ </span>Settings<span className="text-[10px] sm:text-xs opacity-70 ml-0.5"> ({allSettings.length})</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('models')}
-              className={`
-                px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all
-                ${activeTab === 'models'
-                  ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-700/50'
-                }
-              `}
-            >
-              <span className="hidden sm:inline">🧠 </span>Models<span className="text-[10px] sm:text-xs opacity-70 ml-0.5"> (66)</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('features')}
-              className={`
-                px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all
-                ${activeTab === 'features'
-                  ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-700/50'
-                }
-              `}
-            >
-              <span className="hidden sm:inline">📖 </span>Features
-            </button>
-            <button
-              onClick={() => setActiveTab('wizard')}
-              className={`
-                group relative px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all overflow-hidden
-                ${activeTab === 'wizard'
-                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30'
-                  : 'text-slate-400 hover:text-white bg-transparent hover:bg-slate-800'
-                }
-              `}
-            >
-              {/* Sparkle effects on hover */}
-              <span className={`absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer ${activeTab === 'wizard' ? 'hidden' : ''}`} />
-
-              <span className="relative flex items-center gap-1 sm:gap-2">
-                <span>🧙</span>
-                <span className="hidden xs:inline">Setup </span><span>Wizard</span>
-              </span>
-            </button>
-          </div>
+          <Navigation />
         </header>
 
-        {/* Tab Content */}
-        {activeTab === 'settings' ? (
-          /* Settings Tab */
-          <SettingsDatabase
-            allSettings={allSettings}
-            filteredSettings={filteredSettings}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            activeCategories={activeCategories}
-            onToggleCategory={handleToggleCategory}
-            onClearCategories={handleClearAll}
-            categoryMeta={categoryMeta}
-            highlightedKey={highlightedKey}
-          />
-        ) : activeTab === 'models' ? (
-          /* Models Tab */
-          <div className="">
-            <ModelLibrary />
-          </div>
-        ) : activeTab === 'features' ? (
-          /* Features Tab */
-          <div className="max-w-4xl mx-auto">
-            <FeatureGuide />
-          </div>
-        ) : (
-          /* Wizard Tab */
-          <div className="max-w-4xl mx-auto">
-            <SetupWizard />
-          </div>
-        )}
+        {/* Settings Content */}
+        <SettingsDatabase
+          allSettings={allSettings}
+          filteredSettings={filteredSettings}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          activeCategories={activeCategories}
+          onToggleCategory={handleToggleCategory}
+          onClearCategories={handleClearAll}
+          categoryMeta={categoryMeta}
+          highlightedKey={highlightedKey}
+        />
 
         {/* Footer */}
         <footer className="mt-16 text-center text-slate-600 text-sm">

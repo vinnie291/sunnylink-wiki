@@ -10,10 +10,10 @@
       "description": "AI model configuration and driving behavior tuning.",
       "settings": [
         {
-          "key": "adjust_camera_offset",
+          "key": "AdjustCameraOffset",
           "label": "Adjust Camera Offset",
           "type": "slider",
-          "default": 0.0,
+          "default": 0,
           "min": -0.35,
           "max": 0.35,
           "unit": "meters",
@@ -27,7 +27,7 @@
           "userNote": "Default 0.00. Adjust if you feel the car drives too far left or right in the lane."
         },
         {
-          "key": "live_learning_steer_delay",
+          "key": "LiveLearningSteerDelay",
           "label": "Live Learning Steer Delay",
           "type": "toggle",
           "default": true,
@@ -38,7 +38,7 @@
           "userNote": "Keep ON for optimal steering response."
         },
         {
-          "key": "lane_turn_desire",
+          "key": "LaneTurnDesire",
           "label": "Lane Turn Desire",
           "type": "toggle",
           "default": false,
@@ -51,7 +51,7 @@
           "userNote": "Enable if lane changes feel sluggish or delayed."
         },
         {
-          "key": "model_selector",
+          "key": "DrivingModel",
           "label": "Driving Model",
           "type": "dropdown",
           "description": "Select the AI driving model. Each model has unique driving characteristics.",
@@ -59,7 +59,7 @@
           "userNote": "See the Model Library for detailed descriptions of all 66+ available models."
         },
         {
-          "key": "model_library_link",
+          "key": "ModelLibrary",
           "label": "📚 Model Library",
           "type": "action",
           "description": "Browse the complete library of 66+ driving models with descriptions, release dates, and community consensus.",
@@ -75,7 +75,7 @@
       "description": "Hardware management, cellular, and power settings.",
       "settings": [
         {
-          "key": "gsm_metered",
+          "key": "GsmMetered",
           "label": "GSM Metered",
           "type": "toggle",
           "default": true,
@@ -84,7 +84,7 @@
           "userNote": "Keep ON to track data usage on metered connections."
         },
         {
-          "key": "gsm_roaming",
+          "key": "GsmRoaming",
           "label": "GSM Roaming",
           "type": "toggle",
           "default": false,
@@ -97,7 +97,7 @@
           "warning": "May incur roaming charges. Keep OFF unless traveling."
         },
         {
-          "key": "gsm_apn",
+          "key": "GsmApn",
           "label": "GSM APN",
           "type": "text",
           "default": "",
@@ -106,7 +106,7 @@
           "userNote": "Only modify if your carrier requires specific APN settings."
         },
         {
-          "key": "create_backup",
+          "key": "CreateBackup",
           "label": "Create Backup",
           "type": "action",
           "description": "Backup current settings to device storage.",
@@ -114,7 +114,7 @@
           "userNote": "Recommended before major updates or reinstalls."
         },
         {
-          "key": "restore_version",
+          "key": "RestoreVersion",
           "label": "Restore Version",
           "type": "action",
           "description": "Restore settings from a previous backup.",
@@ -122,7 +122,7 @@
           "warning": "This will overwrite current settings."
         },
         {
-          "key": "uninstall_sunnypilot",
+          "key": "UninstallSunnypilot",
           "label": "Uninstall sunnypilot",
           "type": "action",
           "description": "Completely remove sunnypilot from the device.",
@@ -131,7 +131,7 @@
           "safetyLevel": "critical"
         },
         {
-          "key": "max_time_offroad",
+          "key": "MaxTimeOffroad",
           "label": "Max Time Offroad",
           "type": "slider",
           "default": 1800,
@@ -144,7 +144,7 @@
           "userNote": "Default 1800 seconds (30 minutes). Increase if uploads aren't completing."
         },
         {
-          "key": "force_power_down",
+          "key": "ForcePowerDown",
           "label": "Force Power Down",
           "type": "toggle",
           "default": false,
@@ -153,7 +153,7 @@
           "userNote": "Use to immediately shut down instead of waiting for timeout."
         },
         {
-          "key": "reboot",
+          "key": "Reboot",
           "label": "Reboot",
           "type": "action",
           "description": "Restart the device immediately.",
@@ -161,7 +161,7 @@
           "userNote": "Use after making significant configuration changes."
         },
         {
-          "key": "power_off",
+          "key": "PowerOff",
           "label": "Power Off",
           "type": "action",
           "description": "Power off the device immediately.",
@@ -169,7 +169,7 @@
           "userNote": "Use instead of unplugging for graceful shutdown."
         },
         {
-          "key": "github_username",
+          "key": "GithubUsername",
           "label": "GitHub Username",
           "type": "text",
           "default": "",
@@ -178,7 +178,7 @@
           "userNote": "Required for pushing custom changes or accessing private forks."
         },
         {
-          "key": "enable_sunnypilot",
+          "key": "EnableSunnypilot",
           "label": "Enable sunnypilot",
           "type": "toggle",
           "default": true,
@@ -189,7 +189,7 @@
           "userNote": "Keep ON for normal operation."
         },
         {
-          "key": "lane_departure_warnings",
+          "key": "LaneDepartureWarnings",
           "label": "Lane Departure Warnings",
           "type": "toggle",
           "default": false,
@@ -202,7 +202,7 @@
           "userNote": "Useful for long highway drives to maintain alertness."
         },
         {
-          "key": "record_front_lock",
+          "key": "RecordFrontLock",
           "label": "Record Front Lock",
           "type": "toggle",
           "default": false,
@@ -211,63 +211,63 @@
           "userNote": "Useful if you need to save a specific drive for evidence."
         },
         {
-          "key": "device_id",
+          "key": "DeviceId",
           "label": "Device ID",
           "type": "readonly",
           "description": "Unique device identifier.",
           "userNote": "Read-only. Used for device identification and support."
         },
         {
-          "key": "git_commit",
+          "key": "GitCommit",
           "label": "Git Commit",
           "type": "readonly",
           "description": "Current software version hash.",
           "userNote": "Read-only. Useful for bug reports."
         },
         {
-          "key": "openpilot_version",
+          "key": "OpenpilotVersion",
           "label": "openpilot Version",
           "type": "readonly",
           "description": "Software version number.",
           "userNote": "Read-only. Shows current installed version."
         },
         {
-          "key": "git_branch",
+          "key": "GitBranch",
           "label": "Git Branch",
           "type": "readonly",
           "description": "Current git branch name.",
           "userNote": "Read-only. Shows which branch you're running (e.g., 'dev', 'release')."
         },
         {
-          "key": "uptime_offroad",
+          "key": "UptimeOffroad",
           "label": "Uptime Offroad",
           "type": "readonly",
           "description": "System idle time in seconds.",
           "userNote": "Read-only. Shows how long device has been on while parked."
         },
         {
-          "key": "serial_number",
+          "key": "SerialNumber",
           "label": "Serial Number",
           "type": "readonly",
           "description": "Hardware serial number.",
           "userNote": "Read-only. Used for device identification."
         },
         {
-          "key": "route_count",
+          "key": "RouteCount",
           "label": "Route Count",
           "type": "readonly",
           "description": "Total number of recorded routes.",
           "userNote": "Read-only. Shows how many drives have been recorded."
         },
         {
-          "key": "git_commit_date",
+          "key": "GitCommitDate",
           "label": "Git Commit Date",
           "type": "readonly",
           "description": "Date of current commit.",
           "userNote": "Read-only. Shows when current version was built."
         },
         {
-          "key": "uptime_onroad",
+          "key": "UptimeOnroad",
           "label": "Uptime Onroad",
           "type": "readonly",
           "description": "Session driving time in seconds.",
@@ -282,7 +282,7 @@
       "description": "General toggles and miscellaneous configuration.",
       "settings": [
         {
-          "key": "force_offroad",
+          "key": "ForceOffroadMode",
           "label": "Force Offroad Mode",
           "type": "toggle",
           "default": false,
@@ -292,7 +292,7 @@
           "userNote": "'Offroad' means parked/not driving. 'Onroad' means driving."
         },
         {
-          "key": "sunnylink_uploader",
+          "key": "EnableSunnylinkUploader",
           "label": "Enable sunnylink Uploader",
           "type": "toggle",
           "default": false,
@@ -306,7 +306,7 @@
           "userNote": "Currently for testing only. You cannot view your drives yet."
         },
         {
-          "key": "show_advanced_controls",
+          "key": "ShowAdvancedControls",
           "label": "Show Advanced Controls",
           "type": "toggle",
           "default": true,
@@ -316,7 +316,7 @@
           "userNote": "Keep ON to see everything in this list."
         },
         {
-          "key": "quick_boot",
+          "key": "QuickBoot",
           "label": "Quick Boot",
           "type": "toggle",
           "default": false,
@@ -329,7 +329,7 @@
           "warning": "Can cause instability. Keep OFF unless boot times are annoying."
         },
         {
-          "key": "disengage_on_accelerator",
+          "key": "DisengageOnAccelerator",
           "label": "Disengage On Accelerator",
           "type": "toggle",
           "default": true,
@@ -342,7 +342,7 @@
           "userNote": "Keep OFF if you want to be able to help the car accelerate without canceling steering."
         },
         {
-          "key": "always_on_driver_monitor",
+          "key": "AlwaysOnDriverMonitor",
           "label": "Always-on Driver Monitor",
           "type": "toggle",
           "default": false,
@@ -355,7 +355,7 @@
           "userNote": "Tracks your attention 24/7."
         },
         {
-          "key": "disable_power_down",
+          "key": "DisablePowerDown",
           "label": "Disable Power Down",
           "type": "toggle",
           "default": false,
@@ -368,7 +368,7 @@
           "warning": "Will drain car battery."
         },
         {
-          "key": "disable_updates",
+          "key": "DisableUpdates",
           "label": "Disable Updates",
           "type": "toggle",
           "default": false,
@@ -389,7 +389,7 @@
       "description": "Configuration for lateral control and lane keeping.",
       "settings": [
         {
-          "key": "mads_enabled",
+          "key": "MadsEnabled",
           "label": "MADS Enabled",
           "type": "toggle",
           "default": false,
@@ -404,7 +404,7 @@
           "userNote": "Critical. This is the core feature of Sunnypilot. Keep ON."
         },
         {
-          "key": "mads_steering_mode",
+          "key": "MadsSteeringMode",
           "label": "MADS Steering Mode",
           "type": "dropdown",
           "options": [
@@ -422,7 +422,7 @@
           "userNote": "Set to 'Remain Active' to keep lane centering while manually braking."
         },
         {
-          "key": "mads_main_cruise_allowed",
+          "key": "MadsMainCruiseAllowed",
           "label": "MADS Main Cruise Allowed",
           "type": "toggle",
           "default": true,
@@ -431,7 +431,7 @@
           "userNote": "Keep ON."
         },
         {
-          "key": "mads_unified_engagement",
+          "key": "MadsUnifiedEngagementMode",
           "label": "MADS Unified Engagement Mode",
           "type": "toggle",
           "default": false,
@@ -440,7 +440,7 @@
           "userNote": "Convenient for one-button activation."
         },
         {
-          "key": "nnlc_enabled",
+          "key": "NeuralNetworkLateralControl",
           "label": "Neural Network Lateral Control",
           "type": "toggle",
           "default": false,
@@ -456,7 +456,7 @@
           "userNote": "Test carefully. If it ping-pongs, disable it and stick to stock."
         },
         {
-          "key": "dynamic_experimental_control",
+          "key": "DynamicExperimentalControl",
           "label": "Dynamic Experimental Control",
           "type": "toggle",
           "default": false,
@@ -473,7 +473,7 @@
           "userNote": "Good for mixed driving, but switch to full Experimental if you need consistent behavior."
         },
         {
-          "key": "driving_personality",
+          "key": "DrivingPersonality",
           "label": "Driving Personality",
           "type": "dropdown",
           "options": [
@@ -491,7 +491,7 @@
           "userNote": "'Standard' is the default. 'Aggressive' follows closer; 'Relaxed' leaves more gaps."
         },
         {
-          "key": "enforce_torque_control",
+          "key": "EnforceTorqueControl",
           "label": "Enforce Torque Control",
           "type": "toggle",
           "default": false,
@@ -500,7 +500,7 @@
           "userNote": "Usually kept OFF if using NNLC."
         },
         {
-          "key": "self_tune",
+          "key": "SelfTune",
           "label": "Self-Tune",
           "type": "toggle",
           "default": true,
@@ -514,7 +514,7 @@
           "userNote": "Keep ON for better performance as you drive more."
         },
         {
-          "key": "less_restrict_self_tune",
+          "key": "LessRestrictSettingsForSelfTune",
           "label": "Less Restrict Settings for Self-Tune",
           "type": "toggle",
           "default": false,
@@ -526,7 +526,7 @@
           "warning": "Use with caution; allows faster learning but potentially wilder values."
         },
         {
-          "key": "custom_torque_tuning",
+          "key": "EnableCustomTorqueTuning",
           "label": "Enable Custom Torque Tuning",
           "type": "toggle",
           "default": false,
@@ -539,7 +539,7 @@
           "warning": "Advanced Only. Don't touch unless you know your car's specific physics."
         },
         {
-          "key": "blinker_min_speed",
+          "key": "BlinkerMinLateralControlSpeed",
           "label": "Blinker Min Lateral Control Speed",
           "type": "slider",
           "default": 0,
@@ -548,7 +548,7 @@
           "userNote": "Prevents the wheel from fighting you during slow turns at intersections."
         },
         {
-          "key": "blinker_pause_lateral",
+          "key": "BlinkerPauseLateralControl",
           "label": "Blinker Pause Lateral Control",
           "type": "toggle",
           "default": false,
@@ -561,7 +561,7 @@
           "userNote": "Preferred by drivers who want full control during lane changes."
         },
         {
-          "key": "hyundai_longitudinal_tuning",
+          "key": "HyundaiLongitudinalTuning",
           "label": "Hyundai Longitudinal Tuning",
           "type": "dropdown",
           "options": [
@@ -579,7 +579,7 @@
           "userNote": "'Dynamic' can fix sluggish acceleration in Eco/Normal modes."
         },
         {
-          "key": "longitudinal_maneuver_mode",
+          "key": "LongitudinalManeuverMode",
           "label": "Longitudinal Maneuver Mode",
           "type": "toggle",
           "default": false,
@@ -596,7 +596,7 @@
       "description": "Configuration for speed management and longitudinal control.",
       "settings": [
         {
-          "key": "experimental_mode",
+          "key": "ExperimentalMode",
           "label": "Experimental Mode",
           "type": "toggle",
           "default": false,
@@ -611,7 +611,7 @@
           "userNote": "Must enable Alpha Longitudinal first."
         },
         {
-          "key": "alpha_longitudinal",
+          "key": "AlphaLongitudinal",
           "label": "Alpha Longitudinal",
           "type": "toggle",
           "default": true,
@@ -625,11 +625,11 @@
           "userNote": "Required for Experimental Mode. Usually smoother than stock."
         },
         {
-          "key": "vision_turn_control",
-          "label": "Vision-Based Turn Speed Control",
+          "key": "VisionBasedTurnSpeedControl",
+          "label": "Smart Cruise Control - Vision (SCC-V)",
           "type": "toggle",
           "default": true,
-          "description": "Slows the car automatically for sharp curves based on camera vision.",
+          "description": "Smart Cruise Control - Vision (SCC-V) leverages camera vision data to proactively adjust your vehicle’s speed by calculating curvature in the road ahead.",
           "recommended": true,
           "useCase": "Driving on winding back roads where maintaining a constant 55mph would be dangerous.",
           "tradeoffs": [
@@ -638,10 +638,10 @@
             "Late braking compared to seeing warning signs."
           ],
           "deepDive": "Calculates projected lateral acceleration based on model path. Reduces speed to keep lateral G-forces under ~0.3g.",
-          "userNote": "Very helpful on winding back roads."
+          "userNote": "This feature is only available when sunnypilot is actively controlling the vehicle’s longitudinal control."
         },
         {
-          "key": "map_turn_control",
+          "key": "SmartCruiseControlMap",
           "label": "Smart Cruise Control - Map",
           "type": "toggle",
           "default": false,
@@ -654,7 +654,7 @@
           "userNote": "Good backup, but Vision is usually faster/reactive."
         },
         {
-          "key": "speed_limit_assist",
+          "key": "SpeedLimitAssistMode",
           "label": "Speed Limit Assist Mode",
           "type": "dropdown",
           "options": [
@@ -674,7 +674,7 @@
           "userNote": "'Information' just shows the sign. 'Auto' changes your speed for you."
         },
         {
-          "key": "speed_limit_source",
+          "key": "SpeedLimitSource",
           "label": "Speed Limit Source",
           "type": "dropdown",
           "options": [
@@ -694,7 +694,7 @@
           "userNote": "'Map Data Priority' is usually most accurate in the US."
         },
         {
-          "key": "speed_limit_offset_type",
+          "key": "SpeedLimitOffsetType",
           "label": "Speed Limit Offset Type",
           "type": "dropdown",
           "options": [
@@ -707,7 +707,7 @@
           "userNote": "Set to 'Fixed' for consistent speeding."
         },
         {
-          "key": "speed_limit_offset_value",
+          "key": "SpeedLimitOffsetValue",
           "label": "Speed Limit Offset Value",
           "type": "slider",
           "default": 0,
@@ -716,7 +716,7 @@
           "userNote": "Set to your comfort level (e.g., 5-10 mph over)."
         },
         {
-          "key": "auto_lane_change_timer",
+          "key": "AutoLaneChangeTimer",
           "label": "Auto Lane Change Timer",
           "type": "dropdown",
           "options": [
@@ -735,7 +735,7 @@
           "userNote": "'Nudge' requires wheel input; 'Instant' is automatic."
         },
         {
-          "key": "auto_lane_change_bsm_delay",
+          "key": "AutoLaneChangeBsmDelay",
           "label": "Auto Lane Change BSM Delay",
           "type": "toggle",
           "default": true,
@@ -745,7 +745,7 @@
           "userNote": "Safety: Keep ON."
         },
         {
-          "key": "map_advisory_speed_limit",
+          "key": "MapAdvisorySpeedLimit",
           "label": "Map Advisory Speed Limit",
           "type": "toggle",
           "default": true,
@@ -755,7 +755,7 @@
           "userNote": "Keep ON for safety on off-ramps."
         },
         {
-          "key": "custom_acc_increments",
+          "key": "CustomAccIncrements",
           "label": "Custom ACC Increments",
           "type": "toggle",
           "default": false,
@@ -772,7 +772,7 @@
       "description": "Customizes the screen layout and information displayed.",
       "settings": [
         {
-          "key": "rainbow_mode",
+          "key": "RainbowMode",
           "label": "Rainbow Mode",
           "type": "toggle",
           "default": false,
@@ -785,7 +785,7 @@
           "userNote": "Fun, but distracting."
         },
         {
-          "key": "display_road_name",
+          "key": "DisplayRoadName",
           "label": "Display Road Name",
           "type": "toggle",
           "default": true,
@@ -794,7 +794,7 @@
           "userNote": "Nice for situational awareness."
         },
         {
-          "key": "green_light_alert",
+          "key": "GreenLightAlert",
           "label": "Green Light Alert",
           "type": "toggle",
           "default": false,
@@ -805,7 +805,7 @@
           "userNote": "Very useful feature for distracted drivers."
         },
         {
-          "key": "lead_depart_alert",
+          "key": "LeadDepartAlert",
           "label": "Lead Depart Alert",
           "type": "toggle",
           "default": false,
@@ -815,7 +815,7 @@
           "userNote": "Good for stop-and-go traffic."
         },
         {
-          "key": "show_turn_signals",
+          "key": "ShowTurnSignals",
           "label": "Show Turn Signals",
           "type": "toggle",
           "default": true,
@@ -824,7 +824,7 @@
           "userNote": "Mostly cosmetic verification."
         },
         {
-          "key": "blind_spot_detection",
+          "key": "BlindSpotDetection",
           "label": "Blind Spot Detection",
           "type": "toggle",
           "default": true,
@@ -834,7 +834,7 @@
           "userNote": "Extra safety layer if you don't look at mirrors (please look at mirrors)."
         },
         {
-          "key": "screen_brightness",
+          "key": "ScreenBrightness",
           "label": "Screen Brightness",
           "type": "dropdown",
           "options": [
@@ -849,7 +849,7 @@
           "userNote": "'Auto' usually works best."
         },
         {
-          "key": "onroad_brightness",
+          "key": "OnroadBrightness",
           "label": "Onroad Brightness",
           "type": "dropdown",
           "options": [
@@ -871,7 +871,7 @@
       "description": "Advanced tools for debugging and development.",
       "settings": [
         {
-          "key": "ssh_enabled",
+          "key": "EnableSsh",
           "label": "Enable SSH",
           "type": "toggle",
           "default": false,
@@ -885,7 +885,7 @@
           ]
         },
         {
-          "key": "adb_enabled",
+          "key": "EnableAdb",
           "label": "Enable ADB",
           "type": "toggle",
           "default": false,
@@ -894,7 +894,7 @@
           "userNote": "Developer use only."
         },
         {
-          "key": "copyparty_service",
+          "key": "CopypartyService",
           "label": "copyparty Service",
           "type": "toggle",
           "default": false,
@@ -903,7 +903,7 @@
           "userNote": "Easy way to download drive videos via WiFi."
         },
         {
-          "key": "manual_software_delay",
+          "key": "ManualSoftwareDelay",
           "label": "Manual Software Delay",
           "type": "slider",
           "default": 0,
@@ -912,7 +912,7 @@
           "useCase": "Developer-only: Override learned steering delay."
         },
         {
-          "key": "disable_logging",
+          "key": "DisableLogging",
           "label": "Disable Logging",
           "type": "toggle",
           "default": false,
@@ -925,7 +925,7 @@
           "warning": "Saves space, but you lose evidence if an accident happens."
         },
         {
-          "key": "manual_realtime_tuning",
+          "key": "ManualRealTimeTuning",
           "label": "Manual Real-Time Tuning",
           "type": "toggle",
           "default": false,
@@ -942,19 +942,19 @@
       "description": "Miscellaneous settings including AGNOS, plan controls, and car-specific configurations.",
       "settings": [
         {
-          "key": "last_agnos_power_monitor_shutdown",
+          "key": "LastAgnosPowerMonitorShutdown",
           "label": "Last AGNOS Power Monitor Shutdown",
           "type": "readonly",
           "description": "Timestamp of the last AGNOS power monitor shutdown event.",
           "userNote": "Read-only. Shows when device last shut down due to power monitoring."
         },
         {
-          "key": "plan_plus_controls",
+          "key": "PlanPlusControls",
           "label": "Plan Plus Controls",
           "type": "slider",
-          "default": 1.0,
-          "min": 0.0,
-          "max": 2.0,
+          "default": 1,
+          "min": 0,
+          "max": 2,
           "description": "Adjust planplus model recentering strength. The higher this number, the more aggressively the model will recenter to lanecenter. Too high and it will ping-pong.",
           "useCase": "Fine-tune how aggressively the model corrects back to center lane position.",
           "tradeoffs": [
@@ -964,7 +964,7 @@
           "userNote": "Default 1.0. Increase if car drifts too much, decrease if ping-ponging."
         },
         {
-          "key": "display_rocket_fuel_bar",
+          "key": "DisplayRocketFuelBar",
           "label": "Display Rocket Fuel Bar",
           "type": "toggle",
           "default": false,
@@ -973,14 +973,14 @@
           "userNote": "Cool visual indicator showing throttle/brake intensity."
         },
         {
-          "key": "has_accepted_sunnypilot_terms",
+          "key": "HasAcceptedSunnypilotTerms",
           "label": "Has Accepted sunnypilot Terms",
           "type": "readonly",
           "description": "Indicates whether user has accepted sunnypilot terms of service.",
           "userNote": "Read-only. Shows acceptance status."
         },
         {
-          "key": "supported_car_list",
+          "key": "SupportedCarList",
           "label": "Supported Car List",
           "type": "action",
           "description": "View all supported platforms in sunnypilot.",
@@ -988,14 +988,14 @@
           "userNote": "Opens JSON list of all compatible vehicles."
         },
         {
-          "key": "completed_sunnylink_consent_version",
+          "key": "CompletedSunnylinkConsentVersion",
           "label": "Completed sunnylink Consent Version",
           "type": "readonly",
           "description": "Version of sunnylink consent form that was completed.",
           "userNote": "Read-only. Shows which consent version you've agreed to."
         },
         {
-          "key": "toyota_enforce_factory_longitudinal",
+          "key": "ToyotaEnforceFactoryLongitudinalControl",
           "label": "Toyota: Enforce Factory Longitudinal Control",
           "type": "toggle",
           "default": false,
@@ -1008,7 +1008,7 @@
           "userNote": "Enable if you prefer Toyota's stock adaptive cruise behavior."
         },
         {
-          "key": "sunnylink_dongle_id",
+          "key": "SunnylinkDongleId",
           "label": "sunnylink Dongle ID",
           "type": "readonly",
           "description": "Unique sunnylink device identifier for cloud connectivity.",

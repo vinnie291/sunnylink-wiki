@@ -83,7 +83,7 @@ export default function SetupWizard() {
 
         recipe.push({
             category: '🧠 Model',
-            key: 'model_selector',
+            key: 'DrivingModel',
             label: 'Driving Model',
             value: modelName,
             reason: modelReason,
@@ -92,7 +92,7 @@ export default function SetupWizard() {
         // 2. Lateral Control
         recipe.push({
             category: '🎯 Steering',
-            key: 'mads_enabled',
+            key: 'MadsEnabled',
             label: 'MADS Enabled',
             value: true,
             reason: 'Critical for Sunnypilot.',
@@ -102,7 +102,7 @@ export default function SetupWizard() {
             // Advanced MADS Logic
             recipe.push({
                 category: '🎯 Steering',
-                key: 'mads_steering_mode',
+                key: 'MadsSteeringMode',
                 label: 'MADS Steering Mode',
                 value: answers.madsMode === 'always_on' ? 'Remain Active' : 'Default',
                 reason: answers.madsMode === 'always_on'
@@ -121,7 +121,7 @@ export default function SetupWizard() {
 
             recipe.push({
                 category: '🔄 Lane Change',
-                key: 'auto_lane_change_timer',
+                key: 'AutoLaneChangeTimer',
                 label: 'Auto Lane Change',
                 value: alcTimer,
                 reason: answers.laneChangeType === 'instant' ? 'Fast changes.' : 'Safer confirmation.',
@@ -132,7 +132,7 @@ export default function SetupWizard() {
         if (answers.roadType === 'winding' && isAdvanced) {
             recipe.push({
                 category: '🎯 Steering',
-                key: 'nnlc_enabled',
+                key: 'NeuralNetworkLateralControl',
                 label: 'Neural Network Control',
                 value: true,
                 reason: 'Better curve handling.',
@@ -140,7 +140,7 @@ export default function SetupWizard() {
             });
             recipe.push({
                 category: '🚀 Cruise',
-                key: 'vision_turn_control',
+                key: 'VisionBasedTurnSpeedControl',
                 label: 'Vision Turn Speed',
                 value: true,
                 reason: 'Slows for corners.',
@@ -152,7 +152,7 @@ export default function SetupWizard() {
         if (answers.cityDriving) {
             recipe.push({
                 category: '🚀 Cruise',
-                key: 'experimental_mode',
+                key: 'ExperimentalMode',
                 label: 'Experimental Mode',
                 value: true,
                 reason: 'Required for city handling.',
@@ -161,7 +161,7 @@ export default function SetupWizard() {
             if (isAdvanced) {
                 recipe.push({
                     category: '🚀 Cruise',
-                    key: 'alpha_longitudinal',
+                    key: 'AlphaLongitudinal',
                     label: 'Alpha Longitudinal',
                     value: true,
                     reason: 'End-to-end control.',
@@ -172,7 +172,7 @@ export default function SetupWizard() {
             if (answers.drivingStyle === 'rush_hour') {
                 recipe.push({
                     category: '🚀 Cruise',
-                    key: 'dynamic_experimental_control',
+                    key: 'DynamicExperimentalControl',
                     label: 'Dynamic Experimental',
                     value: false,
                     reason: 'Force full experimental for responsiveness.',
@@ -181,7 +181,7 @@ export default function SetupWizard() {
             } else {
                 recipe.push({
                     category: '🚀 Cruise',
-                    key: 'dynamic_experimental_control',
+                    key: 'DynamicExperimentalControl',
                     label: 'Dynamic Experimental',
                     value: true,
                     reason: 'Switches modes automatically.',
@@ -191,7 +191,7 @@ export default function SetupWizard() {
         } else {
             recipe.push({
                 category: '🚀 Cruise',
-                key: 'experimental_mode',
+                key: 'ExperimentalMode',
                 label: 'Experimental Mode',
                 value: false,
                 reason: 'Chill mode for highway.',
@@ -202,7 +202,7 @@ export default function SetupWizard() {
         if (answers.carMake === 'hyundai_kia' && isAdvanced) {
             recipe.push({
                 category: '🔧 Car Specific',
-                key: 'hyundai_longitudinal_tuning',
+                key: 'HyundaiLongitudinalTuning',
                 label: 'Hyundai Long Tuning',
                 value: answers.drivingStyle === 'limo' ? 'Stock' : 'Dynamic',
                 reason: 'Adjusts acceleration profile.',
@@ -217,7 +217,7 @@ export default function SetupWizard() {
 
         recipe.push({
             category: '⚙️ General',
-            key: 'driving_personality',
+            key: 'DrivingPersonality',
             label: 'Driving Personality',
             value: personality,
             reason: `Matches '${answers.drivingStyle}' vibe.`,
@@ -280,44 +280,51 @@ export default function SetupWizard() {
             )}
 
             {step === 'intro' && (
-                <div className="max-w-2xl mx-auto py-6 sm:py-6 px-4 text-center relative animate-fade-in">
+                <div className="max-w-5xl mx-auto py-6 sm:py-12 px-4 relative animate-fade-in flex flex-col md:flex-row items-center gap-8 md:gap-16">
 
+                    {/* Text Section - Left on Desktop */}
+                    <div className="flex-1 text-center md:text-left order-2 md:order-1">
+                        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+                            Sunnylink <br className="hidden md:block" />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Setup Wizard</span>
+                        </h1>
 
-                    {/* Wizard Image - At top for mobile visibility */}
-                    <WizardHero showButton={false} />
+                        <p className="text-lg md:text-xl text-slate-400 mb-8 leading-relaxed max-w-xl mx-auto md:mx-0">
+                            Personalize your Sunnypilot experience in seconds.
+                            Answer a few simple questions to generate the perfect configuration for your vehicle.
+                        </p>
 
-                    {/* Title */}
-                    <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2 sm:mb-4">Sunnylink Setup Wizard</h1>
+                        <button
+                            onClick={(e) => {
+                                triggerSparkles(e);
+                                setStep('disclaimer');
+                            }}
+                            className="
+                                relative overflow-hidden group
+                                px-12 py-5 rounded-2xl
+                                bg-gradient-to-r from-cyan-500 to-blue-600
+                                hover:from-cyan-400 hover:to-blue-500
+                                text-white font-bold text-xl
+                                shadow-lg shadow-cyan-500/25
+                                transition-all duration-300
+                                transform hover:scale-105 hover:-translate-y-1
+                                w-full md:w-auto
+                            "
+                        >
+                            <span className="relative z-10 flex items-center justify-center gap-3">
+                                Start Setup
+                                <span className="animate-bounce-x text-2xl">➔</span>
+                            </span>
+                            <span className="absolute inset-0 rounded-2xl ring-2 ring-white/30 animate-ping opacity-20" />
+                        </button>
+                    </div>
 
-                    {/* Subtitle */}
-                    <p className="text-lg sm:text-xl text-slate-300 mb-4 sm:mb-6 leading-relaxed">
-                        Personalize your Sunnypilot experience.<br />
-                        Answer a few questions to generate a custom configuration.
-                    </p>
-
-                    {/* Start Button - Above the fold */}
-                    <button
-                        onClick={(e) => {
-                            triggerSparkles(e);
-                            setStep('disclaimer');
-                        }}
-                        className="
-                            relative overflow-hidden group
-                            px-10 py-4 rounded-2xl
-                            bg-gradient-to-r from-cyan-500 to-blue-600
-                            hover:from-cyan-400 hover:to-blue-500
-                            text-white font-bold text-xl
-                            shadow-lg shadow-cyan-500/25
-                            transition-all duration-300
-                            transform hover:scale-105 hover:-translate-y-1
-                        "
-                    >
-                        <span className="relative z-10 flex items-center gap-2">
-                            Start Setup
-                            <span className="animate-bounce-x">➔</span>
-                        </span>
-                        <span className="absolute inset-0 rounded-2xl ring-2 ring-white/30 animate-ping opacity-20" />
-                    </button>
+                    {/* Image Section - Right on Desktop */}
+                    <div className="flex-1 flex justify-center order-1 md:order-2 w-full max-w-sm md:max-w-full">
+                        <div className="scale-100 md:scale-125 origin-center">
+                            <WizardHero showButton={false} />
+                        </div>
+                    </div>
                 </div>
             )}
 
