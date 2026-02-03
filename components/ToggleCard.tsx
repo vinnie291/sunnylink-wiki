@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import FlagFeedback from './FlagFeedback';
+
 
 interface ToggleSetting {
   key: string;
@@ -33,7 +33,6 @@ export default function ToggleCard({
   isHighlighted
 }: ToggleCardProps) {
   const [copied, setCopied] = useState(false);
-  const [showFeedback, setShowFeedback] = useState(false);
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -53,6 +52,13 @@ export default function ToggleCard({
     } catch (err) {
       console.error('Failed to copy:', err);
     }
+  };
+
+  const handleReportIssue = () => {
+    const title = encodeURIComponent(`Issue with ${setting.label}`);
+    const body = encodeURIComponent(`Flagged from section: ${categoryName}\n\nDescribe the issue here:`);
+    const issueUrl = `https://github.com/vinnie291/sunnylink-wiki/issues/new?title=${title}&body=${body}`;
+    window.open(issueUrl, '_blank');
   };
 
   const toggleSection = (section: string) => {
@@ -131,7 +137,7 @@ export default function ToggleCard({
             <div className="flex items-center gap-2 shrink-0">
               {/* Flag Button */}
               <button
-                onClick={() => setShowFeedback(true)}
+                onClick={handleReportIssue}
                 className="p-2 rounded-lg text-slate-500 border border-transparent hover:text-amber-400 hover:bg-amber-500/10 hover:border-amber-500/30 transition-all duration-200"
                 title="Flag this setting"
               >
@@ -300,14 +306,7 @@ export default function ToggleCard({
         </div>
       </div>
 
-      {/* Feedback Modal */}
-      {showFeedback && (
-        <FlagFeedback
-          settingKey={setting.key}
-          settingLabel={setting.label}
-          onClose={() => setShowFeedback(false)}
-        />
-      )}
+
     </>
   );
 }

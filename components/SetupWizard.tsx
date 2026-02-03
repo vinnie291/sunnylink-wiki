@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import FlagFeedback from './FlagFeedback';
+
 import WizardHero from './WizardHero';
 
 // --- Types ---
@@ -41,7 +41,7 @@ export default function SetupWizard() {
         madsMode: 'default',
     });
     const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
-    const [showFeedback, setShowFeedback] = useState(false);
+
 
     // --- Sparkle Effect ---
     const triggerSparkles = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -239,18 +239,7 @@ export default function SetupWizard() {
 
     // --- Render ---
 
-    const renderFeedbackButton = () => (
-        <button
-            onClick={() => setShowFeedback(true)}
-            className="text-slate-500 hover:text-cyan-400 p-2 rounded-full hover:bg-slate-800 transition-colors"
-            title="Report an issue with this step"
-        >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
-            </svg>
-            <span className="sr-only">Feedback</span>
-        </button>
-    );
+
 
     const StepHeader = ({ title, icon }: { title: string, icon?: string }) => (
         <div className="flex items-center justify-between mb-8">
@@ -258,20 +247,14 @@ export default function SetupWizard() {
                 <span>{title}</span>
                 {icon && <span>{icon}</span>}
             </h2>
-            {renderFeedbackButton()}
+
         </div>
     );
 
     return (
         <div className="max-w-2xl mx-auto py-8 px-4 relative">
             {/* Feedback Modal */}
-            {showFeedback && (
-                <FlagFeedback
-                    settingKey={`wizard_step_${step}`}
-                    settingLabel={`Setup Wizard - Step: ${step.charAt(0).toUpperCase() + step.slice(1)}`}
-                    onClose={() => setShowFeedback(false)}
-                />
-            )}
+
 
             {step !== 'intro' && step !== 'results' && step !== 'disclaimer' && (
                 <div className="flex gap-2 mb-12">
@@ -297,19 +280,17 @@ export default function SetupWizard() {
             )}
 
             {step === 'intro' && (
-                <div className="max-w-2xl mx-auto py-6 sm:py-12 px-4 text-center relative animate-fade-in">
-                    <div className="absolute top-4 right-4">
-                        {renderFeedbackButton()}
-                    </div>
+                <div className="max-w-2xl mx-auto py-6 sm:py-6 px-4 text-center relative animate-fade-in">
+
 
                     {/* Wizard Image - At top for mobile visibility */}
                     <WizardHero showButton={false} />
 
                     {/* Title */}
-                    <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4 sm:mb-6">Sunnylink Setup Wizard</h1>
+                    <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2 sm:mb-4">Sunnylink Setup Wizard</h1>
 
                     {/* Subtitle */}
-                    <p className="text-lg sm:text-xl text-slate-300 mb-6 sm:mb-8 leading-relaxed">
+                    <p className="text-lg sm:text-xl text-slate-300 mb-4 sm:mb-6 leading-relaxed">
                         Personalize your Sunnypilot experience.<br />
                         Answer a few questions to generate a custom configuration.
                     </p>
@@ -343,7 +324,7 @@ export default function SetupWizard() {
             {step === 'disclaimer' && (
                 <div className="max-w-2xl mx-auto py-12 px-4 text-center relative animate-fade-in">
                     <div className="absolute top-4 right-4">
-                        {renderFeedbackButton()}
+
                     </div>
                     <h2 className="text-3xl font-bold text-red-500 mb-6">⚠️ Disclaimer</h2>
                     <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6 text-left mb-8">
@@ -370,7 +351,7 @@ export default function SetupWizard() {
             {step === 'results' && (
                 <div className="max-w-3xl mx-auto py-8 px-4 relative animate-fade-in">
                     <div className="absolute top-8 right-4 z-10">
-                        {renderFeedbackButton()}
+
                     </div>
                     <div className="flex items-center justify-between mb-8">
                         <div>

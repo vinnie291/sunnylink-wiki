@@ -7,9 +7,18 @@ interface SearchFilterProps {
     onChange: (value: string) => void;
     resultCount: number;
     totalCount: number;
+    itemLabel?: string;
+    placeholder?: string;
 }
 
-export default function SearchFilter({ value, onChange, resultCount, totalCount }: SearchFilterProps) {
+export default function SearchFilter({
+    value,
+    onChange,
+    resultCount,
+    totalCount,
+    itemLabel = "toggles",
+    placeholder = "Search... (Cmd+K)"
+}: SearchFilterProps) {
     const [localValue, setLocalValue] = useState(value);
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -69,7 +78,7 @@ export default function SearchFilter({ value, onChange, resultCount, totalCount 
                         type="text"
                         value={localValue}
                         onChange={(e) => setLocalValue(e.target.value)}
-                        placeholder="Search... (Cmd+K)"
+                        placeholder={placeholder}
                         className="
               w-full py-4 pl-12 pr-12 
               bg-slate-800/80 backdrop-blur-sm
@@ -108,11 +117,11 @@ export default function SearchFilter({ value, onChange, resultCount, totalCount 
                 <span className="text-slate-500">
                     {value ? (
                         <>
-                            Found <span className="text-cyan-400 font-medium">{resultCount}</span> of {totalCount} toggles
+                            Found <span className="text-cyan-400 font-medium">{resultCount}</span> of {totalCount} {itemLabel}
                         </>
                     ) : (
                         <>
-                            <span className="text-slate-400 font-medium">{totalCount}</span> toggles available
+                            <span className="text-slate-400 font-medium">{totalCount}</span> {itemLabel} available
                         </>
                     )}
                 </span>

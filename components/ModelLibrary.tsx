@@ -3,8 +3,9 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import modelsData from '../data/models.json';
-import FlagFeedback from './FlagFeedback';
+
 import ViewToggle from './ViewToggle';
+import SearchFilter from './SearchFilter';
 import { useViewMode } from '../hooks/useViewMode';
 
 interface SentimentData {
@@ -60,7 +61,7 @@ function SentimentBar({ sentiment }: { sentiment: SentimentData }) {
 }
 
 // Model Card Component
-function ModelCard({ model, onFlag }: { model: Model; onFlag: (model: Model) => void }) {
+function ModelCard({ model }: { model: Model }) {
     const [expanded, setExpanded] = useState(false);
 
     const getBadgeColor = (badge?: string) => {
@@ -116,6 +117,23 @@ function ModelCard({ model, onFlag }: { model: Model; onFlag: (model: Model) => 
                                 {model.badge}
                             </span>
                         )}
+
+                        {/* Flag Button */}
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                const title = encodeURIComponent(`Issue with Model: ${model.name}`);
+                                const body = encodeURIComponent(`describe the issue with this model here...`);
+                                window.open(`https://github.com/vinnie291/sunnylink-wiki/issues/new?title=${title}&body=${body}`, '_blank');
+                            }}
+                            className="p-1 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
+                            title="Flag this model"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+                            </svg>
+                        </button>
+
                     </div>
                     <span className="text-xs text-slate-500">{model.date}</span>
                 </div>
@@ -130,19 +148,7 @@ function ModelCard({ model, onFlag }: { model: Model; onFlag: (model: Model) => 
                     </div>
                 )}
 
-                {/* Flag Button */}
-                <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onFlag(model);
-                    }}
-                    className="ml-2 p-2 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
-                    title="Flag this model"
-                >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
-                    </svg>
-                </button>
+
             </div>
 
             {/* Sentiment Bar */}
@@ -247,31 +253,11 @@ export default function ModelLibrary() {
     const [activeCategory, setActiveCategory] = useState<string>('favorites');
     const [showVibeGuide, setShowVibeGuide] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const [feedbackModel, setFeedbackModel] = useState<Model | null>(null);
 
-    const desktopInputRef = useRef<HTMLInputElement>(null);
-    const mobileInputRef = useRef<HTMLInputElement>(null);
 
-    // Keyboard Shortcut (Cmd+K / Ctrl+K)
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-                e.preventDefault();
-                // Check visible input
-                if (desktopInputRef.current && desktopInputRef.current.offsetParent !== null) {
-                    desktopInputRef.current.focus();
-                } else if (mobileInputRef.current && mobileInputRef.current.offsetParent !== null) {
-                    mobileInputRef.current.focus();
-                }
-            }
-        };
+    // Keyboard shortcut handled by SearchFilter component
 
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, []);
-
-    const [sortBy, setSortBy] = useState<'name' | 'popularity' | 'score' | 'date'>('popularity');
-    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+    const [sortBy, setSortBy] = useState<string>('date-desc');
     const { viewMode, setViewMode } = useViewMode('models_page', 'grid');
 
     const rawCategories = modelsData.categories as ModelCategory[];
@@ -315,33 +301,43 @@ export default function ModelLibrary() {
     const activeModels = useMemo(() => {
         const sorted = [...modelsToDisplay].sort((a, b) => {
             let diff = 0;
+            const dateA = new Date(a.date).getTime();
+            const dateB = new Date(b.date).getTime();
+
             switch (sortBy) {
-                case 'name':
+                case 'name-asc':
                     diff = a.name.localeCompare(b.name);
                     break;
-                case 'popularity':
-                    diff = (b.totalVotes || 0) - (a.totalVotes || 0);
+                case 'name-desc':
+                    diff = b.name.localeCompare(a.name);
                     break;
-                case 'score':
+                case 'score-asc':
+                    diff = (a.communityScore || 0) - (b.communityScore || 0);
+                    break;
+                case 'score-desc':
                     diff = (b.communityScore || 0) - (a.communityScore || 0);
                     break;
-                case 'date':
-                    // Parse dates if possible, or string compare
-                    diff = (b.date || '').localeCompare(a.date || '');
+                case 'date-asc': // Oldest first
+                    diff = dateA - dateB;
+                    break;
+                case 'date-desc': // Newest first
+                    diff = dateB - dateA;
                     break;
                 default: diff = 0;
             }
-            return sortDirection === 'asc' ? -diff : diff;
+            return diff;
         });
         return sorted;
-    }, [modelsToDisplay, sortBy, sortDirection]);
+    }, [modelsToDisplay, sortBy]);
 
-    const handleSort = (key: 'name' | 'popularity' | 'score' | 'date') => {
-        if (sortBy === key) {
-            setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
-        } else {
-            setSortBy(key);
-            setSortDirection('desc'); // Default to desc for new keys usually
+    const handleSort = (key: 'name' | 'score' | 'date') => {
+        // Toggle logic for table headers
+        if (key === 'name') {
+            setSortBy(prev => prev === 'name-asc' ? 'name-desc' : 'name-asc');
+        } else if (key === 'score') {
+            setSortBy(prev => prev === 'score-desc' ? 'score-asc' : 'score-desc');
+        } else if (key === 'date') {
+            setSortBy(prev => prev === 'date-desc' ? 'date-asc' : 'date-desc');
         }
     };
 
@@ -352,19 +348,13 @@ export default function ModelLibrary() {
                 <div className="sticky top-8 space-y-6">
                     {/* Search */}
                     <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-4">
-                        <div className="relative">
-                            <input
-                                ref={desktopInputRef}
-                                type="text"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder="Search models... (Cmd+K)"
-                                className="w-full px-4 py-3 pl-10 rounded-xl bg-slate-800/50 border border-slate-700/50 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 text-sm"
-                            />
-                            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                        </div>
+                        <SearchFilter
+                            value={searchQuery}
+                            onChange={setSearchQuery}
+                            resultCount={activeModels.length}
+                            totalCount={categories[0].models.length} // All models count
+                            itemLabel="models"
+                        />
                     </div>
 
                     {/* Vibe Guide Toggle */}
@@ -421,19 +411,13 @@ export default function ModelLibrary() {
             <div className="flex-1 min-w-0">
                 {/* Mobile Filters */}
                 <div className="lg:hidden space-y-4 mb-6">
-                    <div className="relative">
-                        <input
-                            ref={mobileInputRef}
-                            type="text"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Search models... (Cmd+K)"
-                            className="w-full px-4 py-3 pl-10 rounded-xl bg-slate-800/50 border border-slate-700/50 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50"
-                        />
-                        <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </div>
+                    <SearchFilter
+                        value={searchQuery}
+                        onChange={setSearchQuery}
+                        resultCount={activeModels.length}
+                        totalCount={categories[0].models.length}
+                        itemLabel="models"
+                    />
 
                     <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
                         {categories.map((cat) => (
@@ -493,7 +477,7 @@ export default function ModelLibrary() {
                     <div className="flex flex-wrap items-center gap-4">
                         <ViewToggle viewMode={viewMode} onChange={setViewMode} id="models-view" />
 
-                        <div className="relative group min-w-[160px]">
+                        <div className="relative group min-w-[200px]">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">Sort:</span>
                             </div>
@@ -507,13 +491,17 @@ export default function ModelLibrary() {
                                     transition-all cursor-pointer hover:bg-slate-800
                                 "
                             >
-                                <option value="name">Name</option>
-                                <option value="popularity">Popularity</option>
-                                <option value="score">Score</option>
-                                <option value="date">Date</option>
+                                <option value="date-desc">Date (Newest)</option>
+                                <option value="date-asc">Date (Oldest)</option>
+                                <option value="name-asc">Name (A-Z)</option>
+                                <option value="name-desc">Name (Z-A)</option>
+                                <option value="score-desc">Score (High-Low)</option>
+                                <option value="score-asc">Score (Low-High)</option>
                             </select>
                             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                <span className="text-slate-400 text-xs">{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                                <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
                             </div>
                         </div>
                     </div>
@@ -562,7 +550,7 @@ export default function ModelLibrary() {
                                                     layout
                                                     layoutId={`model-${model.name}`}
                                                     key={model.name}
-                                                    onClick={() => setFeedbackModel(model)}
+
                                                     className="group hover:bg-slate-800/50 cursor-pointer transition-colors"
                                                 >
                                                     <td className="p-4 font-medium text-white flex items-center gap-3">
@@ -605,7 +593,7 @@ export default function ModelLibrary() {
                                     >
                                         <ModelCard
                                             model={model}
-                                            onFlag={(m) => setFeedbackModel(m)}
+
                                         />
                                     </motion.div>
                                 ))}
@@ -622,14 +610,7 @@ export default function ModelLibrary() {
 
             </div>
 
-            {/* Feedback Modal */}
-            {feedbackModel && (
-                <FlagFeedback
-                    settingKey={`model_${feedbackModel.name}`}
-                    settingLabel={`Model: ${feedbackModel.name}`}
-                    onClose={() => setFeedbackModel(null)}
-                />
-            )}
+
         </div>
     );
 }

@@ -49,31 +49,37 @@ export default function SettingsDatabase({
     highlightedKey
 }: SettingsDatabaseProps) {
     const { viewMode, setViewMode } = useViewMode('settings_page', 'grid');
-    const [sortBy, setSortBy] = useState<'name' | 'category'>('name');
-    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+    const [sortBy, setSortBy] = useState<string>('name-asc');
+    // sortDirection is no longer needed as it's embedded in sortBy
 
     const sortedSettings = useMemo(() => {
         return [...filteredSettings].sort((a, b) => {
             let diff = 0;
             switch (sortBy) {
-                case 'name':
+                case 'name-asc':
                     diff = a.label.localeCompare(b.label);
                     break;
-                case 'category':
+                case 'name-desc':
+                    diff = b.label.localeCompare(a.label);
+                    break;
+                case 'category-asc':
                     diff = (a.categoryName || '').localeCompare(b.categoryName || '');
+                    break;
+                case 'category-desc':
+                    diff = (b.categoryName || '').localeCompare(a.categoryName || '');
                     break;
                 default: diff = 0;
             }
-            return sortDirection === 'asc' ? diff : -diff;
+            return diff;
         });
-    }, [filteredSettings, sortBy, sortDirection]);
+    }, [filteredSettings, sortBy]);
 
     const handleSort = (key: 'name' | 'category') => {
-        if (sortBy === key) {
-            setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
-        } else {
-            setSortBy(key);
-            setSortDirection('asc');
+        // Toggle logic for table headers
+        if (key === 'name') {
+            setSortBy(prev => prev === 'name-asc' ? 'name-desc' : 'name-asc');
+        } else if (key === 'category') {
+            setSortBy(prev => prev === 'category-asc' ? 'category-desc' : 'category-asc');
         }
     };
 
@@ -89,6 +95,7 @@ export default function SettingsDatabase({
                             onChange={setSearchQuery}
                             resultCount={sortedSettings.length}
                             totalCount={allSettings.length}
+                            itemLabel="toggles"
                         />
                     </div>
 
@@ -119,6 +126,7 @@ export default function SettingsDatabase({
                     onChange={setSearchQuery}
                     resultCount={sortedSettings.length}
                     totalCount={allSettings.length}
+                    itemLabel="toggles"
                 />
                 <CategoryFilter
                     categories={categoryMeta}
@@ -162,13 +170,13 @@ export default function SettingsDatabase({
                     <div className="flex flex-wrap items-center gap-4">
                         <ViewToggle viewMode={viewMode} onChange={setViewMode} id="settings-view" />
 
-                        <div className="relative group min-w-[160px]">
+                        <div className="relative group min-w-[200px]">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">Sort:</span>
                             </div>
                             <select
                                 value={sortBy}
-                                onChange={(e) => setSortBy(e.target.value as any)}
+                                onChange={(e) => setSortBy(e.target.value)}
                                 className="
                                     appearance-none w-full bg-slate-800/50 border border-slate-700/50 rounded-xl
                                     pl-14 pr-10 py-2.5 text-sm font-medium text-white
@@ -176,11 +184,15 @@ export default function SettingsDatabase({
                                     transition-all cursor-pointer hover:bg-slate-800
                                 "
                             >
-                                <option value="name">Name</option>
-                                <option value="category">Category</option>
+                                <option value="name-asc">Name (A-Z)</option>
+                                <option value="name-desc">Name (Z-A)</option>
+                                <option value="category-asc">Category (A-Z)</option>
+                                <option value="category-desc">Category (Z-A)</option>
                             </select>
                             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                <span className="text-slate-400 text-xs">{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                                <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
                             </div>
                         </div>
                     </div>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import featuresData from '../data/features.json';
-import FlagFeedback from './FlagFeedback';
+
 
 interface Feature {
     id: string;
@@ -13,12 +13,13 @@ interface Feature {
     userSummary: string;
     userTranslation: string;
     settingsKeys: string[];
+    docUrl?: string;
 }
 
 export default function FeatureGuide() {
     const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
     const [showGlossary, setShowGlossary] = useState(false);
-    const [feedbackFeature, setFeedbackFeature] = useState<Feature | null>(null);
+
 
     const features = featuresData.features as Feature[];
     const glossary = featuresData.glossary as Record<string, string>;
@@ -51,12 +52,13 @@ export default function FeatureGuide() {
                 {features.map((feature) => (
                     <div
                         key={feature.id}
-                        className="rounded-xl bg-slate-800/50 border border-slate-700/50 overflow-hidden"
+                        className="relative rounded-xl bg-slate-800/50 border border-slate-700/50 overflow-hidden"
                     >
                         {/* Header - Always visible */}
-                        <button
+                        <div
+                            role="button"
                             onClick={() => setExpandedFeature(expandedFeature === feature.id ? null : feature.id)}
-                            className="w-full p-4 text-left flex items-start gap-4 hover:bg-slate-700/30 transition-colors"
+                            className="w-full p-4 text-left flex items-start gap-4 hover:bg-slate-700/30 transition-colors cursor-pointer"
                         >
                             <div className="flex-1">
                                 <div className="flex items-center gap-2 flex-wrap mb-1">
@@ -68,6 +70,23 @@ export default function FeatureGuide() {
                                 <p className="text-sm text-slate-500 mb-2">{feature.fullName}</p>
                                 <p className="text-sm text-slate-300">{feature.userSummary}</p>
                             </div>
+
+                            {/* Flag Button */}
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    const title = encodeURIComponent(`Issue with Feature: ${feature.name}`);
+                                    const body = encodeURIComponent(`describe the issue with this feature here...`);
+                                    window.open(`https://github.com/vinnie291/sunnylink-wiki/issues/new?title=${title}&body=${body}`, '_blank');
+                                }}
+                                className="mt-1 p-1 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
+                                title="Flag this feature"
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+                                </svg>
+                            </button>
+
                             <svg
                                 className={`w-5 h-5 text-slate-500 transition-transform shrink-0 mt-1 ${expandedFeature === feature.id ? 'rotate-180' : ''}`}
                                 fill="none"
@@ -76,20 +95,9 @@ export default function FeatureGuide() {
                             >
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                             </svg>
-                        </button>
+                        </div>
 
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setFeedbackFeature(feature);
-                            }}
-                            className="absolute top-4 right-12 p-1 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
-                            title="Flag this feature"
-                        >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
-                            </svg>
-                        </button>
+
 
                         {/* Expanded Content */}
                         {expandedFeature === feature.id && (
@@ -103,7 +111,23 @@ export default function FeatureGuide() {
 
                                 {/* Official Definition */}
                                 <div className="p-3 rounded-lg bg-slate-900/50 border border-slate-700/30">
-                                    <p className="text-xs text-slate-500 uppercase tracking-wide mb-1">Official Definition</p>
+                                    <div className="flex justify-between items-center mb-1">
+                                        <p className="text-xs text-slate-500 uppercase tracking-wide">Official Definition</p>
+                                        {feature.docUrl && (
+                                            <a
+                                                href={feature.docUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-xs font-medium text-cyan-400 hover:text-cyan-300 flex items-center gap-1 transition-colors"
+                                                onClick={(e) => e.stopPropagation()}
+                                            >
+                                                <span>Read More</span>
+                                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                                </svg>
+                                            </a>
+                                        )}
+                                    </div>
                                     <p className="text-sm text-slate-300 font-mono leading-relaxed">
                                         {feature.officialDefinition}
                                     </p>
@@ -154,14 +178,7 @@ export default function FeatureGuide() {
                 </div>
             )}
 
-            {/* Feedback Modal */}
-            {feedbackFeature && (
-                <FlagFeedback
-                    settingKey={`feature_${feedbackFeature.id}`}
-                    settingLabel={`Feature: ${feedbackFeature.name}`}
-                    onClose={() => setFeedbackFeature(null)}
-                />
-            )}
+
         </div>
     );
 }
