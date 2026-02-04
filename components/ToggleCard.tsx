@@ -23,6 +23,7 @@ interface ToggleCardProps {
   setting: ToggleSetting;
   categoryName: string;
   categoryIcon: string;
+  categoryId: string;
   isHighlighted: boolean;
 }
 
@@ -30,6 +31,7 @@ export default function ToggleCard({
   setting,
   categoryName,
   categoryIcon,
+  categoryId,
   isHighlighted
 }: ToggleCardProps) {
   const [copied, setCopied] = useState(false);
@@ -63,6 +65,33 @@ export default function ToggleCard({
 
   const toggleSection = (section: string) => {
     setExpandedSection(expandedSection === section ? null : section);
+  };
+
+  // Map category ID to Sunnylink dashboard path
+  const getSunnylinkUrl = () => {
+    const baseUrl = 'https://www.sunnylink.ai/dashboard';
+    const slug = setting.key;
+
+    switch (categoryId) {
+      case 'models':
+        return `${baseUrl}/models#${slug}`;
+      case 'device':
+        return `${baseUrl}/settings/device#${slug}`;
+      case 'toggles':
+        return `${baseUrl}/settings/toggles#${slug}`;
+      case 'steering':
+        return `${baseUrl}/settings/steering#${slug}`;
+      case 'cruise':
+        return `${baseUrl}/settings/cruise#${slug}`;
+      case 'visuals':
+        return `${baseUrl}/settings/visuals#${slug}`;
+      case 'developer':
+        return `${baseUrl}/settings/developer#${slug}`;
+      case 'other':
+        return `${baseUrl}/settings/other#${slug}`;
+      default:
+        return `${baseUrl}/settings/device#${slug}`;
+    }
   };
 
   const getTypeColor = (type: string) => {
@@ -159,6 +188,24 @@ export default function ToggleCard({
               >
                 {copied ? '✓ Copied!' : '🔗 Copy'}
               </button>
+
+              {/* Sunnylink Dashboard Button */}
+              <a
+                href={getSunnylinkUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="
+                  px-3 py-1.5 rounded-lg text-sm font-medium 
+                  bg-[#5b36f5] text-white hover:bg-[#4a2bd0] 
+                  transition-all duration-200 flex items-center gap-1.5 
+                  shadow-lg shadow-[#5b36f5]/25
+                "
+              >
+                <span>View in sunnylink</span>
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
             </div>
           </div>
 

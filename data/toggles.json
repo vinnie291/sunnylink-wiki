@@ -75,6 +75,91 @@
       "description": "Hardware management, cellular, and power settings.",
       "settings": [
         {
+          "key": "ForceOffroadMode",
+          "label": "Force Offroad Mode",
+          "type": "toggle",
+          "default": false,
+          "description": "Disables active driving features to unlock settings restricted while driving.",
+          "safetyLevel": "safe",
+          "useCase": "Use when parked to change settings (Offroad), or for Valet mode.",
+          "userNote": "'Offroad' means parked/not driving. 'Onroad' means driving."
+        },
+        {
+          "key": "DeviceBootMode",
+          "label": "Device Boot Mode",
+          "type": "dropdown",
+          "options": [
+            "Offroad",
+            "Normal"
+          ],
+          "default": "Standard",
+          "description": "Boot/Wake-Up in Offroad or Normal mode.",
+          "useCase": "Choose how the device starts up after power cycle.",
+          "userNote": "Standard is recommended for normal use."
+        },
+        {
+          "key": "UseMetricUnits",
+          "label": "Use Metric Units",
+          "type": "toggle",
+          "default": false,
+          "description": "Display metric measurements (km/h, km) instead of imperial (mph, miles).",
+          "useCase": "Set based on your region's measurement system.",
+          "userNote": "Enable if you prefer metric units."
+        },
+        {
+          "key": "QuietMode",
+          "label": "Quiet Mode",
+          "type": "toggle",
+          "default": false,
+          "description": "Minimize sound notifications.",
+          "useCase": "Reduce audio alerts for a quieter driving experience.",
+          "userNote": "Enable if you prefer fewer audio alerts."
+        },
+        {
+          "key": "OnroadUploads",
+          "label": "Onroad Uploads",
+          "type": "toggle",
+          "default": false,
+          "description": "Enable Onroad Uploads for drive data.",
+          "useCase": "Upload driving data while on the road.",
+          "userNote": "Uses mobile data when WiFi not available."
+        },
+        {
+          "key": "Language",
+          "label": "Language",
+          "type": "dropdown",
+          "default": "en",
+          "description": "UI language selection.",
+          "useCase": "Choose your preferred display language.",
+          "userNote": "Select your preferred language for the interface."
+        },
+        {
+          "key": "RecordUploadDriverCamera",
+          "label": "Record & Upload Driver Camera",
+          "type": "toggle",
+          "default": false,
+          "description": "Front camera recording and upload.",
+          "useCase": "Enable recording of driver-facing camera for review.",
+          "tradeoffs": [
+            "Privacy consideration - driver is recorded.",
+            "Uses additional storage and bandwidth."
+          ],
+          "userNote": "Enable for full drive recording including driver view."
+        },
+        {
+          "key": "RecordUploadMicAudio",
+          "label": "Record & Upload Mic Audio",
+          "type": "toggle",
+          "default": false,
+          "description": "Record cabin audio.",
+          "useCase": "Enable audio recording in the cabin for review.",
+          "tradeoffs": [
+            "Privacy consideration - conversations are recorded.",
+            "Uses additional storage and bandwidth."
+          ],
+          "userNote": "Enable for audio recording with drive footage."
+        },
+        {
           "key": "GsmMetered",
           "label": "GSM Metered",
           "type": "toggle",
@@ -178,30 +263,6 @@
           "userNote": "Required for pushing custom changes or accessing private forks."
         },
         {
-          "key": "EnableSunnypilot",
-          "label": "Enable sunnypilot",
-          "type": "toggle",
-          "default": true,
-          "description": "Master toggle for sunnypilot functionality.",
-          "recommended": true,
-          "useCase": "Quickly enable/disable all sunnypilot features.",
-          "warning": "Disabling turns off all assisted driving features.",
-          "userNote": "Keep ON for normal operation."
-        },
-        {
-          "key": "LaneDepartureWarnings",
-          "label": "Lane Departure Warnings",
-          "type": "toggle",
-          "default": false,
-          "description": "Enable lane departure warning alerts.",
-          "useCase": "Get audible alerts when drifting out of lane without blinker.",
-          "tradeoffs": [
-            "Can be annoying on roads with poor lane markings.",
-            "May conflict with intentional lane changes."
-          ],
-          "userNote": "Useful for long highway drives to maintain alertness."
-        },
-        {
           "key": "RecordFrontLock",
           "label": "Record Front Lock",
           "type": "toggle",
@@ -282,28 +343,46 @@
       "description": "General toggles and miscellaneous configuration.",
       "settings": [
         {
-          "key": "ForceOffroadMode",
-          "label": "Force Offroad Mode",
+          "key": "EnableSunnypilot",
+          "label": "Enable sunnypilot",
           "type": "toggle",
-          "default": false,
-          "description": "Disables active driving features to unlock settings restricted while driving.",
-          "safetyLevel": "safe",
-          "useCase": "Use when parked to change settings (Offroad), or for Valet mode.",
-          "userNote": "'Offroad' means parked/not driving. 'Onroad' means driving."
+          "default": true,
+          "description": "Master toggle for sunnypilot functionality.",
+          "recommended": true,
+          "useCase": "Quickly enable/disable all sunnypilot features.",
+          "warning": "Disabling turns off all assisted driving features.",
+          "userNote": "Keep ON for normal operation."
         },
         {
-          "key": "EnableSunnylinkUploader",
-          "label": "Enable sunnylink Uploader",
+          "key": "DrivingPersonality",
+          "label": "Driving Personality",
+          "type": "dropdown",
+          "options": [
+            "Relaxed",
+            "Standard",
+            "Aggressive"
+          ],
+          "default": "Standard",
+          "description": "Adjusts following distance and acceleration aggression.",
+          "useCase": "Customize driving feel - Relaxed for safety, Aggressive for keeping up with traffic.",
+          "tradeoffs": [
+            "Aggressive mode may feel unsafe in stop-and-go traffic.",
+            "Relaxed mode may frustrate drivers behind you with large gaps."
+          ],
+          "userNote": "'Standard' is the default. 'Aggressive' follows closer; 'Relaxed' leaves more gaps."
+        },
+        {
+          "key": "LaneDepartureWarnings",
+          "label": "Lane Departure Warnings",
           "type": "toggle",
           "default": false,
-          "description": "Uploads drive data to Sunnylink servers (currently infrastructure test only).",
-          "useCase": "Infrastructure testing. Uploaded data is currently not viewable by users.",
+          "description": "Enable lane departure warning alerts.",
+          "useCase": "Get audible alerts when drifting out of lane without blinker.",
           "tradeoffs": [
-            "Uses mobile data if WiFi not available.",
-            "Privacy considerations - drive data is uploaded.",
-            "Visualizer not yet functional."
+            "Can be annoying on roads with poor lane markings.",
+            "May conflict with intentional lane changes."
           ],
-          "userNote": "Currently for testing only. You cannot view your drives yet."
+          "userNote": "Useful for long highway drives to maintain alertness."
         },
         {
           "key": "ShowAdvancedControls",
@@ -471,24 +550,6 @@
           ],
           "deepDive": "Monitors the 'slow_down_prob' from the model. If probability > threshold, injects Experimental Mode longitudinal plan.",
           "userNote": "Good for mixed driving, but switch to full Experimental if you need consistent behavior."
-        },
-        {
-          "key": "DrivingPersonality",
-          "label": "Driving Personality",
-          "type": "dropdown",
-          "options": [
-            "Relaxed",
-            "Standard",
-            "Aggressive"
-          ],
-          "default": "Standard",
-          "description": "Adjusts following distance and acceleration aggression.",
-          "useCase": "Customize driving feel - Relaxed for safety, Aggressive for keeping up with traffic.",
-          "tradeoffs": [
-            "Aggressive mode may feel unsafe in stop-and-go traffic.",
-            "Relaxed mode may frustrate drivers behind you with large gaps."
-          ],
-          "userNote": "'Standard' is the default. 'Aggressive' follows closer; 'Relaxed' leaves more gaps."
         },
         {
           "key": "EnforceTorqueControl",
@@ -762,6 +823,39 @@
           "description": "Changes how much the speed changes when you press +/- on the wheel.",
           "useCase": "Fine-tune speed adjustments - small taps for precision.",
           "userNote": "Customize short press to ±1 and long press to ±5."
+        },
+        {
+          "key": "CustomAccShortPressIncrement",
+          "label": "Custom ACC Short Press Increment",
+          "type": "slider",
+          "default": 1,
+          "min": 1,
+          "max": 10,
+          "unit": "mph/kph",
+          "description": "Speed change on short press of cruise buttons.",
+          "useCase": "Fine-tune small speed adjustments.",
+          "userNote": "Set the speed change for quick taps on cruise buttons."
+        },
+        {
+          "key": "CustomAccLongPressIncrement",
+          "label": "Custom ACC Long Press Increment",
+          "type": "slider",
+          "default": 5,
+          "min": 1,
+          "max": 10,
+          "unit": "mph/kph",
+          "description": "Speed change on long press of cruise buttons.",
+          "useCase": "Larger speed adjustments with held button.",
+          "userNote": "Set the speed change for holding cruise buttons."
+        },
+        {
+          "key": "IntelligentCruiseButtonManagement",
+          "label": "Intelligent Cruise Button Management",
+          "type": "toggle",
+          "default": false,
+          "description": "Enhanced cruise button logic for smarter speed control.",
+          "useCase": "More intuitive cruise control button behavior.",
+          "userNote": "Enable for smarter cruise button behavior."
         }
       ]
     },
@@ -861,6 +955,67 @@
           "default": "Auto",
           "description": "Sets brightness specifically when driving.",
           "recommended": "Auto"
+        },
+        {
+          "key": "OnroadBrightnessDelay",
+          "label": "Onroad Brightness Delay",
+          "type": "slider",
+          "default": 15,
+          "min": 0,
+          "max": 60,
+          "unit": "seconds",
+          "description": "Time before onroad brightness is lowered.",
+          "useCase": "Control how quickly brightness dims after driving starts.",
+          "userNote": "Adjust to your preference for screen dimming delay."
+        },
+        {
+          "key": "DeveloperUIInfo",
+          "label": "Developer UI Info",
+          "type": "slider",
+          "default": 0,
+          "min": 0,
+          "max": 10,
+          "description": "Developer UI overlay data level.",
+          "useCase": "Display technical debugging information on screen.",
+          "userNote": "For developers and advanced users only."
+        },
+        {
+          "key": "ChevronInfo",
+          "label": "Chevron Info",
+          "type": "slider",
+          "default": 4,
+          "min": 0,
+          "max": 10,
+          "description": "Lead vehicle info display level.",
+          "useCase": "Customize how much information is shown about detected vehicles.",
+          "userNote": "Adjust to show more or less vehicle info on screen."
+        },
+        {
+          "key": "StandstillTimer",
+          "label": "Standstill Timer",
+          "type": "toggle",
+          "default": false,
+          "description": "Display time spent at standstill.",
+          "useCase": "Shows how long you've been stopped at a light or in traffic.",
+          "userNote": "Useful for tracking wait times."
+        },
+        {
+          "key": "HideVEgoUI",
+          "label": "Hide vEgo UI",
+          "type": "toggle",
+          "default": false,
+          "description": "Hide velocity readout from the display.",
+          "useCase": "Minimize distractions by hiding speed display.",
+          "userNote": "Enable for a cleaner screen appearance."
+        },
+        {
+          "key": "TrueVEgoUI",
+          "label": "True vEgo UI",
+          "type": "toggle",
+          "default": false,
+          "description": "Show raw vehicle speed without filtering.",
+          "useCase": "Display true speedometer reading from vehicle sensors.",
+          "userNote": "Shows actual speed rather than smoothed values."
         }
       ]
     },
@@ -870,6 +1025,15 @@
       "icon": "👨‍💻",
       "description": "Advanced tools for debugging and development.",
       "settings": [
+        {
+          "key": "EnableSunnylinkUploader",
+          "label": "Enable sunnylink Uploader",
+          "type": "toggle",
+          "default": false,
+          "description": "Upload drives to sunnylink.",
+          "useCase": "Enable uploading drive data to sunnylink servers for cloud storage and analysis.",
+          "userNote": "Enable to upload your drives to sunnylink."
+        },
         {
           "key": "EnableSsh",
           "label": "Enable SSH",

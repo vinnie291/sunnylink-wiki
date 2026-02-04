@@ -258,6 +258,7 @@ export default function SettingsDatabase({
                                             setting={setting}
                                             categoryName={setting.categoryName || ''}
                                             categoryIcon={setting.categoryIcon || ''}
+                                            categoryId={setting.categoryId || ''}
                                             isHighlighted={setting.key === highlightedKey}
                                         />
                                     </motion.div>
