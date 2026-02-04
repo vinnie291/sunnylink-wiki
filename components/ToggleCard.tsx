@@ -144,7 +144,7 @@ export default function ToggleCard({
 
         <div className="relative p-5">
           {/* Header */}
-          <div className="flex items-start justify-between gap-3 mb-3">
+          <div className="mb-3 sm:pr-[280px]">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap mb-2">
                 <span className={`px-2 py-0.5 text-xs font-medium rounded-full border ${getTypeColor(setting.type)}`}>
@@ -160,52 +160,6 @@ export default function ToggleCard({
               <h3 className="text-lg font-semibold text-white group-hover:text-cyan-400 transition-colors">
                 {setting.label}
               </h3>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex items-center gap-2 shrink-0">
-              {/* Flag Button */}
-              <button
-                onClick={handleReportIssue}
-                className="p-2 rounded-lg text-slate-500 border border-transparent hover:text-amber-400 hover:bg-amber-500/10 hover:border-amber-500/30 transition-all duration-200"
-                title="Flag this setting"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
-                </svg>
-              </button>
-
-              {/* Copy Link Button */}
-              <button
-                onClick={handleCopyLink}
-                className={`
-                  px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200
-                  ${copied
-                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                    : 'bg-slate-700/50 text-slate-400 border border-slate-600/50 hover:bg-slate-700 hover:text-white'
-                  }
-                `}
-              >
-                {copied ? '✓ Copied!' : '🔗 Copy'}
-              </button>
-
-              {/* Sunnylink Dashboard Button */}
-              <a
-                href={getSunnylinkUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="
-                  px-3 py-1.5 rounded-lg text-sm font-medium 
-                  bg-[#5b36f5] text-white hover:bg-[#4a2bd0] 
-                  transition-all duration-200 flex items-center gap-1.5 
-                  shadow-lg shadow-[#5b36f5]/25
-                "
-              >
-                <span>View in sunnylink</span>
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </a>
             </div>
           </div>
 
@@ -350,6 +304,52 @@ export default function ToggleCard({
               </p>
             </div>
           )}
+
+          {/* Action Buttons - Bottom on Mobile, Top Right on Desktop */}
+          <div className="flex items-center gap-2 mt-6 pt-4 border-t border-slate-700/50 w-full justify-between sm:absolute sm:top-5 sm:right-5 sm:mt-0 sm:pt-0 sm:border-0 sm:w-auto sm:justify-end">
+            {/* Flag Button */}
+            <button
+              onClick={handleReportIssue}
+              className="p-2 rounded-lg text-slate-500 border border-transparent hover:text-amber-400 hover:bg-amber-500/10 hover:border-amber-500/30 transition-all duration-200"
+              title="Flag this setting"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+              </svg>
+            </button>
+
+            {/* Copy Link Button */}
+            <button
+              onClick={handleCopyLink}
+              className={`
+                px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200
+                ${copied
+                  ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                  : 'bg-slate-700/50 text-slate-400 border border-slate-600/50 hover:bg-slate-700 hover:text-white'
+                }
+              `}
+            >
+              {copied ? '✓ Copied!' : '🔗 Copy'}
+            </button>
+
+            {/* Sunnylink Dashboard Button */}
+            <a
+              href={getSunnylinkUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="
+                px-3 py-1.5 rounded-lg text-sm font-medium 
+                bg-[#5b36f5] text-white hover:bg-[#4a2bd0] 
+                transition-all duration-200 flex items-center gap-1.5 
+                shadow-lg shadow-[#5b36f5]/25
+              "
+            >
+              <span>View in sunnylink</span>
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
 
