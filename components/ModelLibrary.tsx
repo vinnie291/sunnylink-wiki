@@ -409,8 +409,8 @@ export default function ModelLibrary() {
 
             {/* Main Content Area */}
             <div className="flex-1 min-w-0">
-                {/* Mobile Filters */}
-                <div className="lg:hidden space-y-4 mb-6">
+                {/* Mobile Filters - Sticky on scroll */}
+                <div className="lg:hidden sticky top-0 z-20 -mx-4 px-4 pt-2 pb-4 bg-slate-950/95 backdrop-blur-sm space-y-4 mb-6">
                     <SearchFilter
                         value={searchQuery}
                         onChange={setSearchQuery}

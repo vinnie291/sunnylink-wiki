@@ -37,12 +37,12 @@ export default function CategoryFilter({
                 )}
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide lg:flex-wrap lg:overflow-visible lg:mx-0 lg:px-0 lg:pb-0">
                 {/* All Button */}
                 <button
                     onClick={onClearAll}
                     className={`
-            flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium
+            flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium shrink-0
             transition-all duration-200 border
             ${isAllActive
                             ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
@@ -68,7 +68,7 @@ export default function CategoryFilter({
                             key={category.id}
                             onClick={() => onToggleCategory(category.id)}
                             className={`
-                flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium
+                flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium shrink-0
                 transition-all duration-200 border
                 ${isActive
                                     ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30 shadow-lg shadow-cyan-500/10'

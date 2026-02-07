@@ -51,6 +51,18 @@ export default function Navigation() {
                 <span className="hidden sm:inline">📖 </span>Features
             </Link>
             <Link
+                href="/stats"
+                className={`
+                px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all
+                ${isActive('/stats')
+                        ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
+                        : 'text-slate-400 hover:text-white hover:bg-slate-700/50'
+                    }
+              `}
+            >
+                <span className="hidden sm:inline">📊 </span>Stats
+            </Link>
+            <Link
                 href="/wizard"
                 className={`
                 group relative px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all overflow-hidden

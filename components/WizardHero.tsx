@@ -9,8 +9,8 @@ interface WizardHeroProps {
 
 export default function WizardHero({ onStart, showButton = true }: WizardHeroProps) {
     return (
-        <div className="flex flex-col items-center justify-center w-full max-w-lg mx-auto mb-4 sm:mb-4">
-            <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 mb-2 sm:mb-4 flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center w-full max-w-lg mx-auto mb-2 sm:mb-4">
+            <div className="relative w-44 h-44 sm:w-48 sm:h-48 md:w-64 md:h-64 mb-1 sm:mb-4 flex items-center justify-center">
                 {/* Glow Effect */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 rounded-full blur-3xl animate-pulse" />
 

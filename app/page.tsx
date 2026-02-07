@@ -2,8 +2,8 @@
 
 import { useState, useMemo, useCallback } from 'react';
 import togglesData from '../data/toggles.json';
+import Header from '../components/Header';
 import SettingsDatabase from '../components/SettingsDatabase';
-import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/ScrollToTop';
 
 interface ToggleSetting {
@@ -125,15 +125,8 @@ export default function Home() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 pt-20 pb-8 sm:py-12">
         {/* Header */}
-        <header className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-            Sunnylink Wiki
-          </h1>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto mb-6">
-            Search and explore all Sunnypilot settings. Find the perfect configuration for your vehicle.
-          </p>
-          <Navigation />
-        </header>
+        {/* Header */}
+        <Header />
 
         {/* Settings Content */}
         <SettingsDatabase
