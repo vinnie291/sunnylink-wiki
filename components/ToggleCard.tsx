@@ -17,6 +17,8 @@ interface ToggleSetting {
   useCase?: string;
   tradeoffs?: string[];
   deepDive?: string;
+  helpText?: string;
+  dependencies?: { key: string; label: string }[];
 }
 
 interface ToggleCardProps {
@@ -174,6 +176,31 @@ export default function ToggleCard({
             {setting.description}
           </p>
 
+          {/* Badges Row: Value Range + Dependencies */}
+          {(setting.helpText || (setting.dependencies && setting.dependencies.length > 0)) && (
+            <div className="flex flex-wrap items-center gap-2 mb-4">
+              {/* Help Text / Value Range */}
+              {setting.helpText && (
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
+                  <svg className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="text-cyan-400 text-xs font-medium">{setting.helpText}</span>
+                </div>
+              )}
+
+              {/* Dependencies / Requires */}
+              {setting.dependencies && setting.dependencies.length > 0 && (
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                  <span className="text-amber-400 text-xs">🔗</span>
+                  <span className="text-amber-400 text-xs font-medium">
+                    Requires: {setting.dependencies.map(d => d.label).join(', ')}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Use Case - Always Visible if exists */}
           {setting.useCase && (
             <div className="mb-4 p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
@@ -306,55 +333,66 @@ export default function ToggleCard({
           )}
 
           {/* Action Buttons - Bottom on Mobile, Top Right on Desktop */}
-          <div className="flex items-center mt-6 pt-4 border-t border-slate-700/50 w-full justify-between sm:absolute sm:top-5 sm:right-5 sm:mt-0 sm:pt-0 sm:border-0 sm:w-auto sm:justify-end">
-            {/* Flag Button - Left on mobile */}
+          <div className="flex items-stretch mt-6 pt-4 border-t border-slate-700/50 w-full gap-2 sm:absolute sm:top-5 sm:right-5 sm:mt-0 sm:pt-0 sm:border-0 sm:w-auto sm:items-center sm:justify-end">
+            {/* Flag Button */}
             <button
               onClick={handleReportIssue}
-              className="p-2 rounded-lg text-slate-500 border border-transparent hover:text-amber-400 hover:bg-amber-500/10 hover:border-amber-500/30 transition-all duration-200"
+              className="
+                flex-1 sm:flex-none flex items-center justify-center gap-2
+                h-10 sm:h-auto px-3 sm:p-2.5 rounded-lg text-slate-400
+                border border-slate-700/50 sm:border-transparent
+                hover:text-amber-400 hover:bg-amber-500/10 hover:border-amber-500/30
+                transition-all duration-200 text-sm
+              "
               title="Flag this setting"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
               </svg>
+              <span className="sm:hidden font-medium">Flag</span>
             </button>
 
-            {/* Right Group: Copy & View - Grouped on mobile */}
-            <div className="flex items-center gap-2">
-              {/* Share Link Button */}
-              <button
-                onClick={handleCopyLink}
-                className="p-2 rounded-lg text-slate-500 border border-transparent hover:text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-all duration-200"
-                title={copied ? "Copied!" : "Share this setting"}
-              >
-                {copied ? (
-                  <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                ) : (
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                  </svg>
-                )}
-              </button>
-
-              {/* Sunnylink Dashboard Button */}
-              <a
-                href={getSunnylinkUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="
-                  px-3 py-1.5 rounded-lg text-sm font-medium 
-                  bg-[#5b36f5] text-white hover:bg-[#4a2bd0] 
-                  transition-all duration-200 flex items-center gap-1.5 
-                  shadow-lg shadow-[#5b36f5]/25
-                "
-              >
-                <span>View in sunnylink</span>
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            {/* Share Link Button */}
+            <button
+              onClick={handleCopyLink}
+              className="
+                flex-1 sm:flex-none flex items-center justify-center gap-2
+                h-10 sm:h-auto px-3 sm:p-2.5 rounded-lg text-slate-400
+                border border-slate-700/50 sm:border-transparent
+                hover:text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-500/30
+                transition-all duration-200 text-sm
+              "
+              title={copied ? "Copied!" : "Share this setting"}
+            >
+              {copied ? (
+                <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-              </a>
-            </div>
+              ) : (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+              )}
+              <span className="sm:hidden font-medium">{copied ? 'Copied!' : 'Share'}</span>
+            </button>
+
+            {/* Sunnylink Dashboard Button */}
+            <a
+              href={getSunnylinkUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="
+                flex-1 sm:flex-none h-10 sm:h-auto px-3 sm:py-1.5 rounded-lg text-sm font-medium
+                bg-[#5b36f5] text-white hover:bg-[#4a2bd0]
+                transition-all duration-200 flex items-center justify-center gap-1.5
+                shadow-lg shadow-[#5b36f5]/25 whitespace-nowrap
+              "
+            >
+              <span>View in sunnylink</span>
+              <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
           </div>
         </div>
       </div>

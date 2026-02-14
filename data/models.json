@@ -174,22 +174,25 @@
                     "badge": "NEW",
                     "tags": [
                         "Experimental",
-                        "Smart"
+                        "Off-Policy",
+                        "Highway"
                     ],
-                    "communityScore": 56,
-                    "totalVotes": 3,
+                    "communityScore": 62,
+                    "totalVotes": 45,
                     "sentiment": {
-                        "great": 0,
-                        "good": 33,
-                        "ok": 67,
-                        "bad": 0
+                        "great": 15,
+                        "good": 25,
+                        "ok": 35,
+                        "bad": 25
                     },
-                    "consensus": "New experimental model using off-policy learning techniques. Currently available on master branch.",
-                    "note": "Not yet in dev builds. Awaiting wider community testing.",
-                    "bestFor": "Experimentation",
+                    "consensus": "Experimental model using off-policy training — learns from corrections rather than just cloning. Better highway centering and quicker lateral recentering vs WMI V12. However, experimental long mode feels jerky, and sharp turns can be a step backward. Good potential for highway-focused drivers.",
+                    "note": "'Off-policy' means it learned from data where the model's behavior differed from the human driver's action, allowing it to learn from corrections more effectively than standard cloning.",
+                    "bestFor": "Highway",
                     "steeringFeel": "Balanced",
                     "testedOn": [
-                        "Various"
+                        "Hyundai Ioniq 5",
+                        "Honda Civic",
+                        "Toyota"
                     ],
                     "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-4-feb-2026/2819"
                 },

@@ -17,6 +17,7 @@
           "min": -0.35,
           "max": 0.35,
           "unit": "meters",
+          "helpText": "Range: -0.35 to 0.35 meters",
           "description": "Virtually shift camera's perspective to move model's center to Left (+ values) or Right (- values).",
           "useCase": "Correct for camera mounting position or driver preference for lane position.",
           "tradeoffs": [
@@ -220,6 +221,7 @@
           "label": "Max Time Offroad",
           "type": "slider",
           "default": 1800,
+          "helpText": "Range: 0 - 3600 seconds (default: 1800s = 30 min)",
           "description": "Maximum idle time (in seconds) before the device shuts down when offroad.",
           "useCase": "Control how long the device stays on after parking.",
           "tradeoffs": [
@@ -363,6 +365,7 @@
             "Aggressive"
           ],
           "default": "Standard",
+          "helpText": "Relaxed = larger gaps, Standard = balanced, Aggressive = closer following",
           "description": "Adjusts following distance and acceleration aggression.",
           "useCase": "Customize driving feel - Relaxed for safety, Aggressive for keeping up with traffic.",
           "tradeoffs": [
@@ -493,6 +496,12 @@
           "default": "Default",
           "description": "Controls behavior when cruise is canceled. 'Remain Active' keeps steering engaged after braking.",
           "recommended": "Remain Active",
+          "dependencies": [
+            {
+              "key": "MadsEnabled",
+              "label": "MADS Enabled"
+            }
+          ],
           "useCase": "When you want to maintain lane centering during manual speed adjustments in traffic.",
           "tradeoffs": [
             "May surprise new users who expect steering to stop when braking.",
@@ -507,6 +516,12 @@
           "default": true,
           "description": "Allows MADS to be active simultaneously with the main cruise control system.",
           "recommended": true,
+          "dependencies": [
+            {
+              "key": "MadsEnabled",
+              "label": "MADS Enabled"
+            }
+          ],
           "userNote": "Keep ON."
         },
         {
@@ -515,6 +530,12 @@
           "type": "toggle",
           "default": false,
           "description": "If enabled, engaging the main cruise control will also automatically engage MADS steering.",
+          "dependencies": [
+            {
+              "key": "MadsEnabled",
+              "label": "MADS Enabled"
+            }
+          ],
           "useCase": "Simplifies activation - one button press enables both speed control and steering.",
           "userNote": "Convenient for one-button activation."
         },
@@ -580,6 +601,12 @@
           "type": "toggle",
           "default": false,
           "description": "Beta feature that allows the self-tuner to be more aggressive/forgiving when learning.",
+          "dependencies": [
+            {
+              "key": "SelfTune",
+              "label": "Self-Tune"
+            }
+          ],
           "tradeoffs": [
             "Faster learning but potentially unstable values.",
             "May need manual reset if values drift too far."
@@ -604,6 +631,7 @@
           "label": "Blinker Min Lateral Control Speed",
           "type": "slider",
           "default": 0,
+          "helpText": "Range: 0+ mph. Set to 0 to always allow steering with blinker.",
           "description": "The minimum speed at which the car will continue steering while the blinker is on.",
           "useCase": "Prevents steering fight during slow turns at intersections.",
           "userNote": "Prevents the wheel from fighting you during slow turns at intersections."
@@ -645,6 +673,12 @@
           "type": "toggle",
           "default": false,
           "description": "Specialized handling for low-speed maneuvers.",
+          "dependencies": [
+            {
+              "key": "AlphaLongitudinal",
+              "label": "Alpha Longitudinal"
+            }
+          ],
           "useCase": "Smoother stop-and-go traffic behavior.",
           "userNote": "Helps with stop-and-go smoothness."
         }
@@ -662,6 +696,12 @@
           "type": "toggle",
           "default": false,
           "description": "Enables stopping for traffic lights and stop signs using vision only.",
+          "dependencies": [
+            {
+              "key": "AlphaLongitudinal",
+              "label": "Alpha Longitudinal"
+            }
+          ],
           "useCase": "City driving where you encounter frequent traffic lights and stop signs.",
           "tradeoffs": [
             "Can brake suddenly for false positives (shadows, markings).",
@@ -772,6 +812,7 @@
           "label": "Speed Limit Offset Value",
           "type": "slider",
           "default": 0,
+          "helpText": "Recommended: 5-10 mph over limit to match traffic flow",
           "description": "The actual amount to speed over the limit.",
           "useCase": "Match local traffic flow (commonly 5-10 mph over in most US areas).",
           "userNote": "Set to your comfort level (e.g., 5-10 mph over)."
@@ -832,6 +873,13 @@
           "min": 1,
           "max": 10,
           "unit": "mph/kph",
+          "helpText": "Range: 1 - 10 mph/kph",
+          "dependencies": [
+            {
+              "key": "CustomAccIncrements",
+              "label": "Custom ACC Increments"
+            }
+          ],
           "description": "Speed change on short press of cruise buttons.",
           "useCase": "Fine-tune small speed adjustments.",
           "userNote": "Set the speed change for quick taps on cruise buttons."
@@ -844,6 +892,13 @@
           "min": 1,
           "max": 10,
           "unit": "mph/kph",
+          "helpText": "Range: 1 - 10 mph/kph",
+          "dependencies": [
+            {
+              "key": "CustomAccIncrements",
+              "label": "Custom ACC Increments"
+            }
+          ],
           "description": "Speed change on long press of cruise buttons.",
           "useCase": "Larger speed adjustments with held button.",
           "userNote": "Set the speed change for holding cruise buttons."
@@ -964,6 +1019,7 @@
           "min": 0,
           "max": 60,
           "unit": "seconds",
+          "helpText": "Range: 0 - 60 seconds (default: 15s)",
           "description": "Time before onroad brightness is lowered.",
           "useCase": "Control how quickly brightness dims after driving starts.",
           "userNote": "Adjust to your preference for screen dimming delay."
@@ -975,6 +1031,7 @@
           "default": 0,
           "min": 0,
           "max": 10,
+          "helpText": "Range: 0 (off) to 10 (maximum debug info)",
           "description": "Developer UI overlay data level.",
           "useCase": "Display technical debugging information on screen.",
           "userNote": "For developers and advanced users only."
@@ -986,6 +1043,7 @@
           "default": 4,
           "min": 0,
           "max": 10,
+          "helpText": "Range: 0 (off) to 10 (maximum detail). Default: 4",
           "description": "Lead vehicle info display level.",
           "useCase": "Customize how much information is shown about detected vehicles.",
           "userNote": "Adjust to show more or less vehicle info on screen."
@@ -1119,6 +1177,7 @@
           "default": 1,
           "min": 0,
           "max": 2,
+          "helpText": "Range: 0 (off) to 2 (aggressive). Default: 1",
           "description": "Adjust planplus model recentering strength. The higher this number, the more aggressively the model will recenter to lanecenter. Too high and it will ping-pong.",
           "useCase": "Fine-tune how aggressively the model corrects back to center lane position.",
           "tradeoffs": [
@@ -1170,6 +1229,32 @@
             "Loses sunnypilot's advanced stop-and-go features."
           ],
           "userNote": "Enable if you prefer Toyota's stock adaptive cruise behavior."
+        },
+        {
+          "key": "SubaruStopAndGo",
+          "label": "Subaru: Stop and Go",
+          "type": "toggle",
+          "default": false,
+          "description": "Enables stop-and-go functionality for supported Subaru vehicles. Allows the system to resume from a complete standstill, which is normally disengaged below ~10mph on older Subarus.",
+          "useCase": "Essential for Subaru drivers in stop-and-go traffic to avoid manual resume.",
+          "tradeoffs": [
+            "Only appears if car_fingerprint == SUBARU.",
+            "May behave differently depending on Subaru model year."
+          ],
+          "userNote": "Vehicle-specific: Only visible on Subaru vehicles."
+        },
+        {
+          "key": "SubaruStopAndGoManualParkingBrake",
+          "label": "Subaru: Stop and Go (Manual Parking Brake)",
+          "type": "toggle",
+          "default": false,
+          "description": "Variant of Stop and Go for Subarus with a manual or electronic parking brake. Handles the parking brake logic differently during stop-and-go traffic to prevent unintended brake engagement.",
+          "useCase": "For Subaru vehicles with electronic parking brake that need special handling during stop-and-go.",
+          "tradeoffs": [
+            "Only appears if car_fingerprint == SUBARU.",
+            "Different behavior depending on parking brake type (manual vs electronic)."
+          ],
+          "userNote": "Vehicle-specific: Only for Subarus with electronic parking brake."
         },
         {
           "key": "SunnylinkDongleId",

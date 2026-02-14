@@ -17,6 +17,8 @@ interface ToggleSetting {
   warning?: string;
   userNote?: string;
   safetyLevel?: 'safe' | 'critical';
+  helpText?: string;
+  dependencies?: { key: string; label: string }[];
 }
 
 interface Category {

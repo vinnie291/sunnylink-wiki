@@ -538,10 +538,10 @@ export default function ModelLibrary() {
                                     <table className="w-full text-left border-collapse">
                                         <thead>
                                             <tr className="bg-slate-800/80 text-slate-400 text-sm uppercase tracking-wider">
-                                                <th className="p-4 font-medium cursor-pointer hover:text-white" onClick={() => handleSort('name')}>Name</th>
-                                                <th className="p-4 font-medium cursor-pointer hover:text-white" onClick={() => handleSort('date')}>Release Date</th>
-                                                <th className="p-4 font-medium cursor-pointer hover:text-white" onClick={() => handleSort('score')}>Vibe Score</th>
-                                                <th className="p-4 font-medium">Badges</th>
+                                                <th className="p-3 md:p-4 font-medium cursor-pointer hover:text-white" onClick={() => handleSort('name')}>Name</th>
+                                                <th className="p-3 md:p-4 font-medium cursor-pointer hover:text-white whitespace-nowrap" onClick={() => handleSort('date')}>Date</th>
+                                                <th className="p-3 md:p-4 font-medium cursor-pointer hover:text-white whitespace-nowrap" onClick={() => handleSort('score')}>Score</th>
+                                                <th className="hidden md:table-cell p-4 font-medium">Badges</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-800">
@@ -553,23 +553,22 @@ export default function ModelLibrary() {
 
                                                     className="group hover:bg-slate-800/50 cursor-pointer transition-colors"
                                                 >
-                                                    <td className="p-4 font-medium text-white flex items-center gap-3">
-                                                        <span className="text-2xl">{getVibeIcon(model.consensus)}</span>
-                                                        <div>
-                                                            <div>{model.name}</div>
-                                                            <div className="text-xs text-slate-500">{model.consensus}</div>
+                                                    <td className="p-3 md:p-4 font-medium text-white">
+                                                        <div className="flex items-center gap-2 md:gap-3">
+                                                            <span className="text-lg md:text-2xl">{getVibeIcon(model.consensus)}</span>
+                                                            <span className="text-sm md:text-base">{model.name}</span>
                                                         </div>
                                                     </td>
-                                                    <td className="p-4 text-slate-400 text-sm whitespace-nowrap">{model.date}</td>
-                                                    <td className="p-4">
+                                                    <td className="p-3 md:p-4 text-slate-400 text-xs md:text-sm whitespace-nowrap">{model.date}</td>
+                                                    <td className="p-3 md:p-4">
                                                         <div className="flex items-center gap-2">
-                                                            <span className="text-cyan-400 font-bold">{model.communityScore}</span>
-                                                            <div className="w-16 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                                            <span className="text-cyan-400 font-bold text-sm">{model.communityScore}</span>
+                                                            <div className="hidden sm:block w-16 h-1.5 bg-slate-700 rounded-full overflow-hidden">
                                                                 <div className="h-full bg-cyan-500" style={{ width: `${(model.communityScore || 0) * 10}%` }} />
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td className="p-4">
+                                                    <td className="hidden md:table-cell p-4">
                                                         {model.badge && (
                                                             <span className="px-2 py-1 rounded text-xs font-medium bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
                                                                 {model.badge}

@@ -13,7 +13,7 @@ export default function Navigation() {
     };
 
     return (
-        <div className="inline-flex flex-wrap justify-center gap-1 sm:gap-2 p-1 sm:p-1.5 rounded-2xl bg-slate-800/50 border border-slate-700/50 max-w-full">
+        <div className="hidden md:inline-flex flex-wrap justify-center gap-1 sm:gap-2 p-1 sm:p-1.5 rounded-2xl bg-slate-800/50 border border-slate-700/50 max-w-full">
             <Link
                 href="/"
                 className={`

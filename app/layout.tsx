@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import BottomNav from '@/components/BottomNav';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -51,7 +52,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased pb-20 md:pb-0">
+        {children}
+        <BottomNav />
+      </body>
     </html>
   );
 }
