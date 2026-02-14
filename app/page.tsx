@@ -166,6 +166,15 @@ export default function Home() {
             >
               Contribute to Wiki
             </a>
+            {' '}•{' '}
+            <a
+              href="https://buymeacoffee.com/vinhle.co"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#FFDD00] hover:text-[#ffe84d] transition-colors"
+            >
+              ☕ Buy me a coffee
+            </a>
           </p>
         </footer>
       </div>

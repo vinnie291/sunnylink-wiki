@@ -92,6 +92,8 @@ export default function StatsPage() {
                         <a href="https://github.com/sunnypilot/sunnypilot" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 transition-colors">GitHub (sunnypilot)</a>
                         {' '}•{' '}
                         <a href="https://github.com/vinnie291/sunnylink-wiki" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 transition-colors">Contribute to Wiki</a>
+                        {' '}•{' '}
+                        <a href="https://buymeacoffee.com/vinhle.co" target="_blank" rel="noopener noreferrer" className="text-[#FFDD00] hover:text-[#ffe84d] transition-colors">☕ Buy me a coffee</a>
                     </p>
                 </footer>
             </div>
