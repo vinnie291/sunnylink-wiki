@@ -5,6 +5,7 @@ import togglesData from '../data/toggles.json';
 import Header from '../components/Header';
 import SettingsDatabase from '../components/SettingsDatabase';
 import ScrollToTop from '../components/ScrollToTop';
+import { useFuzzySearch } from '../hooks/useFuzzySearch';
 
 interface ToggleSetting {
   key: string;
@@ -59,28 +60,20 @@ export default function Home() {
     }));
   }, [categories]);
 
-  // Filter settings based on search and category
-  const filteredSettings = useMemo(() => {
-    return allSettings.filter((setting) => {
-      if (activeCategories.length > 0 && !activeCategories.includes(setting.categoryId)) {
-        return false;
-      }
+  // Filter settings by category first
+  const categoryFiltered = useMemo(() => {
+    if (activeCategories.length === 0) return allSettings;
+    return allSettings.filter((setting) => activeCategories.includes(setting.categoryId));
+  }, [allSettings, activeCategories]);
 
-      if (searchQuery) {
-        const query = searchQuery.toLowerCase();
-        const searchableText = [
-          setting.key,
-          setting.label,
-          setting.description,
-          setting.userNote || '',
-        ].join(' ').toLowerCase();
-
-        return searchableText.includes(query);
-      }
-
-      return true;
-    });
-  }, [allSettings, searchQuery, activeCategories]);
+  // Fuzzy search over category-filtered settings (with acronym indexing on label)
+  const filteredSettings = useFuzzySearch({
+    items: categoryFiltered,
+    keys: ['label', 'key', 'description', 'userNote'],
+    query: searchQuery,
+    threshold: 0.3,
+    acronymKey: 'label',
+  });
 
   // Toggle category in filter
   const handleToggleCategory = useCallback((categoryId: string) => {

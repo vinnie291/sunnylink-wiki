@@ -3,6 +3,7 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import modelsData from '../data/models.json';
+import Fuse from 'fuse.js';
 
 import ViewToggle from './ViewToggle';
 import SearchFilter from './SearchFilter';
@@ -62,7 +63,21 @@ function SentimentBar({ sentiment }: { sentiment: SentimentData }) {
 
 // Model Card Component
 function ModelCard({ model }: { model: Model }) {
-    const [expanded, setExpanded] = useState(false);
+    const [copied, setCopied] = useState(false);
+
+    const handleCopyLink = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        const url = `${window.location.origin}${window.location.pathname}?tab=models#${encodeURIComponent(model.name)}`;
+        try {
+            await navigator.clipboard.writeText(url);
+            setCopied(true);
+            window.history.replaceState(null, '', `?tab=models#${encodeURIComponent(model.name)}`);
+            setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+            console.error('Failed to copy:', err);
+        }
+    };
+
 
     const getBadgeColor = (badge?: string) => {
         const colors: Record<string, string> = {
@@ -104,8 +119,8 @@ function ModelCard({ model }: { model: Model }) {
 
     return (
         <div
-            className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-cyan-500/50 transition-all duration-300 cursor-pointer group"
-            onClick={() => setExpanded(!expanded)}
+            id={model.name}
+            className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-cyan-500/50 transition-all duration-300 group"
         >
             {/* Header */}
             <div className="flex justify-between items-start mb-3">
@@ -132,6 +147,23 @@ function ModelCard({ model }: { model: Model }) {
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
                             </svg>
+                        </button>
+
+                        {/* Share Button */}
+                        <button
+                            onClick={handleCopyLink}
+                            className="p-1 rounded-lg text-slate-500 hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors"
+                            title={copied ? 'Copied!' : 'Share this model'}
+                        >
+                            {copied ? (
+                                <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                </svg>
+                            ) : (
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                                </svg>
+                            )}
                         </button>
 
                     </div>
@@ -212,9 +244,9 @@ function ModelCard({ model }: { model: Model }) {
                 )}
             </div>
 
-            {/* Expandable: Tested On */}
-            {expanded && model.testedOn && model.testedOn.length > 0 && (
-                <div className="mt-3 pt-3 border-t border-slate-700/50 animate-in fade-in duration-200">
+            {/* Tested On — always visible */}
+            {model.testedOn && model.testedOn.length > 0 && (
+                <div className="mt-3 pt-3 border-t border-slate-700/50">
                     <p className="text-xs text-slate-500 mb-1">🚗 Tested on:</p>
                     <div className="flex flex-wrap gap-1">
                         {model.testedOn.map((car) => (
@@ -223,15 +255,6 @@ function ModelCard({ model }: { model: Model }) {
                             </span>
                         ))}
                     </div>
-                </div>
-            )}
-
-            {/* Expand hint */}
-            {model.testedOn && model.testedOn.length > 0 && (
-                <div className="text-center mt-2">
-                    <span className="text-[10px] text-slate-600 group-hover:text-slate-400 transition-colors">
-                        {expanded ? '▲ Click to collapse' : '▼ Click for vehicle compatibility'}
-                    </span>
                 </div>
             )}
         </div>
@@ -256,6 +279,25 @@ export default function ModelLibrary() {
 
 
     // Keyboard shortcut handled by SearchFilter component
+
+    // Hash-based scroll anchoring for shared model links
+    useEffect(() => {
+        const hash = window.location.hash;
+        if (hash) {
+            const modelName = decodeURIComponent(hash.slice(1));
+            // Switch to "All Models" so the target card is rendered
+            setActiveCategory('all');
+            // Delay to allow the grid to render
+            setTimeout(() => {
+                const el = document.getElementById(modelName);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    el.classList.add('ring-2', 'ring-cyan-500/70');
+                    setTimeout(() => el.classList.remove('ring-2', 'ring-cyan-500/70'), 3000);
+                }
+            }, 300);
+        }
+    }, []);
 
     const [sortBy, setSortBy] = useState<string>('date-desc');
     const { viewMode, setViewMode } = useViewMode('models_page', 'grid');
@@ -284,19 +326,23 @@ export default function ModelLibrary() {
 
 
     const baseModels = searchQuery
-        ? categories.flatMap(cat => cat.models) // Note: This might have duplicates if searching global, but usually search filters unique models. Actually 'categories' now has 'All Models' which contains everything. 
-        // If we search, we should maybe just search 'All Models'. 
-        // Let's rely on 'All Models' being first if search is present, or just use deduplicated list.
+        ? categories[0].models // search across 'All Models'
         : categories.find(c => c.id === activeCategory)?.models || [];
 
-    // Fix search overlap: If searching, use the 'All Models' list (which is index 0) to avoid duplicates from multiple categories
-    const modelsToDisplay = searchQuery
-        ? categories[0].models.filter(model =>
-            model.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            model.consensus?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            model.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-        )
-        : baseModels;
+    // Fuzzy search using Fuse.js for models (searches name, consensus, tags)
+    const modelsToDisplay = useMemo(() => {
+        if (!searchQuery || searchQuery.trim().length === 0) return baseModels;
+
+        const fuse = new Fuse(baseModels, {
+            keys: ['name', 'consensus', 'tags'],
+            threshold: 0.3,
+            includeScore: true,
+            ignoreLocation: true,
+            minMatchCharLength: 2,
+        });
+
+        return fuse.search(searchQuery).map(result => result.item);
+    }, [baseModels, searchQuery]);
 
     const activeModels = useMemo(() => {
         const sorted = [...modelsToDisplay].sort((a, b) => {

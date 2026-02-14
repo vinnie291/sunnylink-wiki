@@ -17,9 +17,24 @@ export default function SearchFilter({
     resultCount,
     totalCount,
     itemLabel = "toggles",
-    placeholder = "Search... (Cmd+K)"
+    placeholder,
 }: SearchFilterProps) {
     const [localValue, setLocalValue] = useState(value);
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Detect mobile/touch device for placeholder text (touch OR narrow viewport)
+    useEffect(() => {
+        const checkMobile = () => {
+            const isTouch = window.matchMedia('(pointer: coarse)').matches;
+            const isNarrow = window.matchMedia('(max-width: 768px)').matches;
+            setIsMobile(isTouch || isNarrow);
+        };
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    const resolvedPlaceholder = placeholder ?? (isMobile ? 'Search...' : 'Search... (Cmd+K)');
     const inputRef = useRef<HTMLInputElement>(null);
 
     // Debounce search input
@@ -78,7 +93,7 @@ export default function SearchFilter({
                         type="text"
                         value={localValue}
                         onChange={(e) => setLocalValue(e.target.value)}
-                        placeholder={placeholder}
+                        placeholder={resolvedPlaceholder}
                         className="
               w-full py-4 pl-12 pr-12 
               bg-slate-800/80 backdrop-blur-sm
