@@ -8,7 +8,7 @@
 
 <img width="1448" height="1142" alt="vwEIcgLrhY" src="https://github.com/user-attachments/assets/c4dc3055-df88-4b39-8b28-56a512f5c067" />
 
-### Check it out here: https://vinhle.co/sp
+### Check it out here: https://sunnylink.wiki
 
 ---
 
