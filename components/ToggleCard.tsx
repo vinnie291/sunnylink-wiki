@@ -130,6 +130,11 @@ function SliderSimulator({
             onChange={(e) => setValue(parseFloat(e.target.value))}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           />
+          {/* Default Value Marker */}
+          <div
+            className="absolute top-1/2 -translate-y-1/2 w-1 h-3 bg-slate-500/50 rounded-full"
+            style={{ left: `calc(${((defaultValue - min) / range) * 100}% - 2px)` }}
+          />
           {/* Knob */}
           <div
             className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full border-[3px] border-[#5b36f5] shadow-md pointer-events-none"

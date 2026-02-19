@@ -63,7 +63,24 @@ export default function Home() {
   // Filter settings by category first
   const categoryFiltered = useMemo(() => {
     if (activeCategories.length === 0) return allSettings;
-    return allSettings.filter((setting) => activeCategories.includes(setting.categoryId));
+
+    // Check if 'recommended' filter is active
+    const showRecommendedOnly = activeCategories.includes('recommended');
+    const standardCategories = activeCategories.filter(id => id !== 'recommended');
+
+    let filtered = allSettings;
+
+    // Apply standard category filter if any selected
+    if (standardCategories.length > 0) {
+      filtered = filtered.filter((setting) => standardCategories.includes(setting.categoryId));
+    }
+
+    // Apply recommended filter if selected
+    if (showRecommendedOnly) {
+      filtered = filtered.filter((setting) => !!setting.recommended);
+    }
+
+    return filtered;
   }, [allSettings, activeCategories]);
 
   // Fuzzy search over category-filtered settings (with acronym indexing on label)
@@ -136,8 +153,9 @@ export default function Home() {
           highlightedKey={highlightedKey}
         />
 
+
         {/* Footer */}
-        <footer className="mt-16 text-center text-slate-600 text-sm">
+        <footer className="mt-16 text-center text-slate-600 text-sm lg:hidden">
           <p>
             Built for the Sunnypilot community •{' '}
             <a
@@ -156,15 +174,6 @@ export default function Home() {
               className="text-cyan-500 hover:text-cyan-400 transition-colors"
             >
               GitHub (sunnypilot)
-            </a>
-            {' '}•{' '}
-            <a
-              href="https://github.com/vinnie291/sunnylink-wiki"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-cyan-500 hover:text-cyan-400 transition-colors"
-            >
-              Contribute to Wiki
             </a>
             {' '}•{' '}
             <a

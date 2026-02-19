@@ -28,17 +28,6 @@
           "userNote": "Default 0.00. Adjust if you feel the car drives too far left or right in the lane."
         },
         {
-          "key": "LiveLearningSteerDelay",
-          "label": "Live Learning Steer Delay",
-          "type": "toggle",
-          "default": true,
-          "description": "Allow device to learn and adapt car's steering response time.",
-          "recommended": true,
-          "useCase": "Automatically compensates for vehicle-specific steering latency.",
-          "deepDive": "Measures the delay between commanded steering angle and actual wheel movement, then adjusts predictions to compensate.",
-          "userNote": "Keep ON for optimal steering response."
-        },
-        {
           "key": "LaneTurnDesire",
           "label": "Lane Turn Desire",
           "type": "toggle",
@@ -388,29 +377,6 @@
           "userNote": "Useful for long highway drives to maintain alertness."
         },
         {
-          "key": "ShowAdvancedControls",
-          "label": "Show Advanced Controls",
-          "type": "toggle",
-          "default": true,
-          "description": "Unlocks hidden settings menus.",
-          "recommended": true,
-          "useCase": "Access all available configuration options.",
-          "userNote": "Keep ON to see everything in this list."
-        },
-        {
-          "key": "QuickBoot",
-          "label": "Quick Boot",
-          "type": "toggle",
-          "default": false,
-          "description": "Attempts to boot the software faster by skipping checks.",
-          "useCase": "Faster startup for impatient users.",
-          "tradeoffs": [
-            "May miss important initialization steps.",
-            "Can cause instability or crashes."
-          ],
-          "warning": "Can cause instability. Keep OFF unless boot times are annoying."
-        },
-        {
           "key": "DisengageOnAccelerator",
           "label": "Disengage On Accelerator",
           "type": "toggle",
@@ -627,6 +593,41 @@
           "warning": "Advanced Only. Don't touch unless you know your car's specific physics."
         },
         {
+          "key": "ManualTuneFriction",
+          "label": "Manual Tune - Friction",
+          "type": "slider",
+          "default": 0.10,
+          "min": 0.00,
+          "max": 1.00,
+          "unit": "",
+          "description": "Adjusts the friction compensation in the steering controller.",
+          "helpText": "Range: 0.00 - 1.00",
+          "dependencies": [
+            {
+              "key": "EnableCustomTorqueTuning",
+              "label": "Enable Custom Torque Tuning"
+            }
+          ],
+          "useCase": "Fine-tune steering feel if it feels too sticky or too loose.",
+          "tradeoffs": [
+            "Too high: oscillation/ping-ponging.",
+            "Too low: insufficient torque to hold the lane."
+          ],
+          "userNote": "Default 0.10. Adjust in small increments (0.01)."
+        },
+        {
+          "key": "TorqueControlTuneVersion",
+          "label": "Torque Control Tune Version",
+          "type": "dropdown",
+          "options": [
+            "Default",
+            "v1.0",
+            "v0.0"
+          ],
+          "default": "Default",
+          "description": "Select the version of Torque Control Tune to use."
+        },
+        {
           "key": "BlinkerMinLateralControlSpeed",
           "label": "Blinker Min Lateral Control Speed",
           "type": "slider",
@@ -668,19 +669,14 @@
           "userNote": "'Dynamic' can fix sluggish acceleration in Eco/Normal modes."
         },
         {
-          "key": "LongitudinalManeuverMode",
-          "label": "Longitudinal Maneuver Mode",
+          "key": "TeslaCoopSteering",
+          "label": "Tesla Coop Steering",
           "type": "toggle",
           "default": false,
-          "description": "Specialized handling for low-speed maneuvers.",
-          "dependencies": [
-            {
-              "key": "AlphaLongitudinal",
-              "label": "Alpha Longitudinal"
-            }
-          ],
-          "useCase": "Smoother stop-and-go traffic behavior.",
-          "userNote": "Helps with stop-and-go smoothness."
+          "description": "Allow driver steering input.",
+          "helpText": "Default: False",
+          "deepDive": "Enables 'torque blending' where the system blends with your input for a more intuitive, less aggressive experience. Allows steering activation without cruise control (MADS).",
+          "userNote": "Vehicle-specific: Only for Tesla vehicles."
         }
       ]
     },
@@ -955,29 +951,29 @@
         },
         {
           "key": "LeadDepartAlert",
-          "label": "Lead Depart Alert",
+          "label": "Lead Departure Alert (Beta)",
           "type": "toggle",
           "default": false,
-          "description": "Chimes when the car in front starts moving.",
+          "description": "A chime and on-screen alert (TIZI/TICI only) will play when you are stopped, and the vehicle in front of you start moving. <br>Note: This chime is only designed as a notification. It is the driver's responsibility to observe their environment and make decisions accordingly.",
           "recommended": true,
           "useCase": "Prevents getting honked at in stop-and-go traffic.",
           "userNote": "Good for stop-and-go traffic."
         },
         {
           "key": "ShowTurnSignals",
-          "label": "Show Turn Signals",
+          "label": "[TIZI/TICI only] Display Turn Signals",
           "type": "toggle",
-          "default": true,
-          "description": "Visualizes your blinkers on the device screen.",
+          "default": false,
+          "description": "When enabled, visual turn indicators are drawn on the HUD.",
           "useCase": "Visual confirmation that blinker is active.",
           "userNote": "Mostly cosmetic verification."
         },
         {
           "key": "BlindSpotDetection",
-          "label": "Blind Spot Detection",
+          "label": "[TIZI/TICI only] Blind Spot Detection",
           "type": "toggle",
-          "default": true,
-          "description": "Shows an icon when a car is in your blind spot.",
+          "default": false,
+          "description": "Enabling this will display warnings when a vehicle is detected in your blind spot as long as your car has BSM supported.",
           "recommended": true,
           "useCase": "Redundant BSM warning if you miss the mirror indicator.",
           "userNote": "Extra safety layer if you don't look at mirrors (please look at mirrors)."
@@ -1059,21 +1055,39 @@
         },
         {
           "key": "HideVEgoUI",
-          "label": "Hide vEgo UI",
+          "label": "[TIZI/TICI only] Speedometer: Hide from Onroad Screen",
           "type": "toggle",
           "default": false,
-          "description": "Hide velocity readout from the display.",
+          "description": "When enabled, the speedometer on the onroad screen is not displayed.",
           "useCase": "Minimize distractions by hiding speed display.",
           "userNote": "Enable for a cleaner screen appearance."
         },
         {
           "key": "TrueVEgoUI",
-          "label": "True vEgo UI",
+          "label": "[TIZI/TICI only] Speedometer: Always Display True Speed",
           "type": "toggle",
           "default": false,
-          "description": "Show raw vehicle speed without filtering.",
+          "description": "For applicable vehicles, always display the true vehicle current speed from wheel speed sensors.",
           "useCase": "Display true speedometer reading from vehicle sensors.",
           "userNote": "Shows actual speed rather than smoothed values."
+        },
+        {
+          "key": "DisplayRocketFuelBar",
+          "label": "[TIZI/TICI only] Real-time Acceleration Bar",
+          "type": "toggle",
+          "default": false,
+          "description": "Show an indicator on the left side of the screen to display real-time vehicle acceleration and deceleration. This displays what the car is currently doing, not what the planner is requesting.",
+          "useCase": "Visualize how hard the system is accelerating or braking.",
+          "userNote": "Cool visual indicator showing throttle/brake intensity."
+        },
+        {
+          "key": "SteeringArc",
+          "label": "[TIZI/TICI only] Steering Arc",
+          "type": "toggle",
+          "default": false,
+          "description": "Display steering arc on the driving screen when lateral control is enabled.",
+          "useCase": "Visual feedback of steering path.",
+          "userNote": "Shows where the car is planning to steer."
         }
       ]
     },
@@ -1083,15 +1097,6 @@
       "icon": "👨‍💻",
       "description": "Advanced tools for debugging and development.",
       "settings": [
-        {
-          "key": "EnableSunnylinkUploader",
-          "label": "Enable sunnylink Uploader",
-          "type": "toggle",
-          "default": false,
-          "description": "Upload drives to sunnylink.",
-          "useCase": "Enable uploading drive data to sunnylink servers for cloud storage and analysis.",
-          "userNote": "Enable to upload your drives to sunnylink."
-        },
         {
           "key": "EnableSsh",
           "label": "Enable SSH",
@@ -1116,6 +1121,38 @@
           "userNote": "Developer use only."
         },
         {
+          "key": "EnableSunnylinkUploader",
+          "label": "Enable sunnylink Uploader",
+          "type": "toggle",
+          "default": false,
+          "description": "Upload drives to sunnylink.",
+          "useCase": "Enable uploading drive data to sunnylink servers for cloud storage and analysis.",
+          "userNote": "Enable to upload your drives to sunnylink."
+        },
+        {
+          "key": "ShowAdvancedControls",
+          "label": "Show Advanced Controls",
+          "type": "toggle",
+          "default": true,
+          "description": "Unlocks hidden settings menus.",
+          "recommended": true,
+          "useCase": "Access all available configuration options.",
+          "userNote": "Keep ON to see everything in this list."
+        },
+        {
+          "key": "QuickBoot",
+          "label": "Quick Boot",
+          "type": "toggle",
+          "default": false,
+          "description": "Attempts to boot the software faster by skipping checks.",
+          "useCase": "Faster startup for impatient users.",
+          "tradeoffs": [
+            "May miss important initialization steps.",
+            "Can cause instability or crashes."
+          ],
+          "warning": "Can cause instability. Keep OFF unless boot times are annoying."
+        },
+        {
           "key": "CopypartyService",
           "label": "copyparty Service",
           "type": "toggle",
@@ -1123,6 +1160,86 @@
           "description": "Runs a local file server on the device.",
           "useCase": "Download drive videos over WiFi without SSH.",
           "userNote": "Easy way to download drive videos via WiFi."
+        },
+        {
+          "key": "JoystickDebugMode",
+          "label": "Joystick Debug Mode",
+          "type": "toggle",
+          "default": false,
+          "description": "Enable joystick debugging.",
+          "useCase": "Debug joystick inputs.",
+          "userNote": "Developer use only."
+        },
+        {
+          "key": "LongitudinalManeuverMode",
+          "label": "Longitudinal Maneuver Mode",
+          "type": "toggle",
+          "default": false,
+          "description": "Specialized handling for low-speed maneuvers.",
+          "dependencies": [
+            {
+              "key": "AlphaLongitudinal",
+              "label": "Alpha Longitudinal"
+            }
+          ],
+          "useCase": "Smoother stop-and-go traffic behavior.",
+          "userNote": "Helps with stop-and-go smoothness."
+        },
+        {
+          "key": "GithubRunnerService",
+          "label": "GitHub Runner Service",
+          "type": "toggle",
+          "default": false,
+          "description": "Enable CI/CD runner.",
+          "useCase": "Runs GitHub Actions runner on the device.",
+          "userNote": "Developer use only."
+        },
+        {
+          "key": "GithubRunnerSufficientVoltage",
+          "label": "GitHub Runner Sufficient Voltage",
+          "type": "toggle",
+          "default": true,
+          "description": "Check voltage for GitHub runner.",
+          "useCase": "Ensures sufficient voltage before running CI jobs.",
+          "userNote": "Prevents battery drain during CI tasks."
+        },
+        {
+          "key": "UiDebugMode",
+          "label": "UI Debug Mode",
+          "type": "toggle",
+          "default": false,
+          "description": "Displays UI debug information.",
+          "useCase": "Show debug information on the UI.",
+          "userNote": "Developer use only."
+        },
+        {
+          "key": "ObdMultiplexingEnabled",
+          "label": "Obd Multiplexing Enabled",
+          "type": "toggle",
+          "default": false,
+          "description": "Enable OBD multiplexing.",
+          "useCase": "Enables multiplexing for OBD connection.",
+          "userNote": "Advanced OBD configuration."
+        },
+        {
+          "key": "ModelManagerClearCache",
+          "label": "Model Manager Clear Cache",
+          "type": "toggle",
+          "default": false,
+          "description": "Delete downloaded models.",
+          "useCase": "Clears cached model files.",
+          "userNote": "Frees up storage space by removing old models."
+        },
+        {
+          "key": "LiveLearningSteerDelay",
+          "label": "Live Learning Steer Delay",
+          "type": "toggle",
+          "default": true,
+          "description": "Allow device to learn and adapt car's steering response time.",
+          "recommended": true,
+          "useCase": "Automatically compensates for vehicle-specific steering latency.",
+          "deepDive": "Measures the delay between commanded steering angle and actual wheel movement, then adjusts predictions to compensate.",
+          "userNote": "Keep ON for optimal steering response."
         },
         {
           "key": "ManualSoftwareDelay",
@@ -1185,15 +1302,6 @@
             "Lower values = smoother but may drift from center."
           ],
           "userNote": "Default 1.0. Increase if car drifts too much, decrease if ping-ponging."
-        },
-        {
-          "key": "DisplayRocketFuelBar",
-          "label": "Display Rocket Fuel Bar",
-          "type": "toggle",
-          "default": false,
-          "description": "Show an indicator on the left side of the screen to display real-time vehicle acceleration and deceleration.",
-          "useCase": "Visualize how hard the system is accelerating or braking.",
-          "userNote": "Cool visual indicator showing throttle/brake intensity."
         },
         {
           "key": "HasAcceptedSunnypilotTerms",

@@ -275,6 +275,7 @@ const getVibeIcon = (consensus?: string) => {
 export default function ModelLibrary() {
     const [activeCategory, setActiveCategory] = useState<string>('favorites');
     const [showVibeGuide, setShowVibeGuide] = useState(false);
+    const [showMobileCategories, setShowMobileCategories] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
 
 
@@ -465,37 +466,77 @@ export default function ModelLibrary() {
                         itemLabel="models"
                     />
 
-                    <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
-                        {categories.map((cat) => (
-                            <button
-                                key={cat.id}
-                                onClick={() => {
-                                    setActiveCategory(cat.id);
-                                    setSearchQuery('');
-                                }}
-                                className={`
-                                    shrink-0 px-4 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap border
-                                    ${activeCategory === cat.id && !searchQuery
-                                        ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30'
-                                        : 'bg-slate-800/50 text-slate-400 border-slate-700/50'
-                                    }
-                                `}
-                            >
-                                <span className="mr-2">{cat.icon}</span>
-                                {cat.name}
-                            </button>
-                        ))}
-                    </div>
-
                     <button
                         onClick={() => setShowVibeGuide(!showVibeGuide)}
-                        className="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-700/50 text-slate-300"
+                        className="flex items-center justify-between w-full text-left"
                     >
-                        <span className="font-medium text-sm">📖 Vibe Guide</span>
-                        <svg className={`w-4 h-4 transition-transform ${showVibeGuide ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <span className="text-sm text-slate-500 uppercase tracking-wider font-medium">Vibe Guide</span>
+                        <svg
+                            className={`w-4 h-4 text-slate-500 transition-transform duration-300 ${showVibeGuide ? 'rotate-180' : ''}`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
+
+                    <div className={`grid gap-2 transition-all duration-300 overflow-hidden ${showVibeGuide ? 'max-h-[1000px] opacity-100 mt-2 pb-4' : 'max-h-0 opacity-0 mt-0'}`}>
+                        {Object.entries(vibeGuide).map(([key, guide]) => (
+                            <div key={key} className="p-3 rounded-lg bg-slate-800/50 border border-slate-700/50">
+                                <h4 className="text-white font-semibold text-xs mb-1">{guide.title}</h4>
+                                <p className="text-[10px] text-slate-500 mb-1">{guide.includes}</p>
+                                <p className="text-[10px] text-slate-400 mb-1">{guide.vibe}</p>
+                                <p className="text-[10px] text-emerald-400">
+                                    <span className="font-medium">Best:</span> {guide.bestFor}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="space-y-3">
+                        <button
+                            onClick={() => setShowMobileCategories(!showMobileCategories)}
+                            className="flex items-center justify-between w-full text-left"
+                        >
+                            <span className="text-sm text-slate-500 uppercase tracking-wider font-medium">Categories</span>
+                            <svg
+                                className={`w-4 h-4 text-slate-500 transition-transform duration-300 ${showMobileCategories ? 'rotate-180' : ''}`}
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <div className={`flex flex-wrap gap-2 transition-all duration-300 overflow-hidden ${showMobileCategories ? 'max-h-[500px] opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0'}`}>
+                            {categories.map((cat) => (
+                                <button
+                                    key={cat.id}
+                                    onClick={() => {
+                                        setActiveCategory(cat.id);
+                                        setSearchQuery('');
+                                    }}
+                                    className={`
+                                        shrink-0 px-4 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap border
+                                        ${activeCategory === cat.id && !searchQuery
+                                            ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30'
+                                            : 'bg-slate-800/50 text-slate-400 border-slate-700/50'
+                                        }
+                                    `}
+                                >
+                                    <span className="mr-2">{cat.icon}</span>
+                                    {cat.name}
+                                    <span className={`ml-2 px-1.5 py-0.5 rounded-md text-xs ${activeCategory === cat.id && !searchQuery ? 'bg-cyan-500/30' : 'bg-slate-700/50'}`}>
+                                        {cat.models.length}
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+
                 </div>
 
                 {/* Header with Sort */}
@@ -555,7 +596,7 @@ export default function ModelLibrary() {
 
                 {/* Vibe Guide Content (Shows above grid if active) */}
                 {showVibeGuide && (
-                    <div className="mb-8 grid gap-3 md:grid-cols-2 animate-in fade-in slide-in-from-top-4 duration-300">
+                    <div className="hidden lg:grid mb-8 gap-3 md:grid-cols-2 animate-in fade-in slide-in-from-top-4 duration-300">
                         {Object.entries(vibeGuide).map(([key, guide]) => (
                             <div key={key} className="p-4 rounded-xl bg-slate-800/30 border border-slate-700/50 hover:bg-slate-800/50 transition-colors">
                                 <h4 className="text-white font-semibold text-sm mb-1">{guide.title}</h4>

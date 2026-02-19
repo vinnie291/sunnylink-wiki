@@ -135,9 +135,8 @@ export default function SearchFilter({
                             Found <span className="text-cyan-400 font-medium">{resultCount}</span> of {totalCount} {itemLabel}
                         </>
                     ) : (
-                        <>
-                            <span className="text-slate-400 font-medium">{totalCount}</span> {itemLabel} available
-                        </>
+                        // Empty when no search
+                        null
                     )}
                 </span>
 
