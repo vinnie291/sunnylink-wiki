@@ -8,6 +8,7 @@ import Fuse from 'fuse.js';
 import ViewToggle from './ViewToggle';
 import SearchFilter from './SearchFilter';
 import { useViewMode } from '../hooks/useViewMode';
+import { useScrollDirection } from '../hooks/useScrollDirection';
 
 interface SentimentData {
     great: number;
@@ -302,6 +303,7 @@ export default function ModelLibrary() {
 
     const [sortBy, setSortBy] = useState<string>('date-desc');
     const { viewMode, setViewMode } = useViewMode('models_page', 'grid');
+    const scrollDirection = useScrollDirection();
 
     const rawCategories = modelsData.categories as ModelCategory[];
     const vibeGuide = modelsData.vibeGuide as Record<string, VibeGuide>;
@@ -457,7 +459,7 @@ export default function ModelLibrary() {
             {/* Main Content Area */}
             <div className="flex-1 min-w-0">
                 {/* Mobile Filters - Sticky on scroll */}
-                <div className="lg:hidden sticky top-0 z-20 -mx-4 px-4 pt-2 pb-4 bg-slate-950/95 backdrop-blur-sm space-y-4 mb-6">
+                <div className={`lg:hidden sticky top-0 z-20 -mx-4 px-4 pt-2 pb-4 bg-slate-950/95 backdrop-blur-sm space-y-4 mb-6 transition-transform duration-300 ${scrollDirection === 'down' ? '-translate-y-full' : 'translate-y-0'}`}>
                     <SearchFilter
                         value={searchQuery}
                         onChange={setSearchQuery}

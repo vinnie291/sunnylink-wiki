@@ -13,7 +13,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Sunnylink Wiki | Sunnypilot Settings Database",
   description: "The complete wiki for Sunnypilot. A searchable database of settings, driving models, and features.",
-  keywords: ["sunnypilot", "openpilot", "MADS", "NNLC", "self-driving", "comma.ai", "settings", "toggles", "models"],
+  keywords: ["sunnylink", "sunnylink wiki", "sunnylink ai", "sunnypilot", "openpilot", "MADS", "NNLC", "self-driving", "comma.ai", "settings", "toggles", "models"],
   openGraph: {
     title: "Sunnylink Wiki",
     description: "The complete wiki for Sunnypilot. Settings, models, and features.",

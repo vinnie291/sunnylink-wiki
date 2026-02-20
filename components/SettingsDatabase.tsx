@@ -8,6 +8,7 @@ import CategoryFilter from './CategoryFilter';
 import EmptyState from './EmptyState';
 import ViewToggle from './ViewToggle';
 import { useViewMode } from '../hooks/useViewMode';
+import { useScrollDirection } from '../hooks/useScrollDirection';
 
 interface ToggleSetting {
     key: string;
@@ -49,6 +50,7 @@ export default function SettingsDatabase({
     highlightedKey
 }: SettingsDatabaseProps) {
     const { viewMode, setViewMode } = useViewMode('settings_page', 'grid');
+    const scrollDirection = useScrollDirection();
     const [sortBy, setSortBy] = useState<string>('name-asc');
     // sortDirection is no longer needed as it's embedded in sortBy
 
@@ -151,7 +153,7 @@ export default function SettingsDatabase({
             </aside >
 
             {/* Mobile Filters - Sticky on scroll */}
-            < div className="lg:hidden sticky top-0 z-20 -mx-4 px-4 pt-2 pb-4 bg-slate-950/95 backdrop-blur-sm space-y-4 mb-6" >
+            <div className={`lg:hidden sticky top-0 z-20 -mx-4 px-4 pt-2 pb-4 bg-slate-950/95 backdrop-blur-sm space-y-4 mb-6 transition-transform duration-300 ${scrollDirection === 'down' ? '-translate-y-full' : 'translate-y-0'}`}>
                 <SearchFilter
                     value={searchQuery}
                     onChange={setSearchQuery}

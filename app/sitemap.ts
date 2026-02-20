@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://sunnylink-wiki.vercel.app'; // Assuming deployment URL, should ideally be env var
+    const baseUrl = 'https://www.sunnylink.wiki'; // Assuming deployment URL, should ideally be env var
 
     return [
         {
@@ -26,6 +26,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             url: `${baseUrl}/wizard`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/stats`,
+            lastModified: new Date(),
+            changeFrequency: 'always',
             priority: 0.8,
         },
     ];
