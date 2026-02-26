@@ -19,7 +19,7 @@ export default function Navigation() {
                 className={`
                 px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all
                 ${isActive('/')
-                        ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
+                        ? 'bg-cyan-700 text-white shadow-lg shadow-cyan-500/30'
                         : 'text-slate-400 hover:text-white hover:bg-slate-700/50'
                     }
               `}
@@ -31,7 +31,7 @@ export default function Navigation() {
                 className={`
                 px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all
                 ${isActive('/models')
-                        ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
+                        ? 'bg-cyan-700 text-white shadow-lg shadow-cyan-500/30'
                         : 'text-slate-400 hover:text-white hover:bg-slate-700/50'
                     }
               `}
@@ -43,7 +43,7 @@ export default function Navigation() {
                 className={`
                 px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all
                 ${isActive('/features')
-                        ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
+                        ? 'bg-cyan-700 text-white shadow-lg shadow-cyan-500/30'
                         : 'text-slate-400 hover:text-white hover:bg-slate-700/50'
                     }
               `}
@@ -55,7 +55,7 @@ export default function Navigation() {
                 className={`
                 px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all
                 ${isActive('/stats')
-                        ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
+                        ? 'bg-cyan-700 text-white shadow-lg shadow-cyan-500/30'
                         : 'text-slate-400 hover:text-white hover:bg-slate-700/50'
                     }
               `}
@@ -67,7 +67,7 @@ export default function Navigation() {
                 className={`
                 group relative px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all overflow-hidden
                 ${isActive('/wizard')
-                        ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30'
+                        ? 'bg-gradient-to-r from-cyan-700 to-blue-700 text-white shadow-lg shadow-cyan-500/30'
                         : 'text-slate-400 hover:text-white bg-transparent hover:bg-slate-800'
                     }
               `}

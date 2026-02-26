@@ -131,7 +131,7 @@ export default function SettingsDatabase({
 
                     {/* Help Card */}
                     <div className="bg-gradient-to-br from-cyan-500/10 to-violet-500/10 rounded-2xl border border-cyan-500/20 p-4">
-                        <h3 className="text-sm font-medium text-white mb-2">💡 Quick Tip</h3>
+                        <p className="text-sm font-medium text-white mb-2">💡 Quick Tip</p>
                         <p className="text-xs text-slate-400 leading-relaxed">
                             Click the flag icon on any setting to report issues or suggest improvements.
                         </p>
