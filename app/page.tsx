@@ -1,11 +1,13 @@
 'use client';
 
 import { useState, useMemo, useCallback } from 'react';
+import dynamic from 'next/dynamic';
 import togglesData from '../data/toggles.json';
 import Header from '../components/Header';
 import SettingsDatabase from '../components/SettingsDatabase';
-import ScrollToTop from '../components/ScrollToTop';
 import { useFuzzySearch } from '../hooks/useFuzzySearch';
+
+const ScrollToTop = dynamic(() => import('../components/ScrollToTop'), { ssr: false });
 
 interface ToggleSetting {
   key: string;

@@ -40,7 +40,7 @@ export default function CategoryFilter({
         <div className="space-y-3">
             <div className="flex items-center justify-between" onClick={collapsible ? toggleOpen : undefined}>
                 <button
-                    className={`flex items-center gap-2 text-sm text-slate-500 uppercase tracking-wider font-medium w-full text-left ${collapsible ? 'cursor-pointer hover:text-slate-300' : ''}`}
+                    className={`flex items-center gap-2 text-sm text-slate-400 uppercase tracking-wider font-medium w-full text-left ${collapsible ? 'cursor-pointer hover:text-slate-300' : ''}`}
                     disabled={!collapsible}
                 >
                     <span>Categories</span>

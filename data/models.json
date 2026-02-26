@@ -1,8 +1,8 @@
 {
     "appName": "Sunnylink Model Database",
     "version": "7.0",
-    "totalModels": 64,
-    "lastUpdated": "2026-01-27",
+    "totalModels": 65,
+    "lastUpdated": "2026-02-20",
     "vibeGuide": {
         "wmi_2026": {
             "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -168,6 +168,35 @@
             "description": "Latest End-to-End architecture. Understands 3D scenes, stop signs, and complex intersections.",
             "icon": "🚀",
             "models": [
+                {
+                    "name": "Off-Policy Model v2",
+                    "date": "February 20, 2026",
+                    "badge": "NEW",
+                    "tags": [
+                        "Off-Policy",
+                        "Highway",
+                        "Experimental"
+                    ],
+                    "communityScore": 69,
+                    "totalVotes": 13,
+                    "sentiment": {
+                        "great": 39,
+                        "good": 15,
+                        "ok": 31,
+                        "bad": 15
+                    },
+                    "consensus": "Second iteration of off-policy training. Lateral performance is praised — doesn't hug the left side and less huggy on highway turns at 70+. However, longitudinal control is a notable regression: late braking, rubberbanding behind lead cars, and exaggerated follow distances are commonly reported. Best on comma 4; mixed results on other platforms.",
+                    "note": "Strong lateral improvements over v1, but long control needs work. Community opinion is split — some love the lat, others can't tolerate the long behavior.",
+                    "bestFor": "Highway",
+                    "steeringFeel": "Balanced",
+                    "testedOn": [
+                        "Hyundai Elantra HEV",
+                        "Mazda CX-5",
+                        "Rivian",
+                        "comma 4"
+                    ],
+                    "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v2-20-feb-2026/3162"
+                },
                 {
                     "name": "Off-Policy Model",
                     "date": "February 4, 2026",

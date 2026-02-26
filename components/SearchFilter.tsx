@@ -94,12 +94,13 @@ export default function SearchFilter({
                         value={localValue}
                         onChange={(e) => setLocalValue(e.target.value)}
                         placeholder={resolvedPlaceholder}
+                        aria-label="Search settings"
                         className="
               w-full py-4 pl-12 pr-12 
               bg-slate-800/80 backdrop-blur-sm
               border border-slate-700/50 
               rounded-2xl
-              text-white placeholder-slate-500
+              text-white placeholder-slate-400
               focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20
               transition-all duration-200
               text-base

@@ -1,7 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
-import Fuse, { type IFuseOptions } from 'fuse.js';
+import { useMemo, useRef, useState, useEffect } from 'react';
 
 /**
  * Generate an acronym from a label string.
@@ -20,7 +19,7 @@ export function generateAcronym(label: string): string {
 
 interface UseFuzzySearchOptions<T> {
     items: T[];
-    keys: IFuseOptions<T>['keys'];
+    keys: string[];
     query: string;
     threshold?: number;
     /** If true, add an 'acronym' field derived from the specified label key */
@@ -28,8 +27,9 @@ interface UseFuzzySearchOptions<T> {
 }
 
 /**
- * Client-side fuzzy search hook using Fuse.js.
+ * Client-side fuzzy search hook using Fuse.js (lazy-loaded).
  * Supports typo tolerance and optional acronym indexing.
+ * Fuse.js is only loaded on the first non-empty query.
  */
 export function useFuzzySearch<T extends Record<string, unknown>>({
     items,
@@ -38,6 +38,12 @@ export function useFuzzySearch<T extends Record<string, unknown>>({
     threshold = 0.3,
     acronymKey,
 }: UseFuzzySearchOptions<T>): T[] {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const fuseRef = useRef<any>(null);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const FuseClassRef = useRef<any>(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+
     // Enrich items with acronyms if requested
     const enrichedItems = useMemo(() => {
         if (!acronymKey) return items;
@@ -49,24 +55,42 @@ export function useFuzzySearch<T extends Record<string, unknown>>({
         }));
     }, [items, acronymKey]);
 
-    // Build Fuse index
-    const fuse = useMemo(() => {
-        const fuseKeys = acronymKey
-            ? [...(keys as string[]), '_acronym']
-            : (keys as string[]);
+    // Lazy-load Fuse.js only when user starts typing
+    useEffect(() => {
+        if (!query || query.trim().length === 0) return;
+        if (FuseClassRef.current) return; // Already loaded
 
-        return new Fuse(enrichedItems, {
+        let cancelled = false;
+        import('fuse.js').then(mod => {
+            if (cancelled) return;
+            FuseClassRef.current = mod.default;
+            setIsLoaded(true);
+        });
+
+        return () => { cancelled = true; };
+    }, [query]);
+
+    // Build Fuse index (only after Fuse is loaded)
+    useMemo(() => {
+        if (!FuseClassRef.current) return;
+
+        const fuseKeys = acronymKey
+            ? [...keys, '_acronym']
+            : keys;
+
+        fuseRef.current = new FuseClassRef.current(enrichedItems, {
             keys: fuseKeys,
             threshold,
             includeScore: true,
-            ignoreLocation: true,   // Don't penalise matches appearing later in the string
-            minMatchCharLength: 2,  // Require at least 2 chars to start fuzzy matching
+            ignoreLocation: true,
+            minMatchCharLength: 2,
         });
-    }, [enrichedItems, keys, threshold, acronymKey]);
+    }, [enrichedItems, keys, threshold, acronymKey, isLoaded]);
 
     // Run search
     return useMemo(() => {
         if (!query || query.trim().length === 0) return items;
-        return fuse.search(query).map(result => result.item as unknown as T);
-    }, [fuse, query, items]);
+        if (!fuseRef.current) return items; // Fuse not loaded yet, return all
+        return fuseRef.current.search(query).map((result: { item: T }) => result.item);
+    }, [query, items, isLoaded, enrichedItems]);
 }
