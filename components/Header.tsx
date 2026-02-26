@@ -4,7 +4,7 @@ import Navigation from './Navigation';
 export default function Header() {
     return (
         <header className="text-center mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight animate-gradient-text">
                 Sunnylink Wiki
             </h1>
             <p className="text-slate-400 text-lg max-w-2xl mx-auto mb-4">

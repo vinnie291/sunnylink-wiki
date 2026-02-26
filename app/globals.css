@@ -42,6 +42,31 @@ html {
   background: rgba(100, 116, 139, 0.7);
 }
 
+/* Animated gradient text effect */
+@keyframes textShine {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-text {
+  background: linear-gradient(
+    to right,
+    #ffffff 20%,
+    #22d3ee 30%,
+    #06b6d4 70%,
+    #ffffff 80%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 500% auto;
+  animation: textShine 5s ease-in-out infinite alternate;
+}
+
 /* Highlight animation for deep-linked cards */
 @keyframes highlight-pulse {
 
