@@ -73,12 +73,14 @@ function SliderSimulator({
   defaultValue,
   unit,
   statusText,
+  settingLabel,
 }: {
   min: number;
   max: number;
   defaultValue: number;
   unit?: string;
   statusText?: string;
+  settingLabel?: string;
 }) {
   const [value, setValue] = useState(defaultValue);
   const range = max - min;
@@ -128,6 +130,7 @@ function SliderSimulator({
             step={step}
             value={value}
             onChange={(e) => setValue(parseFloat(e.target.value))}
+            aria-label={settingLabel ? `Adjust ${settingLabel}` : 'Adjust value'}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           />
           {/* Default Value Marker */}
@@ -395,6 +398,7 @@ export default function ToggleCard({
             defaultValue={typeof setting.default === 'number' ? setting.default : 0}
             unit={setting.unit}
             statusText={getSimulatorStatusText()}
+            settingLabel={setting.label}
           />
         );
       case 'dropdown':
@@ -459,7 +463,7 @@ export default function ToggleCard({
             <h2 className="text-xl lg:text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors leading-tight">
               {setting.label}
             </h2>
-            <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-1.5">
+            <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-1.5">
               <span>{categoryIcon}</span>
               <span>{categoryName}</span>
             </div>
@@ -500,6 +504,7 @@ export default function ToggleCard({
               href={getSunnylinkUrl()}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`View ${setting.label} in sunnylink`}
               className="px-4 py-2 rounded-lg text-sm font-medium bg-[#5b36f5] text-white hover:bg-[#4a2bd0] transition-all duration-200 flex items-center gap-1.5 shadow-lg shadow-[#5b36f5]/25 whitespace-nowrap"
             >
               <span>View in sunnylink</span>

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import BottomNav from '@/components/BottomNav';
@@ -34,20 +33,30 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
-        {/* Google Analytics */}
-        <Script
-          strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=G-Y7B8JQEQH9`}
-        />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
+        {/* Google Analytics — deferred until user interaction to save ~60 KiB on initial load */}
+        <script
           dangerouslySetInnerHTML={{
             __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-Y7B8JQEQH9');
+              (function() {
+                var loaded = false;
+                function loadGA() {
+                  if (loaded) return;
+                  loaded = true;
+                  var s = document.createElement('script');
+                  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-Y7B8JQEQH9';
+                  s.async = true;
+                  document.head.appendChild(s);
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', 'G-Y7B8JQEQH9');
+                }
+                ['scroll','click','keydown','touchstart'].forEach(function(e) {
+                  window.addEventListener(e, loadGA, {once:true, passive:true});
+                });
+                // Fallback: load after 5s if no interaction
+                setTimeout(loadGA, 5000);
+              })();
             `,
           }}
         />

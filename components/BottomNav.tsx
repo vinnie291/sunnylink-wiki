@@ -55,12 +55,12 @@ export default function BottomNav() {
                 rounded-xl transition-all duration-200
                 ${isActive
                                     ? 'text-cyan-400'
-                                    : 'text-slate-500 hover:text-slate-300'
+                                    : 'text-slate-400 hover:text-slate-300'
                                 }
               `}
                         >
                             <span className="text-lg">{item.icon}</span>
-                            <span className={`text-[10px] font-medium mt-0.5 ${isActive ? 'text-cyan-400' : 'text-slate-500'}`}>
+                            <span className={`text-[10px] font-medium mt-0.5 ${isActive ? 'text-cyan-400' : 'text-slate-400'}`}>
                                 {item.label}
                             </span>
                             {isActive && (
