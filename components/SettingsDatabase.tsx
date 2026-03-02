@@ -7,7 +7,7 @@ import CategoryFilter from './CategoryFilter';
 import EmptyState from './EmptyState';
 import ViewToggle from './ViewToggle';
 import { useViewMode } from '../hooks/useViewMode';
-import { useScrollDirection } from '../hooks/useScrollDirection';
+import { useStickySearch } from '../hooks/useStickySearch';
 
 interface ToggleSetting {
     key: string;
@@ -51,7 +51,7 @@ export default function SettingsDatabase({
     highlightedKey
 }: SettingsDatabaseProps) {
     const { viewMode, setViewMode } = useViewMode('settings_page', 'grid');
-    const scrollDirection = useScrollDirection();
+    const { sentinelRef, isSticky } = useStickySearch();
     const [sortBy, setSortBy] = useState<string>('name-asc');
     const [renderCount, setRenderCount] = useState(INITIAL_RENDER_COUNT);
 
@@ -170,8 +170,11 @@ export default function SettingsDatabase({
                 </div>
             </aside >
 
-            {/* Mobile Filters - Sticky on scroll */}
-            <div className={`lg:hidden sticky top-0 z-20 -mx-4 px-4 pt-2 pb-4 bg-slate-950/95 backdrop-blur-sm space-y-4 mb-6 transition-transform duration-300 ${scrollDirection === 'down' ? '-translate-y-full' : 'translate-y-0'}`}>
+            {/* Sentinel: marks the search bar's natural position */}
+            <div ref={sentinelRef} className="lg:hidden h-0" />
+
+            {/* Mobile Filters - Sticky only after scrolling past natural position */}
+            <div className={`lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 ${isSticky ? 'sticky top-0 z-20 bg-slate-950/95 backdrop-blur-sm' : ''}`}>
                 <SearchFilter
                     value={searchQuery}
                     onChange={setSearchQuery}
