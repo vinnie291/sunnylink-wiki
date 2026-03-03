@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useLanguage } from '../lib/i18n';
 
 interface WizardHeroProps {
     onStart?: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -8,6 +9,7 @@ interface WizardHeroProps {
 }
 
 export default function WizardHero({ onStart, showButton = true }: WizardHeroProps) {
+    const { t } = useLanguage();
     return (
         <div className="flex flex-col items-center justify-center w-full max-w-lg mx-auto mb-2 sm:mb-4">
             <div className="relative w-44 h-44 sm:w-48 sm:h-48 md:w-64 md:h-64 mb-1 sm:mb-4 flex items-center justify-center">
@@ -47,7 +49,7 @@ export default function WizardHero({ onStart, showButton = true }: WizardHeroPro
                     "
                 >
                     <span className="relative z-10 flex items-center gap-2">
-                        Start Setup
+                        {t('wizard.start')}
                         <motion.span
                             animate={{ x: [0, 4, 0] }}
                             transition={{ duration: 1.5, repeat: Infinity }}

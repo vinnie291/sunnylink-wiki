@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import WizardHero from './WizardHero';
+import { useLanguage } from '../lib/i18n';
 
 // --- Types ---
 type WizardStep = 'intro' | 'disclaimer' | 'hardware' | 'complexity' | 'vibe' | 'capabilities' | 'laneChange' | 'mads' | 'results';
@@ -29,6 +30,7 @@ interface RecipeItem {
 
 // --- Component ---
 export default function SetupWizard() {
+    const { t } = useLanguage();
     const [step, setStep] = useState<WizardStep>('intro');
     const [answers, setAnswers] = useState<WizardState>({
         device: 'comma3',
@@ -56,7 +58,7 @@ export default function SetupWizard() {
         const isAdvanced = answers.complexity === 'advanced';
 
         // 1. Model Selection
-        let modelName = 'Certified DTR (Down to Ride)';
+        let modelName = 'Certified DTR (Down to Ride)'; // Usually models are untranslated proper nouns, but let's see
         let modelReason = 'Balanced starting point.';
 
         // Diverse Model Logic
@@ -82,68 +84,66 @@ export default function SetupWizard() {
         }
 
         recipe.push({
-            category: '🧠 Model',
+            category: t('wizard.recipe.category.model'),
             key: 'DrivingModel',
-            label: 'Driving Model',
+            label: t('wizard.recipe.label.drivingModel'),
             value: modelName,
             reason: modelReason,
         });
 
         // 2. Lateral Control
         recipe.push({
-            category: '🎯 Steering',
+            category: t('wizard.recipe.category.steering'),
             key: 'MadsEnabled',
-            label: 'MADS Enabled',
+            label: t('wizard.recipe.label.madsEnabled'),
             value: true,
-            reason: 'Critical for Sunnypilot.',
+            reason: t('wizard.recipe.reason.criticalSp'),
         });
 
         if (isAdvanced) {
             // Advanced MADS Logic
             recipe.push({
-                category: '🎯 Steering',
+                category: t('wizard.recipe.category.steering'),
                 key: 'MadsSteeringMode',
-                label: 'MADS Steering Mode',
-                value: answers.madsMode === 'always_on' ? 'Remain Active' : 'Default',
-                reason: answers.madsMode === 'always_on'
-                    ? 'Steering stays active while braking.'
-                    : 'Steering disengages on brake.',
+                label: t('wizard.recipe.label.madsSteeringMode'),
+                value: answers.madsMode === 'always_on' ? t('wizard.recipe.value.remainActive') : t('wizard.recipe.value.default'),
+                reason: answers.madsMode === 'always_on' ? t('wizard.recipe.reason.steerActiveBrake') : t('wizard.recipe.reason.steerDisengageBrake'),
                 isAdvanced: true,
             });
 
             // Advanced Lane Change Logic
-            let alcTimer = 'Nudge';
-            if (answers.laneChangeType === 'instant') alcTimer = 'Instant';
+            let alcTimer = t('wizard.recipe.value.nudge');
+            if (answers.laneChangeType === 'instant') alcTimer = t('wizard.recipe.value.instant');
             // Note: 'assist' effectively means we might disable ALC or set to Nudge with high caution, 
             // but for toggle mapping 'Nudge' is the safe default for Assist-like behavior if ALC is on.
             // If they wanted "Assist Only" we might want to ensure ALC is separate, but we map to Timer here for safety if 'assist' was chosen implies caution.
-            if (answers.laneChangeType === 'assist') alcTimer = 'Timer';
+            if (answers.laneChangeType === 'assist') alcTimer = t('wizard.recipe.value.timer');
 
             recipe.push({
-                category: '🔄 Lane Change',
+                category: t('wizard.recipe.category.laneChange'),
                 key: 'AutoLaneChangeTimer',
-                label: 'Auto Lane Change',
+                label: t('wizard.recipe.label.autoLaneChange'),
                 value: alcTimer,
-                reason: answers.laneChangeType === 'instant' ? 'Fast changes.' : 'Safer confirmation.',
+                reason: answers.laneChangeType === 'instant' ? t('wizard.recipe.reason.fastChanges') : t('wizard.recipe.reason.safeConfirm'),
                 isAdvanced: true,
             });
         }
 
         if (answers.roadType === 'winding' && isAdvanced) {
             recipe.push({
-                category: '🎯 Steering',
+                category: t('wizard.recipe.category.steering'),
                 key: 'NeuralNetworkLateralControl',
-                label: 'Neural Network Control',
+                label: t('wizard.recipe.label.nnlc'),
                 value: true,
-                reason: 'Better curve handling.',
+                reason: t('wizard.recipe.reason.curveHandling'),
                 isAdvanced: true,
             });
             recipe.push({
-                category: '🚀 Cruise',
+                category: t('wizard.recipe.category.cruise'),
                 key: 'VisionBasedTurnSpeedControl',
-                label: 'Vision Turn Speed',
+                label: t('wizard.recipe.label.visionTurnSpeed'),
                 value: true,
-                reason: 'Slows for corners.',
+                reason: t('wizard.recipe.reason.slowsCorners'),
                 isAdvanced: true,
             });
         }
@@ -151,82 +151,82 @@ export default function SetupWizard() {
         // 3. Longitudinal Control
         if (answers.cityDriving) {
             recipe.push({
-                category: '🚀 Cruise',
+                category: t('wizard.recipe.category.cruise'),
                 key: 'ExperimentalMode',
-                label: 'Experimental Mode',
+                label: t('wizard.recipe.label.experimentalMode'),
                 value: true,
-                reason: 'Required for city handling.',
+                reason: t('wizard.recipe.reason.cityHandling'),
             });
 
             if (isAdvanced) {
                 recipe.push({
-                    category: '🚀 Cruise',
+                    category: t('wizard.recipe.category.cruise'),
                     key: 'AlphaLongitudinal',
-                    label: 'Alpha Longitudinal',
+                    label: t('wizard.recipe.label.alphaLongitudinal'),
                     value: true,
-                    reason: 'End-to-end control.',
+                    reason: t('wizard.recipe.reason.e2eControl'),
                     isAdvanced: true,
                 });
             }
 
             if (answers.drivingStyle === 'rush_hour') {
                 recipe.push({
-                    category: '🚀 Cruise',
+                    category: t('wizard.recipe.category.cruise'),
                     key: 'DynamicExperimentalControl',
-                    label: 'Dynamic Experimental',
+                    label: t('wizard.recipe.label.dynamicExperimental'),
                     value: false,
-                    reason: 'Force full experimental for responsiveness.',
+                    reason: t('wizard.recipe.reason.forceExperimental'),
                     isAdvanced: true,
                 });
             } else {
                 recipe.push({
-                    category: '🚀 Cruise',
+                    category: t('wizard.recipe.category.cruise'),
                     key: 'DynamicExperimentalControl',
-                    label: 'Dynamic Experimental',
+                    label: t('wizard.recipe.label.dynamicExperimental'),
                     value: true,
-                    reason: 'Switches modes automatically.',
+                    reason: t('wizard.recipe.reason.switchAuto'),
                     isAdvanced: true,
                 });
             }
         } else {
             recipe.push({
-                category: '🚀 Cruise',
+                category: t('wizard.recipe.category.cruise'),
                 key: 'ExperimentalMode',
-                label: 'Experimental Mode',
+                label: t('wizard.recipe.label.experimentalMode'),
                 value: false,
-                reason: 'Chill mode for highway.',
+                reason: t('wizard.recipe.reason.chillHighway'),
             });
         }
 
         // 4. Car Specifics
         if (answers.carMake === 'hyundai_kia' && isAdvanced) {
             recipe.push({
-                category: '🔧 Car Specific',
+                category: t('wizard.recipe.category.car'),
                 key: 'HyundaiLongitudinalTuning',
-                label: 'Hyundai Long Tuning',
-                value: answers.drivingStyle === 'limo' ? 'Stock' : 'Dynamic',
-                reason: 'Adjusts acceleration profile.',
+                label: t('wizard.recipe.label.hyundaiLongTuning'),
+                value: answers.drivingStyle === 'limo' ? t('wizard.recipe.value.stock') : t('wizard.recipe.value.dynamic'),
+                reason: t('wizard.recipe.reason.accelProfile'),
                 isAdvanced: true,
             });
         }
 
         // 5. Personality
-        let personality = 'Standard';
-        if (answers.drivingStyle === 'limo') personality = 'Relaxed';
-        if (answers.drivingStyle === 'rush_hour') personality = 'Aggressive';
+        let personality = t('wizard.recipe.value.standard');
+        if (answers.drivingStyle === 'limo') personality = t('wizard.recipe.value.relaxed');
+        if (answers.drivingStyle === 'rush_hour') personality = t('wizard.recipe.value.aggressive');
 
         recipe.push({
-            category: '⚙️ General',
+            category: t('wizard.recipe.category.general'),
             key: 'DrivingPersonality',
-            label: 'Driving Personality',
+            label: t('wizard.recipe.label.drivingPersonality'),
             value: personality,
-            reason: `Matches '${answers.drivingStyle}' vibe.`,
+            reason: t('wizard.recipe.reason.matchesVibe', { vibe: answers.drivingStyle }),
         });
 
         return recipe;
     };
 
-    const updateAnswer = (key: keyof WizardState, value: any) => {
+    const updateAnswer = (key: keyof WizardState, value: unknown) => {
         setAnswers(prev => ({ ...prev, [key]: value }));
     };
 
@@ -286,12 +286,12 @@ export default function SetupWizard() {
                     <div className="flex-1 text-center md:text-left order-2 md:order-1">
                         <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
                             Sunnylink <br className="hidden md:block" />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Setup Wizard</span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">{t('wizard.title')}</span>
                         </h1>
 
                         <p className="text-lg md:text-xl text-slate-400 mb-8 leading-relaxed max-w-xl mx-auto md:mx-0">
-                            Personalize your Sunnypilot experience in seconds.
-                            Answer a few simple questions to generate the perfect configuration for your vehicle.
+                            {t('wizard.intro.desc1')}
+                            {t('wizard.intro.desc2')}
                         </p>
 
                         <button
@@ -312,7 +312,7 @@ export default function SetupWizard() {
                             "
                         >
                             <span className="relative z-10 flex items-center justify-center gap-3">
-                                Start Setup
+                                {t('wizard.start')}
                                 <span className="animate-bounce-x text-2xl">➔</span>
                             </span>
                             <span className="absolute inset-0 rounded-2xl ring-2 ring-white/30 animate-ping opacity-20" />
@@ -333,24 +333,24 @@ export default function SetupWizard() {
                     <div className="absolute top-4 right-4">
 
                     </div>
-                    <h2 className="text-3xl font-bold text-red-500 mb-6">⚠️ Disclaimer</h2>
+                    <h2 className="text-3xl font-bold text-red-500 mb-6">{t('wizard.disclaimer.title')}</h2>
                     <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6 text-left mb-8">
                         <p className="text-slate-300 mb-4">
-                            This wizard provides recommendations based on community testing.
-                            <strong> Sunnypilot is beta software.</strong>
+                            {t('wizard.disclaimer.desc1')}
+                            <strong> {t('wizard.disclaimer.desc2')}</strong>
                         </p>
                         <ul className="list-disc list-inside text-slate-300 space-y-2">
-                            <li>You are responsible for the safe operation of your vehicle.</li>
-                            <li>Always keep your eyes on the road.</li>
-                            <li>Test new settings in a safe environment.</li>
-                            <li>Your mileage may vary depending on your specific car model and conditions.</li>
+                            <li>{t('wizard.disclaimer.li1')}</li>
+                            <li>{t('wizard.disclaimer.li2')}</li>
+                            <li>{t('wizard.disclaimer.li3')}</li>
+                            <li>{t('wizard.disclaimer.li4')}</li>
                         </ul>
                     </div>
                     <button
                         onClick={() => setStep('hardware')}
                         className="w-full py-4 bg-red-600 hover:bg-red-500 text-white rounded-xl font-bold transition-colors"
                     >
-                        I Understand & Accept
+                        {t('wizard.disclaimer.accept')}
                     </button>
                 </div>
             )}
@@ -362,9 +362,9 @@ export default function SetupWizard() {
                     </div>
                     <div className="flex items-center justify-between mb-8">
                         <div>
-                            <h2 className="text-3xl font-bold text-white mb-2">My Build Sheet</h2>
+                            <h2 className="text-3xl font-bold text-white mb-2">{t('wizard.results.title')}</h2>
                             <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider ${answers.complexity === 'advanced' ? 'bg-purple-500/20 text-purple-400' : 'bg-green-500/20 text-green-400'}`}>
-                                {answers.complexity} Setup
+                                {t('wizard.results.setup', { level: answers.complexity })}
                             </span>
                         </div>
                     </div>
@@ -406,14 +406,14 @@ export default function SetupWizard() {
                                         <div className="flex justify-between items-start">
                                             <div className="text-xs font-bold tracking-wider text-slate-500 mb-1 uppercase">{item.category}</div>
                                             {item.isAdvanced && (
-                                                <span className="text-[10px] font-bold bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded">ADV</span>
+                                                <span className="text-[10px] font-bold bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded">{t('wizard.recipe.advLabel')}</span>
                                             )}
                                         </div>
                                         <h3 className="text-lg font-medium text-white mb-1">{item.label}</h3>
                                         <div className="text-2xl font-bold text-cyan-400 mb-2">
-                                            {typeof item.value === 'boolean' ? (item.value ? 'ON' : 'OFF') : item.value}
+                                            {typeof item.value === 'boolean' ? (item.value ? t('wizard.recipe.value.on') : t('wizard.recipe.value.off')) : item.value}
                                         </div>
-                                        <p className="text-sm text-slate-400 italic">"{item.reason}"</p>
+                                        <p className="text-sm text-slate-400 italic">&quot;{item.reason}&quot;</p>
                                     </div>
                                 </div>
                             </div>
@@ -435,7 +435,7 @@ export default function SetupWizard() {
                             "
                         >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-                            Restart Wizard
+                            {t('wizard.results.restart')}
                         </button>
                     </div>
                 </div>
@@ -443,10 +443,10 @@ export default function SetupWizard() {
 
             {step === 'hardware' && (
                 <div className="animate-fade-in space-y-8">
-                    <StepHeader title="Step 1: Hardware" icon="🛠️" />
+                    <StepHeader title={t('wizard.step1.title')} icon="🛠️" />
 
                     <div className="space-y-4">
-                        <h3 className="text-lg text-slate-300">Device Model</h3>
+                        <h3 className="text-lg text-slate-300">{t('wizard.step1.device')}</h3>
                         <div className="grid grid-cols-2 gap-4">
                             <button
                                 onClick={() => updateAnswer('device', 'comma3')}
@@ -466,21 +466,21 @@ export default function SetupWizard() {
                     </div>
 
                     <div className="space-y-4">
-                        <h3 className="text-lg text-slate-300">Vehicle Make</h3>
+                        <h3 className="text-lg text-slate-300">{t('wizard.step1.make')}</h3>
                         <div className="relative">
                             <select
                                 value={answers.carMake}
                                 onChange={(e) => updateAnswer('carMake', e.target.value)}
                                 className="w-full p-4 pr-12 rounded-xl bg-slate-800 border border-slate-700 text-white focus:border-cyan-500 outline-none appearance-none cursor-pointer"
                             >
-                                <option value="hyundai_kia">Hyundai / Kia / Genesis</option>
-                                <option value="toyota_lexus">Toyota / Lexus</option>
-                                <option value="honda_acura">Honda / Acura</option>
-                                <option value="subaru">Subaru</option>
-                                <option value="ford">Ford</option>
-                                <option value="vw">Volkswagen / Audi</option>
-                                <option value="gm">GM / Chevrolet</option>
-                                <option value="other">Other / Not Listed</option>
+                                <option value="hyundai_kia">{t('wizard.step1.make.hyundai')}</option>
+                                <option value="toyota_lexus">{t('wizard.step1.make.toyota')}</option>
+                                <option value="honda_acura">{t('wizard.step1.make.honda')}</option>
+                                <option value="subaru">{t('wizard.step1.make.subaru')}</option>
+                                <option value="ford">{t('wizard.step1.make.ford')}</option>
+                                <option value="vw">{t('wizard.step1.make.vw')}</option>
+                                <option value="gm">{t('wizard.step1.make.gm')}</option>
+                                <option value="other">{t('wizard.step1.make.other')}</option>
                             </select>
                             <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-cyan-500">
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
@@ -492,54 +492,50 @@ export default function SetupWizard() {
                         <button
                             onClick={() => setStep('complexity')}
                             className="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-200 transition-colors"
-                        >
-                            Next ➔
-                        </button>
+                        >{t('wizard.next')} ➔</button>
                     </div>
                 </div>
             )}
 
             {step === 'complexity' && (
                 <div className="animate-fade-in space-y-8">
-                    <StepHeader title="Step 2: Expertise Level" icon="🧠" />
+                    <StepHeader title={t('wizard.step2.title')} icon="🧠" />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <button
                             onClick={() => updateAnswer('complexity', 'easy')}
                             className={`p-6 rounded-xl border text-left transition-all ${answers.complexity === 'easy' ? 'bg-green-500/20 border-green-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
                         >
                             <div className="text-3xl mb-3">🟢</div>
-                            <h3 className="text-xl font-bold text-white mb-2">Easy Setup</h3>
-                            <p className="text-sm text-slate-400">Just the core essentials. Best for new users.</p>
+                            <h3 className="text-xl font-bold text-white mb-2">{t('wizard.step2.easy.title')}</h3>
+                            <p className="text-sm text-slate-400">{t('wizard.step2.easy.desc')}</p>
                         </button>
                         <button
                             onClick={() => updateAnswer('complexity', 'advanced')}
                             className={`p-6 rounded-xl border text-left transition-all ${answers.complexity === 'advanced' ? 'bg-purple-500/20 border-purple-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
                         >
                             <div className="text-3xl mb-3">🟣</div>
-                            <h3 className="text-xl font-bold text-white mb-2">Advanced Setup</h3>
-                            <p className="text-sm text-slate-400">Full control over internal parameters. For power users.</p>
+                            <h3 className="text-xl font-bold text-white mb-2">{t('wizard.step2.adv.title')}</h3>
+                            <p className="text-sm text-slate-400">{t('wizard.step2.adv.desc')}</p>
                         </button>
                     </div>
                     <div className="pt-8 flex justify-between">
-                        <button onClick={() => setStep('hardware')} className="text-slate-500 hover:text-white">← Back</button>
+                        <button onClick={() => setStep('hardware')} className="text-slate-500 hover:text-white">← {t('wizard.previous')}</button>
                         <button
                             onClick={() => setStep('vibe')}
                             className="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-200 transition-colors"
-                        >
-                            Next ➔
-                        </button>
+                        >{t('wizard.next')} ➔</button>
                     </div>
                 </div>
             )}
 
             {step === 'vibe' && (
                 <div className="animate-fade-in space-y-8">
-                    <StepHeader title="Step 3: Vibe Check" icon="😎" />
+                    <StepHeader title={t('wizard.step3.title')} icon="😎" />
                     <div className="space-y-4">
                         {[
-                            { id: 'limo', icon: '🎩', title: 'Limo Driver', desc: 'Smooth, slow turns. Comfort first.' },
-                            { id: 'standard', icon: '🤖', title: 'Standard', desc: 'Balanced and predictable.' },
-                            { id: 'rush_hour', icon: '🏎️', title: 'Rush Hour', desc: 'Aggressive gap closing.' }
+                            { id: 'limo', icon: '🎩', title: t('wizard.step3.limo.title'), desc: t('wizard.step3.limo.desc') },
+                            { id: 'standard', icon: '🤖', title: t('wizard.step3.std.title'), desc: t('wizard.step3.std.desc') },
+                            { id: 'rush_hour', icon: '🏎️', title: t('wizard.step3.rush.title'), desc: t('wizard.step3.rush.desc') }
                         ].map(opt => (
                             <button
                                 key={opt.id}
@@ -555,46 +551,44 @@ export default function SetupWizard() {
                         ))}
                     </div>
                     <div className="pt-8 flex justify-between">
-                        <button onClick={() => setStep('complexity')} className="text-slate-500 hover:text-white">← Back</button>
-                        <button onClick={() => setStep('capabilities')} className="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-200 transition-colors">
-                            Next ➔
-                        </button>
+                        <button onClick={() => setStep('complexity')} className="text-slate-500 hover:text-white">← {t('wizard.previous')}</button>
+                        <button onClick={() => setStep('capabilities')} className="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-200 transition-colors">{t('wizard.next')} ➔</button>
                     </div>
                 </div>
             )}
 
             {step === 'capabilities' && (
                 <div className="animate-fade-in space-y-8">
-                    <StepHeader title="Step 4: Capabilities" icon="🚦" />
+                    <StepHeader title={t('wizard.step4.title')} icon="🚦" />
                     <div className="space-y-6">
                         <div className="space-y-4">
-                            <h3 className="text-lg text-slate-300">Stop for lights/signs?</h3>
+                            <h3 className="text-lg text-slate-300">{t('wizard.step4.stop.title')}</h3>
                             <div className="flex gap-4">
                                 <button onClick={() => updateAnswer('cityDriving', true)} className={`flex-1 p-4 rounded-xl border ${answers.cityDriving ? 'bg-green-500/20 border-green-500' : 'bg-slate-800 border-slate-700'}`}>
-                                    <div className="font-bold text-white">Yes ✅</div>
-                                    <div className="text-xs text-slate-400">City + Highway</div>
+                                    <div className="font-bold text-white">{t('wizard.step4.stop.yes')}</div>
+                                    <div className="text-xs text-slate-400">{t('wizard.step4.stop.yesDesc')}</div>
                                 </button>
                                 <button onClick={() => updateAnswer('cityDriving', false)} className={`flex-1 p-4 rounded-xl border ${!answers.cityDriving ? 'bg-slate-700 border-slate-500' : 'bg-slate-800 border-slate-700'}`}>
-                                    <div className="font-bold text-white">No 🛣️</div>
-                                    <div className="text-xs text-slate-400">Highway Only</div>
+                                    <div className="font-bold text-white">{t('wizard.step4.stop.no')}</div>
+                                    <div className="text-xs text-slate-400">{t('wizard.step4.stop.noDesc')}</div>
                                 </button>
                             </div>
                         </div>
 
                         <div className="space-y-4">
-                            <h3 className="text-lg text-slate-300">Road Type?</h3>
+                            <h3 className="text-lg text-slate-300">{t('wizard.step4.road.title')}</h3>
                             <div className="flex gap-4">
                                 <button onClick={() => updateAnswer('roadType', 'winding')} className={`flex-1 p-4 rounded-xl border ${answers.roadType === 'winding' ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700'}`}>
-                                    Winding ⛰️
+                                    {t('wizard.step4.road.winding')}
                                 </button>
                                 <button onClick={() => updateAnswer('roadType', 'straight')} className={`flex-1 p-4 rounded-xl border ${answers.roadType === 'straight' ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700'}`}>
-                                    Straight 🛤️
+                                    {t('wizard.step4.road.straight')}
                                 </button>
                             </div>
                         </div>
                     </div>
                     <div className="pt-8 flex justify-between">
-                        <button onClick={() => setStep('vibe')} className="text-slate-500 hover:text-white">← Back</button>
+                        <button onClick={() => setStep('vibe')} className="text-slate-500 hover:text-white">← {t('wizard.previous')}</button>
                         <button
                             onClick={() => {
                                 if (answers.complexity === 'advanced') {
@@ -605,7 +599,7 @@ export default function SetupWizard() {
                             }}
                             className="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold shadow-green-500/20 hover:scale-105 transition-transform"
                         >
-                            {answers.complexity === 'advanced' ? 'Next ➔' : 'Generate ⚡'}
+                            {answers.complexity === 'advanced' ? `${t('wizard.next')} ➔` : `${t('wizard.step4.generate')}`}
                         </button>
                     </div>
                 </div>
@@ -613,12 +607,12 @@ export default function SetupWizard() {
 
             {step === 'laneChange' && (
                 <div className="animate-fade-in space-y-8">
-                    <StepHeader title="Step 5: Lane Changes" icon="↔️" />
+                    <StepHeader title={t('wizard.step5.title')} icon="↔️" />
                     <div className="space-y-4">
                         {[
-                            { id: 'nudge', icon: '👋', title: 'Nudge (Recommended)', desc: 'You confirm the change by nudging the wheel.' },
-                            { id: 'instant', icon: '⚡', title: 'Instant', desc: 'Car changes lane immediately when blinker is on.' },
-                            { id: 'assist', icon: '🛡️', title: 'Assist Only', desc: 'No auto change, just keeps lane until you steer.' }
+                            { id: 'nudge', icon: '👋', title: t('wizard.step5.nudge.title'), desc: t('wizard.step5.nudge.desc') },
+                            { id: 'instant', icon: '⚡', title: t('wizard.step5.instant.title'), desc: t('wizard.step5.instant.desc') },
+                            { id: 'assist', icon: '🛡️', title: t('wizard.step5.assist.title'), desc: t('wizard.step5.assist.desc') }
                         ].map(opt => (
                             <button
                                 key={opt.id}
@@ -634,41 +628,37 @@ export default function SetupWizard() {
                         ))}
                     </div>
                     <div className="pt-8 flex justify-between">
-                        <button onClick={() => setStep('capabilities')} className="text-slate-500 hover:text-white">← Back</button>
-                        <button onClick={() => setStep('mads')} className="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-200 transition-colors">
-                            Next ➔
-                        </button>
+                        <button onClick={() => setStep('capabilities')} className="text-slate-500 hover:text-white">← {t('wizard.previous')}</button>
+                        <button onClick={() => setStep('mads')} className="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-200 transition-colors">{t('wizard.next')} ➔</button>
                     </div>
                 </div>
             )}
 
             {step === 'mads' && (
                 <div className="animate-fade-in space-y-8">
-                    <StepHeader title="Step 6: MADS Behavior" icon="🧠" />
-                    <p className="text-slate-400 mb-6">Modular Automated Driving System (MADS) keeps steering active even when you use the gas or brake.</p>
+                    <StepHeader title={t('wizard.step6.title')} icon="🧠" />
+                    <p className="text-slate-400 mb-6">{t('wizard.step6.desc')}</p>
                     <div className="grid grid-cols-1 gap-4">
                         <button
                             onClick={() => updateAnswer('madsMode', 'default')}
                             className={`p-6 rounded-xl border text-left transition-all ${answers.madsMode === 'default' ? 'bg-slate-700 border-slate-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
                         >
                             <div className="text-3xl mb-3">🛑</div>
-                            <h3 className="text-xl font-bold text-white mb-2">Default MADS</h3>
-                            <p className="text-sm text-slate-400">Steering disconnects when you hit the brake.</p>
+                            <h3 className="text-xl font-bold text-white mb-2">{t('wizard.step6.def.title')}</h3>
+                            <p className="text-sm text-slate-400">{t('wizard.step6.def.desc')}</p>
                         </button>
                         <button
                             onClick={() => updateAnswer('madsMode', 'always_on')}
                             className={`p-6 rounded-xl border text-left transition-all ${answers.madsMode === 'always_on' ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
                         >
                             <div className="text-3xl mb-3">🛡️</div>
-                            <h3 className="text-xl font-bold text-white mb-2">Always-On Steering (Recommended)</h3>
-                            <p className="text-sm text-slate-400">Steering remains active while braking. Great for highway cruising.</p>
+                            <h3 className="text-xl font-bold text-white mb-2">{t('wizard.step6.always.title')}</h3>
+                            <p className="text-sm text-slate-400">{t('wizard.step6.always.desc')}</p>
                         </button>
                     </div>
                     <div className="pt-8 flex justify-between">
-                        <button onClick={() => setStep('laneChange')} className="text-slate-500 hover:text-white">← Back</button>
-                        <button onClick={() => setStep('results')} className="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold shadow-green-500/20 hover:scale-105 transition-transform">
-                            Generate ⚡
-                        </button>
+                        <button onClick={() => setStep('laneChange')} className="text-slate-500 hover:text-white">← {t('wizard.previous')}</button>
+                        <button onClick={() => setStep('results')} className="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold shadow-green-500/20 hover:scale-105 transition-transform">{t('wizard.step4.generate')}</button>
                     </div>
                 </div>
             )}

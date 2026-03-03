@@ -1,0 +1,1377 @@
+{
+  "appName": "Sunnylink Database",
+  "version": "5.0",
+  "schemaVersion": "v2_expanded",
+  "categories": [
+    {
+      "id": "models",
+      "name": "模型设置",
+      "icon": "🧠",
+      "description": "AI模型配置和驾驶行为调整。",
+      "settings": [
+        {
+          "key": "AdjustCameraOffset",
+          "label": "调整相机偏移",
+          "type": "slider",
+          "default": 0,
+          "min": -0.35,
+          "max": 0.35,
+          "unit": "meters",
+          "helpText": "范围：-0.35至0.35米",
+          "description": "虚拟地移动相机的视角，将模型的中心移动到左侧（+ 值）或右侧（- 值）。",
+          "useCase": "修正摄像头安装位置或驾驶员对车道位置的偏好。",
+          "tradeoffs": [
+            "正值将汽车移向车道左侧。",
+            "负值会将汽车移向车道右侧。",
+            "偏移量太大可能会导致车道偏离警告。"
+          ],
+          "userNote": "默认 0.00。 如果您觉得车辆在车道上开得太远或太远，请进行调整。"
+        },
+        {
+          "key": "LaneTurnDesire",
+          "label": "车道转弯欲望",
+          "type": "toggle",
+          "default": false,
+          "description": "当方向指示灯处于活动状态时，强制模型执行转弯。 主要用于交叉路口的 90 度转弯。",
+          "useCase": "帮助车辆以较低的速度进行急转弯。",
+          "tradeoffs": [
+            "Not primarily for 变道s.",
+            "在交通拥挤的情况下可能过于激进。"
+          ],
+          "userNote": "启用 if 变道s feel sluggish or delayed."
+        },
+        {
+          "key": "DrivingModel",
+          "label": "驾驶模型",
+          "type": "dropdown",
+          "description": "选择AI驾驶模式。 每个模型都有独特的驾驶特性。",
+          "useCase": "选择适合您的驾驶风格和路况的车型。",
+          "userNote": "有关所有 66 个以上可用模型的详细说明，请参阅模型库。"
+        },
+        {
+          "key": "ModelLibrary",
+          "label": "📚 模型库",
+          "type": "action",
+          "description": "浏览包含 66 多个驾驶模型的完整库，其中包含描述、发布日期和社区共识。",
+          "useCase": "找到适合您驾驶风格的完美车型。",
+          "userNote": "包括 WMI 系列、《黑暗之魂》、《Down to Ride》、《古墓丽影》和《Legacy》型号。"
+        }
+      ]
+    },
+    {
+      "id": "device",
+      "name": "设备设置",
+      "icon": "📱",
+      "description": "Hardware management, cellular, and 电源 设置.",
+      "settings": [
+        {
+          "key": "ForceOffroadMode",
+          "label": "强制越野模式",
+          "type": "toggle",
+          "default": false,
+          "description": "禁用s active driving features to unlock 设置 restricted 驾驶时.",
+          "safetyLevel": "safe",
+          "useCase": "停车时使用以更改设置（越野）或代客泊车模式。",
+          "userNote": "“越野”是指停车/不行驶。 “Onroad”的意思是驾驶。"
+        },
+        {
+          "key": "DeviceBootMode",
+          "label": "设备启动模式",
+          "type": "dropdown",
+          "options": [
+            "Offroad",
+            "Normal"
+          ],
+          "default": "Standard",
+          "description": "在越野或正常模式下启动/唤醒。",
+          "useCase": "Choose how 设备 starts up after 电源 cycle.",
+          "userNote": "标准建议正常使用。"
+        },
+        {
+          "key": "UseMetricUnits",
+          "label": "使用公制单位",
+          "type": "toggle",
+          "default": false,
+          "description": "显示公制测量值（公里/小时、公里）而不是英制测量值（英里/小时、英里）。",
+          "useCase": "根据您所在地区的测量系统进行设置。",
+          "userNote": "启用 if you prefer metric units."
+        },
+        {
+          "key": "QuietMode",
+          "label": "静音模式",
+          "type": "toggle",
+          "default": false,
+          "description": "最小化声音通知。",
+          "useCase": "减少音频警报以获得更安静的驾驶体验。",
+          "userNote": "启用 if you prefer fewer audio alerts."
+        },
+        {
+          "key": "OnroadUploads",
+          "label": "公路上传",
+          "type": "toggle",
+          "default": false,
+          "description": "启用 Onroad Uploads for drive data.",
+          "useCase": "在路上上传驾驶数据。",
+          "userNote": "当 WiFi 不可用时使用移动数据。"
+        },
+        {
+          "key": "Language",
+          "label": "语言",
+          "type": "dropdown",
+          "default": "en",
+          "description": "用户界面语言选择。",
+          "useCase": "选择您喜欢的显示语言。",
+          "userNote": "选择您喜欢的界面语言。"
+        },
+        {
+          "key": "RecordUploadDriverCamera",
+          "label": "记录并上传驾驶员摄像头",
+          "type": "toggle",
+          "default": false,
+          "description": "前置摄像头录制并上传。",
+          "useCase": "允许录制面向驾驶员的摄像头以供审核。",
+          "tradeoffs": [
+            "隐私考虑 - 驱动程序被记录。",
+            "Uses additional 存储 and 带宽."
+          ],
+          "userNote": "启用完整的驾驶记录，包括驾驶员视图。"
+        },
+        {
+          "key": "RecordUploadMicAudio",
+          "label": "录制并上传麦克风音频",
+          "type": "toggle",
+          "default": false,
+          "description": "录制机舱音频。",
+          "useCase": "允许在机舱内录音以供审核。",
+          "tradeoffs": [
+            "隐私考虑 - 对话被记录。",
+            "Uses additional 存储 and 带宽."
+          ],
+          "userNote": "允许使用驾驶录像进行音频录制。"
+        },
+        {
+          "key": "GsmMetered",
+          "label": "GSM 计量",
+          "type": "toggle",
+          "default": true,
+          "description": "实现蜂窝数据计量以跟踪和限制数据使用。",
+          "useCase": "使用移动热点或蜂窝连接时监控数据消耗。",
+          "userNote": "保持开启 to track data usage on metered connections."
+        },
+        {
+          "key": "GsmRoaming",
+          "label": "GSM漫游",
+          "type": "toggle",
+          "default": false,
+          "description": "Allow cellular roaming when outside 您的车辆rier's network.",
+          "useCase": "在国际旅行并需要连接时启用。",
+          "tradeoffs": [
+            "可能会产生大量漫游费用。",
+            "连接速度可能较慢。"
+          ],
+          "warning": "May incur roaming charges. 保持关闭 unless traveling."
+        },
+        {
+          "key": "GsmApn",
+          "label": "GSM APN",
+          "type": "text",
+          "default": "",
+          "description": "蜂窝数据连接的接入点名称。",
+          "useCase": "为您的移动运营商配置自定义 APN 设置。",
+          "userNote": "Only modify if 您的车辆rier requires specific APN 设置."
+        },
+        {
+          "key": "CreateBackup",
+          "label": "创建备份",
+          "type": "action",
+          "description": "Backup current 设置 to device 存储.",
+          "useCase": "在更新或更改之前保存当前的配置。",
+          "userNote": "建议在重大更新或重新安装之前使用。"
+        },
+        {
+          "key": "RestoreVersion",
+          "label": "恢复版本",
+          "type": "action",
+          "description": "Restore 设置 from a previous backup.",
+          "useCase": "重置或新安装后恢复您的部署。",
+          "warning": "这将覆盖当前设置。"
+        },
+        {
+          "key": "UninstallSunnypilot",
+          "label": "卸载sunnypilot",
+          "type": "action",
+          "description": "从设备中完全删除 sunnypilot。",
+          "useCase": "在切换到不同的分支之前彻底卸载。",
+          "warning": "这将删除所有 sunnypilot 数据和设置。",
+          "safetyLevel": "critical"
+        },
+        {
+          "key": "MaxTimeOffroad",
+          "label": "最长时间越野",
+          "type": "slider",
+          "default": 1800,
+          "helpText": "范围：0 - 3600 秒（默认值：1800 秒 = 30 分钟）",
+          "description": "越野时设备关闭之前的最大空闲时间（以秒为单位）。",
+          "useCase": "控制停车后设备保持开启的时间。",
+          "tradeoffs": [
+            "值越高，设备的准备时间越长，但会消耗电池电量。",
+            "较低的值可以节省电量，但​​可能无法完成上传。"
+          ],
+          "userNote": "默认1800秒（30分钟）。 如果上传未完成，则增加。"
+        },
+        {
+          "key": "ForcePowerDown",
+          "label": "强制断电",
+          "type": "toggle",
+          "default": false,
+          "description": "Force immediate shutdown of 设备.",
+          "useCase": "Quickly 电源 off when leaving 车辆 for extended periods.",
+          "userNote": "用于立即关闭而不是等待超时。"
+        },
+        {
+          "key": "Reboot",
+          "label": "重新启动",
+          "type": "action",
+          "description": "Restart 设备 immediately.",
+          "useCase": "应用更改或修复软件问题。",
+          "userNote": "在进行重大配置更改后使用。"
+        },
+        {
+          "key": "PowerOff",
+          "label": "关闭电源",
+          "type": "action",
+          "description": "Power off 设备 immediately.",
+          "useCase": "断开电源之前请安全关闭。",
+          "userNote": "使用而不是拔掉电源以正常关闭。"
+        },
+        {
+          "key": "GithubUsername",
+          "label": "GitHub 用户名",
+          "type": "text",
+          "default": "",
+          "description": "连接 GitHub 帐户以进行开发和更新。",
+          "useCase": "链接您的 GitHub 帐户以进行自定义分叉管理。",
+          "userNote": "推送自定义更改或访问私有分叉时需要。"
+        },
+        {
+          "key": "RecordFrontLock",
+          "label": "录音前锁",
+          "type": "toggle",
+          "default": false,
+          "description": "防止设备删除前置摄像头镜头。",
+          "useCase": "保留特定的驾驶记录以供证据或审查。",
+          "userNote": "如果您需要保存特定驱动器作为证据，则非常有用。"
+        },
+        {
+          "key": "DeviceId",
+          "label": "设备ID",
+          "type": "readonly",
+          "description": "唯一的设备标识符。",
+          "userNote": "用于设备识别和支持。"
+        },
+        {
+          "key": "GitCommit",
+          "label": "Git 提交",
+          "type": "readonly",
+          "description": "当前软件版本哈希。",
+          "userNote": "只读。 Useful for bug reports."
+        },
+        {
+          "key": "OpenpilotVersion",
+          "label": "开放驾驶版本",
+          "type": "readonly",
+          "description": "软件版本号。",
+          "userNote": "只读。 Shows current installed version."
+        },
+        {
+          "key": "GitBranch",
+          "label": "git分支",
+          "type": "readonly",
+          "description": "当前 git 分支名称。",
+          "userNote": "显示您正在运行哪个分支（例如，“dev”、“release”）。"
+        },
+        {
+          "key": "UptimeOffroad",
+          "label": "越野正常运行时间",
+          "type": "readonly",
+          "description": "系统空闲时间（以秒为单位）。",
+          "userNote": "显示设备在停车时已开启的时间。"
+        },
+        {
+          "key": "SerialNumber",
+          "label": "序列号",
+          "type": "readonly",
+          "description": "硬件序列号。",
+          "userNote": "只读。 Used for device identification."
+        },
+        {
+          "key": "RouteCount",
+          "label": "路线数",
+          "type": "readonly",
+          "description": "记录的路线总数。",
+          "userNote": "备注。显示已记录了多少个驱动器。"
+        },
+        {
+          "key": "GitCommitDate",
+          "label": "Git 提交日期",
+          "type": "readonly",
+          "description": "当前提交的日期。",
+          "userNote": "显示当前版本的构建时间。"
+        },
+        {
+          "key": "UptimeOnroad",
+          "label": "公路正常运行时间",
+          "type": "readonly",
+          "description": "会话驾驶时间（以秒为单位）。",
+          "userNote": "麻烦。 显示当前会话的总驾驶时间。"
+        }
+      ]
+    },
+    {
+      "id": "toggles",
+      "name": "开关",
+      "icon": "🔘",
+      "description": "一般切换和杂项放置。",
+      "settings": [
+        {
+          "key": "EnableSunnypilot",
+          "label": "启用 sunnypilot",
+          "type": "toggle",
+          "default": true,
+          "description": "sunnypilot 功能的主开关。",
+          "recommended": true,
+          "useCase": "快速启用/禁用所有 sunnypilot 功能。",
+          "warning": "禁用会关闭所有辅助驾驶功能。",
+          "userNote": "保持开启 for normal operation."
+        },
+        {
+          "key": "DrivingPersonality",
+          "label": "驾驶个性",
+          "type": "dropdown",
+          "options": [
+            "Relaxed",
+            "Standard",
+            "Aggressive"
+          ],
+          "default": "Standard",
+          "helpText": "放松 = 更大的差距，标准 = 平衡，激进 = 更紧密的跟随",
+          "description": "Adjusts 跟车距离 and 加速 aggression.",
+          "useCase": "定制驾驶感觉 - 放松以确保安全，积极进取以跟上交通。",
+          "tradeoffs": [
+            "在走走停停的交通中，激进模式可能会让人感到不安全。",
+            "放松模式可能会因为车距过大而让后面的司机感到沮丧。"
+          ],
+          "userNote": "“标准”是默认值。 “激进”紧随其后； “放松”会留下更多空白。"
+        },
+        {
+          "key": "LaneDepartureWarnings",
+          "label": "车道偏离警告",
+          "type": "toggle",
+          "default": false,
+          "description": "启用 lane departure warning alerts.",
+          "useCase": "在没有转向灯的情况下驶出车道时收到声音警报。",
+          "tradeoffs": [
+            "在车道标记不佳的道路上可能会很烦人。",
+            "May conflict with intentional 变道s."
+          ],
+          "userNote": "对于长途高速公路驾驶保持警觉很有用。"
+        },
+        {
+          "key": "DisengageOnAccelerator",
+          "label": "松开油门",
+          "type": "toggle",
+          "default": true,
+          "description": "当您触摸油门踏板时取消 openpilot。",
+          "useCase": "保持关闭 if you want to help accelerate without disengaging.",
+          "tradeoffs": [
+            "OFF: Can assist with 加速 but 转向 stays active.",
+            "ON：任何油门踏板输入完全脱离系统。"
+          ],
+          "userNote": "保持关闭 if you want to be able to help 车辆 accelerate without canceling 转向."
+        },
+        {
+          "key": "AlwaysOnDriverMonitor",
+          "label": "始终开启的驾驶员监视器",
+          "type": "toggle",
+          "default": false,
+          "description": "即使在未使用时，也能让驾驶员面向摄像头保持活动状态。",
+          "useCase": "持续注意力跟踪以提高安全性。",
+          "tradeoffs": [
+            "始终关注 - 隐私考虑。",
+            "Higher 电源 consumption."
+          ],
+          "userNote": "24/7 跟踪您的注意力。"
+        },
+        {
+          "key": "DisablePowerDown",
+          "label": "禁用 Power Down",
+          "type": "toggle",
+          "default": false,
+          "description": "Keeps 设备 on forever.",
+          "useCase": "您需要持续正常运行时间的测试或开发。",
+          "tradeoffs": [
+            "如果不插电，将会耗尽汽车电池。",
+            "设备持续发热。"
+          ],
+          "warning": "Will drain car 电池."
+        },
+        {
+          "key": "DisableUpdates",
+          "label": "禁用 Updates",
+          "type": "toggle",
+          "default": false,
+          "description": "停止自动软件更新。",
+          "useCase": "锁定已知良好的版本。",
+          "tradeoffs": [
+            "错过了错误修复和新功能。",
+            "随着时间的推移，可能会与 Sunnylink 服务不兼容。"
+          ],
+          "userNote": "如果您找到自己喜欢的版本并且不想更改它，请使用它。"
+        }
+      ]
+    },
+    {
+      "id": "steering",
+      "name": "转向设置",
+      "icon": "🎯",
+      "description": "Configuration for lateral control and 车道保持.",
+      "settings": [
+        {
+          "key": "MadsEnabled",
+          "label": "MADS 启用d",
+          "type": "toggle",
+          "default": false,
+          "description": "模块化自动驾驶系统。 将转向与油门/制动分离，允许转向在手动踏板输入期间保持活动状态。",
+          "recommended": true,
+          "useCase": "对于高速公路驾驶来说至关重要，您希望在不丢失车道保持的情况下手动滑行或制动交通。",
+          "tradeoffs": [
+            "需要改变您的心理模型（制动不会脱离转向）。",
+            "如果您在不使用闪光灯的情况下改变车道，会感觉车辆正在与您“战斗”。"
+          ],
+          "deepDive": "将横向控制状态机与纵向巡航状态分开。 即使“巡航”状态变为“禁用”，MADS 仍保持“活动”状态。",
+          "userNote": "Critical. This is the core feature of Sunnypilot. 保持开启."
+        },
+        {
+          "key": "MadsSteeringMode",
+          "label": "MADS 转向模式",
+          "type": "dropdown",
+          "options": [
+            "Default",
+            "Remain Active"
+          ],
+          "default": "Default",
+          "description": "控制取消巡航时的行为。 “保持活动”可在制动后保持转向接合。",
+          "recommended": "Remain Active",
+          "dependencies": [
+            {
+              "key": "MadsEnabled",
+              "label": "MADS Enabled"
+            }
+          ],
+          "useCase": "当您在交通中手动调整速度时想要保持车道居中时。",
+          "tradeoffs": [
+            "May surprise new users who expect 转向 to stop when 制动.",
+            "有意变道时需要更多注意超控转向。"
+          ],
+          "userNote": "Set to 'Remain Active' to keep 车道居中 while manually 制动."
+        },
+        {
+          "key": "MadsMainCruiseAllowed",
+          "label": "允许 MADS 主巡航",
+          "type": "toggle",
+          "default": true,
+          "description": "允许 MADS 与主巡航控制系统同时激活。",
+          "recommended": true,
+          "dependencies": [
+            {
+              "key": "MadsEnabled",
+              "label": "MADS Enabled"
+            }
+          ],
+          "userNote": "保持开启."
+        },
+        {
+          "key": "MadsUnifiedEngagementMode",
+          "label": "MADS统一参与模式",
+          "type": "toggle",
+          "default": false,
+          "description": "If 已启用, engaging the main 巡航控制 will also automatically engage MADS 转向.",
+          "dependencies": [
+            {
+              "key": "MadsEnabled",
+              "label": "MADS Enabled"
+            }
+          ],
+          "useCase": "简化激活 - 一键按下即可实现速度控制和转向。",
+          "userNote": "方便一键激活。"
+        },
+        {
+          "key": "NeuralNetworkLateralControl",
+          "label": "神经网络横向控制",
+          "type": "toggle",
+          "default": false,
+          "description": "用神经网络取代 PID 控制器，实现更平稳、拟人化的转向。",
+          "recommended": true,
+          "useCase": "修复了现代/起亚车辆中常见的直道上的“乒乓”（振荡）问题。",
+          "tradeoffs": [
+            "如果模型没有针对您的特定汽车进行良好调整，您可能会感到“松散”或反应迟钝。",
+            "不增加物理扭矩限制； 轮流的速度不能超过硬件允许的速度。",
+            "可能会导致某些车辆出现乒乓效应 - 如果发生这种情况，请将其关闭。"
+          ],
+          "deepDive": "使用端到端横向规划策略（例如北内华达模型）来预测路径曲率，而不是对当前车道偏差做出反应。",
+          "userNote": "仔细测试。 如果它出现乒乓球现象，请将其禁用并坚持使用库存。"
+        },
+        {
+          "key": "DynamicExperimentalControl",
+          "label": "动态实验控制",
+          "type": "toggle",
+          "default": false,
+          "description": "根据驾驶环境自动在放松模式（高速公路）和实验模式（城市）之间切换。",
+          "recommended": true,
+          "useCase": "非常适合涉及高速公路和红绿灯城市街道的混合通勤。",
+          "tradeoffs": [
+            "Can cause phantom 制动 if it falsely detects a red light or 停车标志.",
+            "在复杂的十字路口可能会不可预测地切换模式。",
+            "可能导致灯光/标志延迟制动。",
+            "由于模式切换，使得评估特定模型变得更加困难。"
+          ],
+          "deepDive": "监控模型中的“slow_down_prob”。 如果概率 > 阈值，则注入实验模式纵向计划。",
+          "userNote": "适合混合驾驶，但如果您需要一致的行为，请切换到完整实验。"
+        },
+        {
+          "key": "EnforceTorqueControl",
+          "label": "强制扭矩控制",
+          "type": "toggle",
+          "default": false,
+          "description": "Forces 车辆 to use a torque-based controller for 转向.",
+          "useCase": "对于对直接扭矩命令比角度命令响应更好的车辆。",
+          "userNote": "如果使用 NNLC，通常保持关闭状态。"
+        },
+        {
+          "key": "SelfTune",
+          "label": "自整定",
+          "type": "toggle",
+          "default": true,
+          "description": "Allows 车辆 to self-calibrate 转向 parameters over time.",
+          "recommended": true,
+          "useCase": "Improves 转向 feel as 系统 learns 您的车辆's specific characteristics.",
+          "tradeoffs": [
+            "需要时间学习 - 转向最初可能感觉不太好。",
+            "如果驾驶条件异常，数值可能会发生变化。"
+          ],
+          "userNote": "保持开启 for better performance as you drive more."
+        },
+        {
+          "key": "LessRestrictSettingsForSelfTune",
+          "label": "自调整的限制设置较少",
+          "type": "toggle",
+          "default": false,
+          "description": "Beta 功能允许自调整器在学习时更加积极/宽容。",
+          "dependencies": [
+            {
+              "key": "SelfTune",
+              "label": "Self-Tune"
+            }
+          ],
+          "tradeoffs": [
+            "学习速度更快，但值可能不稳定。",
+            "如果值漂移太大，可能需要手动重置。"
+          ],
+          "warning": "谨慎使用； 允许更快的学习，但可能有更狂野的价值。"
+        },
+        {
+          "key": "EnableCustomTorqueTuning",
+          "label": "启用 Custom Torque Tuning",
+          "type": "toggle",
+          "default": false,
+          "description": "解锁扭矩摩擦和纬度加速因子的手动滑块。",
+          "useCase": "适合想要精确控制转向感觉的高级用户。",
+          "tradeoffs": [
+            "需要对车辆动力学有深入的了解。",
+            "Wrong values can make 转向 dangerous."
+          ],
+          "warning": "仅限高级用户。 Don't touch unless you know 您的车辆's specific physics."
+        },
+        {
+          "key": "ManualTuneFriction",
+          "label": "手动调节 - 摩擦",
+          "type": "slider",
+          "default": 0.1,
+          "min": 0,
+          "max": 1,
+          "unit": "",
+          "description": "调整转向控制器中的摩擦补偿。",
+          "helpText": "范围：0.00 - 1.00",
+          "dependencies": [
+            {
+              "key": "EnableCustomTorqueTuning",
+              "label": "Enable Custom Torque Tuning"
+            }
+          ],
+          "useCase": "如果感觉太粘或太松，请微调转向感觉。",
+          "tradeoffs": [
+            "太高：振荡/乒乓球。",
+            "太低：扭矩不足以保持车道。"
+          ],
+          "userNote": "默认0.10。 以小增量 (0.01) 进行调整。"
+        },
+        {
+          "key": "TorqueControlTuneVersion",
+          "label": "扭矩控制调节版本",
+          "type": "dropdown",
+          "options": [
+            "Default",
+            "v1.0",
+            "v0.0"
+          ],
+          "default": "Default",
+          "description": "选择要使用的扭矩控制调谐版本。"
+        },
+        {
+          "key": "BlinkerMinLateralControlSpeed",
+          "label": "闪烁 最小横向控制速度",
+          "type": "slider",
+          "default": 0,
+          "helpText": "范围：0+ 英里/小时。 设置为 0 始终允许带方向指示灯的转向。",
+          "description": "The minimum speed at which 车辆 will continue 转向 while the blinker is on.",
+          "useCase": "防止十字路口慢转弯时发生转向打斗。",
+          "userNote": "防止车轮在交叉路口慢速转弯时与您发生冲突。"
+        },
+        {
+          "key": "BlinkerPauseLateralControl",
+          "label": "闪烁暂停横向控制",
+          "type": "toggle",
+          "default": false,
+          "description": "当方向指示灯激活时，立即暂停转向辅助。",
+          "useCase": "适合在变道过程中需要完全手动控制的驾驶员。",
+          "tradeoffs": [
+            "转向立即松开 - 可能会感觉很突然。",
+            "No 车道保持 during intentional 变道s."
+          ],
+          "userNote": "受到想要在变道过程中完全控制的驾驶员的青睐。"
+        },
+        {
+          "key": "HyundaiLongitudinalTuning",
+          "label": "现代纵向调整",
+          "type": "dropdown",
+          "options": [
+            "Stock",
+            "Dynamic"
+          ],
+          "default": "Stock",
+          "description": "针对现代/起亚加速配置文件的定制调整。",
+          "recommended": "Dynamic",
+          "useCase": "修复了经济/正常驾驶模式下油门响应缓慢的问题。",
+          "tradeoffs": [
+            "对于某些用户来说，动态可能会让人感觉过于激进。",
+            "可能会影响燃油效率。"
+          ],
+          "userNote": "“动态”可以修复经济/正常模式下加速缓慢的问题。"
+        },
+        {
+          "key": "TeslaCoopSteering",
+          "label": "特斯拉 Coop 转向系统",
+          "type": "toggle",
+          "default": false,
+          "description": "Allow driver 转向 input.",
+          "helpText": "默认: False",
+          "deepDive": "启用s 'torque blending' where 系统 blends with your input for a more intuitive, less aggressive experience. Allows 转向 activation without 巡航控制 (MADS).",
+          "userNote": "车辆专用：仅适用于 Tesla 车辆。"
+        }
+      ]
+    },
+    {
+      "id": "cruise",
+      "name": "巡航和速度",
+      "icon": "🚀",
+      "description": "速度管理和纵向控制的配置。",
+      "settings": [
+        {
+          "key": "ExperimentalMode",
+          "label": "实验模式",
+          "type": "toggle",
+          "default": false,
+          "description": "启用s stopping for 红绿灯s and 停车标志s using vision only.",
+          "dependencies": [
+            {
+              "key": "AlphaLongitudinal",
+              "label": "Alpha Longitudinal"
+            }
+          ],
+          "useCase": "City driving where you encounter frequent 红绿灯s and 停车标志s.",
+          "tradeoffs": [
+            "可能因误报（阴影、标记）而突然制动。",
+            "May not stop in time for all lights/signs - be ready to brake.",
+            "车后制动更平稳，但可能难以预测。"
+          ],
+          "warning": "注意灯光/标志。 需要 Alpha 纵向。",
+          "userNote": "必须首先启用 Alpha Longitudinal。"
+        },
+        {
+          "key": "AlphaLongitudinal",
+          "label": "阿尔法纵向",
+          "type": "toggle",
+          "default": true,
+          "description": "使用 Openpilot 的端到端模型进行油门/制动控制，而不是库存 ACC。",
+          "recommended": true,
+          "useCase": "Smoother 跟车距离 management than stock adaptive cruise.",
+          "tradeoffs": [
+            "某些车辆在走走停停时可能会出现抖动。",
+            "制动可能比预期更硬或更软。"
+          ],
+          "userNote": "实验模式所需。 通常比库存更光滑。"
+        },
+        {
+          "key": "VisionBasedTurnSpeedControl",
+          "label": "智能巡航控制 - 视觉 (SCC-V)",
+          "type": "toggle",
+          "default": true,
+          "description": "智能巡航控制 - 视觉 (SCC-V) 利用摄像头视觉数据，通过计算前方道路的曲率来主动调整您的车辆的速度。",
+          "recommended": true,
+          "useCase": "在蜿蜒的小路上行驶，保持 55 英里每小时的恒定速度是很危险的。",
+          "tradeoffs": [
+            "经常大幅减速（例如，低于安全速度 20 英里/小时）。",
+            "由于频繁减速，可能会惹恼后面的司机。",
+            "与看到警告信号相比，晚刹车。"
+          ],
+          "deepDive": "根据模型路径计算预计的横向加速度。 降低速度以将横向 G 力保持在约 0.3g 以下。",
+          "userNote": "此功能仅在 sunnypilot 主动控制车辆的纵向控制时可用。"
+        },
+        {
+          "key": "SmartCruiseControlMap",
+          "label": "智能巡航控制 - 地图",
+          "type": "toggle",
+          "default": false,
+          "description": "使用地图数据来减慢弯道速度。",
+          "useCase": "当摄像机能见度较差时，为基于视觉的控制提供备份。",
+          "tradeoffs": [
+            "依赖于地图准确性 - 可能无法反映实际路况。",
+            "对于已拉直的弯道可能会过早减速。"
+          ],
+          "userNote": "良好的备份，但 Vision 通常更快/反应更快。"
+        },
+        {
+          "key": "SpeedLimitAssistMode",
+          "label": "限速辅助模式",
+          "type": "dropdown",
+          "options": [
+            "Information",
+            "Auto",
+            "User Confirm"
+          ],
+          "default": "Information",
+          "description": "确定车辆是否自动将速度调整到发布的限制。",
+          "useCase": "穿越城镇的长途公路旅行有不同的速度陷阱。",
+          "tradeoffs": [
+            "极其依赖地图数据的准确性。",
+            "如果在高速公路上读取出口匝道限速，可能会导致危险的快速制动。",
+            "未激活时可能会在条件标志（学校区域）上触发。"
+          ],
+          "deepDive": "聚合来自 OpenStreetMap (OSM)、车载摄像头 (TSR) 和导航数据的数​​据以确定当前限制。",
+          "userNote": "“信息”只是显示标志。 “自动”会为您改变速度。"
+        },
+        {
+          "key": "SpeedLimitSource",
+          "label": "限速源",
+          "type": "dropdown",
+          "options": [
+            "Map Data",
+            "Car State",
+            "Combined"
+          ],
+          "default": "Map Data",
+          "description": "车辆获取速度数据的地方（地图数据、汽车状态或组合数据）。",
+          "recommended": "Map Data",
+          "useCase": "选择适合您驾驶区域的最可靠的来源。",
+          "tradeoffs": [
+            "地图数据：最一致，但可能会过时。",
+            "汽车状态：实时，但仅适用于摄像头可以读取标志的情况。",
+            "综合：覆盖范围最佳，但存在潜在冲突。"
+          ],
+          "userNote": "在美国，“地图数据优先”通常是最准确的。"
+        },
+        {
+          "key": "SpeedLimitOffsetType",
+          "label": "限速偏移类型",
+          "type": "dropdown",
+          "options": [
+            "Fixed",
+            "Percentage"
+          ],
+          "default": "Fixed",
+          "description": "选择固定数字（例如，+5 英里/小时）或百分比（例如，+10%）。",
+          "useCase": "固定超速； 比例调整的百分比。",
+          "userNote": "设置为“固定”以保持一致的超速。"
+        },
+        {
+          "key": "SpeedLimitOffsetValue",
+          "label": "速度限制偏移值",
+          "type": "slider",
+          "default": 0,
+          "helpText": "建议：超过限制 5-10 英里/小时以匹配交通流量",
+          "description": "实际超速量。",
+          "useCase": "匹配当地交通流量（美国大多数地区通常超过 5-10 英里/小时）。",
+          "userNote": "设置为您的舒适水平（例如，超过 5-10 英里/小时）。"
+        },
+        {
+          "key": "AutoLaneChangeTimer",
+          "label": "自动变道定时器",
+          "type": "dropdown",
+          "options": [
+            "Instant",
+            "Nudge",
+            "Timer"
+          ],
+          "default": "Nudge",
+          "description": "设置自动变道的延迟/确认方法。",
+          "useCase": "通过自动变量选择舒适度。",
+          "tradeoffs": [
+            "即时：快速但安全性较差 - 无需确认。",
+            "轻推：需要轻微的车轮输入 - 良好的平衡性。",
+            "计时器：增加延迟 - 最安全但最慢。"
+          ],
+          "userNote": "“微移”需要滚轮输入； “即时”是自动的。"
+        },
+        {
+          "key": "AutoLaneChangeBsmDelay",
+          "label": "自动变道 BSM 延迟",
+          "type": "toggle",
+          "default": true,
+          "description": "如果盲点监视器 (BSM) 检测到汽车，则会增加安全延迟。",
+          "recommended": true,
+          "useCase": "Prevents 变道 attempts when a vehicle is in your 盲区.",
+          "userNote": "安全: 保持开启."
+        },
+        {
+          "key": "MapAdvisorySpeedLimit",
+          "label": "地图咨询限速",
+          "type": "toggle",
+          "default": true,
+          "description": "遵守弯道/坡道上的黄色“建议”速度标志。",
+          "recommended": true,
+          "useCase": "自动减慢高速公路出口匝道建议速度。",
+          "userNote": "保持开启 for safety on off-ramps."
+        },
+        {
+          "key": "CustomAccIncrements",
+          "label": "自定义 ACC 增量",
+          "type": "toggle",
+          "default": false,
+          "description": "更改按下滚轮上的 +/- 时速度的变化量。",
+          "useCase": "微调速度调整 - 小敲击以提高精度。",
+          "userNote": "将短按自定义为 ±1，长按自定义为 ±5。"
+        },
+        {
+          "key": "CustomAccShortPressIncrement",
+          "label": "自定义 ACC 短按增量",
+          "type": "slider",
+          "default": 1,
+          "min": 1,
+          "max": 10,
+          "unit": "mph/kph",
+          "helpText": "范围：1 - 10 英里/小时/公里",
+          "dependencies": [
+            {
+              "key": "CustomAccIncrements",
+              "label": "Custom ACC Increments"
+            }
+          ],
+          "description": "短按巡航按钮即可改变速度。",
+          "useCase": "微调小速度调整。",
+          "userNote": "设置快速点击巡航按钮的速度变化。"
+        },
+        {
+          "key": "CustomAccLongPressIncrement",
+          "label": "自定义 ACC 长按增量",
+          "type": "slider",
+          "default": 5,
+          "min": 1,
+          "max": 10,
+          "unit": "mph/kph",
+          "helpText": "范围：1 - 10 英里/小时/公里",
+          "dependencies": [
+            {
+              "key": "CustomAccIncrements",
+              "label": "Custom ACC Increments"
+            }
+          ],
+          "description": "长按巡航按钮可改变速度。",
+          "useCase": "通过按住按钮进行更大的速度调整。",
+          "userNote": "设置按住巡航按钮时的速度变化。"
+        },
+        {
+          "key": "IntelligentCruiseButtonManagement",
+          "label": "智能巡航按钮管理",
+          "type": "toggle",
+          "default": false,
+          "description": "增强的巡航按钮逻辑可实现更智能的速度控制。",
+          "useCase": "More intuitive 巡航控制 button behavior.",
+          "userNote": "启用 for smarter cruise button behavior."
+        }
+      ]
+    },
+    {
+      "id": "visuals",
+      "name": "视觉和界面",
+      "icon": "🎨",
+      "description": "自定义屏幕布局和显示的信息。",
+      "settings": [
+        {
+          "key": "RainbowMode",
+          "label": "彩虹模式",
+          "type": "toggle",
+          "default": false,
+          "description": "复活节彩蛋：使车道线闪烁颜色。",
+          "useCase": "Fun visual effect for showing off 系统.",
+          "tradeoffs": [
+            "Distracting 驾驶时.",
+            "可能会导致眼睛疲劳。"
+          ],
+          "userNote": "有趣，但分散注意力。"
+        },
+        {
+          "key": "DisplayRoadName",
+          "label": "显示道路名称",
+          "type": "toggle",
+          "default": true,
+          "description": "在 UI 上显示当前街道名称。",
+          "useCase": "在陌生区域导航时的态势感知。",
+          "userNote": "非常适合态势感知。"
+        },
+        {
+          "key": "GreenLightAlert",
+          "label": "绿灯警报",
+          "type": "toggle",
+          "default": false,
+          "description": "当红灯变绿时鸣响。",
+          "recommended": true,
+          "useCase": "当信号灯变化时，提醒分心的驾驶员继续前进。",
+          "deepDive": "使用红绿灯识别模型来检测从红/黄到绿的状态变化。",
+          "userNote": "对于分心的驾驶员来说非常有用的功能。"
+        },
+        {
+          "key": "LeadDepartAlert",
+          "label": "引导出发警报（测试版）",
+          "type": "toggle",
+          "default": false,
+          "description": "当您停下来并且您前面的车辆开始移动时，将会发出提示音和屏幕警报（仅限 TIZI/TICI）。 <br>注意：此铃声仅设计为通知。 驾驶员有责任观察周围环境并做出相应决策。",
+          "recommended": true,
+          "useCase": "防止在走走停停的交通中被按喇叭。",
+          "userNote": "适合走走停停的交通。"
+        },
+        {
+          "key": "ShowTurnSignals",
+          "label": "显示转向信号 [仅限 TIZI/TICI]",
+          "type": "toggle",
+          "default": false,
+          "description": "当已启用时，视觉转向指示器将绘制在 HUD 上。",
+          "useCase": "视觉确认信号灯处于活动状态。",
+          "userNote": "主要是外观验证。"
+        },
+        {
+          "key": "BlindSpotDetection",
+          "label": "盲点检测 [仅限 TIZI/TICI]",
+          "type": "toggle",
+          "default": false,
+          "description": "启用此功能后，只要您的车辆支持 BSM，当在您的盲区内检测到车辆时就会显示警告。",
+          "recommended": true,
+          "useCase": "如果您错过镜子指示器，则会出现冗余 BSM 警告。",
+          "userNote": "如果您不看镜子，则有额外的安全层（请看镜子）。"
+        },
+        {
+          "key": "ScreenBrightness",
+          "label": "屏幕亮度",
+          "type": "dropdown",
+          "options": [
+            "Auto",
+            "Low",
+            "Medium",
+            "High"
+          ],
+          "default": "Auto",
+          "description": "设置显示屏背光级别。",
+          "recommended": "Auto",
+          "userNote": "“自动”通常效果最好。"
+        },
+        {
+          "key": "OnroadBrightness",
+          "label": "道路亮度",
+          "type": "dropdown",
+          "options": [
+            "Auto",
+            "Low",
+            "Medium",
+            "High"
+          ],
+          "default": "Auto",
+          "description": "Sets brightness specifically 驾驶时.",
+          "recommended": "Auto"
+        },
+        {
+          "key": "OnroadBrightnessDelay",
+          "label": "道路亮度延迟",
+          "type": "slider",
+          "default": 15,
+          "min": 0,
+          "max": 60,
+          "unit": "seconds",
+          "helpText": "范围：0 - 60 秒（默认值：15 秒）",
+          "description": "道路亮度降低之前的时间。",
+          "useCase": "控制驾驶开始后亮度变暗的速度。",
+          "userNote": "根据您对屏幕变暗延迟的偏好进行调整。"
+        },
+        {
+          "key": "DeveloperUIInfo",
+          "label": "开发者用户界面信息",
+          "type": "slider",
+          "default": 0,
+          "min": 0,
+          "max": 10,
+          "helpText": "范围：0（关闭）到 10（最大调试信息）",
+          "description": "开发者 UI 覆盖数据级别。",
+          "useCase": "在屏幕上显示技术调试信息。",
+          "userNote": "仅适用于开发人员和高级用户。"
+        },
+        {
+          "key": "ChevronInfo",
+          "label": "雪佛龙信息",
+          "type": "slider",
+          "default": 4,
+          "min": 0,
+          "max": 10,
+          "helpText": "Range: 0 (off) to 10 (maximum detail). 默认: 4",
+          "description": "引领车辆信息显示水平。",
+          "useCase": "自定义显示有关检测到的车辆的信息量。",
+          "userNote": "调整以在屏幕上显示更多或更少的车辆信息。"
+        },
+        {
+          "key": "StandstillTimer",
+          "label": "静止定时器",
+          "type": "toggle",
+          "default": false,
+          "description": "显示静止状态所花费的时间。",
+          "useCase": "显示您在红灯处或交通堵塞中停留的时间。",
+          "userNote": "对于跟踪等待时间很有用。"
+        },
+        {
+          "key": "HideVEgoUI",
+          "label": "车速表：从道路屏幕上隐藏 [仅限 TIZI/TICI]",
+          "type": "toggle",
+          "default": false,
+          "description": "已启用后，道路屏幕上的车速表不会显示。",
+          "useCase": "通过隐藏速度显示来最大程度地减少干扰。",
+          "userNote": "能够获得更干净的屏幕外观。"
+        },
+        {
+          "key": "TrueVEgoUI",
+          "label": "车速表：始终显示真实速度 [仅限 TIZI/TICI]",
+          "type": "toggle",
+          "default": false,
+          "description": "对于适用的车辆，始终显示来自轮速传感器的真实车辆当前速度。",
+          "useCase": "显示车辆传感器的真实车速表读数。",
+          "userNote": "显示实际速度而不是平滑值。"
+        },
+        {
+          "key": "DisplayRocketFuelBar",
+          "label": "实时加速条 [仅限 TIZI/TICI]",
+          "type": "toggle",
+          "default": false,
+          "description": "屏幕左侧显示指示器，显示车辆实时加速和减速度。 这显示了车辆当前正在做什么，而不是计划者所要求的。",
+          "useCase": "Visualize how hard 系统 is accelerating or 制动.",
+          "userNote": "显示油门/制动强度的炫酷视觉指示器。"
+        },
+        {
+          "key": "SteeringArc",
+          "label": "转向弧 [仅限 TIZI/TICI]",
+          "type": "toggle",
+          "default": false,
+          "description": "Display 转向 arc on the driving screen when lateral control is 已启用.",
+          "useCase": "Visual feedback of 转向 path.",
+          "userNote": "显示车辆计划行驶的方向。"
+        }
+      ]
+    },
+    {
+      "id": "developer",
+      "name": "开发者设置",
+      "icon": "👨‍💻",
+      "description": "用于调试和开发的高级工具。",
+      "settings": [
+        {
+          "key": "EnableSsh",
+          "label": "启用 SSH",
+          "type": "toggle",
+          "default": false,
+          "description": "打开安全外壳以进行远程命令行访问。",
+          "warning": "安全风险. 保持关闭 unless you are coding.",
+          "safetyLevel": "critical",
+          "useCase": "开发人员可以访问调试和高级配置。",
+          "tradeoffs": [
+            "如果设备位于公共网络上，则存在安全漏洞。",
+            "如果密码较弱，可以允许未经授权的访问。"
+          ]
+        },
+        {
+          "key": "EnableAdb",
+          "label": "启用 ADB",
+          "type": "toggle",
+          "default": false,
+          "description": "Android 调试桥。 允许 USB 调试。",
+          "useCase": "开发人员通过 USB 线访问。",
+          "userNote": "仅供开发者使用。"
+        },
+        {
+          "key": "EnableSunnylinkUploader",
+          "label": "启用 sunnylink Uploader",
+          "type": "toggle",
+          "default": false,
+          "description": "将驱动器上传到 sunnylink。",
+          "useCase": "启用 uploading drive data to sunnylink servers for cloud 存储 and analysis.",
+          "userNote": "启用 to upload your drives to sunnylink."
+        },
+        {
+          "key": "ShowAdvancedControls",
+          "label": "显示高级控件",
+          "type": "toggle",
+          "default": true,
+          "description": "Unlocks hidden 设置 menus.",
+          "recommended": true,
+          "useCase": "访问所有可用的配置选项。",
+          "userNote": "保持开启 to see everything in this list."
+        },
+        {
+          "key": "QuickBoot",
+          "label": "快速启动",
+          "type": "toggle",
+          "default": false,
+          "description": "尝试通过跳过检查来更快地启动软件。",
+          "useCase": "为不耐烦的用户提供更快的启动速度。",
+          "tradeoffs": [
+            "可能会错过重要的初始化步骤。",
+            "可能导致不稳定或崩溃。"
+          ],
+          "warning": "Can cause instability. 保持关闭 unless boot times are annoying."
+        },
+        {
+          "key": "CopypartyService",
+          "label": "复制方服务",
+          "type": "toggle",
+          "default": false,
+          "description": "Runs a local file server on 设备.",
+          "useCase": "通过 WiFi 下载驾驶视频，无需 SSH。",
+          "userNote": "通过 WiFi 下载驾驶视频的简便方法。"
+        },
+        {
+          "key": "JoystickDebugMode",
+          "label": "操纵杆调试模式",
+          "type": "toggle",
+          "default": false,
+          "description": "启用 joystick debugging.",
+          "useCase": "调试操纵杆输入。",
+          "userNote": "仅供开发者使用。"
+        },
+        {
+          "key": "LongitudinalManeuverMode",
+          "label": "纵向机动模式",
+          "type": "toggle",
+          "default": false,
+          "description": "低速操纵的专门处理。",
+          "dependencies": [
+            {
+              "key": "AlphaLongitudinal",
+              "label": "Alpha Longitudinal"
+            }
+          ],
+          "useCase": "更顺畅的走走停停的交通行为。",
+          "userNote": "有助于走走停停的平稳性。"
+        },
+        {
+          "key": "GithubRunnerService",
+          "label": "GitHub 运行器服务",
+          "type": "toggle",
+          "default": false,
+          "description": "启用 CI/CD runner.",
+          "useCase": "Runs GitHub Actions runner on 设备.",
+          "userNote": "仅供开发者使用。"
+        },
+        {
+          "key": "GithubRunnerSufficientVoltage",
+          "label": "GitHub Runner 电压充足",
+          "type": "toggle",
+          "default": true,
+          "description": "检查 GitHub 运行器的电压。",
+          "useCase": "在运行 CI 作业之前确保足够的电压。",
+          "userNote": "Prevents 电池 drain during CI tasks."
+        },
+        {
+          "key": "UiDebugMode",
+          "label": "用户界面调试模式",
+          "type": "toggle",
+          "default": false,
+          "description": "显示 UI 调试信息。",
+          "useCase": "在 UI 上显示调试信息。",
+          "userNote": "仅供开发者使用。"
+        },
+        {
+          "key": "ObdMultiplexingEnabled",
+          "label": "Obd Multiplexing 启用d",
+          "type": "toggle",
+          "default": false,
+          "description": "启用 OBD multiplexing.",
+          "useCase": "启用s multiplexing for OBD connection.",
+          "userNote": "Advanced OBD 配置."
+        },
+        {
+          "key": "ModelManagerClearCache",
+          "label": "模型管理器清除缓存",
+          "type": "toggle",
+          "default": false,
+          "description": "删除下载的模型。",
+          "useCase": "清除缓存的模型文件。",
+          "userNote": "通过删除旧模型来释放存储空间。"
+        },
+        {
+          "key": "LiveLearningSteerDelay",
+          "label": "实时学习转向延迟",
+          "type": "toggle",
+          "default": true,
+          "description": "允许设备学习并适应汽车的转向响应时间。",
+          "recommended": true,
+          "useCase": "自动补偿车辆特定的转向延迟。",
+          "deepDive": "测量命令的转向角度和实际车轮运动之间的延迟，然后调整预测进行补偿。",
+          "userNote": "保持开启 for optimal 转向 response."
+        },
+        {
+          "key": "ManualSoftwareDelay",
+          "label": "手动软件延迟",
+          "type": "slider",
+          "default": 0,
+          "description": "手动调整命令和操作之间的延迟。",
+          "warning": "别碰。 除非开发人员指示，否则保留“0.00”。",
+          "useCase": "仅限开发人员：覆盖习得的转向延迟。"
+        },
+        {
+          "key": "DisableLogging",
+          "label": "禁用 Logging",
+          "type": "toggle",
+          "default": false,
+          "description": "停止将驱动器数据保存到磁盘。",
+          "useCase": "Save 存储 space or for 隐私.",
+          "tradeoffs": [
+            "发生事故时丢失所有驾驶证据。",
+            "无法查看或上传驱动器。"
+          ],
+          "warning": "节省空间，但如果发生事故，您就会失去证据。"
+        },
+        {
+          "key": "ManualRealTimeTuning",
+          "label": "手动实时调谐",
+          "type": "toggle",
+          "default": false,
+          "description": "Allows you to override torque values 驾驶时.",
+          "warning": "仅调试。 正常使用有危险。",
+          "safetyLevel": "critical"
+        }
+      ]
+    },
+    {
+      "id": "other",
+      "name": "其他设置",
+      "icon": "🔧",
+      "description": "Miscellaneous 设置 including AGNOS, plan controls, and car-specific 配置s.",
+      "settings": [
+        {
+          "key": "LastAgnosPowerMonitorShutdown",
+          "label": "最后一次 AGNOS 功率监视器关闭",
+          "type": "readonly",
+          "description": "上次 AGNOS 电源监视器关闭事件的时间戳。",
+          "userNote": "只读。 Shows when device last shut down due to 电源 monitoring."
+        },
+        {
+          "key": "PlanPlusControls",
+          "label": "计划加控制",
+          "type": "slider",
+          "default": 1,
+          "min": 0,
+          "max": 2,
+          "helpText": "Range: 0 (off) to 2 (aggressive). 默认: 1",
+          "description": "调整 planplus 模型的回心强度。 该数字越高，模型就越积极地重新回到车道中心。 太高了，就会打乒乓球。",
+          "useCase": "微调模型纠正回中心车道位置的积极程度。",
+          "tradeoffs": [
+            "较高的值=更积极的居中，但具有潜在的乒乓效果。",
+            "较低的值 = 更平滑，但可能会偏离中心。"
+          ],
+          "userNote": "默认1.0。 如果汽车漂移太多则增加，如果乒乓球则减少。"
+        },
+        {
+          "key": "HasAcceptedSunnypilotTerms",
+          "label": "已接受 sunnypilot 条款",
+          "type": "readonly",
+          "description": "表明用户是否接受sunnypilot服务条款。",
+          "userNote": "只读。 Shows acceptance status."
+        },
+        {
+          "key": "SupportedCarList",
+          "label": "支持的汽车列表",
+          "type": "action",
+          "description": "在 sunnypilot 中查看所有支持的平台。",
+          "useCase": "Check if 您的车辆 is officially supported.",
+          "userNote": "打开所有兼容车辆的 JSON 列表。"
+        },
+        {
+          "key": "CompletedSunnylinkConsentVersion",
+          "label": "完成sunnylink同意版本",
+          "type": "readonly",
+          "description": "已完成的 sunnylink 同意书版本。",
+          "userNote": "显示您已同意的同意版本。"
+        },
+        {
+          "key": "ToyotaEnforceFactoryLongitudinalControl",
+          "label": "丰田：加强工厂纵向控制",
+          "type": "toggle",
+          "default": false,
+          "description": "当已启用时，sunnypilot 将不会接管油门和刹车的控制。 工厂将采用丰田纵向控制。",
+          "useCase": "使用丰田的原装 ACC 而不是 sunnypilot 的纵向控制。",
+          "tradeoffs": [
+            "原厂 ACC 可能更流畅，但智能程度较低。",
+            "失去 sunnypilot 的高级走走停停功能。"
+          ],
+          "userNote": "如果您更喜欢丰田的自适应巡航行为，请启用。"
+        },
+        {
+          "key": "SubaruStopAndGo",
+          "label": "斯巴鲁：走走停停",
+          "type": "toggle",
+          "default": false,
+          "description": "为支持的斯巴鲁车辆实现走走停停功能。 允许系统从完全静止状态恢复，在老式斯巴鲁上，系统通常在低于 10 英里/小时时脱离。",
+          "useCase": "对于斯巴鲁驾驶员在走走停停的交通中避免手动恢复至关重要。",
+          "tradeoffs": [
+            "仅当 car_fingerprint == SUBARU 时出现。",
+            "根据斯巴鲁车型年份的不同，表现可能有所不同。"
+          ],
+          "userNote": "车辆专用：仅在斯巴鲁车辆上可见。"
+        },
+        {
+          "key": "SubaruStopAndGoManualParkingBrake",
+          "label": "斯巴鲁：走走停停（手动驻车制动）",
+          "type": "toggle",
+          "default": false,
+          "description": "斯巴鲁的 Stop and Go 变体，配有手动或电子驻车制动器。 在走走停停的交通期间以不同的方式处理驻车制动逻辑，以防止意外制动。",
+          "useCase": "适用于配备电子驻车制动器的斯巴鲁车辆，在走走停停时需要特殊处理。",
+          "tradeoffs": [
+            "仅当 car_fingerprint == SUBARU 时出现。",
+            "不同的行为取决于驻车制动器类型（手动与电子）。"
+          ],
+          "userNote": "车辆专用：仅适用于配备电子驻车制动器的斯巴鲁。"
+        },
+        {
+          "key": "SunnylinkDongleId",
+          "label": "sunnylink 加密狗 ID",
+          "type": "readonly",
+          "description": "用于云连接的唯一 sunnylink 设备标识符。",
+          "userNote": "只读。 Your device's unique ID for sunnylink services."
+        }
+      ]
+    }
+  ]
+}

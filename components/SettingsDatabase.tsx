@@ -8,6 +8,7 @@ import EmptyState from './EmptyState';
 import ViewToggle from './ViewToggle';
 import { useViewMode } from '../hooks/useViewMode';
 import { useStickySearch } from '../hooks/useStickySearch';
+import { useLanguage } from '../lib/i18n';
 
 interface ToggleSetting {
     key: string;
@@ -52,6 +53,7 @@ export default function SettingsDatabase({
 }: SettingsDatabaseProps) {
     const { viewMode, setViewMode } = useViewMode('settings_page', 'grid');
     const { sentinelRef, isSticky } = useStickySearch();
+    const { t } = useLanguage();
     const [sortBy, setSortBy] = useState<string>('name-asc');
     const [renderCount, setRenderCount] = useState(INITIAL_RENDER_COUNT);
 
@@ -104,7 +106,7 @@ export default function SettingsDatabase({
     };
 
     return (
-        <div className="lg:flex lg:gap-8">
+        <div className="lg:flex lg:gap-8" style={{ overflowX: 'clip' }}>
             {/* Sidebar - Desktop Only */}
             <aside className="hidden lg:block lg:w-72 lg:shrink-0">
                 <div className="sticky top-8 space-y-6">
@@ -131,9 +133,9 @@ export default function SettingsDatabase({
 
                     {/* Help Card */}
                     <div className="bg-gradient-to-br from-cyan-500/10 to-violet-500/10 rounded-2xl border border-cyan-500/20 p-4">
-                        <p className="text-sm font-medium text-white mb-2">💡 Quick Tip</p>
+                        <p className="text-sm font-medium text-white mb-2">💡 {t('settings.quickTip')}</p>
                         <p className="text-xs text-slate-400 leading-relaxed">
-                            Click the flag icon on any setting to report issues or suggest improvements.
+                            {t('settings.quickTipDesc')}
                         </p>
                     </div>
 
@@ -145,7 +147,7 @@ export default function SettingsDatabase({
                         className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-2xl border border-[#FFDD00]/50 text-[#FFDD00] font-bold text-sm transition-all duration-200 hover:bg-[#FFDD00]/10 hover:border-[#FFDD00] hover:scale-[1.02]"
                     >
                         <span className="text-lg">☕</span>
-                        Buy me a coffee
+                        {t('footer.buyMeCoffee')}
                     </a>
 
                     {/* Footer Links */}
@@ -156,7 +158,7 @@ export default function SettingsDatabase({
                             rel="noopener noreferrer"
                             className="block text-xs text-slate-400 hover:text-cyan-400 transition-colors"
                         >
-                            sunnypilot Terms of Service
+                            {t('footer.terms')}
                         </a>
                         <a
                             href="https://github.com/sunnypilot/sunnypilot"
@@ -164,7 +166,7 @@ export default function SettingsDatabase({
                             rel="noopener noreferrer"
                             className="block text-xs text-slate-400 hover:text-cyan-400 transition-colors"
                         >
-                            GitHub (sunnypilot)
+                            {t('footer.github')}
                         </a>
                     </div>
                 </div>
@@ -199,7 +201,7 @@ export default function SettingsDatabase({
                         <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
                             {searchQuery ? (
                                 <>
-                                    <span>🔍</span> Search Results
+                                    <span>🔍</span> {t('settings.searchResults')}
                                 </>
                             ) : activeCategories.length === 1 ? (
                                 <>
@@ -207,17 +209,17 @@ export default function SettingsDatabase({
                                     {categoryMeta.find(c => c.id === activeCategories[0])?.name}
                                 </>
                             ) : activeCategories.length > 1 ? (
-                                <><span>⚖️</span> Multiple Categories</>
+                                <><span>⚖️</span> {t('settings.multipleCategories')}</>
                             ) : (
-                                <><span>⚙️</span> All Settings</>
+                                <><span>⚙️</span> {t('settings.allSettings')}</>
                             )}
                         </h2>
                         <p className="text-slate-400 text-sm">
                             {searchQuery
-                                ? `Found ${sortedSettings.length} settings matching "${searchQuery}"`
+                                ? t('settings.searchFoundSettings', { count: sortedSettings.length, query: searchQuery })
                                 : activeCategories.length === 1
                                     ? categoryMeta.find(c => c.id === activeCategories[0])?.description
-                                    : "Browse and configure Sunnypilot settings."
+                                    : t('settings.browseSettings')
                             }
                         </p>
                     </div>
@@ -227,9 +229,9 @@ export default function SettingsDatabase({
                             <ViewToggle viewMode={viewMode} onChange={setViewMode} id="settings-view" />
                         </div>
 
-                        <div className="relative group min-w-[200px]">
-                            <label htmlFor="settings-sort" className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">Sort:</span>
+                        <div className="relative group flex items-center bg-slate-800/50 border border-slate-700/50 rounded-xl focus-within:border-cyan-500/50 focus-within:ring-1 focus-within:ring-cyan-500/50 transition-all hover:bg-slate-800 cursor-pointer">
+                            <label htmlFor="settings-sort" className="pl-3 flex items-center pointer-events-none whitespace-nowrap">
+                                <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">{t('settings.sort')}</span>
                             </label>
                             <select
                                 id="settings-sort"
@@ -237,16 +239,15 @@ export default function SettingsDatabase({
                                 value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value)}
                                 className="
-                                    appearance-none w-full bg-slate-800/50 border border-slate-700/50 rounded-xl
-                                    pl-14 pr-10 py-2.5 text-sm font-medium text-white
-                                    focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50
-                                    transition-all cursor-pointer hover:bg-slate-800
+                                    appearance-none outline-none bg-transparent w-full
+                                    pl-2 pr-10 py-2.5 text-sm font-medium text-white
+                                    cursor-pointer
                                 "
                             >
-                                <option value="name-asc">Name (A-Z)</option>
-                                <option value="name-desc">Name (Z-A)</option>
-                                <option value="category-asc">Category (A-Z)</option>
-                                <option value="category-desc">Category (Z-A)</option>
+                                <option value="name-asc" className="bg-slate-800">{t('settings.sortNameAZ')}</option>
+                                <option value="name-desc" className="bg-slate-800">{t('settings.sortNameZA')}</option>
+                                <option value="category-asc" className="bg-slate-800">{t('settings.sortCategoryAZ')}</option>
+                                <option value="category-desc" className="bg-slate-800">{t('settings.sortCategoryZA')}</option>
                             </select>
                             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                 <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

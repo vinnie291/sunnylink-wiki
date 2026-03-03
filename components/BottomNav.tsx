@@ -2,17 +2,19 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
-const navItems = [
-    { href: '/', label: 'Settings', icon: '⚙️' },
-    { href: '/models', label: 'Models', icon: '🧠' },
-    { href: '/wizard', label: 'Wizard', icon: '🧙', isCenter: true },
-    { href: '/stats', label: 'Stats', icon: '📊' },
-    { href: '/features', label: 'Features', icon: '📖' },
-];
+import { useLanguage } from '../lib/i18n';
 
 export default function BottomNav() {
     const pathname = usePathname();
+    const { t } = useLanguage();
+
+    const navItems = [
+        { href: '/', label: t('nav.settings'), icon: '⚙️' },
+        { href: '/models', label: t('nav.models'), icon: '🧠' },
+        { href: '/wizard', label: t('nav.wizard'), icon: '🧙', isCenter: true },
+        { href: '/stats', label: t('nav.stats'), icon: '📊' },
+        { href: '/features', label: t('nav.features'), icon: '📖' },
+    ];
 
     return (
         <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">

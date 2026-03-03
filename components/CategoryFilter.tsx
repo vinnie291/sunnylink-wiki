@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguage } from '../lib/i18n';
 
 interface Category {
     id: string;
@@ -27,6 +28,7 @@ export default function CategoryFilter({
     initialOpen = false
 }: CategoryFilterProps) {
     const [isOpen, setIsOpen] = useState(initialOpen);
+    const { t } = useLanguage();
     const isAllActive = activeCategories.length === 0;
     const totalCount = categories.reduce((sum, cat) => sum + cat.count, 0);
 
@@ -43,7 +45,7 @@ export default function CategoryFilter({
                     className={`flex items-center gap-2 text-sm text-slate-400 uppercase tracking-wider font-medium w-full text-left ${collapsible ? 'cursor-pointer hover:text-slate-300' : ''}`}
                     disabled={!collapsible}
                 >
-                    <span>Categories</span>
+                    <span>{t('filter.categories')}</span>
                     {collapsible && (
                         <svg
                             className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
@@ -64,7 +66,7 @@ export default function CategoryFilter({
                         }}
                         className="text-xs text-slate-500 hover:text-cyan-400 transition-colors"
                     >
-                        Show all
+                        {t('filter.showAll')}
                     </button>
                 )}
                 {collapsible && !isAllActive && (
@@ -75,7 +77,7 @@ export default function CategoryFilter({
                         }}
                         className="text-xs text-slate-500 hover:text-cyan-400 transition-colors"
                     >
-                        Reset
+                        {t('filter.reset')}
                     </button>
                 )}
             </div>
@@ -86,7 +88,7 @@ export default function CategoryFilter({
                     onClick={onClearAll}
                     type="button"
                     className={`
-            flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium shrink-0
+            flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium max-w-full flex-shrink-0 text-left
             transition-all duration-200 border
             ${isAllActive
                             ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
@@ -94,10 +96,10 @@ export default function CategoryFilter({
                         }
           `}
                 >
-                    <span>🏠</span>
-                    <span>All</span>
+                    <span className="shrink-0">🏠</span>
+                    <span className="flex-1 break-words">{t('filter.all')}</span>
                     <span className={`
-            px-1.5 py-0.5 rounded-md text-xs
+            shrink-0 px-1.5 py-0.5 rounded-md text-xs
             ${isAllActive ? 'bg-cyan-500/30' : 'bg-slate-700/50'}
           `}>
                         {totalCount}
@@ -109,7 +111,7 @@ export default function CategoryFilter({
                     onClick={() => onToggleCategory('recommended')}
                     type="button"
                     className={`
-            flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium shrink-0
+            flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium max-w-full flex-shrink-0 text-left
             transition-all duration-200 border
             ${activeCategories.includes('recommended')
                             ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30 shadow-lg shadow-emerald-500/10'
@@ -117,8 +119,8 @@ export default function CategoryFilter({
                         }
           `}
                 >
-                    <span className="text-emerald-400">★</span>
-                    <span>Recommended</span>
+                    <span className="text-emerald-400 shrink-0">★</span>
+                    <span className="flex-1 break-words">{t('filter.recommended')}</span>
                 </button>
 
                 {/* Category Buttons */}
@@ -130,7 +132,7 @@ export default function CategoryFilter({
                             onClick={() => onToggleCategory(category.id)}
                             type="button"
                             className={`
-                flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium shrink-0
+                flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium max-w-full flex-shrink-0 text-left
                 transition-all duration-200 border
                 ${isActive
                                     ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
@@ -138,10 +140,10 @@ export default function CategoryFilter({
                                 }
               `}
                         >
-                            <span>{category.icon}</span>
-                            <span>{category.name}</span>
+                            <span className="shrink-0">{category.icon}</span>
+                            <span className="flex-1 break-words">{category.name}</span>
                             <span className={`
-                px-1.5 py-0.5 rounded-md text-xs
+                shrink-0 px-1.5 py-0.5 rounded-md text-xs
                 ${isActive ? 'bg-cyan-500/30' : 'bg-slate-700/50'}
               `}>
                                 {category.count}

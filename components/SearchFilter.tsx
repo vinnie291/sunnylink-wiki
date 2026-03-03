@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { useLanguage } from '../lib/i18n';
 
 interface SearchFilterProps {
     value: string;
@@ -34,7 +35,8 @@ export default function SearchFilter({
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    const resolvedPlaceholder = placeholder ?? (isMobile ? 'Search...' : 'Search... (Cmd+K)');
+    const { t } = useLanguage();
+    const resolvedPlaceholder = placeholder ?? (isMobile ? t('search.placeholderShort') : t('search.placeholderDesktop'));
     const inputRef = useRef<HTMLInputElement>(null);
 
     // Debounce search input

@@ -1,11 +1,14 @@
 'use client';
 
+import { useLanguage } from '../lib/i18n';
+
 interface EmptyStateProps {
     searchQuery: string;
     onClearSearch: () => void;
 }
 
 export default function EmptyState({ searchQuery, onClearSearch }: EmptyStateProps) {
+    const { t } = useLanguage();
     return (
         <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
             {/* Illustration */}
@@ -32,16 +35,15 @@ export default function EmptyState({ searchQuery, onClearSearch }: EmptyStatePro
 
             {/* Message */}
             <h3 className="text-xl font-semibold text-white mb-2">
-                No toggles found
+                {t('empty.title')}
             </h3>
             <p className="text-slate-400 mb-6 max-w-md">
-                We couldn&apos;t find any toggles matching &quot;<span className="text-cyan-400 font-medium">{searchQuery}</span>&quot;.
-                Try a different search term or browse all categories.
+                {t('empty.description', { query: searchQuery })}
             </p>
 
             {/* Suggestions */}
             <div className="mb-6">
-                <p className="text-sm text-slate-500 mb-3">Try searching for:</p>
+                <p className="text-sm text-slate-500 mb-3">{t('empty.trySearching')}</p>
                 <div className="flex flex-wrap justify-center gap-2">
                     {['MADS', 'lane', 'speed', 'alert'].map((suggestion) => (
                         <button

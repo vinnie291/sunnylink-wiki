@@ -1,0 +1,117 @@
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage, SUPPORTED_LOCALES, LOCALE_META } from '../lib/i18n';
+import type { Locale } from '../lib/i18n';
+
+export default function LanguageSwitcher() {
+    const { locale, setLocale, t } = useLanguage();
+    const [isOpen, setIsOpen] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    // Close on outside click
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent) {
+            if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+                setIsOpen(false);
+            }
+        }
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+            return () => document.removeEventListener('mousedown', handleClickOutside);
+        }
+    }, [isOpen]);
+
+    // Close on Escape
+    useEffect(() => {
+        function handleKeyDown(e: KeyboardEvent) {
+            if (e.key === 'Escape') setIsOpen(false);
+        }
+        if (isOpen) {
+            document.addEventListener('keydown', handleKeyDown);
+            return () => document.removeEventListener('keydown', handleKeyDown);
+        }
+    }, [isOpen]);
+
+    const handleSelect = (newLocale: Locale) => {
+        setLocale(newLocale);
+        setIsOpen(false);
+    };
+
+    const currentMeta = LOCALE_META[locale];
+
+    return (
+        <div ref={containerRef} className="relative">
+            {/* Trigger Button */}
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="
+          flex items-center justify-center
+          w-10 h-10 sm:w-12 sm:h-12
+          rounded-xl
+          bg-slate-800/50 backdrop-blur-sm
+          border border-slate-700/50
+          hover:bg-slate-700/50 hover:border-slate-600/50
+          transition-all duration-200
+          text-lg sm:text-xl
+          cursor-pointer
+        "
+                aria-label={t('language.switchTo')}
+                title={t('language.switchTo')}
+            >
+                {currentMeta.flag}
+            </button>
+
+            {/* Dropdown */}
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -8, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -8, scale: 0.95 }}
+                        transition={{ duration: 0.15, ease: 'easeOut' }}
+                        className="
+              absolute top-full left-0 mt-2
+              w-44
+              bg-slate-800/90 backdrop-blur-xl
+              border border-slate-700/50
+              rounded-xl
+              shadow-xl shadow-black/30
+              overflow-hidden
+              z-50
+            "
+                    >
+                        {SUPPORTED_LOCALES.map((loc) => {
+                            const meta = LOCALE_META[loc];
+                            const isActive = loc === locale;
+                            return (
+                                <button
+                                    key={loc}
+                                    onClick={() => handleSelect(loc)}
+                                    className={`
+                    w-full flex items-center gap-3 px-4 py-2.5
+                    text-sm font-medium transition-all duration-150
+                    cursor-pointer
+                    ${isActive
+                                            ? 'bg-cyan-500/20 text-cyan-300'
+                                            : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
+                                        }
+                  `}
+                                >
+                                    <span className="text-lg">{meta.flag}</span>
+                                    <span>{meta.name}</span>
+                                    {isActive && (
+                                        <svg className="w-4 h-4 ml-auto text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    )}
+                                </button>
+                            );
+                        })}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+}

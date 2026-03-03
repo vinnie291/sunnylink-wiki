@@ -2,13 +2,14 @@
 
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import modelsData from '../data/models.json';
 import Fuse from 'fuse.js';
 
 import ViewToggle from './ViewToggle';
 import SearchFilter from './SearchFilter';
 import { useViewMode } from '../hooks/useViewMode';
 import { useStickySearch } from '../hooks/useStickySearch';
+import { useLanguage } from '../lib/i18n';
+import { useTranslatedModels } from '../lib/useTranslatedData';
 
 interface SentimentData {
     great: number;
@@ -278,6 +279,7 @@ export default function ModelLibrary() {
     const [showVibeGuide, setShowVibeGuide] = useState(false);
     const [showMobileCategories, setShowMobileCategories] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const { t } = useLanguage();
 
 
     // Keyboard shortcut handled by SearchFilter component
@@ -305,6 +307,7 @@ export default function ModelLibrary() {
     const { viewMode, setViewMode } = useViewMode('models_page', 'grid');
     const { sentinelRef, isSticky } = useStickySearch();
 
+    const modelsData = useTranslatedModels();
     const rawCategories = modelsData.categories as ModelCategory[];
     const vibeGuide = modelsData.vibeGuide as Record<string, VibeGuide>;
 
@@ -316,14 +319,14 @@ export default function ModelLibrary() {
 
         const allCategory: ModelCategory = {
             id: 'all',
-            name: 'All Models',
-            description: 'Browse the complete collection of driving models.',
+            name: t('models.allModels'),
+            description: t('models.allModelsDescription'),
             icon: '📚',
             models: Array.from(uniqueModels.values())
         };
 
         return [allCategory, ...rawCategories];
-    }, []);
+    }, [rawCategories, t]);
 
     // Filter models based on search
 
@@ -417,7 +420,7 @@ export default function ModelLibrary() {
                             }
                         `}
                     >
-                        <span className="font-medium text-sm">📖 Vibe Guide</span>
+                        <span className="font-medium text-sm">📖 {t('models.vibeGuide')}</span>
                         <svg className={`w-4 h-4 transition-transform ${showVibeGuide ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
@@ -425,7 +428,7 @@ export default function ModelLibrary() {
 
                     {/* Categories */}
                     <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-4">
-                        <h2 className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-3">Categories</h2>
+                        <h2 className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-3">{t('filter.categories')}</h2>
                         <div className="space-y-2">
                             {categories.map((cat) => (
                                 <button
@@ -444,9 +447,9 @@ export default function ModelLibrary() {
                                         }
                                     `}
                                 >
-                                    <span className="text-lg">{cat.icon}</span>
-                                    <span className="flex-1 truncate">{cat.name}</span>
-                                    <span className={`px-2 py-0.5 rounded-md text-xs ${activeCategory === cat.id && !searchQuery ? 'bg-cyan-500/30' : 'bg-slate-700/50'}`}>
+                                    <span className="shrink-0 text-lg">{cat.icon}</span>
+                                    <span className="flex-1 break-words">{cat.name}</span>
+                                    <span className={`shrink-0 px-2 py-0.5 rounded-md text-xs ${activeCategory === cat.id && !searchQuery ? 'bg-cyan-500/30' : 'bg-slate-700/50'}`}>
                                         {cat.models.length}
                                     </span>
                                 </button>
@@ -475,7 +478,7 @@ export default function ModelLibrary() {
                         onClick={() => setShowVibeGuide(!showVibeGuide)}
                         className="flex items-center justify-between w-full text-left"
                     >
-                        <span className="text-sm text-slate-500 uppercase tracking-wider font-medium">Vibe Guide</span>
+                        <span className="text-sm text-slate-500 uppercase tracking-wider font-medium">{t('models.vibeGuide')}</span>
                         <svg
                             className={`w-4 h-4 text-slate-500 transition-transform duration-300 ${showVibeGuide ? 'rotate-180' : ''}`}
                             fill="none"
@@ -504,7 +507,7 @@ export default function ModelLibrary() {
                             onClick={() => setShowMobileCategories(!showMobileCategories)}
                             className="flex items-center justify-between w-full text-left"
                         >
-                            <span className="text-sm text-slate-500 uppercase tracking-wider font-medium">Categories</span>
+                            <span className="text-sm text-slate-500 uppercase tracking-wider font-medium">{t('filter.categories')}</span>
                             <svg
                                 className={`w-4 h-4 text-slate-500 transition-transform duration-300 ${showMobileCategories ? 'rotate-180' : ''}`}
                                 fill="none"
@@ -524,16 +527,16 @@ export default function ModelLibrary() {
                                         setSearchQuery('');
                                     }}
                                     className={`
-                                        shrink-0 px-4 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap border
+                                        max-w-full flex items-center justify-between shrink-0 px-4 py-2 rounded-xl text-sm font-medium transition-all text-left border
                                         ${activeCategory === cat.id && !searchQuery
                                             ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30'
                                             : 'bg-slate-800/50 text-slate-400 border-slate-700/50'
                                         }
                                     `}
                                 >
-                                    <span className="mr-2">{cat.icon}</span>
-                                    {cat.name}
-                                    <span className={`ml-2 px-1.5 py-0.5 rounded-md text-xs ${activeCategory === cat.id && !searchQuery ? 'bg-cyan-500/30' : 'bg-slate-700/50'}`}>
+                                    <span className="shrink-0 mr-2">{cat.icon}</span>
+                                    <span className="flex-1 break-words">{cat.name}</span>
+                                    <span className={`shrink-0 ml-2 px-1.5 py-0.5 rounded-md text-xs ${activeCategory === cat.id && !searchQuery ? 'bg-cyan-500/30' : 'bg-slate-700/50'}`}>
                                         {cat.models.length}
                                     </span>
                                 </button>
@@ -549,7 +552,7 @@ export default function ModelLibrary() {
                     <div>
                         <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
                             {searchQuery ? (
-                                <><span>🔍</span> Search Results</>
+                                <><span>🔍</span> {t('models.title')}</>
                             ) : (
                                 <>
                                     <span>{categories.find(c => c.id === activeCategory)?.icon || '📚'}</span>
@@ -569,26 +572,27 @@ export default function ModelLibrary() {
                     <div className="flex flex-wrap items-center gap-4">
                         <ViewToggle viewMode={viewMode} onChange={setViewMode} id="models-view" />
 
-                        <div className="relative group min-w-[200px]">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">Sort:</span>
+                        <div className="relative group flex items-center bg-slate-800/50 border border-slate-700/50 rounded-xl focus-within:border-cyan-500/50 focus-within:ring-1 focus-within:ring-cyan-500/50 transition-all hover:bg-slate-800 cursor-pointer">
+                            <div className="pl-3 flex items-center pointer-events-none whitespace-nowrap">
+                                <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">
+                                    {t('settings.sort') || 'Sort:'}
+                                </span>
                             </div>
                             <select
                                 value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value as any)}
                                 className="
-                                    appearance-none w-full bg-slate-800/50 border border-slate-700/50 rounded-xl
-                                    pl-14 pr-10 py-2.5 text-sm font-medium text-white
-                                    focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50
-                                    transition-all cursor-pointer hover:bg-slate-800
+                                    appearance-none outline-none bg-transparent w-full
+                                    pl-2 pr-10 py-2.5 text-sm font-medium text-white
+                                    cursor-pointer
                                 "
                             >
-                                <option value="date-desc">Date (Newest)</option>
-                                <option value="date-asc">Date (Oldest)</option>
-                                <option value="name-asc">Name (A-Z)</option>
-                                <option value="name-desc">Name (Z-A)</option>
-                                <option value="score-desc">Score (High-Low)</option>
-                                <option value="score-asc">Score (Low-High)</option>
+                                <option value="date-desc">{t('settings.sortDateNewest')}</option>
+                                <option value="date-asc">{t('settings.sortDateOldest')}</option>
+                                <option value="name-asc">{t('settings.sortNameAZ')}</option>
+                                <option value="name-desc">{t('settings.sortNameZA')}</option>
+                                <option value="score-desc">{t('settings.sortScoreHighLow')}</option>
+                                <option value="score-asc">{t('settings.sortScoreLowHigh')}</option>
                             </select>
                             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                 <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

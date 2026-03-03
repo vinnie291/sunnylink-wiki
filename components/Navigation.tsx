@@ -2,9 +2,11 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useLanguage } from '../lib/i18n';
 
 export default function Navigation() {
     const pathname = usePathname();
+    const { t } = useLanguage();
 
     const isActive = (path: string) => {
         if (path === '/' && pathname === '/') return true;
@@ -24,7 +26,7 @@ export default function Navigation() {
                     }
               `}
             >
-                <span className="hidden sm:inline">⚙️ </span>Settings
+                <span className="hidden sm:inline">⚙️ </span>{t('nav.settings')}
             </Link>
             <Link
                 href="/models"
@@ -36,7 +38,7 @@ export default function Navigation() {
                     }
               `}
             >
-                <span className="hidden sm:inline">🧠 </span>Models<span className="text-[10px] sm:text-xs opacity-70 ml-0.5"> (66)</span>
+                <span className="hidden sm:inline">🧠 </span>{t('nav.models')}<span className="text-[10px] sm:text-xs opacity-70 ml-0.5"> (66)</span>
             </Link>
             <Link
                 href="/features"
@@ -48,7 +50,7 @@ export default function Navigation() {
                     }
               `}
             >
-                <span className="hidden sm:inline">📖 </span>Features
+                <span className="hidden sm:inline">📖 </span>{t('nav.features')}
             </Link>
             <Link
                 href="/stats"
@@ -60,7 +62,7 @@ export default function Navigation() {
                     }
               `}
             >
-                <span className="hidden sm:inline">📊 </span>Stats
+                <span className="hidden sm:inline">📊 </span>{t('nav.stats')}
             </Link>
             <Link
                 href="/wizard"
@@ -77,7 +79,7 @@ export default function Navigation() {
 
                 <span className="relative flex items-center gap-1 sm:gap-2">
                     <span>🧙</span>
-                    <span className="hidden xs:inline">Setup </span><span>Wizard</span>
+                    <span className="hidden xs:inline">{t('nav.setupWizard').split(' ')[0]} </span><span>{t('nav.setupWizard').split(' ').slice(1).join(' ') || t('nav.wizard')}</span>
                 </span>
             </Link>
         </div>

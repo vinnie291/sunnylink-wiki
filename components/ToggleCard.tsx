@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useLanguage } from '../lib/i18n';
 
 interface ToggleSetting {
   key: string;
@@ -35,10 +36,11 @@ interface ToggleCardProps {
 
 function ToggleSimulator({ defaultValue, statusText }: { defaultValue: boolean; statusText?: string }) {
   const [enabled, setEnabled] = useState(defaultValue);
+  const { t } = useLanguage();
   return (
     <div className="rounded-2xl bg-slate-900/70 border border-slate-700/50 p-6 flex flex-col items-center gap-4">
       <span className="text-sm font-bold tracking-[0.2em] text-slate-300 uppercase">
-        {enabled ? 'Enabled' : 'Disabled'}
+        {enabled ? t('settings.enabled') : t('settings.disabled')}
       </span>
       <button
         onClick={() => setEnabled(!enabled)}
@@ -239,6 +241,7 @@ export default function ToggleCard({
   const [copied, setCopied] = useState(false);
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (isHighlighted && cardRef.current) {
@@ -328,8 +331,8 @@ export default function ToggleCard({
     if (setting.type === 'toggle') {
       const statusText = setting.helpText
         ? setting.helpText
-        : `Default: ${setting.default ? 'ON' : 'OFF'}${setting.recommended !== undefined
-          ? ` · Recommended: ${typeof setting.recommended === 'boolean' ? (setting.recommended ? 'ON' : 'OFF') : setting.recommended}`
+        : `${t('settings.default')}: ${setting.default ? t('settings.on') : t('settings.off')}${setting.recommended !== undefined
+          ? ` · ${t('settings.recommended')}: ${typeof setting.recommended === 'boolean' ? (setting.recommended ? t('settings.on') : t('settings.off')) : setting.recommended}`
           : ''
         }`;
       return (
@@ -348,7 +351,7 @@ export default function ToggleCard({
           <svg className="w-5 h-5 text-violet-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <span className="text-violet-400 text-sm font-medium">Default: {defaultLabel}</span>
+          <span className="text-violet-400 text-sm font-medium">{t('settings.default')}: {defaultLabel}</span>
         </div>
       );
     }
@@ -372,16 +375,16 @@ export default function ToggleCard({
     if (setting.type === 'toggle') {
       if (setting.helpText) return setting.helpText;
       const parts: string[] = [];
-      parts.push(`Default: ${setting.default ? 'ON' : 'OFF'}`);
+      parts.push(`${t('settings.default')}: ${setting.default ? t('settings.on') : t('settings.off')}`);
       if (setting.recommended !== undefined) {
-        parts.push(`Recommended: ${typeof setting.recommended === 'boolean' ? (setting.recommended ? 'ON' : 'OFF') : setting.recommended}`);
+        parts.push(`${t('settings.recommended')}: ${typeof setting.recommended === 'boolean' ? (setting.recommended ? t('settings.on') : t('settings.off')) : setting.recommended}`);
       }
       return parts.join(' · ');
     }
     if (setting.type === 'slider' && setting.helpText) return setting.helpText;
     if (setting.type === 'dropdown') {
       const defaultLabel = setting.default ? String(setting.default) : 'Not set';
-      return `Default: ${defaultLabel}`;
+      return `${t('settings.default')}: ${defaultLabel}`;
     }
     return undefined;
   };
@@ -446,17 +449,17 @@ export default function ToggleCard({
               </span>
               {setting.recommended && (
                 <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                  ★ Recommended
+                  ★ {t('settings.recommended')}
                 </span>
               )}
               {setting.safetyLevel === 'critical' && (
                 <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30">
-                  ⚠️ Critical
+                  ⚠️ {t('settings.critical')}
                 </span>
               )}
               {setting.safetyLevel === 'safe' && (
                 <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                  ✓ Safe
+                  ✓ {t('settings.safe')}
                 </span>
               )}
             </div>
@@ -507,7 +510,7 @@ export default function ToggleCard({
               aria-label={`View ${setting.label} in sunnylink`}
               className="px-4 py-2 rounded-lg text-sm font-medium bg-[#5b36f5] text-white hover:bg-[#4a2bd0] transition-all duration-200 flex items-center gap-1.5 shadow-lg shadow-[#5b36f5]/25 whitespace-nowrap"
             >
-              <span>View in sunnylink</span>
+              <span>{t('settings.viewInSunnylink')}</span>
               <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
@@ -530,7 +533,7 @@ export default function ToggleCard({
             {setting.warning && (
               <div className="mb-5 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
                 <p className="text-amber-400 text-sm">
-                  <span className="font-semibold">⚠️ Warning:</span> {setting.warning}
+                  <span className="font-semibold">⚠️ {t('settings.warning')}:</span> {setting.warning}
                 </p>
               </div>
             )}
@@ -558,7 +561,7 @@ export default function ToggleCard({
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                  <span className="font-medium">🔬 Technical Deep Dive</span>
+                  <span className="font-medium">🔬 {t('settings.technicalDeepDive')}</span>
                 </button>
                 {expandedSection === 'deepdive' && (
                   <div className="mt-3 ml-6 p-3 rounded-lg bg-slate-900/50 border border-slate-700/30">
@@ -580,7 +583,7 @@ export default function ToggleCard({
             {/* Options for dropdown without option-list simulator */}
             {setting.options && setting.type !== 'dropdown' && (
               <div className="mb-5">
-                <span className="text-xs text-slate-500 uppercase tracking-wide">Options:</span>
+                <span className="text-xs text-slate-500 uppercase tracking-wide">{t('settings.options')}:</span>
                 <div className="flex flex-wrap gap-1.5 mt-1.5">
                   {setting.options.map((option) => (
                     <span
@@ -596,7 +599,7 @@ export default function ToggleCard({
                       `}
                     >
                       {option}
-                      {option === setting.default && ' (default)'}
+                      {option === setting.default && ` (${t('settings.default')})`}
                       {option === setting.recommended && ' ★'}
                     </span>
                   ))}
@@ -607,7 +610,7 @@ export default function ToggleCard({
             {/* Default value (shown for types without simulator) */}
             {setting.type !== 'toggle' && setting.type !== 'slider' && setting.type !== 'dropdown' && setting.type !== 'action' && typeof setting.default !== 'undefined' && (
               <div className="mb-5">
-                <span className="text-xs text-slate-500 uppercase tracking-wide">Default: </span>
+                <span className="text-xs text-slate-500 uppercase tracking-wide">{t('settings.default')}: </span>
                 <span className={`text-xs font-medium ${setting.default ? 'text-emerald-400' : 'text-slate-400'}`}>
                   {String(setting.default)}
                 </span>
@@ -620,7 +623,7 @@ export default function ToggleCard({
                 <div className="flex items-start gap-3">
                   <span className="text-lg mt-0.5 flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center">💡</span>
                   <div>
-                    <span className="text-amber-400 font-semibold text-sm">Tip</span>
+                    <span className="text-amber-400 font-semibold text-sm">{t('settings.tip')}</span>
                     <p className="text-slate-400 text-sm mt-1">{setting.userNote}</p>
                   </div>
                 </div>
@@ -640,7 +643,7 @@ export default function ToggleCard({
                 <div className="rounded-xl bg-slate-900/60 border border-slate-700/40 p-4">
                   <div className="flex items-start gap-2 mb-2">
                     <span className="text-base">📌</span>
-                    <span className="text-sm font-semibold text-white">When to use:</span>
+                    <span className="text-sm font-semibold text-white">{t('settings.whenToUse')}:</span>
                   </div>
                   <p className="text-slate-400 text-sm leading-relaxed pl-7">
                     {setting.useCase}
@@ -654,7 +657,7 @@ export default function ToggleCard({
                   <div className="flex items-start gap-2 mb-3">
                     <span className="text-base">⚖️</span>
                     <span className="text-sm font-semibold text-white">
-                      {setting.safetyLevel === 'critical' ? 'Safety Considerations' : 'Tradeoffs & Pitfalls'}
+                      {setting.safetyLevel === 'critical' ? t('settings.safetyConsiderations') : t('settings.tradeoffsPitfalls')}
                     </span>
                   </div>
                   <ul className="space-y-2 pl-7">

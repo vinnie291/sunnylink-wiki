@@ -2,10 +2,12 @@
 
 import { useState, useMemo, useCallback } from 'react';
 import dynamic from 'next/dynamic';
-import togglesData from '../data/toggles.json';
 import Header from '../components/Header';
 import SettingsDatabase from '../components/SettingsDatabase';
 import { useFuzzySearch } from '../hooks/useFuzzySearch';
+import LanguageSwitcher from '../components/LanguageSwitcher';
+import { useLanguage } from '../lib/i18n';
+import { useTranslatedToggles } from '../lib/useTranslatedData';
 
 const ScrollToTop = dynamic(() => import('../components/ScrollToTop'), { ssr: false });
 
@@ -33,6 +35,8 @@ interface Category {
 }
 
 export default function Home() {
+  const { t } = useLanguage();
+  const togglesData = useTranslatedToggles();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
   const highlightedKey = null; // Removed hash based highlighting for simplicity in main view, or could re-add if needed via search params
@@ -118,6 +122,11 @@ export default function Home() {
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-violet-500/5 rounded-full blur-3xl" />
       </div>
 
+      {/* Language Switcher */}
+      <div className="absolute top-4 left-4 sm:top-8 sm:left-8 z-30">
+        <LanguageSwitcher />
+      </div>
+
       {/* Dashboard Button */}
       <div className="absolute top-4 right-4 sm:top-8 sm:right-8 z-30">
         <a
@@ -132,7 +141,7 @@ export default function Home() {
             transition-all duration-200 hover:scale-105 active:scale-95
           "
         >
-          <span>sunnylink Dashboard</span>
+          <span>{t('dashboard.button')}</span>
           <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
         </a>
       </div>
@@ -159,14 +168,14 @@ export default function Home() {
         {/* Footer */}
         <footer className="mt-16 text-center text-slate-600 text-sm lg:hidden">
           <p>
-            Built for the Sunnypilot community •{' '}
+            {t('footer.builtFor')} •{' '}
             <a
               href="https://www.sunnypilot.ai/terms"
               target="_blank"
               rel="noopener noreferrer"
               className="text-cyan-500 hover:text-cyan-400 transition-colors"
             >
-              sunnypilot Terms of Service
+              {t('footer.terms')}
             </a>
             {' '}•{' '}
             <a
@@ -175,7 +184,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="text-cyan-500 hover:text-cyan-400 transition-colors"
             >
-              GitHub (sunnypilot)
+              {t('footer.github')}
             </a>
             {' '}•{' '}
             <a
@@ -184,7 +193,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="text-[#FFDD00] hover:text-[#ffe84d] transition-colors"
             >
-              ☕ Buy me a coffee
+              ☕ {t('footer.buyMeCoffee')}
             </a>
           </p>
         </footer>

@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import featuresData from '../data/features.json';
+import { useLanguage } from '../lib/i18n';
+import { useTranslatedFeatures } from '../lib/useTranslatedData';
 
 
 interface Feature {
@@ -19,7 +20,8 @@ interface Feature {
 export default function FeatureGuide() {
     const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
     const [showGlossary, setShowGlossary] = useState(false);
-
+    const { t } = useLanguage();
+    const featuresData = useTranslatedFeatures();
 
     const features = featuresData.features as Feature[];
     const glossary = featuresData.glossary as Record<string, string>;
@@ -40,7 +42,7 @@ export default function FeatureGuide() {
             {/* Header */}
             <div className="text-center">
                 <h2 className="text-2xl font-bold text-white mb-2">
-                    📖 Feature Guide
+                    📖 {t('features.title')}
                 </h2>
                 <p className="text-slate-400 text-sm">
                     Official definitions from Sunnypilot documentation • v{featuresData.version}

@@ -1,0 +1,158 @@
+{
+  "appName": "Sunnylink Database",
+  "version": "5.0",
+  "dataSource": "Official Sunnypilot Documentation",
+  "lastUpdated": "2026-01-26",
+  "features": [
+    {
+      "id": "mads",
+      "name": "M.A.D.S.",
+      "fullName": "Modular Assistive Driving System",
+      "category": "Kernsteuerung",
+      "officialDefinition": "Entkoppelt die Querlenkung von der Längslenkung (Gas/Bremse), sodass sich das Fahrzeug auch bei ausgekuppeltem Tempomat selbst steuern kann.",
+      "userSummary": "Die Lenkung bleibt eingeschaltet, auch wenn Sie bremsen oder im Leerlauf fahren.",
+      "userTranslation": "„Always-On-Lenkung.“ Das Auto lenkt für Sie, auch wenn Sie die Geschwindigkeit vollständig kontrollieren. Sie können rollen, bremsen oder beschleunigen, ohne dass die Lenkung ausgeschaltet wird.",
+      "settingsKeys": [
+        "mads_enabled",
+        "mads_steering_mode",
+        "mads_main_cruise_allowed",
+        "mads_unified_engagement"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/modular-assistive-driving-system-m-a-d-s-features-and-functionality/245"
+    },
+    {
+      "id": "nnlc",
+      "name": "NNLC",
+      "fullName": "Neural Network Lateral Control",
+      "category": "Kernsteuerung",
+      "officialDefinition": "Ersetzt den herkömmlichen PID/Indi-Regler durch ein neuronales Netzwerkmodell, das vergangene Krümmungen eingibt, um zukünftige Lenkungspfade vorherzusagen. Gibt die Krümmung zur seitlichen Steuerung direkt aus.",
+      "userSummary": "KI-basierte Lenkung. Sanfter, kann aber bei manchen Autos zu „Ping-Pong“ führen.",
+      "userTranslation": "„KI-Lenkung.“ Anstatt mathematische Gleichungen zu verwenden, um auf der Spur zu bleiben, nutzt es ein KI-Gehirn. Es fühlt sich sanfter und „menschlicher“ an, aber wenn es anfängt zu ping-pongen (nach links/rechts zu hüpfen), schalten Sie es aus.",
+      "settingsKeys": [
+        "nnlc_enabled"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/neural-network-lateral-control-nnlc/246"
+    },
+    {
+      "id": "dec",
+      "name": "DEC",
+      "fullName": "Dynamic Experimental Control",
+      "category": "Kernsteuerung",
+      "officialDefinition": "Schaltet je nach Fahrkontext (z. B. Geschwindigkeit, Straßentyp) automatisch zwischen dem Chill-Modus (Standard-Längsrichtung) und dem Experimentalmodus (Verwaltung von Ampel-/Stoppschildern) um.",
+      "userSummary": "Schaltet den Fahrmodus automatisch um. Hinweis: Kann zu spätem Bremsen führen.",
+      "userTranslation": "„Stadt-/Autobahn-Umschalter.“ Wechselt automatisch den Modus basierend auf dem Kontext. Kompromiss: Kann das Testen bestimmter Modelle erschweren und aufgrund von Anzeichen zu spät bremsen. Nützlich, aber erhöht die Komplexität.",
+      "settingsKeys": [
+        "dynamic_experimental_control"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/dynamic-experimental-control/242"
+    },
+    {
+      "id": "icbm",
+      "name": "ICBM",
+      "fullName": "Intelligent Cruise Button Management",
+      "category": "Kompatibilität",
+      "officialDefinition": "Ein System zur Steuerung der Fahrzeuggeschwindigkeit durch elektronisches „Drücken“ der nativen Tempomat-Tasten (RES+/SET-) des Fahrzeugs, um die vollständige Längssteuerung bei Fahrzeugen nachzuahmen, die diese Funktion nicht nativ unterstützen.",
+      "userSummary": "Ermöglicht eine „intelligente“ Geschwindigkeitsregelung bei nicht unterstützten Fahrzeugen durch Simulation von Tastendrücken.",
+      "userTranslation": "\"Cruise Hacker.\" If Ihr Fahrzeug doesn't support full self-driving gas/brake, this feature \"spams\" your Lenkung wheel buttons to force das Fahrzeug to slow down for curves or Geschwindigkeitsbegrenzungs.",
+      "settingsKeys": [
+        "icbm_enabled"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/intelligent-cruise-button-management-icbm/244"
+    },
+    {
+      "id": "scc_v",
+      "name": "SCC-V",
+      "fullName": "Smart Cruise Control - Vision (SCC-V)",
+      "category": "Geschwindigkeitsregelung",
+      "officialDefinition": "Smart Cruise Control – Vision (SCC-V) nutzt Kamerasichtdaten, um die Geschwindigkeit Ihres Fahrzeugs proaktiv anzupassen, indem es die Krümmung der Straße vor Ihnen berechnet.",
+      "userSummary": "Verlangsamt sich bei Kurven, die es mit der Kamera „sieht“.",
+      "userTranslation": "„Kurvenverlangsamung im Auge.“ Das Auto erkennt eine scharfe Kurve und bremst ab, genau wie Sie es tun würden.",
+      "settingsKeys": [
+        "VisionBasedTurnSpeedControl"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/smart-cruise-control-using-camera-vision-for-proactive-speed-adjustment/248"
+    },
+    {
+      "id": "scc_m",
+      "name": "SCC-M",
+      "fullName": "Map-Based Turn Speed Control",
+      "category": "Geschwindigkeitsregelung",
+      "officialDefinition": "Verwendet OpenStreetMap (OSM)-Daten, um bevorstehende Straßenkrümmungen zu antizipieren und die ACC-Sollgeschwindigkeit entsprechend zu senken.",
+      "userSummary": "Verlangsamt sich bei Kurven mithilfe von Kartendaten.",
+      "userTranslation": "„Kartenbasierte Kurvenverlangsamung.“ Das Auto schaut auf die Karte, sieht eine Kurve vor sich und wird langsamer, bevor man sie überhaupt sehen kann.",
+      "settingsKeys": [
+        "map_turn_control"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/smart-cruise-control-map-scc-m-feature-description/247"
+    },
+    {
+      "id": "sla",
+      "name": "SLA",
+      "fullName": "Speed Limit Assist",
+      "category": "Geschwindigkeitsregelung",
+      "officialDefinition": "Passt die eingestellte Geschwindigkeit des Fahrzeugs automatisch an die aktuelle Geschwindigkeitsbegrenzung an. Bezogen auf Kartendaten, Dashboard-Kamera (TSR) oder einer Kombination aus beidem.",
+      "userSummary": "Auto-sets cruise to Geschwindigkeitsbegrenzung.",
+      "userTranslation": "„Automatische Geschwindigkeitsüberschreitung.“ Stellt Ihren Tempomat automatisch auf die Geschwindigkeitsbegrenzung ein (plus Ihren benutzerdefinierten Offset, z. B. +5 Meilen pro Stunde).",
+      "settingsKeys": [
+        "speed_limit_assist",
+        "speed_limit_source",
+        "speed_limit_offset_type",
+        "speed_limit_offset_value"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/speed-limit-assist/249"
+    },
+    {
+      "id": "alc",
+      "name": "ALC",
+      "fullName": "Automatic Lane Change",
+      "category": "Navigation",
+      "officialDefinition": "Leitet einen Spurwechsel nach einer Blinkereingabe und einem konfigurierbaren Verzögerungstimer ein, ohne dass ein Drehmoment-„Anstoß“ am Lenkungsrad erforderlich ist. Kann zur Sicherheit in die Überwachung des toten Winkels (BSM) integriert werden.",
+      "userSummary": "Blinker anklicken -> Auto fährt automatisch weiter.",
+      "userTranslation": "\"Hands-Free Lane Change.\" You click the blinker, das Fahrzeug checks the Toter Winkel (if aktiviert), waits 1 second, and moves over automatically.",
+      "settingsKeys": [
+        "auto_lane_change_timer",
+        "auto_lane_change_bsm_delay"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/auto-lane-change/240"
+    },
+    {
+      "id": "hkg_tuning",
+      "name": "HKG Tuning",
+      "fullName": "Hyundai Longitudinal Tuning",
+      "category": "Fahrzeugspezifisch",
+      "officialDefinition": "Wendet spezifische Tuning-Profile („Stock“ oder „Dynamic“) auf die Längssteuerungsrichtlinie für Hyundai/Kia/Genesis (HKG)-Fahrzeuge an. Integriert sich in den nativen HDA-Status (Highway Driving Assist).",
+      "userSummary": "Ansprechverhalten des Gaspedals für Hyundai/Kia.",
+      "userTranslation": "„Hyundai-Gaspedal-Reparatur.“ Wenn Ihr Kia im „Eco“-Modus zu langsam beschleunigt, sorgt die Umstellung auf „Dynamic“ für ein schnelleres Ansprechverhalten des Gaspedals.",
+      "settingsKeys": [
+        "hyundai_longitudinal_tuning"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/hyundai-longitudinal-tuning-implementation-in-sunnypilot/243"
+    },
+    {
+      "id": "custom_acc",
+      "name": "Custom ACC",
+      "fullName": "Custom ACC Increments",
+      "category": "Fahrzeugspezifisch",
+      "officialDefinition": "Ermöglicht die Konfiguration der Geschwindigkeitserhöhungs-/-verringerungswerte für kurzes Drücken (z. B. ±1) und langes Drücken (z. B. ±5) der Tempomattasten.",
+      "userSummary": "Geschwindigkeitsänderungen der Cruise-Taste neu zuordnen.",
+      "userTranslation": "„Button-Remapper.“ Ändern Sie die Lenkungsradtasten so, dass sich die Geschwindigkeit mit einem Klick um 5 Meilen pro Stunde statt um 1 Meilen pro Stunde ändert.",
+      "settingsKeys": [
+        "custom_acc_increments"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/custom-acc-increments/241"
+    }
+  ],
+  "glossary": {
+    "ACC": "Adaptive Geschwindigkeitsregelung – Hält die eingestellte Geschwindigkeit bei und folgt dem Verkehr",
+    "ALC": "Automatische Spurzentrierung – Hält das Fahrzeug in der Spurmitte",
+    "BSM": "Überwachung des toten Winkels – Erkennt Fahrzeuge im Toten Winkel",
+    "E2E": "End-to-End – KI-Modell, das alle Fahrentscheidungen übernimmt",
+    "HDA": "Highway Driving Assist – Hyundais natives ADAS-System",
+    "HKG": "Hyundai/Kia/Genesis – Koreanische Autoplattformen",
+    "LDW": "Spurverlassenswarnung – Warnung beim Verlassen der Fahrspur",
+    "OSM": "OpenStreetMap – Open-Source-Kartendaten",
+    "PID": "Proportional-Integral-Derivativ – Traditioneller Steueralgorithmus",
+    "TSR": "Verkehrszeichenerkennung – Kamerabasiertes Lesen von Schildern",
+    "WMI": "World Model Iteration – Neueste E2E-Modellarchitektur"
+  }
+}
