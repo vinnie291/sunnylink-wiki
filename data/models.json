@@ -1,8 +1,8 @@
 {
     "appName": "Sunnylink Model Database",
     "version": "7.0",
-    "totalModels": 65,
-    "lastUpdated": "2026-02-27",
+    "totalModels": 67,
+    "lastUpdated": "2026-03-06",
     "vibeGuide": {
         "wmi_2026": {
             "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -48,7 +48,7 @@
             "title": "The OPM Series (Off-Policy Models)",
             "subtitle": "Learning from Corrections",
             "includes": "Off-Policy Model, Off-Policy Model v2",
-            "vibe": "These models use off-policy training \u2014 they learn from moments where the model's behavior differed from the human driver's corrections, rather than just cloning driving behavior. This allows them to learn more effectively from edge cases. They show improved highway centering and quicker lateral recentering compared to standard WMI models, though longitudinal control is still being refined.",
+            "vibe": "These models use off-policy training — they learn from moments where the model's behavior differed from the human driver's corrections, rather than just cloning driving behavior. This allows them to learn more effectively from edge cases. They show improved highway centering and quicker lateral recentering compared to standard WMI models, though longitudinal control is still being refined.",
             "bestFor": "Highway-focused driving with improved lane centering.",
             "recommendation": "Try Off-Policy Model v2 for the latest improvements in lateral control. Be aware that longitudinal (braking/acceleration) behavior may feel different from WMI models."
         }
@@ -58,7 +58,7 @@
             "id": "favorites",
             "name": "Favorites",
             "description": "The most popular models for daily driving right now. Community-tested and approved.",
-            "icon": "\u2b50",
+            "icon": "⭐",
             "models": [
                 {
                     "name": "WMI V12",
@@ -174,7 +174,7 @@
             "id": "world_2026",
             "name": "WMI 2026",
             "description": "Latest End-to-End architecture. Understands 3D scenes, stop signs, and complex intersections.",
-            "icon": "\ud83d\ude80",
+            "icon": "🚀",
             "models": [
                 {
                     "name": "CD210 Model",
@@ -193,7 +193,7 @@
                         "ok": 32,
                         "bad": 21
                     },
-                    "consensus": "Based on WMI V12 architecture with subtle differences. Shows improved red light stopping behavior and less ping-pong at low speeds. However, multiple users report pronounced oversteering on turns \u2014 especially problematic on Toyota vehicles with low-torque EPS. Hard braking at close range and red light creeping are also noted drawbacks.",
+                    "consensus": "Based on WMI V12 architecture with subtle differences. Shows improved red light stopping behavior and less ping-pong at low speeds. However, multiple users report pronounced oversteering on turns — especially problematic on Toyota vehicles with low-torque EPS. Hard braking at close range and red light creeping are also noted drawbacks.",
                     "note": "Vehicle-dependent: praised on Hyundai Ioniq 5, but struggles with Toyota RAV4 Prime. Consider enabling 'pause lateral while turning' if oversteering is an issue.",
                     "bestFor": "Mixed Driving",
                     "steeringFeel": "Balanced",
@@ -383,7 +383,7 @@
             "id": "opm",
             "name": "OPM Models",
             "description": "Off-Policy Models learn from driver corrections rather than just cloning behavior, enabling smarter highway centering and recentering.",
-            "icon": "\ud83e\uddea",
+            "icon": "🧪",
             "models": [
                 {
                     "name": "Off-Policy Model",
@@ -402,7 +402,7 @@
                         "ok": 35,
                         "bad": 25
                     },
-                    "consensus": "Experimental model using off-policy training \u2014 learns from corrections rather than just cloning. Better highway centering and quicker lateral recentering vs WMI V12. However, experimental long mode feels jerky, and sharp turns can be a step backward. Good potential for highway-focused drivers.",
+                    "consensus": "Experimental model using off-policy training — learns from corrections rather than just cloning. Better highway centering and quicker lateral recentering vs WMI V12. However, experimental long mode feels jerky, and sharp turns can be a step backward. Good potential for highway-focused drivers.",
                     "note": "'Off-policy' means it learned from data where the model's behavior differed from the human driver's action, allowing it to learn from corrections more effectively than standard cloning.",
                     "bestFor": "Highway",
                     "steeringFeel": "Balanced",
@@ -430,8 +430,8 @@
                         "ok": 31,
                         "bad": 15
                     },
-                    "consensus": "Second iteration of off-policy training. Lateral performance is praised \u2014 doesn't hug the left side and less huggy on highway turns at 70+. However, longitudinal control is a notable regression: late braking, rubberbanding behind lead cars, and exaggerated follow distances are commonly reported. Best on comma 4; mixed results on other platforms.",
-                    "note": "Strong lateral improvements over v1, but long control needs work. Community opinion is split \u2014 some love the lat, others can't tolerate the long behavior.",
+                    "consensus": "Second iteration of off-policy training. Lateral performance is praised — doesn't hug the left side and less huggy on highway turns at 70+. However, longitudinal control is a notable regression: late braking, rubberbanding behind lead cars, and exaggerated follow distances are commonly reported. Best on comma 4; mixed results on other platforms.",
+                    "note": "Strong lateral improvements over v1, but long control needs work. Community opinion is split — some love the lat, others can't tolerate the long behavior.",
                     "bestFor": "Highway",
                     "steeringFeel": "Balanced",
                     "testedOn": [
@@ -441,6 +441,87 @@
                         "comma 4"
                     ],
                     "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v2-20-feb-2026/3162"
+                },
+                {
+                    "name": "Off-Policy Model v3",
+                    "date": "February 26, 2026",
+                    "badge": "NEW",
+                    "tags": [
+                        "Off-Policy",
+                        "Highway",
+                        "PlanPlus",
+                        "Experimental"
+                    ],
+                    "communityScore": 85,
+                    "totalVotes": 5,
+                    "communityViews": 323,
+                    "sentiment": {
+                        "great": 60,
+                        "good": 20,
+                        "ok": 20,
+                        "bad": 0
+                    },
+                    "consensus": "Highly praised third iteration of off-policy training. Community describes it as a 'mad max' version of CD210/WMI — fast longitudinal response with better lateral control than its predecessors. Includes PlanPlus integration for customizable lane centering aggressiveness. Rated A+ by early testers.",
+                    "note": "Minor inconsistency in lead gap following and occasional wobbles at highway speed. PlanPlus integration allows tuning of lane centering vs curve hugging.",
+                    "bestFor": "Highway",
+                    "steeringFeel": "Balanced",
+                    "testedOn": [
+                        "Hyundai Sonata 2022",
+                        "comma 4"
+                    ],
+                    "positives": [
+                        "Aggressive longitudinal acceleration",
+                        "Better lateral than CD210/WMI",
+                        "PlanPlus customizable lane centering",
+                        "A+ community rating"
+                    ],
+                    "negatives": [
+                        "Inconsistent gap between lead cars",
+                        "Occasional wobbles at high speed"
+                    ],
+                    "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v3-26-feb-2026/3297"
+                },
+                {
+                    "name": "Off-Policy Model v4",
+                    "date": "February 27, 2026",
+                    "badge": "NEW",
+                    "tags": [
+                        "Off-Policy",
+                        "Highway",
+                        "PlanPlus",
+                        "Experimental"
+                    ],
+                    "communityScore": 77,
+                    "totalVotes": 15,
+                    "communityViews": 480,
+                    "sentiment": {
+                        "great": 40,
+                        "good": 33,
+                        "ok": 20,
+                        "bad": 7
+                    },
+                    "consensus": "Fourth iteration of off-policy training with improved oversteer handling compared to v2. Excellent lane centering and smooth city driving when paired with SCC-V. However, shows hesitation when following a lead vehicle and tends to drive slower than surrounding traffic when no lead is present. Mixed results on curves — improved for Hyundai/Toyota but Tesla users report inside-line riding.",
+                    "note": "SCC-V strongly recommended for safe curve speed handling. Hesitant acceleration when following lead vehicles is the main drawback vs WMI/CD210.",
+                    "bestFor": "City Driving",
+                    "steeringFeel": "Balanced",
+                    "testedOn": [
+                        "2025 Hyundai Ioniq 5",
+                        "2023 Toyota RAV4 Prime",
+                        "Tesla V4"
+                    ],
+                    "positives": [
+                        "Excellent lane centering",
+                        "Smooth city acceleration",
+                        "Improved oversteer vs v2",
+                        "Works well with SCC-V"
+                    ],
+                    "negatives": [
+                        "Hesitant when lead vehicle moves",
+                        "Drives too slow without a lead car",
+                        "Occasional ping-pong at PlanPlus 1.5",
+                        "Curve inside-line on Tesla"
+                    ],
+                    "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v4-27-feb-2026/3331"
                 }
             ]
         },
@@ -448,7 +529,7 @@
             "id": "aggressive_exp",
             "name": "Aggressive",
             "description": "For drivers who want performance, tight following, or bleeding-edge features.",
-            "icon": "\ud83d\udd25",
+            "icon": "🔥",
             "models": [
                 {
                     "name": "Dark Souls Model",
@@ -593,7 +674,7 @@
             "id": "comfort",
             "name": "Comfort",
             "description": "Passenger-friendly models. Smooth inputs over precision. Perfect for road trips.",
-            "icon": "\ud83d\udecb\ufe0f",
+            "icon": "🛋️",
             "models": [
                 {
                     "name": "Down to Ride v5",
@@ -737,7 +818,7 @@
             "id": "tomb_raider",
             "name": "Tomb Raider",
             "description": "Experimental 'Trash Folder' runs. Hidden gems for curves. Don't let the name scare you!",
-            "icon": "\ud83d\udd2c",
+            "icon": "🔬",
             "models": [
                 {
                     "name": "Tomb Raider 16",
@@ -1009,7 +1090,7 @@
             "id": "world_2025",
             "name": "2025 Models",
             "description": "The 'World Model' development era. Highly varied performance.",
-            "icon": "\ud83c\udf0d",
+            "icon": "🌍",
             "models": [
                 {
                     "name": "WMI v6",
@@ -1530,7 +1611,7 @@
             "id": "legacy",
             "name": "Legacy",
             "description": "The 'Old Guard.' Rock solid highway stability. Less 'smart' but incredible lane keeping.",
-            "icon": "\ud83c\udfdb\ufe0f",
+            "icon": "🏛️",
             "models": [
                 {
                     "name": "Recertified Herbalist",
