@@ -35,6 +35,16 @@ export default function LanguageSwitcher() {
     }, [isOpen]);
 
     const handleSelect = (newLocale: Locale) => {
+        if (newLocale !== locale) {
+            // Track language switch in Google Analytics
+            if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+                (window as any).gtag('event', 'language_switch', {
+                    previous_language: locale,
+                    new_language: newLocale,
+                    language_name: LOCALE_META[newLocale].name,
+                });
+            }
+        }
         setLocale(newLocale);
         setIsOpen(false);
     };
