@@ -43,6 +43,14 @@ const messages: Record<Locale, Messages> = {
 
 const STORAGE_KEY = 'sunnylink-wiki-locale';
 
+function detectZhFlag(): string {
+    if (typeof navigator === 'undefined') return '🇨🇳';
+    const lang = navigator.language?.toLowerCase() ?? '';
+    // Taiwanese locales use zh-TW or zh-Hant
+    if (lang === 'zh-tw' || lang.startsWith('zh-hant')) return '🇹🇼';
+    return '🇨🇳';
+}
+
 function detectBrowserLocale(): Locale {
     if (typeof navigator === 'undefined') return 'en';
     const lang = navigator.language?.toLowerCase() ?? '';
@@ -70,23 +78,27 @@ interface LanguageContextType {
     locale: Locale;
     setLocale: (locale: Locale) => void;
     t: (key: string, params?: Record<string, string | number>) => string;
+    getLocaleMeta: () => Record<Locale, { flag: string; name: string }>;
 }
 
 const LanguageContext = createContext<LanguageContextType>({
     locale: 'en',
     setLocale: () => { },
     t: (key: string) => key,
+    getLocaleMeta: () => LOCALE_META,
 });
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
     const [locale, setLocaleState] = useState<Locale>('en');
     const [mounted, setMounted] = useState(false);
+    const [zhFlag, setZhFlag] = useState('🇨🇳');
 
     // Initialize locale on mount
     useEffect(() => {
         const saved = getSavedLocale();
         const initial = saved ?? detectBrowserLocale();
         setLocaleState(initial);
+        setZhFlag(detectZhFlag());
         setMounted(true);
     }, []);
 
@@ -121,8 +133,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         [locale]
     );
 
+    const getLocaleMeta = useCallback(
+        (): Record<Locale, { flag: string; name: string }> => ({
+            ...LOCALE_META,
+            zh: { ...LOCALE_META.zh, flag: zhFlag },
+        }),
+        [zhFlag]
+    );
+
     return (
-        <LanguageContext.Provider value={{ locale, setLocale, t }}>
+        <LanguageContext.Provider value={{ locale, setLocale, t, getLocaleMeta }}>
             {children}
         </LanguageContext.Provider>
     );

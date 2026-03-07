@@ -2,11 +2,12 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useLanguage, SUPPORTED_LOCALES, LOCALE_META } from '../lib/i18n';
+import { useLanguage, SUPPORTED_LOCALES } from '../lib/i18n';
 import type { Locale } from '../lib/i18n';
 
 export default function LanguageSwitcher() {
-    const { locale, setLocale, t } = useLanguage();
+    const { locale, setLocale, t, getLocaleMeta } = useLanguage();
+    const localeMeta = getLocaleMeta();
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -41,7 +42,7 @@ export default function LanguageSwitcher() {
                 (window as any).gtag('event', 'language_switch', {
                     previous_language: locale,
                     new_language: newLocale,
-                    language_name: LOCALE_META[newLocale].name,
+                    language_name: localeMeta[newLocale].name,
                 });
             }
         }
@@ -49,7 +50,7 @@ export default function LanguageSwitcher() {
         setIsOpen(false);
     };
 
-    const currentMeta = LOCALE_META[locale];
+    const currentMeta = localeMeta[locale];
 
     return (
         <div ref={containerRef} className="relative">
@@ -93,7 +94,7 @@ export default function LanguageSwitcher() {
             "
                     >
                         {SUPPORTED_LOCALES.map((loc) => {
-                            const meta = LOCALE_META[loc];
+                            const meta = localeMeta[loc];
                             const isActive = loc === locale;
                             return (
                                 <button
