@@ -38,7 +38,7 @@ export default function Navigation() {
                     }
               `}
             >
-                <span className="hidden sm:inline">🧠 </span>{t('nav.models')}<span className="text-[10px] sm:text-xs opacity-70 ml-0.5"> (66)</span>
+                <span className="hidden sm:inline">🧠 </span>{t('nav.models')}
             </Link>
             <Link
                 href="/features"
