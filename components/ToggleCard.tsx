@@ -22,6 +22,7 @@ interface ToggleSetting {
   deepDive?: string;
   helpText?: string;
   dependencies?: { key: string; label: string }[];
+  discourseHtml?: string;
 }
 
 interface ToggleCardProps {
@@ -528,6 +529,32 @@ export default function ToggleCard({
             <p className="text-slate-300 text-sm lg:text-base leading-relaxed mb-5">
               {setting.description}
             </p>
+
+            {/* Official Discourse Documentation */}
+            {setting.discourseHtml && (
+              <div className="mb-5">
+                <button
+                  onClick={() => toggleSection('discourse')}
+                  className="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors w-full text-left"
+                >
+                  <svg
+                    className={`w-4 h-4 transition-transform ${expandedSection === 'discourse' ? 'rotate-90' : ''}`}
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                  <span className="font-medium">📄 Official Documentation</span>
+                </button>
+                {expandedSection === 'discourse' && (
+                  <div className="mt-3 ml-6 p-4 rounded-lg bg-slate-900/50 border border-slate-700/30">
+                    <div
+                      className="discourse-content text-sm text-slate-300 leading-relaxed"
+                      dangerouslySetInnerHTML={{ __html: setting.discourseHtml }}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Warning */}
             {setting.warning && (

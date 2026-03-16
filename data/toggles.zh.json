@@ -41,6 +41,28 @@
           "userNote": "启用 if 变道s feel sluggish or delayed."
         },
         {
+          "key": "AdjustLaneTurnSpeed",
+          "label": "Adjust Lane Turn Speed",
+          "type": "slider",
+          "default": 19,
+          "min": 0,
+          "max": 50,
+          "unit": "mph",
+          "helpText": "Default: 19 mph. Sets the maximum speed at which lane turn desires are active.",
+          "description": "Sets the maximum speed at which lane turn desires are active. Use the - and + buttons to adjust.",
+          "dependencies": [
+            {
+              "key": "LaneTurnDesire",
+              "label": "Use Lane Turn Desires"
+            },
+            {
+              "key": "ShowAdvancedControls",
+              "label": "Show Advanced Controls"
+            }
+          ],
+          "userNote": "Only appears when Use Lane Turn Desires and Show Advanced Controls are enabled."
+        },
+        {
           "key": "DrivingModel",
           "label": "驾驶模型",
           "type": "dropdown",
@@ -55,6 +77,46 @@
           "description": "浏览包含 66 多个驾驶模型的完整库，其中包含描述、发布日期和社区共识。",
           "useCase": "找到适合您驾驶风格的完美车型。",
           "userNote": "包括 WMI 系列、《黑暗之魂》、《Down to Ride》、《古墓丽影》和《Legacy》型号。"
+        },
+        {
+          "key": "RefreshModelList",
+          "label": "Refresh Model List",
+          "type": "action",
+          "description": "Forces a refresh of the available model list from the server. Use this if you expect a new model to be available but do not see it in the selection dialog.",
+          "userNote": "Use when a new model should be available but isn't shown."
+        },
+        {
+          "key": "ClearModelCache",
+          "label": "Clear Model Cache",
+          "type": "action",
+          "description": "Deletes all downloaded models except the currently active one. The current cache size in MB is displayed. Useful for freeing storage space.",
+          "userNote": "Frees up storage space by removing old model files."
+        },
+        {
+          "key": "LiveLearningSteerDelay",
+          "label": "实时学习转向延迟",
+          "type": "toggle",
+          "default": true,
+          "description": "允许设备学习并适应汽车的转向响应时间。",
+          "recommended": true,
+          "useCase": "自动补偿车辆特定的转向延迟。",
+          "deepDive": "测量命令的转向角度和实际车轮运动之间的延迟，然后调整预测进行补偿。",
+          "userNote": "保持开启 for optimal 转向 response."
+        },
+        {
+          "key": "ManualSoftwareDelay",
+          "label": "手动软件延迟",
+          "type": "slider",
+          "default": 0.2,
+          "description": "手动调整命令和操作之间的延迟。",
+          "dependencies": [
+            {
+              "key": "ShowAdvancedControls",
+              "label": "Show Advanced Controls"
+            }
+          ],
+          "warning": "别碰。 除非开发人员指示，否则保留“0.00”。",
+          "userNote": "Only modify if Live Learning Steer Delay is disabled."
         }
       ]
     },
@@ -79,10 +141,10 @@
           "label": "设备启动模式",
           "type": "dropdown",
           "options": [
-            "Offroad",
-            "Normal"
+            "Default",
+            "Offroad"
           ],
-          "default": "Standard",
+          "default": "Default",
           "description": "在越野或正常模式下启动/唤醒。",
           "useCase": "Choose how 设备 starts up after 电源 cycle.",
           "userNote": "标准建议正常使用。"
@@ -109,7 +171,7 @@
           "key": "OnroadUploads",
           "label": "公路上传",
           "type": "toggle",
-          "default": false,
+          "default": true,
           "description": "启用 Onroad Uploads for drive data.",
           "useCase": "在路上上传驾驶数据。",
           "userNote": "当 WiFi 不可用时使用移动数据。"
@@ -208,8 +270,22 @@
         {
           "key": "MaxTimeOffroad",
           "label": "最长时间越野",
-          "type": "slider",
-          "default": 1800,
+          "type": "dropdown",
+          "options": [
+            "Always On",
+            "5m",
+            "10m",
+            "15m",
+            "30m",
+            "1h",
+            "2h",
+            "3h",
+            "5h",
+            "10h",
+            "24h",
+            "30h"
+          ],
+          "default": "30h",
           "helpText": "范围：0 - 3600 秒（默认值：1800 秒 = 30 分钟）",
           "description": "越野时设备关闭之前的最大空闲时间（以秒为单位）。",
           "useCase": "控制停车后设备保持开启的时间。",
@@ -343,6 +419,21 @@
           "useCase": "快速启用/禁用所有 sunnypilot 功能。",
           "warning": "禁用会关闭所有辅助驾驶功能。",
           "userNote": "保持开启 for normal operation."
+        },
+        {
+          "key": "ExperimentalMode",
+          "label": "实验模式",
+          "type": "toggle",
+          "default": false,
+          "description": "启用s stopping for 红绿灯s and 停车标志s using vision only.",
+          "useCase": "City driving where you encounter frequent 红绿灯s and 停车标志s.",
+          "tradeoffs": [
+            "可能因误报（阴影、标记）而突然制动。",
+            "May not stop in time for all lights/signs - be ready to brake.",
+            "车后制动更平稳，但可能难以预测。"
+          ],
+          "warning": "注意灯光/标志。 需要 Alpha 纵向。",
+          "userNote": "必须首先启用 Alpha Longitudinal。"
         },
         {
           "key": "DrivingPersonality",
@@ -687,41 +778,6 @@
       "description": "速度管理和纵向控制的配置。",
       "settings": [
         {
-          "key": "ExperimentalMode",
-          "label": "实验模式",
-          "type": "toggle",
-          "default": false,
-          "description": "启用s stopping for 红绿灯s and 停车标志s using vision only.",
-          "dependencies": [
-            {
-              "key": "AlphaLongitudinal",
-              "label": "Alpha Longitudinal"
-            }
-          ],
-          "useCase": "City driving where you encounter frequent 红绿灯s and 停车标志s.",
-          "tradeoffs": [
-            "可能因误报（阴影、标记）而突然制动。",
-            "May not stop in time for all lights/signs - be ready to brake.",
-            "车后制动更平稳，但可能难以预测。"
-          ],
-          "warning": "注意灯光/标志。 需要 Alpha 纵向。",
-          "userNote": "必须首先启用 Alpha Longitudinal。"
-        },
-        {
-          "key": "AlphaLongitudinal",
-          "label": "阿尔法纵向",
-          "type": "toggle",
-          "default": true,
-          "description": "使用 Openpilot 的端到端模型进行油门/制动控制，而不是库存 ACC。",
-          "recommended": true,
-          "useCase": "Smoother 跟车距离 management than stock adaptive cruise.",
-          "tradeoffs": [
-            "某些车辆在走走停停时可能会出现抖动。",
-            "制动可能比预期更硬或更软。"
-          ],
-          "userNote": "实验模式所需。 通常比库存更光滑。"
-        },
-        {
           "key": "VisionBasedTurnSpeedControl",
           "label": "智能巡航控制 - 视觉 (SCC-V)",
           "type": "toggle",
@@ -818,9 +874,13 @@
           "label": "自动变道定时器",
           "type": "dropdown",
           "options": [
-            "Instant",
+            "Off",
             "Nudge",
-            "Timer"
+            "Nudgeless",
+            "0.5 s",
+            "1 s",
+            "2 s",
+            "3 s"
           ],
           "default": "Nudge",
           "description": "设置自动变道的延迟/确认方法。",
@@ -839,6 +899,12 @@
           "default": true,
           "description": "如果盲点监视器 (BSM) 检测到汽车，则会增加安全延迟。",
           "recommended": true,
+          "dependencies": [
+            {
+              "key": "AutoLaneChangeTimer",
+              "label": "Auto Lane Change by Blinker"
+            }
+          ],
           "useCase": "Prevents 变道 attempts when a vehicle is in your 盲区.",
           "userNote": "安全: 保持开启."
         },
@@ -946,7 +1012,6 @@
           "description": "当红灯变绿时鸣响。",
           "recommended": true,
           "useCase": "当信号灯变化时，提醒分心的驾驶员继续前进。",
-          "deepDive": "使用红绿灯识别模型来检测从红/黄到绿的状态变化。",
           "userNote": "对于分心的驾驶员来说非常有用的功能。"
         },
         {
@@ -1023,11 +1088,14 @@
         {
           "key": "DeveloperUIInfo",
           "label": "开发者用户界面信息",
-          "type": "slider",
-          "default": 0,
-          "min": 0,
-          "max": 10,
-          "helpText": "范围：0（关闭）到 10（最大调试信息）",
+          "type": "dropdown",
+          "options": [
+            "Off",
+            "Bottom",
+            "Right",
+            "Right & Bottom"
+          ],
+          "default": "Off",
           "description": "开发者 UI 覆盖数据级别。",
           "useCase": "在屏幕上显示技术调试信息。",
           "userNote": "仅适用于开发人员和高级用户。"
@@ -1035,11 +1103,15 @@
         {
           "key": "ChevronInfo",
           "label": "雪佛龙信息",
-          "type": "slider",
-          "default": 4,
-          "min": 0,
-          "max": 10,
-          "helpText": "Range: 0 (off) to 10 (maximum detail). 默认: 4",
+          "type": "dropdown",
+          "options": [
+            "Off",
+            "Distance",
+            "Speed",
+            "Time",
+            "All"
+          ],
+          "default": "Off",
           "description": "引领车辆信息显示水平。",
           "useCase": "自定义显示有关检测到的车辆的信息量。",
           "userNote": "调整以在屏幕上显示更多或更少的车辆信息。"
@@ -1098,6 +1170,25 @@
       "description": "用于调试和开发的高级工具。",
       "settings": [
         {
+          "key": "ShowAdvancedControls",
+          "label": "显示高级控件",
+          "type": "toggle",
+          "default": true,
+          "description": "Unlocks hidden 设置 menus.",
+          "recommended": true,
+          "useCase": "访问所有可用的配置选项。",
+          "userNote": "保持开启 to see everything in this list."
+        },
+        {
+          "key": "EnableAdb",
+          "label": "启用 ADB",
+          "type": "toggle",
+          "default": false,
+          "description": "Android 调试桥。 允许 USB 调试。",
+          "useCase": "开发人员通过 USB 线访问。",
+          "userNote": "仅供开发者使用。"
+        },
+        {
           "key": "EnableSsh",
           "label": "启用 SSH",
           "type": "toggle",
@@ -1112,32 +1203,22 @@
           ]
         },
         {
-          "key": "EnableAdb",
-          "label": "启用 ADB",
+          "key": "SshKeys",
+          "label": "SSH Keys",
+          "type": "action",
+          "description": "Fetches SSH public keys from a GitHub username and installs them on the device. This allows SSH login using your GitHub-associated key pair.",
+          "warning": "Only add SSH keys from users you trust. Anyone with an installed key has full access to the device.",
+          "useCase": "Install SSH keys for remote access.",
+          "userNote": "Only add keys from trusted users."
+        },
+        {
+          "key": "JoystickDebugMode",
+          "label": "操纵杆调试模式",
           "type": "toggle",
           "default": false,
-          "description": "Android 调试桥。 允许 USB 调试。",
-          "useCase": "开发人员通过 USB 线访问。",
+          "description": "启用 joystick debugging.",
+          "useCase": "调试操纵杆输入。",
           "userNote": "仅供开发者使用。"
-        },
-        {
-          "key": "EnableSunnylinkUploader",
-          "label": "启用 sunnylink Uploader",
-          "type": "toggle",
-          "default": false,
-          "description": "将驱动器上传到 sunnylink。",
-          "useCase": "启用 uploading drive data to sunnylink servers for cloud 存储 and analysis.",
-          "userNote": "启用 to upload your drives to sunnylink."
-        },
-        {
-          "key": "ShowAdvancedControls",
-          "label": "显示高级控件",
-          "type": "toggle",
-          "default": true,
-          "description": "Unlocks hidden 设置 menus.",
-          "recommended": true,
-          "useCase": "访问所有可用的配置选项。",
-          "userNote": "保持开启 to see everything in this list."
         },
         {
           "key": "QuickBoot",
@@ -1162,13 +1243,13 @@
           "userNote": "通过 WiFi 下载驾驶视频的简便方法。"
         },
         {
-          "key": "JoystickDebugMode",
-          "label": "操纵杆调试模式",
+          "key": "EnableSunnylinkUploader",
+          "label": "启用 sunnylink Uploader",
           "type": "toggle",
           "default": false,
-          "description": "启用 joystick debugging.",
-          "useCase": "调试操纵杆输入。",
-          "userNote": "仅供开发者使用。"
+          "description": "将驱动器上传到 sunnylink。",
+          "useCase": "启用 uploading drive data to sunnylink servers for cloud 存储 and analysis.",
+          "userNote": "启用 to upload your drives to sunnylink."
         },
         {
           "key": "LongitudinalManeuverMode",
@@ -1176,14 +1257,22 @@
           "type": "toggle",
           "default": false,
           "description": "低速操纵的专门处理。",
-          "dependencies": [
-            {
-              "key": "AlphaLongitudinal",
-              "label": "Alpha Longitudinal"
-            }
-          ],
           "useCase": "更顺畅的走走停停的交通行为。",
           "userNote": "有助于走走停停的平稳性。"
+        },
+        {
+          "key": "AlphaLongitudinal",
+          "label": "阿尔法纵向",
+          "type": "toggle",
+          "default": false,
+          "description": "使用 Openpilot 的端到端模型进行油门/制动控制，而不是库存 ACC。",
+          "useCase": "Smoother 跟车距离 management than stock adaptive cruise.",
+          "tradeoffs": [
+            "某些车辆在走走停停时可能会出现抖动。",
+            "制动可能比预期更硬或更软。"
+          ],
+          "warning": "Enabling this disables AEB (Automatic Emergency Braking). A confirmation dialog appears before activation.",
+          "userNote": "实验模式所需。 通常比库存更光滑。"
         },
         {
           "key": "GithubRunnerService",
@@ -1211,44 +1300,6 @@
           "description": "显示 UI 调试信息。",
           "useCase": "在 UI 上显示调试信息。",
           "userNote": "仅供开发者使用。"
-        },
-        {
-          "key": "ObdMultiplexingEnabled",
-          "label": "Obd Multiplexing 启用d",
-          "type": "toggle",
-          "default": false,
-          "description": "启用 OBD multiplexing.",
-          "useCase": "启用s multiplexing for OBD connection.",
-          "userNote": "Advanced OBD 配置."
-        },
-        {
-          "key": "ModelManagerClearCache",
-          "label": "模型管理器清除缓存",
-          "type": "toggle",
-          "default": false,
-          "description": "删除下载的模型。",
-          "useCase": "清除缓存的模型文件。",
-          "userNote": "通过删除旧模型来释放存储空间。"
-        },
-        {
-          "key": "LiveLearningSteerDelay",
-          "label": "实时学习转向延迟",
-          "type": "toggle",
-          "default": true,
-          "description": "允许设备学习并适应汽车的转向响应时间。",
-          "recommended": true,
-          "useCase": "自动补偿车辆特定的转向延迟。",
-          "deepDive": "测量命令的转向角度和实际车轮运动之间的延迟，然后调整预测进行补偿。",
-          "userNote": "保持开启 for optimal 转向 response."
-        },
-        {
-          "key": "ManualSoftwareDelay",
-          "label": "手动软件延迟",
-          "type": "slider",
-          "default": 0,
-          "description": "手动调整命令和操作之间的延迟。",
-          "warning": "别碰。 除非开发人员指示，否则保留“0.00”。",
-          "useCase": "仅限开发人员：覆盖习得的转向延迟。"
         },
         {
           "key": "DisableLogging",

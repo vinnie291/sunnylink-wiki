@@ -41,6 +41,28 @@
           "userNote": "Activer if changement de voies feel sluggish or delayed."
         },
         {
+          "key": "AdjustLaneTurnSpeed",
+          "label": "Adjust Lane Turn Speed",
+          "type": "slider",
+          "default": 19,
+          "min": 0,
+          "max": 50,
+          "unit": "mph",
+          "helpText": "Default: 19 mph. Sets the maximum speed at which lane turn desires are active.",
+          "description": "Sets the maximum speed at which lane turn desires are active. Use the - and + buttons to adjust.",
+          "dependencies": [
+            {
+              "key": "LaneTurnDesire",
+              "label": "Use Lane Turn Desires"
+            },
+            {
+              "key": "ShowAdvancedControls",
+              "label": "Show Advanced Controls"
+            }
+          ],
+          "userNote": "Only appears when Use Lane Turn Desires and Show Advanced Controls are enabled."
+        },
+        {
           "key": "DrivingModel",
           "label": "Modèle de conduite",
           "type": "dropdown",
@@ -55,6 +77,46 @@
           "description": "Parcourez la bibliothèque complète de plus de 66 modèles de conduite avec des descriptions, des dates de sortie et un consensus communautaire.",
           "useCase": "Trouvez le modèle parfait pour votre style de conduite.",
           "userNote": "Comprend les modèles WMI Series, Dark Souls, Down to Ride, Tomb Raider et Legacy."
+        },
+        {
+          "key": "RefreshModelList",
+          "label": "Refresh Model List",
+          "type": "action",
+          "description": "Forces a refresh of the available model list from the server. Use this if you expect a new model to be available but do not see it in the selection dialog.",
+          "userNote": "Use when a new model should be available but isn't shown."
+        },
+        {
+          "key": "ClearModelCache",
+          "label": "Clear Model Cache",
+          "type": "action",
+          "description": "Deletes all downloaded models except the currently active one. The current cache size in MB is displayed. Useful for freeing storage space.",
+          "userNote": "Frees up storage space by removing old model files."
+        },
+        {
+          "key": "LiveLearningSteerDelay",
+          "label": "Retard de direction d'apprentissage en direct",
+          "type": "toggle",
+          "default": true,
+          "description": "Permettre à l'appareil d'apprendre et d'adapter le temps de réponse de la direction de la voiture.",
+          "recommended": true,
+          "useCase": "Compense automatiquement la latence de direction spécifique au véhicule.",
+          "deepDive": "Mesure le délai entre l'angle de direction commandé et le mouvement réel de la roue, puis ajuste les prévisions pour compenser.",
+          "userNote": "Garder ACTIVÉ for optimal direction response."
+        },
+        {
+          "key": "ManualSoftwareDelay",
+          "label": "Retard logiciel manuel",
+          "type": "slider",
+          "default": 0.2,
+          "description": "Ajuste manuellement le délai entre la commande et l'action.",
+          "dependencies": [
+            {
+              "key": "ShowAdvancedControls",
+              "label": "Show Advanced Controls"
+            }
+          ],
+          "warning": "Ne touchez pas. Laissez sur « 0,00 », sauf indication contraire des développeurs.",
+          "userNote": "Only modify if Live Learning Steer Delay is disabled."
         }
       ]
     },
@@ -79,10 +141,10 @@
           "label": "Mode de démarrage du périphérique",
           "type": "dropdown",
           "options": [
-            "Offroad",
-            "Normal"
+            "Default",
+            "Offroad"
           ],
-          "default": "Standard",
+          "default": "Default",
           "description": "Démarrage/réveil en mode Offroad ou Normal.",
           "useCase": "Choisissez comment l'appareil démarre après le cycle d'alimentation.",
           "userNote": "La norme est recommandée pour une utilisation normale."
@@ -109,7 +171,7 @@
           "key": "OnroadUploads",
           "label": "Téléchargements sur route",
           "type": "toggle",
-          "default": false,
+          "default": true,
           "description": "Activer Onroad Uploads pour les données de conduite.",
           "useCase": "Téléchargez des données de conduite sur la route.",
           "userNote": "Utilise les données mobiles lorsque le WiFi n'est pas disponible."
@@ -208,8 +270,22 @@
         {
           "key": "MaxTimeOffroad",
           "label": "Temps maximum hors route",
-          "type": "slider",
-          "default": 1800,
+          "type": "dropdown",
+          "options": [
+            "Always On",
+            "5m",
+            "10m",
+            "15m",
+            "30m",
+            "1h",
+            "2h",
+            "3h",
+            "5h",
+            "10h",
+            "24h",
+            "30h"
+          ],
+          "default": "30h",
           "helpText": "Plage : 0 à 3 600 secondes (par défaut : 1 800 s = 30 min)",
           "description": "Temps d'inactivité maximum (en secondes) avant que l'appareil ne s'éteigne en tout-terrain.",
           "useCase": "Contrôlez la durée pendant laquelle l'appareil reste allumé après le stationnement.",
@@ -343,6 +419,21 @@
           "useCase": "Activez/désactivez rapidement toutes les fonctionnalités de sunnypilot.",
           "warning": "La désactivation désactive toutes les fonctionnalités de conduite assistée.",
           "userNote": "Garder ACTIVÉ for normal operation."
+        },
+        {
+          "key": "ExperimentalMode",
+          "label": "Mode expérimental",
+          "type": "toggle",
+          "default": false,
+          "description": "Arrêts actifs pour feu de circulation et arrêts panneau utilisant uniquement la vision.",
+          "useCase": "Conduite en ville où vous rencontrez de fréquents feux de circulation et des arrêts par panneaux.",
+          "tradeoffs": [
+            "Peut freiner brusquement pour des faux positifs (ombres, marquages).",
+            "Peut ne pas s'arrêter à temps pour tous les feux/panneaux - soyez prêt à freiner.",
+            "Freinage plus doux derrière les voitures, mais peut être imprévisible."
+          ],
+          "warning": "Soyez prudent aux feux/panneaux. Nécessite Alpha Longitudinal.",
+          "userNote": "Vous devez d'abord activer Alpha Longitudinal."
         },
         {
           "key": "DrivingPersonality",
@@ -687,41 +778,6 @@
       "description": "Configuration pour la gestion de la vitesse et le contrôle longitudinal.",
       "settings": [
         {
-          "key": "ExperimentalMode",
-          "label": "Mode expérimental",
-          "type": "toggle",
-          "default": false,
-          "description": "Arrêts actifs pour feu de circulation et arrêts panneau utilisant uniquement la vision.",
-          "dependencies": [
-            {
-              "key": "AlphaLongitudinal",
-              "label": "Alpha Longitudinal"
-            }
-          ],
-          "useCase": "Conduite en ville où vous rencontrez de fréquents feux de circulation et des arrêts par panneaux.",
-          "tradeoffs": [
-            "Peut freiner brusquement pour des faux positifs (ombres, marquages).",
-            "Peut ne pas s'arrêter à temps pour tous les feux/panneaux - soyez prêt à freiner.",
-            "Freinage plus doux derrière les voitures, mais peut être imprévisible."
-          ],
-          "warning": "Soyez prudent aux feux/panneaux. Nécessite Alpha Longitudinal.",
-          "userNote": "Vous devez d'abord activer Alpha Longitudinal."
-        },
-        {
-          "key": "AlphaLongitudinal",
-          "label": "Alpha longitudinale",
-          "type": "toggle",
-          "default": true,
-          "description": "Utilise le modèle de bout en bout d'Openpilot pour le contrôle des gaz/freins au lieu de l'ACC d'origine.",
-          "recommended": true,
-          "useCase": "Gestion de la distance de suivi plus fluide que la croisière adaptative d'origine.",
-          "tradeoffs": [
-            "Peut être saccadé lors des arrêts et départs sur certains véhicules.",
-            "Peut freiner plus fort ou plus doucement que prévu."
-          ],
-          "userNote": "Requis pour le mode expérimental. Généralement plus lisse que le stock."
-        },
-        {
           "key": "VisionBasedTurnSpeedControl",
           "label": "Régulateur de vitesse intelligent - Vision (SCC-V)",
           "type": "toggle",
@@ -818,9 +874,13 @@
           "label": "Minuterie de changement de voie automatique",
           "type": "dropdown",
           "options": [
-            "Instant",
+            "Off",
             "Nudge",
-            "Timer"
+            "Nudgeless",
+            "0.5 s",
+            "1 s",
+            "2 s",
+            "3 s"
           ],
           "default": "Nudge",
           "description": "Définit la méthode de délai/confirmation pour le changement de voie automatique.",
@@ -839,6 +899,12 @@
           "default": true,
           "description": "Ajoute un délai de sécurité si le moniteur d'angle mort (BSM) détecte une voiture.",
           "recommended": true,
+          "dependencies": [
+            {
+              "key": "AutoLaneChangeTimer",
+              "label": "Auto Lane Change by Blinker"
+            }
+          ],
           "useCase": "Empêche les tentatives de changement de voie lorsqu'un véhicule se trouve dans votre angle mort.",
           "userNote": "Sécurité: Garder ACTIVÉ."
         },
@@ -946,7 +1012,6 @@
           "description": "Sonne lorsqu'un feu rouge passe au vert.",
           "recommended": true,
           "useCase": "Alertez les conducteurs distraits pour qu’ils continuent lorsque la lumière change.",
-          "deepDive": "Utilise le modèle de reconnaissance du feu de circulation pour détecter les changements d'état du rouge/jaune au vert.",
           "userNote": "Fonctionnalité très utile pour les conducteurs distraits."
         },
         {
@@ -1023,11 +1088,14 @@
         {
           "key": "DeveloperUIInfo",
           "label": "Informations sur l'interface utilisateur du développeur",
-          "type": "slider",
-          "default": 0,
-          "min": 0,
-          "max": 10,
-          "helpText": "Plage : 0 (arrêt) à 10 (informations de débogage maximales)",
+          "type": "dropdown",
+          "options": [
+            "Off",
+            "Bottom",
+            "Right",
+            "Right & Bottom"
+          ],
+          "default": "Off",
           "description": "Niveau de données de superposition de l’interface utilisateur du développeur.",
           "useCase": "Afficher les informations techniques de débogage à l’écran.",
           "userNote": "Pour les développeurs et les utilisateurs avancés uniquement."
@@ -1035,11 +1103,15 @@
         {
           "key": "ChevronInfo",
           "label": "Informations sur les chevrons",
-          "type": "slider",
-          "default": 4,
-          "min": 0,
-          "max": 10,
-          "helpText": "Range: 0 (off) to 10 (maximum detail). Par défaut: 4",
+          "type": "dropdown",
+          "options": [
+            "Off",
+            "Distance",
+            "Speed",
+            "Time",
+            "All"
+          ],
+          "default": "Off",
           "description": "Niveau d'affichage des informations sur le véhicule principal.",
           "useCase": "Personnalisez la quantité d'informations affichées sur les véhicules détectés.",
           "userNote": "Ajustez pour afficher plus ou moins d'informations sur le véhicule à l'écran."
@@ -1098,6 +1170,25 @@
       "description": "Outils avancés pour le débogage et le développement.",
       "settings": [
         {
+          "key": "ShowAdvancedControls",
+          "label": "Afficher les contrôles avancés",
+          "type": "toggle",
+          "default": true,
+          "description": "Unlocks hidden paramètres menus.",
+          "recommended": true,
+          "useCase": "Accédez à toutes les options de configuration disponibles.",
+          "userNote": "Garder ACTIVÉ pour tout voir dans cette liste."
+        },
+        {
+          "key": "EnableAdb",
+          "label": "BAD active",
+          "type": "toggle",
+          "default": false,
+          "description": "Pont de débogage Android. Permet le débogage USB.",
+          "useCase": "Accès développeur via câble USB.",
+          "userNote": "Utilisation développeur uniquement."
+        },
+        {
           "key": "EnableSsh",
           "label": "Activer SSH",
           "type": "toggle",
@@ -1112,32 +1203,22 @@
           ]
         },
         {
-          "key": "EnableAdb",
-          "label": "BAD active",
+          "key": "SshKeys",
+          "label": "SSH Keys",
+          "type": "action",
+          "description": "Fetches SSH public keys from a GitHub username and installs them on the device. This allows SSH login using your GitHub-associated key pair.",
+          "warning": "Only add SSH keys from users you trust. Anyone with an installed key has full access to the device.",
+          "useCase": "Install SSH keys for remote access.",
+          "userNote": "Only add keys from trusted users."
+        },
+        {
+          "key": "JoystickDebugMode",
+          "label": "Mode de débogage du joystick",
           "type": "toggle",
           "default": false,
-          "description": "Pont de débogage Android. Permet le débogage USB.",
-          "useCase": "Accès développeur via câble USB.",
+          "description": "Débogage actif du joystick.",
+          "useCase": "Déboguer les entrées du joystick.",
           "userNote": "Utilisation développeur uniquement."
-        },
-        {
-          "key": "EnableSunnylinkUploader",
-          "label": "Activer le téléchargeur sunnylink",
-          "type": "toggle",
-          "default": false,
-          "description": "Téléchargez les lecteurs sur sunnylink.",
-          "useCase": "Téléchargement actif des données du lecteur sur les serveurs sunnylink pour le stockage et l'analyse dans le cloud.",
-          "userNote": "Activer pour télécharger vos disques sur sunnylink."
-        },
-        {
-          "key": "ShowAdvancedControls",
-          "label": "Afficher les contrôles avancés",
-          "type": "toggle",
-          "default": true,
-          "description": "Unlocks hidden paramètres menus.",
-          "recommended": true,
-          "useCase": "Accédez à toutes les options de configuration disponibles.",
-          "userNote": "Garder ACTIVÉ pour tout voir dans cette liste."
         },
         {
           "key": "QuickBoot",
@@ -1162,13 +1243,13 @@
           "userNote": "Un moyen simple de télécharger des vidéos de lecteur via WiFi."
         },
         {
-          "key": "JoystickDebugMode",
-          "label": "Mode de débogage du joystick",
+          "key": "EnableSunnylinkUploader",
+          "label": "Activer le téléchargeur sunnylink",
           "type": "toggle",
           "default": false,
-          "description": "Débogage actif du joystick.",
-          "useCase": "Déboguer les entrées du joystick.",
-          "userNote": "Utilisation développeur uniquement."
+          "description": "Téléchargez les lecteurs sur sunnylink.",
+          "useCase": "Téléchargement actif des données du lecteur sur les serveurs sunnylink pour le stockage et l'analyse dans le cloud.",
+          "userNote": "Activer pour télécharger vos disques sur sunnylink."
         },
         {
           "key": "LongitudinalManeuverMode",
@@ -1176,14 +1257,22 @@
           "type": "toggle",
           "default": false,
           "description": "Manipulation spécialisée pour les manœuvres à basse vitesse.",
-          "dependencies": [
-            {
-              "key": "AlphaLongitudinal",
-              "label": "Alpha Longitudinal"
-            }
-          ],
           "useCase": "Comportement de circulation stop-and-go plus fluide.",
           "userNote": "Aide à la douceur des arrêts et des départs."
+        },
+        {
+          "key": "AlphaLongitudinal",
+          "label": "Alpha longitudinale",
+          "type": "toggle",
+          "default": false,
+          "description": "Utilise le modèle de bout en bout d'Openpilot pour le contrôle des gaz/freins au lieu de l'ACC d'origine.",
+          "useCase": "Gestion de la distance de suivi plus fluide que la croisière adaptative d'origine.",
+          "tradeoffs": [
+            "Peut être saccadé lors des arrêts et départs sur certains véhicules.",
+            "Peut freiner plus fort ou plus doucement que prévu."
+          ],
+          "warning": "Enabling this disables AEB (Automatic Emergency Braking). A confirmation dialog appears before activation.",
+          "userNote": "Requis pour le mode expérimental. Généralement plus lisse que le stock."
         },
         {
           "key": "GithubRunnerService",
@@ -1211,44 +1300,6 @@
           "description": "Affiche les informations de débogage de l'interface utilisateur.",
           "useCase": "Afficher les informations de débogage sur l'interface utilisateur.",
           "userNote": "Utilisation développeur uniquement."
-        },
-        {
-          "key": "ObdMultiplexingEnabled",
-          "label": "Activerd de multiplexage Obd",
-          "type": "toggle",
-          "default": false,
-          "description": "Multiplexage OBD actif.",
-          "useCase": "Multiplexage d'actifs pour connexion OBD.",
-          "userNote": "Configuration avancée d'OBD."
-        },
-        {
-          "key": "ModelManagerClearCache",
-          "label": "Gestionnaire de modèles Vider le cache",
-          "type": "toggle",
-          "default": false,
-          "description": "Supprimez les modèles téléchargés.",
-          "useCase": "Efface les fichiers de modèle mis en cache.",
-          "userNote": "Libère de l'espace de stockage en supprimant les anciens modèles."
-        },
-        {
-          "key": "LiveLearningSteerDelay",
-          "label": "Retard de direction d'apprentissage en direct",
-          "type": "toggle",
-          "default": true,
-          "description": "Permettre à l'appareil d'apprendre et d'adapter le temps de réponse de la direction de la voiture.",
-          "recommended": true,
-          "useCase": "Compense automatiquement la latence de direction spécifique au véhicule.",
-          "deepDive": "Mesure le délai entre l'angle de direction commandé et le mouvement réel de la roue, puis ajuste les prévisions pour compenser.",
-          "userNote": "Garder ACTIVÉ for optimal direction response."
-        },
-        {
-          "key": "ManualSoftwareDelay",
-          "label": "Retard logiciel manuel",
-          "type": "slider",
-          "default": 0,
-          "description": "Ajuste manuellement le délai entre la commande et l'action.",
-          "warning": "Ne touchez pas. Laissez sur « 0,00 », sauf indication contraire des développeurs.",
-          "useCase": "Développeur uniquement : remplace le délai de direction apprise."
         },
         {
           "key": "DisableLogging",

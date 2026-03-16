@@ -1,5 +1,7 @@
 import PageShell from '@/components/PageShell';
 import FeatureGuide from '@/components/FeatureGuide';
+import { fetchAllDiscourseContent } from '@/lib/discourse-sync';
+import { mapDiscourseContent } from '@/lib/discourse-mapper';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -12,11 +14,21 @@ export const metadata: Metadata = {
     }
 };
 
-export default function FeaturesPage() {
+export default async function FeaturesPage() {
+    let discourseFeatures: Record<string, string> = {};
+
+    try {
+        const contentMap = await fetchAllDiscourseContent();
+        const mapped = mapDiscourseContent(contentMap);
+        discourseFeatures = Object.fromEntries(mapped.features);
+    } catch (err) {
+        console.error('[features] Failed to fetch Discourse content:', err);
+    }
+
     return (
         <PageShell>
             <div className="max-w-4xl mx-auto">
-                <FeatureGuide />
+                <FeatureGuide discourseFeatures={discourseFeatures} />
             </div>
         </PageShell>
     );

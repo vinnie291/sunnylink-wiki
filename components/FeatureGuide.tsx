@@ -15,15 +15,32 @@ interface Feature {
     userTranslation: string;
     settingsKeys: string[];
     docUrl?: string;
+    discourseHtml?: string;
 }
 
-export default function FeatureGuide() {
+interface FeatureGuideProps {
+    discourseFeatures?: Record<string, string>;
+}
+
+export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
     const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
     const [showGlossary, setShowGlossary] = useState(false);
-    const { t } = useLanguage();
+    const { t, locale } = useLanguage();
     const featuresData = useTranslatedFeatures();
 
-    const features = featuresData.features as Feature[];
+    // Enrich features with Discourse data (English only)
+    const rawFeatures = featuresData.features as Feature[];
+    const features = rawFeatures.map((feature) => {
+        if (locale === 'en' && discourseFeatures) {
+            const normalizedName = feature.name.toLowerCase().trim();
+            const normalizedFullName = feature.fullName.toLowerCase().trim();
+            const html = discourseFeatures[normalizedName] ?? discourseFeatures[normalizedFullName];
+            if (html) {
+                return { ...feature, discourseHtml: html };
+            }
+        }
+        return feature;
+    });
     const glossary = featuresData.glossary as Record<string, string>;
 
     const getCategoryColor = (category: string) => {
@@ -133,6 +150,15 @@ export default function FeatureGuide() {
                                     <p className="text-sm text-slate-300 font-mono leading-relaxed">
                                         {feature.officialDefinition}
                                     </p>
+                                    {feature.discourseHtml && (
+                                        <div className="mt-3 pt-3 border-t border-slate-700/30">
+                                            <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">Official Docs (Full)</p>
+                                            <div
+                                                className="discourse-content text-sm text-slate-300 leading-relaxed"
+                                                dangerouslySetInnerHTML={{ __html: feature.discourseHtml }}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Related Settings */}

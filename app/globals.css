@@ -42,24 +42,34 @@ html {
   background: rgba(100, 116, 139, 0.7);
 }
 
+/* Hide scrollbar on mobile/touch devices to prevent gap on right side */
+@media (pointer: coarse), (max-width: 768px) {
+  html {
+    scrollbar-width: none; /* Firefox */
+  }
+
+  html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }
+}
+
 /* Animated gradient text effect */
 @keyframes textShine {
   0% {
     background-position: 0% 50%;
   }
+
   100% {
     background-position: 100% 50%;
   }
 }
 
 .animate-gradient-text {
-  background: linear-gradient(
-    to right,
-    #ffffff 20%,
-    #22d3ee 30%,
-    #06b6d4 70%,
-    #ffffff 80%
-  ) !important;
+  background: linear-gradient(to right,
+      #ffffff 20%,
+      #22d3ee 30%,
+      #06b6d4 70%,
+      #ffffff 80%) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
@@ -110,4 +120,132 @@ html {
 ::selection {
   background: rgba(6, 182, 212, 0.3);
   color: white;
+}
+
+/* ─── Discourse HTML Content Styling ─── */
+.discourse-content {
+  color: #cbd5e1;
+  /* slate-300 */
+  line-height: 1.7;
+}
+
+.discourse-content h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 1rem 0 0.5rem;
+}
+
+.discourse-content h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin: 0.75rem 0 0.4rem;
+}
+
+.discourse-content h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin: 0.5rem 0 0.3rem;
+}
+
+.discourse-content p {
+  margin: 0.4rem 0;
+}
+
+.discourse-content a {
+  color: #22d3ee;
+  text-decoration: underline;
+  text-decoration-color: rgba(34, 211, 238, 0.3);
+}
+
+.discourse-content a:hover {
+  color: #67e8f9;
+  text-decoration-color: rgba(34, 211, 238, 0.6);
+}
+
+.discourse-content blockquote {
+  border-left: 3px solid rgba(100, 116, 139, 0.5);
+  padding: 0.5rem 0 0.5rem 1rem;
+  margin: 0.5rem 0;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.discourse-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0;
+  font-size: 0.85rem;
+}
+
+.discourse-content th,
+.discourse-content td {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  text-align: left;
+}
+
+.discourse-content th {
+  background: rgba(30, 41, 59, 0.5);
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.discourse-content td {
+  background: rgba(15, 23, 42, 0.3);
+}
+
+.discourse-content ul,
+.discourse-content ol {
+  padding-left: 1.25rem;
+  margin: 0.4rem 0;
+}
+
+.discourse-content li {
+  margin: 0.2rem 0;
+}
+
+.discourse-content code {
+  background: rgba(30, 41, 59, 0.7);
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.25rem;
+  font-size: 0.85em;
+  color: #67e8f9;
+}
+
+.discourse-content pre {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+}
+
+.discourse-content pre code {
+  background: none;
+  padding: 0;
+  color: #cbd5e1;
+}
+
+.discourse-content hr {
+  border-color: rgba(51, 65, 85, 0.4);
+  margin: 0.75rem 0;
+}
+
+/* Hide Discourse anchor links within headings */
+.discourse-content .anchor {
+  display: none;
+}
+
+/* Hide Discourse footnotes */
+.discourse-content .footnotes-sep,
+.discourse-content .footnotes-list {
+  display: none;
+}
+
+.discourse-content sup.footnote-ref {
+  display: none;
 }

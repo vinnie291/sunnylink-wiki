@@ -41,6 +41,28 @@
           "userNote": "활성화 if 차선 변경s feel sluggish or delayed."
         },
         {
+          "key": "AdjustLaneTurnSpeed",
+          "label": "Adjust Lane Turn Speed",
+          "type": "slider",
+          "default": 19,
+          "min": 0,
+          "max": 50,
+          "unit": "mph",
+          "helpText": "Default: 19 mph. Sets the maximum speed at which lane turn desires are active.",
+          "description": "Sets the maximum speed at which lane turn desires are active. Use the - and + buttons to adjust.",
+          "dependencies": [
+            {
+              "key": "LaneTurnDesire",
+              "label": "Use Lane Turn Desires"
+            },
+            {
+              "key": "ShowAdvancedControls",
+              "label": "Show Advanced Controls"
+            }
+          ],
+          "userNote": "Only appears when Use Lane Turn Desires and Show Advanced Controls are enabled."
+        },
+        {
           "key": "DrivingModel",
           "label": "운전 모델",
           "type": "dropdown",
@@ -55,6 +77,46 @@
           "description": "설명, 출시 날짜 및 커뮤니티 합의가 포함된 66개 이상의 운전 모델로 구성된 전체 라이브러리를 찾아보세요.",
           "useCase": "귀하의 운전 스타일에 딱 맞는 모델을 찾아보세요.",
           "userNote": "WMI 시리즈, Dark Souls, Down to Ride, Tomb Raider 및 Legacy 모델이 포함됩니다."
+        },
+        {
+          "key": "RefreshModelList",
+          "label": "Refresh Model List",
+          "type": "action",
+          "description": "Forces a refresh of the available model list from the server. Use this if you expect a new model to be available but do not see it in the selection dialog.",
+          "userNote": "Use when a new model should be available but isn't shown."
+        },
+        {
+          "key": "ClearModelCache",
+          "label": "Clear Model Cache",
+          "type": "action",
+          "description": "Deletes all downloaded models except the currently active one. The current cache size in MB is displayed. Useful for freeing storage space.",
+          "userNote": "Frees up storage space by removing old model files."
+        },
+        {
+          "key": "LiveLearningSteerDelay",
+          "label": "실시간 학습 조종 지연",
+          "type": "toggle",
+          "default": true,
+          "description": "기기가 자동차의 조향 응답 시간을 학습하고 적응하도록 허용합니다.",
+          "recommended": true,
+          "useCase": "차량별 조향 지연을 자동으로 보상합니다.",
+          "deepDive": "명령된 조향 각도와 실제 바퀴 움직임 사이의 지연을 측정한 다음 예측을 조정하여 보상합니다.",
+          "userNote": "켜두세요 for optimal 조향 response."
+        },
+        {
+          "key": "ManualSoftwareDelay",
+          "label": "수동 소프트웨어 지연",
+          "type": "slider",
+          "default": 0.2,
+          "description": "명령과 동작 사이의 지연을 수동으로 조정합니다.",
+          "dependencies": [
+            {
+              "key": "ShowAdvancedControls",
+              "label": "Show Advanced Controls"
+            }
+          ],
+          "warning": "만지지 마세요. 개발자의 지시가 없는 한 '0.00'으로 둡니다.",
+          "userNote": "Only modify if Live Learning Steer Delay is disabled."
         }
       ]
     },
@@ -79,10 +141,10 @@
           "label": "장치 부팅 모드",
           "type": "dropdown",
           "options": [
-            "Offroad",
-            "Normal"
+            "Default",
+            "Offroad"
           ],
-          "default": "Standard",
+          "default": "Default",
           "description": "오프로드 또는 일반 모드에서 부팅/깨우기.",
           "useCase": "Choose how 장치 starts up after 전원 cycle.",
           "userNote": "일반적인 사용에는 표준을 권장합니다."
@@ -109,7 +171,7 @@
           "key": "OnroadUploads",
           "label": "온로드 업로드",
           "type": "toggle",
-          "default": false,
+          "default": true,
           "description": "활성화 Onroad Uploads for drive data.",
           "useCase": "이동 중에도 운전 데이터를 업로드하세요.",
           "userNote": "WiFi를 사용할 수 없을 때 모바일 데이터를 사용합니다."
@@ -208,8 +270,22 @@
         {
           "key": "MaxTimeOffroad",
           "label": "최대 시간 오프로드",
-          "type": "slider",
-          "default": 1800,
+          "type": "dropdown",
+          "options": [
+            "Always On",
+            "5m",
+            "10m",
+            "15m",
+            "30m",
+            "1h",
+            "2h",
+            "3h",
+            "5h",
+            "10h",
+            "24h",
+            "30h"
+          ],
+          "default": "30h",
           "helpText": "범위: 0 - 3600초(기본값: 1800초 = 30분)",
           "description": "오프로드 시 장치가 종료되기 전의 최대 유휴 시간(초)입니다.",
           "useCase": "주차 후 장치가 켜져 있는 시간을 제어합니다.",
@@ -343,6 +419,21 @@
           "useCase": "모든 Sunnypilot 기능을 신속하게 활성화/비활성화합니다.",
           "warning": "비활성화하면 모든 보조 운전 기능이 꺼집니다.",
           "userNote": "켜두세요 for normal operation."
+        },
+        {
+          "key": "ExperimentalMode",
+          "label": "실험 모드",
+          "type": "toggle",
+          "default": false,
+          "description": "활성화s stopping for 신호등s and 정지 표지판s using vision only.",
+          "useCase": "City driving where you encounter frequent 신호등s and 정지 표지판s.",
+          "tradeoffs": [
+            "거짓 긍정(그림자, 표시)으로 인해 갑자기 브레이크를 밟을 수 있습니다.",
+            "모든 신호등/표지판에 맞춰 정차하지 못할 수 있습니다. 브레이크를 밟을 준비를 하십시오.",
+            "차량 뒤에서는 더 부드럽지만 예측할 수 없습니다."
+          ],
+          "warning": "신호등/표지판에 주의하세요. 알파 종방향이 필요합니다.",
+          "userNote": "먼저 Alpha Longitudinal을 활성화해야 합니다."
         },
         {
           "key": "DrivingPersonality",
@@ -687,41 +778,6 @@
       "description": "속도 관리 및 종단 제어를 위한 구성입니다.",
       "settings": [
         {
-          "key": "ExperimentalMode",
-          "label": "실험 모드",
-          "type": "toggle",
-          "default": false,
-          "description": "활성화s stopping for 신호등s and 정지 표지판s using vision only.",
-          "dependencies": [
-            {
-              "key": "AlphaLongitudinal",
-              "label": "Alpha Longitudinal"
-            }
-          ],
-          "useCase": "City driving where you encounter frequent 신호등s and 정지 표지판s.",
-          "tradeoffs": [
-            "거짓 긍정(그림자, 표시)으로 인해 갑자기 브레이크를 밟을 수 있습니다.",
-            "모든 신호등/표지판에 맞춰 정차하지 못할 수 있습니다. 브레이크를 밟을 준비를 하십시오.",
-            "차량 뒤에서는 더 부드럽지만 예측할 수 없습니다."
-          ],
-          "warning": "신호등/표지판에 주의하세요. 알파 종방향이 필요합니다.",
-          "userNote": "먼저 Alpha Longitudinal을 활성화해야 합니다."
-        },
-        {
-          "key": "AlphaLongitudinal",
-          "label": "알파 종방향",
-          "type": "toggle",
-          "default": true,
-          "description": "가스/브레이크 제어를 위해 순정 ACC 대신 Openpilot의 엔드투엔드 모델을 사용합니다.",
-          "recommended": true,
-          "useCase": "Smoother 차간 거리 management than stock adaptive cruise.",
-          "tradeoffs": [
-            "일부 차량에서는 정지 및 이동 시 불안정할 수 있습니다.",
-            "예상보다 브레이크가 더 세게 또는 부드러워질 수 있습니다."
-          ],
-          "userNote": "실험 모드에 필요합니다. 일반적으로 재고보다 부드럽습니다."
-        },
-        {
           "key": "VisionBasedTurnSpeedControl",
           "label": "스마트 크루즈 컨트롤 - 비전(SCC-V)",
           "type": "toggle",
@@ -818,9 +874,13 @@
           "label": "자동 차선 변경 타이머",
           "type": "dropdown",
           "options": [
-            "Instant",
+            "Off",
             "Nudge",
-            "Timer"
+            "Nudgeless",
+            "0.5 s",
+            "1 s",
+            "2 s",
+            "3 s"
           ],
           "default": "Nudge",
           "description": "Sets the delay/confirmation method for automatic 차선 변경s.",
@@ -839,6 +899,12 @@
           "default": true,
           "description": "사각지대 모니터(BSM)가 차량을 감지하면 안전 지연을 추가합니다.",
           "recommended": true,
+          "dependencies": [
+            {
+              "key": "AutoLaneChangeTimer",
+              "label": "Auto Lane Change by Blinker"
+            }
+          ],
           "useCase": "Prevents 차선 변경 attempts when a vehicle is in your 사각지대.",
           "userNote": "안전: 켜두세요."
         },
@@ -946,7 +1012,6 @@
           "description": "빨간불이 초록불로 바뀔 때 소리가 납니다.",
           "recommended": true,
           "useCase": "주의가 산만해진 운전자에게 신호가 바뀌면 계속 진행하도록 경고합니다.",
-          "deepDive": "신호등 인식 모델을 이용하여 빨간색/노란색에서 녹색으로의 상태 변화를 감지합니다.",
           "userNote": "주의가 산만한 운전자에게 매우 유용한 기능입니다."
         },
         {
@@ -1023,11 +1088,14 @@
         {
           "key": "DeveloperUIInfo",
           "label": "개발자 UI 정보",
-          "type": "slider",
-          "default": 0,
-          "min": 0,
-          "max": 10,
-          "helpText": "범위: 0(꺼짐) ~ 10(최대 디버그 정보)",
+          "type": "dropdown",
+          "options": [
+            "Off",
+            "Bottom",
+            "Right",
+            "Right & Bottom"
+          ],
+          "default": "Off",
           "description": "개발자 UI 오버레이 데이터 수준.",
           "useCase": "기술 디버깅 정보를 화면에 표시합니다.",
           "userNote": "개발자와 고급 사용자에게만 해당됩니다."
@@ -1035,11 +1103,15 @@
         {
           "key": "ChevronInfo",
           "label": "쉐브론 정보",
-          "type": "slider",
-          "default": 4,
-          "min": 0,
-          "max": 10,
-          "helpText": "Range: 0 (off) to 10 (maximum detail). 기본값: 4",
+          "type": "dropdown",
+          "options": [
+            "Off",
+            "Distance",
+            "Speed",
+            "Time",
+            "All"
+          ],
+          "default": "Off",
           "description": "리드 차량 정보 표시 수준입니다.",
           "useCase": "감지된 차량에 대해 표시되는 정보의 양을 맞춤설정하세요.",
           "userNote": "화면에 차량 정보를 더 많거나 적게 표시하도록 조정합니다."
@@ -1098,6 +1170,25 @@
       "description": "디버깅 및 개발을 위한 고급 도구입니다.",
       "settings": [
         {
+          "key": "ShowAdvancedControls",
+          "label": "고급 컨트롤 표시",
+          "type": "toggle",
+          "default": true,
+          "description": "Unlocks hidden 설정 menus.",
+          "recommended": true,
+          "useCase": "사용 가능한 모든 구성 옵션에 액세스하세요.",
+          "userNote": "이 목록의 모든 내용을 보려면 켜세요."
+        },
+        {
+          "key": "EnableAdb",
+          "label": "활성화 ADB",
+          "type": "toggle",
+          "default": false,
+          "description": "안드로이드 디버그 브리지. USB 디버깅을 허용합니다.",
+          "useCase": "USB 케이블을 통한 개발자 액세스.",
+          "userNote": "개발자 전용."
+        },
+        {
           "key": "EnableSsh",
           "label": "활성화 SSH",
           "type": "toggle",
@@ -1112,32 +1203,22 @@
           ]
         },
         {
-          "key": "EnableAdb",
-          "label": "활성화 ADB",
+          "key": "SshKeys",
+          "label": "SSH Keys",
+          "type": "action",
+          "description": "Fetches SSH public keys from a GitHub username and installs them on the device. This allows SSH login using your GitHub-associated key pair.",
+          "warning": "Only add SSH keys from users you trust. Anyone with an installed key has full access to the device.",
+          "useCase": "Install SSH keys for remote access.",
+          "userNote": "Only add keys from trusted users."
+        },
+        {
+          "key": "JoystickDebugMode",
+          "label": "조이스틱 디버그 모드",
           "type": "toggle",
           "default": false,
-          "description": "안드로이드 디버그 브리지. USB 디버깅을 허용합니다.",
-          "useCase": "USB 케이블을 통한 개발자 액세스.",
+          "description": "활성화 joystick debugging.",
+          "useCase": "조이스틱 입력을 디버그합니다.",
           "userNote": "개발자 전용."
-        },
-        {
-          "key": "EnableSunnylinkUploader",
-          "label": "활성화 sunnylink Uploader",
-          "type": "toggle",
-          "default": false,
-          "description": "Sunnylink에 드라이브를 업로드합니다.",
-          "useCase": "활성화 uploading drive data to sunnylink servers for cloud 저장소 and analysis.",
-          "userNote": "활성화하여 드라이브를 sunnylink에 업로드하세요."
-        },
-        {
-          "key": "ShowAdvancedControls",
-          "label": "고급 컨트롤 표시",
-          "type": "toggle",
-          "default": true,
-          "description": "Unlocks hidden 설정 menus.",
-          "recommended": true,
-          "useCase": "사용 가능한 모든 구성 옵션에 액세스하세요.",
-          "userNote": "이 목록의 모든 내용을 보려면 켜세요."
         },
         {
           "key": "QuickBoot",
@@ -1162,13 +1243,13 @@
           "userNote": "WiFi를 통해 운전 비디오를 다운로드하는 쉬운 방법입니다."
         },
         {
-          "key": "JoystickDebugMode",
-          "label": "조이스틱 디버그 모드",
+          "key": "EnableSunnylinkUploader",
+          "label": "활성화 sunnylink Uploader",
           "type": "toggle",
           "default": false,
-          "description": "활성화 joystick debugging.",
-          "useCase": "조이스틱 입력을 디버그합니다.",
-          "userNote": "개발자 전용."
+          "description": "Sunnylink에 드라이브를 업로드합니다.",
+          "useCase": "활성화 uploading drive data to sunnylink servers for cloud 저장소 and analysis.",
+          "userNote": "활성화하여 드라이브를 sunnylink에 업로드하세요."
         },
         {
           "key": "LongitudinalManeuverMode",
@@ -1176,14 +1257,22 @@
           "type": "toggle",
           "default": false,
           "description": "저속 기동을 위한 특수 핸들링.",
-          "dependencies": [
-            {
-              "key": "AlphaLongitudinal",
-              "label": "Alpha Longitudinal"
-            }
-          ],
           "useCase": "보다 원활한 정지 및 이동 교통 행동.",
           "userNote": "정지 및 이동의 부드러움에 도움이 됩니다."
+        },
+        {
+          "key": "AlphaLongitudinal",
+          "label": "알파 종방향",
+          "type": "toggle",
+          "default": false,
+          "description": "가스/브레이크 제어를 위해 순정 ACC 대신 Openpilot의 엔드투엔드 모델을 사용합니다.",
+          "useCase": "Smoother 차간 거리 management than stock adaptive cruise.",
+          "tradeoffs": [
+            "일부 차량에서는 정지 및 이동 시 불안정할 수 있습니다.",
+            "예상보다 브레이크가 더 세게 또는 부드러워질 수 있습니다."
+          ],
+          "warning": "Enabling this disables AEB (Automatic Emergency Braking). A confirmation dialog appears before activation.",
+          "userNote": "실험 모드에 필요합니다. 일반적으로 재고보다 부드럽습니다."
         },
         {
           "key": "GithubRunnerService",
@@ -1211,44 +1300,6 @@
           "description": "UI 디버그 정보를 표시합니다.",
           "useCase": "UI에 디버그 정보를 표시합니다.",
           "userNote": "개발자 전용."
-        },
-        {
-          "key": "ObdMultiplexingEnabled",
-          "label": "Obd Multiplexing 활성화d",
-          "type": "toggle",
-          "default": false,
-          "description": "활성화 OBD multiplexing.",
-          "useCase": "활성화s multiplexing for OBD connection.",
-          "userNote": "Advanced OBD 구성."
-        },
-        {
-          "key": "ModelManagerClearCache",
-          "label": "모델 관리자 캐시 지우기",
-          "type": "toggle",
-          "default": false,
-          "description": "다운로드한 모델을 삭제합니다.",
-          "useCase": "캐시된 모델 파일을 지웁니다.",
-          "userNote": "오래된 모델을 제거하여 클립 공간을 확보합니다."
-        },
-        {
-          "key": "LiveLearningSteerDelay",
-          "label": "실시간 학습 조종 지연",
-          "type": "toggle",
-          "default": true,
-          "description": "기기가 자동차의 조향 응답 시간을 학습하고 적응하도록 허용합니다.",
-          "recommended": true,
-          "useCase": "차량별 조향 지연을 자동으로 보상합니다.",
-          "deepDive": "명령된 조향 각도와 실제 바퀴 움직임 사이의 지연을 측정한 다음 예측을 조정하여 보상합니다.",
-          "userNote": "켜두세요 for optimal 조향 response."
-        },
-        {
-          "key": "ManualSoftwareDelay",
-          "label": "수동 소프트웨어 지연",
-          "type": "slider",
-          "default": 0,
-          "description": "명령과 동작 사이의 지연을 수동으로 조정합니다.",
-          "warning": "만지지 마세요. 개발자의 지시가 없는 한 '0.00'으로 둡니다.",
-          "useCase": "개발자 전용: 학습된 조향 지연을 재정의합니다."
         },
         {
           "key": "DisableLogging",

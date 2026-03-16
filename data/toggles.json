@@ -7,7 +7,7 @@
       "id": "models",
       "name": "Model Settings",
       "icon": "🧠",
-      "description": "AI model configuration and driving behavior tuning.",
+      "description": "Select and manage driving models, and configure model-related parameters.",
       "settings": [
         {
           "key": "AdjustCameraOffset",
@@ -29,16 +29,38 @@
         },
         {
           "key": "LaneTurnDesire",
-          "label": "Lane Turn Desire",
+          "label": "Use Lane Turn Desires",
           "type": "toggle",
           "default": false,
-          "description": "Forces the model to execute a turn when the blinker is active. Primarily used for 90-degree turns at intersections.",
-          "useCase": "Helps the car commit to sharp turns at lower speeds.",
+          "description": "When enabled, at speeds of 20 mph (32 km/h) or below with the turn signal on, the model plans a turn in the blinker direction at the nearest drivable path. This helps the model make smoother turns at low speeds.",
+          "useCase": "Helps the car commit to sharp turns at lower speeds with the blinker on.",
           "tradeoffs": [
-            "Not primarily for lane changes.",
-            "May be too aggressive in tight traffic."
+            "Not for lane changes — designed for low-speed turns.",
+            "Only active at 20 mph (32 km/h) or below."
           ],
-          "userNote": "Enable if lane changes feel sluggish or delayed."
+          "userNote": "Enable for smoother low-speed turns at intersections."
+        },
+        {
+          "key": "AdjustLaneTurnSpeed",
+          "label": "Adjust Lane Turn Speed",
+          "type": "slider",
+          "default": 19,
+          "min": 0,
+          "max": 50,
+          "unit": "mph",
+          "helpText": "Default: 19 mph. Sets the maximum speed at which lane turn desires are active.",
+          "description": "Sets the maximum speed at which lane turn desires are active. Use the - and + buttons to adjust.",
+          "dependencies": [
+            {
+              "key": "LaneTurnDesire",
+              "label": "Use Lane Turn Desires"
+            },
+            {
+              "key": "ShowAdvancedControls",
+              "label": "Show Advanced Controls"
+            }
+          ],
+          "userNote": "Only appears when Use Lane Turn Desires and Show Advanced Controls are enabled."
         },
         {
           "key": "DrivingModel",
@@ -55,6 +77,46 @@
           "description": "Browse the complete library of 66+ driving models with descriptions, release dates, and community consensus.",
           "useCase": "Find the perfect model for your driving style.",
           "userNote": "Includes WMI Series, Dark Souls, Down to Ride, Tomb Raider, and Legacy models."
+        },
+        {
+          "key": "RefreshModelList",
+          "label": "Refresh Model List",
+          "type": "action",
+          "description": "Forces a refresh of the available model list from the server. Use this if you expect a new model to be available but do not see it in the selection dialog.",
+          "userNote": "Use when a new model should be available but isn't shown."
+        },
+        {
+          "key": "ClearModelCache",
+          "label": "Clear Model Cache",
+          "type": "action",
+          "description": "Deletes all downloaded models except the currently active one. The current cache size in MB is displayed. Useful for freeing storage space.",
+          "userNote": "Frees up storage space by removing old model files."
+        },
+        {
+          "key": "LiveLearningSteerDelay",
+          "label": "Live Learning Steer Delay",
+          "type": "toggle",
+          "default": true,
+          "description": "Enables real-time learning and adaptive steering response time. The system continuously measures the actual steering delay and adjusts compensation accordingly. When disabled, a fixed response time is used instead.",
+          "recommended": true,
+          "useCase": "Automatically compensates for vehicle-specific steering latency.",
+          "deepDive": "Measures the delay between commanded steering angle and actual wheel movement, then adjusts predictions to compensate.",
+          "userNote": "Keep ON for optimal steering response."
+        },
+        {
+          "key": "ManualSoftwareDelay",
+          "label": "Adjust Software Delay",
+          "type": "slider",
+          "default": 0.2,
+          "description": "Sets the fixed software delay value used when Live Learning Steer Delay is disabled. Default is 0.2 seconds. Use the - and + buttons to adjust.",
+          "dependencies": [
+            {
+              "key": "ShowAdvancedControls",
+              "label": "Show Advanced Controls"
+            }
+          ],
+          "warning": "Only appears when Live Learning Steer Delay is disabled and Show Advanced Controls is enabled.",
+          "userNote": "Only modify if Live Learning Steer Delay is disabled."
         }
       ]
     },
@@ -62,37 +124,37 @@
       "id": "device",
       "name": "Device Settings",
       "icon": "📱",
-      "description": "Hardware management, cellular, and power settings.",
+      "description": "View device information, manage calibration, configure power behavior, and access system utilities.",
       "settings": [
         {
           "key": "ForceOffroadMode",
-          "label": "Force Offroad Mode",
+          "label": "Enable Always Offroad",
           "type": "toggle",
           "default": false,
-          "description": "Disables active driving features to unlock settings restricted while driving.",
+          "description": "Toggles 'Always Offroad' mode. When enabled, the device stays in its offroad (parked) state even when the vehicle is running. This prevents the driving assist from engaging, so you can configure settings, download updates, or perform maintenance without the system attempting to control the vehicle.",
           "safetyLevel": "safe",
-          "useCase": "Use when parked to change settings (Offroad), or for Valet mode.",
-          "userNote": "'Offroad' means parked/not driving. 'Onroad' means driving."
+          "useCase": "Use when parked to change settings, download updates, or perform maintenance.",
+          "userNote": "'Offroad' means parked/not driving. 'Onroad' means driving. Only available while offroad."
         },
         {
           "key": "DeviceBootMode",
-          "label": "Device Boot Mode",
+          "label": "Wake Up Behavior",
           "type": "dropdown",
           "options": [
-            "Offroad",
-            "Normal"
+            "Default",
+            "Offroad"
           ],
-          "default": "Standard",
-          "description": "Boot/Wake-Up in Offroad or Normal mode.",
-          "useCase": "Choose how the device starts up after power cycle.",
-          "userNote": "Standard is recommended for normal use."
+          "default": "Default",
+          "description": "Controls what the device does when it boots or wakes from sleep. Default: boots normally and is ready to engage. Offroad: automatically enables Always Offroad on each boot or wake-up.",
+          "useCase": "Set to Offroad if you want the device to start in configuration/maintenance mode by default.",
+          "userNote": "This setting persists across reboots."
         },
         {
           "key": "UseMetricUnits",
-          "label": "Use Metric Units",
+          "label": "Use Metric System",
           "type": "toggle",
           "default": false,
-          "description": "Display metric measurements (km/h, km) instead of imperial (mph, miles).",
+          "description": "Switches the display from miles per hour (mph) to kilometers per hour (km/h) throughout the interface.",
           "useCase": "Set based on your region's measurement system.",
           "userNote": "Enable if you prefer metric units."
         },
@@ -101,18 +163,18 @@
           "label": "Quiet Mode",
           "type": "toggle",
           "default": false,
-          "description": "Minimize sound notifications.",
-          "useCase": "Reduce audio alerts for a quieter driving experience.",
-          "userNote": "Enable if you prefer fewer audio alerts."
+          "description": "Suppresses non-critical sounds while preserving all safety-related alerts. Safety alerts (soft warnings, immediate warnings, distraction prompts, repeated attention prompts) always play. Muted in Quiet Mode: engagement sound, disengagement sound, refusal sound, standard prompts.",
+          "useCase": "Reduce non-critical audio for a quieter driving experience while keeping safety alerts active.",
+          "userNote": "Can be toggled while driving."
         },
         {
           "key": "OnroadUploads",
           "label": "Onroad Uploads",
           "type": "toggle",
-          "default": false,
-          "description": "Enable Onroad Uploads for drive data.",
-          "useCase": "Upload driving data while on the road.",
-          "userNote": "Uses mobile data when WiFi not available."
+          "default": true,
+          "description": "Toggles data uploads while driving. When enabled, the device uploads driving segments over a cellular or Wi-Fi connection during your drive. When disabled, uploads are deferred until the vehicle is parked and the device is offroad.",
+          "useCase": "Disable to conserve bandwidth on metered or limited data connections.",
+          "userNote": "Enabled by default. Disable if using a metered mobile hotspot."
         },
         {
           "key": "Language",
@@ -128,26 +190,26 @@
           "label": "Record & Upload Driver Camera",
           "type": "toggle",
           "default": false,
-          "description": "Front camera recording and upload.",
-          "useCase": "Enable recording of driver-facing camera for review.",
+          "description": "Uploads footage from the driver-facing camera to help improve the driver monitoring algorithm. When enabled, driver camera data is included in uploaded driving segments.",
+          "useCase": "Help improve the driver monitoring algorithm by sharing driver camera data.",
           "tradeoffs": [
             "Privacy consideration - driver is recorded.",
             "Uses additional storage and bandwidth."
           ],
-          "userNote": "Enable for full drive recording including driver view."
+          "userNote": "Changing this toggle requires the device to be offroad."
         },
         {
           "key": "RecordUploadMicAudio",
           "label": "Record & Upload Mic Audio",
           "type": "toggle",
           "default": false,
-          "description": "Record cabin audio.",
-          "useCase": "Enable audio recording in the cabin for review.",
+          "description": "Records microphone audio while driving. The audio is stored locally and included in dashcam video available through comma connect.",
+          "useCase": "Record cabin audio for review alongside drive footage.",
           "tradeoffs": [
             "Privacy consideration - conversations are recorded.",
             "Uses additional storage and bandwidth."
           ],
-          "userNote": "Enable for audio recording with drive footage."
+          "userNote": "Changing this toggle requires the device to be offroad."
         },
         {
           "key": "GsmMetered",
@@ -208,16 +270,30 @@
         {
           "key": "MaxTimeOffroad",
           "label": "Max Time Offroad",
-          "type": "slider",
-          "default": 1800,
-          "helpText": "Range: 0 - 3600 seconds (default: 1800s = 30 min)",
-          "description": "Maximum idle time (in seconds) before the device shuts down when offroad.",
+          "type": "dropdown",
+          "options": [
+            "Always On",
+            "5m",
+            "10m",
+            "15m",
+            "30m",
+            "1h",
+            "2h",
+            "3h",
+            "5h",
+            "10h",
+            "24h",
+            "30h"
+          ],
+          "default": "30h",
+          "helpText": "Default: 30 hours. Sets how long the device stays powered after the engine is off.",
+          "description": "Sets how long the device stays powered on after the engine is turned off before automatically shutting down. Setting to Always On disables the auto-shutdown timer entirely.",
           "useCase": "Control how long the device stays on after parking.",
           "tradeoffs": [
             "Higher values keep device ready longer but drain battery.",
-            "Lower values save battery but may not complete uploads."
+            "Always On keeps device on until manually powered off or battery drops too low."
           ],
-          "userNote": "Default 1800 seconds (30 minutes). Increase if uploads aren't completing."
+          "userNote": "Default 30 hours."
         },
         {
           "key": "ForcePowerDown",
@@ -331,18 +407,33 @@
       "id": "toggles",
       "name": "Toggles",
       "icon": "🔘",
-      "description": "General toggles and miscellaneous configuration.",
+      "description": "Core driving assist toggles that control fundamental sunnypilot behavior, driving personality, driver monitoring, and data recording.",
       "settings": [
         {
           "key": "EnableSunnypilot",
           "label": "Enable sunnypilot",
           "type": "toggle",
           "default": true,
-          "description": "Master toggle for sunnypilot functionality.",
+          "description": "Enables the sunnypilot driving assist system for adaptive cruise control and lane keeping. Your attention is required at all times while the system is active.",
           "recommended": true,
           "useCase": "Quickly enable/disable all sunnypilot features.",
-          "warning": "Disabling turns off all assisted driving features.",
+          "warning": "Changing this toggle requires the device to be offroad. A restart is needed for the change to take effect.",
           "userNote": "Keep ON for normal operation."
+        },
+        {
+          "key": "ExperimentalMode",
+          "label": "Experimental Mode",
+          "type": "toggle",
+          "default": false,
+          "description": "Activates end-to-end longitudinal control with a new driving visualization. This alpha feature uses the neural network to handle acceleration and braking on all road types, including city streets with stop signs and traffic lights.",
+          "useCase": "City driving where you encounter frequent traffic lights and stop signs.",
+          "tradeoffs": [
+            "Can brake suddenly for false positives (shadows, markings).",
+            "May not stop in time for all lights/signs — be ready to brake.",
+            "Smoother braking behind cars, but can be unpredictable."
+          ],
+          "warning": "Requires longitudinal control. Not available on vehicles using stock adaptive cruise control.",
+          "userNote": "Requires longitudinal control."
         },
         {
           "key": "DrivingPersonality",
@@ -355,33 +446,33 @@
           ],
           "default": "Standard",
           "helpText": "Relaxed = larger gaps, Standard = balanced, Aggressive = closer following",
-          "description": "Adjusts following distance and acceleration aggression.",
+          "description": "Controls how closely sunnypilot follows the vehicle ahead and how aggressively it accelerates and brakes.",
           "useCase": "Customize driving feel - Relaxed for safety, Aggressive for keeping up with traffic.",
           "tradeoffs": [
             "Aggressive mode may feel unsafe in stop-and-go traffic.",
             "Relaxed mode may frustrate drivers behind you with large gaps."
           ],
-          "userNote": "'Standard' is the default. 'Aggressive' follows closer; 'Relaxed' leaves more gaps."
+          "userNote": "Requires longitudinal control. 'Standard' is the default."
         },
         {
           "key": "LaneDepartureWarnings",
-          "label": "Lane Departure Warnings",
+          "label": "Enable Lane Departure Warnings",
           "type": "toggle",
           "default": false,
-          "description": "Enable lane departure warning alerts.",
+          "description": "Alerts you to steer back into your lane when the vehicle drifts over a detected lane line without the turn signal active. Warnings activate above 31 mph (50 km/h).",
           "useCase": "Get audible alerts when drifting out of lane without blinker.",
           "tradeoffs": [
             "Can be annoying on roads with poor lane markings.",
-            "May conflict with intentional lane changes."
+            "Only active above 31 mph (50 km/h)."
           ],
           "userNote": "Useful for long highway drives to maintain alertness."
         },
         {
           "key": "DisengageOnAccelerator",
-          "label": "Disengage On Accelerator",
+          "label": "Disengage on Accelerator Pedal",
           "type": "toggle",
           "default": true,
-          "description": "Cancels openpilot when you touch the gas pedal.",
+          "description": "When enabled, pressing the accelerator pedal will immediately disengage sunnypilot. When disabled, pressing the accelerator pedal overrides sunnypilot's speed control without disengaging the system.",
           "useCase": "Keep OFF if you want to help accelerate without disengaging.",
           "tradeoffs": [
             "OFF: Can assist with acceleration but steering stays active.",
@@ -391,16 +482,16 @@
         },
         {
           "key": "AlwaysOnDriverMonitor",
-          "label": "Always-on Driver Monitor",
+          "label": "Always-On Driver Monitoring",
           "type": "toggle",
           "default": false,
-          "description": "Keeps the driver facing camera active even when not engaged.",
+          "description": "Keeps the driver monitoring camera active even when sunnypilot is not engaged. The system will still watch for distracted or drowsy driving whenever the vehicle is on.",
           "useCase": "Continuous attention tracking for added safety.",
           "tradeoffs": [
             "Always watching - privacy consideration.",
             "Higher power consumption."
           ],
-          "userNote": "Tracks your attention 24/7."
+          "userNote": "Monitors driver attention even when driving assist is off."
         },
         {
           "key": "DisablePowerDown",
@@ -684,43 +775,8 @@
       "id": "cruise",
       "name": "Cruise & Speed",
       "icon": "🚀",
-      "description": "Configuration for speed management and longitudinal control.",
+      "description": "Configuration for speed management, cruise control, and lane change behavior.",
       "settings": [
-        {
-          "key": "ExperimentalMode",
-          "label": "Experimental Mode",
-          "type": "toggle",
-          "default": false,
-          "description": "Enables stopping for traffic lights and stop signs using vision only.",
-          "dependencies": [
-            {
-              "key": "AlphaLongitudinal",
-              "label": "Alpha Longitudinal"
-            }
-          ],
-          "useCase": "City driving where you encounter frequent traffic lights and stop signs.",
-          "tradeoffs": [
-            "Can brake suddenly for false positives (shadows, markings).",
-            "May not stop in time for all lights/signs - be ready to brake.",
-            "Smoother braking behind cars, but can be unpredictable."
-          ],
-          "warning": "Be cautious at lights/signs. Requires Alpha Longitudinal.",
-          "userNote": "Must enable Alpha Longitudinal first."
-        },
-        {
-          "key": "AlphaLongitudinal",
-          "label": "Alpha Longitudinal",
-          "type": "toggle",
-          "default": true,
-          "description": "Uses Openpilot's end-to-end model for gas/brake control instead of stock ACC.",
-          "recommended": true,
-          "useCase": "Smoother following distance management than stock adaptive cruise.",
-          "tradeoffs": [
-            "Can be jerky in stop-and-go on some vehicles.",
-            "May brake harder or softer than expected."
-          ],
-          "userNote": "Required for Experimental Mode. Usually smoother than stock."
-        },
         {
           "key": "VisionBasedTurnSpeedControl",
           "label": "Smart Cruise Control - Vision (SCC-V)",
@@ -815,32 +871,41 @@
         },
         {
           "key": "AutoLaneChangeTimer",
-          "label": "Auto Lane Change Timer",
+          "label": "Auto Lane Change by Blinker",
           "type": "dropdown",
           "options": [
-            "Instant",
+            "Off",
             "Nudge",
-            "Timer"
+            "Nudgeless",
+            "0.5 s",
+            "1 s",
+            "2 s",
+            "3 s"
           ],
           "default": "Nudge",
-          "description": "Sets the delay/confirmation method for automatic lane changes.",
+          "description": "Controls how lane changes are initiated when you activate the turn signal. Off: disabled. Nudge: requires a light steering nudge (default). Nudgeless: begins immediately on signal. Timed options (0.5-3s): begins after the specified delay.",
           "useCase": "Choose comfort level with automated lane changes.",
           "tradeoffs": [
-            "Instant: Fast but less safe - no confirmation.",
-            "Nudge: Requires slight wheel input - good balance.",
-            "Timer: Adds delay - safest but slowest."
+            "Nudgeless/Timed: Faster but less confirmation.",
+            "Nudge: Requires slight wheel input - good balance of safety and convenience."
           ],
-          "userNote": "'Nudge' requires wheel input; 'Instant' is automatic."
+          "userNote": "'Nudge' is the default and safest option."
         },
         {
           "key": "AutoLaneChangeBsmDelay",
-          "label": "Auto Lane Change BSM Delay",
+          "label": "Auto Lane Change: Delay with Blind Spot",
           "type": "toggle",
           "default": true,
-          "description": "Adds a safety delay if the Blind Spot Monitor (BSM) detects a car.",
+          "description": "When enabled, the system waits for the blind spot to clear before executing a lane change. If a vehicle is detected in the blind spot, the lane change is delayed until the path is clear.",
           "recommended": true,
+          "dependencies": [
+            {
+              "key": "AutoLaneChangeTimer",
+              "label": "Auto Lane Change by Blinker"
+            }
+          ],
           "useCase": "Prevents lane change attempts when a vehicle is in your blind spot.",
-          "userNote": "Safety: Keep ON."
+          "userNote": "Only appears if your vehicle supports BSM and Auto Lane Change is not set to Off or Nudge."
         },
         {
           "key": "MapAdvisorySpeedLimit",
@@ -914,69 +979,68 @@
       "id": "visuals",
       "name": "Visuals & UI",
       "icon": "🎨",
-      "description": "Customizes the screen layout and information displayed.",
+      "description": "Configure what information and visual elements appear on the driving screen.",
       "settings": [
         {
           "key": "RainbowMode",
-          "label": "Rainbow Mode",
+          "label": "Enable Tesla Rainbow Mode",
           "type": "toggle",
           "default": false,
-          "description": "Easter egg: Makes the lane lines flash colors.",
+          "description": "Applies a rainbow color effect to the model's planned driving path displayed on screen. This is a cosmetic change only and does not affect driving behavior.",
           "useCase": "Fun visual effect for showing off the system.",
           "tradeoffs": [
-            "Distracting while driving.",
-            "May cause eye strain."
+            "Cosmetic only - no impact on driving.",
+            "May be distracting."
           ],
-          "userNote": "Fun, but distracting."
+          "userNote": "Fun cosmetic effect. No impact on driving."
         },
         {
           "key": "DisplayRoadName",
           "label": "Display Road Name",
           "type": "toggle",
           "default": true,
-          "description": "Shows the current street name on the UI.",
+          "description": "Shows the name of the road you are currently driving on. Requires the OSM map database to be downloaded through the OSM panel.",
           "useCase": "Situational awareness when navigating unfamiliar areas.",
-          "userNote": "Nice for situational awareness."
+          "userNote": "Requires OSM map data to be downloaded."
         },
         {
           "key": "GreenLightAlert",
-          "label": "Green Light Alert",
+          "label": "Green Traffic Light Alert (Beta)",
           "type": "toggle",
           "default": false,
-          "description": "Chimes when a red light turns green.",
+          "description": "Plays a chime and shows an on-screen alert when the traffic light ahead turns green while you are stopped with no lead vehicle in front. Helps you notice the light change.",
           "recommended": true,
-          "useCase": "Alert distracted drivers to proceed when light changes.",
-          "deepDive": "Uses the traffic light recognition model to detect state changes from red/yellow to green.",
-          "userNote": "Very useful feature for distracted drivers."
+          "useCase": "Alert when traffic light changes to green while stopped.",
+          "userNote": "Only triggers when stopped with no lead vehicle in front."
         },
         {
           "key": "LeadDepartAlert",
           "label": "Lead Departure Alert (Beta)",
           "type": "toggle",
           "default": false,
-          "description": "A chime and on-screen alert (TIZI/TICI only) will play when you are stopped, and the vehicle in front of you start moving. <br>Note: This chime is only designed as a notification. It is the driver's responsibility to observe their environment and make decisions accordingly.",
+          "description": "Plays a chime and shows an on-screen alert when you are stopped and the vehicle ahead begins moving. Useful for noticing when traffic starts flowing again.",
           "recommended": true,
           "useCase": "Prevents getting honked at in stop-and-go traffic.",
-          "userNote": "Good for stop-and-go traffic."
+          "userNote": "Notifies you when the lead vehicle starts moving."
         },
         {
           "key": "ShowTurnSignals",
-          "label": "Display Turn Signals [TIZI/TICI only]",
+          "label": "Display Turn Signals",
           "type": "toggle",
           "default": false,
-          "description": "When enabled, visual turn indicators are drawn on the HUD.",
+          "description": "Draws visual turn signal indicators on the HUD when the turn signals are active.",
           "useCase": "Visual confirmation that blinker is active.",
-          "userNote": "Mostly cosmetic verification."
+          "userNote": "Supported on comma 3X/3 only."
         },
         {
           "key": "BlindSpotDetection",
-          "label": "Blind Spot Detection [TIZI/TICI only]",
+          "label": "Show Blind Spot Warnings",
           "type": "toggle",
           "default": false,
-          "description": "Enabling this will display warnings when a vehicle is detected in your blind spot as long as your car has BSM supported.",
+          "description": "Displays visual warnings on the driving screen when a vehicle is detected in your blind spot. Only available on vehicles equipped with Blind Spot Monitoring (BSM) hardware.",
           "recommended": true,
-          "useCase": "Redundant BSM warning if you miss the mirror indicator.",
-          "userNote": "Extra safety layer if you don't look at mirrors (please look at mirrors)."
+          "useCase": "Redundant BSM warning on the driving screen.",
+          "userNote": "Supported on all devices. comma four users must use sunnylink to change this setting."
         },
         {
           "key": "ScreenBrightness",
@@ -1022,72 +1086,79 @@
         },
         {
           "key": "DeveloperUIInfo",
-          "label": "Developer UI Info",
-          "type": "slider",
-          "default": 0,
-          "min": 0,
-          "max": 10,
-          "helpText": "Range: 0 (off) to 10 (maximum debug info)",
-          "description": "Developer UI overlay data level.",
+          "label": "Developer UI",
+          "type": "dropdown",
+          "options": [
+            "Off",
+            "Bottom",
+            "Right",
+            "Right & Bottom"
+          ],
+          "default": "Off",
+          "description": "Controls the display of real-time developer metrics on the driving screen. Off: no info. Bottom: metrics at bottom. Right: metrics on right side. Right & Bottom: both.",
           "useCase": "Display technical debugging information on screen.",
-          "userNote": "For developers and advanced users only."
+          "userNote": "For developers and advanced users only. Supported on comma 3X/3 only."
         },
         {
           "key": "ChevronInfo",
-          "label": "Chevron Info",
-          "type": "slider",
-          "default": 4,
-          "min": 0,
-          "max": 10,
-          "helpText": "Range: 0 (off) to 10 (maximum detail). Default: 4",
-          "description": "Lead vehicle info display level.",
-          "useCase": "Customize how much information is shown about detected vehicles.",
-          "userNote": "Adjust to show more or less vehicle info on screen."
+          "label": "Display Metrics Below Chevron",
+          "type": "dropdown",
+          "options": [
+            "Off",
+            "Distance",
+            "Speed",
+            "Time",
+            "All"
+          ],
+          "default": "Off",
+          "description": "Controls what information appears below the lead vehicle chevron on the driving screen. Off: nothing displayed. Distance: distance to lead. Speed: lead vehicle speed. Time: time gap. All: everything together.",
+          "useCase": "Display useful metrics about the lead vehicle.",
+          "userNote": "Requires sunnypilot longitudinal control. Supported on comma 3X/3 only."
         },
         {
           "key": "StandstillTimer",
-          "label": "Standstill Timer",
+          "label": "Enable Standstill Timer",
           "type": "toggle",
           "default": false,
-          "description": "Display time spent at standstill.",
+          "description": "Displays a timer on the HUD when the vehicle is stopped. The timer shows how long you have been at a standstill.",
           "useCase": "Shows how long you've been stopped at a light or in traffic.",
-          "userNote": "Useful for tracking wait times."
+          "userNote": "Supported on comma 3X/3 only."
         },
         {
           "key": "HideVEgoUI",
-          "label": "Speedometer: Hide from Onroad Screen [TIZI/TICI only]",
+          "label": "Speedometer: Hide from Onroad Screen",
           "type": "toggle",
           "default": false,
-          "description": "When enabled, the speedometer on the onroad screen is not displayed.",
+          "description": "Hides the speedometer from the driving screen entirely. When enabled, no speed is displayed while driving.",
           "useCase": "Minimize distractions by hiding speed display.",
-          "userNote": "Enable for a cleaner screen appearance."
+          "userNote": "Supported on comma 3X/3 only."
         },
         {
           "key": "TrueVEgoUI",
-          "label": "Speedometer: Always Display True Speed [TIZI/TICI only]",
+          "label": "Speedometer: Always Display True Speed",
           "type": "toggle",
           "default": false,
-          "description": "For applicable vehicles, always display the true vehicle current speed from wheel speed sensors.",
+          "description": "Forces the speedometer to always show the true vehicle speed from wheel speed sensors, rather than the GPS-based speed. Applicable to vehicles where wheel speed and GPS speed differ.",
           "useCase": "Display true speedometer reading from vehicle sensors.",
-          "userNote": "Shows actual speed rather than smoothed values."
+          "userNote": "Supported on comma 3X/3 only."
         },
         {
           "key": "DisplayRocketFuelBar",
-          "label": "Real-time Acceleration Bar [TIZI/TICI only]",
+          "label": "Real-time Acceleration Bar",
           "type": "toggle",
           "default": false,
-          "description": "Show an indicator on the left side of the screen to display real-time vehicle acceleration and deceleration. This displays what the car is currently doing, not what the planner is requesting.",
+          "description": "Shows a vertical bar on the left side of the driving screen that indicates real-time acceleration and deceleration. The bar moves up during acceleration and down during braking.",
           "useCase": "Visualize how hard the system is accelerating or braking.",
-          "userNote": "Cool visual indicator showing throttle/brake intensity."
+          "userNote": "Supported on comma 3X/3 only."
         },
         {
           "key": "SteeringArc",
-          "label": "Steering Arc [TIZI/TICI only]",
+          "label": "Steering Arc",
           "type": "toggle",
           "default": false,
-          "description": "Display steering arc on the driving screen when lateral control is enabled.",
+          "description": "Shows the steering arc overlay on the driving screen when lateral (steering) control is active. This arc illustrates the path sunnypilot is steering toward.",
           "useCase": "Visual feedback of steering path.",
-          "userNote": "Shows where the car is planning to steer."
+          "userNote": "Supported on all devices. On comma four, the steering arc is always displayed."
         }
       ]
     },
@@ -1095,30 +1166,80 @@
       "id": "developer",
       "name": "Developer Settings",
       "icon": "👨‍💻",
-      "description": "Advanced tools for debugging and development.",
+      "description": "Advanced settings for developers and power users, including debug tools, connectivity options, and alpha features.",
       "settings": [
         {
-          "key": "EnableSsh",
-          "label": "Enable SSH",
+          "key": "ShowAdvancedControls",
+          "label": "Show Advanced Controls",
           "type": "toggle",
-          "default": false,
-          "description": "Opens a secure shell for remote command-line access.",
-          "warning": "Security Risk. Keep OFF unless you are coding.",
-          "safetyLevel": "critical",
-          "useCase": "Developer access for debugging and advanced configuration.",
-          "tradeoffs": [
-            "Security vulnerability if device is on public network.",
-            "Can allow unauthorized access if password is weak."
-          ]
+          "default": true,
+          "description": "Reveals additional advanced settings throughout the sunnypilot interface. Enabling this does not change any driving behavior - it only makes hidden controls visible. Settings gated behind this toggle include: Models (Adjust Lane Turn Speed, Adjust Software Delay), Software (Disable Updates), and Developer (GitHub Runner Service, copyparty Service, Quickboot Mode).",
+          "recommended": true,
+          "useCase": "Access all available configuration options.",
+          "userNote": "Keep ON to see all available settings."
         },
         {
           "key": "EnableAdb",
           "label": "Enable ADB",
           "type": "toggle",
           "default": false,
-          "description": "Android Debug Bridge. Allows USB debugging.",
+          "description": "Enables ADB (Android Debug Bridge) for connecting to the device over USB or network for debugging.",
           "useCase": "Developer access via USB cable.",
-          "userNote": "Developer use only."
+          "userNote": "Can only be changed while the device is offroad."
+        },
+        {
+          "key": "EnableSsh",
+          "label": "Enable SSH",
+          "type": "toggle",
+          "default": false,
+          "description": "Enables SSH access to the device for remote terminal sessions.",
+          "warning": "Security Risk. Only add SSH keys from users you trust.",
+          "safetyLevel": "critical",
+          "useCase": "Developer access for debugging and advanced configuration.",
+          "tradeoffs": [
+            "Security vulnerability if device is on public network.",
+            "Anyone with an installed key has full access to the device."
+          ]
+        },
+        {
+          "key": "SshKeys",
+          "label": "SSH Keys",
+          "type": "action",
+          "description": "Fetches SSH public keys from a GitHub username and installs them on the device. This allows SSH login using your GitHub-associated key pair.",
+          "warning": "Only add SSH keys from users you trust. Anyone with an installed key has full access to the device.",
+          "useCase": "Install SSH keys for remote access.",
+          "userNote": "Only add keys from trusted users."
+        },
+        {
+          "key": "JoystickDebugMode",
+          "label": "Joystick Debug Mode",
+          "type": "toggle",
+          "default": false,
+          "description": "Enables joystick-controlled driving for testing and development purposes.",
+          "useCase": "Testing and development.",
+          "userNote": "Hidden on release branches. Can only be changed while the device is offroad."
+        },
+        {
+          "key": "QuickBoot",
+          "label": "Quickboot Mode",
+          "type": "toggle",
+          "default": false,
+          "description": "Creates a prebuilt file for accelerated boot, reducing startup time. Requires software updates to be disabled first.",
+          "useCase": "Faster startup time.",
+          "tradeoffs": [
+            "Requires Disable Updates to be enabled.",
+            "Must not be on a release or development branch."
+          ],
+          "warning": "Only appears when Show Advanced Controls is enabled and Disable Updates is active."
+        },
+        {
+          "key": "CopypartyService",
+          "label": "copyparty Service",
+          "type": "toggle",
+          "default": false,
+          "description": "Enables a file server on the device for downloading driving routes and logs from a web browser via the device's local IP address.",
+          "useCase": "Download drive videos and logs over WiFi without SSH.",
+          "userNote": "Only appears when Show Advanced Controls is enabled."
         },
         {
           "key": "EnableSunnylinkUploader",
@@ -1130,69 +1251,36 @@
           "userNote": "Enable to upload your drives to sunnylink."
         },
         {
-          "key": "ShowAdvancedControls",
-          "label": "Show Advanced Controls",
-          "type": "toggle",
-          "default": true,
-          "description": "Unlocks hidden settings menus.",
-          "recommended": true,
-          "useCase": "Access all available configuration options.",
-          "userNote": "Keep ON to see everything in this list."
-        },
-        {
-          "key": "QuickBoot",
-          "label": "Quick Boot",
-          "type": "toggle",
-          "default": false,
-          "description": "Attempts to boot the software faster by skipping checks.",
-          "useCase": "Faster startup for impatient users.",
-          "tradeoffs": [
-            "May miss important initialization steps.",
-            "Can cause instability or crashes."
-          ],
-          "warning": "Can cause instability. Keep OFF unless boot times are annoying."
-        },
-        {
-          "key": "CopypartyService",
-          "label": "copyparty Service",
-          "type": "toggle",
-          "default": false,
-          "description": "Runs a local file server on the device.",
-          "useCase": "Download drive videos over WiFi without SSH.",
-          "userNote": "Easy way to download drive videos via WiFi."
-        },
-        {
-          "key": "JoystickDebugMode",
-          "label": "Joystick Debug Mode",
-          "type": "toggle",
-          "default": false,
-          "description": "Enable joystick debugging.",
-          "useCase": "Debug joystick inputs.",
-          "userNote": "Developer use only."
-        },
-        {
           "key": "LongitudinalManeuverMode",
           "label": "Longitudinal Maneuver Mode",
           "type": "toggle",
           "default": false,
-          "description": "Specialized handling for low-speed maneuvers.",
-          "dependencies": [
-            {
-              "key": "AlphaLongitudinal",
-              "label": "Alpha Longitudinal"
-            }
+          "description": "Enables a longitudinal debug mode for testing acceleration and braking maneuvers.",
+          "useCase": "Testing acceleration and braking behavior.",
+          "userNote": "Hidden on release branches. Requires longitudinal control and the device must be offroad."
+        },
+        {
+          "key": "AlphaLongitudinal",
+          "label": "sunnypilot Longitudinal Control (Alpha)",
+          "type": "toggle",
+          "default": false,
+          "description": "Enables alpha-quality longitudinal control for vehicles that do not yet have full upstream support. This replaces the car's stock adaptive cruise control with sunnypilot's own acceleration and braking management.",
+          "useCase": "Enable sunnypilot longitudinal control on vehicles without native support.",
+          "tradeoffs": [
+            "Disables AEB (Automatic Emergency Braking) when enabled.",
+            "Alpha quality - may behave unexpectedly."
           ],
-          "useCase": "Smoother stop-and-go traffic behavior.",
-          "userNote": "Helps with stop-and-go smoothness."
+          "warning": "Enabling this disables AEB (Automatic Emergency Braking). A confirmation dialog appears before activation.",
+          "userNote": "Hidden on release branches. Only appears if your vehicle supports alpha longitudinal control."
         },
         {
           "key": "GithubRunnerService",
           "label": "GitHub Runner Service",
           "type": "toggle",
           "default": false,
-          "description": "Enable CI/CD runner.",
+          "description": "Enables the GitHub Actions self-hosted runner service on the device. This allows the device to execute CI/CD jobs from your repository.",
           "useCase": "Runs GitHub Actions runner on the device.",
-          "userNote": "Developer use only."
+          "userNote": "Only appears when Show Advanced Controls is enabled. Hidden on release branches."
         },
         {
           "key": "GithubRunnerSufficientVoltage",
@@ -1208,47 +1296,9 @@
           "label": "UI Debug Mode",
           "type": "toggle",
           "default": false,
-          "description": "Displays UI debug information.",
-          "useCase": "Show debug information on the UI.",
+          "description": "Shows touch indicators, FPS counter, and mouse coordinates on screen. Useful for UI development and troubleshooting display issues.",
+          "useCase": "Show debug overlays on the UI.",
           "userNote": "Developer use only."
-        },
-        {
-          "key": "ObdMultiplexingEnabled",
-          "label": "Obd Multiplexing Enabled",
-          "type": "toggle",
-          "default": false,
-          "description": "Enable OBD multiplexing.",
-          "useCase": "Enables multiplexing for OBD connection.",
-          "userNote": "Advanced OBD configuration."
-        },
-        {
-          "key": "ModelManagerClearCache",
-          "label": "Model Manager Clear Cache",
-          "type": "toggle",
-          "default": false,
-          "description": "Delete downloaded models.",
-          "useCase": "Clears cached model files.",
-          "userNote": "Frees up storage space by removing old models."
-        },
-        {
-          "key": "LiveLearningSteerDelay",
-          "label": "Live Learning Steer Delay",
-          "type": "toggle",
-          "default": true,
-          "description": "Allow device to learn and adapt car's steering response time.",
-          "recommended": true,
-          "useCase": "Automatically compensates for vehicle-specific steering latency.",
-          "deepDive": "Measures the delay between commanded steering angle and actual wheel movement, then adjusts predictions to compensate.",
-          "userNote": "Keep ON for optimal steering response."
-        },
-        {
-          "key": "ManualSoftwareDelay",
-          "label": "Manual Software Delay",
-          "type": "slider",
-          "default": 0,
-          "description": "Manually adjusts the delay between command and action.",
-          "warning": "Don't touch. Leave on '0.00' unless instructed by devs.",
-          "useCase": "Developer-only: Override learned steering delay."
         },
         {
           "key": "DisableLogging",

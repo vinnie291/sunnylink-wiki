@@ -41,6 +41,28 @@
           "userNote": "Aktivieren Sie diese Funktion, wenn sich Spurwechsel träge oder verzögert anfühlen."
         },
         {
+          "key": "AdjustLaneTurnSpeed",
+          "label": "Adjust Lane Turn Speed",
+          "type": "slider",
+          "default": 19,
+          "min": 0,
+          "max": 50,
+          "unit": "mph",
+          "helpText": "Default: 19 mph. Sets the maximum speed at which lane turn desires are active.",
+          "description": "Sets the maximum speed at which lane turn desires are active. Use the - and + buttons to adjust.",
+          "dependencies": [
+            {
+              "key": "LaneTurnDesire",
+              "label": "Use Lane Turn Desires"
+            },
+            {
+              "key": "ShowAdvancedControls",
+              "label": "Show Advanced Controls"
+            }
+          ],
+          "userNote": "Only appears when Use Lane Turn Desires and Show Advanced Controls are enabled."
+        },
+        {
           "key": "DrivingModel",
           "label": "Fahrmodell",
           "type": "dropdown",
@@ -55,6 +77,46 @@
           "description": "Durchsuchen Sie die komplette Bibliothek mit über 66 Fahrmodellen mit Beschreibungen, Veröffentlichungsdaten und Community-Konsens.",
           "useCase": "Finden Sie das perfekte Modell für Ihren Fahrstil.",
           "userNote": "Enthält die Modelle WMI Series, Dark Souls, Down to Ride, Tomb Raider und Legacy."
+        },
+        {
+          "key": "RefreshModelList",
+          "label": "Refresh Model List",
+          "type": "action",
+          "description": "Forces a refresh of the available model list from the server. Use this if you expect a new model to be available but do not see it in the selection dialog.",
+          "userNote": "Use when a new model should be available but isn't shown."
+        },
+        {
+          "key": "ClearModelCache",
+          "label": "Clear Model Cache",
+          "type": "action",
+          "description": "Deletes all downloaded models except the currently active one. The current cache size in MB is displayed. Useful for freeing storage space.",
+          "userNote": "Frees up storage space by removing old model files."
+        },
+        {
+          "key": "LiveLearningSteerDelay",
+          "label": "Live Learning Lenkverzögerung",
+          "type": "toggle",
+          "default": true,
+          "description": "Ermöglichen Sie dem Gerät, die Reaktionszeit der Lenkung des Fahrzeugs zu lernen und anzupassen.",
+          "recommended": true,
+          "useCase": "Kompensiert automatisch fahrzeugspezifische Lenkungslatenz.",
+          "deepDive": "Misst die Verzögerung zwischen dem befohlenen Lenkungswinkel und der tatsächlichen Radbewegung und passt dann die Vorhersagen an, um dies zu kompensieren.",
+          "userNote": "Eingeschaltet lassen for optimal Lenkung response."
+        },
+        {
+          "key": "ManualSoftwareDelay",
+          "label": "Manuelle Softwareverzögerung",
+          "type": "slider",
+          "default": 0.2,
+          "description": "Passt die Verzögerung zwischen Befehl und Aktion manuell an.",
+          "dependencies": [
+            {
+              "key": "ShowAdvancedControls",
+              "label": "Show Advanced Controls"
+            }
+          ],
+          "warning": "Nicht anfassen. Belassen Sie es auf „0,00“, es sei denn, die Entwickler weisen es an.",
+          "userNote": "Only modify if Live Learning Steer Delay is disabled."
         }
       ]
     },
@@ -79,10 +141,10 @@
           "label": "Gerätestartmodus",
           "type": "dropdown",
           "options": [
-            "Offroad",
-            "Normal"
+            "Default",
+            "Offroad"
           ],
-          "default": "Standard",
+          "default": "Default",
           "description": "Booten/Aufwecken im Offroad- oder Normalmodus.",
           "useCase": "Choose how das Gerät starts up after Strom cycle.",
           "userNote": "Standard wird für den normalen Gebrauch empfohlen."
@@ -109,7 +171,7 @@
           "key": "OnroadUploads",
           "label": "Onroad-Uploads",
           "type": "toggle",
-          "default": false,
+          "default": true,
           "description": "Aktivieren Onroad Uploads for drive data.",
           "useCase": "Laden Sie Fahrdaten unterwegs hoch.",
           "userNote": "Verwendet mobile Daten, wenn WLAN nicht verfügbar ist."
@@ -208,8 +270,22 @@
         {
           "key": "MaxTimeOffroad",
           "label": "Maximale Zeit im Gelände",
-          "type": "slider",
-          "default": 1800,
+          "type": "dropdown",
+          "options": [
+            "Always On",
+            "5m",
+            "10m",
+            "15m",
+            "30m",
+            "1h",
+            "2h",
+            "3h",
+            "5h",
+            "10h",
+            "24h",
+            "30h"
+          ],
+          "default": "30h",
           "helpText": "Bereich: 0 – 3600 Sekunden (Standard: 1800 Sekunden = 30 Minuten)",
           "description": "Maximale Leerlaufzeit (in Sekunden), bevor sich das Gerät im Gelände abschaltet.",
           "useCase": "Steuern Sie, wie lange das Gerät nach dem Parken eingeschaltet bleibt.",
@@ -343,6 +419,21 @@
           "useCase": "Aktivieren/deaktivieren Sie schnell alle Sunnypilot-Funktionen.",
           "warning": "Durch die Deaktivierung werden alle unterstützten Fahrfunktionen deaktiviert.",
           "userNote": "Eingeschaltet lassen for normal operation."
+        },
+        {
+          "key": "ExperimentalMode",
+          "label": "Experimenteller Modus",
+          "type": "toggle",
+          "default": false,
+          "description": "Aktiviert das Stoppen für Ampels und Stoppschilds nur mit Sicht.",
+          "useCase": "Fahren in der Stadt, wo man häufig auf Ampels und Stoppschilds trifft.",
+          "tradeoffs": [
+            "Kann bei Fehlalarmen (Schatten, Markierungen) plötzlich bremsen.",
+            "Halten Sie möglicherweise nicht rechtzeitig vor allen Lichtern/Schildern an – seien Sie zum Bremsen bereit.",
+            "Sanfteres Bremsen hinter Autos, kann aber unvorhersehbar sein."
+          ],
+          "warning": "Seien Sie vorsichtig bei Lichtern/Schildern. Erfordert Alpha Longitudinal.",
+          "userNote": "Zuerst muss Alpha Longitudinal aktiviert werden."
         },
         {
           "key": "DrivingPersonality",
@@ -687,41 +778,6 @@
       "description": "Konfiguration für Geschwindigkeitsmanagement und Längssteuerung.",
       "settings": [
         {
-          "key": "ExperimentalMode",
-          "label": "Experimenteller Modus",
-          "type": "toggle",
-          "default": false,
-          "description": "Aktiviert das Stoppen für Ampels und Stoppschilds nur mit Sicht.",
-          "dependencies": [
-            {
-              "key": "AlphaLongitudinal",
-              "label": "Alpha Longitudinal"
-            }
-          ],
-          "useCase": "Fahren in der Stadt, wo man häufig auf Ampels und Stoppschilds trifft.",
-          "tradeoffs": [
-            "Kann bei Fehlalarmen (Schatten, Markierungen) plötzlich bremsen.",
-            "Halten Sie möglicherweise nicht rechtzeitig vor allen Lichtern/Schildern an – seien Sie zum Bremsen bereit.",
-            "Sanfteres Bremsen hinter Autos, kann aber unvorhersehbar sein."
-          ],
-          "warning": "Seien Sie vorsichtig bei Lichtern/Schildern. Erfordert Alpha Longitudinal.",
-          "userNote": "Zuerst muss Alpha Longitudinal aktiviert werden."
-        },
-        {
-          "key": "AlphaLongitudinal",
-          "label": "Alpha-Längsrichtung",
-          "type": "toggle",
-          "default": true,
-          "description": "Verwendet das End-to-End-Modell von Openpilot für die Gas-/Bremssteuerung anstelle des serienmäßigen ACC.",
-          "recommended": true,
-          "useCase": "Reibungsloseres Folgeabstandsmanagement als der serienmäßige Adaptive Cruise.",
-          "tradeoffs": [
-            "Bei manchen Fahrzeugen kann es beim Stop-and-Go zu Ruckeln kommen.",
-            "Bremst möglicherweise härter oder weicher als erwartet."
-          ],
-          "userNote": "Erforderlich für den Experimentalmodus. Normalerweise glatter als das Original."
-        },
-        {
           "key": "VisionBasedTurnSpeedControl",
           "label": "Intelligente Geschwindigkeitsregelung – Vision (SCC-V)",
           "type": "toggle",
@@ -818,9 +874,13 @@
           "label": "Automatischer Spurwechsel-Timer",
           "type": "dropdown",
           "options": [
-            "Instant",
+            "Off",
             "Nudge",
-            "Timer"
+            "Nudgeless",
+            "0.5 s",
+            "1 s",
+            "2 s",
+            "3 s"
           ],
           "default": "Nudge",
           "description": "Legt die Verzögerungs-/Bestätigungsmethode für den automatischen Spurwechsels fest.",
@@ -839,6 +899,12 @@
           "default": true,
           "description": "Fügt eine Sicherheitsverzögerung hinzu, wenn der Toter-Winkel-Monitor (BSM) ein Auto erkennt.",
           "recommended": true,
+          "dependencies": [
+            {
+              "key": "AutoLaneChangeTimer",
+              "label": "Auto Lane Change by Blinker"
+            }
+          ],
           "useCase": "Prevents Spurwechsel attempts when a vehicle is in your Toter Winkel.",
           "userNote": "Sicherheit: Eingeschaltet lassen."
         },
@@ -946,7 +1012,6 @@
           "description": "Läutet, wenn ein rotes Licht auf Grün wechselt.",
           "recommended": true,
           "useCase": "Machen Sie abgelenkte Fahrer darauf aufmerksam, dass sie bei Lichtwechsel weiterfahren sollen.",
-          "deepDive": "Verwendet das Ampel-Erkennungsmodell, um Zustandsänderungen von Rot/Gelb nach Grün zu erkennen.",
           "userNote": "Sehr nützliche Funktion für abgelenkte Fahrer."
         },
         {
@@ -1023,11 +1088,14 @@
         {
           "key": "DeveloperUIInfo",
           "label": "Informationen zur Entwickler-Benutzeroberfläche",
-          "type": "slider",
-          "default": 0,
-          "min": 0,
-          "max": 10,
-          "helpText": "Bereich: 0 (aus) bis 10 (maximale Debug-Informationen)",
+          "type": "dropdown",
+          "options": [
+            "Off",
+            "Bottom",
+            "Right",
+            "Right & Bottom"
+          ],
+          "default": "Off",
           "description": "Datenebene des Entwickler-UI-Overlays.",
           "useCase": "Zeigen Sie technische Debugging-Informationen auf dem Bildschirm an.",
           "userNote": "Nur für Entwickler und fortgeschrittene Benutzer."
@@ -1035,11 +1103,15 @@
         {
           "key": "ChevronInfo",
           "label": "Chevron-Info",
-          "type": "slider",
-          "default": 4,
-          "min": 0,
-          "max": 10,
-          "helpText": "Bereich: 0 (aus) bis 10 (maximale Details). Standard: 4",
+          "type": "dropdown",
+          "options": [
+            "Off",
+            "Distance",
+            "Speed",
+            "Time",
+            "All"
+          ],
+          "default": "Off",
           "description": "Anzeigeebene der führenden Fahrzeuginformationen.",
           "useCase": "Passen Sie an, wie viele Informationen über erkannte Fahrzeuge angezeigt werden.",
           "userNote": "Passen Sie an, dass mehr oder weniger Fahrzeuginformationen auf dem Bildschirm angezeigt werden."
@@ -1098,6 +1170,25 @@
       "description": "Erweiterte Tools zum Debuggen und Entwickeln.",
       "settings": [
         {
+          "key": "ShowAdvancedControls",
+          "label": "Erweiterte Steuerelemente anzeigen",
+          "type": "toggle",
+          "default": true,
+          "description": "Unlocks hidden Einstellungen menus.",
+          "recommended": true,
+          "useCase": "Greifen Sie auf alle verfügbaren Konfigurationsoptionen zu.",
+          "userNote": "Eingeschaltet lassen to see everything in this list."
+        },
+        {
+          "key": "EnableAdb",
+          "label": "Aktivieren ADB",
+          "type": "toggle",
+          "default": false,
+          "description": "Android Debug Bridge. Ermöglicht USB-Debugging.",
+          "useCase": "Entwicklerzugriff über USB-Kabel.",
+          "userNote": "Nur für Entwickler."
+        },
+        {
           "key": "EnableSsh",
           "label": "Aktivieren SSH",
           "type": "toggle",
@@ -1112,32 +1203,22 @@
           ]
         },
         {
-          "key": "EnableAdb",
-          "label": "Aktivieren ADB",
+          "key": "SshKeys",
+          "label": "SSH Keys",
+          "type": "action",
+          "description": "Fetches SSH public keys from a GitHub username and installs them on the device. This allows SSH login using your GitHub-associated key pair.",
+          "warning": "Only add SSH keys from users you trust. Anyone with an installed key has full access to the device.",
+          "useCase": "Install SSH keys for remote access.",
+          "userNote": "Only add keys from trusted users."
+        },
+        {
+          "key": "JoystickDebugMode",
+          "label": "Joystick-Debug-Modus",
           "type": "toggle",
           "default": false,
-          "description": "Android Debug Bridge. Ermöglicht USB-Debugging.",
-          "useCase": "Entwicklerzugriff über USB-Kabel.",
+          "description": "Aktivieren joystick debugging.",
+          "useCase": "Joystick-Eingänge debuggen.",
           "userNote": "Nur für Entwickler."
-        },
-        {
-          "key": "EnableSunnylinkUploader",
-          "label": "Aktivieren sunnylink Uploader",
-          "type": "toggle",
-          "default": false,
-          "description": "Laden Sie Laufwerke auf sunnylink hoch.",
-          "useCase": "Aktivieren uploading drive data to sunnylink servers for cloud Speicher and analysis.",
-          "userNote": "Aktivieren Sie, um Ihre Laufwerke auf sunnylink hochzuladen."
-        },
-        {
-          "key": "ShowAdvancedControls",
-          "label": "Erweiterte Steuerelemente anzeigen",
-          "type": "toggle",
-          "default": true,
-          "description": "Unlocks hidden Einstellungen menus.",
-          "recommended": true,
-          "useCase": "Greifen Sie auf alle verfügbaren Konfigurationsoptionen zu.",
-          "userNote": "Eingeschaltet lassen to see everything in this list."
         },
         {
           "key": "QuickBoot",
@@ -1162,13 +1243,13 @@
           "userNote": "Einfache Möglichkeit, Fahrvideos über WLAN herunterzuladen."
         },
         {
-          "key": "JoystickDebugMode",
-          "label": "Joystick-Debug-Modus",
+          "key": "EnableSunnylinkUploader",
+          "label": "Aktivieren sunnylink Uploader",
           "type": "toggle",
           "default": false,
-          "description": "Aktivieren joystick debugging.",
-          "useCase": "Joystick-Eingänge debuggen.",
-          "userNote": "Nur für Entwickler."
+          "description": "Laden Sie Laufwerke auf sunnylink hoch.",
+          "useCase": "Aktivieren uploading drive data to sunnylink servers for cloud Speicher and analysis.",
+          "userNote": "Aktivieren Sie, um Ihre Laufwerke auf sunnylink hochzuladen."
         },
         {
           "key": "LongitudinalManeuverMode",
@@ -1176,14 +1257,22 @@
           "type": "toggle",
           "default": false,
           "description": "Spezielles Handling für Manöver bei niedriger Geschwindigkeit.",
-          "dependencies": [
-            {
-              "key": "AlphaLongitudinal",
-              "label": "Alpha Longitudinal"
-            }
-          ],
           "useCase": "Ruhigeres Stop-and-go-Verkehrsverhalten.",
           "userNote": "Hilft bei reibungslosem Stop-and-Go."
+        },
+        {
+          "key": "AlphaLongitudinal",
+          "label": "Alpha-Längsrichtung",
+          "type": "toggle",
+          "default": false,
+          "description": "Verwendet das End-to-End-Modell von Openpilot für die Gas-/Bremssteuerung anstelle des serienmäßigen ACC.",
+          "useCase": "Reibungsloseres Folgeabstandsmanagement als der serienmäßige Adaptive Cruise.",
+          "tradeoffs": [
+            "Bei manchen Fahrzeugen kann es beim Stop-and-Go zu Ruckeln kommen.",
+            "Bremst möglicherweise härter oder weicher als erwartet."
+          ],
+          "warning": "Enabling this disables AEB (Automatic Emergency Braking). A confirmation dialog appears before activation.",
+          "userNote": "Erforderlich für den Experimentalmodus. Normalerweise glatter als das Original."
         },
         {
           "key": "GithubRunnerService",
@@ -1211,44 +1300,6 @@
           "description": "Zeigt UI-Debuginformationen an.",
           "useCase": "Debuginformationen auf der Benutzeroberfläche anzeigen.",
           "userNote": "Nur für Entwickler."
-        },
-        {
-          "key": "ObdMultiplexingEnabled",
-          "label": "Obd-Multiplexing aktivierend",
-          "type": "toggle",
-          "default": false,
-          "description": "Aktivieren OBD multiplexing.",
-          "useCase": "Aktiviert Multiplexing für die OBD-Verbindung.",
-          "userNote": "Erweiterte OBD-Konfiguration."
-        },
-        {
-          "key": "ModelManagerClearCache",
-          "label": "Model Manager Cache leeren",
-          "type": "toggle",
-          "default": false,
-          "description": "Heruntergeladene Modelle löschen.",
-          "useCase": "Löscht zwischengespeicherte Modelldateien.",
-          "userNote": "Gibt Speicherplatz frei, indem alte Modelle entfernt werden."
-        },
-        {
-          "key": "LiveLearningSteerDelay",
-          "label": "Live Learning Lenkverzögerung",
-          "type": "toggle",
-          "default": true,
-          "description": "Ermöglichen Sie dem Gerät, die Reaktionszeit der Lenkung des Fahrzeugs zu lernen und anzupassen.",
-          "recommended": true,
-          "useCase": "Kompensiert automatisch fahrzeugspezifische Lenkungslatenz.",
-          "deepDive": "Misst die Verzögerung zwischen dem befohlenen Lenkungswinkel und der tatsächlichen Radbewegung und passt dann die Vorhersagen an, um dies zu kompensieren.",
-          "userNote": "Eingeschaltet lassen for optimal Lenkung response."
-        },
-        {
-          "key": "ManualSoftwareDelay",
-          "label": "Manuelle Softwareverzögerung",
-          "type": "slider",
-          "default": 0,
-          "description": "Passt die Verzögerung zwischen Befehl und Aktion manuell an.",
-          "warning": "Nicht anfassen. Belassen Sie es auf „0,00“, es sei denn, die Entwickler weisen es an.",
-          "useCase": "Nur für Entwickler: Erlernte Lenkungsverzögerung überschreiben."
         },
         {
           "key": "DisableLogging",

@@ -3,8 +3,7 @@ import { useState, useEffect, useRef, RefObject } from 'react';
 /**
  * Returns a sentinel ref and an `isSticky` flag.
  * Place the sentinel element right above the search bar.
- * `isSticky` becomes true only after the sentinel scrolls above the viewport,
- * meaning the search bar has naturally reached the top of the page.
+ * `isSticky` becomes true only after the sentinel scrolls above the viewport.
  */
 export function useStickySearch(): {
     sentinelRef: RefObject<HTMLDivElement | null>;
@@ -19,7 +18,6 @@ export function useStickySearch(): {
 
         const observer = new IntersectionObserver(
             ([entry]) => {
-                // When sentinel is NOT intersecting (scrolled above viewport), activate sticky
                 setIsSticky(!entry.isIntersecting);
             },
             { threshold: 0, rootMargin: '0px' }
