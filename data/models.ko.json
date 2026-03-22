@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "7.0",
-  "totalModels": 65,
-  "lastUpdated": "2026-02-27",
+  "totalModels": 69,
+  "lastUpdated": "2026-03-21",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -47,7 +47,7 @@
     "opm": {
       "title": "The OPM Series (Off-Policy Models)",
       "subtitle": "Learning from Corrections",
-      "includes": "Off-Policy Model, Off-Policy Model v2",
+      "includes": "Off-Policy Model v5, Off-Policy Model v4, Off-Policy Model v3, Off-Policy Model v2, Off-Policy Model",
       "vibe": "이러한 모델은 정책 외 훈련을 사용합니다. 즉, 단순히 운전 행동을 복제하는 것이 아니라 모델의 행동이 인간 운전자의 수정 사항과 다른 순간부터 학습합니다. 이를 통해 극단적인 경우로부터 더 효과적으로 학습할 수 있습니다. 종방향 제어는 여전히 개선되고 있지만 표준 WMI 모델에 비해 개선된 고속도로 센터링과 더 빠른 측면 센터링을 보여줍니다.",
       "bestFor": "Highway-focused driving with improved lane centering.",
       "recommendation": "측면 제어의 최신 개선 사항을 보려면 Off-Policy Model v2를 사용해 보세요. 종단적(제동/가속) 동작은 WMI 모델과 다르게 느껴질 수 있습니다."
@@ -176,6 +176,46 @@
       "description": "최신 엔드투엔드 아키텍처. 3D 장면, 정지 영역, 복잡한 교차로를 이해합니다.",
       "icon": "🚀",
       "models": [
+        {
+          "name": "Pop Model",
+          "date": "March 20, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Highway",
+            "Fast Long"
+          ],
+          "communityScore": 65,
+          "totalVotes": 8,
+          "sentiment": {
+            "great": 25,
+            "good": 25,
+            "ok": 25,
+            "bad": 25
+          },
+          "consensus": "매우 양극화된 새 모델입니다. 측면 제어는 차량에 따라 다릅니다 — Honda Civic 사용자는 핑퐁 없이 오랜만에 최고의 측면 제어를 보고하는 반면, Hyundai Kona 및 기타 차량은 80km/h 이상에서 극단적인 라인 간 핑퐁을 경험합니다. 종방향 동작은 눈에 띄게 공격적입니다 — 선행 차량 없이 속도 제한을 크게 초과하는 경향이 있지만, 선행 차량과 빨간불에는 일찍 감속합니다.",
+          "note": "매우 차량 의존적입니다. CD210이 여전히 많은 사용자에게 선호됩니다. 토크 튜닝 버전이 중요합니다 — v0으로 먼저 테스트하세요.",
+          "bestFor": "고속도로",
+          "steeringFeel": "다양함",
+          "testedOn": [
+            "2025 Honda Civic Hybrid",
+            "2023 Hyundai Kona Electric",
+            "GV60"
+          ],
+          "positives": [
+            "일부 차량에서 자신감 있는 측면 제어",
+            "빠른 재센터링",
+            "좋은 90도 회전 처리",
+            "빨간불에서 정지 유지"
+          ],
+          "negatives": [
+            "일부 차량에서 80km/h 이상 극단적 핑퐁",
+            "선행 차량 없이 공격적 과속",
+            "불규칙/팔각형 커브 핸들링",
+            "럼블 스트립 위로 주행"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/pop-model-20-mar-2026/3921"
+        },
         {
           "name": "CD210 Model",
           "date": "January 31, 2026",
@@ -441,6 +481,127 @@
             "comma 4"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v2-20-feb-2026/3162"
+        },
+        {
+          "name": "Off-Policy Model v3",
+          "date": "February 26, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Off-Policy",
+            "Highway",
+            "PlanPlus",
+            "Experimental"
+          ],
+          "communityScore": 85,
+          "totalVotes": 5,
+          "communityViews": 323,
+          "sentiment": {
+            "great": 60,
+            "good": 20,
+            "ok": 20,
+            "bad": 0
+          },
+          "consensus": "호평을 받은 세 번째 오프폴리시 훈련 반복입니다. 커뮤니티에서 CD210/WMI의 '매드맥스' 버전으로 묘사합니다 — 빠른 종방향 반응과 이전 버전보다 나은 측면 제어. PlanPlus 통합으로 차선 중앙 유지 공격성을 맞춤 설정할 수 있습니다. 초기 테스터들에게 A+ 등급을 받았습니다.",
+          "note": "선행 차량 간격 유지의 약간의 불일치와 고속도로 속도에서 간헐적 흔들림. PlanPlus 통합으로 차선 중앙 유지 대 커브 밀착도를 조정할 수 있습니다.",
+          "bestFor": "고속도로",
+          "steeringFeel": "균형잡힌",
+          "testedOn": [
+            "Hyundai Sonata 2022",
+            "comma 4"
+          ],
+          "positives": [
+            "공격적인 종방향 가속",
+            "CD210/WMI보다 나은 측면 제어",
+            "PlanPlus 맞춤형 차선 중앙 유지",
+            "A+ 커뮤니티 평가"
+          ],
+          "negatives": [
+            "선행 차량 간격 불일치",
+            "고속에서 간헐적 흔들림"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v3-26-feb-2026/3297"
+        },
+        {
+          "name": "Off-Policy Model v4",
+          "date": "February 27, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Off-Policy",
+            "Highway",
+            "PlanPlus",
+            "Experimental"
+          ],
+          "communityScore": 77,
+          "totalVotes": 15,
+          "communityViews": 480,
+          "sentiment": {
+            "great": 40,
+            "good": 33,
+            "ok": 20,
+            "bad": 7
+          },
+          "consensus": "v2 대비 오버스티어 핸들링이 개선된 네 번째 오프폴리시 훈련 반복입니다. SCC-V와 함께 사용 시 우수한 차선 중앙 유지와 부드러운 도심 주행. 그러나 선행 차량 추종 시 주저함을 보이고 선행 차량이 없을 때 주변 교통보다 느리게 주행하는 경향이 있습니다. 커브에서 혼합된 결과 — Hyundai/Toyota에서는 개선되었지만 Tesla 사용자는 내선 타기를 보고합니다.",
+          "note": "안전한 커브 속도 처리를 위해 SCC-V 강력 권장. 선행 차량 추종 시 주저하는 가속이 WMI/CD210 대비 주요 단점.",
+          "bestFor": "도심 주행",
+          "steeringFeel": "균형잡힌",
+          "testedOn": [
+            "2025 Hyundai Ioniq 5",
+            "2023 Toyota RAV4 Prime",
+            "Tesla V4"
+          ],
+          "positives": [
+            "우수한 차선 중앙 유지",
+            "부드러운 도심 가속",
+            "v2 대비 오버스티어 개선",
+            "SCC-V와 잘 작동"
+          ],
+          "negatives": [
+            "선행 차량 이동 시 주저함",
+            "선행 차량 없이 너무 느림",
+            "PlanPlus 1.5에서 간헐적 핑퐁",
+            "Tesla에서 커브 내선 타기"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v4-27-feb-2026/3331"
+        },
+        {
+          "name": "Off-Policy Model v5",
+          "date": "March 14, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Off-Policy",
+            "Highway",
+            "Experimental"
+          ],
+          "communityScore": 68,
+          "totalVotes": 5,
+          "sentiment": {
+            "great": 20,
+            "good": 40,
+            "ok": 20,
+            "bad": 20
+          },
+          "consensus": "다섯 번째 오프폴리시 훈련 반복입니다. v4 대비 코너링이 개선되었습니다 — 커브를 더 넓게 돌며 연석에서 멀어집니다. 고속(50km/h 이상)에서 좋은 성능을 보입니다. 그러나 저속 동작은 확실히 퇴보했습니다: 차선 진입이 어렵고, 라인을 밟거나 넘으며, 회전이 중간에 멈춥니다. 105km/h 이상의 고속 흔들림은 이전 버전에서 계속됩니다.",
+          "note": "v4 대비 코너링은 개선되었지만 저속 및 회전 핸들링은 악화되었습니다. 더 안정적인 센터링을 위해 Torque Tune v0 권장.",
+          "bestFor": "고속도로",
+          "steeringFeel": "균형잡힌",
+          "testedOn": [
+            "2026 Hyundai Ioniq 5",
+            "2023 Lexus RC",
+            "GV60"
+          ],
+          "positives": [
+            "v4보다 나은 코너링",
+            "연석에서 더 먼 넓은 회전",
+            "좋은 차선 변경",
+            "50km/h 이상에서 양호"
+          ],
+          "negatives": [
+            "저속에서 차선 진입 불량",
+            "회전 중 멈춤 현상",
+            "105km/h 이상 고속 흔들림",
+            "주거 교차로에서 주저함"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v5-14-mar-2026/3756"
         }
       ]
     },

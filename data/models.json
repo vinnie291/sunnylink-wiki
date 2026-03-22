@@ -1,8 +1,8 @@
 {
     "appName": "Sunnylink Model Database",
     "version": "7.0",
-    "totalModels": 67,
-    "lastUpdated": "2026-03-06",
+    "totalModels": 69,
+    "lastUpdated": "2026-03-21",
     "vibeGuide": {
         "wmi_2026": {
             "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -47,10 +47,10 @@
         "opm": {
             "title": "The OPM Series (Off-Policy Models)",
             "subtitle": "Learning from Corrections",
-            "includes": "Off-Policy Model, Off-Policy Model v2",
+            "includes": "Off-Policy Model v5, Off-Policy Model v4, Off-Policy Model v3, Off-Policy Model v2, Off-Policy Model",
             "vibe": "These models use off-policy training — they learn from moments where the model's behavior differed from the human driver's corrections, rather than just cloning driving behavior. This allows them to learn more effectively from edge cases. They show improved highway centering and quicker lateral recentering compared to standard WMI models, though longitudinal control is still being refined.",
             "bestFor": "Highway-focused driving with improved lane centering.",
-            "recommendation": "Try Off-Policy Model v2 for the latest improvements in lateral control. Be aware that longitudinal (braking/acceleration) behavior may feel different from WMI models."
+            "recommendation": "Try Off-Policy Model v5 for the latest improvements. Be aware that low-speed performance and turns may vary by vehicle."
         }
     },
     "categories": [
@@ -176,6 +176,46 @@
             "description": "Latest End-to-End architecture. Understands 3D scenes, stop signs, and complex intersections.",
             "icon": "🚀",
             "models": [
+                {
+                    "name": "Pop Model",
+                    "date": "March 20, 2026",
+                    "badge": "NEW",
+                    "tags": [
+                        "Experimental",
+                        "Highway",
+                        "Fast Long"
+                    ],
+                    "communityScore": 65,
+                    "totalVotes": 8,
+                    "sentiment": {
+                        "great": 25,
+                        "good": 25,
+                        "ok": 25,
+                        "bad": 25
+                    },
+                    "consensus": "Highly polarizing new model. Lateral control is vehicle-dependent — Honda Civic users report the best lat in a while with no ping-pong, while Hyundai Kona and others experience extreme line-to-line ping-ponging above 50mph. Longitudinal behavior is notably aggressive — tends to speed well above limits without a lead car, but slows down early for leads and red lights.",
+                    "note": "Very vehicle-dependent. CD210 remains preferred by many. Torque tune version matters — test with v0 first.",
+                    "bestFor": "Highway",
+                    "steeringFeel": "Varies",
+                    "testedOn": [
+                        "2025 Honda Civic Hybrid",
+                        "2023 Hyundai Kona Electric",
+                        "GV60"
+                    ],
+                    "positives": [
+                        "Confident lateral on some vehicles",
+                        "Quick recentering",
+                        "Good 90-degree turn handling",
+                        "Stays stopped at red lights"
+                    ],
+                    "negatives": [
+                        "Extreme ping-pong on some vehicles above 50mph",
+                        "Speeds aggressively without a lead car",
+                        "Jerky/octagonal curve handling",
+                        "Drove over rumble strip"
+                    ],
+                    "forumUrl": "https://community.sunnypilot.ai/t/pop-model-20-mar-2026/3921"
+                },
                 {
                     "name": "CD210 Model",
                     "date": "January 31, 2026",
@@ -522,6 +562,46 @@
                         "Curve inside-line on Tesla"
                     ],
                     "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v4-27-feb-2026/3331"
+                },
+                {
+                    "name": "Off-Policy Model v5",
+                    "date": "March 14, 2026",
+                    "badge": "NEW",
+                    "tags": [
+                        "Off-Policy",
+                        "Highway",
+                        "Experimental"
+                    ],
+                    "communityScore": 68,
+                    "totalVotes": 5,
+                    "sentiment": {
+                        "great": 20,
+                        "good": 40,
+                        "ok": 20,
+                        "bad": 20
+                    },
+                    "consensus": "Fifth iteration of off-policy training. Improved cornering compared to v4 — takes turns wider and away from curbs. Good performance at higher speeds (above 30mph). However, low-speed behavior is a notable regression: struggles to commit to lanes, hugs or crosses lines, and turns lock out partway through. High-speed wobbles above 65mph persist from previous versions.",
+                    "note": "Cornering improvement over v4 but low-speed and turn handling are worse. Torque tune v0 recommended for better recentering reliability.",
+                    "bestFor": "Highway",
+                    "steeringFeel": "Balanced",
+                    "testedOn": [
+                        "2026 Hyundai Ioniq 5",
+                        "2023 Lexus RC",
+                        "GV60"
+                    ],
+                    "positives": [
+                        "Better cornering than v4",
+                        "Wider turns away from curbs",
+                        "Good lane changes",
+                        "Good above 30mph"
+                    ],
+                    "negatives": [
+                        "Poor low-speed lane commitment",
+                        "Turns lock out partway",
+                        "High-speed wobbles above 65mph",
+                        "Hesitant at neighborhood intersections"
+                    ],
+                    "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v5-14-mar-2026/3756"
                 }
             ]
         },

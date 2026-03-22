@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "7.0",
-  "totalModels": 65,
-  "lastUpdated": "2026-02-27",
+  "totalModels": 69,
+  "lastUpdated": "2026-03-21",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -47,7 +47,7 @@
     "opm": {
       "title": "The OPM Series (Off-Policy Models)",
       "subtitle": "Learning from Corrections",
-      "includes": "Off-Policy Model, Off-Policy Model v2",
+      "includes": "Off-Policy Model v5, Off-Policy Model v4, Off-Policy Model v3, Off-Policy Model v2, Off-Policy Model",
       "vibe": "Diese Modelle verwenden Off-Policy-Training – sie lernen aus Momenten, in denen das Verhalten des Modells von den Korrekturen des menschlichen Fahrers abweicht, anstatt nur das Fahrverhalten zu klonen. Dadurch können sie effektiver aus Grenzfällen lernen. Sie zeigen im Vergleich zu Standard-WMI-Modellen eine verbesserte Autobahnzentrierung und eine schnellere seitliche Neuzentrierung, obwohl die Längssteuerung noch verfeinert wird.",
       "bestFor": "Highway-focused driving with improved lane centering.",
       "recommendation": "Probieren Sie Off-Policy Model v2 aus, um die neuesten Verbesserungen der seitlichen Kontrolle zu erhalten. Beachten Sie, dass sich das Längsverhalten (Bremsen/Beschleunigung) möglicherweise anders anfühlt als bei WMI-Modellen."
@@ -176,6 +176,46 @@
       "description": "Neueste End-to-End-Architektur. Versteht 3D-Szenen, Stoppschilds und komplexe Kreuzungen.",
       "icon": "🚀",
       "models": [
+        {
+          "name": "Pop Model",
+          "date": "March 20, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Highway",
+            "Fast Long"
+          ],
+          "communityScore": 65,
+          "totalVotes": 8,
+          "sentiment": {
+            "great": 25,
+            "good": 25,
+            "ok": 25,
+            "bad": 25
+          },
+          "consensus": "Sehr polarisierendes neues Modell. Die laterale Steuerung ist fahrzeugabhängig — Honda Civic-Nutzer berichten von der besten Seitenführung seit langem ohne Ping-Pong, während Hyundai Kona und andere extremes Linie-zu-Linie-Ping-Pong über 80 km/h erleben. Das Längsverhalten ist auffallend aggressiv — neigt dazu, ohne Führungsfahrzeug weit über die Geschwindigkeitsbegrenzung zu fahren, bremst aber früh für Führungsfahrzeuge und rote Ampeln.",
+          "note": "Sehr fahrzeugabhängig. CD210 bleibt von vielen bevorzugt. Die Torque-Tune-Version ist wichtig — zuerst mit v0 testen.",
+          "bestFor": "Autobahn",
+          "steeringFeel": "Variiert",
+          "testedOn": [
+            "2025 Honda Civic Hybrid",
+            "2023 Hyundai Kona Electric",
+            "GV60"
+          ],
+          "positives": [
+            "Sicheres laterales Verhalten bei einigen Fahrzeugen",
+            "Schnelles Zentrieren",
+            "Gutes 90-Grad-Kurvenverhalten",
+            "Bleibt an roten Ampeln stehen"
+          ],
+          "negatives": [
+            "Extremes Ping-Pong bei einigen Fahrzeugen über 80 km/h",
+            "Fährt aggressiv schnell ohne Führungsfahrzeug",
+            "Ruckartiges/achteckiges Kurvenverhalten",
+            "Über Rüttelstreifen gefahren"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/pop-model-20-mar-2026/3921"
+        },
         {
           "name": "CD210 Model",
           "date": "January 31, 2026",
@@ -441,6 +481,127 @@
             "comma 4"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v2-20-feb-2026/3162"
+        },
+        {
+          "name": "Off-Policy Model v3",
+          "date": "February 26, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Off-Policy",
+            "Highway",
+            "PlanPlus",
+            "Experimental"
+          ],
+          "communityScore": 85,
+          "totalVotes": 5,
+          "communityViews": 323,
+          "sentiment": {
+            "great": 60,
+            "good": 20,
+            "ok": 20,
+            "bad": 0
+          },
+          "consensus": "Hoch gelobte dritte Iteration des Off-Policy-Trainings. Die Community beschreibt es als 'Mad Max'-Version von CD210/WMI — schnelle Längsantwort mit besserer Seitensteuerung als seine Vorgänger. Enthält PlanPlus-Integration für anpassbare Spurzentrierung. Von frühen Testern mit A+ bewertet.",
+          "note": "Geringfügige Inkonsistenz bei der Führungsfahrzeug-Abstandshaltung und gelegentliche Schwankungen bei Autobahngeschwindigkeit. PlanPlus-Integration ermöglicht die Abstimmung von Spurzentrierung vs. Kurvennähe.",
+          "bestFor": "Autobahn",
+          "steeringFeel": "Ausgewogen",
+          "testedOn": [
+            "Hyundai Sonata 2022",
+            "comma 4"
+          ],
+          "positives": [
+            "Aggressive longitudinal acceleration",
+            "Better lateral than CD210/WMI",
+            "PlanPlus customizable lane centering",
+            "A+ community rating"
+          ],
+          "negatives": [
+            "Inconsistent gap between lead cars",
+            "Occasional wobbles at high speed"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v3-26-feb-2026/3297"
+        },
+        {
+          "name": "Off-Policy Model v4",
+          "date": "February 27, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Off-Policy",
+            "Highway",
+            "PlanPlus",
+            "Experimental"
+          ],
+          "communityScore": 77,
+          "totalVotes": 15,
+          "communityViews": 480,
+          "sentiment": {
+            "great": 40,
+            "good": 33,
+            "ok": 20,
+            "bad": 7
+          },
+          "consensus": "Vierte Iteration des Off-Policy-Trainings mit verbesserter Übersteuerungsbehandlung im Vergleich zu v2. Ausgezeichnete Spurzentrierung und sanftes Stadtfahren in Kombination mit SCC-V. Zeigt jedoch Zögerlichkeit beim Folgen eines Führungsfahrzeugs und neigt dazu, langsamer als der umgebende Verkehr zu fahren, wenn kein Führungsfahrzeug vorhanden ist.",
+          "note": "SCC-V wird für sicheres Kurvengeschwindigkeits-Handling dringend empfohlen. Zögerliche Beschleunigung beim Folgen von Führungsfahrzeugen ist der Hauptnachteil gegenüber WMI/CD210.",
+          "bestFor": "Stadtfahren",
+          "steeringFeel": "Ausgewogen",
+          "testedOn": [
+            "2025 Hyundai Ioniq 5",
+            "2023 Toyota RAV4 Prime",
+            "Tesla V4"
+          ],
+          "positives": [
+            "Excellent lane centering",
+            "Smooth city acceleration",
+            "Improved oversteer vs v2",
+            "Works well with SCC-V"
+          ],
+          "negatives": [
+            "Hesitant when lead vehicle moves",
+            "Drives too slow without a lead car",
+            "Occasional ping-pong at PlanPlus 1.5",
+            "Curve inside-line on Tesla"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v4-27-feb-2026/3331"
+        },
+        {
+          "name": "Off-Policy Model v5",
+          "date": "March 14, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Off-Policy",
+            "Highway",
+            "Experimental"
+          ],
+          "communityScore": 68,
+          "totalVotes": 5,
+          "sentiment": {
+            "great": 20,
+            "good": 40,
+            "ok": 20,
+            "bad": 20
+          },
+          "consensus": "Fünfte Iteration des Off-Policy-Trainings. Verbesserte Kurvenfahrt im Vergleich zu v4 — nimmt Kurven weiter und weg von Bordsteinen. Gute Leistung bei höheren Geschwindigkeiten (über 50 km/h). Allerdings ist das Verhalten bei niedrigen Geschwindigkeiten ein deutlicher Rückschritt: Schwierigkeiten beim Einordnen in Fahrspuren, Berühren oder Überfahren von Linien, und Kurven blockieren mittendrin. Hochgeschwindigkeits-Schwankungen über 105 km/h bestehen aus früheren Versionen fort.",
+          "note": "Verbesserung der Kurvenfahrt gegenüber v4, aber niedrige Geschwindigkeit und Kurvenverhalten sind schlechter. Torque Tune v0 wird für zuverlässigeres Zentrieren empfohlen.",
+          "bestFor": "Autobahn",
+          "steeringFeel": "Ausgewogen",
+          "testedOn": [
+            "2026 Hyundai Ioniq 5",
+            "2023 Lexus RC",
+            "GV60"
+          ],
+          "positives": [
+            "Bessere Kurvenfahrt als v4",
+            "Weitere Kurven weg von Bordsteinen",
+            "Gute Spurwechsel",
+            "Gut über 50 km/h"
+          ],
+          "negatives": [
+            "Schlechte Spurhaltung bei niedrigen Geschwindigkeiten",
+            "Kurven blockieren mittendrin",
+            "Hochgeschwindigkeits-Schwankungen über 105 km/h",
+            "Zögerlich an Kreuzungen in Wohngebieten"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v5-14-mar-2026/3756"
         }
       ]
     },

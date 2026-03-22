@@ -2,14 +2,18 @@
 
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import Fuse from 'fuse.js';
 
 import ViewToggle from './ViewToggle';
 import SearchFilter from './SearchFilter';
+import MobileCategorySidebar from './MobileCategorySidebar';
 import { useViewMode } from '../hooks/useViewMode';
 import { useStickySearch } from '../hooks/useStickySearch';
 import { useLanguage } from '../lib/i18n';
 import { useTranslatedModels } from '../lib/useTranslatedData';
+
+const CategorySidebarButton = dynamic(() => import('./CategorySidebarButton'), { ssr: false });
 
 interface SentimentData {
     great: number;
@@ -279,6 +283,7 @@ export default function ModelLibrary() {
     const [showVibeGuide, setShowVibeGuide] = useState(false);
     const [showMobileCategories, setShowMobileCategories] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const { t } = useLanguage();
 
 
@@ -395,6 +400,25 @@ export default function ModelLibrary() {
 
     return (
         <div className="lg:flex lg:gap-8">
+            {/* Mobile Category Sidebar */}
+            <MobileCategorySidebar
+                isOpen={sidebarOpen}
+                onClose={() => setSidebarOpen(false)}
+                categories={categories}
+                mode="models"
+                activeCategory={activeCategory}
+                onSelectCategory={(id) => {
+                    setActiveCategory(id);
+                    setSearchQuery('');
+                }}
+                searchQuery={searchQuery}
+            />
+            <CategorySidebarButton
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                isSticky={isSticky}
+                isSidebarOpen={sidebarOpen}
+            />
+
             {/* Sidebar - Desktop Only */}
             <aside className="hidden lg:block lg:w-72 lg:shrink-0">
                 <div className="sticky top-8 space-y-6">
@@ -465,7 +489,7 @@ export default function ModelLibrary() {
                 <div ref={sentinelRef} className="lg:hidden h-0" />
 
                 {/* Mobile Filters - Sticky only after scrolling past natural position */}
-                <div className={`lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 ${isSticky ? 'sticky top-0 z-20 bg-slate-950/95 backdrop-blur-sm' : ''}`}>
+                <div className={`lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 relative ${isSticky ? 'sticky top-0 z-20' : ''}`}>
                     <SearchFilter
                         value={searchQuery}
                         onChange={setSearchQuery}
@@ -474,76 +498,79 @@ export default function ModelLibrary() {
                         itemLabel="models"
                     />
 
-                    <button
-                        onClick={() => setShowVibeGuide(!showVibeGuide)}
-                        className="flex items-center justify-between w-full text-left"
-                    >
-                        <span className="text-sm text-slate-500 uppercase tracking-wider font-medium">{t('models.vibeGuide')}</span>
-                        <svg
-                            className={`w-4 h-4 text-slate-500 transition-transform duration-300 ${showVibeGuide ? 'rotate-180' : ''}`}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-
-                    <div className={`grid gap-2 transition-all duration-300 overflow-hidden ${showVibeGuide ? 'max-h-[1000px] opacity-100 mt-2 pb-4' : 'max-h-0 opacity-0 mt-0'}`}>
-                        {Object.entries(vibeGuide).map(([key, guide]) => (
-                            <div key={key} className="p-3 rounded-lg bg-slate-800/50 border border-slate-700/50">
-                                <h4 className="text-white font-semibold text-xs mb-1">{guide.title}</h4>
-                                <p className="text-[10px] text-slate-500 mb-1">{guide.includes}</p>
-                                <p className="text-[10px] text-slate-400 mb-1">{guide.vibe}</p>
-                                <p className="text-[10px] text-emerald-400">
-                                    <span className="font-medium">Best:</span> {guide.bestFor}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="space-y-3">
-                        <button
-                            onClick={() => setShowMobileCategories(!showMobileCategories)}
-                            className="flex items-center justify-between w-full text-left"
-                        >
-                            <span className="text-sm text-slate-500 uppercase tracking-wider font-medium">{t('filter.categories')}</span>
-                            <svg
-                                className={`w-4 h-4 text-slate-500 transition-transform duration-300 ${showMobileCategories ? 'rotate-180' : ''}`}
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
+                    <div className={`transition-all duration-300 overflow-hidden ${isSticky ? 'max-h-0 opacity-0 pointer-events-none' : 'max-h-[2000px] opacity-100'}`}>
+                        <div className="space-y-4 pt-2">
+                            <button
+                                onClick={() => setShowVibeGuide(!showVibeGuide)}
+                                className="flex items-center justify-between w-full text-left"
                             >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-
-                        <div className={`flex flex-wrap gap-2 transition-all duration-300 overflow-hidden ${showMobileCategories ? 'max-h-[500px] opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0'}`}>
-                            {categories.map((cat) => (
-                                <button
-                                    key={cat.id}
-                                    onClick={() => {
-                                        setActiveCategory(cat.id);
-                                        setSearchQuery('');
-                                    }}
-                                    className={`
-                                        max-w-full flex items-center justify-between shrink-0 px-4 py-2 rounded-xl text-sm font-medium transition-all text-left border
-                                        ${activeCategory === cat.id && !searchQuery
-                                            ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30'
-                                            : 'bg-slate-800/50 text-slate-400 border-slate-700/50'
-                                        }
-                                    `}
+                                <span className="text-sm text-slate-500 uppercase tracking-wider font-medium">{t('models.vibeGuide')}</span>
+                                <svg
+                                    className={`w-4 h-4 text-slate-500 transition-transform duration-300 ${showVibeGuide ? 'rotate-180' : ''}`}
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
                                 >
-                                    <span className="shrink-0 mr-2">{cat.icon}</span>
-                                    <span className="flex-1 break-words">{cat.name}</span>
-                                    <span className={`shrink-0 ml-2 px-1.5 py-0.5 rounded-md text-xs ${activeCategory === cat.id && !searchQuery ? 'bg-cyan-500/30' : 'bg-slate-700/50'}`}>
-                                        {cat.models.length}
-                                    </span>
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+
+                            <div className={`grid gap-2 transition-all duration-300 overflow-hidden ${showVibeGuide ? 'max-h-[1000px] opacity-100 mt-2 pb-4' : 'max-h-0 opacity-0 mt-0'}`}>
+                                {Object.entries(vibeGuide).map(([key, guide]) => (
+                                    <div key={key} className="p-3 rounded-lg bg-slate-800/50 border border-slate-700/50">
+                                        <h4 className="text-white font-semibold text-xs mb-1">{guide.title}</h4>
+                                        <p className="text-[10px] text-slate-500 mb-1">{guide.includes}</p>
+                                        <p className="text-[10px] text-slate-400 mb-1">{guide.vibe}</p>
+                                        <p className="text-[10px] text-emerald-400">
+                                            <span className="font-medium">Best:</span> {guide.bestFor}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="space-y-3">
+                                <button
+                                    onClick={() => setShowMobileCategories(!showMobileCategories)}
+                                    className="flex items-center justify-between w-full text-left"
+                                >
+                                    <span className="text-sm text-slate-500 uppercase tracking-wider font-medium">{t('filter.categories')}</span>
+                                    <svg
+                                        className={`w-4 h-4 text-slate-500 transition-transform duration-300 ${showMobileCategories ? 'rotate-180' : ''}`}
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
                                 </button>
-                            ))}
+
+                                <div className={`flex flex-wrap gap-2 transition-all duration-300 overflow-hidden ${showMobileCategories ? 'max-h-[500px] opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0'}`}>
+                                    {categories.map((cat) => (
+                                        <button
+                                            key={cat.id}
+                                            onClick={() => {
+                                                setActiveCategory(cat.id);
+                                                setSearchQuery('');
+                                            }}
+                                            className={`
+                                                max-w-full flex items-center justify-between shrink-0 px-4 py-2 rounded-xl text-sm font-medium transition-all text-left border
+                                                ${activeCategory === cat.id && !searchQuery
+                                                    ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30'
+                                                    : 'bg-slate-800/50 text-slate-400 border-slate-700/50'
+                                                }
+                                            `}
+                                        >
+                                            <span className="shrink-0 mr-2">{cat.icon}</span>
+                                            <span className="flex-1 break-words">{cat.name}</span>
+                                            <span className={`shrink-0 ml-2 px-1.5 py-0.5 rounded-md text-xs ${activeCategory === cat.id && !searchQuery ? 'bg-cyan-500/30' : 'bg-slate-700/50'}`}>
+                                                {cat.models.length}
+                                            </span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     </div>
-
 
                 </div>
 

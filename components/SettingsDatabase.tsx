@@ -1,14 +1,18 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import ToggleCard from './ToggleCard';
 import SearchFilter from './SearchFilter';
 import CategoryFilter from './CategoryFilter';
 import EmptyState from './EmptyState';
 import ViewToggle from './ViewToggle';
+import MobileCategorySidebar from './MobileCategorySidebar';
 import { useViewMode } from '../hooks/useViewMode';
 import { useStickySearch } from '../hooks/useStickySearch';
 import { useLanguage } from '../lib/i18n';
+
+const CategorySidebarButton = dynamic(() => import('./CategorySidebarButton'), { ssr: false });
 
 interface ToggleSetting {
     key: string;
@@ -54,6 +58,7 @@ export default function SettingsDatabase({
     const { viewMode, setViewMode } = useViewMode('settings_page', 'grid');
     const { sentinelRef, isSticky } = useStickySearch();
     const { t } = useLanguage();
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const [sortBy, setSortBy] = useState<string>('name-asc');
     const [renderCount, setRenderCount] = useState(INITIAL_RENDER_COUNT);
 
@@ -106,7 +111,22 @@ export default function SettingsDatabase({
     };
 
     return (
-        <div className="lg:flex lg:gap-8" style={{ overflowX: 'clip' }}>
+        <div className="lg:flex lg:gap-8">
+            {/* Mobile Category Sidebar */}
+            <MobileCategorySidebar
+                isOpen={sidebarOpen}
+                onClose={() => setSidebarOpen(false)}
+                categories={categoryMeta}
+                mode="settings"
+                activeCategories={activeCategories}
+                onToggleCategory={onToggleCategory}
+                onClearAll={onClearCategories}
+            />
+            <CategorySidebarButton
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                isSticky={isSticky}
+                isSidebarOpen={sidebarOpen}
+            />
             {/* Sidebar - Desktop Only */}
             <aside className="hidden lg:block lg:w-72 lg:shrink-0">
                 <div className="sticky top-8 space-y-6">
@@ -172,29 +192,30 @@ export default function SettingsDatabase({
                 </div>
             </aside >
 
-            {/* Sentinel: marks the search bar's natural position */}
-            <div ref={sentinelRef} className="lg:hidden h-0" />
-
-            {/* Mobile Filters - Sticky only after scrolling past natural position */}
-            <div className={`lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 ${isSticky ? 'sticky top-0 z-20 bg-slate-950/95 backdrop-blur-sm' : ''}`}>
-                <SearchFilter
-                    value={searchQuery}
-                    onChange={setSearchQuery}
-                    resultCount={sortedSettings.length}
-                    totalCount={allSettings.length}
-                    itemLabel="toggles"
-                />
-                <CategoryFilter
-                    categories={categoryMeta}
-                    activeCategories={activeCategories}
-                    onToggleCategory={onToggleCategory}
-                    onClearAll={onClearCategories}
-                    collapsible={true}
-                />
-            </div >
-
             {/* Main Content Area */}
             < div className="flex-1 min-w-0" >
+                {/* Sentinel: marks the search bar's natural position */}
+                <div ref={sentinelRef} className="lg:hidden h-0" />
+
+                {/* Mobile Filters - Sticky only after scrolling past natural position */}
+                <div className={`lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 relative ${isSticky ? 'sticky top-0 z-20' : ''}`}>
+                    <SearchFilter
+                        value={searchQuery}
+                        onChange={setSearchQuery}
+                        resultCount={sortedSettings.length}
+                        totalCount={allSettings.length}
+                        itemLabel="toggles"
+                    />
+                    <div className={`transition-all duration-300 overflow-hidden ${isSticky ? 'max-h-0 opacity-0 pointer-events-none' : 'max-h-[500px] opacity-100'}`}>
+                        <CategoryFilter
+                            categories={categoryMeta}
+                            activeCategories={activeCategories}
+                            onToggleCategory={onToggleCategory}
+                            onClearAll={onClearCategories}
+                            collapsible={true}
+                        />
+                    </div>
+                </div >
                 {/* Header Controls */}
                 < div className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4" >
                     <div>

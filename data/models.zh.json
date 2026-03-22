@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "7.0",
-  "totalModels": 65,
-  "lastUpdated": "2026-02-27",
+  "totalModels": 69,
+  "lastUpdated": "2026-03-21",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -47,7 +47,7 @@
     "opm": {
       "title": "The OPM Series (Off-Policy Models)",
       "subtitle": "Learning from Corrections",
-      "includes": "Off-Policy Model, Off-Policy Model v2",
+      "includes": "Off-Policy Model v5, Off-Policy Model v4, Off-Policy Model v3, Off-Policy Model v2, Off-Policy Model",
       "vibe": "这些模型使用离策略训练——它们从模型行为与人类驾驶员的修正不同的时刻进行学习，而不仅仅是克隆驾驶行为。 这使他们能够更有效地从边缘案例中学习。 与标准 WMI 模型相比，它们显示出改进的高速公路定心和更快的横向定心，尽管纵向控制仍在完善中。",
       "bestFor": "Highway-focused driving with improved lane centering.",
       "recommendation": "尝试离策略模型 v2 以获得横向控制的最新改进。 请注意，纵向（制动/加速）行为可能感觉与 WMI 模型不同。"
@@ -176,6 +176,46 @@
       "description": "最新的端到端架构。 了解 3D 场景、停车标志和复杂的交叉路口。",
       "icon": "🚀",
       "models": [
+        {
+          "name": "Pop Model",
+          "date": "March 20, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Highway",
+            "Fast Long"
+          ],
+          "communityScore": 65,
+          "totalVotes": 8,
+          "sentiment": {
+            "great": 25,
+            "good": 25,
+            "ok": 25,
+            "bad": 25
+          },
+          "consensus": "非常两极化的新模型。横向控制取决于车辆——Honda Civic用户报告是很长时间以来最好的横向控制，没有乒乓现象，而Hyundai Kona和其他车辆在80公里/小时以上出现极端的线间乒乓。纵向行为明显激进——倾向于在没有前车的情况下大幅超速，但对前车和红灯提前减速。",
+          "note": "非常依赖车辆。CD210仍然是许多人的首选。扭矩调整版本很重要——先用v0测试。",
+          "bestFor": "高速公路",
+          "steeringFeel": "多变",
+          "testedOn": [
+            "2025 Honda Civic Hybrid",
+            "2023 Hyundai Kona Electric",
+            "GV60"
+          ],
+          "positives": [
+            "部分车辆上自信的横向控制",
+            "快速重新定心",
+            "良好的90度转弯处理",
+            "红灯时保持停车"
+          ],
+          "negatives": [
+            "部分车辆80公里/小时以上极端乒乓",
+            "没有前车时激进加速",
+            "颠簸/八角形弯道处理",
+            "越过减速带"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/pop-model-20-mar-2026/3921"
+        },
         {
           "name": "CD210 Model",
           "date": "January 31, 2026",
@@ -441,6 +481,127 @@
             "comma 4"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v2-20-feb-2026/3162"
+        },
+        {
+          "name": "Off-Policy Model v3",
+          "date": "February 26, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Off-Policy",
+            "Highway",
+            "PlanPlus",
+            "Experimental"
+          ],
+          "communityScore": 85,
+          "totalVotes": 5,
+          "communityViews": 323,
+          "sentiment": {
+            "great": 60,
+            "good": 20,
+            "ok": 20,
+            "bad": 0
+          },
+          "consensus": "备受好评的第三次离线策略训练迭代。社区将其描述为CD210/WMI的'疯狂麦克斯'版本——快速的纵向响应和比前代更好的横向控制。包含PlanPlus集成，可自定义车道居中的激进程度。早期测试者给出A+评级。",
+          "note": "与前车间距保持略有不一致，高速公路速度下偶有摆动。PlanPlus集成允许调节车道居中与弯道贴近的平衡。",
+          "bestFor": "高速公路",
+          "steeringFeel": "均衡",
+          "testedOn": [
+            "Hyundai Sonata 2022",
+            "comma 4"
+          ],
+          "positives": [
+            "Aggressive longitudinal acceleration",
+            "Better lateral than CD210/WMI",
+            "PlanPlus customizable lane centering",
+            "A+ community rating"
+          ],
+          "negatives": [
+            "Inconsistent gap between lead cars",
+            "Occasional wobbles at high speed"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v3-26-feb-2026/3297"
+        },
+        {
+          "name": "Off-Policy Model v4",
+          "date": "February 27, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Off-Policy",
+            "Highway",
+            "PlanPlus",
+            "Experimental"
+          ],
+          "communityScore": 77,
+          "totalVotes": 15,
+          "communityViews": 480,
+          "sentiment": {
+            "great": 40,
+            "good": 33,
+            "ok": 20,
+            "bad": 7
+          },
+          "consensus": "第四次离线策略训练迭代，相比v2改善了过度转向处理。与SCC-V配合使用时，车道居中出色，城市驾驶平稳。但在跟随前车时表现犹豫，没有前车时倾向于比周围车流慢。弯道表现不一——Hyundai/Toyota有所改善，但Tesla用户报告内线行驶。",
+          "note": "强烈建议使用SCC-V以安全处理弯道速度。跟随前车时的犹豫加速是与WMI/CD210相比的主要缺点。",
+          "bestFor": "城市驾驶",
+          "steeringFeel": "均衡",
+          "testedOn": [
+            "2025 Hyundai Ioniq 5",
+            "2023 Toyota RAV4 Prime",
+            "Tesla V4"
+          ],
+          "positives": [
+            "Excellent lane centering",
+            "Smooth city acceleration",
+            "Improved oversteer vs v2",
+            "Works well with SCC-V"
+          ],
+          "negatives": [
+            "Hesitant when lead vehicle moves",
+            "Drives too slow without a lead car",
+            "Occasional ping-pong at PlanPlus 1.5",
+            "Curve inside-line on Tesla"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v4-27-feb-2026/3331"
+        },
+        {
+          "name": "Off-Policy Model v5",
+          "date": "March 14, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Off-Policy",
+            "Highway",
+            "Experimental"
+          ],
+          "communityScore": 68,
+          "totalVotes": 5,
+          "sentiment": {
+            "great": 20,
+            "good": 40,
+            "ok": 20,
+            "bad": 20
+          },
+          "consensus": "第五次离线策略训练迭代。相比v4弯道性能有所改善——转弯更宽，远离路缘。高速（50公里/小时以上）表现良好。但低速行为明显退步：难以走进车道，靠近或越过线，转弯中途锁定。65英里/小时以上的高速摆动问题延续自之前的版本。",
+          "note": "相比v4弯道有改善，但低速和转弯处理更差。建议使用Torque Tune v0以获得更可靠的重新定心。",
+          "bestFor": "高速公路",
+          "steeringFeel": "均衡",
+          "testedOn": [
+            "2026 Hyundai Ioniq 5",
+            "2023 Lexus RC",
+            "GV60"
+          ],
+          "positives": [
+            "比v4更好的弯道",
+            "转弯更宽远离路缘",
+            "良好的变道",
+            "50公里/小时以上表现良好"
+          ],
+          "negatives": [
+            "低速车道保持差",
+            "转弯中途锁定",
+            "105公里/小时以上高速摆动",
+            "在居民区交叉路口犹豫"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v5-14-mar-2026/3756"
         }
       ]
     },
