@@ -95,6 +95,8 @@ export default function SearchFilter({
                         type="text"
                         value={localValue}
                         onChange={(e) => setLocalValue(e.target.value)}
+                        onFocus={() => document.documentElement.setAttribute('data-search-active', 'true')}
+                        onBlur={() => document.documentElement.removeAttribute('data-search-active')}
                         placeholder={resolvedPlaceholder}
                         aria-label="Search settings"
                         className="

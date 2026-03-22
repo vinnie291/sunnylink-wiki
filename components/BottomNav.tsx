@@ -1,12 +1,25 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '../lib/i18n';
+import { useScrollDirection } from '../hooks/useScrollDirection';
 
 export default function BottomNav() {
     const pathname = usePathname();
     const { t } = useLanguage();
+    const [isSearchActive, setIsSearchActive] = useState(false);
+    const scrollDirection = useScrollDirection();
+
+    // Watch for data-search-active attribute on document element
+    useEffect(() => {
+        const observer = new MutationObserver(() => {
+            setIsSearchActive(document.documentElement.hasAttribute('data-search-active'));
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-search-active'] });
+        return () => observer.disconnect();
+    }, []);
 
     const navItems = [
         { href: '/', label: t('nav.settings'), icon: '⚙️' },
@@ -16,8 +29,10 @@ export default function BottomNav() {
         { href: '/features', label: t('nav.features'), icon: '📖' },
     ];
 
+    const isHidden = isSearchActive || scrollDirection === 'down';
+
     return (
-        <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
+        <nav className={`fixed bottom-0 left-0 right-0 z-50 md:hidden transition-transform duration-300 ${isHidden ? 'translate-y-full' : 'translate-y-0'}`}>
             {/* Glassmorphic background */}
             <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-xl border-t border-slate-700/50" />
 
