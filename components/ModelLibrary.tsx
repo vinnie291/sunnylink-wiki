@@ -398,6 +398,19 @@ export default function ModelLibrary() {
         }
     };
 
+    const [isSearchActive, setIsSearchActive] = useState(false);
+
+    // Watch for data-search-active attribute to force sticky behavior when typing
+    useEffect(() => {
+        const observer = new MutationObserver(() => {
+            setIsSearchActive(document.documentElement.hasAttribute('data-search-active'));
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-search-active'] });
+        return () => observer.disconnect();
+    }, []);
+
+    const effectiveIsSticky = isSticky || isSearchActive;
+
     return (
         <div className="lg:flex lg:gap-8">
             {/* Mobile Category Sidebar */}
@@ -415,7 +428,7 @@ export default function ModelLibrary() {
             />
             <CategorySidebarButton
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                isSticky={isSticky}
+                isSticky={effectiveIsSticky}
                 isSidebarOpen={sidebarOpen}
             />
 
@@ -489,7 +502,7 @@ export default function ModelLibrary() {
                 <div ref={sentinelRef} className="lg:hidden h-0" />
 
                 {/* Mobile Filters - Sticky only after scrolling past natural position */}
-                <div className={`lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 relative ${isSticky ? 'sticky top-0 z-20' : ''}`}>
+                <div className={`lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 relative ${effectiveIsSticky ? 'sticky top-0 z-20' : ''}`}>
                     <SearchFilter
                         value={searchQuery}
                         onChange={setSearchQuery}
@@ -498,7 +511,7 @@ export default function ModelLibrary() {
                         itemLabel="models"
                     />
 
-                    <div className={`transition-all duration-300 overflow-hidden ${isSticky ? 'max-h-0 opacity-0 pointer-events-none' : 'max-h-[2000px] opacity-100'}`}>
+                    <div className={`transition-all duration-300 overflow-hidden ${effectiveIsSticky ? 'max-h-0 opacity-0 pointer-events-none' : 'max-h-[2000px] opacity-100'}`}>
                         <div className="space-y-4 pt-2">
                             <button
                                 onClick={() => setShowVibeGuide(!showVibeGuide)}
