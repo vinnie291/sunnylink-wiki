@@ -132,15 +132,14 @@ export default function SearchFilter({
                 </div>
             </div>
 
-            {/* Results Counter */}
-            <div className="mt-3 flex items-center justify-between text-sm">
-                <span className="text-slate-500">
+            {/* Results Counter - Positioned absolutely to prevent layout shift in single-row toolbar */}
+            <div className="absolute top-full left-0 right-0 pt-1 flex items-center justify-between text-[11px] sm:text-sm">
+                <span className="text-slate-500 whitespace-nowrap">
                     {value ? (
                         <>
                             Found <span className="text-cyan-400 font-medium">{resultCount}</span> of {totalCount} {itemLabel}
                         </>
                     ) : (
-                        // Empty when no search
                         null
                     )}
                 </span>
@@ -148,7 +147,7 @@ export default function SearchFilter({
                 {value && (
                     <button
                         onClick={handleClear}
-                        className="text-slate-500 hover:text-cyan-400 transition-colors"
+                        className="text-slate-500 hover:text-cyan-400 transition-colors whitespace-nowrap"
                     >
                         Clear search
                     </button>

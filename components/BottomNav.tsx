@@ -24,7 +24,7 @@ export default function BottomNav() {
     const navItems = [
         { href: '/', label: t('nav.settings'), icon: '⚙️' },
         { href: '/models', label: t('nav.models'), icon: '🧠' },
-        { href: '/wizard', label: t('nav.wizard'), icon: '🧙', isCenter: true },
+        { href: '/cars', label: t('nav.carDatabase'), icon: '🚗', isCenter: true },
         { href: '/stats', label: t('nav.stats'), icon: '📊' },
         { href: '/features', label: t('nav.features'), icon: '📖' },
     ];
