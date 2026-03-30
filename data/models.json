@@ -2,7 +2,7 @@
     "appName": "Sunnylink Model Database",
     "version": "7.0",
     "totalModels": 69,
-    "lastUpdated": "2026-03-21",
+    "lastUpdated": "2026-03-30",
     "vibeGuide": {
         "wmi_2026": {
             "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -48,7 +48,7 @@
             "title": "The OPM Series (Off-Policy Models)",
             "subtitle": "Learning from Corrections",
             "includes": "Off-Policy Model v5, Off-Policy Model v4, Off-Policy Model v3, Off-Policy Model v2, Off-Policy Model",
-            "vibe": "These models use off-policy training \u2014 they learn from moments where the model's behavior differed from the human driver's corrections, rather than just cloning driving behavior. This allows them to learn more effectively from edge cases. They show improved highway centering and quicker lateral recentering compared to standard WMI models, though longitudinal control is still being refined.",
+            "vibe": "These models use off-policy training — they learn from moments where the model's behavior differed from the human driver's corrections, rather than just cloning driving behavior. This allows them to learn more effectively from edge cases. They show improved highway centering and quicker lateral recentering compared to standard WMI models, though longitudinal control is still being refined.",
             "bestFor": "Highway-focused driving with improved lane centering.",
             "recommendation": "Try Off-Policy Model v5 for the latest improvements. Be aware that low-speed performance and turns may vary by vehicle."
         }
@@ -58,7 +58,7 @@
             "id": "favorites",
             "name": "Favorites",
             "description": "The most popular models for daily driving right now. Community-tested and approved.",
-            "icon": "\u2b50",
+            "icon": "⭐",
             "models": [
                 {
                     "name": "WMI V12",
@@ -190,7 +190,7 @@
             "id": "world_2026",
             "name": "WMI 2026",
             "description": "Latest End-to-End architecture. Understands 3D scenes, stop signs, and complex intersections.",
-            "icon": "\ud83d\ude80",
+            "icon": "🚀",
             "models": [
                 {
                     "name": "Pop Model",
@@ -199,46 +199,48 @@
                     "tags": [
                         "Experimental",
                         "Highway",
-                        "Fast Long"
+                        "Fast Long",
+                        "Vehicle-Dependent"
                     ],
-                    "communityScore": 65,
-                    "totalVotes": 8,
+                    "communityScore": 72,
+                    "totalVotes": 23,
+                    "communityViews": 663,
                     "sentiment": {
-                        "great": 25,
-                        "good": 25,
-                        "ok": 25,
-                        "bad": 25
+                        "great": 35,
+                        "good": 35,
+                        "ok": 17,
+                        "bad": 9,
+                        "horrible": 4
                     },
-                    "consensus": "Highly polarizing new model. Lateral control is vehicle-dependent \u2014 Honda Civic users report the best lat in a while with no ping-pong, while Hyundai Kona and others experience extreme line-to-line ping-ponging above 50mph. Longitudinal behavior is notably aggressive \u2014 tends to speed well above limits without a lead car, but slows down early for leads and red lights.",
-                    "note": "Very vehicle-dependent. CD210 remains preferred by many. Torque tune version matters \u2014 test with v0 first.",
+                    "consensus": "A highly polarizing model with vehicle-dependent results. Honda Civic Hybrid users report the best lateral in a while — no ping-pong, confident and quick recentering. Kia Niro users similarly praise '11/10' lateral. However, Hyundai Kona Electric and some other vehicles experience extreme line-to-line ping-ponging above 50mph. Longitudinal is notably fast — tends to speed well above limits without a lead car, but slows early for leads and red lights. Multiple users adopted as new daily driver, especially on Honda Civic and Hyundai Ioniq 5.",
+                    "note": "Very vehicle-dependent. Test on your car before committing. Torque tune v0 recommended as starting point. CD210 remains preferred by some Hyundai/Toyota users.",
                     "bestFor": "Highway",
-                    "steeringFeel": "Varies",
+                    "steeringFeel": "Varies by vehicle",
                     "testedOn": [
                         "2025 Honda Civic Hybrid",
+                        "2026 Honda Civic Hybrid ST",
+                        "2021 Honda Civic Hatch",
                         "2023 Hyundai Kona Electric",
-                        "GV60",
-                        "Honda Ridgeline",
-                        "BYD Frigate 07",
-                        "Hyundai Elantra",
-                        "Honda Odyssey",
-                        "Toyota Sienna",
-                        "Kia EV6",
-                        "Kia K5",
-                        "Honda Pilot (2019-2022)",
-                        "Tesla Model 3 / Y",
-                        "Toyota Corolla (2023-2024)"
+                        "Hyundai Ioniq 5 HDA2",
+                        "Kia Niro",
+                        "GV60 (Torque Tune v0)",
+                        "2022 Chevrolet Bolt EUV"
                     ],
                     "positives": [
-                        "Confident lateral on some vehicles",
-                        "Quick recentering",
-                        "Good 90-degree turn handling",
-                        "Stays stopped at red lights"
+                        "Excellent lateral on Honda Civics — best in a while per users",
+                        "Strong lane centering on Kia Niro",
+                        "Quick recentering with no corrections needed on 90-degree turns",
+                        "Stays stopped at red lights",
+                        "Slows down early for lead cars",
+                        "Confident acceleration — more willing to reach cruise speed",
+                        "Multiple users adopted as new daily driver"
                     ],
                     "negatives": [
-                        "Extreme ping-pong on some vehicles above 50mph",
-                        "Speeds aggressively without a lead car",
-                        "Jerky/octagonal curve handling",
-                        "Drove over rumble strip"
+                        "Extreme ping-ponging above 50mph on Hyundai Kona Electric",
+                        "Jerky/octagonal curve handling at low speeds (with Torque Tune v0)",
+                        "Speeds aggressively without a lead car — well above limits",
+                        "Once in a wobble (e.g., after road imperfections), may stay in it",
+                        "Some near-stop rolling at red lights reported on certain vehicles"
                     ],
                     "forumUrl": "https://community.sunnypilot.ai/t/pop-model-20-mar-2026/3921"
                 },
@@ -259,7 +261,7 @@
                         "ok": 32,
                         "bad": 21
                     },
-                    "consensus": "Based on WMI V12 architecture with subtle differences. Shows improved red light stopping behavior and less ping-pong at low speeds. However, multiple users report pronounced oversteering on turns \u2014 especially problematic on Toyota vehicles with low-torque EPS. Hard braking at close range and red light creeping are also noted drawbacks.",
+                    "consensus": "Based on WMI V12 architecture with subtle differences. Shows improved red light stopping behavior and less ping-pong at low speeds. However, multiple users report pronounced oversteering on turns — especially problematic on Toyota vehicles with low-torque EPS. Hard braking at close range and red light creeping are also noted drawbacks.",
                     "note": "Vehicle-dependent: praised on Hyundai Ioniq 5, but struggles with Toyota RAV4 Prime. Consider enabling 'pause lateral while turning' if oversteering is an issue.",
                     "bestFor": "Mixed Driving",
                     "steeringFeel": "Balanced",
@@ -456,7 +458,7 @@
             "id": "opm",
             "name": "OPM Models",
             "description": "Off-Policy Models learn from driver corrections rather than just cloning behavior, enabling smarter highway centering and recentering.",
-            "icon": "\ud83e\uddea",
+            "icon": "🧪",
             "models": [
                 {
                     "name": "Off-Policy Model",
@@ -475,7 +477,7 @@
                         "ok": 35,
                         "bad": 25
                     },
-                    "consensus": "Experimental model using off-policy training \u2014 learns from corrections rather than just cloning. Better highway centering and quicker lateral recentering vs WMI V12. However, experimental long mode feels jerky, and sharp turns can be a step backward. Good potential for highway-focused drivers.",
+                    "consensus": "Experimental model using off-policy training — learns from corrections rather than just cloning. Better highway centering and quicker lateral recentering vs WMI V12. However, experimental long mode feels jerky, and sharp turns can be a step backward. Good potential for highway-focused drivers.",
                     "note": "'Off-policy' means it learned from data where the model's behavior differed from the human driver's action, allowing it to learn from corrections more effectively than standard cloning.",
                     "bestFor": "Highway",
                     "steeringFeel": "Balanced",
@@ -503,8 +505,8 @@
                         "ok": 31,
                         "bad": 15
                     },
-                    "consensus": "Second iteration of off-policy training. Lateral performance is praised \u2014 doesn't hug the left side and less huggy on highway turns at 70+. However, longitudinal control is a notable regression: late braking, rubberbanding behind lead cars, and exaggerated follow distances are commonly reported. Best on comma 4; mixed results on other platforms.",
-                    "note": "Strong lateral improvements over v1, but long control needs work. Community opinion is split \u2014 some love the lat, others can't tolerate the long behavior.",
+                    "consensus": "Second iteration of off-policy training. Lateral performance is praised — doesn't hug the left side and less huggy on highway turns at 70+. However, longitudinal control is a notable regression: late braking, rubberbanding behind lead cars, and exaggerated follow distances are commonly reported. Best on comma 4; mixed results on other platforms.",
+                    "note": "Strong lateral improvements over v1, but long control needs work. Community opinion is split — some love the lat, others can't tolerate the long behavior.",
                     "bestFor": "Highway",
                     "steeringFeel": "Balanced",
                     "testedOn": [
@@ -534,7 +536,7 @@
                         "ok": 20,
                         "bad": 0
                     },
-                    "consensus": "Highly praised third iteration of off-policy training. Community describes it as a 'mad max' version of CD210/WMI \u2014 fast longitudinal response with better lateral control than its predecessors. Includes PlanPlus integration for customizable lane centering aggressiveness. Rated A+ by early testers.",
+                    "consensus": "Highly praised third iteration of off-policy training. Community describes it as a 'mad max' version of CD210/WMI — fast longitudinal response with better lateral control than its predecessors. Includes PlanPlus integration for customizable lane centering aggressiveness. Rated A+ by early testers.",
                     "note": "Minor inconsistency in lead gap following and occasional wobbles at highway speed. PlanPlus integration allows tuning of lane centering vs curve hugging.",
                     "bestFor": "Highway",
                     "steeringFeel": "Balanced",
@@ -575,7 +577,7 @@
                         "ok": 20,
                         "bad": 7
                     },
-                    "consensus": "Fourth iteration of off-policy training with improved oversteer handling compared to v2. Excellent lane centering and smooth city driving when paired with SCC-V. However, shows hesitation when following a lead vehicle and tends to drive slower than surrounding traffic when no lead is present. Mixed results on curves \u2014 improved for Hyundai/Toyota but Tesla users report inside-line riding.",
+                    "consensus": "Fourth iteration of off-policy training with improved oversteer handling compared to v2. Excellent lane centering and smooth city driving when paired with SCC-V. However, shows hesitation when following a lead vehicle and tends to drive slower than surrounding traffic when no lead is present. Mixed results on curves — improved for Hyundai/Toyota but Tesla users report inside-line riding.",
                     "note": "SCC-V strongly recommended for safe curve speed handling. Hesitant acceleration when following lead vehicles is the main drawback vs WMI/CD210.",
                     "bestFor": "City Driving",
                     "steeringFeel": "Balanced",
@@ -615,7 +617,7 @@
                         "ok": 20,
                         "bad": 20
                     },
-                    "consensus": "Fifth iteration of off-policy training. Improved cornering compared to v4 \u2014 takes turns wider and away from curbs. Good performance at higher speeds (above 30mph). However, low-speed behavior is a notable regression: struggles to commit to lanes, hugs or crosses lines, and turns lock out partway through. High-speed wobbles above 65mph persist from previous versions.",
+                    "consensus": "Fifth iteration of off-policy training. Improved cornering compared to v4 — takes turns wider and away from curbs. Good performance at higher speeds (above 30mph). However, low-speed behavior is a notable regression: struggles to commit to lanes, hugs or crosses lines, and turns lock out partway through. High-speed wobbles above 65mph persist from previous versions.",
                     "note": "Cornering improvement over v4 but low-speed and turn handling are worse. Torque tune v0 recommended for better recentering reliability.",
                     "bestFor": "Highway",
                     "steeringFeel": "Balanced",
@@ -644,7 +646,7 @@
             "id": "aggressive_exp",
             "name": "Aggressive",
             "description": "For drivers who want performance, tight following, or bleeding-edge features.",
-            "icon": "\ud83d\udd25",
+            "icon": "🔥",
             "models": [
                 {
                     "name": "Dark Souls Model",
@@ -791,7 +793,7 @@
             "id": "comfort",
             "name": "Comfort",
             "description": "Passenger-friendly models. Smooth inputs over precision. Perfect for road trips.",
-            "icon": "\ud83d\udecb\ufe0f",
+            "icon": "🛋️",
             "models": [
                 {
                     "name": "Down to Ride v5",
@@ -936,7 +938,7 @@
             "id": "tomb_raider",
             "name": "Tomb Raider",
             "description": "Experimental 'Trash Folder' runs. Hidden gems for curves. Don't let the name scare you!",
-            "icon": "\ud83d\udd2c",
+            "icon": "🔬",
             "models": [
                 {
                     "name": "Tomb Raider 16",
@@ -1208,7 +1210,7 @@
             "id": "world_2025",
             "name": "2025 Models",
             "description": "The 'World Model' development era. Highly varied performance.",
-            "icon": "\ud83c\udf0d",
+            "icon": "🌍",
             "models": [
                 {
                     "name": "WMI v6",
@@ -1729,7 +1731,7 @@
             "id": "legacy",
             "name": "Legacy",
             "description": "The 'Old Guard.' Rock solid highway stability. Less 'smart' but incredible lane keeping.",
-            "icon": "\ud83c\udfdb\ufe0f",
+            "icon": "🏛️",
             "models": [
                 {
                     "name": "Recertified Herbalist",
