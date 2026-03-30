@@ -38,11 +38,25 @@ interface Vehicle {
     };
     communityConsensus: string;
     forumUrl: string;
+    configs?: CarConfig[];
     reviews: {
         user: string;
         rating: number;
         comment: string;
     }[];
+    isRecommended?: boolean;
+}
+
+interface CarConfig {
+    name: string;
+    settings: {
+        drivingModel: string;
+        torqueTuning: string;
+        lateralControl: string;
+        longitudinalControl: string;
+        mads: string;
+        experimentalMode: string;
+    };
 }
 
 const CAR_MAKES = [
@@ -59,6 +73,7 @@ export default function CarDatabase() {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedMake, setSelectedMake] = useState<string>('');
+    const [showRecommended, setShowRecommended] = useState<boolean>(false);
     const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
     const { viewMode, setViewMode } = useViewMode('cars_page', 'grid');
     const [sortBy, setSortBy] = useState<string>('rating-desc');
@@ -83,14 +98,26 @@ export default function CarDatabase() {
             }));
     }, [vehicles]);
 
+    const recommendedCount = useMemo(() => {
+        return vehicles.filter(v => v.isRecommended).length;
+    }, [vehicles]);
+
     const activeCategories = useMemo(() => {
-        return selectedMake ? [selectedMake.toLowerCase()] : [];
-    }, [selectedMake]);
+        const active = [];
+        if (selectedMake) active.push(selectedMake.toLowerCase());
+        if (showRecommended) active.push('recommended');
+        return active;
+    }, [selectedMake, showRecommended]);
 
     const handleToggleCategory = (id: string) => {
-        if (id === 'recommended') return; // Not implemented for cars yet
+        if (id === 'recommended') {
+            setShowRecommended(prev => !prev);
+            setSearchQuery('');
+            return;
+        }
         const make = categoryMeta.find(m => m.id === id)?.name || '';
         setSelectedMake(prev => prev === make ? '' : make);
+        setSearchQuery('');
     };
 
     const filteredVehicles = useMemo(() => {
@@ -100,6 +127,10 @@ export default function CarDatabase() {
             results = results.filter(v => 
                 v.make.toLowerCase() === selectedMake.toLowerCase()
             );
+        }
+
+        if (showRecommended) {
+            results = results.filter(v => v.isRecommended);
         }
 
         if (searchQuery) {
@@ -120,6 +151,10 @@ export default function CarDatabase() {
                 : 0;
 
             switch (sortBy) {
+                case 'recommended-first':
+                    if (a.isRecommended && !b.isRecommended) return -1;
+                    if (!a.isRecommended && b.isRecommended) return 1;
+                    return ratingB - ratingA;
                 case 'brand-asc':
                     return `${a.make} ${a.model}`.localeCompare(`${b.make} ${b.model}`);
                 case 'brand-desc':
@@ -134,7 +169,7 @@ export default function CarDatabase() {
         });
 
         return results;
-    }, [vehicles, searchQuery, selectedMake, sortBy]);
+    }, [vehicles, searchQuery, selectedMake, sortBy, showRecommended]);
 
     const [isSearchActive, setIsSearchActive] = useState(false);
 
@@ -173,7 +208,7 @@ export default function CarDatabase() {
 
             {/* Sidebar - Desktop Only */}
             <aside className="hidden lg:block lg:w-72 lg:shrink-0">
-                <div className="sticky top-8 space-y-6">
+                <div className="sticky top-8 space-y-6 max-h-[calc(100vh-4rem)] overflow-y-auto pr-2 pb-8">
                     {/* Search */}
                     <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-4">
                         <SearchFilter
@@ -191,7 +226,9 @@ export default function CarDatabase() {
                             categories={categoryMeta}
                             activeCategories={activeCategories}
                             onToggleCategory={handleToggleCategory}
-                            onClearAll={() => setSelectedMake('')}
+                            onClearAll={() => { setSelectedMake(''); setShowRecommended(false); }}
+                            vertical={true}
+                            recommendedCount={recommendedCount}
                         />
                     </div>
 
@@ -235,8 +272,10 @@ export default function CarDatabase() {
                             categories={categoryMeta}
                             activeCategories={activeCategories}
                             onToggleCategory={handleToggleCategory}
-                            onClearAll={() => setSelectedMake('')}
+                            onClearAll={() => { setSelectedMake(''); setShowRecommended(false); }}
                             collapsible={true}
+                            vertical={true}
+                            recommendedCount={recommendedCount}
                         />
                     </div>
                 </div>
@@ -278,6 +317,7 @@ export default function CarDatabase() {
                                 onChange={(e) => setSortBy(e.target.value)}
                                 className="appearance-none outline-none bg-transparent w-full pl-2 pr-10 py-2.5 text-sm font-medium text-white cursor-pointer"
                             >
+                                <option value="recommended-first" className="bg-slate-800">{t('cars.sort.recommended') || 'Recommended First'}</option>
                                 <option value="rating-desc" className="bg-slate-800">{t('cars.sort.ratingHighLow') || 'Rating (High-Low)'}</option>
                                 <option value="rating-asc" className="bg-slate-800">{t('cars.sort.ratingLowHigh') || 'Rating (Low-High)'}</option>
                                 <option value="brand-asc" className="bg-slate-800">{t('cars.sort.brandAZ') || 'Brand (A-Z)'}</option>
@@ -314,7 +354,14 @@ export default function CarDatabase() {
                                     <div className={`relative ${viewMode === 'list' ? 'flex-1 min-w-0' : ''}`}>
                                         <div className={viewMode === 'list' ? 'flex flex-col md:flex-row md:items-center gap-4 md:gap-8' : ''}>
                                             <div>
-                                                <div className="text-xs font-bold text-cyan-500 uppercase tracking-widest mb-1">{vehicle.make}</div>
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <div className="text-xs font-bold text-cyan-500 uppercase tracking-widest">{vehicle.make}</div>
+                                                    {vehicle.isRecommended && (
+                                                        <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase tracking-wider">
+                                                            <span>★</span> {t('cars.recommended') || 'Recommended'}
+                                                        </div>
+                                                    )}
+                                                </div>
                                                 <h3 className={`font-bold text-white ${viewMode === 'grid' ? 'text-xl' : 'text-lg md:text-xl'}`}>{vehicle.model}</h3>
                                                 <div className="text-sm text-slate-500">{vehicle.years}</div>
                                             </div>
@@ -376,6 +423,7 @@ export default function CarDatabase() {
                             onClick={() => {
                                 setSearchQuery('');
                                 setSelectedMake('');
+                                setShowRecommended(false);
                             }}
                             className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-xl transition-colors"
                         >

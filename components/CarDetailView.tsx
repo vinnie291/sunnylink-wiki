@@ -1,7 +1,20 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../lib/i18n';
+
+interface CarConfig {
+    name: string;
+    settings: {
+        drivingModel: string;
+        torqueTuning: string;
+        lateralControl: string;
+        longitudinalControl: string;
+        mads: string;
+        experimentalMode: string;
+    };
+}
 
 interface Vehicle {
     id: string;
@@ -23,6 +36,7 @@ interface Vehicle {
     };
     communityConsensus: string;
     forumUrl: string;
+    configs?: CarConfig[];
     reviews: {
         user: string;
         rating: number;
@@ -42,6 +56,12 @@ interface CarDetailViewProps {
 
 export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) {
     const { t } = useLanguage();
+    const [selectedConfigIdx, setSelectedConfigIdx] = useState(0);
+
+    const configs = vehicle.configs?.length ? vehicle.configs : [
+        { name: t('cars.bestSettings') || 'Recommended Configuration', settings: vehicle.bestSettings }
+    ];
+    const currentConfig = configs[selectedConfigIdx] || configs[0];
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
@@ -59,7 +79,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative w-full max-w-4xl max-h-[90vh] overflow-hidden bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl flex flex-col"
+                className="relative w-full max-w-4xl max-h-[calc(100dvh-2rem)] sm:max-h-[90vh] overflow-hidden bg-slate-900 border border-slate-700 rounded-2xl sm:rounded-3xl shadow-2xl flex flex-col"
             >
                 {/* Close Button */}
                 <button
@@ -72,7 +92,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                 </button>
 
                 {/* Content Header */}
-                <div className="p-8 border-b border-slate-800 shrink-0">
+                <div className="p-6 sm:p-8 border-b border-slate-800 shrink-0">
                     <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
                         <div>
                             <div className="text-sm font-bold text-cyan-500 uppercase tracking-widest mb-1">{vehicle.make}</div>
@@ -98,7 +118,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                 </div>
 
                 {/* Scrollable Body */}
-                <div className="p-8 overflow-y-auto custom-scrollbar">
+                <div className="p-4 sm:p-8 flex-1 min-h-0 overflow-y-auto custom-scrollbar">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* Highlights & Hardware */}
                         <div className="lg:col-span-2 space-y-8">
@@ -145,15 +165,36 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
 
                             {/* Recommended Settings Grid */}
                             <section>
-                                <h3 className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">{t('cars.bestSettings') || 'Recommended Configuration'}</h3>
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
+                                    <h3 className="text-slate-500 text-xs font-bold uppercase tracking-widest">{t('cars.bestSettings') || 'Configuration'}</h3>
+                                    
+                                    {configs.length > 1 && (
+                                        <div className="relative group shrink-0">
+                                            <select
+                                                value={selectedConfigIdx}
+                                                onChange={(e) => setSelectedConfigIdx(Number(e.target.value))}
+                                                className="appearance-none bg-slate-800/80 hover:bg-slate-700 border border-slate-700/50 text-white text-sm font-bold py-2 pl-4 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all cursor-pointer w-full"
+                                            >
+                                                {configs.map((config, idx) => (
+                                                    <option key={idx} value={idx}>{config.name}</option>
+                                                ))}
+                                            </select>
+                                            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {[
-                                        { label: t('cars.setting.model') || 'Driving Model', value: vehicle.bestSettings.drivingModel, icon: '🧠' },
-                                        { label: t('cars.setting.torque') || 'Torque Tuning', value: vehicle.bestSettings.torqueTuning, icon: '🔒' },
-                                        { label: t('cars.setting.lateral') || 'Lateral Control', value: vehicle.bestSettings.lateralControl, icon: '🔄' },
-                                        { label: t('cars.setting.longitudinal') || 'Longitudinal', value: vehicle.bestSettings.longitudinalControl, icon: '🚀' },
-                                        { label: t('cars.setting.mads') || 'MADS', value: vehicle.bestSettings.mads, icon: '🛡️' },
-                                        { label: t('cars.setting.exp') || 'Experimental', value: vehicle.bestSettings.experimentalMode, icon: '🧪' }
+                                        { label: t('cars.setting.model') || 'Driving Model', value: currentConfig.settings.drivingModel, icon: '🧠' },
+                                        { label: t('cars.setting.torque') || 'Torque Tuning', value: currentConfig.settings.torqueTuning, icon: '🔒' },
+                                        { label: t('cars.setting.lateral') || 'Lateral Control', value: currentConfig.settings.lateralControl, icon: '🔄' },
+                                        { label: t('cars.setting.longitudinal') || 'Longitudinal', value: currentConfig.settings.longitudinalControl, icon: '🚀' },
+                                        { label: t('cars.setting.mads') || 'MADS', value: currentConfig.settings.mads, icon: '🛡️' },
+                                        { label: t('cars.setting.exp') || 'Experimental', value: currentConfig.settings.experimentalMode, icon: '🧪' }
                                     ].map((s, idx) => (
                                         <div key={idx} className="p-4 rounded-2xl bg-slate-800/30 border border-slate-700/50 flex items-center justify-between">
                                             <div>

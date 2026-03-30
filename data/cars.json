@@ -21,6 +21,30 @@
                 "mads": "Remain Active",
                 "experimentalMode": "Dynamic"
             },
+            "configs": [
+                {
+                    "name": "Smooth Highway (WMI V12)",
+                    "settings": {
+                        "drivingModel": "WMI V12",
+                        "torqueTuning": "v0.0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
+                    }
+                },
+                {
+                    "name": "Aggressive City (E2E)",
+                    "settings": {
+                        "drivingModel": "Aggressive TR",
+                        "torqueTuning": "v0.0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
+                    }
+                }
+            ],
             "communityConsensus": "Highly recommended to use WMI V12 with Torque v0.0 for the smoothest centering. NNLC is critical to prevent ping-ponging at highway speeds. Use 'Camera Offset' (Pos=Left, Neg=Right) in settings if the car is riding too close to one side.",
             "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
             "reviews": [
@@ -41,7 +65,8 @@
                     "user": "warren.2",
                     "context": "Testing E2E models for lane centering capability"
                 }
-            ]
+            ],
+            "isRecommended": true
         },
         {
             "id": "toyota-rav4-2019",
@@ -76,6 +101,30 @@
                     "user": "astradotpng",
                     "context": "Successful integration with DTRv6"
                 }
+            ],
+            "configs": [
+                {
+                    "name": "North Dakota (Recommended)",
+                    "settings": {
+                        "drivingModel": "North Dakota",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Default",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "DTRv6 (Alternative)",
+                    "settings": {
+                        "drivingModel": "DTRv6",
+                        "torqueTuning": "v0",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Default",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -103,6 +152,31 @@
                     "user": "CivicSi",
                     "rating": 4.5,
                     "comment": "Experimental mode is finally usable in the city on this platform."
+                }
+            ],
+            "isRecommended": true,
+            "configs": [
+                {
+                    "name": "Pop Model (Recommended)",
+                    "settings": {
+                        "drivingModel": "Pop Model",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "OP Long (Alpha)",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Always On"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "OP Long (Alpha)",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         },
@@ -132,6 +206,31 @@
                     "rating": 5,
                     "comment": "11/10 for centering. Huge improvement over stock HDA."
                 }
+            ],
+            "isRecommended": true,
+            "configs": [
+                {
+                    "name": "Pop Model (v1) (Recommended)",
+                    "settings": {
+                        "drivingModel": "Pop Model (v1)",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Enabled (Always On)",
+                        "experimentalMode": "Enabled"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Enabled (Always On)",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -159,6 +258,31 @@
                     "user": "GenesisDriver",
                     "rating": 5,
                     "comment": "Perfect for city driving. The turns are so smooth now."
+                }
+            ],
+            "isRecommended": true,
+            "configs": [
+                {
+                    "name": "Pop Model (v1) (Recommended)",
+                    "settings": {
+                        "drivingModel": "Pop Model (v1)",
+                        "torqueTuning": "Auto",
+                        "lateralControl": "Default HKG",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Default HKG",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         },
@@ -195,6 +319,31 @@
                     "user": "121dj2980",
                     "context": "Ford F-150 Lightning on Comma 4"
                 }
+            ],
+            "isRecommended": true,
+            "configs": [
+                {
+                    "name": "BluePilot 5.0 (Recommended)",
+                    "settings": {
+                        "drivingModel": "BluePilot 5.0",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock Radar",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock Radar",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -222,6 +371,31 @@
                     "user": "BoltCommuter",
                     "rating": 5,
                     "comment": "Reliable and smooth. Perfect for my 50-mile daily drive."
+                }
+            ],
+            "isRecommended": true,
+            "configs": [
+                {
+                    "name": "Pop Model (v1) (Recommended)",
+                    "settings": {
+                        "drivingModel": "Pop Model (v1)",
+                        "torqueTuning": "Default GM",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Recommended"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         },
@@ -251,6 +425,30 @@
                     "rating": 4.8,
                     "comment": "MADS is a game changer for traffic. No more steering cutout at low speeds."
                 }
+            ],
+            "configs": [
+                {
+                    "name": "Pop Model (v1) (Recommended)",
+                    "settings": {
+                        "drivingModel": "Pop Model (v1)",
+                        "torqueTuning": "Default",
+                        "lateralControl": "MADS",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled (Essential)",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "MADS (Alternative)",
+                    "settings": {
+                        "drivingModel": "MADS",
+                        "torqueTuning": "v0",
+                        "lateralControl": "MADS",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled (Essential)",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -278,6 +476,30 @@
                     "user": "LincolnLuxe",
                     "rating": 5,
                     "comment": "Spoofing as an Expedition worked perfectly. So much smoother than stock."
+                }
+            ],
+            "configs": [
+                {
+                    "name": "BluePilot (Recommended)",
+                    "settings": {
+                        "drivingModel": "BluePilot",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Alpha Longitudinal",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Alpha Longitudinal (Alternative)",
+                    "settings": {
+                        "drivingModel": "Alpha Longitudinal",
+                        "torqueTuning": "v0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Alpha Longitudinal",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         },
@@ -307,6 +529,30 @@
                     "rating": 4,
                     "comment": "Tuning v1 fixed my ping-pong issues on the highway."
                 }
+            ],
+            "configs": [
+                {
+                    "name": "Dark Souls v2 (Recommended)",
+                    "settings": {
+                        "drivingModel": "Dark Souls v2",
+                        "torqueTuning": "v1",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -334,6 +580,30 @@
                     "user": "EcoDriver",
                     "rating": 4.5,
                     "comment": "Changed my highway commutes. The lateral control is a beast."
+                }
+            ],
+            "configs": [
+                {
+                    "name": "Pop Model (Recommended)",
+                    "settings": {
+                        "drivingModel": "Pop Model",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         },
@@ -363,6 +633,30 @@
                     "rating": 4,
                     "comment": "Stock long fixed the scary grinding noise. Lateral is perfect with SC model."
                 }
+            ],
+            "configs": [
+                {
+                    "name": "Pop Model (Recommended)",
+                    "settings": {
+                        "drivingModel": "Pop Model",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock Longitudinal (Nidec)",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Smart Cruise Vision"
+                    }
+                },
+                {
+                    "name": "SC Model (Alternative)",
+                    "settings": {
+                        "drivingModel": "SC Model",
+                        "torqueTuning": "v0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock Longitudinal (Nidec)",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -390,6 +684,30 @@
                     "user": "TucsonTech",
                     "rating": 4.5,
                     "comment": "Significant stability improvement at high speeds with Torque v0."
+                }
+            ],
+            "configs": [
+                {
+                    "name": "WMI V12 (Recommended)",
+                    "settings": {
+                        "drivingModel": "WMI V12",
+                        "torqueTuning": "v0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "WMIv12 (Alternative)",
+                    "settings": {
+                        "drivingModel": "WMIv12",
+                        "torqueTuning": "v0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         },
@@ -419,6 +737,30 @@
                     "rating": 4,
                     "comment": "Lateral is great but watch out for the creep in traffic!"
                 }
+            ],
+            "configs": [
+                {
+                    "name": "Pop Model (Recommended)",
+                    "settings": {
+                        "drivingModel": "Pop Model",
+                        "torqueTuning": "v0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Enabled",
+                        "experimentalMode": "Enabled"
+                    }
+                },
+                {
+                    "name": "WMIv12 (Alternative)",
+                    "settings": {
+                        "drivingModel": "WMIv12",
+                        "torqueTuning": "v0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -447,6 +789,30 @@
                     "rating": 4,
                     "comment": "Highway centering is finally fixed with OPM v5."
                 }
+            ],
+            "configs": [
+                {
+                    "name": "Off-Policy Model v5 (Recommended)",
+                    "settings": {
+                        "drivingModel": "Off-Policy Model v5",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -467,6 +833,30 @@
                 "mads": "Enabled",
                 "experimentalMode": "Off"
             },
+            "configs": [
+                {
+                    "name": "Firehose (Recommended)",
+                    "settings": {
+                        "drivingModel": "Firehose Model",
+                        "torqueTuning": "v0.0",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Off-Policy v5 (Highway)",
+                    "settings": {
+                        "drivingModel": "Off-Policy Model v5",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                }
+            ],
             "communityConsensus": "Firehose model is highly recommended for stable lane centering and smooth handling of highway curves. Using Torque v0.0 and positive camera offset values help correct left-side lane hugging. Reset calibration before switching to Firehose for optimal learning.",
             "forumUrl": "https://community.sunnypilot.ai/t/lexus-is-model-suggestion/4024",
             "reviews": [
@@ -487,7 +877,8 @@
                     "user": "Adrian_Abedon",
                     "context": "Lexus IS 2017 with Comma 3X/4"
                 }
-            ]
+            ],
+            "isRecommended": true
         },
         {
             "id": "lexus-rx350-2017",
@@ -518,9 +909,33 @@
             ],
             "forumQuotes": [
                 {
-                    "text": "I just adjust the lane centering (camera offset) so it moves over slightly then i don\u2019t have the \u201chugs the left line\u201d problem.",
+                    "text": "I just adjust the lane centering (camera offset) so it moves over slightly then i don’t have the “hugs the left line” problem.",
                     "user": "peterclampton",
                     "context": "2017 RX350 with default and firehose models"
+                }
+            ],
+            "configs": [
+                {
+                    "name": "Firehose Model (Recommended)",
+                    "settings": {
+                        "drivingModel": "Firehose Model",
+                        "torqueTuning": "v0.0",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "North Dakota (Alternative)",
+                    "settings": {
+                        "drivingModel": "North Dakota",
+                        "torqueTuning": "v0",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         },
@@ -557,6 +972,30 @@
                     "user": "captainsmith06",
                     "context": "10th Gen Accord long-term reliability"
                 }
+            ],
+            "configs": [
+                {
+                    "name": "Pop Model (Recommended)",
+                    "settings": {
+                        "drivingModel": "Pop Model",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "OP Long (Alpha)",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Always On"
+                    }
+                },
+                {
+                    "name": "TCPV3 (Alternative)",
+                    "settings": {
+                        "drivingModel": "TCPV3",
+                        "torqueTuning": "v0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "OP Long (Alpha)",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -584,6 +1023,30 @@
                     "user": "IoniqPilot",
                     "rating": 4.2,
                     "comment": "High speed curves are handled like a dream. Low speed turns still need work."
+                }
+            ],
+            "configs": [
+                {
+                    "name": "Off-Policy Model v5 (Angle) (Recommended)",
+                    "settings": {
+                        "drivingModel": "Off-Policy Model v5 (Angle)",
+                        "torqueTuning": "v0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         },
@@ -620,6 +1083,30 @@
                     "user": "Tony.Wu",
                     "context": "1-year community review of HKG CAN-FD platform"
                 }
+            ],
+            "configs": [
+                {
+                    "name": "Kumar's Vibe (Recommended)",
+                    "settings": {
+                        "drivingModel": "Kumar's Vibe",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Nevada (Curves)",
+                        "longitudinalControl": "Stock Hyundai Longitudinal",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Nevada (Alternative)",
+                    "settings": {
+                        "drivingModel": "Nevada",
+                        "torqueTuning": "v0",
+                        "lateralControl": "Nevada (Curves)",
+                        "longitudinalControl": "Stock Hyundai Longitudinal",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -648,6 +1135,30 @@
                     "rating": 4.5,
                     "comment": "DTRv6 is finally wife-approved for the A3. Much smoother than stock travel assist."
                 }
+            ],
+            "configs": [
+                {
+                    "name": "DTRv6 (Recommended)",
+                    "settings": {
+                        "drivingModel": "DTRv6",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "WMIv12 (Alternative)",
+                    "settings": {
+                        "drivingModel": "WMIv12",
+                        "torqueTuning": "v0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -668,6 +1179,30 @@
                 "mads": "Enabled",
                 "experimentalMode": "Off"
             },
+            "configs": [
+                {
+                    "name": "CD210 (Stable Highway)",
+                    "settings": {
+                        "drivingModel": "CD210",
+                        "torqueTuning": "v0.0 (Manual)",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Default",
+                        "longitudinalControl": "Stock",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                }
+            ],
             "communityConsensus": "Using CD210 prevents inner-line curve hugging common with older models. Setting the manual torque model to 0.0 makes the car feel extremely stable and 'on rails.' Confirmed to support resume from stop and manual parking brake workarounds.",
             "forumUrl": "https://community.sunnypilot.ai/t/2020-crosstrek-best-lateral-control-settings/3415",
             "reviews": [
@@ -711,6 +1246,30 @@
                     "rating": 5,
                     "comment": "The stronger steering on the Odyssey is a huge improvement. Feels much more confident."
                 }
+            ],
+            "configs": [
+                {
+                    "name": "sunnypilot (MVL Fork) (Recommended)",
+                    "settings": {
+                        "drivingModel": "sunnypilot (MVL Fork)",
+                        "torqueTuning": "Stronger Steering",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "OP Long (Alpha)",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "OP Long (Alpha)",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -738,6 +1297,30 @@
                     "user": "Sonata_OP",
                     "rating": 5,
                     "comment": "Bypassing the 20 mph minimum changed everything. The stop and go is finally smooth."
+                }
+            ],
+            "configs": [
+                {
+                    "name": "Alpha Longitudinal (Recommended)",
+                    "settings": {
+                        "drivingModel": "Alpha Longitudinal",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "OP Long (Alpha)",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "OP Long (Alpha)",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         },
@@ -774,6 +1357,31 @@
                     "user": "Y_S",
                     "context": "Effective for both highway and city density"
                 }
+            ],
+            "isRecommended": true,
+            "configs": [
+                {
+                    "name": "sunnypilot (C3X Mode) (Recommended)",
+                    "settings": {
+                        "drivingModel": "sunnypilot (C3X Mode)",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -801,6 +1409,30 @@
                     "user": "EV6_Pilot",
                     "rating": 5,
                     "comment": "NNLC makes the EV6 feel like it has actual HDA3. Rock solid on the I-5."
+                }
+            ],
+            "configs": [
+                {
+                    "name": "Pop Model (Recommended)",
+                    "settings": {
+                        "drivingModel": "Pop Model",
+                        "torqueTuning": "v0.0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Enabled",
+                        "experimentalMode": "Dynamic"
+                    }
+                },
+                {
+                    "name": "MADS (Alternative)",
+                    "settings": {
+                        "drivingModel": "MADS",
+                        "torqueTuning": "v0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         },
@@ -830,6 +1462,30 @@
                     "rating": 4.8,
                     "comment": "North Dakota model is the way to go for the Telluride. So much more confident than stock."
                 }
+            ],
+            "configs": [
+                {
+                    "name": "North Dakota (Recommended)",
+                    "settings": {
+                        "drivingModel": "North Dakota",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Essential",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "MADS (Alternative)",
+                    "settings": {
+                        "drivingModel": "MADS",
+                        "torqueTuning": "v0",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Essential",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -857,6 +1513,30 @@
                     "user": "PaliDad",
                     "rating": 4.5,
                     "comment": "Perfect for family road trips. Torque v1 fixed the minor centering drifts."
+                }
+            ],
+            "configs": [
+                {
+                    "name": "North Dakota (Recommended)",
+                    "settings": {
+                        "drivingModel": "North Dakota",
+                        "torqueTuning": "v1",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         },
@@ -886,6 +1566,30 @@
                     "rating": 5,
                     "comment": "The K5 with NNLC is incredible. It handles the curves like a pro."
                 }
+            ],
+            "configs": [
+                {
+                    "name": "Pop Model (Recommended)",
+                    "settings": {
+                        "drivingModel": "Pop Model",
+                        "torqueTuning": "v0.0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Enabled",
+                        "experimentalMode": "Always On"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -913,6 +1617,30 @@
                     "user": "KonaElectric",
                     "rating": 4.5,
                     "comment": "Solid for daily commuting. Lane centering is worlds better than stock."
+                }
+            ],
+            "configs": [
+                {
+                    "name": "WMI V12 (Recommended)",
+                    "settings": {
+                        "drivingModel": "WMI V12",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         },
@@ -942,6 +1670,30 @@
                     "rating": 4.9,
                     "comment": "TSK support is a game changer for the Tundra. WMI V12 is rock solid on the highway even with a trailer."
                 }
+            ],
+            "configs": [
+                {
+                    "name": "WMI V12 (Recommended)",
+                    "settings": {
+                        "drivingModel": "WMI V12",
+                        "torqueTuning": "Self-Tune",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "MADS (Alternative)",
+                    "settings": {
+                        "drivingModel": "MADS",
+                        "torqueTuning": "v0",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -969,6 +1721,30 @@
                     "user": "MazdaMinded",
                     "rating": 4.7,
                     "comment": "DTR v6 makes the CX-5 feel like a luxury cruiser. Very smooth transitions."
+                }
+            ],
+            "configs": [
+                {
+                    "name": "Down to Ride v6 (Recommended)",
+                    "settings": {
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Pop Model (Alternative)",
+                    "settings": {
+                        "drivingModel": "Pop Model",
+                        "torqueTuning": "v0",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         },
@@ -998,6 +1774,30 @@
                     "rating": 4.6,
                     "comment": "CD210 helps a lot with highway curves. Feels much more confident than EyeSight alone."
                 }
+            ],
+            "configs": [
+                {
+                    "name": "CD210 Model (Recommended)",
+                    "settings": {
+                        "drivingModel": "CD210 Model",
+                        "torqueTuning": "v1.2",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Optional",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Optional",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -1025,6 +1825,30 @@
                     "user": "PilotCaptain",
                     "rating": 4.8,
                     "comment": "NNLC is a must for the Pilot. It tracks straight as an arrow now."
+                }
+            ],
+            "configs": [
+                {
+                    "name": "Pop Model (Recommended)",
+                    "settings": {
+                        "drivingModel": "Pop Model",
+                        "torqueTuning": "v0",
+                        "lateralControl": "NNLC",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "NNLC",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         },
@@ -1054,6 +1878,30 @@
                     "rating": 4.4,
                     "comment": "Early days but promising. Off-Policy v3 handles the heavy R1T surprisingly well."
                 }
+            ],
+            "configs": [
+                {
+                    "name": "Off-Policy v3 (Recommended)",
+                    "settings": {
+                        "drivingModel": "Off-Policy v3",
+                        "torqueTuning": "Experimental",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Recommended",
+                        "experimentalMode": "Always On"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Recommended",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -1081,6 +1929,30 @@
                     "user": "Model3Modder",
                     "rating": 5,
                     "comment": "So much better than standard Autopilot. No phantom braking issues with the right settings."
+                }
+            ],
+            "configs": [
+                {
+                    "name": "Pop Model (Recommended)",
+                    "settings": {
+                        "drivingModel": "Pop Model",
+                        "torqueTuning": "Tesla Custom",
+                        "lateralControl": "EPAS Control",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Always On",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "EPAS Control",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Always On",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         },
@@ -1110,6 +1982,30 @@
                     "rating": 4.7,
                     "comment": "Much smoother than stock Pilot Assist. CD210 handles the heavy XC90 beautifully."
                 }
+            ],
+            "configs": [
+                {
+                    "name": "CD210 Model (Recommended)",
+                    "settings": {
+                        "drivingModel": "CD210 Model",
+                        "torqueTuning": "Self-Tune",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -1137,6 +2033,30 @@
                     "user": "LightningStrike",
                     "rating": 4.8,
                     "comment": "The best hands-free experience for the F-150. Dark Souls v2 is very confident."
+                }
+            ],
+            "configs": [
+                {
+                    "name": "Dark Souls v2 (Recommended)",
+                    "settings": {
+                        "drivingModel": "Dark Souls v2",
+                        "torqueTuning": "v1.2 Stiff",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Always On",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Always On",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         },
@@ -1166,6 +2086,30 @@
                     "rating": 4.9,
                     "comment": "Perfect lane centering on my 2024 Corolla. Pop Model is very snappy."
                 }
+            ],
+            "configs": [
+                {
+                    "name": "Pop Model (Recommended)",
+                    "settings": {
+                        "drivingModel": "Pop Model",
+                        "torqueTuning": "v0",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                }
             ]
         },
         {
@@ -1193,6 +2137,30 @@
                     "user": "LincolnLuxury",
                     "rating": 4.6,
                     "comment": "DTR v6 is exactly what this car needed. Smooth as silk."
+                }
+            ],
+            "configs": [
+                {
+                    "name": "Down to Ride v6 (Recommended)",
+                    "settings": {
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
+                },
+                {
+                    "name": "Default / Stock Settings",
+                    "settings": {
+                        "drivingModel": "Default",
+                        "torqueTuning": "Default",
+                        "lateralControl": "Torque Control",
+                        "longitudinalControl": "Stock ACC",
+                        "mads": "Enabled",
+                        "experimentalMode": "Off"
+                    }
                 }
             ]
         }
