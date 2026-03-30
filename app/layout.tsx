@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import BottomNav from '@/components/BottomNav';
+import PreviewIndicator from '@/components/PreviewIndicator';
 import { LanguageProvider } from '@/lib/i18n';
 
 const inter = Inter({
@@ -67,6 +68,7 @@ export default function RootLayout({
         <LanguageProvider>
           {children}
           <BottomNav />
+          <PreviewIndicator />
         </LanguageProvider>
       </body>
     </html>

@@ -1,12 +1,23 @@
 /**
  * Server-side Discourse API fetching service.
- * Uses Next.js ISR (revalidate: 3600) for 1-hour caching.
+ * Uses Next.js ISR with environment-aware caching:
+ * - Production: 1-hour cache for optimal performance
+ * - Preview: 1-minute cache for faster feedback during testing
+ * - Development: No caching for real-time updates
  * No API key required — public endpoints only.
  */
 
+import { getRevalidateTime, getDeploymentEnvironment } from './env';
+
 const DISCOURSE_BASE = 'https://community.sunnypilot.ai';
 const CATEGORY_ID = 114; // Documentation category
-const REVALIDATE_SECONDS = 3600; // 1 hour
+
+// Environment-aware revalidation times
+const getRevalidateSeconds = () => getRevalidateTime({
+    production: 3600,  // 1 hour in production
+    preview: 60,       // 1 minute in preview for faster testing
+    development: 0,    // No cache in development
+}) || 0;
 
 export interface DiscourseTopic {
     id: number;
@@ -36,8 +47,9 @@ export async function fetchDiscourseTopics(): Promise<DiscourseTopic[]> {
                 ? `${DISCOURSE_BASE}/c/documentation/${CATEGORY_ID}.json`
                 : `${DISCOURSE_BASE}/c/documentation/${CATEGORY_ID}.json?page=${page}`;
 
+            const revalidate = getRevalidateSeconds();
             const res = await fetch(url, {
-                next: { revalidate: REVALIDATE_SECONDS },
+                next: revalidate ? { revalidate } : { revalidate: false },
             });
 
             if (!res.ok) {
@@ -83,8 +95,9 @@ export async function fetchTopicContent(topicId: number): Promise<DiscourseTopic
 
     for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
         try {
+            const revalidate = getRevalidateSeconds();
             const res = await fetch(`${DISCOURSE_BASE}/t/${topicId}.json`, {
-                next: { revalidate: REVALIDATE_SECONDS },
+                next: revalidate ? { revalidate } : { revalidate: false },
             });
 
             if (res.status === 429) {
@@ -135,6 +148,10 @@ function delay(ms: number): Promise<void> {
  */
 export async function fetchAllDiscourseContent(): Promise<Map<string, string>> {
     const contentMap = new Map<string, string>();
+    const env = getDeploymentEnvironment();
+    const revalidate = getRevalidateSeconds();
+
+    console.log(`[discourse-sync] Environment: ${env}, Cache TTL: ${revalidate || 'disabled'}s`);
 
     try {
         const topics = await fetchDiscourseTopics();
