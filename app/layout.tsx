@@ -62,6 +62,18 @@ export default function RootLayout({
             `,
           }}
         />
+        {/* Microsoft Clarity tracking script */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+              })(window, document, "clarity", "script", "w4z7g8jgmv");
+            `,
+          }}
+        />
       </head>
       <body className="font-sans antialiased pb-20 md:pb-0 overflow-x-hidden">
         <LanguageProvider>
