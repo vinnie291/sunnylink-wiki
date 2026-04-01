@@ -63,6 +63,12 @@ export default function SettingsDatabase({
     const [renderCount, setRenderCount] = useState(INITIAL_RENDER_COUNT);
 
     const sortedSettings = useMemo(() => {
+        // If there is a search query, we want to maintain the relevance-based sorting
+        // from the fuzzy search hook (which includes acronym prioritization).
+        if (searchQuery) {
+            return filteredSettings;
+        }
+
         return [...filteredSettings].sort((a, b) => {
             let diff = 0;
             switch (sortBy) {
@@ -82,7 +88,8 @@ export default function SettingsDatabase({
             }
             return diff;
         });
-    }, [filteredSettings, sortBy]);
+    }, [filteredSettings, sortBy, searchQuery]);
+
 
     // Progressive rendering: render first batch immediately, rest after idle
     useEffect(() => {

@@ -601,16 +601,16 @@
           "label": "Neural Network Lateral Control",
           "type": "toggle",
           "default": false,
-          "description": "Replaces PID controller with a neural network for smoother, human-like steering.",
-          "recommended": true,
-          "useCase": "Fixes 'ping-pong' (oscillation) on straight roads common in Hyundai/Kia vehicles.",
+          "description": "Replaces PID controller with a neural network for smoother steering. (Note: Generally not recommended for modern models).",
+          "recommended": false,
+          "useCase": "Fixes 'ping-pong' (oscillation) on straight roads common in older or specific vehicles.",
           "tradeoffs": [
-            "Can feel 'loose' or unresponsive if the model is not well-tuned for your specific car.",
-            "Does not increase physical torque limits; cannot take turns sharper than the hardware allows.",
-            "May cause ping-ponging on some vehicles - leave OFF if this occurs."
+            "Violent oscillation, wobbling, and ping-ponging on modern models.",
+            "Potential for upcoming deprecation.",
+            "Recommended only for legacy models (e.g., North Dakota 0.9.7.1 Branch Release-C3)."
           ],
-          "deepDive": "Uses an end-to-end lateral planning policy (e.g., North Nevada model) to predict path curvature rather than reacting to current lane deviation.",
-          "userNote": "Test carefully. If it ping-pongs, disable it and stick to stock."
+          "deepDive": "Uses an end-to-end lateral planning policy to predict path curvature. Not configured for newer sunnypilot releases and modern models.",
+          "userNote": "Generally not recommended for modern models. If you experience wobbling or ping-ponging, turn it OFF. Best used with legacy models."
         },
         {
           "key": "DynamicExperimentalControl",
@@ -746,10 +746,11 @@
           "label": "Hyundai Longitudinal Tuning",
           "type": "dropdown",
           "options": [
-            "Stock",
+            "Off",
+            "Predictive",
             "Dynamic"
           ],
-          "default": "Stock",
+          "default": "Off",
           "description": "Custom tuning for Hyundai/Kia acceleration profiles.",
           "recommended": "Dynamic",
           "useCase": "Fixes the sluggish throttle response in Eco/Normal drive modes.",

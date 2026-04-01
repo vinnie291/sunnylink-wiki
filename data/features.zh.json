@@ -26,8 +26,8 @@
       "fullName": "Neural Network Lateral Control",
       "category": "核心控制",
       "officialDefinition": "用神经网络模型取代传统的 PID/Indi 控制器，该模型输入过去的曲率来预测未来的转向路径。 直接输出曲率进行横向控制。",
-      "userSummary": "基于人工智能的转向。 更平滑，但可以在某些汽车上“打乒乓球”。",
-      "userTranslation": "“人工智能转向。” 它不使用数学方程来保持在车道上，而是使用人工智能大脑。 它感觉更流畅、更“人性化”，但如果它开始乒乓球（向左/向右弹跳），请将其关闭。",
+      "userSummary": "基于人工智能的转向。由于“剧烈震荡”或“乒乓效应”，不建议用于现代模型。",
+      "userTranslation": "“人工智能转向。” 通常不建议用于现代模型。用户报告了“剧烈震荡”、“乒乓效应”或“晃动”。在旧模型（例如 North Dakota 0.9.7.1）中已取得成功。对于最近的模型，请关闭 (OFF) 以避免横向控制问题。",
       "settingsKeys": [
         "nnlc_enabled"
       ],

@@ -601,16 +601,16 @@
           "label": "Laterale Kontrolle eines neuronalen Netzwerks",
           "type": "toggle",
           "default": false,
-          "description": "Ersetzt den PID-Regler durch ein neuronales Netzwerk für eine sanftere, menschenähnliche Lenkung.",
-          "recommended": true,
+          "description": "Verwendet ein neuronales Netzwerk für die laterale Steuerung (Lenkung) anstelle herkömmlicher PID- oder INDI-Controller. HINWEIS: Nicht empfohlen für moderne Fahrmodelle.",
+          "recommended": false,
           "useCase": "Behebt das „Ping-Pong“ (Schwingen) auf geraden Straßen, das bei Hyundai/Kia-Fahrzeugen häufig vorkommt.",
           "tradeoffs": [
-            "Kann sich „locker“ anfühlen oder nicht reagieren, wenn das Modell nicht gut auf Ihr spezielles Auto abgestimmt ist.",
+            "Bietet möglicherweise eine sanftere Lenkung bei Legacy-Modellen; führt jedoch bei modernen Modellen häufig zu heftigen Schwingungen, Ping-Pong-Effekten oder Wackeln.",
             "Erhöht die physikalischen Drehmomentgrenzen nicht; kann nicht schärfer abbiegen, als es die Hardware zulässt.",
-            "Kann bei manchen Fahrzeugen zu Ping-Pong-Effekten führen. Lassen Sie die Funktion in diesem Fall auf AUS."
+            "Die Funktion wird möglicherweise bald eingestellt, da sie mit modernen Modellen nicht mehr funktioniert."
           ],
           "deepDive": "Verwendet eine durchgängige laterale Planungsrichtlinie (z. B. das Nord-Nevada-Modell), um die Krümmung des Pfades vorherzusagen, anstatt auf die aktuelle Spurabweichung zu reagieren.",
-          "userNote": "Testen Sie sorgfältig. Wenn es zu Störungen kommt, deaktivieren Sie es und bleiben Sie bei der Standardeinstellung."
+          "userNote": "Aufgrund der Inkompatibilität mit neueren Modellen und gemeldeten Instabilitäten wird empfohlen, NNLC ausgeschaltet zu lassen, es sei denn, Sie verwenden ein spezifisches Legacy-Steuersystem."
         },
         {
           "key": "DynamicExperimentalControl",
@@ -746,10 +746,11 @@
           "label": "Hyundai-Längsabstimmung",
           "type": "dropdown",
           "options": [
-            "Stock",
+            "Off",
+            "Predictive",
             "Dynamic"
           ],
-          "default": "Stock",
+          "default": "Off",
           "description": "Individuelles Tuning für Hyundai/Kia-Beschleunigungsprofile.",
           "recommended": "Dynamic",
           "useCase": "Behebt die träge Gasannahme in den Fahrmodi Eco/Normal.",

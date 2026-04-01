@@ -26,8 +26,8 @@
             "fullName": "Neural Network Lateral Control",
             "category": "Core Control",
             "officialDefinition": "Replaces the traditional PID/Indi controller with a neural network model that inputs past curvature to predict future steering paths. Directly outputs curvature for lateral control.",
-            "userSummary": "AI-based steering. Smoother, but can 'ping-pong' on some cars.",
-            "userTranslation": "\"AI Steering.\" Instead of using math equations to stay in the lane, it uses an AI brain. It feels smoother and more \"human,\" but if it starts ping-ponging (bouncing left/right), turn it off.",
+            "userSummary": "AI-based steering. Not recommended for modern models due to 'violent oscillation' or 'ping-ponging'.",
+            "userTranslation": "\"AI Steering.\" Generally NOT recommended for modern models. Users report 'violent oscillation,' 'ping-ponging,' or 'wobbling.' Success has been found with legacy models (e.g., North Dakota 0.9.7.1). Turn OFF for recent models to avoid lateral control issues.",
             "settingsKeys": [
                 "nnlc_enabled"
             ],

@@ -26,8 +26,8 @@
       "fullName": "Neural Network Lateral Control",
       "category": "Control principal",
       "officialDefinition": "Reemplaza el controlador PID/Indi tradicional con un modelo de red neuronal que ingresa la curvatura pasada para predecir rutas de dirección futuras. Genera curvatura directamente para control lateral.",
-      "userSummary": "Dirección basada en IA. Más suave, pero puede hacer ping-pong en algunos autos.",
-      "userTranslation": "\"Dirección de IA\". En lugar de utilizar ecuaciones matemáticas para mantenerse en el carril, utiliza un cerebro de IA. Se siente más suave y más \"humano\", pero si comienza a hacer ping-pong (rebotando hacia la izquierda o hacia la derecha), apágalo.",
+      "userSummary": "Dirección basada en IA. No se recomienda para modelos modernos debido a 'oscilación violenta' o 'ping-pong'.",
+      "userTranslation": "“Dirección IA.” Generalmente NO se recomienda para modelos modernos. Los usuarios reportan 'oscilación violenta', 'ping-pong' o 'tambaleo'. Se ha tenido éxito con modelos antiguos (p. ej., North Dakota 0.9.7.1). Desactívelo (OFF) en modelos recientes para evitar problemas de control lateral.",
       "settingsKeys": [
         "nnlc_enabled"
       ],

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../lib/i18n';
 
@@ -57,6 +57,17 @@ interface CarDetailViewProps {
 export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) {
     const { t } = useLanguage();
     const [selectedConfigIdx, setSelectedConfigIdx] = useState(0);
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onClose();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [onClose]);
 
     const configs = vehicle.configs?.length ? vehicle.configs : [
         { name: t('cars.bestSettings') || 'Recommended Configuration', settings: vehicle.bestSettings }
@@ -267,16 +278,6 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                             </section>
                         </div>
                     </div>
-                </div>
-
-                {/* Footer Action */}
-                <div className="p-6 border-t border-slate-800 bg-slate-900/50 shrink-0 flex justify-end">
-                    <button
-                        onClick={onClose}
-                        className="px-8 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition-all"
-                    >
-                        {t('cars.close') || 'Close Database'}
-                    </button>
                 </div>
             </motion.div>
         </div>

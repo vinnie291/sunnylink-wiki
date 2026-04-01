@@ -91,6 +91,21 @@ export function useFuzzySearch<T extends Record<string, unknown>>({
     return useMemo(() => {
         if (!query || query.trim().length === 0) return items;
         if (!fuseRef.current) return items; // Fuse not loaded yet, return all
-        return fuseRef.current.search(query).map((result: { item: T }) => result.item);
+
+        const results = fuseRef.current.search(query);
+        const lowerQuery = query.toLowerCase().trim();
+
+        // Sort results to prioritize exact acronym matches
+        return results
+            .sort((a: any, b: any) => {
+                const aIsExactAcronym = a.item._acronym === lowerQuery;
+                const bIsExactAcronym = b.item._acronym === lowerQuery;
+
+                if (aIsExactAcronym && !bIsExactAcronym) return -1;
+                if (!aIsExactAcronym && bIsExactAcronym) return 1;
+                return 0; // Maintain Fuse's original relevance scoring otherwise
+            })
+            .map((result: { item: T }) => result.item);
     }, [query, items, isLoaded, enrichedItems]);
+
 }

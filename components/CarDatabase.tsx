@@ -220,6 +220,26 @@ export default function CarDatabase() {
                         />
                     </div>
 
+                    {/* Desktop Setup Wizard */}
+                    <Link href="/wizard" className="block">
+                        <div className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 hover:from-cyan-500/20 hover:to-blue-500/20 rounded-2xl border border-cyan-500/20 hover:border-cyan-500/40 p-4 transition-all group relative overflow-hidden">
+                            <div className="absolute -top-4 -right-4 text-6xl opacity-10 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500 pointer-events-none">
+                                🧙
+                            </div>
+                            <div className="relative">
+                                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-wider mb-2">
+                                    <span>✨</span> {t('wizard.recommended') || 'Recommended'}
+                                </div>
+                                <h3 className="text-white font-bold text-sm mb-1 group-hover:text-cyan-300 transition-colors">
+                                    {t('wizard.title') || 'Setup Wizard'}
+                                </h3>
+                                <p className="text-slate-400 text-xs leading-relaxed max-w-[85%] group-hover:text-slate-300 transition-colors">
+                                    {t('cars.description') || 'Find the optimized settings and hardware requirements.'}
+                                </p>
+                            </div>
+                        </div>
+                    </Link>
+
                     {/* Brands */}
                     <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-4">
                         <CategoryFilter
@@ -333,8 +353,50 @@ export default function CarDatabase() {
                 </div>
 
                 {/* Vehicle Grid/List */}
-                {filteredVehicles.length > 0 ? (
-                    <div className={viewMode === 'grid' ? "grid gap-6 md:grid-cols-2" : "flex flex-col gap-4"}>
+                <div className={viewMode === 'grid' ? "grid gap-6 md:grid-cols-2" : "flex flex-col gap-4"}>
+                    {/* Mobile Setup Wizard Tile */}
+                    <div className="lg:hidden">
+                        <Link href="/wizard" className="block h-full">
+                            <motion.div
+                                layout
+                                className={`h-full bg-gradient-to-br from-cyan-900/40 to-blue-900/40 backdrop-blur-sm border border-cyan-500/30 rounded-2xl cursor-pointer hover:border-cyan-400/50 transition-all group relative overflow-hidden ${
+                                    viewMode === 'grid' ? 'p-6 flex flex-col' : 'p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6'
+                                }`}
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                                
+                                <div className={`relative ${viewMode === 'list' ? 'flex-1 min-w-0' : 'flex-1'}`}>
+                                    <div className={viewMode === 'list' ? 'flex flex-col md:flex-row md:items-center gap-4' : ''}>
+                                        <div>
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <div className="text-xs font-bold text-cyan-400 uppercase tracking-widest">{t('wizard.title') || 'Setup Wizard'}</div>
+                                                <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-[10px] font-bold uppercase tracking-wider">
+                                                    <span>✨</span> {t('wizard.recommended') || 'Recommended'}
+                                                </div>
+                                            </div>
+                                            <h3 className={`font-bold text-white ${viewMode === 'grid' ? 'text-xl mb-2' : 'text-lg md:text-xl'}`}>
+                                                Find Your Vehicle
+                                            </h3>
+                                            <div className="text-sm text-cyan-100/60 leading-relaxed">
+                                                {t('cars.description') || 'Get optimized settings and hardware requirements tailored for your specific car.'}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className={`relative flex items-center justify-between sm:justify-end ${
+                                    viewMode === 'grid' ? 'pt-4 border-t border-cyan-500/20 mt-4' : 'shrink-0'
+                                }`}>
+                                    <span className="text-3xl lg:hidden">🧙</span>
+                                    <span className="text-xs font-bold text-cyan-300 bg-cyan-500/10 px-4 py-2 rounded-lg group-hover:bg-cyan-500/20 transition-colors">
+                                        {t('wizard.start') || 'Start'} →
+                                    </span>
+                                </div>
+                            </motion.div>
+                        </Link>
+                    </div>
+
+                    {filteredVehicles.length > 0 && (
                         <AnimatePresence mode="popLayout">
                             {filteredVehicles.map((vehicle) => (
                                 <motion.div
@@ -413,9 +475,11 @@ export default function CarDatabase() {
                                 </motion.div>
                             ))}
                         </AnimatePresence>
-                    </div>
-                ) : (
-                    <div className="text-center py-20 bg-slate-800/30 rounded-2xl border border-slate-700/50">
+                    )}
+                </div>
+
+                {filteredVehicles.length === 0 && (
+                    <div className="text-center py-20 bg-slate-800/30 rounded-2xl border border-slate-700/50 mt-6 md:mt-0">
                         <div className="text-5xl mb-4">🔍</div>
                         <h3 className="text-xl font-medium text-white mb-2">No vehicles found</h3>
                         <p className="text-slate-400 mb-6">Try adjusting your filters or search terms.</p>
@@ -432,44 +496,7 @@ export default function CarDatabase() {
                     </div>
                 )}
 
-                {/* Setup Wizard Tile */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="mt-12 p-1"
-                >
-                    <Link href="/wizard">
-                        <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 hover:border-cyan-500/50 transition-all duration-500 p-8 md:p-12 shadow-2xl">
-                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(6,182,212,0.15),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                            <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-cyan-500/10 blur-[100px] rounded-full group-hover:bg-cyan-500/20 transition-all duration-700" />
-                            
-                            <div className="relative flex flex-col md:flex-row items-center justify-between gap-8">
-                                <div className="flex-1 text-center md:text-left">
-                                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold uppercase tracking-widest mb-4">
-                                        <span>✨</span> {t('wizard.recommended') || 'Recommended'}
-                                    </div>
-                                    <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-4 tracking-tight">
-                                        {t('wizard.title') || 'Setup Wizard'}
-                                    </h3>
-                                    <p className="text-sm text-slate-400 max-w-2xl">
-                                        {t('cars.description') || 'Find the optimized settings and hardware requirements for your specific vehicle based on community consensus.'}
-                                    </p>
-                                </div>
 
-                                <div className="shrink-0">
-                                    <div className="relative group/btn">
-                                        <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl blur opacity-30 group-hover/btn:opacity-100 transition duration-1000 group-hover/btn:duration-200" />
-                                        <div className="relative flex items-center gap-3 px-8 py-4 bg-slate-900 rounded-2xl text-white font-bold transition-all duration-200 group-hover/btn:scale-[0.98]">
-                                            <span>🧙</span>
-                                            <span>{t('wizard.start') || 'Start Setup'}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </Link>
-                </motion.div>
             </div>
 
             {/* Scroll To Top Button */}

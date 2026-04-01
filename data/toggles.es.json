@@ -601,16 +601,16 @@
           "label": "Control lateral de la red neuronal",
           "type": "toggle",
           "default": false,
-          "description": "Reemplaza el controlador PID con una red neuronal para una dirección más fluida y similar a la humana.",
-          "recommended": true,
+          "description": "Utiliza una red neuronal para el control lateral (dirección) en lugar de los controladores PID o INDI tradicionales. NOTA: No recomendado para modelos de conducción modernos.",
+          "recommended": false,
           "useCase": "Corrige el 'ping-pong' (oscilación) en carreteras rectas, común en los vehículos Hyundai/Kia.",
           "tradeoffs": [
-            "Puede sentirse \"suelto\" o no responde si el modelo no está bien adaptado a su automóvil específico.",
+            "Puede ofrecer una dirección más suave en modelos heredados; sin embargo, en modelos modernos suele provocar oscilaciones violentas, efecto ping-pong o bamboleo.",
             "No aumenta los límites de torque físico; No se pueden realizar turnos más nítidos de lo que permite el hardware.",
-            "Puede causar ping-pong en algunos vehículos; déjelo en APAGADO si esto ocurre."
+            "Es posible que la función se retire pronto, ya que ya no funciona con los modelos modernos."
           ],
           "deepDive": "Utiliza una política de planificación lateral de extremo a extremo (por ejemplo, el modelo del norte de Nevada) para predecir la curvatura del camino en lugar de reaccionar a la desviación actual del carril.",
-          "userNote": "Pruebe con cuidado. Si hace ping-pong, desactívelo y quédese con el stock."
+          "userNote": "Debido a la incompatibilidad con modelos más recientes y a las inestabilidades reportadas, se recomienda mantener NNLC desactivado (OFF) a menos que se utilice un sistema de control heredado específico."
         },
         {
           "key": "DynamicExperimentalControl",
@@ -746,10 +746,11 @@
           "label": "Sintonización longitudinal de Hyundai",
           "type": "dropdown",
           "options": [
-            "Stock",
+            "Off",
+            "Predictive",
             "Dynamic"
           ],
-          "default": "Stock",
+          "default": "Off",
           "description": "Custom tuning for Hyundai/Kia aceleración profiles.",
           "recommended": "Dynamic",
           "useCase": "Corrige la respuesta lenta del acelerador en los modos de conducción Eco/Normal.",

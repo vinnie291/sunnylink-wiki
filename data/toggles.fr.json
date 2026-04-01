@@ -601,16 +601,16 @@
           "label": "Contrôle latéral du réseau neuronal",
           "type": "toggle",
           "default": false,
-          "description": "Remplace le contrôleur PID par un réseau neuronal pour une direction plus fluide et semblable à celle d'un humain.",
-          "recommended": true,
+          "description": "Utilise un réseau neuronal pour le contrôle latéral (direction) au lieu des contrôleurs PID ou INDI traditionnels. REMARQUE : Déconseillé pour les modèles de conduite modernes.",
+          "recommended": false,
           "useCase": "Corrige le « ping-pong » (oscillation) sur les routes droites, courant dans les véhicules Hyundai/Kia.",
           "tradeoffs": [
-            "Peut sembler « lâche » ou insensible si le modèle n'est pas bien réglé pour votre voiture spécifique.",
-            "N'augmente pas les limites de couple physique ; ne peut pas prendre des tours plus précis que ce que le matériel le permet.",
-            "Peut provoquer des ping-pong sur certains véhicules - laissez OFF si cela se produit."
+            "Peut offrir une direction plus fluide sur les anciens modèles ; cependant, sur les modèles modernes, cela entraîne souvent des oscillations violentes, un effet de ping-pong ou des tremblements.",
+            "N'augmente pas les limites de couple physique ; ne peut pas prendre des virages plus serrés que ce que le matériel permet.",
+            "La fonctionnalité pourrait être retirée prochainement car elle ne fonctionne plus avec les modèles modernes."
           ],
           "deepDive": "Utilise une politique de planification latérale de bout en bout (par exemple, le modèle du nord du Nevada) pour prédire la courbure du chemin plutôt que de réagir à la déviation actuelle de la voie.",
-          "userNote": "Testez soigneusement. S'il s'agit de ping-pong, désactivez-le et restez fidèle au stock."
+          "userNote": "En raison de l'incompatibilité avec les modèles récents et des instabilités signalées, il est recommandé de laisser NNLC désactivé (OFF), sauf si vous utilisez un système de contrôle hérité spécifique."
         },
         {
           "key": "DynamicExperimentalControl",
@@ -746,10 +746,11 @@
           "label": "Réglage longitudinal Hyundai",
           "type": "dropdown",
           "options": [
-            "Stock",
+            "Off",
+            "Predictive",
             "Dynamic"
           ],
-          "default": "Stock",
+          "default": "Off",
           "description": "Custom tuning for Hyundai/Kia accélération profiles.",
           "recommended": "Dynamic",
           "useCase": "Corrige la réponse lente de l’accélérateur dans les modes de conduite Eco/Normal.",

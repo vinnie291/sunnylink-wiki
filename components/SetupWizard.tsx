@@ -134,8 +134,8 @@ export default function SetupWizard() {
                 category: t('wizard.recipe.category.steering'),
                 key: 'NeuralNetworkLateralControl',
                 label: t('wizard.recipe.label.nnlc'),
-                value: true,
-                reason: t('wizard.recipe.reason.curveHandling'),
+                value: false,
+                reason: t('wizard.recipe.reason.notRecommended'),
                 isAdvanced: true,
             });
             recipe.push({
@@ -204,7 +204,7 @@ export default function SetupWizard() {
                 category: t('wizard.recipe.category.car'),
                 key: 'HyundaiLongitudinalTuning',
                 label: t('wizard.recipe.label.hyundaiLongTuning'),
-                value: answers.drivingStyle === 'limo' ? t('wizard.recipe.value.stock') : t('wizard.recipe.value.dynamic'),
+                value: answers.drivingStyle === 'limo' ? t('wizard.recipe.value.off') : t('wizard.recipe.value.dynamic'),
                 reason: t('wizard.recipe.reason.accelProfile'),
                 isAdvanced: true,
             });
