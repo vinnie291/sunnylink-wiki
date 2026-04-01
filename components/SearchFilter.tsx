@@ -133,7 +133,7 @@ export default function SearchFilter({
             </div>
 
             {/* Results Counter - Fixed height to prevent layout shift */}
-            <div className="mt-3 sm:mt-2 flex items-center text-[11px] sm:text-sm h-5">
+            <div className="mt-4 sm:mt-2 flex items-center text-[11px] sm:text-sm h-5">
                 <span className="text-slate-500 whitespace-nowrap">
                     {value ? (
                         <>
