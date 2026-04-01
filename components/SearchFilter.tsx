@@ -132,8 +132,8 @@ export default function SearchFilter({
                 </div>
             </div>
 
-            {/* Results Counter - Positioned absolutely to prevent layout shift in single-row toolbar */}
-            <div className="absolute top-full left-0 right-0 pt-1 flex items-center justify-between text-[11px] sm:text-sm">
+            {/* Results Counter - Fixed height to prevent layout shift */}
+            <div className="mt-3 sm:mt-2 flex items-center text-[11px] sm:text-sm h-5">
                 <span className="text-slate-500 whitespace-nowrap">
                     {value ? (
                         <>
@@ -143,15 +143,6 @@ export default function SearchFilter({
                         null
                     )}
                 </span>
-
-                {value && (
-                    <button
-                        onClick={handleClear}
-                        className="text-slate-500 hover:text-cyan-400 transition-colors whitespace-nowrap"
-                    >
-                        Clear search
-                    </button>
-                )}
             </div>
         </div>
     );
