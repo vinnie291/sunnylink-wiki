@@ -59,6 +59,11 @@ interface CarConfig {
     };
 }
 
+interface GroupedVehicle extends Vehicle {
+    variants: Vehicle[];
+    displayYears: string;
+}
+
 const CAR_MAKES = [
     'Acura', 'Audi', 'BMW', 'BYD', 'Chevrolet', 'Chrysler', 'Citroen', 'Ford', 
     'Genesis', 'Honda', 'Hyundai', 'Jaguar', 'Jeep', 'Kia', 'Land Rover', 
@@ -120,8 +125,41 @@ export default function CarDatabase() {
         setSearchQuery('');
     };
 
+    const groupedVehicles = useMemo(() => {
+        const groups: Record<string, GroupedVehicle> = {};
+
+        vehicles.forEach(vehicle => {
+            // Normalize model name for grouping (remove parenthetical info like Early Access)
+            const normalizedModel = vehicle.model.replace(/\s*\(.*?\)/g, '').trim();
+            const key = `${vehicle.make}-${normalizedModel}`;
+
+            if (!groups[key]) {
+                groups[key] = {
+                    ...vehicle,
+                    model: normalizedModel, // Use normalized model name for the parent
+                    variants: [vehicle],
+                    displayYears: vehicle.years
+                };
+            } else {
+                groups[key].variants.push(vehicle);
+                
+                // Update combined year range
+                if (!groups[key].displayYears.includes(vehicle.years)) {
+                    groups[key].displayYears = `${groups[key].displayYears}, ${vehicle.years}`;
+                }
+                
+                // Prefer recommended tag if any variant has it
+                if (vehicle.isRecommended) {
+                    groups[key].isRecommended = true;
+                }
+            }
+        });
+
+        return Object.values(groups);
+    }, [vehicles]);
+
     const filteredVehicles = useMemo(() => {
-        let results = [...vehicles];
+        let results = [...groupedVehicles];
 
         if (selectedMake) {
             results = results.filter(v => 
@@ -135,7 +173,7 @@ export default function CarDatabase() {
 
         if (searchQuery) {
             const fuse = new Fuse(results, {
-                keys: ['make', 'model', 'years'],
+                keys: ['make', 'model', 'displayYears'],
                 threshold: 0.3,
             });
             results = fuse.search(searchQuery).map(result => result.item);
@@ -159,6 +197,10 @@ export default function CarDatabase() {
                     return `${a.make} ${a.model}`.localeCompare(`${b.make} ${b.model}`);
                 case 'brand-desc':
                     return `${b.make} ${b.model}`.localeCompare(`${a.make} ${a.model}`);
+                case 'model-asc':
+                    return a.model.localeCompare(b.model);
+                case 'model-desc':
+                    return b.model.localeCompare(a.model);
                 case 'rating-desc':
                     return ratingB - ratingA;
                 case 'rating-asc':
@@ -169,7 +211,7 @@ export default function CarDatabase() {
         });
 
         return results;
-    }, [vehicles, searchQuery, selectedMake, sortBy, showRecommended]);
+    }, [groupedVehicles, searchQuery, selectedMake, sortBy, showRecommended]);
 
     const [isSearchActive, setIsSearchActive] = useState(false);
 
@@ -342,6 +384,8 @@ export default function CarDatabase() {
                                 <option value="rating-asc" className="bg-slate-800">{t('cars.sort.ratingLowHigh') || 'Rating (Low-High)'}</option>
                                 <option value="brand-asc" className="bg-slate-800">{t('cars.sort.brandAZ') || 'Brand (A-Z)'}</option>
                                 <option value="brand-desc" className="bg-slate-800">{t('cars.sort.brandZA') || 'Brand (Z-A)'}</option>
+                                <option value="model-asc" className="bg-slate-800">{t('cars.sort.modelAZ') || 'Model (A-Z)'}</option>
+                                <option value="model-desc" className="bg-slate-800">{t('cars.sort.modelZA') || 'Model (Z-A)'}</option>
                             </select>
                             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                 <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -425,7 +469,7 @@ export default function CarDatabase() {
                                                     )}
                                                 </div>
                                                 <h3 className={`font-bold text-white ${viewMode === 'grid' ? 'text-xl' : 'text-lg md:text-xl'}`}>{vehicle.model}</h3>
-                                                <div className="text-sm text-slate-500">{vehicle.years}</div>
+                                                <div className="text-sm text-slate-500">{vehicle.displayYears}</div>
                                             </div>
 
                                             {viewMode === 'list' && (
@@ -505,7 +549,7 @@ export default function CarDatabase() {
             {/* Detail View Modal */}
             {selectedVehicle && (
                 <CarDetailView
-                    vehicle={selectedVehicle}
+                    vehicle={selectedVehicle as GroupedVehicle}
                     onClose={() => setSelectedVehicle(null)}
                 />
             )}

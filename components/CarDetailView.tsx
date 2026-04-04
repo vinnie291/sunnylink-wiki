@@ -50,14 +50,21 @@ interface Vehicle {
     sunnyTuneUrl?: string;
 }
 
+interface GroupedVehicle extends Vehicle {
+    variants: Vehicle[];
+}
+
 interface CarDetailViewProps {
-    vehicle: Vehicle;
+    vehicle: GroupedVehicle;
     onClose: () => void;
 }
 
 export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) {
     const { t } = useLanguage();
+    const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
     const [selectedConfigIdx, setSelectedConfigIdx] = useState(0);
+
+    const currentVehicle = vehicle.variants[selectedVariantIdx] || vehicle.variants[0] || vehicle;
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -70,8 +77,13 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [onClose]);
 
-    const configs = vehicle.configs?.length ? vehicle.configs : [
-        { name: t('cars.bestSettings') || 'Recommended Configuration', settings: vehicle.bestSettings }
+    // Reset config selection when variant changes
+    useEffect(() => {
+        setSelectedConfigIdx(0);
+    }, [selectedVariantIdx]);
+
+    const configs = currentVehicle.configs?.length ? currentVehicle.configs : [
+        { name: t('cars.bestSettings') || 'Recommended Configuration', settings: currentVehicle.bestSettings }
     ];
     const currentConfig = configs[selectedConfigIdx] || configs[0];
 
@@ -109,7 +121,26 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                         <div>
                             <div className="text-sm font-bold text-cyan-500 uppercase tracking-widest mb-1">{vehicle.make}</div>
                             <h2 className="text-4xl font-bold text-white">{vehicle.model}</h2>
-                            <div className="text-slate-400 font-medium">{vehicle.years}</div>
+                            {vehicle.variants.length > 1 ? (
+                                <div className="relative mt-2 inline-block">
+                                    <select
+                                        value={selectedVariantIdx}
+                                        onChange={(e) => setSelectedVariantIdx(Number(e.target.value))}
+                                        className="appearance-none bg-slate-800/80 hover:bg-slate-700 border border-slate-700/50 text-cyan-400 text-sm font-bold py-1.5 pl-3 pr-8 rounded-lg outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all cursor-pointer"
+                                    >
+                                        {vehicle.variants.map((v, idx) => (
+                                            <option key={idx} value={idx}>{v.years}</option>
+                                        ))}
+                                    </select>
+                                    <div className="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
+                                        <svg className="w-4 h-4 text-cyan-500/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="text-slate-400 font-medium">{currentVehicle.years}</div>
+                            )}
                         </div>
                         <div className="flex items-center gap-3">
                             <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-sm font-bold uppercase tracking-wider">
@@ -139,17 +170,17 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                 <h3 className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">{t('cars.consensus') || 'Community Consensus'}</h3>
                                 <div className="bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50">
                                     <p className="text-lg text-slate-200 leading-relaxed italic">
-                                        &quot;{vehicle.communityConsensus}&quot;
+                                        &quot;{currentVehicle.communityConsensus}&quot;
                                     </p>
                                 </div>
                             </section>
 
                             {/* Community Chatter / Forum Quotes */}
-                            {vehicle.forumQuotes && vehicle.forumQuotes.length > 0 && (
+                            {currentVehicle.forumQuotes && currentVehicle.forumQuotes.length > 0 && (
                                 <section>
                                     <h3 className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">{t('cars.highlights') || 'Forum Highlights'}</h3>
                                     <div className="grid grid-cols-1 gap-4">
-                                        {vehicle.forumQuotes.map((quote, idx) => (
+                                        {currentVehicle.forumQuotes.map((quote, idx) => (
                                             <div key={idx} className="relative p-6 rounded-2xl bg-slate-800/20 border border-slate-700/30 overflow-hidden group">
                                                 <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                                                     <span className="text-4xl text-cyan-400">💬</span>
@@ -223,7 +254,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                             <section>
                                 <h3 className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">{t('cars.reviews') || 'User Reviews'}</h3>
                                 <div className="space-y-4">
-                                    {vehicle.reviews.map((review, idx) => (
+                                    {currentVehicle.reviews.map((review, idx) => (
                                         <div key={idx} className="p-6 rounded-2xl bg-slate-800/20 border border-slate-700/30">
                                             <div className="flex items-center justify-between mb-3">
                                                 <div className="flex items-center gap-2">
@@ -253,34 +284,60 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                     <div className="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
                                         <div className="text-xs text-slate-500 mb-1">{t('cars.device') || 'Device'}</div>
                                         <div className="font-bold text-white flex items-center gap-2">
-                                            <span>📱</span> {vehicle.hardware.device}
+                                            <span>📱</span> {currentVehicle.hardware.device}
                                         </div>
                                     </div>
                                     <div className="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
                                         <div className="text-xs text-slate-500 mb-1">{t('cars.harness') || 'Harness'}</div>
                                         <div className="font-bold text-white flex items-center gap-2">
-                                            <span>🔌</span> {vehicle.hardware.harness}
+                                            <span>🔌</span> {currentVehicle.hardware.harness}
                                         </div>
                                     </div>
                                     <div className="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
                                         <div className="text-xs text-slate-500 mb-1">{t('cars.radar') || 'Radar'}</div>
                                         <div className="font-bold text-white flex items-center gap-2">
-                                            <span>📡</span> {vehicle.hardware.radar}
+                                            <span>📡</span> {currentVehicle.hardware.radar}
                                         </div>
                                     </div>
                                 </div>
                             </section>
 
-                            {vehicle.sunnyTuneUrl && (
+                            {currentVehicle.sunnyTuneUrl && (
                                 <section>
                                     <a
-                                        href={vehicle.sunnyTuneUrl}
+                                        href={currentVehicle.sunnyTuneUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-bold transition-all shadow-lg hover:shadow-orange-500/30"
+                                        className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#3B82F6] hover:to-[#60A5FA] text-white font-bold transition-all shadow-lg hover:shadow-blue-500/30"
                                     >
-                                        <span>⚙️</span> SunnyTune Config
+                                        <svg 
+                                          xmlns="http://www.w3.org/2000/svg" 
+                                          width="18" 
+                                          height="18" 
+                                          viewBox="0 0 24 24" 
+                                          fill="none" 
+                                          stroke="currentColor" 
+                                          strokeWidth="2" 
+                                          strokeLinecap="round" 
+                                          strokeLinejoin="round" 
+                                          className="lucide lucide-git-fork w-4 h-4 text-white"
+                                        >
+                                          <circle cx="12" cy="18" r="3"></circle>
+                                          <circle cx="6" cy="6" r="3"></circle>
+                                          <circle cx="18" cy="6" r="3"></circle>
+                                          <path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"></path>
+                                          <path d="M12 12v3"></path>
+                                        </svg>
+                                        SunnyTune Config
                                     </a>
+                                    <div className="mt-4 p-4 rounded-xl bg-blue-500/5 border border-blue-500/20">
+                                        <h4 className="text-blue-400 font-bold text-[10px] uppercase tracking-wider mb-2">
+                                            {t('cars.sunnytune.aboutTitle') || 'About SunnyTune'}
+                                        </h4>
+                                        <p className="text-[11px] text-slate-400 leading-relaxed font-medium">
+                                            {t('cars.sunnytune.aboutDesc') || 'A community platform for sharing and exploring optimized sunnypilot configurations and vehicle-specific tuning parameters.'}
+                                        </p>
+                                    </div>
                                 </section>
                             )}
 
