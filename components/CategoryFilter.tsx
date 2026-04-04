@@ -19,6 +19,7 @@ interface CategoryFilterProps {
     initialOpen?: boolean;
     vertical?: boolean;
     recommendedCount?: number;
+    sunnyTuneCount?: number;
 }
 
 export default function CategoryFilter({
@@ -29,7 +30,8 @@ export default function CategoryFilter({
     collapsible = false,
     initialOpen = false,
     vertical = false,
-    recommendedCount = 0
+    recommendedCount = 0,
+    sunnyTuneCount = 0
 }: CategoryFilterProps) {
     const [isOpen, setIsOpen] = useState(initialOpen);
     const { t } = useLanguage();
@@ -130,7 +132,50 @@ export default function CategoryFilter({
                 shrink-0 px-1.5 py-0.5 rounded-md text-xs
                 ${activeCategories.includes('recommended') ? 'bg-emerald-500/30 text-emerald-300' : 'bg-slate-700/50'}
               `}>
-                            {recommendedCount}
+                             {recommendedCount}
+                        </span>
+                    )}
+                </button>
+
+                {/* SunnyTune Filter */}
+                <button
+                    onClick={() => onToggleCategory('sunnytune')}
+                    type="button"
+                    className={`
+            flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium max-w-full flex-shrink-0 text-left
+            transition-all duration-200 border
+            ${activeCategories.includes('sunnytune')
+                            ? 'bg-blue-600/20 text-blue-400 border-blue-500/30 shadow-lg shadow-blue-500/10'
+                            : 'bg-slate-800/50 text-slate-400 border-slate-700/50 hover:bg-slate-700/50 hover:text-white'
+                        }
+          `}
+                >
+                    <span className="text-blue-400 shrink-0">
+                        <svg 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            width="16" 
+                            height="16" 
+                            viewBox="0 0 24 24" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            strokeWidth="2.5" 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                        >
+                            <circle cx="12" cy="18" r="3"></circle>
+                            <circle cx="6" cy="6" r="3"></circle>
+                            <circle cx="18" cy="6" r="3"></circle>
+                            <path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"></path>
+                            <path d="M12 12v3"></path>
+                        </svg>
+                    </span>
+                    <span className="flex-1 break-words">{t('filter.sunnytune')}</span>
+                    {sunnyTuneCount > 0 && (
+                        <span className={`
+                shrink-0 px-1.5 py-0.5 rounded-md text-xs
+                ${activeCategories.includes('sunnytune') ? 'bg-blue-500/30 text-blue-300' : 'bg-slate-700/50'}
+              `}>
+                            {sunnyTuneCount}
                         </span>
                     )}
                 </button>
