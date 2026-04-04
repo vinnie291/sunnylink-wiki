@@ -47,6 +47,7 @@ interface Vehicle {
         user: string;
         context?: string;
     }[];
+    sunnyTuneUrl?: string;
 }
 
 interface CarDetailViewProps {
@@ -269,6 +270,19 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                     </div>
                                 </div>
                             </section>
+
+                            {vehicle.sunnyTuneUrl && (
+                                <section>
+                                    <a
+                                        href={vehicle.sunnyTuneUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-bold transition-all shadow-lg hover:shadow-orange-500/30"
+                                    >
+                                        <span>⚙️</span> SunnyTune Config
+                                    </a>
+                                </section>
+                            )}
 
                             <section className="p-6 rounded-2xl bg-cyan-500/5 border border-cyan-500/20">
                                 <h4 className="text-cyan-400 font-bold text-sm mb-2">{t('cars.tip.title') || 'Pro Tip'}</h4>
