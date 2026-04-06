@@ -76,6 +76,7 @@ const MODEL_TO_BRAND: Record<string, string> = {
     'sonata':        'hyundai',
     'santa fe':      'hyundai',
     'santa cruz':    'hyundai',
+    'custin':        'hyundai',
     // Kia
     'ev6':           'kia',
     'ev9':           'kia',
@@ -161,6 +162,7 @@ const BRAND_ALIASES: Record<string, string[]> = {
     'ram':       ['dodge'],
     'genesis':   ['hyundai'],  // Genesis is Hyundai's luxury arm
     'lexus':     ['toyota'],   // Lexus is Toyota's luxury arm
+    'kia':       ['hyundai'],  // Kia and Hyundai share HKG platforms; API often mislabels
 };
 
 /**
