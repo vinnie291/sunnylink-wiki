@@ -2,8 +2,11 @@ name: Sync SunnyTune Configs
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Every day at midnight UTC
+    - cron: '0 */6 * * *' # Every 6 hours
   workflow_dispatch: # Allow manual triggering
+
+permissions:
+  contents: write
 
 jobs:
   sync:
@@ -19,7 +22,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run sync script
         run: npx tsx scripts/sync-sunnytune.ts
@@ -29,5 +32,6 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add data/cars.json
-          git commit -m "chore: sync SunnyTune configs [skip ci]" || echo "No changes to commit"
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "chore: sync SunnyTune configs [skip ci]"
           git push
