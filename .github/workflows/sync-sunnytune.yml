@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ secrets.SUNNYLINKWIKI_SUNNYTUNE_GITWORKFLOW }}
           persist-credentials: true
 
       - name: Setup Node.js
