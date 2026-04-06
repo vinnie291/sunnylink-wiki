@@ -19,7 +19,7 @@ interface CategoryFilterProps {
     initialOpen?: boolean;
     vertical?: boolean;
     recommendedCount?: number;
-
+    sunnyTuneCount?: number;
 }
 
 export default function CategoryFilter({
@@ -31,7 +31,7 @@ export default function CategoryFilter({
     initialOpen = false,
     vertical = false,
     recommendedCount = 0,
-
+    sunnyTuneCount = 0,
 }: CategoryFilterProps) {
     const [isOpen, setIsOpen] = useState(initialOpen);
     const { t } = useLanguage();
@@ -137,6 +137,30 @@ export default function CategoryFilter({
                     )}
                 </button>
 
+                {/* SunnyTune Filter */}
+                {sunnyTuneCount > 0 && (
+                    <button
+                        onClick={() => onToggleCategory('sunnytune')}
+                        type="button"
+                        className={`
+                flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium max-w-full flex-shrink-0 text-left
+                transition-all duration-200 border
+                ${activeCategories.includes('sunnytune')
+                                ? 'bg-amber-500/20 text-amber-400 border-amber-500/30 shadow-lg shadow-amber-500/10'
+                                : 'bg-slate-800/50 text-slate-400 border-slate-700/50 hover:bg-slate-700/50 hover:text-white'
+                            }
+                `}
+                    >
+                        <span className="text-amber-400 shrink-0">🎵</span>
+                        <span className="flex-1 break-words">{t('filter.sunnytune')}</span>
+                        <span className={`
+                    shrink-0 px-1.5 py-0.5 rounded-md text-xs
+                    ${activeCategories.includes('sunnytune') ? 'bg-amber-500/30 text-amber-300' : 'bg-slate-700/50'}
+                `}>
+                            {sunnyTuneCount}
+                        </span>
+                    </button>
+                )}
 
 
                 {/* Category Buttons */}

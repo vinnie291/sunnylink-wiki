@@ -152,6 +152,23 @@ export default function MobileCategorySidebar({
                                 <span className="flex-1">{t('filter.recommended')}</span>
                             </button>
 
+                            {/* SunnyTune filter */}
+                            <button
+                                onClick={() => {
+                                    onToggleCategory?.('sunnytune');
+                                }}
+                                className={`
+                                    w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-left
+                                    transition-all duration-200 border
+                                    ${activeCategories.includes('sunnytune')
+                                        ? 'bg-amber-500/20 text-amber-400 border-amber-500/30 shadow-lg shadow-amber-500/10'
+                                        : 'bg-slate-800/50 text-slate-400 border-slate-700/50 hover:bg-slate-700/50 hover:text-white'
+                                    }
+                                `}
+                            >
+                                <span className="text-amber-400 shrink-0 text-lg">🎵</span>
+                                <span className="flex-1">{t('filter.sunnytune')}</span>
+                            </button>
 
 
                             {/* Category buttons */}
