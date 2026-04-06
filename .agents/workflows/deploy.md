@@ -52,3 +52,5 @@ gcloud run deploy sunnylink-wiki-service \
 ```bash
 git checkout -
 ```
+
+9. Confirm the deployment is live at https://sunnylink.wiki
