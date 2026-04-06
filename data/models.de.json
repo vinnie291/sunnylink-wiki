@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
-  "version": "7.0",
-  "totalModels": 69,
-  "lastUpdated": "2026-03-21",
+  "version": "8.0",
+  "totalModels": 77,
+  "lastUpdated": "2026-04-05",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -177,6 +177,104 @@
       "icon": "🚀",
       "models": [
         {
+          "name": "OP Model 7",
+          "date": "April 03, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Gemischte Stimmung",
+            "Ping-Pong"
+          ],
+          "communityScore": 58,
+          "totalVotes": 10,
+          "sentiment": {
+            "great": 40,
+            "good": 10,
+            "ok": 10,
+            "bad": 40
+          },
+          "consensus": "Polarisierender neuester Modell-Drop. Einige Benutzer bewerten es hoch, aber mehrere Berichte über Ping-Pong bei höheren Geschwindigkeiten bei Fahrzeugen mit Winkellenkung. Langsames Ein- und Ausfahren in Kurven mit ruckartigen Lenkkorrekturen. Auffällige Spurverfolgungsprobleme, bei denen das Modell nicht immer die richtige Spur wählt.",
+          "note": "Frühes Feedback deutet auf Probleme mit Fahrzeugen mit Winkellenkung hin. Wird noch von der Community evaluiert.",
+          "bestFor": "Autobahn (mit Überwachung)",
+          "steeringFeel": "Variiert",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-7-april-03-2026/4317",
+          "testedOn": [
+            "Fahrzeuge mit Winkellenkung"
+          ],
+          "negatives": [
+            "Ping-Pong bei höheren Geschwindigkeiten",
+            "Langsames Kurvenein-/ausfahren",
+            "Ruckartige Lenkkorrekturen",
+            "Zeitweise falsche Spurverfolgung"
+          ]
+        },
+        {
+          "name": "OP Model",
+          "date": "April 01, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Frühes Feedback"
+          ],
+          "communityScore": 67,
+          "totalVotes": 3,
+          "sentiment": {
+            "great": 0,
+            "good": 67,
+            "ok": 0,
+            "bad": 33
+          },
+          "consensus": "Sehr früher Modell-Drop mit bisher begrenztem Community-Feedback. Erste Stimmen tendieren positiv (Gut), aber die Stichprobengröße ist extrem klein. Benötigt mehr Tests und Community-Bewertung, bevor Schlussfolgerungen gezogen werden können.",
+          "note": "Bisher sehr wenige Stimmen — schauen Sie für aktualisierten Konsens zurück, wenn mehr Benutzer es testen.",
+          "bestFor": "TBD",
+          "steeringFeel": "TBD",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-april-01-2026/4314",
+          "testedOn": []
+        },
+        {
+          "name": "Pop v2",
+          "date": "March 24, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Gemischte Stimmung",
+            "Aggressiver Long"
+          ],
+          "communityScore": 55,
+          "totalVotes": 30,
+          "sentiment": {
+            "great": 20,
+            "good": 17,
+            "ok": 33,
+            "bad": 30
+          },
+          "consensus": "Stark polarisierende Veröffentlichung mit wachsender negativer Stimmung. Längssteuerung wird von einigen gelobt (sanftes Anhalten hinter Führungsfahrzeugen beim GV60), aber mehrere Berichte über Angst vor grünen Ampeln und Versagen beim Stehenbleiben an roten Ampeln. Laterale Rückführung verbessert, aber steifere Lenkung verursacht Oszillationen und Reisekrankheit bei einigen Fahrzeugen.",
+          "note": "Fahrzeugabhängig. Hervorragend auf GV60, zittrig auf F-150 Lightning. Subaru Crosstrek-Nutzer berichten von Reisekrankheit. Torque Tune v0 empfohlen.",
+          "bestFor": "Autobahn (mit Überwachung)",
+          "steeringFeel": "Variiert",
+          "forumUrl": "https://community.sunnypilot.ai/t/pop-model-v2-24-mar-2026/4019",
+          "testedOn": [
+            "GV60",
+            "Ford F-150 Lightning",
+            "Honda Civic Hybrid",
+            "Hyundai Kona",
+            "2020 Subaru Crosstrek"
+          ],
+          "positives": [
+            "Bessere laterale Rückführung",
+            "Sanftes Anhalten hinter Führungsfahrzeugen (GV60)",
+            "Verbesserte Längssteuerung für einige"
+          ],
+          "negatives": [
+            "Angst vor grünen Ampeln",
+            "Bleibt nicht an roten Ampeln stehen",
+            "Zittrig bei niedrigen Geschwindigkeiten (F-150 Lightning)",
+            "Steifere Lenkung verursacht Oszillationen",
+            "Jojo-Folgeabstand",
+            "Reisekrankheit auslösend bei einigen Fahrzeugen"
+          ]
+        },
+        {
           "name": "Pop Model",
           "date": "March 20, 2026",
           "badge": "NEW",
@@ -185,34 +283,48 @@
             "Highway",
             "Fast Long"
           ],
-          "communityScore": 65,
-          "totalVotes": 8,
+          "communityScore": 72,
+          "totalVotes": 25,
           "sentiment": {
-            "great": 25,
-            "good": 25,
-            "ok": 25,
-            "bad": 25
+            "great": 40,
+            "good": 24,
+            "ok": 28,
+            "bad": 8
           },
-          "consensus": "Sehr polarisierendes neues Modell. Die laterale Steuerung ist fahrzeugabhängig — Honda Civic-Nutzer berichten von der besten Seitenführung seit langem ohne Ping-Pong, während Hyundai Kona und andere extremes Linie-zu-Linie-Ping-Pong über 80 km/h erleben. Das Längsverhalten ist auffallend aggressiv — neigt dazu, ohne Führungsfahrzeug weit über die Geschwindigkeitsbegrenzung zu fahren, bremst aber früh für Führungsfahrzeuge und rote Ampeln.",
-          "note": "Sehr fahrzeugabhängig. CD210 bleibt von vielen bevorzugt. Die Torque-Tune-Version ist wichtig — zuerst mit v0 testen.",
+          "consensus": "Die Stimmung der Community hat sich mit mehr Tests deutlich verbessert. Die laterale Steuerung ist fahrzeugabhängig — Honda Civic-Nutzer berichten von der besten Seitenführung seit langem ohne Ping-Pong und Zentrierung 'als ob sie den Spurmarkierungen Geld schuldet', während Hyundai Kona und andere extremes Linie-zu-Linie Ping-Pong über 80 km/h erleben. Williger als Pop v2, die eingestellte Geschwindigkeit zu erreichen. Immer noch bekannt für Kriechen an roten Ampeln.",
+          "note": "Sehr fahrzeugabhängig. Honda/Kia-Nutzer tendieren positiv. Torque-Tune-Version ist wichtig — zuerst mit v0 testen.",
           "bestFor": "Autobahn",
           "steeringFeel": "Variiert",
           "testedOn": [
             "2025 Honda Civic Hybrid",
+            "2026 Civic Hybrid ST",
             "2023 Hyundai Kona Electric",
-            "GV60"
+            "GV60",
+            "Kia Niro",
+            "Honda Ridgeline",
+            "BYD Frigate 07",
+            "Hyundai Elantra",
+            "Honda Odyssey",
+            "Toyota Sienna",
+            "Kia EV6",
+            "Kia K5",
+            "Honda Pilot (2019-2022)",
+            "Tesla Model 3 / Y",
+            "Toyota Corolla (2023-2024)"
           ],
           "positives": [
             "Sicheres laterales Verhalten bei einigen Fahrzeugen",
             "Schnelles Zentrieren",
             "Gutes 90-Grad-Kurvenverhalten",
-            "Bleibt an roten Ampeln stehen"
+            "Bleibt an roten Ampeln stehen",
+            "11/10 Lateral bei Kia Niro",
+            "Williger, eingestellte Geschwindigkeit zu erreichen"
           ],
           "negatives": [
             "Extremes Ping-Pong bei einigen Fahrzeugen über 80 km/h",
             "Fährt aggressiv schnell ohne Führungsfahrzeug",
             "Ruckartiges/achteckiges Kurvenverhalten",
-            "Über Rüttelstreifen gefahren"
+            "Kriecht an roten Ampeln"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/pop-model-20-mar-2026/3921"
         },
@@ -572,22 +684,24 @@
             "Highway",
             "Experimental"
           ],
-          "communityScore": 68,
-          "totalVotes": 5,
+          "communityScore": 52,
+          "totalVotes": 21,
           "sentiment": {
-            "great": 20,
-            "good": 40,
-            "ok": 20,
-            "bad": 20
+            "great": 0,
+            "good": 19,
+            "ok": 57,
+            "bad": 24
           },
-          "consensus": "Fünfte Iteration des Off-Policy-Trainings. Verbesserte Kurvenfahrt im Vergleich zu v4 — nimmt Kurven weiter und weg von Bordsteinen. Gute Leistung bei höheren Geschwindigkeiten (über 50 km/h). Allerdings ist das Verhalten bei niedrigen Geschwindigkeiten ein deutlicher Rückschritt: Schwierigkeiten beim Einordnen in Fahrspuren, Berühren oder Überfahren von Linien, und Kurven blockieren mittendrin. Hochgeschwindigkeits-Schwankungen über 105 km/h bestehen aus früheren Versionen fort.",
-          "note": "Verbesserung der Kurvenfahrt gegenüber v4, aber niedrige Geschwindigkeit und Kurvenverhalten sind schlechter. Torque Tune v0 wird für zuverlässigeres Zentrieren empfohlen.",
+          "consensus": "Fünfte Iteration des Off-Policy-Trainings mit deutlich mehr Community-Feedback. Verbesserte Kurvenfahrt im Vergleich zu v4 — nimmt Kurven weiter und weg von Bordsteinen. Gute Leistung bei höheren Geschwindigkeiten (über 50 km/h). Allerdings bewertet die Mehrheit es nur als 'OK' mit deutlichen Rückschritten: Schwierigkeiten bei niedrigen Geschwindigkeiten, Spurverfolgung und Kreuzungen. Signifikantes Ping-Ponging bei niedrigen Geschwindigkeiten beim Prius Prime.",
+          "note": "Community-Konsens hat sich verschoben — Mehrheit findet es mittelmäßig. Torque Tune v0 empfohlen.",
           "bestFor": "Autobahn",
           "steeringFeel": "Ausgewogen",
           "testedOn": [
             "2026 Hyundai Ioniq 5",
             "2023 Lexus RC",
-            "GV60"
+            "GV60",
+            "2022 Toyota RAV4 Prime",
+            "Prius Prime"
           ],
           "positives": [
             "Bessere Kurvenfahrt als v4",
@@ -599,7 +713,9 @@
             "Schlechte Spurhaltung bei niedrigen Geschwindigkeiten",
             "Kurven blockieren mittendrin",
             "Hochgeschwindigkeits-Schwankungen über 105 km/h",
-            "Zögerlich an Kreuzungen in Wohngebieten"
+            "Zögerlich an Kreuzungen in Wohngebieten",
+            "Signifikantes Ping-Ponging bei niedrigen Geschwindigkeiten",
+            "Kommt unangenehm nah an Fahrbahnmarkierungen"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v5-14-mar-2026/3756"
         }

@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
-  "version": "7.0",
-  "totalModels": 69,
-  "lastUpdated": "2026-03-21",
+  "version": "8.0",
+  "totalModels": 77,
+  "lastUpdated": "2026-04-05",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -177,6 +177,104 @@
       "icon": "🚀",
       "models": [
         {
+          "name": "OP Model 7",
+          "date": "April 03, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "혼합 감정",
+            "핑퐁"
+          ],
+          "communityScore": 58,
+          "totalVotes": 10,
+          "sentiment": {
+            "great": 40,
+            "good": 10,
+            "ok": 10,
+            "bad": 40
+          },
+          "consensus": "최신 양극화 모델 출시. 일부 사용자는 높은 평가를 하지만 각도 조향 차량에서 고속 핑퐁 현상이 여러 건 보고되었습니다. 커브 진입 및 탈출이 느리고 급격한 조향 보정이 있습니다. 모델이 항상 올바른 차선을 선택하지 않는 눈에 띄는 차선 추적 문제.",
+          "note": "초기 피드백은 각도 조향 차량에서 문제가 있음을 시사합니다. 커뮤니티에서 아직 평가 중.",
+          "bestFor": "고속도로 (감독하에)",
+          "steeringFeel": "다양함",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-7-april-03-2026/4317",
+          "testedOn": [
+            "각도 조향 차량"
+          ],
+          "negatives": [
+            "고속 핑퐁",
+            "커브 진입/탈출 느림",
+            "급격한 조향 보정",
+            "때때로 잘못된 차선 추적"
+          ]
+        },
+        {
+          "name": "OP Model",
+          "date": "April 01, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "초기 피드백"
+          ],
+          "communityScore": 67,
+          "totalVotes": 3,
+          "sentiment": {
+            "great": 0,
+            "good": 67,
+            "ok": 0,
+            "bad": 33
+          },
+          "consensus": "커뮤니티 피드백이 제한적인 매우 초기 모델 출시. 초기 투표는 긍정적(좋음)이지만 표본 크기가 극히 작습니다. 결론을 내리기 전에 더 많은 테스트와 커뮤니티 평가가 필요합니다.",
+          "note": "현재 투표수가 매우 적습니다 — 더 많은 사용자가 테스트하면 업데이트된 합의를 확인하세요.",
+          "bestFor": "TBD",
+          "steeringFeel": "TBD",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-april-01-2026/4314",
+          "testedOn": []
+        },
+        {
+          "name": "Pop v2",
+          "date": "March 24, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "혼합 감정",
+            "공격적 종방향"
+          ],
+          "communityScore": 55,
+          "totalVotes": 30,
+          "sentiment": {
+            "great": 20,
+            "good": 17,
+            "ok": 33,
+            "bad": 30
+          },
+          "consensus": "부정적 감정이 증가하는 매우 양극화된 출시. 종방향 제어는 일부에게 호평(GV60에서 선행 차량 뒤 부드러운 정지)이지만, '녹색 신호등 공포증' 행동과 빨간 신호등에서 정지 유지 실패에 대한 다수의 보고. 측면 회복은 개선되었지만 더 딱딱한 조향이 일부 차량에서 흔들림과 멀미를 유발.",
+          "note": "차량 의존적. GV60에서 우수, F-150 Lightning에서 떨림. Subaru Crosstrek 사용자 멀미 보고. Torque Tune v0 권장.",
+          "bestFor": "고속도로 (감독하에)",
+          "steeringFeel": "다양함",
+          "forumUrl": "https://community.sunnypilot.ai/t/pop-model-v2-24-mar-2026/4019",
+          "testedOn": [
+            "GV60",
+            "Ford F-150 Lightning",
+            "Honda Civic Hybrid",
+            "Hyundai Kona",
+            "2020 Subaru Crosstrek"
+          ],
+          "positives": [
+            "향상된 측면 회복",
+            "선행 차량 뒤 부드러운 정지 (GV60)",
+            "일부에서 개선된 종방향"
+          ],
+          "negatives": [
+            "녹색 신호등 공포증",
+            "빨간 신호등에서 정지 유지 실패",
+            "저속에서 떨림 (F-150 Lightning)",
+            "더 딱딱한 조향이 흔들림 유발",
+            "요요 추종 거리",
+            "일부 차량에서 멀미 유발"
+          ]
+        },
+        {
           "name": "Pop Model",
           "date": "March 20, 2026",
           "badge": "NEW",
@@ -185,34 +283,48 @@
             "Highway",
             "Fast Long"
           ],
-          "communityScore": 65,
-          "totalVotes": 8,
+          "communityScore": 72,
+          "totalVotes": 25,
           "sentiment": {
-            "great": 25,
-            "good": 25,
-            "ok": 25,
-            "bad": 25
+            "great": 40,
+            "good": 24,
+            "ok": 28,
+            "bad": 8
           },
-          "consensus": "매우 양극화된 새 모델입니다. 측면 제어는 차량에 따라 다릅니다 — Honda Civic 사용자는 핑퐁 없이 오랜만에 최고의 측면 제어를 보고하는 반면, Hyundai Kona 및 기타 차량은 80km/h 이상에서 극단적인 라인 간 핑퐁을 경험합니다. 종방향 동작은 눈에 띄게 공격적입니다 — 선행 차량 없이 속도 제한을 크게 초과하는 경향이 있지만, 선행 차량과 빨간불에는 일찍 감속합니다.",
-          "note": "매우 차량 의존적입니다. CD210이 여전히 많은 사용자에게 선호됩니다. 토크 튜닝 버전이 중요합니다 — v0으로 먼저 테스트하세요.",
+          "consensus": "더 많은 테스트를 통해 커뮤니티 감정이 크게 개선되었습니다. 측면 제어는 차량에 따라 다릅니다 — Honda Civic 사용자는 핑퐁 없이 오랜만에 최고의 측면 제어를 보고하며 '차선 라인에 돈을 빚진 것처럼' 센터링한다고 합니다. 반면 Hyundai Kona 등은 80km/h 이상에서 극단적 핑퐁을 경험합니다. Pop v2보다 설정 속도 도달에 더 적극적. 여전히 빨간불에서 천천히 전진하는 것으로 알려져 있습니다.",
+          "note": "매우 차량 의존적. Honda/Kia 사용자 긍정적 경향. 토크 튜닝 버전이 중요합니다 — v0으로 먼저 테스트하세요.",
           "bestFor": "고속도로",
           "steeringFeel": "다양함",
           "testedOn": [
             "2025 Honda Civic Hybrid",
+            "2026 Civic Hybrid ST",
             "2023 Hyundai Kona Electric",
-            "GV60"
+            "GV60",
+            "Kia Niro",
+            "Honda Ridgeline",
+            "BYD Frigate 07",
+            "Hyundai Elantra",
+            "Honda Odyssey",
+            "Toyota Sienna",
+            "Kia EV6",
+            "Kia K5",
+            "Honda Pilot (2019-2022)",
+            "Tesla Model 3 / Y",
+            "Toyota Corolla (2023-2024)"
           ],
           "positives": [
             "일부 차량에서 자신감 있는 측면 제어",
             "빠른 재센터링",
             "좋은 90도 회전 처리",
-            "빨간불에서 정지 유지"
+            "빨간불에서 정지 유지",
+            "Kia Niro에서 11/10 측면 제어",
+            "설정 속도 도달에 더 적극적"
           ],
           "negatives": [
             "일부 차량에서 80km/h 이상 극단적 핑퐁",
             "선행 차량 없이 공격적 과속",
             "불규칙/팔각형 커브 핸들링",
-            "럼블 스트립 위로 주행"
+            "빨간불에서 천천히 전진"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/pop-model-20-mar-2026/3921"
         },
@@ -572,22 +684,24 @@
             "Highway",
             "Experimental"
           ],
-          "communityScore": 68,
-          "totalVotes": 5,
+          "communityScore": 52,
+          "totalVotes": 21,
           "sentiment": {
-            "great": 20,
-            "good": 40,
-            "ok": 20,
-            "bad": 20
+            "great": 0,
+            "good": 19,
+            "ok": 57,
+            "bad": 24
           },
-          "consensus": "다섯 번째 오프폴리시 훈련 반복입니다. v4 대비 코너링이 개선되었습니다 — 커브를 더 넓게 돌며 연석에서 멀어집니다. 고속(50km/h 이상)에서 좋은 성능을 보입니다. 그러나 저속 동작은 확실히 퇴보했습니다: 차선 진입이 어렵고, 라인을 밟거나 넘으며, 회전이 중간에 멈춥니다. 105km/h 이상의 고속 흔들림은 이전 버전에서 계속됩니다.",
-          "note": "v4 대비 코너링은 개선되었지만 저속 및 회전 핸들링은 악화되었습니다. 더 안정적인 센터링을 위해 Torque Tune v0 권장.",
+          "consensus": "다섯 번째 오프폴리시 훈련 반복으로 현재 상당히 더 많은 커뮤니티 피드백이 있습니다. v4 대비 코너링이 개선되었습니다 — 더 넓게 돌며 연석에서 멀어집니다. 고속(50km/h 이상)에서 좋은 성능. 그러나 대부분 'OK' 평가로 주목할 만한 퇴행: 저속 성능, 차선 추적 및 교차로에서 저조. Prius Prime에서 저속 핑퐁이 심하게 보고됨.",
+          "note": "커뮤니티 합의가 변경 — 대부분 보통으로 평가. Torque Tune v0 권장.",
           "bestFor": "고속도로",
           "steeringFeel": "균형잡힌",
           "testedOn": [
             "2026 Hyundai Ioniq 5",
             "2023 Lexus RC",
-            "GV60"
+            "GV60",
+            "2022 Toyota RAV4 Prime",
+            "Prius Prime"
           ],
           "positives": [
             "v4보다 나은 코너링",
@@ -599,7 +713,9 @@
             "저속에서 차선 진입 불량",
             "회전 중 멈춤 현상",
             "105km/h 이상 고속 흔들림",
-            "주거 교차로에서 주저함"
+            "주거 교차로에서 주저함",
+            "저속에서 심한 핑퐁",
+            "차선 표시에 불편하게 접근"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v5-14-mar-2026/3756"
         }

@@ -1,8 +1,8 @@
 {
     "appName": "Sunnylink Model Database",
-    "version": "7.0",
-    "totalModels": 75,
-    "lastUpdated": "2026-03-21",
+    "version": "8.0",
+    "totalModels": 77,
+    "lastUpdated": "2026-04-05",
     "vibeGuide": {
         "wmi_2026": {
             "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -193,6 +193,61 @@
             "icon": "🚀",
             "models": [
                 {
+                    "name": "OP Model 7",
+                    "date": "April 03, 2026",
+                    "badge": "NEW",
+                    "tags": [
+                        "Experimental",
+                        "Mixed Sentiment",
+                        "Ping-Pong"
+                    ],
+                    "communityScore": 58,
+                    "totalVotes": 10,
+                    "sentiment": {
+                        "great": 40,
+                        "good": 10,
+                        "ok": 10,
+                        "bad": 40
+                    },
+                    "consensus": "Polarizing latest model drop. Some users rate it highly, but multiple reports of ping-pong at higher speeds on angle steering cars. Slow to enter and exit turns with jerky steering corrections. Notable lane tracking issues where the model doesn't always commit to the correct lane.",
+                    "note": "Early feedback suggests issues with angle steering vehicles. Still being evaluated by the community.",
+                    "bestFor": "Highway (with supervision)",
+                    "steeringFeel": "Varies",
+                    "forumUrl": "https://community.sunnypilot.ai/t/op-model-7-april-03-2026/4317",
+                    "testedOn": [
+                        "Angle steering vehicles"
+                    ],
+                    "negatives": [
+                        "Ping-pong at higher speeds",
+                        "Slow turn entry/exit",
+                        "Jerky steering corrections",
+                        "Incorrect lane tracking at times"
+                    ]
+                },
+                {
+                    "name": "OP Model",
+                    "date": "April 01, 2026",
+                    "badge": "NEW",
+                    "tags": [
+                        "Experimental",
+                        "Early Feedback"
+                    ],
+                    "communityScore": 67,
+                    "totalVotes": 3,
+                    "sentiment": {
+                        "great": 0,
+                        "good": 67,
+                        "ok": 0,
+                        "bad": 33
+                    },
+                    "consensus": "Very early model drop with limited community feedback so far. Initial votes lean positive (Good) but sample size is extremely small. Needs more testing and community evaluation before drawing conclusions.",
+                    "note": "Very few votes so far — check back for updated consensus as more users test it.",
+                    "bestFor": "TBD",
+                    "steeringFeel": "TBD",
+                    "forumUrl": "https://community.sunnypilot.ai/t/op-model-april-01-2026/4314",
+                    "testedOn": []
+                },
+                {
                     "name": "Pop v2",
                     "date": "March 24, 2026",
                     "badge": "NEW",
@@ -201,16 +256,16 @@
                         "Mixed Sentiment",
                         "Aggressive Long"
                     ],
-                    "communityScore": 68,
-                    "totalVotes": 42,
+                    "communityScore": 55,
+                    "totalVotes": 30,
                     "sentiment": {
-                        "great": 25,
-                        "good": 30,
-                        "ok": 20,
-                        "bad": 25
+                        "great": 20,
+                        "good": 17,
+                        "ok": 33,
+                        "bad": 30
                     },
-                    "consensus": "Highly polarizing release. Longitudinal control is superior for some (smooth stops behind leads, dethroned CD210), but struggles with reaching higher set speeds without throttle assist. Lateral behavior feels regressed for others (especially sharp turns and early cornering). Known for 'creeping' or failing to stop completely at red lights.",
-                    "note": "Vehicle dependent. Great on GV60, twitchy on F-150 Lightning. Torque Tune v0 recommended.",
+                    "consensus": "Highly polarizing release with growing negative sentiment. Longitudinal control is praised by some (smooth stops behind leads on GV60), but multiple reports of 'afraid of green lights' behavior and failure to stay stopped at red lights. Lateral unwind is improved but stiffer steering causes oscillations and motion sickness on some vehicles. Very vehicle-dependent — F-150 Lightning reports twitchy low-speed behavior.",
+                    "note": "Vehicle dependent. Great on GV60, twitchy on F-150 Lightning. Subaru Crosstrek users report motion sickness. Torque Tune v0 recommended.",
                     "bestFor": "Highway (with supervision)",
                     "steeringFeel": "Varies",
                     "forumUrl": "https://community.sunnypilot.ai/t/pop-model-v2-24-mar-2026/4019",
@@ -218,7 +273,21 @@
                         "GV60",
                         "Ford F-150 Lightning",
                         "Honda Civic Hybrid",
-                        "Hyundai Kona"
+                        "Hyundai Kona",
+                        "2020 Subaru Crosstrek"
+                    ],
+                    "positives": [
+                        "Better lateral unwind",
+                        "Smooth stops behind leads (GV60)",
+                        "Improved longitudinal for some"
+                    ],
+                    "negatives": [
+                        "Afraid of green lights",
+                        "Fails to stay stopped at red lights",
+                        "Twitchy at low speeds (F-150 Lightning)",
+                        "Stiffer steering causes oscillations",
+                        "Yoyo following distance",
+                        "Motion sickness inducing on some vehicles"
                     ]
                 },
                 {
@@ -230,22 +299,24 @@
                         "Highway",
                         "Fast Long"
                     ],
-                    "communityScore": 65,
-                    "totalVotes": 8,
+                    "communityScore": 72,
+                    "totalVotes": 25,
                     "sentiment": {
-                        "great": 25,
-                        "good": 25,
-                        "ok": 25,
-                        "bad": 25
+                        "great": 40,
+                        "good": 24,
+                        "ok": 28,
+                        "bad": 8
                     },
-                    "consensus": "Highly polarizing new model. Lateral control is vehicle-dependent — Honda Civic users report the best lat in a while with no ping-pong, while Hyundai Kona and others experience extreme line-to-line ping-ponging above 50mph. Longitudinal behavior is notably aggressive — tends to speed well above limits without a lead car, but slows down early for leads and red lights.",
-                    "note": "Very vehicle-dependent. CD210 remains preferred by many. Torque tune version matters — test with v0 first.",
+                    "consensus": "Community sentiment has warmed significantly with more testing. Lateral control is vehicle-dependent — Honda Civic users report the best lat in a while with no ping-pong and centering 'like it owes the lane lines money,' while Hyundai Kona and others experience extreme line-to-line ping-ponging above 50mph. More willing to reach set speeds than Pop v2. Still known for creeping at red lights.",
+                    "note": "Very vehicle-dependent. Honda/Kia users trending positive. Torque tune version matters — test with v0 first.",
                     "bestFor": "Highway",
                     "steeringFeel": "Varies",
                     "testedOn": [
                         "2025 Honda Civic Hybrid",
+                        "2026 Civic Hybrid ST",
                         "2023 Hyundai Kona Electric",
                         "GV60",
+                        "Kia Niro",
                         "Honda Ridgeline",
                         "BYD Frigate 07",
                         "Hyundai Elantra",
@@ -261,13 +332,15 @@
                         "Confident lateral on some vehicles",
                         "Quick recentering",
                         "Good 90-degree turn handling",
-                        "Stays stopped at red lights"
+                        "Stays stopped at red lights",
+                        "11/10 lateral on Kia Niro",
+                        "More willing to reach set speeds"
                     ],
                     "negatives": [
                         "Extreme ping-pong on some vehicles above 50mph",
                         "Speeds aggressively without a lead car",
                         "Jerky/octagonal curve handling",
-                        "Drove over rumble strip"
+                        "Creeps at red lights"
                     ],
                     "forumUrl": "https://community.sunnypilot.ai/t/pop-model-20-mar-2026/3921"
                 },
@@ -636,22 +709,24 @@
                         "Highway",
                         "Experimental"
                     ],
-                    "communityScore": 68,
-                    "totalVotes": 5,
+                    "communityScore": 52,
+                    "totalVotes": 21,
                     "sentiment": {
-                        "great": 20,
-                        "good": 40,
-                        "ok": 20,
-                        "bad": 20
+                        "great": 0,
+                        "good": 19,
+                        "ok": 57,
+                        "bad": 24
                     },
-                    "consensus": "Fifth iteration of off-policy training. Improved cornering compared to v4 — takes turns wider and away from curbs. Good performance at higher speeds (above 30mph). However, low-speed behavior is a notable regression: struggles to commit to lanes, hugs or crosses lines, and turns lock out partway through. High-speed wobbles above 65mph persist from previous versions.",
-                    "note": "Cornering improvement over v4 but low-speed and turn handling are worse. Torque tune v0 recommended for better recentering reliability.",
+                    "consensus": "Fifth iteration of off-policy training with significantly more community feedback now. Improved cornering compared to v4 — takes turns wider and away from curbs. Good performance at higher speeds (above 30mph). However, majority rate it as just 'OK' with notable regressions: low-speed behavior struggles to commit to lanes, hugs or crosses lines, and turns lock out partway through. Significant ping-ponging at low speeds reported on Prius Prime. High-speed wobbles above 65mph persist.",
+                    "note": "Community consensus has shifted — majority finds it mediocre. Cornering improvement over v4 but low-speed and turn handling are worse. Torque tune v0 recommended.",
                     "bestFor": "Highway",
                     "steeringFeel": "Balanced",
                     "testedOn": [
                         "2026 Hyundai Ioniq 5",
                         "2023 Lexus RC",
-                        "GV60"
+                        "GV60",
+                        "2022 Toyota RAV4 Prime",
+                        "Prius Prime"
                     ],
                     "positives": [
                         "Better cornering than v4",
@@ -663,7 +738,9 @@
                         "Poor low-speed lane commitment",
                         "Turns lock out partway",
                         "High-speed wobbles above 65mph",
-                        "Hesitant at neighborhood intersections"
+                        "Hesitant at neighborhood intersections",
+                        "Significant ping-ponging at low speeds",
+                        "Gets uncomfortably close to line markings"
                     ],
                     "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v5-14-mar-2026/3756"
                 }

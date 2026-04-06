@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
-  "version": "7.0",
-  "totalModels": 69,
-  "lastUpdated": "2026-03-21",
+  "version": "8.0",
+  "totalModels": 77,
+  "lastUpdated": "2026-04-05",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -177,6 +177,104 @@
       "icon": "🚀",
       "models": [
         {
+          "name": "OP Model 7",
+          "date": "April 03, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "混合评价",
+            "乒乓"
+          ],
+          "communityScore": 58,
+          "totalVotes": 10,
+          "sentiment": {
+            "great": 40,
+            "good": 10,
+            "ok": 10,
+            "bad": 40
+          },
+          "consensus": "最新的两极化模型发布。部分用户给予高分，但在角度转向车辆上多次报告高速乒乓现象。进出弯道缓慢，伴有突然的转向修正。显著的车道跟踪问题，模型不总是选择正确的车道。",
+          "note": "早期反馈表明角度转向车辆存在问题。社区仍在评估中。",
+          "bestFor": "高速公路（需监督）",
+          "steeringFeel": "多变",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-7-april-03-2026/4317",
+          "testedOn": [
+            "角度转向车辆"
+          ],
+          "negatives": [
+            "高速乒乓",
+            "弯道进出缓慢",
+            "突然的转向修正",
+            "偶尔车道跟踪不正确"
+          ]
+        },
+        {
+          "name": "OP Model",
+          "date": "April 01, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "早期反馈"
+          ],
+          "communityScore": 67,
+          "totalVotes": 3,
+          "sentiment": {
+            "great": 0,
+            "good": 67,
+            "ok": 0,
+            "bad": 33
+          },
+          "consensus": "非常早期的模型发布，目前社区反馈有限。初始投票为正面（良好），但样本量极小。需要更多测试和社区评估才能得出结论。",
+          "note": "目前投票很少——等更多用户测试后再查看更新的共识。",
+          "bestFor": "TBD",
+          "steeringFeel": "TBD",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-april-01-2026/4314",
+          "testedOn": []
+        },
+        {
+          "name": "Pop v2",
+          "date": "March 24, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "混合评价",
+            "激进纵向"
+          ],
+          "communityScore": 55,
+          "totalVotes": 30,
+          "sentiment": {
+            "great": 20,
+            "good": 17,
+            "ok": 33,
+            "bad": 30
+          },
+          "consensus": "高度两极化的发布，负面情绪增长。纵向控制被部分人称赞（GV60上跟随前车平稳停车），但多次报告'绿灯恐惧症'行为和红灯时无法保持停车。横向恢复有所改善，但更僵硬的转向在某些车辆上导致摆动和晕车。",
+          "note": "车辆依赖。GV60表现优秀，F-150 Lightning颤抖。Subaru Crosstrek用户报告晕车。推荐Torque Tune v0。",
+          "bestFor": "高速公路（需监督）",
+          "steeringFeel": "多变",
+          "forumUrl": "https://community.sunnypilot.ai/t/pop-model-v2-24-mar-2026/4019",
+          "testedOn": [
+            "GV60",
+            "Ford F-150 Lightning",
+            "Honda Civic Hybrid",
+            "Hyundai Kona",
+            "2020 Subaru Crosstrek"
+          ],
+          "positives": [
+            "更好的横向恢复",
+            "跟随前车平稳停车 (GV60)",
+            "部分改善的纵向"
+          ],
+          "negatives": [
+            "绿灯恐惧症",
+            "红灯时无法保持停车",
+            "低速颤抖 (F-150 Lightning)",
+            "更僵硬的转向导致摆动",
+            "悠悠球式跟车距离",
+            "某些车辆上导致晕车"
+          ]
+        },
+        {
           "name": "Pop Model",
           "date": "March 20, 2026",
           "badge": "NEW",
@@ -185,34 +283,48 @@
             "Highway",
             "Fast Long"
           ],
-          "communityScore": 65,
-          "totalVotes": 8,
+          "communityScore": 72,
+          "totalVotes": 25,
           "sentiment": {
-            "great": 25,
-            "good": 25,
-            "ok": 25,
-            "bad": 25
+            "great": 40,
+            "good": 24,
+            "ok": 28,
+            "bad": 8
           },
-          "consensus": "非常两极化的新模型。横向控制取决于车辆——Honda Civic用户报告是很长时间以来最好的横向控制，没有乒乓现象，而Hyundai Kona和其他车辆在80公里/小时以上出现极端的线间乒乓。纵向行为明显激进——倾向于在没有前车的情况下大幅超速，但对前车和红灯提前减速。",
-          "note": "非常依赖车辆。CD210仍然是许多人的首选。扭矩调整版本很重要——先用v0测试。",
+          "consensus": "随着更多测试，社区情绪显著改善。横向控制取决于车辆——Honda Civic用户报告是很长时间以来最好的横向控制，没有乒乓现象，居中'就像欠车道线钱一样'，而Hyundai Kona等在80公里/小时以上出现极端乒乓。比Pop v2更愿意达到设定速度。仍然以在红灯时缓慢前进而闻名。",
+          "note": "非常依赖车辆。Honda/Kia用户趋向积极。扭矩调整版本很重要——先用v0测试。",
           "bestFor": "高速公路",
           "steeringFeel": "多变",
           "testedOn": [
             "2025 Honda Civic Hybrid",
+            "2026 Civic Hybrid ST",
             "2023 Hyundai Kona Electric",
-            "GV60"
+            "GV60",
+            "Kia Niro",
+            "Honda Ridgeline",
+            "BYD Frigate 07",
+            "Hyundai Elantra",
+            "Honda Odyssey",
+            "Toyota Sienna",
+            "Kia EV6",
+            "Kia K5",
+            "Honda Pilot (2019-2022)",
+            "Tesla Model 3 / Y",
+            "Toyota Corolla (2023-2024)"
           ],
           "positives": [
             "部分车辆上自信的横向控制",
             "快速重新定心",
             "良好的90度转弯处理",
-            "红灯时保持停车"
+            "红灯时保持停车",
+            "Kia Niro上11/10横向控制",
+            "更愿意达到设定速度"
           ],
           "negatives": [
             "部分车辆80公里/小时以上极端乒乓",
             "没有前车时激进加速",
             "颠簸/八角形弯道处理",
-            "越过减速带"
+            "红灯时缓慢前进"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/pop-model-20-mar-2026/3921"
         },
@@ -572,22 +684,24 @@
             "Highway",
             "Experimental"
           ],
-          "communityScore": 68,
-          "totalVotes": 5,
+          "communityScore": 52,
+          "totalVotes": 21,
           "sentiment": {
-            "great": 20,
-            "good": 40,
-            "ok": 20,
-            "bad": 20
+            "great": 0,
+            "good": 19,
+            "ok": 57,
+            "bad": 24
           },
-          "consensus": "第五次离线策略训练迭代。相比v4弯道性能有所改善——转弯更宽，远离路缘。高速（50公里/小时以上）表现良好。但低速行为明显退步：难以走进车道，靠近或越过线，转弯中途锁定。65英里/小时以上的高速摆动问题延续自之前的版本。",
-          "note": "相比v4弯道有改善，但低速和转弯处理更差。建议使用Torque Tune v0以获得更可靠的重新定心。",
+          "consensus": "第五次离线策略训练迭代，现在有了显著更多的社区反馈。相比v4弯道性能有所改善——转弯更宽，远离路缘。高速（50公里/小时以上）表现良好。但大多数人给出'OK'评价，有明显退步：低速性能、车道跟踪和交叉路口表现差。Prius Prime上报告低速乒乓现象严重。",
+          "note": "社区共识已改变——大多数人认为表现一般。推荐Torque Tune v0。",
           "bestFor": "高速公路",
           "steeringFeel": "均衡",
           "testedOn": [
             "2026 Hyundai Ioniq 5",
             "2023 Lexus RC",
-            "GV60"
+            "GV60",
+            "2022 Toyota RAV4 Prime",
+            "Prius Prime"
           ],
           "positives": [
             "比v4更好的弯道",
@@ -599,7 +713,9 @@
             "低速车道保持差",
             "转弯中途锁定",
             "105公里/小时以上高速摆动",
-            "在居民区交叉路口犹豫"
+            "在居民区交叉路口犹豫",
+            "低速严重乒乓",
+            "不舒适地接近车道标记"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v5-14-mar-2026/3756"
         }
