@@ -157,15 +157,16 @@
             "ok": 12,
             "bad": 5
           },
-          "consensus": "传奇的“妻子认可”模式。 为了乘客的舒适度牺牲了完美的车道居中。 不会猛拉方向盘； 轻轻地转弯。",
-          "note": "非常适合与家人一起公路旅行。",
+          "consensus": "传奇的“妻子认可”模式。为了乘客的舒适度牺牲了完美的车道居中。不会猛拉方向盘；轻轻地转弯。注意：部分 Comma 4 用户（特别是 Ioniq 5）反映存在明显的右侧靠边行驶现象。",
+          "note": "非常适合公路旅行。如果在 C4 上靠右行驶，请尝试调整摄像头偏移量 (-0.05 到 -0.10)。",
           "bestFor": "乘客友好",
           "steeringFeel": "轻盈",
           "testedOn": [
             "Hyundai Palisade",
             "Kia Telluride",
             "Toyota Camry",
-            "Honda CR-V"
+            "Honda CR-V",
+            "Hyundai Ioniq 5 (HDA II)"
           ]
         }
       ]
@@ -193,19 +194,26 @@
             "ok": 10,
             "bad": 40
           },
-          "consensus": "最新的两极化模型发布。部分用户给予高分，但在角度转向车辆上多次报告高速乒乓现象。进出弯道缓慢，伴有突然的转向修正。显著的车道跟踪问题，模型不总是选择正确的车道。",
-          "note": "早期反馈表明角度转向车辆存在问题。社区仍在评估中。",
-          "bestFor": "高速公路（需监督）",
-          "steeringFeel": "多变",
+          "consensus": "离策略系列的重大飞跃。被赞誉为迄今为止最自信的 OP 模型，对于停止的前车有更平滑的纵向减速，并且改进了横向控制，即使在超过 90 度急转弯时也能自动纠正。然而，部分用户仍反映存在随机的靠左行驶现象。",
+          "note": "该系列目前为止最好的横向控制。如果靠左行驶，请调整摄像头偏移量 (+0.05)。",
+          "bestFor": "高速公路与弯道",
+          "steeringFeel": "自信",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-7-april-03-2026/4317",
           "testedOn": [
+            "Hyundai Ioniq 5",
+            "VW Atlas",
+            "2023 Elantra HEV",
             "角度转向车辆"
           ],
+          "positives": [
+            "出色的横向自动纠正",
+            "跟随前车平稳停止",
+            "快速加速"
+          ],
           "negatives": [
-            "高速乒乓",
-            "弯道进出缓慢",
-            "突然的转向修正",
-            "偶尔车道跟踪不正确"
+            "部分用户随机靠左",
+            "城市限速不一致",
+            "特定角度车辆转向生涩"
           ]
         },
         {
@@ -448,12 +456,14 @@
             "ok": 22,
             "bad": 8
           },
-          "consensus": "中代迭代，稳定性好。 已被 V10+ 取代，但仍然可靠。",
+          "consensus": "适用于 2025+ 新平台（如起亚 K4）的稳健选择。目前是 Comma 4 硬件上的默认预装模型。因其在现代 ADAS 架构上的稳定性和预测行为而受到青睐。",
           "bestFor": "混合驾驶",
           "steeringFeel": "均衡",
           "testedOn": [
             "Toyota Camry",
-            "Honda CR-V"
+            "Honda CR-V",
+            "2025 Kia K4",
+            "comma 4"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/wmiv9-7-jan-2026/2275"
         },

@@ -157,15 +157,16 @@
             "ok": 12,
             "bad": 5
           },
-          "consensus": "Le modèle légendaire « Wife Approved ». Sacrifie un centrage de voie parfait pour le confort des passagers. Ne fera pas bouger le volant ; dérive doucement dans les virages.",
-          "note": "Parfait pour les road trips en famille.",
+          "consensus": "Le modèle légendaire « Wife Approved ». Sacrifie un centrage de voie parfait pour le confort des passagers. Ne fera pas bouger le volant ; dérive doucement dans les virages. Note : Certains utilisateurs de Comma 4 (spécifiquement Ioniq 5) signalent un centrage prononcé vers la droite.",
+          "note": "Parfait pour les longs trajets. Si le véhicule serre à droite sur C4, essayez d'ajuster le décalage de la caméra (-0.05 à -0.10).",
           "bestFor": "Passagers",
           "steeringFeel": "Léger",
           "testedOn": [
             "Hyundai Palisade",
             "Kia Telluride",
             "Toyota Camry",
-            "Honda CR-V"
+            "Honda CR-V",
+            "Hyundai Ioniq 5 (HDA II)"
           ]
         }
       ]
@@ -193,19 +194,26 @@
             "ok": 10,
             "bad": 40
           },
-          "consensus": "Dernier lancement de modèle polarisant. Certains utilisateurs le notent bien, mais de multiples rapports de ping-pong à haute vitesse sur les voitures avec direction angulaire. Lent à entrer et sortir des virages avec des corrections de direction brusques. Problèmes notables de suivi de voie où le modèle ne s'engage pas toujours dans la bonne voie.",
-          "note": "Les retours précoces suggèrent des problèmes avec les véhicules à direction angulaire. Encore en cours d'évaluation par la communauté.",
-          "bestFor": "Autoroute (sous supervision)",
-          "steeringFeel": "Variable",
+          "consensus": "Saut en avant significatif pour la série Off-Policy. Salué comme le modèle OP le plus confiant à ce jour, avec une décélération longitudinale plus fluide pour les véhicules à l'arrêt et un contrôle latéral amélioré qui s'auto-corrige même en dépassant les virages serrés à 90 degrés. Cependant, un centrage à gauche aléatoire persiste pour certains utilisateurs.",
+          "note": "Meilleur contrôle latéral de la série à ce jour. Si le véhicule serre à gauche, ajustez le décalage de la caméra (+0.05).",
+          "bestFor": "Autoroute & routes sinueuses",
+          "steeringFeel": "Confiant",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-7-april-03-2026/4317",
           "testedOn": [
+            "Hyundai Ioniq 5",
+            "VW Atlas",
+            "2023 Elantra HEV",
             "Véhicules à direction angulaire"
           ],
+          "positives": [
+            "Excellente auto-correction latérale",
+            "Arrêts fluides pour les leaders",
+            "Accélération rapide"
+          ],
           "negatives": [
-            "Ping-pong à haute vitesse",
-            "Entrée/sortie lente dans les virages",
-            "Corrections de direction brusques",
-            "Suivi de voie incorrect parfois"
+            "Serrage à gauche aléatoire pour certains",
+            "Vitesse en ville inconsistante",
+            "Direction saccadée sur voitures angulaires"
           ]
         },
         {
@@ -448,12 +456,14 @@
             "ok": 22,
             "bad": 8
           },
-          "consensus": "Itération de mi-génération avec une bonne stabilité. Remplacé par le V10+ mais toujours fiable.",
+          "consensus": "Choix solide pour les nouvelles plateformes 2025+ (ex: Kia K4). Actuellement le modèle par défaut pré-installé sur le matériel Comma 4. Favorisé pour sa stabilité et son comportement prédictif sur les architectures ADAS modernes.",
           "bestFor": "Conduite mixte",
           "steeringFeel": "Équilibré",
           "testedOn": [
             "Toyota Camry",
-            "Honda CR-V"
+            "Honda CR-V",
+            "2025 Kia K4",
+            "comma 4"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/wmiv9-7-jan-2026/2275"
         },

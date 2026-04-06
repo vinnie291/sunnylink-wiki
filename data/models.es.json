@@ -157,15 +157,16 @@
             "ok": 12,
             "bad": 5
           },
-          "consensus": "El legendario modelo 'Wife Approved'. Sacrificio perfecto centrado de carril para el confort de los pasajeros. No sacudirá el volante; gira suavemente.",
-          "note": "Perfecta para viajes por carretera con la familia.",
+          "consensus": "El legendario modelo 'Wife Approved'. Sacrifica el perfecto centrado de carril para el confort de los pasajeros. No sacudirá el volante; gira suavemente. Nota: Algunos usuarios de Comma 4 (específicamente Ioniq 5) informan de una tendencia pronunciada a ceñirse al lado derecho.",
+          "note": "Perfecto para viajes por carretera. Si se ciñe a la derecha en C4, intente Ajustar Desplazamiento de Cámara (-0.05 a -0.10).",
           "bestFor": "Pasajeros",
           "steeringFeel": "Ligero",
           "testedOn": [
             "Hyundai Palisade",
             "Kia Telluride",
             "Toyota Camry",
-            "Honda CR-V"
+            "Honda CR-V",
+            "Hyundai Ioniq 5"
           ]
         }
       ]
@@ -193,19 +194,26 @@
             "ok": 10,
             "bad": 40
           },
-          "consensus": "Último lanzamiento de modelo polarizante. Algunos usuarios lo califican alto, pero múltiples reportes de ping-pong a velocidades altas en autos con dirección angular. Lento al entrar y salir de curvas con correcciones de dirección bruscas. Problemas notables de seguimiento de carril donde el modelo no siempre se compromete con el carril correcto.",
-          "note": "La retroalimentación temprana sugiere problemas con vehículos de dirección angular. Aún siendo evaluado por la comunidad.",
-          "bestFor": "Autopista (con supervisión)",
-          "steeringFeel": "Variable",
+          "consensus": "Gran salto adelante para la serie Off-Policy. Elogiado como el modelo OP más seguro hasta la fecha, con una desaceleración longitudinal más suave para vehículos detenidos y un control lateral mejorado que se autocorrije incluso al sobrepasar curvas cerradas de 90 grados. Sin embargo, persiste una tendencia aleatoria a ceñirse a la izquierda para algunos usuarios.",
+          "note": "Mejor control lateral de la serie hasta ahora. Si se ajusta a la izquierda, ajuste el desplazamiento de la cámara (+0.05).",
+          "bestFor": "Autopista y carreteras sinuosas",
+          "steeringFeel": "Seguro",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-7-april-03-2026/4317",
           "testedOn": [
+            "Hyundai Ioniq 5",
+            "VW Atlas",
+            "2023 Elantra HEV",
             "Vehículos con dirección angular"
           ],
+          "positives": [
+            "Excelente autocorrección lateral",
+            "Paradas suaves detrás de líderes",
+            "Aceleración rápida"
+          ],
           "negatives": [
-            "Ping-pong a velocidades altas",
-            "Entrada/salida lenta en curvas",
-            "Correcciones de dirección bruscas",
-            "Seguimiento de carril incorrecto a veces"
+            "Tendencia aleatoria a la izquierda para algunos",
+            "Velocidad inconsistente en ciudad",
+            "Sensación de dirección extraña en algunos autos"
           ]
         },
         {
@@ -448,12 +456,14 @@
             "ok": 22,
             "bad": 8
           },
-          "consensus": "Iteración de generación media con buena estabilidad. Reemplazado por V10+ pero sigue siendo confiable.",
+          "consensus": "Opción sólida para las nuevas plataformas 2025+ (ej: Kia K4). Actualmente el modelo preinstalado por defecto en el hardware Comma 4. Favorecido por su estabilidad y comportamiento predictivo en arquitecturas ADAS modernas.",
           "bestFor": "Conducción mixta",
           "steeringFeel": "Equilibrado",
           "testedOn": [
             "Toyota Camry",
-            "Honda CR-V"
+            "Honda CR-V",
+            "2025 Kia K4",
+            "comma 4"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/wmiv9-7-jan-2026/2275"
         },

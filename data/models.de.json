@@ -157,15 +157,16 @@
             "ok": 12,
             "bad": 5
           },
-          "consensus": "Das legendäre „Wife Approved“-Modell. Opfert perfekte Spurzentrierung für den Fahrgastkomfort. Das Lenkrad wird nicht ruckeln; gleitet sanft in die Kurven.",
-          "note": "Perfekt für Roadtrips mit der Familie.",
+          "consensus": "Das legendäre „Wife Approved“-Modell. Opfert perfekte Spurzentrierung für den Fahrgastkomfort. Das Lenkrad wird nicht ruckeln; gleitet sanft in die Kurven. Hinweis: Einige Comma 4 Nutzer (insbesondere Ioniq 5) berichten von einem ausgeprägten 'Rechts-Hugging'.",
+          "note": "Perfekt für Roadtrips. Wenn er auf C4 nach rechts zieht, Kamera-Offset anpassen (-0.05 bis -0.10).",
           "bestFor": "Passagiere",
           "steeringFeel": "Leicht",
           "testedOn": [
             "Hyundai Palisade",
             "Kia Telluride",
             "Toyota Camry",
-            "Honda CR-V"
+            "Honda CR-V",
+            "Hyundai Ioniq 5"
           ]
         }
       ]
@@ -193,19 +194,26 @@
             "ok": 10,
             "bad": 40
           },
-          "consensus": "Polarisierender neuester Modell-Drop. Einige Benutzer bewerten es hoch, aber mehrere Berichte über Ping-Pong bei höheren Geschwindigkeiten bei Fahrzeugen mit Winkellenkung. Langsames Ein- und Ausfahren in Kurven mit ruckartigen Lenkkorrekturen. Auffällige Spurverfolgungsprobleme, bei denen das Modell nicht immer die richtige Spur wählt.",
-          "note": "Frühes Feedback deutet auf Probleme mit Fahrzeugen mit Winkellenkung hin. Wird noch von der Community evaluiert.",
-          "bestFor": "Autobahn (mit Überwachung)",
-          "steeringFeel": "Variiert",
+          "consensus": "Ein riesiger Sprung nach vorn für die Off-Policy-Serie. Als bisher sicherstes OP-Modell gelobt, mit sanfterer Längsverzögerung für stehende Fahrzeuge und verbesserter Quersteuerung, die sich selbst bei 90-Grad-Kurven selbst korrigiert. Dennoch bleibt bei einigen Nutzern eine zufällige Tendenz zum Linkshugging bestehen.",
+          "note": "Beste Quersteuerung der Serie bisher. Wenn er links fährt, Kamera-Offset anpassen (+0.05).",
+          "bestFor": "Autobahn und kurvige Straßen",
+          "steeringFeel": "Sicher",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-7-april-03-2026/4317",
           "testedOn": [
+            "Hyundai Ioniq 5",
+            "VW Atlas",
+            "2023 Elantra HEV",
             "Fahrzeuge mit Winkellenkung"
           ],
+          "positives": [
+            "Hervorragende laterale Autokorrektur",
+            "Sanftes Anhalten hinter Führungsfahrzeugen",
+            "Schnelle Beschleunigung"
+          ],
           "negatives": [
-            "Ping-Pong bei höheren Geschwindigkeiten",
-            "Langsames Kurvenein-/ausfahren",
-            "Ruckartige Lenkkorrekturen",
-            "Zeitweise falsche Spurverfolgung"
+            "Zufällige Tendenz nach links bei einigen",
+            "Inkonsistente Stadtgeschwindigkeit",
+            "Seltsames Lenkgefühl in einigen Autos"
           ]
         },
         {
@@ -448,12 +456,14 @@
             "ok": 22,
             "bad": 8
           },
-          "consensus": "Iteration der mittleren Generation mit guter Stabilität. Abgelöst durch V10+, aber immer noch zuverlässig.",
+          "consensus": "Solide Wahl für neue 2025+ Plattformen (z. B. Kia K4). Derzeit das standardmäßig vorinstallierte Modell auf Comma 4 Hardware. Beliebt für seine Stabilität und sein vorhersehbares Verhalten in modernen ADAS-Architekturen.",
           "bestFor": "Gemischtes Fahren",
           "steeringFeel": "Ausgewogen",
           "testedOn": [
             "Toyota Camry",
-            "Honda CR-V"
+            "Honda CR-V",
+            "2025 Kia K4",
+            "comma 4"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/wmiv9-7-jan-2026/2275"
         },

@@ -159,7 +159,8 @@
                     "badge": "LEGENDARY",
                     "tags": [
                         "Comfort",
-                        "Smooth"
+                        "Smooth",
+                        "Right-Hugging(C4)"
                     ],
                     "communityScore": 91,
                     "totalVotes": 203,
@@ -169,8 +170,8 @@
                         "ok": 12,
                         "bad": 5
                     },
-                    "consensus": "The legendary 'Wife Approved' model. Sacrifices perfect lane centering for passenger comfort. Won't jerk the wheel; gently drifts into turns.",
-                    "note": "Perfect for road trips with family.",
+                    "consensus": "The legendary 'Wife Approved' model. Sacrifices perfect lane centering for passenger comfort. Won't jerk the wheel; gently drifts into turns. Note: Some Comma 4 users (specifically Ioniq 5) report pronounced right-side lane hugging.",
+                    "note": "Perfect for road trips. If hugging right on C4, try Adjust Camera Offset (-0.05 to -0.10).",
                     "bestFor": "Passengers",
                     "steeringFeel": "Light",
                     "testedOn": [
@@ -181,7 +182,8 @@
                         "Audi A3",
                         "Mazda CX-5 (2021-2024)",
                         "Honda Pilot (2019-2022)",
-                        "Lincoln Corsair (2020-2023)"
+                        "Lincoln Corsair (2020-2023)",
+                        "Hyundai Ioniq 5 (HDA II)"
                     ]
                 }
             ]
@@ -197,31 +199,38 @@
                     "date": "April 03, 2026",
                     "badge": "NEW",
                     "tags": [
-                        "Experimental",
-                        "Mixed Sentiment",
-                        "Ping-Pong"
+                        "Recommended",
+                        "Self-Correcting",
+                        "Off-Policy"
                     ],
-                    "communityScore": 58,
-                    "totalVotes": 10,
+                    "communityScore": 78,
+                    "totalVotes": 25,
                     "sentiment": {
-                        "great": 40,
-                        "good": 10,
+                        "great": 60,
+                        "good": 25,
                         "ok": 10,
-                        "bad": 40
+                        "bad": 5
                     },
-                    "consensus": "Polarizing latest model drop. Some users rate it highly, but multiple reports of ping-pong at higher speeds on angle steering cars. Slow to enter and exit turns with jerky steering corrections. Notable lane tracking issues where the model doesn't always commit to the correct lane.",
-                    "note": "Early feedback suggests issues with angle steering vehicles. Still being evaluated by the community.",
-                    "bestFor": "Highway (with supervision)",
-                    "steeringFeel": "Varies",
+                    "consensus": "Significant leap forward for the Off-Policy series. Praised as the most confident OP model yet, with smoother longitudinal deceleration for stopped leads and improved lateral control that self-corrects even when overshooting sharp 90-degree turns. However, random left-hugging persists for some users.",
+                    "note": "Best lateral of the series so far. If hugging left, adjust camera offset (+0.05).",
+                    "bestFor": "Highway & Winding Roads",
+                    "steeringFeel": "Confident",
                     "forumUrl": "https://community.sunnypilot.ai/t/op-model-7-april-03-2026/4317",
                     "testedOn": [
+                        "Hyundai Ioniq 5",
+                        "VW Atlas",
+                        "2023 Elantra HEV",
                         "Angle steering vehicles"
                     ],
+                    "positives": [
+                        "Excellent lateral self-correction",
+                        "Smooth stops for leads",
+                        "Quick acceleration"
+                    ],
                     "negatives": [
-                        "Ping-pong at higher speeds",
-                        "Slow turn entry/exit",
-                        "Jerky steering corrections",
-                        "Incorrect lane tracking at times"
+                        "Random left-hugging for some",
+                        "Inconsistent city speed",
+                        "Jerky steering on specific angle cars"
                     ]
                 },
                 {
@@ -460,23 +469,28 @@
                 {
                     "name": "WMI V9",
                     "date": "January 07, 2026",
+                    "badge": "STABLE",
                     "tags": [
-                        "Smart"
+                        "Smart",
+                        "C4 Default",
+                        "2025+"
                     ],
-                    "communityScore": 78,
-                    "totalVotes": 52,
+                    "communityScore": 82,
+                    "totalVotes": 68,
                     "sentiment": {
-                        "great": 30,
-                        "good": 40,
-                        "ok": 22,
-                        "bad": 8
+                        "great": 45,
+                        "good": 35,
+                        "ok": 15,
+                        "bad": 5
                     },
-                    "consensus": "Mid-generation iteration with good stability. Superseded by V10+ but still reliable.",
+                    "consensus": "Rock-solid choice for newer 2025+ platforms (e.g., Kia K4). Currently the default pre-installed model on Comma 4 hardware. Favored for its stability and predictive behavior on modern ADAS architectures.",
                     "bestFor": "Mixed Driving",
                     "steeringFeel": "Balanced",
                     "testedOn": [
                         "Toyota Camry",
-                        "Honda CR-V"
+                        "Honda CR-V",
+                        "2025 Kia K4",
+                        "comma 4"
                     ],
                     "forumUrl": "https://community.sunnypilot.ai/t/wmiv9-7-jan-2026/2275"
                 },
