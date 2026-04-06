@@ -152,41 +152,7 @@ export default function MobileCategorySidebar({
                                 <span className="flex-1">{t('filter.recommended')}</span>
                             </button>
 
-                            {/* SunnyTune filter */}
-                            <button
-                                onClick={() => {
-                                    onToggleCategory?.('sunnytune');
-                                }}
-                                className={`
-                                    w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-left
-                                    transition-all duration-200 border
-                                    ${activeCategories.includes('sunnytune')
-                                        ? 'bg-blue-600/20 text-blue-400 border-blue-500/30 shadow-lg shadow-blue-500/10'
-                                        : 'bg-slate-800/50 text-slate-400 border-slate-700/50 hover:bg-slate-700/50 hover:text-white'
-                                    }
-                                `}
-                            >
-                                <span className="text-blue-400 shrink-0 text-lg">
-                                    <svg 
-                                        xmlns="http://www.w3.org/2000/svg" 
-                                        width="20" 
-                                        height="20" 
-                                        viewBox="0 0 24 24" 
-                                        fill="none" 
-                                        stroke="currentColor" 
-                                        strokeWidth="2.5" 
-                                        strokeLinecap="round" 
-                                        strokeLinejoin="round" 
-                                    >
-                                        <circle cx="12" cy="18" r="3"></circle>
-                                        <circle cx="6" cy="6" r="3"></circle>
-                                        <circle cx="18" cy="6" r="3"></circle>
-                                        <path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"></path>
-                                        <path d="M12 12v3"></path>
-                                    </svg>
-                                </span>
-                                <span className="flex-1">{t('filter.sunnytune')}</span>
-                            </button>
+
 
                             {/* Category buttons */}
                             {categories.map((category) => {
@@ -218,42 +184,7 @@ export default function MobileCategorySidebar({
                     ) : (
                         /* Models: single-select category list */
                         <>
-                            {/* SunnyTune filter - Mobile specific shortcut */}
-                            <button
-                                onClick={() => {
-                                    onSelectCategory?.('sunnytune');
-                                    onClose();
-                                }}
-                                className={`
-                                    w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-left
-                                    transition-all duration-200 border
-                                    ${activeCategory === 'sunnytune'
-                                        ? 'bg-blue-600/20 text-blue-400 border-blue-500/30'
-                                        : 'bg-slate-800/50 text-slate-400 border-transparent hover:bg-slate-700/50 hover:text-white'
-                                    }
-                                `}
-                            >
-                                <span className="text-blue-400 shrink-0 text-lg">
-                                    <svg 
-                                        xmlns="http://www.w3.org/2000/svg" 
-                                        width="20" 
-                                        height="20" 
-                                        viewBox="0 0 24 24" 
-                                        fill="none" 
-                                        stroke="currentColor" 
-                                        strokeWidth="2.5" 
-                                        strokeLinecap="round" 
-                                        strokeLinejoin="round" 
-                                    >
-                                        <circle cx="12" cy="18" r="3"></circle>
-                                        <circle cx="6" cy="6" r="3"></circle>
-                                        <circle cx="18" cy="6" r="3"></circle>
-                                        <path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"></path>
-                                        <path d="M12 12v3"></path>
-                                    </svg>
-                                </span>
-                                <span className="flex-1">{t('filter.sunnytune')}</span>
-                            </button>
+
 
                             {categories.map((cat) => (
                                 <button

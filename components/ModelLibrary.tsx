@@ -279,7 +279,7 @@ const getVibeIcon = (consensus?: string) => {
 };
 
 export default function ModelLibrary() {
-    const [activeCategory, setActiveCategory] = useState<string>('favorites');
+    const [activeCategory, setActiveCategory] = useState<string>('all');
     const [showVibeGuide, setShowVibeGuide] = useState(false);
     const [showMobileCategories, setShowMobileCategories] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');

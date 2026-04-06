@@ -80,7 +80,7 @@ export default function CarDatabase() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedMake, setSelectedMake] = useState<string>('');
     const [showRecommended, setShowRecommended] = useState<boolean>(false);
-    const [showSunnyTune, setShowSunnyTune] = useState<boolean>(false);
+
     const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
     const { viewMode, setViewMode } = useViewMode('cars_page', 'grid');
     const [sortBy, setSortBy] = useState<string>('rating-desc');
@@ -109,17 +109,14 @@ export default function CarDatabase() {
         return vehicles.filter(v => v.isRecommended).length;
     }, [vehicles]);
 
-    const sunnyTuneCount = useMemo(() => {
-        return vehicles.filter(v => !!v.sunnyTuneUrl).length;
-    }, [vehicles]);
+
 
     const activeCategories = useMemo(() => {
         const active = [];
         if (selectedMake) active.push(selectedMake.toLowerCase());
         if (showRecommended) active.push('recommended');
-        if (showSunnyTune) active.push('sunnytune');
         return active;
-    }, [selectedMake, showRecommended, showSunnyTune]);
+    }, [selectedMake, showRecommended]);
 
     const handleToggleCategory = (id: string) => {
         if (id === 'recommended') {
@@ -127,11 +124,7 @@ export default function CarDatabase() {
             setSearchQuery('');
             return;
         }
-        if (id === 'sunnytune') {
-            setShowSunnyTune(prev => !prev);
-            setSearchQuery('');
-            return;
-        }
+
         const make = categoryMeta.find(m => m.id === id)?.name || '';
         setSelectedMake(prev => prev === make ? '' : make);
         setSearchQuery('');
@@ -183,9 +176,7 @@ export default function CarDatabase() {
             results = results.filter(v => v.isRecommended);
         }
 
-        if (showSunnyTune) {
-            results = results.filter(v => !!v.sunnyTuneUrl);
-        }
+
 
         if (searchQuery) {
             const fuse = new Fuse(results, {
@@ -227,7 +218,7 @@ export default function CarDatabase() {
         });
 
         return results;
-    }, [groupedVehicles, searchQuery, selectedMake, sortBy, showRecommended, showSunnyTune]);
+    }, [groupedVehicles, searchQuery, selectedMake, sortBy, showRecommended]);
 
     const [isSearchActive, setIsSearchActive] = useState(false);
 
@@ -252,15 +243,8 @@ export default function CarDatabase() {
                 mode="models" // Using models mode for single-select brand behavior
                 activeCategory={selectedMake.toLowerCase() || 'all'}
                 onSelectCategory={(id) => {
-                    if (id === 'sunnytune') {
-                        setShowSunnyTune(true);
-                        setSelectedMake('');
-                        setSearchQuery('');
-                        return;
-                    }
                     const make = categoryMeta.find(m => m.id === id)?.name || '';
                     setSelectedMake(make);
-                    setShowSunnyTune(false);
                     setSearchQuery('');
                 }}
             />
@@ -311,10 +295,9 @@ export default function CarDatabase() {
                             categories={categoryMeta}
                             activeCategories={activeCategories}
                             onToggleCategory={handleToggleCategory}
-                            onClearAll={() => { setSelectedMake(''); setShowRecommended(false); setShowSunnyTune(false); }}
+                            onClearAll={() => { setSelectedMake(''); setShowRecommended(false); }}
                             vertical={true}
                             recommendedCount={recommendedCount}
-                            sunnyTuneCount={sunnyTuneCount}
                         />
                     </div>
 
@@ -358,11 +341,10 @@ export default function CarDatabase() {
                             categories={categoryMeta}
                             activeCategories={activeCategories}
                             onToggleCategory={handleToggleCategory}
-                            onClearAll={() => { setSelectedMake(''); setShowRecommended(false); setShowSunnyTune(false); }}
+                            onClearAll={() => { setSelectedMake(''); setShowRecommended(false); }}
                             collapsible={true}
                             vertical={true}
                             recommendedCount={recommendedCount}
-                            sunnyTuneCount={sunnyTuneCount}
                         />
                     </div>
                 </div>
