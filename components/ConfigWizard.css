@@ -1,0 +1,325 @@
+/* ─── Config Wizard ─── */
+
+/* Step transition animation */
+@keyframes cw-slide-in {
+  0% { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cw-slide-out {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-16px); }
+}
+
+.cw-step-enter {
+  animation: cw-slide-in 0.4s ease-out forwards;
+}
+
+/* Toggle switch */
+.cw-toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: rgba(100, 116, 139, 0.4);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+  border: 1px solid rgba(100, 116, 139, 0.3);
+  flex-shrink: 0;
+}
+
+.cw-toggle.active {
+  background: rgba(6, 182, 212, 0.5);
+  border-color: rgba(6, 182, 212, 0.6);
+}
+
+.cw-toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background: #e2e8f0;
+  border-radius: 50%;
+  transition: transform 0.25s ease, background 0.25s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.cw-toggle.active::after {
+  transform: translateX(20px);
+  background: #ffffff;
+}
+
+/* Custom slider track */
+.cw-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: rgba(100, 116, 139, 0.3);
+  border-radius: 3px;
+  outline: none;
+  transition: background 0.2s;
+}
+
+.cw-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #22d3ee, #06b6d4);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(6, 182, 212, 0.3);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cw-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 2px 10px rgba(6, 182, 212, 0.5);
+}
+
+.cw-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #22d3ee, #06b6d4);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 6px rgba(6, 182, 212, 0.3);
+}
+
+/* Progress bar pulse */
+@keyframes cw-progress-glow {
+  0%, 100% { box-shadow: 0 0 4px rgba(6, 182, 212, 0.3); }
+  50% { box-shadow: 0 0 12px rgba(6, 182, 212, 0.5); }
+}
+
+.cw-progress-fill {
+  animation: cw-progress-glow 2s ease-in-out infinite;
+}
+
+/* Config preview card */
+.cw-preview-card {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Setting card hover */
+.cw-setting-card {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cw-setting-card:hover {
+  border-color: rgba(6, 182, 212, 0.3);
+  box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.1);
+}
+
+/* Export JSON code block */
+.cw-json-preview {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  tab-size: 2;
+}
+
+/* Tooltip */
+.cw-tooltip {
+  position: relative;
+}
+
+.cw-tooltip-content {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(100, 116, 139, 0.4);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  white-space: normal;
+  width: max-content;
+  max-width: 280px;
+  z-index: 50;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.cw-tooltip:hover .cw-tooltip-content {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Sparkle burst on button click */
+@keyframes cw-sparkle-burst {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.cw-btn-burst {
+  animation: cw-sparkle-burst 0.3s ease;
+}
+
+/* Floating badge */
+.cw-badge-community {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.1));
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #4ade80;
+}
+
+.cw-badge-advanced {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(168, 85, 247, 0.1));
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  color: #c084fc;
+}
+
+.cw-badge-default {
+  background: linear-gradient(135deg, rgba(100, 116, 139, 0.2), rgba(100, 116, 139, 0.1));
+  border: 1px solid rgba(100, 116, 139, 0.3);
+  color: #94a3b8;
+}
+
+/* Custom Select Dropdown */
+.cw-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem !important;
+  cursor: pointer;
+}
+
+.cw-select:focus {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2322d3ee'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+}
+
+/* ─── 3-Way Segmented Toggle ─── */
+.cw-segmented {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(100, 116, 139, 0.3);
+  border-radius: 12px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.cw-segmented-indicator {
+  position: absolute;
+  top: 3px;
+  height: calc(100% - 6px);
+  width: calc(33.333% - 3px);
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(6, 182, 212, 0.15));
+  border: 1px solid rgba(6, 182, 212, 0.4);
+  border-radius: 9px;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cw-segmented-indicator[data-index="0"] { left: 3px; }
+.cw-segmented-indicator[data-index="1"] { left: calc(33.333% + 0.5px); }
+.cw-segmented-indicator[data-index="2"] { left: calc(66.666% - 2px); }
+
+.cw-segmented-btn {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 10px 8px;
+  border-radius: 9px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.25s ease;
+  color: rgba(148, 163, 184, 0.7);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cw-segmented-btn:hover:not(.active) {
+  color: rgba(203, 213, 225, 0.9);
+}
+
+.cw-segmented-btn.active {
+  color: #22d3ee;
+  text-shadow: 0 0 8px rgba(6, 182, 212, 0.3);
+}
+
+.cw-progress-label-item .label-text {
+  font-size: 8px; /* Slightly smaller to prevent overlap */
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: visible;
+}
+
+.cw-progress-label-item.active .label-text {
+  opacity: 1;
+  letter-spacing: 0.08em;
+}
+
+.cw-segmented-btn.active .cw-seg-sub {
+  opacity: 0.8;
+}
+
+.cw-segmented-btn .cw-seg-sub {
+  font-size: 0.625rem;
+  font-weight: 400;
+  opacity: 0.5;
+  letter-spacing: 0.02em;
+  transition: opacity 0.25s ease;
+}
+
+.cw-segmented-btn.active .cw-seg-sub {
+  opacity: 0.8;
+}
+
+/* ─── Segmented Progress Bar ─── */
+.cw-progress-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.cw-progress-dot {
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  background: #22d3ee;
+  border: 3px solid #0f172a; /* Dark border to match theme background but pop */
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: left 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.1);
+  z-index: 10;
+}
+
+/* Extra flair for filled segments */
+@keyframes segment-pulse {
+  0% { opacity: 0.8; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.2); }
+  100% { opacity: 0.8; transform: scaleY(1); }
+}
+
+.cw-progress-segment.active {
+  animation: segment-pulse 4s ease-in-out infinite;
+}

@@ -425,13 +425,14 @@
           "label": "Experimental Mode",
           "type": "toggle",
           "default": false,
-          "description": "Activates end-to-end longitudinal control with a new driving visualization. This alpha feature uses the neural network to handle acceleration and braking on all road types, including city streets with stop signs and traffic lights.",
+          "description": "Activates end-to-end longitudinal control from the world model. This feature uses the neural network to handle acceleration and braking directly, bypassing traditional MPC constraints on all road types.",
           "useCase": "City driving where you encounter frequent traffic lights and stop signs.",
           "tradeoffs": [
             "Can brake suddenly for false positives (shadows, markings).",
             "May not stop in time for all lights/signs — be ready to brake.",
             "Smoother braking behind cars, but can be unpredictable."
           ],
+          "deepDive": "Longitudinal MPC is replaced by E2E planning from the world model when activated.",
           "warning": "Requires longitudinal control. Not available on vehicles using stock adaptive cruise control.",
           "userNote": "Requires longitudinal control."
         },
@@ -601,7 +602,7 @@
           "label": "Neural Network Lateral Control",
           "type": "toggle",
           "default": false,
-          "description": "Replaces PID controller with a neural network for smoother steering. (Note: Generally not recommended for modern models).",
+          "description": "Replaces standard control strategies (like Torque or Angle) with a neural network-based lateral planner. (Note: Generally not recommended for modern models).",
           "recommended": false,
           "useCase": "Fixes 'ping-pong' (oscillation) on straight roads common in older or specific vehicles.",
           "tradeoffs": [
@@ -626,7 +627,7 @@
             "Can cause late braking for lights/signs.",
             "Makes evaluating specific models harder due to mode switching."
           ],
-          "deepDive": "Monitors the 'slow_down_prob' from the model. If probability > threshold, injects Experimental Mode longitudinal plan.",
+          "deepDive": "Monitors the 'throttle_prob' from the model to determine intent. If model intent is low, it temporarily injects the Experimental Mode longitudinal plan for complex scenarios.",
           "userNote": "Good for mixed driving, but switch to full Experimental if you need consistent behavior."
         },
         {

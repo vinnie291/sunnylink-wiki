@@ -425,7 +425,7 @@
           "label": "实验模式",
           "type": "toggle",
           "default": false,
-          "description": "启用s stopping for 红绿灯s and 停车标志s using vision only.",
+          "description": "基于世界模型激活端到端纵向控制。该功能利用神经网络直接处理加速和减速，在所有路况下绕过传统的MPC约束。",
           "useCase": "City driving where you encounter frequent 红绿灯s and 停车标志s.",
           "tradeoffs": [
             "可能因误报（阴影、标记）而突然制动。",
@@ -433,7 +433,8 @@
             "车后制动更平稳，但可能难以预测。"
           ],
           "warning": "注意灯光/标志。 需要 Alpha 纵向。",
-          "userNote": "必须首先启用 Alpha Longitudinal。"
+          "userNote": "必须首先启用 Alpha Longitudinal。",
+          "deepDive": "激活时，纵向MPC将被世界模型的E2E规划所取代。"
         },
         {
           "key": "DrivingPersonality",
@@ -601,7 +602,7 @@
           "label": "神经网络横向控制",
           "type": "toggle",
           "default": false,
-          "description": "用神经网络取代 PID 控制器，实现更平稳、拟人化的转向。",
+          "description": "使用基于神经网络的横向规划器取代标准控制策略（如扭矩或角度）。（注意：通常不建议用于现代模型）。",
           "recommended": true,
           "useCase": "修复了现代/起亚车辆中常见的直道上的“乒乓”（振荡）问题。",
           "tradeoffs": [
@@ -626,7 +627,7 @@
             "可能导致灯光/标志延迟制动。",
             "由于模式切换，使得评估特定模型变得更加困难。"
           ],
-          "deepDive": "监控模型中的“slow_down_prob”。 如果概率 > 阈值，则注入实验模式纵向计划。",
+          "deepDive": "监控模型中的 'throttle_prob' 意图。如果模型意图较低，它会临时注入实验模式的纵向规划，以应对复杂的场景。",
           "userNote": "适合混合驾驶，但如果您需要一致的行为，请切换到完整实验。"
         },
         {

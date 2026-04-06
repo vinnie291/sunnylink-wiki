@@ -11,9 +11,11 @@ const ScrollToTop = dynamic(() => import('./ScrollToTop'), { ssr: false });
 interface PageShellProps {
     children: ReactNode;
     showFooter?: boolean;
+    showHeader?: boolean;
+    extraTopLeftContent?: ReactNode;
 }
 
-export default function PageShell({ children, showFooter = true }: PageShellProps) {
+export default function PageShell({ children, showFooter = true, showHeader = true, extraTopLeftContent }: PageShellProps) {
     const { t } = useLanguage();
 
     return (
@@ -24,9 +26,10 @@ export default function PageShell({ children, showFooter = true }: PageShellProp
                 <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-violet-500/5 rounded-full blur-3xl" />
             </div>
 
-            {/* Language Switcher */}
-            <div className="absolute top-4 left-4 sm:top-8 sm:left-8 z-30">
+            {/* Language Switcher and Extra Content */}
+            <div className="absolute top-4 left-4 sm:top-8 sm:left-8 z-30 flex items-center gap-3">
                 <LanguageSwitcher />
+                {extraTopLeftContent}
             </div>
 
             {/* Dashboard Button */}
@@ -49,7 +52,7 @@ export default function PageShell({ children, showFooter = true }: PageShellProp
             </div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 pt-20 pb-8 sm:py-12">
-                <Header />
+                {showHeader && <Header />}
                 {children}
 
                 {showFooter && (

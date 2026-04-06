@@ -1,22 +1,23 @@
 import PageShell from '@/components/PageShell';
-import SetupWizard from '@/components/SetupWizard';
+import ConfigWizard from '@/components/ConfigWizard';
+import ExitWizardButton from '@/components/ExitWizardButton';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Setup Wizard | Sunnylink',
-    description: 'Interactive wizard to generate the perfect Sunnypilot configuration based on your car, driving style, and expertise.',
-    keywords: ['sunnylink', 'sunnylink wizard', 'sunnypilot', 'sunnypilot setup wizard', 'sunnypilot wiki', 'sunnypilot features', 'sunnylink app', 'sunnypilot settings', 'sunnypilot sunnylink', 'sunnylink sunnypilot latest version', 'configuration', 'settings generator'],
+    title: 'Config Wizard | Sunnylink',
+    description: 'Build a complete sunnypilot configuration file with community-tested settings for your vehicle. Step-by-step guided config builder with JSON export.',
+    keywords: ['sunnylink', 'sunnypilot config builder', 'sunnypilot configuration', 'sunnypilot setup wizard', 'sunnypilot json config', 'sunnypilot settings generator', 'sunnylink wizard', 'sunnytune alternative'],
     openGraph: {
-        title: 'Sunnylink Setup Wizard',
-        description: 'Get a personalized Sunnypilot configuration in minutes.',
+        title: 'Sunnylink Config Wizard',
+        description: 'Build a ready-to-use sunnypilot config file in minutes with community-tested recommendations.',
     }
 };
 
 export default function WizardPage() {
     return (
-        <PageShell>
+        <PageShell showHeader={false} extraTopLeftContent={<ExitWizardButton />}>
             <div className="max-w-4xl mx-auto">
-                <SetupWizard />
+                <ConfigWizard />
             </div>
         </PageShell>
     );

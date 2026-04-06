@@ -425,7 +425,7 @@
           "label": "실험 모드",
           "type": "toggle",
           "default": false,
-          "description": "활성화s stopping for 신호등s and 정지 표지판s using vision only.",
+          "description": "월드 모델에서 엔드투엔드 종방향 제어를 활성화합니다. 이 기능은 신경망을 사용하여 모든 도로 유형에서 기존 MPC 제약을 우회하여 가속 및 제동을 직접 처리합니다.",
           "useCase": "City driving where you encounter frequent 신호등s and 정지 표지판s.",
           "tradeoffs": [
             "거짓 긍정(그림자, 표시)으로 인해 갑자기 브레이크를 밟을 수 있습니다.",
@@ -433,7 +433,8 @@
             "차량 뒤에서는 더 부드럽지만 예측할 수 없습니다."
           ],
           "warning": "신호등/표지판에 주의하세요. 알파 종방향이 필요합니다.",
-          "userNote": "먼저 Alpha Longitudinal을 활성화해야 합니다."
+          "userNote": "먼저 Alpha Longitudinal을 활성화해야 합니다.",
+          "deepDive": "활성화되면 종방향 MPC가 월드 모델의 E2E 계획으로 대체됩니다."
         },
         {
           "key": "DrivingPersonality",
@@ -601,7 +602,7 @@
           "label": "신경망 측면 제어",
           "type": "toggle",
           "default": false,
-          "description": "기존의 PID 또는 INDI 컨트롤러 대신 신경망을 사용하여 가로 제어(조향)를 수행합니다. 참고: 최신 주행 모델에는 권장되지 않습니다.",
+          "description": "표준 제어 전략(Torque 또는 Angle 등)을 신경망 기반 횡방향 플래너로 대체합니다. (참고: 일반적으로 최신 모델에는 권장되지 않음).",
           "recommended": false,
           "useCase": "현대/기아 차량에서 흔히 발생하는 직선 도로의 '핑퐁'(진동)을 수정합니다.",
           "tradeoffs": [
@@ -626,7 +627,7 @@
             "조명/표지판이 늦어질 수 있습니다.",
             "모드 전환으로 인해 특정 모델을 평가하기가 더 어려워집니다."
           ],
-          "deepDive": "모델에서 'slow_down_prob'를 모니터링합니다. 확률 > 임계값인 경우 실험 모드 장기 계획을 삽입합니다.",
+          "deepDive": "모델의 'throttle_prob'를 모니터링하여 의도를 결정합니다. 모델 의도가 낮은 경우 복잡한 시나리오를 위해 실험 모드 종방향 계획을 일시적으로 주입합니다.",
           "userNote": "혼합 운전에 적합하지만 일관된 행동이 필요한 경우 전체 실험으로 전환하십시오."
         },
         {

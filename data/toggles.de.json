@@ -425,7 +425,7 @@
           "label": "Experimenteller Modus",
           "type": "toggle",
           "default": false,
-          "description": "Aktiviert das Stoppen für Ampels und Stoppschilds nur mit Sicht.",
+          "description": "Aktiviert die End-to-End Längssteuerung aus dem Weltmodell. Diese Funktion nutzt das neuronale Netzwerk, um Beschleunigung und Bremsen direkt zu steuern, und umgeht dabei die traditionellen MPC-Grenzen auf allen Straßentypen.",
           "useCase": "Fahren in der Stadt, wo man häufig auf Ampels und Stoppschilds trifft.",
           "tradeoffs": [
             "Kann bei Fehlalarmen (Schatten, Markierungen) plötzlich bremsen.",
@@ -433,7 +433,8 @@
             "Sanfteres Bremsen hinter Autos, kann aber unvorhersehbar sein."
           ],
           "warning": "Seien Sie vorsichtig bei Lichtern/Schildern. Erfordert Alpha Longitudinal.",
-          "userNote": "Zuerst muss Alpha Longitudinal aktiviert werden."
+          "userNote": "Zuerst muss Alpha Longitudinal aktiviert werden.",
+          "deepDive": "Längs-MPC wird beim Aktivieren durch E2E-Planung aus dem Weltmodell ersetzt."
         },
         {
           "key": "DrivingPersonality",
@@ -601,7 +602,7 @@
           "label": "Laterale Kontrolle eines neuronalen Netzwerks",
           "type": "toggle",
           "default": false,
-          "description": "Verwendet ein neuronales Netzwerk für die laterale Steuerung (Lenkung) anstelle herkömmlicher PID- oder INDI-Controller. HINWEIS: Nicht empfohlen für moderne Fahrmodelle.",
+          "description": "Ersetzt standardmäßige Steuerungsstrategien (wie Drehmoment oder Winkel) durch einen auf einem neuronalen Netzwerk basierenden Querplaner. (Hinweis: Für moderne Modelle im Allgemeinen nicht empfohlen).",
           "recommended": false,
           "useCase": "Behebt das „Ping-Pong“ (Schwingen) auf geraden Straßen, das bei Hyundai/Kia-Fahrzeugen häufig vorkommt.",
           "tradeoffs": [
@@ -626,7 +627,7 @@
             "Kann zu spätem Bremsen der Lichter/Schilder führen.",
             "Erschwert die Bewertung bestimmter Modelle aufgrund der Modusumschaltung."
           ],
-          "deepDive": "Überwacht das „slow_down_prob“ des Modells. Wenn die Wahrscheinlichkeit > der Schwellenwert ist, wird der Längsplan im experimentellen Modus eingefügt.",
+          "deepDive": "Überwacht das 'throttle_prob' des Modells, um die Absicht zu bestimmen. Bei geringer Modellabsicht wird vorübergehend der Längsplan des experimentellen Modus für komplexe Szenarien injiziert.",
           "userNote": "Gut für gemischtes Fahren, aber schalten Sie auf „Experimental“ um, wenn Sie ein konsistentes Verhalten benötigen."
         },
         {

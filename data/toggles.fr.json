@@ -425,7 +425,7 @@
           "label": "Mode expérimental",
           "type": "toggle",
           "default": false,
-          "description": "Arrêts actifs pour feu de circulation et arrêts panneau utilisant uniquement la vision.",
+          "description": "Active le contrôle longitudinal de bout en bout à partir du modèle mondial. Cette fonctionnalité utilise le réseau de neurones pour gérer directement l'accélération et le freinage, contournant les contraintes MPC traditionnelles sur tous types de routes.",
           "useCase": "Conduite en ville où vous rencontrez de fréquents feux de circulation et des arrêts par panneaux.",
           "tradeoffs": [
             "Peut freiner brusquement pour des faux positifs (ombres, marquages).",
@@ -433,7 +433,8 @@
             "Freinage plus doux derrière les voitures, mais peut être imprévisible."
           ],
           "warning": "Soyez prudent aux feux/panneaux. Nécessite Alpha Longitudinal.",
-          "userNote": "Vous devez d'abord activer Alpha Longitudinal."
+          "userNote": "Vous devez d'abord activer Alpha Longitudinal.",
+          "deepDive": "Le MPC longitudinal est remplacé par la planification E2E du modèle mondial lorsqu'il est activé."
         },
         {
           "key": "DrivingPersonality",
@@ -601,7 +602,7 @@
           "label": "Contrôle latéral du réseau neuronal",
           "type": "toggle",
           "default": false,
-          "description": "Utilise un réseau neuronal pour le contrôle latéral (direction) au lieu des contrôleurs PID ou INDI traditionnels. REMARQUE : Déconseillé pour les modèles de conduite modernes.",
+          "description": "Remplace les stratégies de contrôle standard (comme Torque ou Angle) par un planificateur latéral basé sur un réseau de neurones. (Remarque : Généralement déconseillé pour les modèles modernes).",
           "recommended": false,
           "useCase": "Corrige le « ping-pong » (oscillation) sur les routes droites, courant dans les véhicules Hyundai/Kia.",
           "tradeoffs": [
@@ -626,7 +627,7 @@
             "Peut provoquer un freinage tardif des feux/panneaux.",
             "Rend l’évaluation de modèles spécifiques plus difficile en raison du changement de mode."
           ],
-          "deepDive": "Surveille le « slow_down_prob » du modèle. Si probabilité > seuil, injecte le plan longitudinal du mode expérimental.",
+          "deepDive": "Surveille le 'throttle_prob' du modèle pour déterminer l'intention. Si l'intention du modèle est faible, il injecte temporairement le plan longitudinal du mode expérimental pour les scénarios complexes.",
           "userNote": "Idéal pour la conduite mixte, mais passez au mode expérimental complet si vous avez besoin d'un comportement cohérent."
         },
         {

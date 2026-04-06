@@ -425,7 +425,7 @@
           "label": "Modo experimental",
           "type": "toggle",
           "default": false,
-          "description": "Habilitars stopping for semáforos and señal de altos using vision only.",
+          "description": "Activa el control longitudinal de extremo a extremo desde el modelo mundial. Esta función utiliza la red neuronal para manejar la aceleración y el frenado directamente, pasando por alto las restricciones MPC tradicionales en todo tipo de carreteras.",
           "useCase": "City driving where you encounter frequent semáforos and señal de altos.",
           "tradeoffs": [
             "Puede frenar repentinamente por falsos positivos (sombras, marcas).",
@@ -433,7 +433,8 @@
             "Frenado más suave detrás de los coches, pero puede ser impredecible."
           ],
           "warning": "Tenga cuidado con las luces/señales. Requiere Alfa Longitudinal.",
-          "userNote": "Primero debe habilitar Alpha Longitudinal."
+          "userNote": "Primero debe habilitar Alpha Longitudinal.",
+          "deepDive": "El MPC longitudinal se reemplaza por la planificación E2E desde el modelo mundial cuando se activa."
         },
         {
           "key": "DrivingPersonality",
@@ -601,7 +602,7 @@
           "label": "Control lateral de la red neuronal",
           "type": "toggle",
           "default": false,
-          "description": "Utiliza una red neuronal para el control lateral (dirección) en lugar de los controladores PID o INDI tradicionales. NOTA: No recomendado para modelos de conducción modernos.",
+          "description": "Reemplaza las estrategias de control estándar (como Torque o Ángulo) con un planificador lateral basado en red neuronal. (Nota: Generalmente no recomendado para modelos modernos).",
           "recommended": false,
           "useCase": "Corrige el 'ping-pong' (oscilación) en carreteras rectas, común en los vehículos Hyundai/Kia.",
           "tradeoffs": [
@@ -626,7 +627,7 @@
             "Puede provocar frenado tardío de luces/señales.",
             "Hace que la evaluación de modelos específicos sea más difícil debido al cambio de modo."
           ],
-          "deepDive": "Supervisa el 'slow_down_prob' del modelo. Si probabilidad> umbral, inyecta el plan longitudinal del modo experimental.",
+          "deepDive": "Supervisa el 'throttle_prob' del modelo para determinar la intención. Si la intención del modelo es baja, inyecta temporalmente el plan longitudinal del Modo Experimental para escenarios complejos.",
           "userNote": "Bueno para conducción mixta, pero cambie a Experimental completo si necesita un comportamiento consistente."
         },
         {
