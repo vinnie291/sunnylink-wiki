@@ -846,7 +846,7 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
             <div className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-3 flex-wrap justify-center">
                 <button onClick={handleDownload}
                     className="px-8 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:from-cyan-400 hover:to-cyan-500 shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2">
-                    ⬇️ Download sunnypilot-config.json
+                    ⬇️ Download JSON Config
                 </button>
                 <a href="https://sunny-tune.vercel.app/configure" target="_blank" rel="noopener noreferrer"
                     className="px-6 py-3 rounded-xl font-semibold text-sm text-white hover:opacity-90 shadow-lg shadow-[#2663eb]/20 transition-all flex items-center justify-center gap-2 bg-[#2663eb]">
@@ -881,10 +881,10 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
             <div className="max-w-2xl mx-auto rounded-xl border border-slate-700/50 bg-slate-800/30 p-4 space-y-2">
                 <h3 className="text-sm font-semibold text-slate-200">How to use this file</h3>
                 <ol className="text-xs text-slate-400 space-y-1.5 list-decimal list-inside">
-                    <li>Download the <code className="text-cyan-400 bg-slate-800 px-1 rounded text-[11px]">sunnypilot-config.json</code> file above</li>
-                    <li>Connect to your comma device via SSH or sunnylink</li>
-                    <li>Upload the file to your device&apos;s settings directory</li>
-                    <li>Restart the sunnypilot service to apply the configuration</li>
+                    <li>Sign in at <a href="https://sunnylink.ai" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300">sunnylink.ai</a></li>
+                    <li>On the Overview page, click <span className="text-slate-200 font-medium">Open Migration Wizard</span></li>
+                    <li>Select your device from the list</li>
+                    <li>Follow the steps to upload your <code className="text-cyan-400 bg-slate-800 px-1 rounded text-[11px]">.json</code> config file</li>
                 </ol>
             </div>
 
