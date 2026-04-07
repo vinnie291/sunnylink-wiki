@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLanguage } from '../lib/i18n';
 import { useTranslatedFeatures } from '../lib/useTranslatedData';
 
@@ -42,6 +42,27 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
         return feature;
     });
     const glossary = featuresData.glossary as Record<string, string>;
+    
+    // Hash anchoring
+    useEffect(() => {
+        const hash = window.location.hash;
+        if (hash) {
+            const featureId = decodeURIComponent(hash.slice(1));
+            // Check if it's a feature ID
+            const targetFeature = features.find(f => f.id === featureId);
+            if (targetFeature) {
+                setExpandedFeature(featureId);
+                setTimeout(() => {
+                    const el = document.getElementById(featureId);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        el.classList.add('ring-2', 'ring-cyan-500/70', 'bg-cyan-500/10');
+                        setTimeout(() => el.classList.remove('ring-2', 'ring-cyan-500/70', 'bg-cyan-500/10'), 3000);
+                    }
+                }, 300);
+            }
+        }
+    }, [features]);
 
     const getCategoryColor = (category: string) => {
         const colors: Record<string, string> = {
@@ -71,6 +92,7 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                 {features.map((feature) => (
                     <div
                         key={feature.id}
+                        id={feature.id}
                         className="relative rounded-xl bg-slate-800/50 border border-slate-700/50 overflow-hidden"
                     >
                         {/* Header - Always visible */}

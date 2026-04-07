@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -88,6 +89,7 @@ export default function CarDatabase() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     
     const { sentinelRef, isSticky } = useStickySearch();
+    const searchParams = useSearchParams();
 
     // Map car makes to category format for CategoryFilter
     const categoryMeta = useMemo(() => {
@@ -172,6 +174,26 @@ export default function CarDatabase() {
 
         return Object.values(groups);
     }, [vehicles]);
+
+    // Auto-open modal if vehicle ID is in URL
+    useEffect(() => {
+        const vehicleId = searchParams.get('vehicle');
+        if (vehicleId && vehicles.length > 0) {
+            const vehicle = vehicles.find(v => v.id === vehicleId);
+            if (vehicle) {
+                // Find the grouped version to ensure all variants are available in modal
+                const normalizedModel = vehicle.model.replace(/\s*\(.*?\)/g, '').trim();
+                const group = groupedVehicles.find(g => 
+                    g.make === vehicle.make && g.model === normalizedModel
+                );
+                if (group) {
+                    setSelectedVehicle(group as unknown as Vehicle);
+                } else {
+                    setSelectedVehicle(vehicle);
+                }
+            }
+        }
+    }, [searchParams, vehicles, groupedVehicles]);
 
     const filteredVehicles = useMemo(() => {
         let results = [...groupedVehicles];

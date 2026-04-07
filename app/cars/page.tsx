@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import PageShell from '../../components/PageShell';
 import CarDatabase from '../../components/CarDatabase';
 
@@ -11,7 +12,9 @@ export default function CarsPage() {
     return (
         <PageShell>
             <div>
-                <CarDatabase />
+                <Suspense fallback={<div className="h-screen bg-slate-950" />}>
+                    <CarDatabase />
+                </Suspense>
             </div>
         </PageShell>
     );

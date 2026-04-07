@@ -18,6 +18,7 @@ interface SearchItem {
 export default function UniversalSearch() {
     const [isOpen, setIsOpen] = useState(false);
     const [query, setQuery] = useState('');
+    const [activeIndex, setActiveIndex] = useState(0);
     const inputRef = useRef<HTMLInputElement>(null);
     const router = useRouter();
     const { t } = useLanguage();
@@ -57,6 +58,7 @@ export default function UniversalSearch() {
     useEffect(() => {
         if (isOpen) {
             setTimeout(() => inputRef.current?.focus(), 100);
+            setActiveIndex(0);
         } else {
             setQuery(''); // Reset on close
         }
@@ -76,7 +78,7 @@ export default function UniversalSearch() {
                     type: 'setting',
                     title: setting.label,
                     subtitle: setting.description || cat.name,
-                    href: '/',
+                    href: `/#${setting.key}`,
                 });
             });
         });
@@ -91,7 +93,7 @@ export default function UniversalSearch() {
                     type: 'model',
                     title: model.name,
                     subtitle: model.consensus || cat.name,
-                    href: '/models',
+                    href: `/models#${model.name}`,
                 });
             });
         });
@@ -104,7 +106,7 @@ export default function UniversalSearch() {
                 type: 'feature',
                 title: feature.name,
                 subtitle: feature.userSummary || feature.fullName,
-                href: '/features',
+                href: `/features#${feature.id}`,
             });
         });
 
@@ -116,7 +118,7 @@ export default function UniversalSearch() {
                 type: 'car',
                 title: `${car.make} ${car.model}`,
                 subtitle: car.years || 'All Years',
-                href: `/cars?search=${encodeURIComponent(car.model)}`,
+                href: `/cars?vehicle=${car.id}&search=${encodeURIComponent(car.model)}`,
             });
         });
 
@@ -133,9 +135,29 @@ export default function UniversalSearch() {
 
     const displayResults = query.length > 0 ? results.slice(0, 8) : [];
 
+    // Reset active index when results change
+    useEffect(() => {
+        setActiveIndex(0);
+    }, [query]);
+
     const handleSelect = (item: SearchItem) => {
         setIsOpen(false);
         router.push(item.href);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (displayResults.length === 0) return;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            setActiveIndex((prev) => (prev + 1) % displayResults.length);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            setActiveIndex((prev) => (prev - 1 + displayResults.length) % displayResults.length);
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSelect(displayResults[activeIndex]);
+        }
     };
 
     if (!isOpen) return null;
@@ -192,10 +214,11 @@ export default function UniversalSearch() {
                     <input
                         ref={inputRef}
                         type="text"
-                        placeholder="Search settings, models, cars... (Cmd+K)"
+                        placeholder="Search settings, models, cars... (Cmd K)"
                         className="flex-1 bg-transparent text-lg text-white placeholder-slate-500 outline-none"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
+                        onKeyDown={handleKeyDown}
                     />
                     <button 
                         onClick={() => setIsOpen(false)}
@@ -213,25 +236,36 @@ export default function UniversalSearch() {
                             </div>
                         ) : (
                             <div className="space-y-1">
-                                {displayResults.map((item) => (
+                                {displayResults.map((item, index) => (
                                     <button
                                         key={`${item.type}-${item.id}`}
                                         onClick={() => handleSelect(item)}
-                                        className="w-full flex items-center gap-4 p-3 rounded-xl hover:bg-slate-800/70 transition-colors text-left group"
+                                        onMouseEnter={() => setActiveIndex(index)}
+                                        className={`w-full flex items-center gap-4 p-3 rounded-xl transition-colors text-left group ${
+                                            index === activeIndex 
+                                                ? 'bg-slate-800/80 border-slate-600 ring-1 ring-slate-700/50 shadow-lg' 
+                                                : 'hover:bg-slate-800/40'
+                                        }`}
                                     >
-                                        <div className="p-2 rounded-lg bg-slate-800 border border-slate-700/50 group-hover:bg-slate-700/50 transition-colors">
+                                        <div className={`p-2 rounded-lg transition-colors ${
+                                            index === activeIndex ? 'bg-slate-700 border-slate-600' : 'bg-slate-800 border-slate-700/50 group-hover:bg-slate-700/50'
+                                        } border`}>
                                             {getIcon(item.type)}
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <div className="text-slate-200 font-medium truncate">
+                                            <div className={`font-medium truncate ${index === activeIndex ? 'text-white' : 'text-slate-200'}`}>
                                                 <HighlightMatch text={item.title} />
                                             </div>
-                                            <div className="text-sm text-slate-500 truncate mt-0.5">
+                                            <div className={`text-sm truncate mt-0.5 ${index === activeIndex ? 'text-slate-300' : 'text-slate-500'}`}>
                                                 {item.subtitle}
                                             </div>
                                         </div>
                                         <div className="hidden sm:block">
-                                            <span className="text-xs font-medium text-slate-500 bg-slate-800 border border-slate-700 px-2 py-1 rounded-md">
+                                            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md border ${
+                                                index === activeIndex 
+                                                    ? 'text-cyan-300 bg-cyan-500/20 border-cyan-500/30' 
+                                                    : 'text-slate-500 bg-slate-800 border-slate-700'
+                                            }`}>
                                                 {getTypeLabel(item.type)}
                                             </span>
                                         </div>

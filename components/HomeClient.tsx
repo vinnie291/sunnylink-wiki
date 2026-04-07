@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Header from './Header';
 import SettingsDatabase from './SettingsDatabase';
@@ -45,7 +45,20 @@ export default function HomeClient({ discourseSettings }: HomeClientProps) {
     const togglesData = useTranslatedToggles();
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategories, setActiveCategories] = useState<string[]>([]);
-    const highlightedKey = null;
+    const [highlightedKey, setHighlightedKey] = useState<string | null>(null);
+
+    // Watch for URL hash to highlight specific settings
+    useEffect(() => {
+        const handleHashChange = () => {
+            const hash = window.location.hash;
+            if (hash) {
+                setHighlightedKey(decodeURIComponent(hash.slice(1)));
+            }
+        };
+        handleHashChange();
+        window.addEventListener('hashchange', handleHashChange);
+        return () => window.removeEventListener('hashchange', handleHashChange);
+    }, []);
 
     const categories = togglesData.categories as Category[];
 
