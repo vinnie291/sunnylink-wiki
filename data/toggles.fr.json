@@ -717,7 +717,15 @@
             "v0.0"
           ],
           "default": "Default",
-          "description": "Sélectionnez la version de Torque Control Tune à utiliser."
+          "description": "Choisissez entre différents profils de réglage mathématique pour le contrôleur de direction basé sur le couple. Ces versions représentent différentes itérations de la façon dont sunnypilot calcule et applique le couple de direction à la crémaillère de votre véhicule.",
+          "useCase": "Résout le 'ping-ponging' (oscillation) ou une direction 'paresseuse' dans les virages. La v0.0 est un correctif communautaire largement rapporté pour les problèmes de stabilité sur les véhicules qui luttent avec la nouvelle logique longitudinale/latérale.",
+          "tradeoffs": [
+            "v1.0: Logique de réglage moderne ; standard pour la plupart des véhicules mais peut causer des oscillations sur certaines crémaillères de direction.",
+            "v0.0: Logique de réglage héritée ; souvent plus stable et prévisible pour les véhicules sujets au louvoiement.",
+            "Réinitialisation requise: Changer de version réinitialise la progression de l'apprentissage 'Self-Tune' pour ce contrôleur."
+          ],
+          "deepDive": "Ce commutateur bascule la logique du contrôleur de couple entre v0.0 et v1.0. La v1.0 est le contrôleur de 'couple' standardisé de l'openpilot moderne, tandis que la v0.0 conserve les modèles mathématiques hérités dont certains firmwares de direction plus anciens ont encore besoin pour la stabilité. La plupart des utilisateurs devraient rester sur Default, sauf s'ils dépannent des problèmes de stabilité latérale.",
+          "userNote": "Conseil de la communauté: Si votre voiture oscille ou semble instable dans les voies, essayez de passer d'abord à la v1.0, puis à la v0.0 si les problèmes persistent. À utiliser de préférence avec 'Self-Tune' activé ; prévoyez plus de 30 km de conduite pour que le système se calibre complètement après un changement."
         },
         {
           "key": "BlinkerMinLateralControlSpeed",

@@ -717,7 +717,15 @@
             "v0.0"
           ],
           "default": "Default",
-          "description": "Wählen Sie die zu verwendende Version von Torque Control Tune aus."
+          "description": "Wählen Sie zwischen verschiedenen mathematischen Abstimmungsprofilen für den drehmomentbasierten Lenkungsregler. Diese Versionen repräsentieren unterschiedliche Iterationen darüber, wie sunnypilot das Lenkdrehmoment auf die Zahnstange Ihres Fahrzeugs berechnet und anwendet.",
+          "useCase": "Beheben Sie 'Ping-Pong' (Oszillation) oder ein 'träges' Lenkgefühl in Kurven. v0.0 ist eine weithin berichtete Community-Lösung für Stabilitätsprobleme bei Fahrzeugen, die Schwierigkeiten mit der neueren Längs-/Querlogik haben.",
+          "tradeoffs": [
+            "v1.0: Moderne Abstimmungslogik; Standard für die meisten Fahrzeuge, kann aber bei bestimmten Lenkgetrieben zum Aufschwingen führen.",
+            "v0.0: Legacy-Abstimmungslogik; oft stabiler und vorhersehbarer für Fahrzeuge, die zum Pendeln neigen.",
+            "Neustart erforderlich: Das Wechseln der Version setzt den 'Self-Tune'-Lernfortschritt für diesen Controller zurück."
+          ],
+          "deepDive": "Dieser Schalter ändert die Logik des Drehmomentreglers zwischen v0.0 und v1.0. v1.0 ist der standardisierte 'Torque'-Controller aus modernem openpilot, während v0.0 die Legacy-Mathematikmodelle beibehält, die einige ältere Lenkrad-Firmwares noch für die Stabilität benötigen. Die meisten Benutzer sollten bei Default bleiben, es sei denn, sie beheben Probleme mit der Seitenstabilität.",
+          "userNote": "Community-Tipp: Wenn Ihr Auto oszilliert oder sich in Fahrspuren instabil anfühlt, versuchen Sie zuerst auf v1.0 umzuschalten, dann auf v0.0, wenn die Probleme weiterhin bestehen. Am besten mit aktiviertem 'Self-Tune' verwenden; planen Sie mehr als 30 km Fahrt ein, damit sich das System nach einer Änderung vollständig kalibrieren kann."
         },
         {
           "key": "BlinkerMinLateralControlSpeed",

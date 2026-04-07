@@ -717,7 +717,15 @@
             "v0.0"
           ],
           "default": "Default",
-          "description": "Seleccione la versión de Torque Control Tune que desea utilizar."
+          "description": "Seleccione entre diferentes perfiles de ajuste matemático para el controlador de dirección basado en par (torque). Estas versiones representan diferentes iteraciones de cómo sunnypilot calcula y aplica el par de dirección a la cremallera de su vehículo.",
+          "useCase": "Resuelva el 'ping-ponging' (serpenteo) o una dirección 'perezosa' en curvas. La v0.0 es una solución comunitaria ampliamente reportada para problemas de estabilidad en vehículos que tienen dificultades con la nueva lógica longitudinal/lateral.",
+          "tradeoffs": [
+            "v1.0: Lógica de ajuste moderna; estándar para la mayoría de los vehículos, pero puede causar oscilación en cremalleras de dirección específicas.",
+            "v0.0: Lógica de ajuste heredada; a menudo más estable y predecible para vehículos propensos al serpenteo.",
+            "Reinicio requerido: Cambiar de versión reinicia el progreso de aprendizaje 'Self-Tune' para ese controlador."
+          ],
+          "deepDive": "Este interruptor cambia la lógica del controlador de par entre v0.0 y v1.0. La v1.0 es el controlador de 'par' estandarizado de openpilot moderno, mientras que la v0.0 conserva los modelos matemáticos heredados que algunos firmwares de dirección más antiguos aún requieren para la estabilidad. La mayoría de los usuarios deben permanecer en Default a menos que estén solucionando problemas de estabilidad lateral.",
+          "userNote": "Consejo de la comunidad: Si su coche oscila o se siente inestable en los carriles, intente cambiar primero a v1.0, luego a v0.0 si los problemas persisten. Es mejor usarlo con 'Self-Tune' activado; permita más de 30 km de conducción para que el sistema se calibre por completo después de un cambio."
         },
         {
           "key": "BlinkerMinLateralControlSpeed",

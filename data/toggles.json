@@ -723,7 +723,15 @@
             "v0.0"
           ],
           "default": "Default",
-          "description": "Select the version of Torque Control Tune to use."
+          "description": "Select between different mathematical tuning profiles for the torque-based steering controller. These versions represent different iterations of how sunnypilot calculates and applies steering torque to your vehicle's rack.",
+          "useCase": "Resolve 'ping-ponging' (weaving) or 'lazy' steering on curves. v0.0 is a widely reported community fix for stability issues on vehicles that struggle with the newer longitudinal/lateral logic.",
+          "tradeoffs": [
+            "v1.0: Modern tuning logic; standard for most vehicles but can cause oscillation on specific steering racks.",
+            "v0.0: Legacy tuning logic; often more stable and predictable for vehicles prone to weaving.",
+            "Reset required: Switching versions resets the 'Self-Tune' learning progress for that controller."
+          ],
+          "deepDive": "This toggle switches the torque controller's logic between v0.0 and v1.0. v1.0 is the standardized 'torque' controller from modern openpilot, while v0.0 retains the legacy mathematical models that some older steering firmware still requires for stability. Most users should stay on Default unless troubleshooting lateral stability issues.",
+          "userNote": "Community Tip: If your car oscillates or feels unstable in lanes, try switching to v1.0 first, then v0.0 if issues persist. Best used with 'Self-Tune' enabled; allow 20+ miles of driving for the system to fully calibrate after a change."
         },
         {
           "key": "BlinkerMinLateralControlSpeed",
