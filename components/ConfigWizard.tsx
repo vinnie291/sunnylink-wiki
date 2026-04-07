@@ -11,7 +11,7 @@ import modelsData from '../data/models.json';
 
 // ─── Types ───
 
-export type WizardStepId = 'welcome' | 'car' | 'driving' | 'steering' | 'speed' | 'visuals' | 'review' | 'export';
+export type WizardStepId = 'welcome' | 'car' | 'expert' | 'driving' | 'steering' | 'speed' | 'visuals' | 'review' | 'export';
 
 export interface ConfigValues {
     // Vehicle
@@ -19,59 +19,22 @@ export interface ConfigValues {
     model: string;
     year: number;
     device: string;
-    // Driving
-    DrivingModel: string;
-    ExperimentalMode: string;
-    DrivingPersonality: string;
-    DynamicExperimentalControl: string;
-    DisengageOnAccelerator: string;
-    IsLdwEnabled: string;
-    AlwaysOnDM: string;
-    RecordFront: string;
-    GsmMetered: string;
-    // Steering
-    Mads: string;
-    MadsSteeringMode: string;
-    MadsMainCruiseAllowed: string;
-    NNLCEnabled: string;
-    SelfTune: string;
-    LiveTorqueParamsToggle: string;
-    CameraOffset: number;
-    AutoLaneChangeTimer: string;
-    AutoLaneChangeBsmDelay: string;
-    HyundaiLongitudinalTuning: string;
-    TorqueControlTuneVersion: string;
-    TeslaCoopSteering: string;
-    // Speed
-    VisionBasedTurnSpeedControl: string;
-    MapBasedTurnSpeedControl: string;
-    SpeedLimitAssistMode: string;
-    SpeedLimitSource: string;
-    SpeedLimitOffsetType: string;
-    SpeedLimitOffsetValue: number;
-    MapAdvisorySpeedLimit: string;
-    CustomAccIncrements: string;
-    CustomAccShortPressIncrement: number;
-    CustomAccLongPressIncrement: number;
-    // Visuals
-    GreenLightAlert: string;
-    LeadDepartAlert: string;
-    BlindSpotDetection: string;
-    ShowTurnSignals: string;
-    DisplayRoadName: string;
-    ScreenBrightness: string;
-    StandstillTimer: string;
-    DisplayRocketFuelBar: string;
-    SteeringArc: string;
-    ChevronInfo: string;
-    DeveloperUIInfo: string;
-    RainbowMode: string;
-    // Other
-    ToyotaEnforceFactoryLongitudinalControl: string;
-    SubaruStopAndGo: string;
+    // Expert / System
+    UseMetricUnits: string;
+    QuietMode: string;
+    Language: string;
+    OnroadUploads: string;
+    AlwaysOnDriverMonitor: string;
+    RecordUploadDriverCamera: string;
+    RecordUploadMicAudio: string;
+    GsmApn: string;
+    GsmRoaming: string;
+    QuickBoot: string;
+    DisablePowerDown: string;
+    AlphaLongitudinal: string;
+    DisableUpdates: string;
     EnableSsh: string;
     EnableAdb: string;
-    ShowAdvancedControls: string;
     [key: string]: string | number;
 }
 
@@ -109,13 +72,27 @@ export interface SettingMeta {
 // ─── Default config values ───
 const DEFAULT_CONFIG: ConfigValues = {
     make: '', model: '', year: 2024, device: 'comma 3X',
+    // Expert
+    UseMetricUnits: 'False',
+    QuietMode: 'False',
+    Language: 'en',
+    OnroadUploads: 'True',
+    AlwaysOnDriverMonitor: 'False',
+    RecordUploadDriverCamera: 'False',
+    RecordUploadMicAudio: 'False',
+    GsmApn: '',
+    GsmRoaming: 'False',
+    QuickBoot: 'False',
+    DisablePowerDown: 'False',
+    AlphaLongitudinal: 'False',
+    DisableUpdates: 'False',
+    // Driving
     DrivingModel: 'Default',
     ExperimentalMode: 'False',
     DrivingPersonality: 'Standard',
     DynamicExperimentalControl: 'False',
     DisengageOnAccelerator: 'True',
     IsLdwEnabled: 'False',
-    AlwaysOnDM: 'False',
     RecordFront: 'True',
     GsmMetered: 'True',
     Mads: 'False',
@@ -163,6 +140,7 @@ const DEFAULT_CONFIG: ConfigValues = {
 const STEPS: { id: WizardStepId; icon: string; label: string }[] = [
     { id: 'welcome', icon: '👋', label: 'Welcome' },
     { id: 'car', icon: '🚗', label: 'Your Car' },
+    { id: 'expert', icon: '⚙️', label: 'Expert Mode' },
     { id: 'driving', icon: '🛞', label: 'Core Driving' },
     { id: 'steering', icon: '🎯', label: 'Steering & MADS' },
     { id: 'speed', icon: '⚡', label: 'Speed & Cruise' },
@@ -297,7 +275,7 @@ function SettingCard({ settingKey, meta, value, onChange, config, isCommunityDef
                             <span className="cw-badge-community text-[10px] px-1.5 py-0.5 rounded-full font-medium">★ Community</span>
                         )}
                         {isAdvanced && (
-                            <span className="cw-badge-advanced text-[10px] px-1.5 py-0.5 rounded-full font-medium">Advanced</span>
+                            <span className="cw-badge-advanced text-[10px] px-1.5 py-0.5 rounded-full font-medium">Expert</span>
                         )}
                         {meta.warning && (
                             <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium bg-red-500/20 border border-red-500/30 text-red-400">⚠ Warning</span>
@@ -431,8 +409,8 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
 
 function CarStep({ config, onChange, onNext, onBack }: { config: ConfigValues; onChange: (key: string, value: string | number) => void; onNext: () => void; onBack: () => void }) {
     const makes = useMemo(() => [...getUniqueMakes(), 'Other'], []);
-    const models = useMemo(() => config.make ? getModelsForMake(config.make) : [], [config.make]);
-    const carMatch = useMemo(() => findCarMatch(config.make, config.model), [config.make, config.model]);
+    const models = useMemo(() => config.make ? getModelsForMake(config.make as string) : [], [config.make]);
+    const carMatch = useMemo(() => findCarMatch(config.make as string, config.model as string), [config.make, config.model]);
 
     return (
         <div className="cw-step-enter space-y-6">
@@ -501,7 +479,7 @@ function CarStep({ config, onChange, onNext, onBack }: { config: ConfigValues; o
                 <div className="space-y-1.5">
                     <label className="text-sm font-medium text-slate-300">Comma Device</label>
                     <div className="cw-segmented">
-                        <div className="cw-segmented-indicator" data-index={['comma 3', 'comma 3X', 'comma 4'].indexOf(config.device)} />
+                        <div className="cw-segmented-indicator" data-index={['comma 3', 'comma 3X', 'comma 4'].indexOf(config.device as string)} />
                         {[
                             { value: 'comma 3', label: 'comma 3', sub: 'Legacy' },
                             { value: 'comma 3X', label: 'comma 3X', sub: 'Popular' },
@@ -545,9 +523,9 @@ function CarStep({ config, onChange, onNext, onBack }: { config: ConfigValues; o
                 </button>
                 <button 
                     onClick={onNext}
-                    disabled={!config.make || !config.model?.trim()}
+                    disabled={!config.make || !String(config.model || '').trim()}
                     className={`px-8 py-2.5 rounded-xl font-semibold text-sm transition-all ${
-                        !config.make || !config.model?.trim()
+                        !config.make || !String(config.model || '').trim()
                         ? 'bg-slate-700 text-slate-400 cursor-not-allowed opacity-50'
                         : 'bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:from-cyan-400 hover:to-cyan-500 shadow-lg shadow-cyan-500/20'
                     }`}
@@ -578,6 +556,10 @@ function SettingsStep({ title, icon, description, settingKeys, config, onChange,
         'RainbowMode', 'AutoLaneChangeBsmDelay', 'MapAdvisorySpeedLimit',
         'ToyotaEnforceFactoryLongitudinalControl', 'SubaruStopAndGo',
         'DynamicExperimentalControl', 'RecordFront', 'GsmMetered',
+        'UseMetricUnits', 'QuietMode', 'Language', 'OnroadUploads',
+        'AlwaysOnDriverMonitor', 'RecordUploadDriverCamera', 'RecordUploadMicAudio',
+        'GsmApn', 'GsmRoaming', 'QuickBoot', 'DisablePowerDown',
+        'AlphaLongitudinal', 'DisableUpdates', 'EnableSsh', 'EnableAdb',
     ]), []);
 
     const visibleSettings = settingKeys.filter(key => {
@@ -796,8 +778,8 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
         const a = document.createElement('a');
         a.href = url;
 
-        const makeSafe = (config.make || '').replace(/[^a-zA-Z0-9]/g, '');
-        const modelSafe = (config.model || '').replace(/[^a-zA-Z0-9]/g, '');
+        const makeSafe = String(config.make || '').replace(/[^a-zA-Z0-9]/g, '');
+        const modelSafe = String(config.model || '').replace(/[^a-zA-Z0-9]/g, '');
         const dateStr = new Date().toISOString().split('T')[0];
 
         let filename = `SunnyLink-${dateStr}.json`;
@@ -1046,7 +1028,7 @@ export default function ConfigWizard() {
 
     // Apply car match defaults when car changes
     useEffect(() => {
-        const match = findCarMatch(config.make, config.model);
+        const match = findCarMatch(config.make as string, config.model as string);
         if (match && match.bestSettings) {
             const newConfig = { ...config };
             const newCommunityKeys = new Set<string>();
@@ -1128,7 +1110,8 @@ export default function ConfigWizard() {
     }, []);
 
     // Setting keys per step
-    const drivingKeys = ['DrivingModel', 'ExperimentalMode', 'DrivingPersonality', 'DynamicExperimentalControl', 'DisengageOnAccelerator', 'IsLdwEnabled', 'AlwaysOnDM', 'RecordFront', 'GsmMetered'];
+    const expertKeys = ['UseMetricUnits', 'QuietMode', 'Language', 'OnroadUploads', 'AlwaysOnDriverMonitor', 'RecordUploadDriverCamera', 'RecordUploadMicAudio', 'GsmApn', 'GsmRoaming', 'QuickBoot', 'DisablePowerDown', 'AlphaLongitudinal', 'DisableUpdates', 'EnableSsh', 'EnableAdb'];
+    const drivingKeys = ['DrivingModel', 'ExperimentalMode', 'DrivingPersonality', 'DynamicExperimentalControl', 'DisengageOnAccelerator', 'IsLdwEnabled', 'RecordFront', 'GsmMetered'];
     const steeringKeys = ['Mads', 'MadsSteeringMode', 'MadsMainCruiseAllowed', 'NNLCEnabled', 'SelfTune', 'LiveTorqueParamsToggle', 'CameraOffset', 'AutoLaneChangeTimer', 'AutoLaneChangeBsmDelay', 'HyundaiLongitudinalTuning', 'TorqueControlTuneVersion', 'TeslaCoopSteering'];
     const speedKeys = ['VisionBasedTurnSpeedControl', 'MapBasedTurnSpeedControl', 'SpeedLimitAssistMode', 'SpeedLimitSource', 'SpeedLimitOffsetType', 'SpeedLimitOffsetValue', 'MapAdvisorySpeedLimit', 'CustomAccIncrements', 'CustomAccShortPressIncrement', 'CustomAccLongPressIncrement'];
     const visualKeys = ['GreenLightAlert', 'LeadDepartAlert', 'BlindSpotDetection', 'ShowTurnSignals', 'DisplayRoadName', 'ScreenBrightness', 'StandstillTimer', 'DisplayRocketFuelBar', 'SteeringArc', 'ChevronInfo', 'DeveloperUIInfo', 'RainbowMode'];
@@ -1150,7 +1133,7 @@ export default function ConfigWizard() {
                         Reset Config
                     </button>
                     <label className="flex items-center gap-2 cursor-pointer">
-                        <span className="text-xs text-slate-400">Advanced Mode</span>
+                        <span className="text-xs text-slate-400">Expert Mode</span>
                         <WizardToggle value={isAdvancedMode} onChange={setIsAdvancedMode} />
                     </label>
                 </div>
@@ -1159,6 +1142,11 @@ export default function ConfigWizard() {
             {/* Steps */}
             {currentStepId === 'welcome' && <WelcomeStep onNext={goNext} />}
             {currentStepId === 'car' && <CarStep config={config} onChange={handleChange} onNext={goNext} onBack={goBack} />}
+            {currentStepId === 'expert' && (
+                <SettingsStep title="Expert & System" icon="⚙️" description="Configure device-level system settings and power user features"
+                    settingKeys={expertKeys} config={config} onChange={handleChange}
+                    onNext={goNext} onBack={goBack} isAdvancedMode={true} communityKeys={communityKeys} />
+            )}
             {currentStepId === 'driving' && (
                 <SettingsStep title="Core Driving" icon="🛞" description="Choose your driving model, personality, and core behavior"
                     settingKeys={drivingKeys} config={config} onChange={handleChange}
