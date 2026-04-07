@@ -5,13 +5,13 @@ import { useLanguage } from '../lib/i18n';
 import { GitFork, RefreshCw, X, CheckCircle2, Download } from 'lucide-react';
 import './ConfigWizard.css';
 
-// --- Static data imports ---
 import togglesData from '../data/toggles.json';
 import carsData from '../data/cars.json';
+import modelsData from '../data/models.json';
 
 // ─── Types ───
 
-export type WizardStepId = 'welcome' | 'car' | 'driving' | 'steering' | 'speed' | 'visuals' | 'export';
+export type WizardStepId = 'welcome' | 'car' | 'driving' | 'steering' | 'speed' | 'visuals' | 'review' | 'export';
 
 export interface ConfigValues {
     // Vehicle
@@ -167,6 +167,7 @@ const STEPS: { id: WizardStepId; icon: string; label: string }[] = [
     { id: 'steering', icon: '🎯', label: 'Steering & MADS' },
     { id: 'speed', icon: '⚡', label: 'Speed & Cruise' },
     { id: 'visuals', icon: '🎨', label: 'Visuals & HUD' },
+    { id: 'review', icon: '📋', label: 'Review' },
     { id: 'export', icon: '📦', label: 'Export Config' },
 ];
 
@@ -174,7 +175,14 @@ const STEPS: { id: WizardStepId; icon: string; label: string }[] = [
 function getSettingMeta(key: string): SettingMeta | null {
     for (const cat of togglesData.categories) {
         for (const s of cat.settings) {
-            if (s.key === key) return s as SettingMeta;
+            if (s.key === key) {
+                const meta = { ...s } as SettingMeta;
+                if (key === 'DrivingModel' && !meta.options) {
+                    const allModels = (modelsData.categories as any[]).flatMap(c => c.models.map((m: any) => m.name));
+                    meta.options = ['Default', ...allModels];
+                }
+                return meta;
+            }
         }
     }
     return null;
@@ -268,7 +276,11 @@ function SettingCard({ settingKey, meta, value, onChange, config, isCommunityDef
     // Check dependencies
     if (meta.dependencies) {
         for (const dep of meta.dependencies) {
-            const depVal = config[dep.key];
+            let key = dep.key;
+            if (key === 'MadsEnabled') key = 'Mads';
+            if (key === 'NeuralNetworkLateralControl') key = 'NNLCEnabled';
+            
+            const depVal = config[key];
             if (depVal === 'False' || depVal === 'false' || depVal === 'Off' || depVal === undefined) {
                 return null; // Hide if dependency not met
             }
@@ -346,7 +358,6 @@ function SettingCard({ settingKey, meta, value, onChange, config, isCommunityDef
 
 function WelcomeStep({ onNext }: { onNext: () => void }) {
     const { t } = useLanguage();
-    const [accepted, setAccepted] = useState(false);
 
     return (
         <div className="cw-step-enter space-y-6">
@@ -369,7 +380,7 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
                 </div>
                 <p className="text-slate-400 max-w-lg mx-auto leading-relaxed">
                     Build a complete, device-ready sunnypilot configuration file in minutes.
-                    We&apos;ll guide you through every setting with community-tested recommendations for your specific vehicle.
+                    We'll guide you through every setting with community-tested recommendations for your specific vehicle.
                 </p>
             </div>
 
@@ -401,25 +412,15 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
                         </p>
                     </div>
                 </div>
-                <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                        type="checkbox"
-                        checked={accepted}
-                        onChange={e => setAccepted(e.target.checked)}
-                        className="w-4 h-4 rounded border-slate-600 bg-slate-800 text-cyan-500 focus:ring-cyan-500/30"
-                    />
-                    <span className="text-xs text-slate-300">I understand sunnypilot is a driver assistance system and I am responsible for safe driving</span>
-                </label>
+                <div className="mt-2 pt-3 border-t border-amber-500/20 text-center">
+                    <p className="text-xs font-medium text-amber-400/90">By using this builder you accept the safety terms above.</p>
+                </div>
             </div>
 
             <div className="flex justify-center">
                 <button
                     onClick={onNext}
-                    disabled={!accepted}
-                    className={`px-8 py-3 rounded-xl font-semibold text-sm transition-all ${accepted
-                        ? 'bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:from-cyan-400 hover:to-cyan-500 shadow-lg shadow-cyan-500/20'
-                        : 'bg-slate-700 text-slate-400 cursor-not-allowed'
-                        }`}
+                    className="px-8 py-3 rounded-xl font-semibold text-sm transition-all bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:from-cyan-400 hover:to-cyan-500 shadow-lg shadow-cyan-500/20"
                 >
                     Get Started →
                 </button>
@@ -542,8 +543,15 @@ function CarStep({ config, onChange, onNext, onBack }: { config: ConfigValues; o
                 <button onClick={onBack} className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500 transition-all">
                     ← Back
                 </button>
-                <button onClick={onNext}
-                    className="px-8 py-2.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:from-cyan-400 hover:to-cyan-500 shadow-lg shadow-cyan-500/20 transition-all">
+                <button 
+                    onClick={onNext}
+                    disabled={!config.make || !config.model?.trim()}
+                    className={`px-8 py-2.5 rounded-xl font-semibold text-sm transition-all ${
+                        !config.make || !config.model?.trim()
+                        ? 'bg-slate-700 text-slate-400 cursor-not-allowed opacity-50'
+                        : 'bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:from-cyan-400 hover:to-cyan-500 shadow-lg shadow-cyan-500/20'
+                    }`}
+                >
                     Next →
                 </button>
             </div>
@@ -619,17 +627,15 @@ function SettingsStep({ title, icon, description, settingKeys, config, onChange,
     );
 }
 
-function ReviewExportModal({
+function ReviewStep({
     config,
-    exportObj,
-    onClose,
-    onConfirm,
+    onBack,
+    onNext,
     onChange
 }: {
     config: ConfigValues;
-    exportObj: { settings: Record<string, string | number>, [key: string]: unknown };
-    onClose: () => void;
-    onConfirm: () => void;
+    onBack: () => void;
+    onNext: () => void;
     onChange: (key: string, value: string | number) => void;
 }) {
     const groupedSettings: { name: string; settings: { key: string; val: string | number | boolean | undefined; meta: SettingMeta | null }[] }[] = [];
@@ -637,9 +643,10 @@ function ReviewExportModal({
     
     for (const cat of togglesData.categories) {
         const catSettings = [];
-        for (const meta of cat.settings) {
-            if (meta.key in config && !excludeKeys.has(meta.key)) {
-                catSettings.push({ key: meta.key, val: config[meta.key as keyof ConfigValues], meta: meta as SettingMeta });
+        for (const rawMeta of cat.settings) {
+            const meta = getSettingMeta(rawMeta.key);
+            if (meta && meta.key in config && !excludeKeys.has(meta.key)) {
+                catSettings.push({ key: meta.key, val: config[meta.key as keyof ConfigValues], meta });
             }
         }
         if (catSettings.length > 0) {
@@ -709,73 +716,53 @@ function ReviewExportModal({
         );
     };
 
+    let totalExported = 0;
+    groupedSettings.forEach(g => { totalExported += g.settings.length; });
+
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
-            <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden text-slate-300">
-                {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700">
-                    <h3 className="text-sm font-semibold text-slate-100 font-sans flex items-center gap-2">Review SunnyLink Export</h3>
-                    <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors bg-slate-800 hover:bg-slate-700 rounded-md p-1 border border-slate-700">
-                        <X className="w-4 h-4" />
-                    </button>
-                </div>
-                
-                {/* Subheader */}
-                <div className="px-6 py-5">
-                    <div className="flex items-center gap-2 text-cyan-400 font-sans mb-6">
-                        <CheckCircle2 className="w-4 h-4" />
-                        <span className="text-sm">Exporting <strong>{Object.keys(exportObj.settings).length}</strong> parameters to SunnyLink format</span>
-                    </div>
-                    <div className="text-[10px] uppercase tracking-widest text-slate-500 font-sans">
-                        Parameters Being Exported
-                    </div>
-                </div>
+        <div className="cw-step-enter space-y-6">
+            <div className="text-center space-y-2">
+                <div className="text-4xl px-2">📋</div>
+                <h2 className="text-xl md:text-2xl font-bold text-white">Review Settings</h2>
+                <p className="text-sm text-slate-400">Review and adjust your {totalExported} settings before exporting</p>
+            </div>
 
-                {/* Content */}
-                <div className="flex-1 overflow-y-auto px-6 pb-6 space-y-6">
-                    {groupedSettings.map(group => (
-                        <div key={group.name} className="space-y-2">
-                            <div className="text-[10px] uppercase tracking-widest text-slate-400 font-sans">{group.name}</div>
-                            <div className="border border-slate-700/50 rounded-lg overflow-hidden bg-slate-800/20 divide-y divide-slate-700/50">
-                                {group.settings.map(s => (
-                                    <div key={s.key} className="flex min-h-[36px]">
-                                        <div className="w-1/2 px-4 py-2 border-r border-slate-700/50 text-slate-300 text-xs font-sans flex items-center">
-                                            {s.meta?.label || s.key}
-                                        </div>
-                                        <div className="w-1/2 px-4 py-2 flex items-center bg-slate-800/40">
-                                            {renderControl(s.key, s.val, s.meta)}
-                                        </div>
+            <div className="max-w-2xl mx-auto space-y-6">
+                {groupedSettings.map(group => (
+                    <div key={group.name} className="space-y-2">
+                        <div className="text-[10px] uppercase tracking-widest text-slate-400 font-sans">{group.name}</div>
+                        <div className="border border-slate-700/50 rounded-lg overflow-hidden bg-slate-800/20 divide-y divide-slate-700/50">
+                            {group.settings.map(s => (
+                                <div key={s.key} className="flex min-h-[36px]">
+                                    <div className="w-1/2 px-4 py-2 border-r border-slate-700/50 text-slate-300 text-xs font-sans flex items-center">
+                                        {s.meta?.label || s.key}
                                     </div>
-                                ))}
-                            </div>
+                                    <div className="w-1/2 px-4 py-2 flex items-center bg-slate-800/40">
+                                        {renderControl(s.key, s.val, s.meta)}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    </div>
+                ))}
+            </div>
 
-                {/* Footer */}
-                <div className="p-4 border-t border-slate-700 bg-slate-800/50 flex items-center justify-between flex-shrink-0">
-                    <div className="text-[10px] text-slate-500 font-sans flex-1 pr-4">
-                        This file can be imported into your device via the SunnyLink app.
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <button onClick={onClose} className="px-5 py-2 text-sm font-sans font-medium text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors">
-                            Cancel
-                        </button>
-                        <button onClick={onConfirm} className="px-5 py-2 text-sm font-sans font-medium bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-white rounded-lg flex items-center gap-2 transition-colors shadow-lg shadow-cyan-500/20">
-                            <Download className="w-4 h-4" />
-                            Confirm & Download
-                        </button>
-                    </div>
-                </div>
+            <div className="flex justify-between max-w-2xl mx-auto pt-4">
+                <button onClick={onBack} className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500 transition-all">
+                    ← Back
+                </button>
+                <button onClick={onNext}
+                    className="px-8 py-2.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:from-cyan-400 hover:to-cyan-500 shadow-lg shadow-cyan-500/20 transition-all">
+                    Next: Export →
+                </button>
             </div>
         </div>
     );
 }
 
-function ExportStep({ config, onBack, onRestart, onChange }: { config: ConfigValues; onBack: () => void; onRestart: () => void; onChange: (key: string, value: string | number) => void }) {
+function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBack: () => void; onRestart: () => void }) {
     const [copied, setCopied] = useState(false);
     const [showJson, setShowJson] = useState(false);
-    const [showReview, setShowReview] = useState(false);
     const previewRef = useRef<HTMLPreElement>(null);
 
     // Build export object
@@ -804,21 +791,28 @@ function ExportStep({ config, onBack, onRestart, onChange }: { config: ConfigVal
     const jsonStr = useMemo(() => JSON.stringify(exportObj, null, 2), [exportObj]);
 
     const handleDownload = useCallback(() => {
-        setShowReview(true);
-    }, []);
-
-    const performDownload = useCallback(() => {
         const blob = new Blob([jsonStr], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'sunnypilot-config.json';
+
+        const makeSafe = (config.make || '').replace(/[^a-zA-Z0-9]/g, '');
+        const modelSafe = (config.model || '').replace(/[^a-zA-Z0-9]/g, '');
+        const dateStr = new Date().toISOString().split('T')[0];
+
+        let filename = `SunnyLink-${dateStr}.json`;
+        if (makeSafe && modelSafe) {
+            filename = `SunnyLink-${makeSafe}-${modelSafe}-${dateStr}.json`;
+        } else if (makeSafe) {
+            filename = `SunnyLink-${makeSafe}-${dateStr}.json`;
+        }
+
+        a.download = filename;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        setShowReview(false);
-    }, [jsonStr]);
+    }, [jsonStr, config.make, config.model]);
 
     const handleCopy = useCallback(async () => {
         try {
@@ -923,15 +917,7 @@ function ExportStep({ config, onBack, onRestart, onChange }: { config: ConfigVal
                 </button>
             </div>
 
-            {showReview && (
-                <ReviewExportModal 
-                    config={config} 
-                    exportObj={exportObj} 
-                    onClose={() => setShowReview(false)} 
-                    onConfirm={performDownload} 
-                    onChange={onChange}
-                />
-            )}
+
         </div>
     );
 }
@@ -1011,6 +997,53 @@ export default function ConfigWizard() {
 
     const currentStepId = STEPS[stepIndex].id;
 
+    const enforceDependencies = useCallback((currentConfig: ConfigValues) => {
+        const newConfig = { ...currentConfig };
+        let changed = false;
+
+        const getNormalizedKey = (k: string) => {
+            if (k === 'MadsEnabled') return 'Mads';
+            if (k === 'NeuralNetworkLateralControl') return 'NNLCEnabled';
+            return k;
+        };
+
+        // 1. Process toggles.json dependencies
+        for (const cat of togglesData.categories) {
+            for (const s of cat.settings) {
+                const sMeta = s as SettingMeta;
+                if (sMeta.dependencies) {
+                    const normTarget = getNormalizedKey(sMeta.key);
+                    if (normTarget in newConfig) {
+                        const depsMet = sMeta.dependencies.every((dep: { key: string }) => {
+                            const normDep = getNormalizedKey(dep.key);
+                            const val = newConfig[normDep];
+                            return val !== undefined && val !== 'False' && val !== 'Off';
+                        });
+
+                        if (!depsMet) {
+                            const defVal = DEFAULT_CONFIG[normTarget] !== undefined ? DEFAULT_CONFIG[normTarget] : 'False';
+                            if (newConfig[normTarget] !== defVal && newConfig[normTarget] !== 'False') {
+                                newConfig[normTarget] = defVal;
+                                changed = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 2. Custom mutually exclusive pairings (Disallowed settings)
+        // NNLC disable Torque Tune variables entirely
+        if (newConfig.NNLCEnabled === 'True') {
+            if (newConfig.SelfTune !== 'False') { newConfig.SelfTune = 'False'; changed = true; }
+            if (newConfig.LiveTorqueParamsToggle !== 'False') { newConfig.LiveTorqueParamsToggle = 'False'; changed = true; }
+            if (newConfig.TorqueControlTuneVersion !== 'Default') { newConfig.TorqueControlTuneVersion = 'Default'; changed = true; }
+        }
+
+        // Return the modified config if changes were made, otherwise return null indicating stable
+        return changed ? newConfig : null;
+    }, []);
+
     // Apply car match defaults when car changes
     useEffect(() => {
         const match = findCarMatch(config.make, config.model);
@@ -1033,15 +1066,45 @@ export default function ConfigWizard() {
                 }
             }
 
-            setConfig(newConfig);
+            // Waterfall dependency enforcement for loaded settings
+            let stable = false;
+            let iterations = 0;
+            let finalConfig = { ...newConfig };
+            while (!stable && iterations < 5) {
+                const enforced = enforceDependencies(finalConfig);
+                if (enforced) {
+                    finalConfig = enforced;
+                    iterations++;
+                } else {
+                    stable = true;
+                }
+            }
+
+            setConfig(finalConfig);
             setCommunityKeys(newCommunityKeys);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [config.make, config.model]);
+    }, [config.make, config.model, enforceDependencies]);
 
     const handleChange = useCallback((key: string, value: string | number) => {
-        setConfig(prev => ({ ...prev, [key]: value }));
-    }, []);
+        setConfig(prev => {
+            let nextConfig = { ...prev, [key]: value };
+            
+            // Waterfall dependency enforcement (resolve cascading toggles)
+            let stable = false;
+            let iterations = 0;
+            while (!stable && iterations < 5) {
+                const enforced = enforceDependencies(nextConfig);
+                if (enforced) {
+                    nextConfig = enforced;
+                    iterations++;
+                } else {
+                    stable = true;
+                }
+            }
+            return nextConfig;
+        });
+    }, [enforceDependencies]);
 
     const goNext = useCallback(() => {
         if (stepIndex < STEPS.length - 1) {
@@ -1111,12 +1174,13 @@ export default function ConfigWizard() {
                     settingKeys={speedKeys} config={config} onChange={handleChange}
                     onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys} />
             )}
-            {currentStepId === 'visuals' && (
+                        {currentStepId === 'visuals' && (
                 <SettingsStep title="Visuals & HUD" icon="🎨" description="Customize your on-screen display, alerts, and visual feedback"
                     settingKeys={visualKeys} config={config} onChange={handleChange}
                     onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys} />
             )}
-            {currentStepId === 'export' && <ExportStep config={config} onBack={goBack} onRestart={restart} onChange={handleChange} />}
+            {currentStepId === 'review' && <ReviewStep config={config} onBack={goBack} onNext={goNext} onChange={handleChange} />}
+            {currentStepId === 'export' && <ExportStep config={config} onBack={goBack} onRestart={restart} />}
         </div>
     );
 }

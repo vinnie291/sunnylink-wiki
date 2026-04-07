@@ -290,14 +290,14 @@ export default function CarDatabase() {
                                 🧙
                             </div>
                             <div className="relative">
-                                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-wider mb-2">
-                                    <span>✨</span> {t('wizard.recommended') || 'Recommended'}
+                                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 text-[10px] font-bold uppercase tracking-wider mb-2 shadow-[0_0_12px_rgba(34,211,238,0.5)] animate-pulse">
+                                    <span>✨</span> NEW
                                 </div>
                                 <h3 className="text-white font-bold text-sm mb-1 group-hover:text-cyan-300 transition-colors">
                                     {t('wizard.title') || 'Setup Wizard'}
                                 </h3>
                                 <p className="text-slate-400 text-xs leading-relaxed max-w-[85%] group-hover:text-slate-300 transition-colors">
-                                    {t('cars.description') || 'Find the optimized settings and hardware requirements.'}
+                                    Powered by SunnyTune. {t('cars.description') || 'Find the optimized settings and hardware requirements.'}
                                 </p>
                             </div>
                         </div>
@@ -437,15 +437,15 @@ export default function CarDatabase() {
                                         <div>
                                             <div className="flex items-center gap-2 mb-1">
                                                 <div className="text-xs font-bold text-cyan-400 uppercase tracking-widest">{t('wizard.title') || 'Setup Wizard'}</div>
-                                                <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-[10px] font-bold uppercase tracking-wider">
-                                                    <span>✨</span> {t('wizard.recommended') || 'Recommended'}
+                                                <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 text-[10px] font-bold uppercase tracking-wider shadow-[0_0_12px_rgba(34,211,238,0.5)] animate-pulse">
+                                                    <span>✨</span> NEW
                                                 </div>
                                             </div>
                                             <h3 className={`font-bold text-white ${viewMode === 'grid' ? 'text-xl mb-2' : 'text-lg md:text-xl'}`}>
                                                 Find Your Vehicle
                                             </h3>
                                             <div className="text-sm text-cyan-100/60 leading-relaxed">
-                                                {t('cars.description') || 'Get optimized settings and hardware requirements tailored for your specific car.'}
+                                                Powered by SunnyTune. {t('cars.description') || 'Get optimized settings and hardware requirements tailored for your specific car.'}
                                             </div>
                                         </div>
                                     </div>
