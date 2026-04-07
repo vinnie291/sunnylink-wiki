@@ -971,13 +971,21 @@ function ProgressBar({ currentStep, steps }: { currentStep: number; steps: typeo
 
 // ─── Main Orchestrator ───
 export default function ConfigWizard() {
-    const [stepIndex, setStepIndex] = useState(0);
+    const [currentStepId, setCurrentStepId] = useState<WizardStepId>('welcome');
     const [isAdvancedMode, setIsAdvancedMode] = useState(false);
     const [config, setConfig] = useState<ConfigValues>({ ...DEFAULT_CONFIG });
     const [communityKeys, setCommunityKeys] = useState<Set<string>>(new Set());
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const currentStepId = STEPS[stepIndex].id;
+    // Dynamic steps list
+    const activeSteps = useMemo(() => {
+        return STEPS.filter(s => s.id !== 'expert' || isAdvancedMode);
+    }, [isAdvancedMode]);
+
+    const stepIndex = useMemo(() => {
+        const idx = activeSteps.findIndex(s => s.id === currentStepId);
+        return idx >= 0 ? idx : 0;
+    }, [activeSteps, currentStepId]);
 
     const enforceDependencies = useCallback((currentConfig: ConfigValues) => {
         const newConfig = { ...currentConfig };
@@ -1089,21 +1097,23 @@ export default function ConfigWizard() {
     }, [enforceDependencies]);
 
     const goNext = useCallback(() => {
-        if (stepIndex < STEPS.length - 1) {
-            setStepIndex(prev => prev + 1);
+        const idx = activeSteps.findIndex(s => s.id === currentStepId);
+        if (idx < activeSteps.length - 1) {
+            setCurrentStepId(activeSteps[idx + 1].id);
             containerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    }, [stepIndex]);
+    }, [activeSteps, currentStepId]);
 
     const goBack = useCallback(() => {
-        if (stepIndex > 0) {
-            setStepIndex(prev => prev - 1);
+        const idx = activeSteps.findIndex(s => s.id === currentStepId);
+        if (idx > 0) {
+            setCurrentStepId(activeSteps[idx - 1].id);
             containerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    }, [stepIndex]);
+    }, [activeSteps, currentStepId]);
 
     const restart = useCallback(() => {
-        setStepIndex(0);
+        setCurrentStepId('welcome');
         setConfig({ ...DEFAULT_CONFIG });
         setCommunityKeys(new Set());
         containerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1121,7 +1131,7 @@ export default function ConfigWizard() {
             {/* Header + Advanced toggle */}
             {currentStepId !== 'welcome' && (
                 <div className="w-full max-w-2xl mx-auto px-4 md:px-0">
-                    <ProgressBar currentStep={stepIndex} steps={STEPS} />
+                    <ProgressBar currentStep={stepIndex} steps={activeSteps as typeof STEPS} />
                 </div>
             )}
 
@@ -1145,7 +1155,7 @@ export default function ConfigWizard() {
             {currentStepId === 'expert' && (
                 <SettingsStep title="Expert & System" icon="⚙️" description="Configure device-level system settings and power user features"
                     settingKeys={expertKeys} config={config} onChange={handleChange}
-                    onNext={goNext} onBack={goBack} isAdvancedMode={true} communityKeys={communityKeys} />
+                    onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys} />
             )}
             {currentStepId === 'driving' && (
                 <SettingsStep title="Core Driving" icon="🛞" description="Choose your driving model, personality, and core behavior"
@@ -1162,7 +1172,7 @@ export default function ConfigWizard() {
                     settingKeys={speedKeys} config={config} onChange={handleChange}
                     onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys} />
             )}
-                        {currentStepId === 'visuals' && (
+            {currentStepId === 'visuals' && (
                 <SettingsStep title="Visuals & HUD" icon="🎨" description="Customize your on-screen display, alerts, and visual feedback"
                     settingKeys={visualKeys} config={config} onChange={handleChange}
                     onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys} />
