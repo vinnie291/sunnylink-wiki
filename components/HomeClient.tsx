@@ -6,6 +6,7 @@ import Header from './Header';
 import SettingsDatabase from './SettingsDatabase';
 import { useFuzzySearch } from '../hooks/useFuzzySearch';
 import LanguageSwitcher from './LanguageSwitcher';
+import SearchButton from './SearchButton';
 import { useLanguage } from '../lib/i18n';
 import { useTranslatedToggles } from '../lib/useTranslatedData';
 
@@ -140,9 +141,10 @@ export default function HomeClient({ discourseSettings }: HomeClientProps) {
                 <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-violet-500/5 rounded-full blur-3xl" />
             </div>
 
-            {/* Language Switcher */}
-            <div className="absolute top-4 left-4 sm:top-8 sm:left-8 z-30">
+            {/* Language Switcher and Search */}
+            <div className="absolute top-4 left-4 sm:top-8 sm:left-8 z-30 flex items-center gap-3">
                 <LanguageSwitcher />
+                <SearchButton />
             </div>
 
             {/* Dashboard Button */}

@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import dynamic from 'next/dynamic';
 import Header from './Header';
 import LanguageSwitcher from './LanguageSwitcher';
+import SearchButton from './SearchButton';
 import { useLanguage } from '../lib/i18n';
 
 const ScrollToTop = dynamic(() => import('./ScrollToTop'), { ssr: false });
@@ -29,6 +30,7 @@ export default function PageShell({ children, showFooter = true, showHeader = tr
             {/* Language Switcher and Extra Content */}
             <div className="absolute top-4 left-4 sm:top-8 sm:left-8 z-30 flex items-center gap-3">
                 <LanguageSwitcher />
+                <SearchButton />
                 {extraTopLeftContent}
             </div>
 

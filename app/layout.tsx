@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import BottomNav from '@/components/BottomNav';
+import UniversalSearch from '@/components/UniversalSearch';
 import { LanguageProvider } from '@/lib/i18n';
 
 const inter = Inter({
@@ -78,6 +79,7 @@ export default function RootLayout({
       <body className="font-sans antialiased pb-20 md:pb-0 overflow-x-hidden">
         <LanguageProvider>
           {children}
+          <UniversalSearch />
           <BottomNav />
         </LanguageProvider>
       </body>

@@ -1,0 +1,253 @@
+'use client';
+
+import { useState, useEffect, useMemo, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { Search, X, Settings2, Car, Brain, BookOpen } from 'lucide-react';
+import { useLanguage } from '../lib/i18n';
+import { useFuzzySearch } from '../hooks/useFuzzySearch';
+import { useTranslatedToggles, useTranslatedModels, useTranslatedFeatures, useTranslatedCars } from '../lib/useTranslatedData';
+
+interface SearchItem {
+    id: string;
+    type: 'setting' | 'model' | 'car' | 'feature';
+    title: string;
+    subtitle: string;
+    href: string;
+}
+
+export default function UniversalSearch() {
+    const [isOpen, setIsOpen] = useState(false);
+    const [query, setQuery] = useState('');
+    const inputRef = useRef<HTMLInputElement>(null);
+    const router = useRouter();
+    const { t } = useLanguage();
+
+    const togglesData = useTranslatedToggles();
+    const modelsData = useTranslatedModels();
+    const featuresData = useTranslatedFeatures();
+    const carsData = useTranslatedCars();
+
+    // Listen for custom event and Cmd+K to open
+    useEffect(() => {
+        const handleOpen = () => setIsOpen(true);
+        const handleClose = () => setIsOpen(false);
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                setIsOpen((prev) => !prev);
+            }
+            if (e.key === 'Escape') {
+                setIsOpen(false);
+            }
+        };
+
+        window.addEventListener('open-universal-search', handleOpen);
+        window.addEventListener('close-universal-search', handleClose);
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('open-universal-search', handleOpen);
+            window.removeEventListener('close-universal-search', handleClose);
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+
+    // Focus input when modal opens
+    useEffect(() => {
+        if (isOpen) {
+            setTimeout(() => inputRef.current?.focus(), 100);
+        } else {
+            setQuery(''); // Reset on close
+        }
+    }, [isOpen]);
+
+    // Normalize data
+    const allItems = useMemo<SearchItem[]>(() => {
+        const items: SearchItem[] = [];
+
+        // Add Settings
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        togglesData.categories.forEach((cat: any) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            cat.settings.forEach((setting: any) => {
+                items.push({
+                    id: setting.key,
+                    type: 'setting',
+                    title: setting.label,
+                    subtitle: setting.description || cat.name,
+                    href: '/',
+                });
+            });
+        });
+
+        // Add Models
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        modelsData.categories.forEach((cat: any) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            cat.models.forEach((model: any) => {
+                items.push({
+                    id: model.id,
+                    type: 'model',
+                    title: model.name,
+                    subtitle: model.consensus || cat.name,
+                    href: '/models',
+                });
+            });
+        });
+
+        // Add Features
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        featuresData.features.forEach((feature: any) => {
+            items.push({
+                id: feature.id,
+                type: 'feature',
+                title: feature.name,
+                subtitle: feature.userSummary || feature.fullName,
+                href: '/features',
+            });
+        });
+
+        // Add Cars
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (carsData as any).vehicles?.forEach((car: any) => {
+            items.push({
+                id: car.id,
+                type: 'car',
+                title: `${car.make} ${car.model}`,
+                subtitle: car.years || 'All Years',
+                href: `/cars?search=${encodeURIComponent(car.model)}`,
+            });
+        });
+
+        return items;
+    }, [togglesData, modelsData, featuresData, carsData]);
+
+    // Fuzzy search
+    const results = useFuzzySearch<Record<string, unknown>>({
+        items: allItems as unknown as Record<string, unknown>[],
+        keys: ['title', 'subtitle'],
+        query: query,
+        threshold: 0.3,
+    }) as unknown as SearchItem[];
+
+    const displayResults = query.length > 0 ? results.slice(0, 8) : [];
+
+    const handleSelect = (item: SearchItem) => {
+        setIsOpen(false);
+        router.push(item.href);
+    };
+
+    if (!isOpen) return null;
+
+    const getIcon = (type: string) => {
+        switch (type) {
+            case 'setting': return <Settings2 className="w-5 h-5 text-cyan-400" />;
+            case 'model': return <Brain className="w-5 h-5 text-purple-400" />;
+            case 'car': return <Car className="w-5 h-5 text-emerald-400" />;
+            case 'feature': return <BookOpen className="w-5 h-5 text-blue-400" />;
+            default: return <Search className="w-5 h-5 text-slate-400" />;
+        }
+    };
+
+    const getTypeLabel = (type: string) => {
+        switch (type) {
+            case 'setting': return t('nav.settings') || 'Setting';
+            case 'model': return t('nav.models') || 'Model';
+            case 'car': return t('nav.carDatabase') || 'Car';
+            case 'feature': return t('nav.features') || 'Feature';
+            default: return type;
+        }
+    };
+
+    // Highlight helper for title matches
+    const HighlightMatch = ({ text }: { text: string }) => {
+        if (!query) return <>{text}</>;
+        
+        // Simple regex highlighting matching part
+        const parts = text.split(new RegExp(`(${query})`, 'gi'));
+        return (
+            <span>
+                {parts.map((part, i) => 
+                    part.toLowerCase() === query.toLowerCase() 
+                        ? <span key={i} className="bg-cyan-500/30 text-cyan-200 rounded px-0.5">{part}</span>
+                        : part
+                )}
+            </span>
+        );
+    };
+
+    return (
+        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[10vh] sm:pt-[20vh] px-4">
+            {/* Backdrop */}
+            <div 
+                className="fixed inset-0 bg-slate-950/60 backdrop-blur-md transition-opacity" 
+                onClick={() => setIsOpen(false)}
+            />
+
+            {/* Modal */}
+            <div className="relative w-full max-w-2xl bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+                <div className="flex items-center px-4 py-4 border-b border-slate-800/50">
+                    <Search className="w-5 h-5 text-slate-400 mr-3" />
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        placeholder="Search settings, models, cars... (Cmd+K)"
+                        className="flex-1 bg-transparent text-lg text-white placeholder-slate-500 outline-none"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                    />
+                    <button 
+                        onClick={() => setIsOpen(false)}
+                        className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
+                    >
+                        <X className="w-5 h-5" />
+                    </button>
+                </div>
+
+                {query.length > 0 && (
+                    <div className="max-h-[60vh] overflow-y-auto p-2">
+                        {displayResults.length === 0 ? (
+                            <div className="text-center py-8 text-slate-400">
+                                No results found for "{query}"
+                            </div>
+                        ) : (
+                            <div className="space-y-1">
+                                {displayResults.map((item) => (
+                                    <button
+                                        key={`${item.type}-${item.id}`}
+                                        onClick={() => handleSelect(item)}
+                                        className="w-full flex items-center gap-4 p-3 rounded-xl hover:bg-slate-800/70 transition-colors text-left group"
+                                    >
+                                        <div className="p-2 rounded-lg bg-slate-800 border border-slate-700/50 group-hover:bg-slate-700/50 transition-colors">
+                                            {getIcon(item.type)}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="text-slate-200 font-medium truncate">
+                                                <HighlightMatch text={item.title} />
+                                            </div>
+                                            <div className="text-sm text-slate-500 truncate mt-0.5">
+                                                {item.subtitle}
+                                            </div>
+                                        </div>
+                                        <div className="hidden sm:block">
+                                            <span className="text-xs font-medium text-slate-500 bg-slate-800 border border-slate-700 px-2 py-1 rounded-md">
+                                                {getTypeLabel(item.type)}
+                                            </span>
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
+                
+                {query.length === 0 && (
+                    <div className="px-4 py-8 text-center text-slate-500 text-sm">
+                        Start typing to universally search the wiki.
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}

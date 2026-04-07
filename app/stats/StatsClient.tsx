@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import ScrollToTop from '@/components/ScrollToTop';
 import { useLanguage } from '@/lib/i18n';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import SearchButton from '@/components/SearchButton';
 
 const METABASE_DASHBOARD_URL = 'https://metabase.sunnypilot.ai/public/dashboard/8d0ca494-6ab3-4d4c-9642-7deb493c4fac';
 
@@ -19,9 +20,10 @@ export default function StatsClient() {
             </div>
 
             {/* Top Right Controls (Dashboard + Language) */}
-            {/* Language Selector Top Left */}
-            <div className="absolute top-4 left-4 sm:top-8 sm:left-8 z-30">
+            {/* Language Switcher and Search */}
+            <div className="absolute top-4 left-4 sm:top-8 sm:left-8 z-30 flex items-center gap-3">
                 <LanguageSwitcher />
+                <SearchButton />
             </div>
 
             {/* Top Right Controls (Dashboard) */}

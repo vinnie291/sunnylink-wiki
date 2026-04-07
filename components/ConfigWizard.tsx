@@ -133,7 +133,7 @@ const DEFAULT_CONFIG: ConfigValues = {
     SubaruStopAndGo: 'False',
     EnableSsh: 'False',
     EnableAdb: 'False',
-    ShowAdvancedControls: 'True',
+    ShowAdvancedControls: 'False',
 };
 
 // ─── Step definitions ───
