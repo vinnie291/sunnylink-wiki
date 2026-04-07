@@ -16,9 +16,9 @@
       "title": "The Aggressive Series",
       "subtitle": "Traffic Warriors",
       "includes": "Dark Souls Model, Dark Souls v2, Firehose",
-      "vibe": "高绩效、高关注度。 《黑暗之魂》因其“无情”或“硬核”而得名。 预计跟车距离会更紧，加速会更快，转弯会更急。 它的驾驶方式就像人类一样，匆忙但仍然安全。 非常适合需要权威输入来移动其质量的重型卡车（F-150、Sierra）。 Firehose 模型是原始的开发人员源 - 它几乎每天都会发生变化。 有时它很出色，有时却有错误。 仅适用于不介意偶尔出现奇怪情况的冒险测试者。",
-      "bestFor": "Heavy traffic commuters who don't want people cutting them off.",
-      "recommendation": "适用于卡车和 SUV 的《黑暗之魂》v2。 如果您喜欢生活在边缘，请仅尝试 Firehose。"
+      "vibe": "高绩效、高关注度。 《黑暗之魂》因其“无情”或“硬核”而得名。 预计跟车距离会更紧，加速会更快，转弯会更急。 它的驾驶方式就像人类一样，匆忙但仍然安全。 非常适合需要权威输入来移动其质量的重型卡车（F-150、Sierra）。 Firehose 模型是来自 comma.ai 的 SOTA（最先进）训练任务的原始、未经过滤的开发人员订阅源。 它代表了模型开发的绝对‘前沿’，随着全球车队摄取新数据，几乎每天都会更新。",
+      "bestFor": "重型卡车通勤者（黑暗之魂）或冒险测试者（Firehose）。",
+      "recommendation": "适用于卡车和 SUV 的《黑暗之魂》v2。 只有在您想在 SOTA 迭代正式发布前测试最新、且可能不稳定的版本时，才尝试使用 Firehose。"
     },
     "comfort": {
       "title": "The Comfort & Smooth Series",
@@ -777,10 +777,10 @@
             "ok": 28,
             "bad": 20
           },
-          "consensus": "原始开发人员饲料。 几乎每天都在变化。 高风险，高回报。",
-          "note": "有一天它是完美的，第二天它可能就会有问题。",
-          "bestFor": "测试",
-          "steeringFeel": "不定",
+          "consensus": "来自 comma.ai 的 SOTA（最先进）训练管道的原始、未经过滤的开发人员订阅源。 这是 openpilot 智能的绝对‘前沿’，随着它从全球数据流中摄取新数据，几乎每天都会更新。 高风险，高回报：它通常包含路径规划和视觉方面的最新突破，但尚未经过标准发布所需的长期验证。",
+          "note": "技术说明：该模型是持续训练的直接输出。 预计日常行为会发生巨大变化。 如果您遇到‘性能倒退’的版本，只需等待明天的更新或恢复到稳定系列。",
+          "bestFor": "测试与 SOTA 研究",
+          "steeringFeel": "多变（随每次推送而异）",
           "testedOn": [
             "Lexus IS",
             "Lexus RX 350",
