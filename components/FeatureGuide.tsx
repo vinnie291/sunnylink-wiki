@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useLanguage } from '../lib/i18n';
 import { useTranslatedFeatures } from '../lib/useTranslatedData';
 
@@ -29,40 +29,60 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
     const featuresData = useTranslatedFeatures();
 
     // Enrich features with Discourse data (English only)
-    const rawFeatures = featuresData.features as Feature[];
-    const features = rawFeatures.map((feature) => {
-        if (locale === 'en' && discourseFeatures) {
-            const normalizedName = feature.name.toLowerCase().trim();
-            const normalizedFullName = feature.fullName.toLowerCase().trim();
-            const html = discourseFeatures[normalizedName] ?? discourseFeatures[normalizedFullName];
-            if (html) {
-                return { ...feature, discourseHtml: html };
+    const features = useMemo(() => {
+        const rawFeatures = featuresData.features as Feature[];
+        return rawFeatures.map((feature) => {
+            if (locale === 'en' && discourseFeatures) {
+                const normalizedName = feature.name.toLowerCase().trim();
+                const normalizedFullName = feature.fullName.toLowerCase().trim();
+                const html = discourseFeatures[normalizedName] ?? discourseFeatures[normalizedFullName];
+                if (html) {
+                    return { ...feature, discourseHtml: html };
+                }
             }
-        }
-        return feature;
-    });
+            return feature;
+        });
+    }, [featuresData.features, locale, discourseFeatures]);
     const glossary = featuresData.glossary as Record<string, string>;
     
     // Hash anchoring
     useEffect(() => {
-        const hash = window.location.hash;
-        if (hash) {
-            const featureId = decodeURIComponent(hash.slice(1));
-            // Check if it's a feature ID
-            const targetFeature = features.find(f => f.id === featureId);
-            if (targetFeature) {
-                setExpandedFeature(featureId);
-                setTimeout(() => {
-                    const el = document.getElementById(featureId);
-                    if (el) {
-                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        el.classList.add('ring-2', 'ring-cyan-500/70', 'bg-cyan-500/10');
-                        setTimeout(() => el.classList.remove('ring-2', 'ring-cyan-500/70', 'bg-cyan-500/10'), 3000);
-                    }
-                }, 300);
+        const handleHashChange = () => {
+            const hash = window.location.hash;
+            if (hash) {
+                const featureId = decodeURIComponent(hash.slice(1));
+                // Check if it's a feature ID
+                const targetFeature = features.find((f: Feature) => f.id === featureId);
+                if (targetFeature) {
+                    setExpandedFeature(featureId);
+                    setTimeout(() => {
+                        const el = document.getElementById(featureId);
+                        if (el) {
+                            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            el.classList.add('ring-2', 'ring-cyan-500/70', 'bg-cyan-500/10');
+                            setTimeout(() => el.classList.remove('ring-2', 'ring-cyan-500/70', 'bg-cyan-500/10'), 3000);
+                        }
+                    }, 300);
+                }
+            }
+        };
+
+        handleHashChange();
+        window.addEventListener('hashchange', handleHashChange);
+        return () => window.removeEventListener('hashchange', handleHashChange);
+    }, [features]);
+
+    // NEW: Scroll to top of expanded feature
+    useEffect(() => {
+        if (expandedFeature) {
+            const el = document.getElementById(expandedFeature);
+            if (el) {
+                // Small delay to allow the accordion animation to start/finish
+                // or just scroll immediately if it is already expanded
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
-    }, [features]);
+    }, [expandedFeature]);
 
     const getCategoryColor = (category: string) => {
         const colors: Record<string, string> = {
@@ -89,11 +109,11 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
 
             {/* Feature Cards */}
             <div className="space-y-3">
-                {features.map((feature) => (
+                {features.map((feature: Feature) => (
                     <div
                         key={feature.id}
                         id={feature.id}
-                        className="relative rounded-xl bg-slate-800/50 border border-slate-700/50 overflow-hidden"
+                        className="relative rounded-xl bg-slate-800/50 border border-slate-700/50 overflow-hidden scroll-mt-32"
                     >
                         {/* Header - Always visible */}
                         <div

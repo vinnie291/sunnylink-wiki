@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function WizardPage() {
     return (
-        <PageShell showHeader={false} extraTopLeftContent={<ExitWizardButton />}>
+        <PageShell showHeader={false}>
             <div className="max-w-4xl mx-auto">
                 <ConfigWizard />
             </div>

@@ -246,7 +246,7 @@ export default function ToggleCard({
 
   useEffect(() => {
     if (isHighlighted && cardRef.current) {
-      cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [isHighlighted]);
 
@@ -428,7 +428,7 @@ export default function ToggleCard({
       ref={cardRef}
       id={setting.key}
       className={`
-        relative group rounded-2xl border backdrop-blur-sm transition-all duration-500 ease-out
+        relative group rounded-2xl border backdrop-blur-sm transition-all duration-500 ease-out scroll-mt-32
         ${isHighlighted
           ? 'bg-cyan-500/10 border-cyan-500/50 shadow-lg shadow-cyan-500/20 ring-2 ring-cyan-500/30 animate-highlight'
           : 'bg-slate-800/50 border-slate-700/50 hover:bg-slate-800/70 hover:border-slate-600/50'

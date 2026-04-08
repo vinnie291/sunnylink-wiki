@@ -143,6 +143,12 @@ export default function UniversalSearch() {
     const handleSelect = (item: SearchItem) => {
         setIsOpen(false);
         router.push(item.href);
+        // Force a hashchange event in case next/navigation doesn't trigger it for anchor links
+        if (item.href.includes('#')) {
+            setTimeout(() => {
+                window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }, 100);
+        }
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {

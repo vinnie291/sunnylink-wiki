@@ -291,21 +291,27 @@ export default function ModelLibrary() {
 
     // Hash-based scroll anchoring for shared model links
     useEffect(() => {
-        const hash = window.location.hash;
-        if (hash) {
-            const modelName = decodeURIComponent(hash.slice(1));
-            // Switch to "All Models" so the target card is rendered
-            setActiveCategory('all');
-            // Delay to allow the grid to render
-            setTimeout(() => {
-                const el = document.getElementById(modelName);
-                if (el) {
-                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    el.classList.add('ring-2', 'ring-cyan-500/70');
-                    setTimeout(() => el.classList.remove('ring-2', 'ring-cyan-500/70'), 3000);
-                }
-            }, 300);
-        }
+        const handleHashChange = () => {
+            const hash = window.location.hash;
+            if (hash) {
+                const modelName = decodeURIComponent(hash.slice(1));
+                // Switch to "All Models" so the target card is rendered
+                setActiveCategory('all');
+                // Delay to allow the grid to render
+                setTimeout(() => {
+                    const el = document.getElementById(modelName);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        el.classList.add('ring-2', 'ring-cyan-500/70');
+                        setTimeout(() => el.classList.remove('ring-2', 'ring-cyan-500/70'), 3000);
+                    }
+                }, 300);
+            }
+        };
+
+        handleHashChange();
+        window.addEventListener('hashchange', handleHashChange);
+        return () => window.removeEventListener('hashchange', handleHashChange);
     }, []);
 
     const [sortBy, setSortBy] = useState<string>('date-desc');
