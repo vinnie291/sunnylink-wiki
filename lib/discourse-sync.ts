@@ -38,6 +38,7 @@ export async function fetchDiscourseTopics(): Promise<DiscourseTopic[]> {
 
             const res = await fetch(url, {
                 next: { revalidate: REVALIDATE_SECONDS },
+                signal: AbortSignal.timeout(15000), // 15s timeout
             });
 
             if (!res.ok) {
@@ -85,6 +86,7 @@ export async function fetchTopicContent(topicId: number): Promise<DiscourseTopic
         try {
             const res = await fetch(`${DISCOURSE_BASE}/t/${topicId}.json`, {
                 next: { revalidate: REVALIDATE_SECONDS },
+                signal: AbortSignal.timeout(15000), // 15s timeout
             });
 
             if (res.status === 429) {
@@ -139,9 +141,9 @@ export async function fetchAllDiscourseContent(): Promise<Map<string, string>> {
     try {
         const topics = await fetchDiscourseTopics();
 
-        // Fetch topic content in small batches with delays to avoid rate limits
-        const BATCH_SIZE = 3;
-        const BATCH_DELAY_MS = 1000;
+        // Fetch topic content in batches with increased concurrency
+        const BATCH_SIZE = 8;
+        const BATCH_DELAY_MS = 200;
 
         for (let i = 0; i < topics.length; i += BATCH_SIZE) {
             const batch = topics.slice(i, i + BATCH_SIZE);
