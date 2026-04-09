@@ -221,7 +221,7 @@ export default function UniversalSearch() {
                         ref={inputRef}
                         type="text"
                         placeholder="Search settings, models, cars... (Cmd K)"
-                        className="flex-1 bg-transparent text-lg text-white placeholder-slate-500 outline-none"
+                        className="flex-1 bg-transparent text-lg text-white placeholder-slate-500 outline-none focus:outline-none focus-visible:outline-none"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onKeyDown={handleKeyDown}

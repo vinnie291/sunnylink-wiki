@@ -233,6 +233,7 @@ export default function SettingsDatabase({
                             onToggleCategory={onToggleCategory}
                             onClearAll={onClearCategories}
                             collapsible={true}
+                            hideSunnyTune={true}
                         />
                     </div>
                 </div >

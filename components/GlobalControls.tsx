@@ -14,9 +14,11 @@ export default function GlobalControls() {
     return (
         <div className="fixed inset-x-0 top-0 z-50 pointer-events-none">
             {/* Top-Left: Language Switcher, Search, and optional Exit Wizard */}
-            <div className="absolute top-4 left-4 sm:top-8 sm:left-8 flex items-center gap-3 pointer-events-auto">
-                <LanguageSwitcher />
-                <SearchButton />
+            <div className="absolute top-4 left-4 sm:top-8 sm:left-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 pointer-events-auto">
+                <div className="flex items-center gap-3">
+                    <LanguageSwitcher />
+                    <SearchButton />
+                </div>
                 {isWizard && <ExitWizardButton />}
             </div>
 

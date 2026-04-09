@@ -278,6 +278,8 @@ export default function CarDatabase() {
                 categories={categoryMeta}
                 mode="models" // Using models mode for single-select brand behavior
                 activeCategory={selectedMake.toLowerCase() || 'all'}
+                activeCategories={activeCategories}
+                onToggleCategory={handleToggleCategory}
                 onSelectCategory={(id) => {
                     const make = categoryMeta.find(m => m.id === id)?.name || '';
                     setSelectedMake(make);

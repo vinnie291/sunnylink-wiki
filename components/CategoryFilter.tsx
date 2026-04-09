@@ -20,6 +20,7 @@ interface CategoryFilterProps {
     vertical?: boolean;
     recommendedCount?: number;
     sunnyTuneCount?: number;
+    hideSunnyTune?: boolean;
 }
 
 export default function CategoryFilter({
@@ -32,6 +33,7 @@ export default function CategoryFilter({
     vertical = false,
     recommendedCount = 0,
     sunnyTuneCount = 0,
+    hideSunnyTune = false,
 }: CategoryFilterProps) {
     const [isOpen, setIsOpen] = useState(initialOpen);
     const { t } = useLanguage();
@@ -138,7 +140,7 @@ export default function CategoryFilter({
                 </button>
 
                 {/* SunnyTune Filter */}
-                {sunnyTuneCount > 0 && (
+                {sunnyTuneCount > 0 && !hideSunnyTune && (
                     <button
                         onClick={() => onToggleCategory('sunnytune')}
                         type="button"
