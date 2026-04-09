@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { useLanguage } from '../lib/i18n';
+import { getFilterButtonClasses, getFilterBadgeClasses, type FilterVariant } from '../lib/filterStyles';
 
 interface Category {
     id: string;
@@ -9,6 +10,7 @@ interface Category {
     icon: string;
     count?: number;
     description?: string;
+    models?: unknown[];
 }
 
 interface MobileCategorySidebarProps {
@@ -26,6 +28,50 @@ interface MobileCategorySidebarProps {
     activeCategory?: string;
     onSelectCategory?: (id: string) => void;
     searchQuery?: string;
+}
+
+/** SunnyTune SVG icon used in the sidebar filter buttons */
+function SunnyTuneIcon() {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-400 shrink-0"><circle cx="12" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><circle cx="18" cy="6" r="3"></circle><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"></path><path d="M12 12v3"></path></svg>
+    );
+}
+
+/** Reusable sidebar filter button */
+function SidebarButton({
+    isActive,
+    variant = 'cyan',
+    icon,
+    label,
+    count,
+    onClick,
+}: {
+    isActive: boolean;
+    variant?: FilterVariant;
+    icon: React.ReactNode;
+    label: string;
+    count?: number;
+    onClick: () => void;
+}) {
+    return (
+        <button
+            onClick={onClick}
+            className={`w-full ${getFilterButtonClasses({ isActive, variant, wide: true })}`}
+        >
+            <span className={`shrink-0 text-lg ${variant === 'emerald' ? 'text-emerald-400' : ''}`}>{icon}</span>
+            <span className="flex-1">{label}</span>
+            {count !== undefined && (
+                <span className={getFilterBadgeClasses(isActive, variant)}>
+                    {count}
+                </span>
+            )}
+        </button>
+    );
+}
+
+/** Resolves the item count from the Category object */
+function getCategoryCount(cat: Category): number {
+    return cat.count ?? cat.models?.length ?? 0;
 }
 
 export default function MobileCategorySidebar({
@@ -70,7 +116,7 @@ export default function MobileCategorySidebar({
         ? activeCategories.length === 0
         : activeCategory === 'all' || activeCategory === 'favorites';
 
-    const totalCount = categories.reduce((sum, cat) => sum + (cat.count || 0), 0);
+    const totalCount = categories.reduce((sum, cat) => sum + getCategoryCount(cat), 0);
 
     return (
         <div className="lg:hidden" aria-hidden={!isOpen}>
@@ -113,136 +159,77 @@ export default function MobileCategorySidebar({
                         /* Settings: multi-select category pills */
                         <>
                             {/* All button */}
-                            <button
+                            <SidebarButton
+                                isActive={isAllActive}
+                                icon="🏠"
+                                label={t('filter.all')}
+                                count={totalCount}
                                 onClick={() => {
                                     onClearAll?.();
                                     onClose();
                                 }}
-                                className={`
-                                    w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-left
-                                    transition-all duration-200 border
-                                    ${isAllActive
-                                        ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
-                                        : 'bg-slate-800/50 text-slate-400 border-slate-700/50 hover:bg-slate-700/50 hover:text-white'
-                                    }
-                                `}
-                            >
-                                <span className="shrink-0 text-lg">🏠</span>
-                                <span className="flex-1">{t('filter.all')}</span>
-                                <span className={`shrink-0 px-2 py-0.5 rounded-md text-xs ${isAllActive ? 'bg-cyan-500/30' : 'bg-slate-700/50'}`}>
-                                    {totalCount}
-                                </span>
-                            </button>
+                            />
 
-                             {/* Recommended filter */}
-                             <button
-                                 onClick={() => {
-                                     onToggleCategory?.('recommended');
-                                 }}
-                                 className={`
-                                     w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-left
-                                     transition-all duration-200 border
-                                     ${activeCategories.includes('recommended')
-                                         ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30 shadow-lg shadow-emerald-500/10'
-                                         : 'bg-slate-800/50 text-slate-400 border-slate-700/50 hover:bg-slate-700/50 hover:text-white'
-                                     }
-                                 `}
-                             >
-                                 <span className="text-emerald-400 shrink-0 text-lg">★</span>
-                                 <span className="flex-1">{t('filter.recommended')}</span>
-                             </button>
-
-                             {/* Category buttons */}
-                             {categories.map((category) => {
-                                 const isActive = activeCategories.includes(category.id);
-                                 return (
-                                     <button
-                                         key={category.id}
-                                         onClick={() => {
-                                             onToggleCategory?.(category.id);
-                                         }}
-                                         className={`
-                                             w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-left
-                                             transition-all duration-200 border
-                                             ${isActive
-                                                 ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
-                                                 : 'bg-slate-800/50 text-slate-400 border-slate-700/50 hover:bg-slate-700/50 hover:text-white'
-                                             }
-                                         `}
-                                     >
-                                         <span className="shrink-0 text-lg">{category.icon}</span>
-                                         <span className="flex-1">{category.name}</span>
-                                         <span className={`shrink-0 px-2 py-0.5 rounded-md text-xs ${isActive ? 'bg-cyan-500/30' : 'bg-slate-700/50'}`}>
-                                             {category.count}
-                                         </span>
-                                     </button>
-                                 );
-                             })}
-                         </>
-                     ) : (
-                         /* Models: single-select category list */
-                         <>
                             {/* Recommended filter */}
-                            <button
+                            <SidebarButton
+                                isActive={activeCategories.includes('recommended')}
+                                variant="emerald"
+                                icon="★"
+                                label={t('filter.recommended')}
+                                onClick={() => onToggleCategory?.('recommended')}
+                            />
+
+                            {/* Category buttons */}
+                            {categories.map((category) => (
+                                <SidebarButton
+                                    key={category.id}
+                                    isActive={activeCategories.includes(category.id)}
+                                    icon={category.icon}
+                                    label={category.name}
+                                    count={getCategoryCount(category)}
+                                    onClick={() => onToggleCategory?.(category.id)}
+                                />
+                            ))}
+                        </>
+                    ) : (
+                        /* Models: single-select category list */
+                        <>
+                            {/* Recommended filter */}
+                            <SidebarButton
+                                isActive={activeCategories.includes('recommended')}
+                                variant="emerald"
+                                icon="★"
+                                label={t('filter.recommended')}
                                 onClick={() => {
                                     onToggleCategory?.('recommended');
                                     onClose();
                                 }}
-                                className={`
-                                    w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-left
-                                    transition-all duration-200 border
-                                    ${activeCategories.includes('recommended')
-                                        ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30 shadow-lg shadow-emerald-500/10'
-                                        : 'bg-slate-800/50 text-slate-400 border-slate-700/50 hover:bg-slate-700/50 hover:text-white'
-                                    }
-                                `}
-                            >
-                                <span className="text-emerald-400 shrink-0 text-lg">★</span>
-                                <span className="flex-1">{t('filter.recommended')}</span>
-                            </button>
+                            />
 
                             {/* SunnyTune filter */}
-                            <button
+                            <SidebarButton
+                                isActive={activeCategories.includes('sunnytune')}
+                                variant="amber"
+                                icon={<SunnyTuneIcon />}
+                                label={t('filter.sunnytune')}
                                 onClick={() => {
                                     onToggleCategory?.('sunnytune');
                                     onClose();
                                 }}
-                                className={`
-                                    w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-left
-                                    transition-all duration-200 border
-                                    ${activeCategories.includes('sunnytune')
-                                        ? 'bg-amber-500/20 text-amber-400 border-amber-500/30 shadow-lg shadow-amber-500/10'
-                                        : 'bg-slate-800/50 text-slate-400 border-slate-700/50 hover:bg-slate-700/50 hover:text-white'
-                                    }
-                                `}
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-400 shrink-0"><circle cx="12" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><circle cx="18" cy="6" r="3"></circle><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"></path><path d="M12 12v3"></path></svg>
-                                <span className="flex-1">{t('filter.sunnytune')}</span>
-                            </button>
+                            />
 
-
-                             {categories.map((cat) => (
-                                <button
+                            {categories.map((cat) => (
+                                <SidebarButton
                                     key={cat.id}
+                                    isActive={activeCategory === cat.id && !searchQuery}
+                                    icon={cat.icon}
+                                    label={cat.name}
+                                    count={getCategoryCount(cat)}
                                     onClick={() => {
                                         onSelectCategory?.(cat.id);
                                         onClose();
                                     }}
-                                    className={`
-                                        w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-left
-                                        transition-all duration-200 border
-                                        ${activeCategory === cat.id && !searchQuery
-                                            ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30'
-                                            : 'bg-slate-800/50 text-slate-400 border-transparent hover:bg-slate-700/50 hover:text-white'
-                                        }
-                                    `}
-                                >
-                                    <span className="shrink-0 text-lg">{cat.icon}</span>
-                                    <span className="flex-1">{cat.name}</span>
-                                    <span className={`shrink-0 px-2 py-0.5 rounded-md text-xs ${activeCategory === cat.id && !searchQuery ? 'bg-cyan-500/30' : 'bg-slate-700/50'}`}>
-                                        {cat.count ?? (cat as any).models?.length ?? 0}
-                                    </span>
-                                </button>
+                                />
                             ))}
                         </>
                     )}

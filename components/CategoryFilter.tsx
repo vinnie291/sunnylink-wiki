@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useLanguage } from '../lib/i18n';
+import { getFilterButtonClasses, getFilterBadgeClasses } from '../lib/filterStyles';
 
 interface Category {
     id: string;
@@ -95,21 +96,11 @@ export default function CategoryFilter({
                 <button
                     onClick={onClearAll}
                     type="button"
-                    className={`
-            flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium max-w-full flex-shrink-0 text-left
-            transition-all duration-200 border
-            ${isAllActive
-                            ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
-                            : 'bg-slate-800/50 text-slate-400 border-slate-700/50 hover:bg-slate-700/50 hover:text-white'
-                        }
-          `}
+                    className={getFilterButtonClasses({ isActive: isAllActive })}
                 >
                     <span className="shrink-0">🏠</span>
                     <span className="flex-1 break-words">{t('filter.all')}</span>
-                    <span className={`
-            shrink-0 px-1.5 py-0.5 rounded-md text-xs
-            ${isAllActive ? 'bg-cyan-500/30' : 'bg-slate-700/50'}
-          `}>
+                    <span className={getFilterBadgeClasses(isAllActive)}>
                         {totalCount}
                     </span>
                 </button>
@@ -118,22 +109,12 @@ export default function CategoryFilter({
                 <button
                     onClick={() => onToggleCategory('recommended')}
                     type="button"
-                    className={`
-            flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium max-w-full flex-shrink-0 text-left
-            transition-all duration-200 border
-            ${activeCategories.includes('recommended')
-                            ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30 shadow-lg shadow-emerald-500/10'
-                            : 'bg-slate-800/50 text-slate-400 border-slate-700/50 hover:bg-slate-700/50 hover:text-white'
-                        }
-          `}
+                    className={getFilterButtonClasses({ isActive: activeCategories.includes('recommended'), variant: 'emerald' })}
                 >
                     <span className="text-emerald-400 shrink-0">★</span>
                     <span className="flex-1 break-words">{t('filter.recommended')}</span>
                     {recommendedCount > 0 && (
-                        <span className={`
-                shrink-0 px-1.5 py-0.5 rounded-md text-xs
-                ${activeCategories.includes('recommended') ? 'bg-emerald-500/30 text-emerald-300' : 'bg-slate-700/50'}
-              `}>
+                        <span className={getFilterBadgeClasses(activeCategories.includes('recommended'), 'emerald')}>
                              {recommendedCount}
                         </span>
                     )}
@@ -144,21 +125,11 @@ export default function CategoryFilter({
                     <button
                         onClick={() => onToggleCategory('sunnytune')}
                         type="button"
-                        className={`
-                flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium max-w-full flex-shrink-0 text-left
-                transition-all duration-200 border
-                ${activeCategories.includes('sunnytune')
-                                ? 'bg-amber-500/20 text-amber-400 border-amber-500/30 shadow-lg shadow-amber-500/10'
-                                : 'bg-slate-800/50 text-slate-400 border-slate-700/50 hover:bg-slate-700/50 hover:text-white'
-                            }
-                `}
+                        className={getFilterButtonClasses({ isActive: activeCategories.includes('sunnytune'), variant: 'amber' })}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-400 shrink-0"><circle cx="12" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><circle cx="18" cy="6" r="3"></circle><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"></path><path d="M12 12v3"></path></svg>
                         <span className="flex-1 break-words">{t('filter.sunnytune')}</span>
-                        <span className={`
-                    shrink-0 px-1.5 py-0.5 rounded-md text-xs
-                    ${activeCategories.includes('sunnytune') ? 'bg-amber-500/30 text-amber-300' : 'bg-slate-700/50'}
-                `}>
+                        <span className={getFilterBadgeClasses(activeCategories.includes('sunnytune'), 'amber')}>
                             {sunnyTuneCount}
                         </span>
                     </button>
@@ -173,21 +144,11 @@ export default function CategoryFilter({
                             key={category.id}
                             onClick={() => onToggleCategory(category.id)}
                             type="button"
-                            className={`
-                flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium max-w-full flex-shrink-0 text-left
-                transition-all duration-200 border
-                ${isActive
-                                    ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
-                                    : 'bg-slate-800/50 text-slate-400 border-slate-700/50 hover:bg-slate-700/50 hover:text-white'
-                                }
-              `}
+                            className={getFilterButtonClasses({ isActive })}
                         >
                             <span className="shrink-0">{category.icon}</span>
                             <span className="flex-1 break-words">{category.name}</span>
-                            <span className={`
-                shrink-0 px-1.5 py-0.5 rounded-md text-xs
-                ${isActive ? 'bg-cyan-500/30' : 'bg-slate-700/50'}
-              `}>
+                            <span className={getFilterBadgeClasses(isActive)}>
                                 {category.count}
                             </span>
                         </button>

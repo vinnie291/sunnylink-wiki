@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '../lib/i18n';
 import { useScrollDirection } from '../hooks/useScrollDirection';
+import { NAV_ITEMS } from '../lib/navItems';
 
 export default function BottomNav() {
     const pathname = usePathname();
@@ -21,14 +22,6 @@ export default function BottomNav() {
         return () => observer.disconnect();
     }, []);
 
-    const navItems = [
-        { href: '/', label: t('nav.settings'), icon: '⚙️' },
-        { href: '/models', label: t('nav.models'), icon: '🧠' },
-        { href: '/cars', label: t('nav.carDatabase'), icon: '🚗', isCenter: true },
-        { href: '/stats', label: t('nav.stats'), icon: '📊' },
-        { href: '/features', label: t('nav.features'), icon: '📖' },
-    ];
-
     const isHidden = isSearchActive || scrollDirection === 'down';
 
     return (
@@ -37,7 +30,7 @@ export default function BottomNav() {
             <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-xl border-t border-slate-700/50" />
 
             <div className="relative flex items-end justify-around px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
-                {navItems.map((item) => {
+                {NAV_ITEMS.map((item) => {
                     const isActive = pathname === item.href;
 
                     if (item.isCenter) {
@@ -57,7 +50,7 @@ export default function BottomNav() {
                             >
                                 <span className="text-xl">{item.icon}</span>
                                 <span className={`text-[9px] font-medium mt-0.5 ${isActive ? 'text-white' : 'text-slate-400'}`}>
-                                    {item.label}
+                                    {t(item.labelKey)}
                                 </span>
                             </Link>
                         );
@@ -78,7 +71,7 @@ export default function BottomNav() {
                         >
                             <span className="text-lg">{item.icon}</span>
                             <span className={`text-[10px] font-medium mt-0.5 ${isActive ? 'text-cyan-400' : 'text-slate-400'}`}>
-                                {item.label}
+                                {t(item.labelKey)}
                             </span>
                             {isActive && (
                                 <div className="w-1 h-1 rounded-full bg-cyan-400 mt-0.5" />

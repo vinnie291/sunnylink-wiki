@@ -367,7 +367,7 @@ export default function CarDatabase() {
                 <div ref={sentinelRef} className="lg:hidden h-0" />
 
                 {/* Mobile Filters - Sticky */}
-                <div className={`lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 relative ${effectiveIsSticky ? 'sticky top-0 z-20' : ''}`}>
+                <div className={`lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 relative ${effectiveIsSticky ? 'sticky top-16 z-20 bg-slate-950/95 backdrop-blur-sm' : ''}`}>
                     <SearchFilter
                         value={searchQuery}
                         onChange={setSearchQuery}

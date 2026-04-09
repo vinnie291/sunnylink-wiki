@@ -192,8 +192,9 @@ export default function UniversalSearch() {
     const HighlightMatch = ({ text }: { text: string }) => {
         if (!query) return <>{text}</>;
         
-        // Simple regex highlighting matching part
-        const parts = text.split(new RegExp(`(${query})`, 'gi'));
+        // Escape regex special characters to prevent injection
+        const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const parts = text.split(new RegExp(`(${escaped})`, 'gi'));
         return (
             <span>
                 {parts.map((part, i) => 
@@ -220,7 +221,7 @@ export default function UniversalSearch() {
                     <input
                         ref={inputRef}
                         type="text"
-                        placeholder="Search settings, models, cars... (Cmd K)"
+                        placeholder={t('search.universalPlaceholder')}
                         className="flex-1 bg-transparent text-lg text-white placeholder-slate-500 outline-none focus:outline-none focus-visible:outline-none"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
@@ -238,7 +239,7 @@ export default function UniversalSearch() {
                     <div className="max-h-[60vh] overflow-y-auto p-2">
                         {displayResults.length === 0 ? (
                             <div className="text-center py-8 text-slate-400">
-                                No results found for "{query}"
+                                {t('search.noResults', { query })}
                             </div>
                         ) : (
                             <div className="space-y-1">
@@ -284,7 +285,7 @@ export default function UniversalSearch() {
                 
                 {query.length === 0 && (
                     <div className="px-4 py-8 text-center text-slate-500 text-sm">
-                        Start typing to universally search the wiki.
+                        {t('search.startTyping')}
                     </div>
                 )}
             </div>
