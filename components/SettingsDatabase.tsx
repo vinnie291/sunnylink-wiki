@@ -8,8 +8,10 @@ import CategoryFilter from './CategoryFilter';
 import EmptyState from './EmptyState';
 import ViewToggle from './ViewToggle';
 import MobileCategorySidebar from './MobileCategorySidebar';
+import SidebarInlineControls from './SidebarInlineControls';
 import { useViewMode } from '../hooks/useViewMode';
 import { useStickySearch } from '../hooks/useStickySearch';
+import { useDesktopSidebarSticky } from '../hooks/useDesktopSidebarSticky';
 import { useLanguage } from '../lib/i18n';
 
 const CategorySidebarButton = dynamic(() => import('./CategorySidebarButton'), { ssr: false });
@@ -57,6 +59,7 @@ export default function SettingsDatabase({
 }: SettingsDatabaseProps) {
     const { viewMode, setViewMode } = useViewMode('settings_page', 'grid');
     const { sentinelRef, isSticky } = useStickySearch();
+    const { sidebarSentinelRef, isSidebarSticky } = useDesktopSidebarSticky();
     const { t } = useLanguage();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [sortBy, setSortBy] = useState<string>('name-asc');
@@ -149,7 +152,11 @@ export default function SettingsDatabase({
             />
             {/* Sidebar - Desktop Only */}
             <aside className="hidden lg:block lg:w-72 lg:shrink-0">
+                {/* Sentinel: detects when sidebar becomes sticky */}
+                <div ref={sidebarSentinelRef} className="h-0" />
                 <div className="sticky top-8 space-y-6">
+                    {/* Inline GlobalControls — visible when sidebar is sticky */}
+                    <SidebarInlineControls visible={isSidebarSticky} />
                     {/* Search */}
                     <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-4">
                         <SearchFilter

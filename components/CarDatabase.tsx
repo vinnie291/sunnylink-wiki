@@ -10,11 +10,13 @@ import { useLanguage } from '../lib/i18n';
 import { useTranslatedCars } from '../lib/useTranslatedData';
 import { useViewMode } from '../hooks/useViewMode';
 import { useStickySearch } from '../hooks/useStickySearch';
+import { useDesktopSidebarSticky } from '../hooks/useDesktopSidebarSticky';
 import SearchFilter from './SearchFilter';
 import CategoryFilter from './CategoryFilter';
 import CarDetailView from './CarDetailView';
 import ViewToggle from './ViewToggle';
 import MobileCategorySidebar from './MobileCategorySidebar';
+import SidebarInlineControls from './SidebarInlineControls';
 import ScrollToTop from './ScrollToTop';
 
 const CategorySidebarButton = dynamic(() => import('./CategorySidebarButton'), { ssr: false });
@@ -89,6 +91,7 @@ export default function CarDatabase() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     
     const { sentinelRef, isSticky } = useStickySearch();
+    const { sidebarSentinelRef, isSidebarSticky } = useDesktopSidebarSticky();
     const searchParams = useSearchParams();
 
     // Map car makes to category format for CategoryFilter
@@ -295,7 +298,11 @@ export default function CarDatabase() {
 
             {/* Sidebar - Desktop Only */}
             <aside className="hidden lg:block lg:w-72 lg:shrink-0">
+                {/* Sentinel: detects when sidebar becomes sticky */}
+                <div ref={sidebarSentinelRef} className="h-0" />
                 <div className="sticky top-8 space-y-6 max-h-[calc(100vh-4rem)] overflow-y-auto pr-2 pb-8">
+                    {/* Inline GlobalControls — visible when sidebar is sticky */}
+                    <SidebarInlineControls visible={isSidebarSticky} />
                     {/* Search */}
                     <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-4">
                         <SearchFilter

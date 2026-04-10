@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import LanguageSwitcher from './LanguageSwitcher';
 import SearchButton from './SearchButton';
@@ -10,11 +11,26 @@ export default function GlobalControls() {
     const { t } = useLanguage();
     const pathname = usePathname();
     const isWizard = pathname === '/wizard';
+    const [sidebarSticky, setSidebarSticky] = useState(false);
+
+    // Listen for the sidebar-sticky attribute that database pages set
+    useEffect(() => {
+        const observer = new MutationObserver(() => {
+            setSidebarSticky(document.documentElement.hasAttribute('data-sidebar-sticky'));
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-sidebar-sticky'] });
+        return () => observer.disconnect();
+    }, []);
 
     return (
         <div className="fixed inset-x-0 top-0 z-50 pointer-events-none">
             {/* Top-Left: Language Switcher, Search, and optional Exit Wizard */}
-            <div className="absolute top-4 left-4 sm:top-8 sm:left-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 pointer-events-auto">
+            {/* On lg+ screens, hide when sidebar is sticky (inline version takes over) */}
+            <div className={`
+                absolute top-4 left-4 sm:top-8 sm:left-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 pointer-events-auto
+                transition-opacity duration-200 ease-out
+                ${sidebarSticky ? 'lg:opacity-0 lg:pointer-events-none' : 'lg:opacity-100'}
+            `}>
                 <div className="flex items-center gap-3">
                     <LanguageSwitcher />
                     <SearchButton />

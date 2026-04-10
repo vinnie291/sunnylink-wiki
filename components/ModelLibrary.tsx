@@ -8,8 +8,10 @@ import Fuse from 'fuse.js';
 import ViewToggle from './ViewToggle';
 import SearchFilter from './SearchFilter';
 import MobileCategorySidebar from './MobileCategorySidebar';
+import SidebarInlineControls from './SidebarInlineControls';
 import { useViewMode } from '../hooks/useViewMode';
 import { useStickySearch } from '../hooks/useStickySearch';
+import { useDesktopSidebarSticky } from '../hooks/useDesktopSidebarSticky';
 import { useLanguage } from '../lib/i18n';
 import { useTranslatedModels } from '../lib/useTranslatedData';
 
@@ -317,6 +319,7 @@ export default function ModelLibrary() {
     const [sortBy, setSortBy] = useState<string>('date-desc');
     const { viewMode, setViewMode } = useViewMode('models_page', 'grid');
     const { sentinelRef, isSticky } = useStickySearch();
+    const { sidebarSentinelRef, isSidebarSticky } = useDesktopSidebarSticky();
 
     const modelsData = useTranslatedModels();
     const rawCategories = modelsData.categories as ModelCategory[];
@@ -440,7 +443,11 @@ export default function ModelLibrary() {
 
             {/* Sidebar - Desktop Only */}
             <aside className="hidden lg:block lg:w-72 lg:shrink-0">
+                {/* Sentinel: detects when sidebar becomes sticky */}
+                <div ref={sidebarSentinelRef} className="h-0" />
                 <div className="sticky top-8 space-y-6">
+                    {/* Inline GlobalControls — visible when sidebar is sticky */}
+                    <SidebarInlineControls visible={isSidebarSticky} />
                     {/* Search */}
                     <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-4">
                         <SearchFilter

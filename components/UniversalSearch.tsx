@@ -222,7 +222,8 @@ export default function UniversalSearch() {
                         ref={inputRef}
                         type="text"
                         placeholder={t('search.universalPlaceholder')}
-                        className="flex-1 bg-transparent text-lg text-white placeholder-slate-500 outline-none focus:outline-none focus-visible:outline-none"
+                        className="flex-1 bg-transparent text-lg text-white placeholder-slate-500 outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus:ring-0"
+                        style={{ outline: 'none', boxShadow: 'none' }}
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onKeyDown={handleKeyDown}

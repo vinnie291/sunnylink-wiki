@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
-  "version": "8.0",
-  "totalModels": 77,
-  "lastUpdated": "2026-04-05",
+  "version": "8.1",
+  "totalModels": 78,
+  "lastUpdated": "2026-04-10",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -177,6 +177,36 @@
       "description": "최신 엔드투엔드 아키텍처. 3D 장면, 정지 영역, 복잡한 교차로를 이해합니다.",
       "icon": "🚀",
       "models": [
+        {
+          "name": "OP Model 8",
+          "date": "April 07, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Off-Policy",
+            "불안정"
+          ],
+          "communityScore": 38,
+          "totalVotes": 10,
+          "sentiment": {
+            "great": 0,
+            "good": 10,
+            "ok": 20,
+            "bad": 70
+          },
+          "consensus": "커뮤니티의 초기 피드백은 대체로 부정적입니다. 사용자들은 고속에서 떠리고 진동하는 조향, 정체 교통에서 차선 유지 어려움, 지속적인 왼쪽 쳐짐 현상을 보고합니다. OP Model 7이 개선했던 횟방향 안정성에 어려움을 갪는 것으로 보입니다.",
+          "note": "왼쪽 쳐짐 현상이 지속적으로 발생합니다. 카메라 오프셋 조정 (+0.05 ~ +0.10). 현재 단계에서는 일상 주행에 권장하지 않습니다.",
+          "bestFor": "테스트 전용",
+          "steeringFeel": "떠리는",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-8-apr-7-2026/4380",
+          "testedOn": [],
+          "positives": [],
+          "negatives": [
+            "고속에서 떠리고/진동하는 조향",
+            "정체 교통에서 차선 유지 어려움",
+            "지속적인 왼쪽 쳐짐 현상"
+          ]
+        },
         {
           "name": "OP Model 7",
           "date": "April 03, 2026",

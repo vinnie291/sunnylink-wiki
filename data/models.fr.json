@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
-  "version": "8.0",
-  "totalModels": 77,
-  "lastUpdated": "2026-04-05",
+  "version": "8.1",
+  "totalModels": 78,
+  "lastUpdated": "2026-04-10",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -177,6 +177,36 @@
       "description": "Dernière architecture de bout en bout. Comprend les scènes 3D, les arrêts de panneaux et les intersections complexes.",
       "icon": "🚀",
       "models": [
+        {
+          "name": "OP Model 8",
+          "date": "April 07, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Off-Policy",
+            "Instable"
+          ],
+          "communityScore": 38,
+          "totalVotes": 10,
+          "sentiment": {
+            "great": 0,
+            "good": 10,
+            "ok": 20,
+            "bad": 70
+          },
+          "consensus": "Les premiers retours de la communauté sont majoritairement négatifs. Les utilisateurs signalent une direction saccadée et oscillante à haute vitesse, des difficultés à maintenir la voie dans les embouteillages, et un centrage persistant à gauche. Le modèle semble avoir du mal avec la stabilité latérale qu'avait améliorée OP Model 7.",
+          "note": "Le centrage à gauche est un problème constant. Ajustez le décalage de la caméra (+0.05 à +0.10). Non recommandé pour la conduite quotidienne à ce stade.",
+          "bestFor": "Tests Uniquement",
+          "steeringFeel": "Saccadé",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-8-apr-7-2026/4380",
+          "testedOn": [],
+          "positives": [],
+          "negatives": [
+            "Direction saccadée/oscillante à haute vitesse",
+            "Difficultés à maintenir la voie dans les embouteillages",
+            "Centrage persistant à gauche"
+          ]
+        },
         {
           "name": "OP Model 7",
           "date": "April 03, 2026",
