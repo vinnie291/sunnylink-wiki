@@ -72,15 +72,20 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
         return () => window.removeEventListener('hashchange', handleHashChange);
     }, [features]);
 
-    // NEW: Scroll to top of expanded feature
+    // Scroll to top of expanded feature (only when opening, not closing)
     useEffect(() => {
         if (expandedFeature) {
-            const el = document.getElementById(expandedFeature);
-            if (el) {
-                // Small delay to allow the accordion animation to start/finish
-                // or just scroll immediately if it is already expanded
-                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            // Skip if this was triggered by hash navigation (already handled above)
+            const hash = window.location.hash;
+            if (hash && decodeURIComponent(hash.slice(1)) === expandedFeature) return;
+
+            // Small delay to allow DOM update before scrolling
+            setTimeout(() => {
+                const el = document.getElementById(expandedFeature);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
         }
     }, [expandedFeature]);
 
