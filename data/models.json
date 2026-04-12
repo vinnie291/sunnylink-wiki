@@ -1,8 +1,8 @@
 {
     "appName": "Sunnylink Model Database",
     "version": "8.1",
-    "totalModels": 78,
-    "lastUpdated": "2026-04-10",
+    "totalModels": 82,
+    "lastUpdated": "2026-04-11",
     "vibeGuide": {
         "wmi_2026": {
             "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -60,6 +60,48 @@
             "description": "The most popular models for daily driving right now. Community-tested and approved.",
             "icon": "⭐",
             "models": [
+                {
+                    "name": "TCPmV3 (The Cool Peoples Model)",
+                    "date": "October 10, 2025",
+                    "badge": "COMMUNITY CHOICE",
+                    "tags": [
+                        "Custom",
+                        "Smooth",
+                        "Highway"
+                    ],
+                    "communityScore": 92,
+                    "totalVotes": 45,
+                    "sentiment": {
+                        "great": 85,
+                        "good": 10,
+                        "ok": 5,
+                        "bad": 0
+                    },
+                    "consensus": "Highly praised community model known for its exceptional smoothness and lack of low-speed jerkiness. Many users describe it as 'awesome' and superior to standard releases for lateral control consistency.",
+                    "note": "Particularly popular with Kia e-Niro users in the UK. One of the best custom lateral models of late 2025.",
+                    "bestFor": "All-Around / Comfort",
+                    "steeringFeel": "Ultra-Smooth",
+                    "forumUrl": "https://community.sunnypilot.ai/t/the-cool-peoples-model-v3-10-october-2025/1151",
+                    "testedOn": [
+                        "Kia e-Niro",
+                        "Honda Civic",
+                        "2025 Ioniq 5",
+                        "Corolla Hatchback",
+                        "21 Hyundai Palisade"
+                    ],
+                    "positives": [
+                        "No low-speed jerkiness",
+                        "Excellent lateral control",
+                        "Ultra-smooth transitions",
+                        "Stabilizes speed in E2E",
+                        "Works well with NNLC"
+                    ],
+                    "negatives": [
+                        "Late braking (experimental long)",
+                        "Hugs turns tight",
+                        "Hugs left at night without lead car"
+                    ]
+                },
                 {
                     "name": "WMI V12",
                     "date": "January 13, 2026",
@@ -194,6 +236,32 @@
             "description": "Latest End-to-End architecture. Understands 3D scenes, stop signs, and complex intersections.",
             "icon": "🚀",
             "models": [
+                {
+                    "name": "OP Model 9",
+                    "date": "April 10, 2026",
+                    "badge": "NEW",
+                    "tags": [
+                        "Experimental",
+                        "Off-Policy",
+                        "Polling"
+                    ],
+                    "communityScore": 0,
+                    "totalVotes": 0,
+                    "sentiment": {
+                        "great": 0,
+                        "good": 0,
+                        "ok": 0,
+                        "bad": 0
+                    },
+                    "consensus": "Extremely new release (Apr 10). Community is currently polling for feedback. No definitive consensus yet, but represents the latest iteration of Off-Policy training.",
+                    "note": "Watch the forum for early feedback. Initial reports on OP Model 8 noted high-speed twitchiness; it remains to be seen if OP 9 resolves this.",
+                    "bestFor": "Testing",
+                    "steeringFeel": "TBD",
+                    "forumUrl": "https://community.sunnypilot.ai/t/op-model-9-apr-10-2026/4478",
+                    "testedOn": [],
+                    "positives": [],
+                    "negatives": []
+                },
                 {
                     "name": "OP Model 8",
                     "date": "April 07, 2026",
@@ -943,6 +1011,69 @@
             "description": "Passenger-friendly models. Smooth inputs over precision. Perfect for road trips.",
             "icon": "🛋️",
             "models": [
+                {
+                    "name": "Cool GWM (CGWM)",
+                    "date": "October 24, 2025",
+                    "tags": [
+                        "Smooth",
+                        "Community"
+                    ],
+                    "communityScore": 76,
+                    "totalVotes": 32,
+                    "sentiment": {
+                        "great": 35,
+                        "good": 40,
+                        "ok": 15,
+                        "bad": 10
+                    },
+                    "consensus": "Also referred to as gWM10. A highly discussed and used model noted for its lateral performance. However, some users report it 'hugs the left too much' compared to its predecessor.",
+                    "note": "A popular alternative for those looking for different steering characteristics on GWM platforms.",
+                    "bestFor": "Highway",
+                    "steeringFeel": "Balanced",
+                    "forumUrl": "https://community.sunnypilot.ai/t/cool-gwm-24-oct-2025/460",
+                    "testedOn": [
+                        "2021 Camry XSE"
+                    ],
+                    "positives": [
+                        "Responsive steering",
+                        "Consistent stopping for lights/signs"
+                    ],
+                    "negatives": [
+                        "Pronounced left-hugging for some",
+                        "Brakes hard for no reason (long mode)"
+                    ]
+                },
+                {
+                    "name": "gWM9",
+                    "date": "October 21, 2025",
+                    "tags": [
+                        "Lateral",
+                        "Community"
+                    ],
+                    "communityScore": 74,
+                    "totalVotes": 25,
+                    "sentiment": {
+                        "great": 30,
+                        "good": 45,
+                        "ok": 20,
+                        "bad": 5
+                    },
+                    "consensus": "Predecessor to Cool GWM. Well-regarded for its lateral control consistency on supported platforms.",
+                    "bestFor": "Highway",
+                    "steeringFeel": "Balanced",
+                    "forumUrl": "https://community.sunnypilot.ai/t/gwm9-21-oct-2025/308",
+                    "testedOn": [
+                        "2021 Toyota RAV4 hybrid"
+                    ],
+                    "positives": [
+                        "Avoids left-hugging found in CGWM",
+                        "Trustworthy lateral"
+                    ],
+                    "negatives": [
+                        "Drunk driver look (slow ping-pong)",
+                        "Oversteer on high-speed sharp corners"
+                    ]
+                },
                 {
                     "name": "Down to Ride v5",
                     "date": "July 08, 2025",
