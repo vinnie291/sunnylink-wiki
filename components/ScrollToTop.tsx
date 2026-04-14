@@ -38,7 +38,7 @@ export default function ScrollToTop() {
     return (
         <div
             className={`
-                fixed bottom-24 md:bottom-8 right-8 z-50 flex flex-col items-center gap-3
+                fixed bottom-24 md:bottom-8 right-8 z-50 flex flex-col items-center gap-4
                 transition-all duration-300 transform
                 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}
             `}

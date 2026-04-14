@@ -11,18 +11,18 @@ interface CategorySidebarButtonProps {
 export default function CategorySidebarButton({ onClick, isSticky, isSidebarOpen }: CategorySidebarButtonProps) {
     const [isVisible, setIsVisible] = useState(false);
 
-    // Match ScrollToTop visibility logic (scrollY > 300) AND require sticky search
+    // Match ScrollToTop visibility logic (scrollY > 300)
     useEffect(() => {
         const toggleVisibility = () => {
-            setIsVisible(window.scrollY > 300 && isSticky);
+            setIsVisible(window.scrollY > 300);
         };
 
-        // Re-evaluate when isSticky changes
+        // Re-evaluate on mount
         toggleVisibility();
 
         window.addEventListener('scroll', toggleVisibility);
         return () => window.removeEventListener('scroll', toggleVisibility);
-    }, [isSticky]);
+    }, []);
 
     // Always show when sidebar is open, otherwise use scroll-based visibility
     const shouldShow = isSidebarOpen || isVisible;
@@ -31,7 +31,7 @@ export default function CategorySidebarButton({ onClick, isSticky, isSidebarOpen
         <button
             onClick={onClick}
             className={`
-                fixed bottom-40 md:bottom-20 right-8 p-3 rounded-full shadow-lg border border-slate-700
+                fixed bottom-[228px] md:bottom-[164px] right-8 p-3 rounded-full shadow-lg border border-slate-700
                 bg-slate-800 text-cyan-400 hover:bg-slate-700 hover:text-cyan-300 hover:border-cyan-500/50
                 transition-all duration-300 transform
                 lg:hidden

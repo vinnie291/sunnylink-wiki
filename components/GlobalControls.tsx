@@ -11,15 +11,27 @@ export default function GlobalControls() {
     const { t } = useLanguage();
     const pathname = usePathname();
     const isWizard = pathname === '/wizard';
+    const isSettings = pathname === '/';
     const [sidebarSticky, setSidebarSticky] = useState(false);
+    const [scrolledPastHeader, setScrolledPastHeader] = useState(false);
 
-    // Listen for the sidebar-sticky attribute that database pages set
+    // Listen for the sidebar-sticky attribute that database pages set (Desktop)
     useEffect(() => {
         const observer = new MutationObserver(() => {
             setSidebarSticky(document.documentElement.hasAttribute('data-sidebar-sticky'));
         });
         observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-sidebar-sticky'] });
         return () => observer.disconnect();
+    }, []);
+
+    // Listen to scroll to determine if user passed the main header (Both Mobile & Desktop)
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolledPastHeader(window.scrollY > 300);
+        };
+        handleScroll();
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     return (
@@ -39,7 +51,11 @@ export default function GlobalControls() {
             </div>
 
             {/* Top-Right: Dashboard Button */}
-            <div className="absolute top-4 right-4 sm:top-8 sm:right-8 flex items-center gap-4 pointer-events-auto">
+            <div className={`
+                absolute top-4 right-4 sm:top-8 sm:right-8 flex items-center gap-4 pointer-events-auto
+                transition-opacity duration-200 ease-out
+                ${(isSettings && scrolledPastHeader) ? 'opacity-0 pointer-events-none' : 'opacity-100'}
+            `}>
                 <a
                     href="https://www.sunnylink.ai/dashboard"
                     target="_blank"
