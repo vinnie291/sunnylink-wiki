@@ -257,8 +257,8 @@ function ModelCard({ model }: { model: Model }) {
                 <div className="mt-3 pt-3 border-t border-slate-700/50">
                     <p className="text-xs text-slate-500 mb-1">🚗 Tested on:</p>
                     <div className="flex flex-wrap gap-1">
-                        {model.testedOn.map((car) => (
-                            <span key={car} className="px-2 py-0.5 text-[10px] rounded bg-slate-800 text-slate-400">
+                        {model.testedOn.map((car, i) => (
+                            <span key={`${car}-${i}`} className="px-2 py-0.5 text-[10px] rounded bg-slate-800 text-slate-400">
                                 {car}
                             </span>
                         ))}
@@ -633,7 +633,7 @@ export default function ModelLibrary() {
                             </div>
                             <select
                                 value={sortBy}
-                                onChange={(e) => setSortBy(e.target.value as any)}
+                                onChange={(e) => setSortBy(e.target.value)}
                                 className="
                                     appearance-none outline-none bg-transparent w-full
                                     pl-2 pr-10 py-2.5 text-sm font-medium text-white

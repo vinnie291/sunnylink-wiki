@@ -38,8 +38,9 @@ export default function LanguageSwitcher() {
     const handleSelect = (newLocale: Locale) => {
         if (newLocale !== locale) {
             // Track language switch in Google Analytics
-            if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
-                (window as any).gtag('event', 'language_switch', {
+            const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
+            if (typeof window !== 'undefined' && typeof gtag === 'function') {
+                gtag('event', 'language_switch', {
                     previous_language: locale,
                     new_language: newLocale,
                     language_name: localeMeta[newLocale].name,

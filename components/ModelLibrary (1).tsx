@@ -572,7 +572,7 @@ export default function ModelLibrary() {
                             </div>
                             <select
                                 value={sortBy}
-                                onChange={(e) => setSortBy(e.target.value as any)}
+                                onChange={(e) => setSortBy(e.target.value)}
                                 className="
                                     appearance-none w-full bg-slate-800/50 border border-slate-700/50 rounded-xl
                                     pl-14 pr-10 py-2.5 text-sm font-medium text-white
