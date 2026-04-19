@@ -253,8 +253,8 @@
             "ok": 14,
             "bad": 57
           },
-          "consensus": "Opiniones mixtas tempranas — una mejora notable respecto a la v1. El comportamiento longitudinal es elogiado: el frenado más suave y consistente de la serie OP. El lateral sigue derivando a la izquierda y tiene dificultades para enderezarse tras curvas cerradas. La mayoría de los votos son negativos, pero el 29 % de 'Bien' indica un progreso real.",
-          "note": "La deriva a la izquierda se puede corregir con el desplazamiento de cámara en Sunnylink. Aceleración lenta desde parado. El retraso en enderezar el volante tras curvas cerradas puede ser un problema de ajuste de torque, no del modelo.",
+          "consensus": "Mejora marginal respecto a la v1, pero el entusiasmo de la comunidad es bajo. El desarrollador Yassine confirmó que es 'mejor' que la v1 — y el 29 % de votos 'Bien' en la encuesta lo respalda. El longitudinal es el punto fuerte: el frenado más suave y constante de la serie OP. El lateral sigue derivando a la izquierda y la motivación para probarlo fue mínima — la mayoría volvió a POPv2. Una probadora usó el modelo un minuto antes de cambiar. El nombre ('v10 v2') generó confusión en la comunidad.",
+          "note": "Mejor que la v1 según el desarrollador. Deriva a izquierda corregible con desplazamiento de cámara. Tener POPv2 como respaldo. Aceleración lenta desde parado; la recuperación del volante tras curvas cerradas puede ser un problema de torque.",
           "bestFor": "Pruebas / Autopista",
           "steeringFeel": "Deriva a la izquierda",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v2-apr-18-2026/4657",
@@ -262,12 +262,15 @@
           "positives": [
             "Frenado más suave y consistente de la serie OP",
             "Alcanza la velocidad bastante bien",
-            "Control longitudinal notablemente mejorado respecto a la v1"
+            "Mejora confirmada por el desarrollador Yassine",
+            "Control longitudinal notablemente mejorado"
           ],
           "negatives": [
             "Deriva a la izquierda (corregible con desplazamiento de cámara)",
             "Aceleración lenta desde parado",
-            "No endereza el volante a tiempo tras curvas cerradas"
+            "No endereza el volante a tiempo tras curvas cerradas",
+            "La comunidad lo ignoró mayormente — volvió a POPv2",
+            "Nombre confuso junto a la v1"
           ]
         },
         {
@@ -277,7 +280,7 @@
           "tags": [
             "Experimental",
             "Off-Policy",
-            "Mal control lateral"
+            "Oscilación"
           ],
           "communityScore": 30,
           "totalVotes": 5,
@@ -287,18 +290,26 @@
             "ok": 40,
             "bad": 60
           },
-          "consensus": "Opiniones predominantemente negativas. Los usuarios reportan mal control lateral — el modelo tarda en corregir y luego realiza correcciones bruscas cerca de la línea de carril. Destaca como uno de los pocos modelos que regularmente sale de los carriles. No se mencionan aspectos positivos.",
-          "note": "No recomendado para uso diario. Uno de los pocos modelos OP reportado por salir frecuentemente de los carriles.",
+          "consensus": "Opiniones unánimemente negativas en el foro y Discord. La dirección es descrita como 'sin agarre, perezosa e irresponsiva' — el modelo deambula por el carril, a veces pegado a la izquierda, a veces centrado. Comportamiento similar al OP Model 8 pero sin errores de localización. Una oscilación progresiva se amplifica una vez iniciada y no se autocorrige, peor con vehículo cargado. Llamado 'uno de los peores modelos que he probado.' La comunidad coincide: carece completamente de la autocorrección del OP Model 7.",
+          "note": "No recomendado. La oscilación empeora con el tiempo, especialmente con vehículo cargado. Sin errores de localización (a diferencia de OP 8). Probado en Niro PHEV '22, GV60 Perf '23, Elantra HEV '23.",
           "bestFor": "Solo pruebas",
-          "steeringFeel": "Impredecible",
+          "steeringFeel": "Perezoso / Errático",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-apr-17-2026/4648",
-          "testedOn": [],
-          "positives": [],
+          "testedOn": [
+            "2023 Kia Niro PHEV",
+            "2023 Genesis GV60 Performance",
+            "2023 Hyundai Elantra HEV"
+          ],
+          "positives": [
+            "Sin errores de localización (a diferencia del OP Model 8)"
+          ],
           "negatives": [
-            "Mal control lateral",
+            "Dirección sin agarre, perezosa e irresponsiva",
+            "Deambula por el carril — sin posición constante",
+            "Oscilación progresiva que se amplifica sin autocorregirse",
+            "Peor con vehículo cargado",
             "Tarda en corregir, luego sobrecorrige de forma brusca",
-            "Sale regularmente de los límites del carril",
-            "No se reportan aspectos positivos destacables"
+            "Carece completamente de la autocorrección del OP Model 7"
           ]
         },
         {

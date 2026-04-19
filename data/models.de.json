@@ -253,8 +253,8 @@
             "ok": 14,
             "bad": 57
           },
-          "consensus": "Gemischtes frühes Feedback — eine deutliche Verbesserung gegenüber v1. Das Längsverhalten wird gelobt: die sanfteste und konsistenteste Bremsung der OP-Serie. Lateral driftet das Fahrzeug noch nach links und hat Schwierigkeiten, nach scharfen Kurven zu begradigen. Die Mehrheit der Bewertungen ist negativ, aber 29 % 'Gut' zeigen echten Fortschritt.",
-          "note": "Linksdrift lässt sich mit dem Kameraversatz in Sunnylink beheben. Langsames Anfahren aus dem Stand. Verzögertes Begradigen nach scharfen Kurven ist möglicherweise ein Drehmomenttunig-Problem.",
+          "consensus": "Marginale Verbesserung gegenüber v1, aber das Interesse der Community ist gering. Entwickler Yassine bestätigte, dass es 'besser' als v1 ist — die Forumsdaten mit 29 % 'Gut'-Stimmen bestätigen das. Das Längsverhalten ist das Highlight: sanfteste und konsistenteste Bremsung der OP-Serie. Das Lateral driftet jedoch noch nach links, und die Motivation zum Testen war minimal — die meisten Nutzer kehrten einfach zu POPv2 zurück. Eine Testerin wechselte nach einer Minute das Modell. Die Benennung ('v10 v2') sorgte für Verwirrung in der Community.",
+          "note": "Laut Entwickler besser als v1. Linksdrift mit Kameraversatz behebbar. POPv2 als Fallback bereithalten. Langsames Anfahren; Lenkrad-Rückstellung nach scharfen Kurven möglicherweise Drehmomenttunig-Problem.",
           "bestFor": "Testen / Autobahn",
           "steeringFeel": "Linksdrift",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v2-apr-18-2026/4657",
@@ -262,12 +262,15 @@
           "positives": [
             "Sanfteste und konsistenteste Bremsung der OP-Serie",
             "Erreicht Geschwindigkeit recht gut",
-            "Längssteuerung deutlich verbessert gegenüber v1"
+            "Verbesserung gegenüber v1 vom Entwickler Yassine bestätigt",
+            "Längssteuerung deutlich verbessert"
           ],
           "negatives": [
             "Driftet nach links (mit Kameraversatz behebbar)",
             "Langsames Anfahren aus dem Stand",
-            "Begradigt das Lenkrad nach scharfen Kurven zu spät"
+            "Begradigt das Lenkrad nach scharfen Kurven zu spät",
+            "Community ignorierte es größtenteils — kehrte zu POPv2 zurück",
+            "Verwirrende Benennung neben v1"
           ]
         },
         {
@@ -277,7 +280,7 @@
           "tags": [
             "Experimentell",
             "Off-Policy",
-            "Schlechte Lateralsteuerung"
+            "Wackeln"
           ],
           "communityScore": 30,
           "totalVotes": 5,
@@ -287,18 +290,26 @@
             "ok": 40,
             "bad": 60
           },
-          "consensus": "Überwiegend negatives Feedback. Nutzer berichten von schlechter Lateralsteuerung — das Modell korrigiert zu spät und macht dann dramatische Überkorrekturen nahe der Spurlinie. Auffällig ist, dass es eines der wenigen Modelle ist, das die Fahrspurgrenzen regelmäßig verlässt. Keine positiven Aspekte erwähnt.",
-          "note": "Für den täglichen Einsatz nicht empfohlen. Eines der wenigen OP-Modelle, das die Spurmarkierungen häufig verlässt.",
+          "consensus": "Durchgehend negatives Feedback im Forum und auf Discord. Das Lenken wird als 'nicht fest, träge und reaktionslos' beschrieben — das Modell mäandert in der Spur, mal mit Linksdrift, mal zentriert. Verhalten ähnlich wie OP-Modell 8, aber ohne Ortungsfehler. Ein progressives Wackeln verstärkt sich, sobald es beginnt, und korrigiert sich nicht selbst — besonders schlimm bei beladenem Fahrzeug. Jemand nannte es 'eines der schlechtesten Modelle, die ich je ausprobiert habe.'",
+          "note": "Nicht empfohlen. Das Wackeln verstärkt sich über Zeit und ist besonders schlimm bei beladenem Fahrzeug. Getestet auf Niro PHEV '22, GV60 Perf '23, Elantra HEV '23.",
           "bestFor": "Nur zum Testen",
-          "steeringFeel": "Unvorhersehbar",
+          "steeringFeel": "Träge / Mäandernd",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-apr-17-2026/4648",
-          "testedOn": [],
-          "positives": [],
+          "testedOn": [
+            "2023 Kia Niro PHEV",
+            "2023 Genesis GV60 Performance",
+            "2023 Hyundai Elantra HEV"
+          ],
+          "positives": [
+            "Keine Ortungsfehler (anders als OP-Modell 8)"
+          ],
           "negatives": [
-            "Schlechte Lateralsteuerung",
-            "Zu spät korrigiert, dann dramatische Überkorrekturen",
-            "Verlässt regelmäßig die Fahrspurgrenzen",
-            "Keine nennenswerten positiven Aspekte"
+            "Lenken fühlt sich nicht fest, träge und reaktionslos an",
+            "Mäandert in der Spur — keine konstante Position",
+            "Progressives Wackeln verstärkt sich, korrigiert sich nicht selbst",
+            "Schlimmer bei beladenem Fahrzeug",
+            "Zu spät korrigiert, dann dramatische Überkorrektur",
+            "Fehlt vollständig die Selbstkorrektur-Qualität von OP-Modell 7"
           ]
         },
         {

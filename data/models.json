@@ -253,8 +253,8 @@
                         "ok": 14,
                         "bad": 57
                     },
-                    "consensus": "Mixed early feedback — a notable improvement over v1. Longitudinal behavior is praised as the softest, most consistent braking in the OP series. Lateral still hugs left and struggles to straighten after sharp turns. Bad votes are the majority but 29% Good suggests real forward progress.",
-                    "note": "Left-hugging is fixable with camera offset in Sunnylink. Slow to accelerate from a stop. Wheel recovery after sharp turns may be a torque tune issue rather than a model problem.",
+                    "consensus": "Marginal improvement over v1 but community enthusiasm is low. Developer Yassine confirmed it's 'better' than v1 — and the forum data backs that up with 29% Good votes. Longitudinal is the highlight: softest, most consistent braking in the OP series. However, lateral still hugs left and community motivation to even test it was minimal — most users just returned to POPv2. One tester's wife tried it for one minute before switching models. ElusiveJG refused to try it after v1. Naming ('v10 v2') caused confusion in the community.",
+                    "note": "Better than v1 per the developer. Left-hugging fixable with camera offset. If testing, keep POPv2 as fallback. Slow to accelerate from stop; wheel recovery after sharp turns may be a torque tune issue.",
                     "bestFor": "Testing / Highway",
                     "steeringFeel": "Left-Hugging",
                     "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v2-apr-18-2026/4657",
@@ -262,12 +262,15 @@
                     "positives": [
                         "Softest, most consistent braking of the OP series",
                         "Gets up to speed fairly well",
-                        "Longitudinal control notably improved over v1"
+                        "Confirmed improvement over v1 by developer Yassine",
+                        "Longitudinal control notably improved"
                     ],
                     "negatives": [
                         "Hugs left (fixable with camera offset)",
                         "Slow to accelerate from a stop",
-                        "Doesn't straighten wheel in time after sharp turns"
+                        "Doesn't straighten wheel in time after sharp turns",
+                        "Community skipped it — most went back to POPv2",
+                        "Confusing name alongside v1"
                     ]
                 },
                 {
@@ -277,7 +280,7 @@
                     "tags": [
                         "Experimental",
                         "Off-Policy",
-                        "Poor Lateral"
+                        "Wobble"
                     ],
                     "communityScore": 30,
                     "totalVotes": 5,
@@ -287,18 +290,26 @@
                         "ok": 40,
                         "bad": 60
                     },
-                    "consensus": "Predominantly negative feedback. Users report poor lateral control — the model is late to correct and then makes dramatic overcorrections near the lane line. Notable as one of the few models reported to regularly depart lane lines entirely. No positives mentioned.",
-                    "note": "Not recommended for daily driving. One of the few OP models reported to exit lane lines frequently.",
+                    "consensus": "Unanimously negative across forum and Discord. Steering described as 'non-planted, lazy, and unresponsive' — the model meanders throughout the lane, sometimes hugging, sometimes centered, with no consistent lane position. Lateral behavior is similar to OP Model 8 but without the location errors. A progressive wobble compounds once introduced and does not self-correct, worsening under load. One user briefly compared it to POP v3, immediately retracted. Called 'one of the worst models I've ever tried.' Community agrees it completely lacks the self-correction quality of OP Model 7.",
+                    "note": "Not recommended. Wobble compounds over time and is especially bad under load. No location errors (unlike OP 8), but lateral is equally poor. Tested on Niro PHEV '22, GV60 Perf '23, Elantra HEV '23.",
                     "bestFor": "Testing Only",
-                    "steeringFeel": "Unpredictable",
+                    "steeringFeel": "Lazy / Meandering",
                     "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-apr-17-2026/4648",
-                    "testedOn": [],
-                    "positives": [],
+                    "testedOn": [
+                        "2023 Kia Niro PHEV",
+                        "2023 Genesis GV60 Performance",
+                        "2023 Hyundai Elantra HEV"
+                    ],
+                    "positives": [
+                        "No location errors (unlike OP Model 8)"
+                    ],
                     "negatives": [
-                        "Poor lateral control",
+                        "Steering feels non-planted, lazy, and unresponsive",
+                        "Meanders throughout lane — no consistent position",
+                        "Progressive wobble compounds once introduced, does not self-correct",
+                        "Worse under load (heavier/loaded vehicle)",
                         "Late to correct, then overcorrects dramatically",
-                        "Regularly departs lane lines",
-                        "No notable positives reported"
+                        "Completely lacks OP Model 7's self-correction quality"
                     ]
                 },
                 {
