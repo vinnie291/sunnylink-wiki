@@ -116,7 +116,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                 </button>
 
                 {/* Content Header */}
-                <div className="p-6 sm:p-8 border-b border-slate-800 shrink-0">
+                <div className="p-6 pr-16 sm:p-8 sm:pr-20 border-b border-slate-800 shrink-0">
                     <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
                         <div>
                             <div className="text-sm font-bold text-cyan-500 uppercase tracking-widest mb-1">{vehicle.make}</div>
