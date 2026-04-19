@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agentskills.io/schema/v0.2/skill.json",
+  "name": "search-sunnypilot-settings",
+  "version": "1.0.0",
+  "type": "webmcp",
+  "description": "Search the Sunnylink Wiki database of 100+ Sunnypilot settings, toggles, and configuration parameters. Returns matching settings with descriptions, default values, use cases, and community tips.",
+  "tools": [
+    {
+      "name": "search_settings",
+      "description": "Search for Sunnypilot settings by keyword. Returns matching settings with full descriptions, defaults, and usage notes.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search keyword or phrase (e.g. 'camera offset', 'speed limit', 'MADS', 'lane change')"
+          }
+        },
+        "required": ["query"]
+      }
+    }
+  ],
+  "endpoints": {
+    "data": "https://www.sunnylink.wiki/api/wiki-data?type=settings&search={query}"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://agentskills.io/schema/v0.2/skill.json",
+  "name": "browse-driving-models",
+  "version": "1.0.0",
+  "type": "webmcp",
+  "description": "Browse the Sunnylink Wiki library of 82+ Sunnypilot driving models. Filter by vibe (comfort, aggressive, WMI 2026, experimental, precision) or search by name to find the best model for your driving style.",
+  "tools": [
+    {
+      "name": "browse_models",
+      "description": "Get information about Sunnypilot driving models. Filter by vibe category or search by name.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "vibe": {
+            "type": "string",
+            "description": "Filter by vibe: wmi_2026, aggressive, comfort, precision, experimental"
+          },
+          "query": {
+            "type": "string",
+            "description": "Search by model name (e.g. 'WMI V12', 'Down to Ride', 'Dark Souls')"
+          }
+        }
+      }
+    }
+  ],
+  "endpoints": {
+    "data": "https://www.sunnylink.wiki/api/wiki-data?type=models&vibe={vibe}"
+  }
+}

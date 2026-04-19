@@ -1,0 +1,55 @@
+{
+  "serverInfo": {
+    "name": "Sunnylink Wiki",
+    "version": "1.0.0",
+    "description": "MCP-compatible interface for the Sunnylink Wiki — the complete reference for Sunnypilot settings, driving models, car compatibility, and features."
+  },
+  "transport": {
+    "type": "http",
+    "endpoint": "https://www.sunnylink.wiki/api/wiki-data"
+  },
+  "capabilities": {
+    "tools": true,
+    "resources": true,
+    "prompts": false
+  },
+  "tools": [
+    {
+      "name": "search_settings",
+      "description": "Search Sunnypilot settings and toggles by keyword",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string", "description": "Search keyword (e.g. 'camera offset', 'MADS', 'speed limit')" }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "browse_models",
+      "description": "Browse Sunnypilot driving models by vibe or name",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "vibe": { "type": "string", "description": "Vibe category: wmi_2026, aggressive, comfort, precision, experimental" },
+          "query": { "type": "string", "description": "Search by model name" }
+        }
+      }
+    },
+    {
+      "name": "check_car",
+      "description": "Check if a car make/model is compatible with Sunnypilot and get recommended settings",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "make": { "type": "string", "description": "Car manufacturer (e.g. Toyota, Honda, Hyundai)" },
+          "model": { "type": "string", "description": "Car model (e.g. Camry, Civic, Ioniq 5)" }
+        }
+      }
+    }
+  ],
+  "contact": {
+    "url": "https://www.sunnylink.wiki",
+    "community": "https://community.sunnypilot.ai"
+  }
+}

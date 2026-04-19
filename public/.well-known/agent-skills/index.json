@@ -1,0 +1,35 @@
+{
+  "$schema": "https://agentskills.io/schema/v0.2/index.json",
+  "name": "Sunnylink Wiki Agent Skills",
+  "description": "Agent-discoverable skills for the Sunnylink Wiki — the complete Sunnypilot reference covering settings, driving models, and car compatibility.",
+  "version": "0.2.0",
+  "skills": [
+    {
+      "name": "search-sunnypilot-settings",
+      "type": "webmcp",
+      "description": "Search 100+ Sunnypilot settings, toggles, and configuration parameters with descriptions, defaults, and community tips.",
+      "url": "https://www.sunnylink.wiki/.well-known/agent-skills/search-settings.json",
+      "digest": {
+        "sha256": "5f432ecaa28abd7a47a30d2cd40ddc0b3513ae1626636e5099a57e6eab859dca"
+      }
+    },
+    {
+      "name": "browse-driving-models",
+      "type": "webmcp",
+      "description": "Browse 82+ Sunnypilot driving models filtered by vibe (comfort, aggressive, WMI 2026, experimental) or name.",
+      "url": "https://www.sunnylink.wiki/.well-known/agent-skills/browse-models.json",
+      "digest": {
+        "sha256": "4734f1d2176e6864f463d047ae9ae1e8307cf6bd8a769ed6c3f4335e8446a136"
+      }
+    },
+    {
+      "name": "check-car-compatibility",
+      "type": "webmcp",
+      "description": "Check if a car make/model is compatible with Sunnypilot and get required hardware and recommended settings.",
+      "url": "https://www.sunnylink.wiki/.well-known/agent-skills/check-car-compatibility.json",
+      "digest": {
+        "sha256": "54189c170b7acfa0b009f068cdaf1baa5f5c06461507bedb59c2ce676c6e5645"
+      }
+    }
+  ]
+}
