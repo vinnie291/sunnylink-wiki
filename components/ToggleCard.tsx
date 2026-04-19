@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import DOMPurify from 'dompurify';
 import { useLanguage } from '../lib/i18n';
 
 interface ToggleSetting {
@@ -549,7 +550,7 @@ export default function ToggleCard({
                   <div className="mt-3 ml-6 p-4 rounded-lg bg-slate-900/50 border border-slate-700/30">
                     <div
                       className="discourse-content text-sm text-slate-300 leading-relaxed"
-                      dangerouslySetInnerHTML={{ __html: setting.discourseHtml }}
+                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(setting.discourseHtml) }}
                     />
                   </div>
                 )}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import DOMPurify from 'dompurify';
 import { useLanguage } from '../lib/i18n';
 import { useTranslatedFeatures } from '../lib/useTranslatedData';
 
@@ -202,7 +203,7 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                                             <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">Official Docs (Full)</p>
                                             <div
                                                 className="discourse-content text-sm text-slate-300 leading-relaxed"
-                                                dangerouslySetInnerHTML={{ __html: feature.discourseHtml }}
+                                                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(feature.discourseHtml) }}
                                             />
                                         </div>
                                     )}

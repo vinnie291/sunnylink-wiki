@@ -108,13 +108,16 @@ function searchCars(make?: string, model?: string) {
   }));
 }
 
+const ALLOWED_TYPES = new Set(['settings', 'models', 'cars']);
+
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
-  const type = searchParams.get('type') ?? 'settings';
-  const query = searchParams.get('search') ?? searchParams.get('query') ?? '';
-  const vibe = searchParams.get('vibe') ?? undefined;
-  const make = searchParams.get('make') ?? undefined;
-  const model = searchParams.get('model') ?? undefined;
+  const rawType = searchParams.get('type') ?? 'settings';
+  const type = ALLOWED_TYPES.has(rawType) ? rawType : 'settings';
+  const query = (searchParams.get('search') ?? searchParams.get('query') ?? '').slice(0, 200);
+  const vibe = searchParams.get('vibe')?.slice(0, 50) ?? undefined;
+  const make = searchParams.get('make')?.slice(0, 100) ?? undefined;
+  const model = searchParams.get('model')?.slice(0, 100) ?? undefined;
 
   let data;
   switch (type) {
