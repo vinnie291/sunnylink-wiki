@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.1",
-  "totalModels": 82,
-  "lastUpdated": "2026-04-11",
+  "totalModels": 84,
+  "lastUpdated": "2026-04-19",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -236,6 +236,71 @@
       "description": "Neueste End-to-End-Architektur. Versteht 3D-Szenen, Stoppschilds und komplexe Kreuzungen.",
       "icon": "🚀",
       "models": [
+        {
+          "name": "OP Model 10 v2",
+          "date": "April 18, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimentell",
+            "Off-Policy",
+            "Linksdrift"
+          ],
+          "communityScore": 43,
+          "totalVotes": 7,
+          "sentiment": {
+            "great": 0,
+            "good": 29,
+            "ok": 14,
+            "bad": 57
+          },
+          "consensus": "Gemischtes frühes Feedback — eine deutliche Verbesserung gegenüber v1. Das Längsverhalten wird gelobt: die sanfteste und konsistenteste Bremsung der OP-Serie. Lateral driftet das Fahrzeug noch nach links und hat Schwierigkeiten, nach scharfen Kurven zu begradigen. Die Mehrheit der Bewertungen ist negativ, aber 29 % 'Gut' zeigen echten Fortschritt.",
+          "note": "Linksdrift lässt sich mit dem Kameraversatz in Sunnylink beheben. Langsames Anfahren aus dem Stand. Verzögertes Begradigen nach scharfen Kurven ist möglicherweise ein Drehmomenttunig-Problem.",
+          "bestFor": "Testen / Autobahn",
+          "steeringFeel": "Linksdrift",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v2-apr-18-2026/4657",
+          "testedOn": [],
+          "positives": [
+            "Sanfteste und konsistenteste Bremsung der OP-Serie",
+            "Erreicht Geschwindigkeit recht gut",
+            "Längssteuerung deutlich verbessert gegenüber v1"
+          ],
+          "negatives": [
+            "Driftet nach links (mit Kameraversatz behebbar)",
+            "Langsames Anfahren aus dem Stand",
+            "Begradigt das Lenkrad nach scharfen Kurven zu spät"
+          ]
+        },
+        {
+          "name": "OP Model 10",
+          "date": "April 17, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimentell",
+            "Off-Policy",
+            "Schlechte Lateralsteuerung"
+          ],
+          "communityScore": 30,
+          "totalVotes": 5,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 40,
+            "bad": 60
+          },
+          "consensus": "Überwiegend negatives Feedback. Nutzer berichten von schlechter Lateralsteuerung — das Modell korrigiert zu spät und macht dann dramatische Überkorrekturen nahe der Spurlinie. Auffällig ist, dass es eines der wenigen Modelle ist, das die Fahrspurgrenzen regelmäßig verlässt. Keine positiven Aspekte erwähnt.",
+          "note": "Für den täglichen Einsatz nicht empfohlen. Eines der wenigen OP-Modelle, das die Spurmarkierungen häufig verlässt.",
+          "bestFor": "Nur zum Testen",
+          "steeringFeel": "Unvorhersehbar",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-apr-17-2026/4648",
+          "testedOn": [],
+          "positives": [],
+          "negatives": [
+            "Schlechte Lateralsteuerung",
+            "Zu spät korrigiert, dann dramatische Überkorrekturen",
+            "Verlässt regelmäßig die Fahrspurgrenzen",
+            "Keine nennenswerten positiven Aspekte"
+          ]
+        },
         {
           "name": "OP Model 9",
           "date": "April 10, 2026",

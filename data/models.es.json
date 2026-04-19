@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.1",
-  "totalModels": 82,
-  "lastUpdated": "2026-04-11",
+  "totalModels": 84,
+  "lastUpdated": "2026-04-19",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -236,6 +236,71 @@
       "description": "Última arquitectura de extremo a extremo. Entiende escenas 3D, señales de altos e intersecciones complejas.",
       "icon": "🚀",
       "models": [
+        {
+          "name": "OP Model 10 v2",
+          "date": "April 18, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Off-Policy",
+            "Deriva a la izquierda"
+          ],
+          "communityScore": 43,
+          "totalVotes": 7,
+          "sentiment": {
+            "great": 0,
+            "good": 29,
+            "ok": 14,
+            "bad": 57
+          },
+          "consensus": "Opiniones mixtas tempranas — una mejora notable respecto a la v1. El comportamiento longitudinal es elogiado: el frenado más suave y consistente de la serie OP. El lateral sigue derivando a la izquierda y tiene dificultades para enderezarse tras curvas cerradas. La mayoría de los votos son negativos, pero el 29 % de 'Bien' indica un progreso real.",
+          "note": "La deriva a la izquierda se puede corregir con el desplazamiento de cámara en Sunnylink. Aceleración lenta desde parado. El retraso en enderezar el volante tras curvas cerradas puede ser un problema de ajuste de torque, no del modelo.",
+          "bestFor": "Pruebas / Autopista",
+          "steeringFeel": "Deriva a la izquierda",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v2-apr-18-2026/4657",
+          "testedOn": [],
+          "positives": [
+            "Frenado más suave y consistente de la serie OP",
+            "Alcanza la velocidad bastante bien",
+            "Control longitudinal notablemente mejorado respecto a la v1"
+          ],
+          "negatives": [
+            "Deriva a la izquierda (corregible con desplazamiento de cámara)",
+            "Aceleración lenta desde parado",
+            "No endereza el volante a tiempo tras curvas cerradas"
+          ]
+        },
+        {
+          "name": "OP Model 10",
+          "date": "April 17, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Off-Policy",
+            "Mal control lateral"
+          ],
+          "communityScore": 30,
+          "totalVotes": 5,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 40,
+            "bad": 60
+          },
+          "consensus": "Opiniones predominantemente negativas. Los usuarios reportan mal control lateral — el modelo tarda en corregir y luego realiza correcciones bruscas cerca de la línea de carril. Destaca como uno de los pocos modelos que regularmente sale de los carriles. No se mencionan aspectos positivos.",
+          "note": "No recomendado para uso diario. Uno de los pocos modelos OP reportado por salir frecuentemente de los carriles.",
+          "bestFor": "Solo pruebas",
+          "steeringFeel": "Impredecible",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-apr-17-2026/4648",
+          "testedOn": [],
+          "positives": [],
+          "negatives": [
+            "Mal control lateral",
+            "Tarda en corregir, luego sobrecorrige de forma brusca",
+            "Sale regularmente de los límites del carril",
+            "No se reportan aspectos positivos destacables"
+          ]
+        },
         {
           "name": "OP Model 9",
           "date": "April 10, 2026",

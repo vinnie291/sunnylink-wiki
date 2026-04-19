@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.1",
-  "totalModels": 82,
-  "lastUpdated": "2026-04-11",
+  "totalModels": 84,
+  "lastUpdated": "2026-04-19",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -236,6 +236,71 @@
       "description": "최신 엔드투엔드 아키텍처. 3D 장면, 정지 영역, 복잡한 교차로를 이해합니다.",
       "icon": "🚀",
       "models": [
+        {
+          "name": "OP Model 10 v2",
+          "date": "April 18, 2026",
+          "badge": "NEW",
+          "tags": [
+            "실험적",
+            "Off-Policy",
+            "좌편향"
+          ],
+          "communityScore": 43,
+          "totalVotes": 7,
+          "sentiment": {
+            "great": 0,
+            "good": 29,
+            "ok": 14,
+            "bad": 57
+          },
+          "consensus": "초기 평가가 엇갈립니다 — v1 대비 눈에 띄는 개선. 종방향 거동이 호평받고 있으며, OP 시리즈 중 가장 부드럽고 일관된 제동력을 보여줍니다. 횡방향은 여전히 왼쪽으로 쏠리고 급격한 코너 후 복원이 느립니다. 부정 평가가 과반수이나 29%의 '좋음' 평가는 실질적인 진전을 나타냅니다.",
+          "note": "좌편향은 Sunnylink의 카메라 오프셋으로 수정 가능합니다. 정지 상태에서 가속이 느립니다. 급코너 후 조향 복원 지연은 모델 문제가 아닌 토크 튜닝 문제일 수 있습니다.",
+          "bestFor": "테스트 / 고속도로",
+          "steeringFeel": "좌편향",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v2-apr-18-2026/4657",
+          "testedOn": [],
+          "positives": [
+            "OP 시리즈 중 가장 부드럽고 일관된 제동",
+            "순항 속도까지 가속 양호",
+            "v1 대비 종방향 제어 눈에 띄게 개선"
+          ],
+          "negatives": [
+            "좌편향 (카메라 오프셋으로 수정 가능)",
+            "정지 상태에서 가속 느림",
+            "급코너 후 조향 복원 지연"
+          ]
+        },
+        {
+          "name": "OP Model 10",
+          "date": "April 17, 2026",
+          "badge": "NEW",
+          "tags": [
+            "실험적",
+            "Off-Policy",
+            "불량한 횡방향 제어"
+          ],
+          "communityScore": 30,
+          "totalVotes": 5,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 40,
+            "bad": 60
+          },
+          "consensus": "부정적인 피드백이 주를 이룹니다. 횡방향 제어가 불량하며 수정이 늦고, 차선을 거의 벗어날 때까지 기다렸다가 급격한 과도 수정을 합니다. 차선을 자주 이탈하는 몇 안 되는 모델 중 하나로 주목됩니다. 긍정적인 면은 언급되지 않았습니다.",
+          "note": "일상 주행에 권장하지 않습니다. 차선 이탈이 빈번하게 보고된 몇 안 되는 OP 모델 중 하나입니다.",
+          "bestFor": "테스트 전용",
+          "steeringFeel": "예측 불가",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-apr-17-2026/4648",
+          "testedOn": [],
+          "positives": [],
+          "negatives": [
+            "불량한 횡방향 제어",
+            "늦은 수정 후 급격한 과도 수정",
+            "차선 이탈 빈번",
+            "긍정적인 면 없음"
+          ]
+        },
         {
           "name": "OP Model 9",
           "date": "April 10, 2026",

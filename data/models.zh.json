@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.1",
-  "totalModels": 82,
-  "lastUpdated": "2026-04-11",
+  "totalModels": 84,
+  "lastUpdated": "2026-04-19",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -236,6 +236,71 @@
       "description": "最新的端到端架构。 了解 3D 场景、停车标志和复杂的交叉路口。",
       "icon": "🚀",
       "models": [
+        {
+          "name": "OP Model 10 v2",
+          "date": "April 18, 2026",
+          "badge": "NEW",
+          "tags": [
+            "实验性",
+            "离线策略",
+            "左偏"
+          ],
+          "communityScore": 43,
+          "totalVotes": 7,
+          "sentiment": {
+            "great": 0,
+            "good": 29,
+            "ok": 14,
+            "bad": 57
+          },
+          "consensus": "早期评价褒贬不一——相比v1有明显改进。纵向表现受到好评：制动是OP系列中最柔和、最稳定的。横向仍偏左，急弯后方向盘回正较慢。负面评价占多数，但29%的'好'票说明确实有所进步。",
+          "note": "左偏问题可通过Sunnylink中的摄像头偏移量修正。从停止状态加速较慢。急弯后方向盘回正迟缓可能是扭矩调校问题，而非模型本身问题。",
+          "bestFor": "测试/高速公路",
+          "steeringFeel": "左偏",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v2-apr-18-2026/4657",
+          "testedOn": [],
+          "positives": [
+            "OP系列中最柔和、最稳定的制动",
+            "加速至巡航速度表现较好",
+            "相比v1，纵向控制明显改善"
+          ],
+          "negatives": [
+            "偏左（可通过摄像头偏移量修正）",
+            "从停止状态加速较慢",
+            "急弯后方向盘回正不及时"
+          ]
+        },
+        {
+          "name": "OP Model 10",
+          "date": "April 17, 2026",
+          "badge": "NEW",
+          "tags": [
+            "实验性",
+            "离线策略",
+            "横向控制差"
+          ],
+          "communityScore": 30,
+          "totalVotes": 5,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 40,
+            "bad": 60
+          },
+          "consensus": "评价以负面为主。用户反映横向控制差——模型修正反应迟缓，在即将偏出车道时才做出大幅度过度修正。值得注意的是，这是少数频繁偏出车道线的模型之一。无正面反馈。",
+          "note": "不建议日常驾驶使用。是少数被报告频繁偏出车道线的OP模型之一。",
+          "bestFor": "仅供测试",
+          "steeringFeel": "不可预测",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-apr-17-2026/4648",
+          "testedOn": [],
+          "positives": [],
+          "negatives": [
+            "横向控制差",
+            "修正反应迟缓，随后大幅过度修正",
+            "频繁偏出车道线",
+            "无值得一提的正面反馈"
+          ]
+        },
         {
           "name": "OP Model 9",
           "date": "April 10, 2026",

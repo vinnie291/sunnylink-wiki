@@ -1,8 +1,8 @@
 {
     "appName": "Sunnylink Model Database",
     "version": "8.1",
-    "totalModels": 82,
-    "lastUpdated": "2026-04-11",
+    "totalModels": 84,
+    "lastUpdated": "2026-04-19",
     "vibeGuide": {
         "wmi_2026": {
             "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -236,6 +236,71 @@
             "description": "Latest End-to-End architecture. Understands 3D scenes, stop signs, and complex intersections.",
             "icon": "🚀",
             "models": [
+                {
+                    "name": "OP Model 10 v2",
+                    "date": "April 18, 2026",
+                    "badge": "NEW",
+                    "tags": [
+                        "Experimental",
+                        "Off-Policy",
+                        "Left-Hugging"
+                    ],
+                    "communityScore": 43,
+                    "totalVotes": 7,
+                    "sentiment": {
+                        "great": 0,
+                        "good": 29,
+                        "ok": 14,
+                        "bad": 57
+                    },
+                    "consensus": "Mixed early feedback — a notable improvement over v1. Longitudinal behavior is praised as the softest, most consistent braking in the OP series. Lateral still hugs left and struggles to straighten after sharp turns. Bad votes are the majority but 29% Good suggests real forward progress.",
+                    "note": "Left-hugging is fixable with camera offset in Sunnylink. Slow to accelerate from a stop. Wheel recovery after sharp turns may be a torque tune issue rather than a model problem.",
+                    "bestFor": "Testing / Highway",
+                    "steeringFeel": "Left-Hugging",
+                    "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v2-apr-18-2026/4657",
+                    "testedOn": [],
+                    "positives": [
+                        "Softest, most consistent braking of the OP series",
+                        "Gets up to speed fairly well",
+                        "Longitudinal control notably improved over v1"
+                    ],
+                    "negatives": [
+                        "Hugs left (fixable with camera offset)",
+                        "Slow to accelerate from a stop",
+                        "Doesn't straighten wheel in time after sharp turns"
+                    ]
+                },
+                {
+                    "name": "OP Model 10",
+                    "date": "April 17, 2026",
+                    "badge": "NEW",
+                    "tags": [
+                        "Experimental",
+                        "Off-Policy",
+                        "Poor Lateral"
+                    ],
+                    "communityScore": 30,
+                    "totalVotes": 5,
+                    "sentiment": {
+                        "great": 0,
+                        "good": 0,
+                        "ok": 40,
+                        "bad": 60
+                    },
+                    "consensus": "Predominantly negative feedback. Users report poor lateral control — the model is late to correct and then makes dramatic overcorrections near the lane line. Notable as one of the few models reported to regularly depart lane lines entirely. No positives mentioned.",
+                    "note": "Not recommended for daily driving. One of the few OP models reported to exit lane lines frequently.",
+                    "bestFor": "Testing Only",
+                    "steeringFeel": "Unpredictable",
+                    "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-apr-17-2026/4648",
+                    "testedOn": [],
+                    "positives": [],
+                    "negatives": [
+                        "Poor lateral control",
+                        "Late to correct, then overcorrects dramatically",
+                        "Regularly departs lane lines",
+                        "No notable positives reported"
+                    ]
+                },
                 {
                     "name": "OP Model 9",
                     "date": "April 10, 2026",
