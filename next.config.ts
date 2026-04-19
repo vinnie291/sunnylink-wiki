@@ -10,6 +10,32 @@ const nextConfig: NextConfig = {
   // (Array.prototype.at, Object.hasOwn, String.prototype.trimEnd, etc.)
   // saving ~13.4 KiB
   transpilePackages: [],
+  async headers() {
+    return [
+      {
+        // RFC 8288 Link headers on the homepage for agent discovery
+        source: '/',
+        headers: [
+          {
+            key: 'Link',
+            value: [
+              '</.well-known/api-catalog>; rel="api-catalog"',
+              '</.well-known/agent-skills/index.json>; rel="describedby"; type="application/json"',
+              '</.well-known/mcp/server-card.json>; rel="describedby"; type="application/json"',
+              '</api/markdown>; rel="alternate"; type="text/markdown"',
+            ].join(', '),
+          },
+        ],
+      },
+      {
+        // Advertise content negotiation support on all main pages
+        source: '/(|models|features|cars|wizard|stats)',
+        headers: [
+          { key: 'Vary', value: 'Accept' },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

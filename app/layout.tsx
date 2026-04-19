@@ -5,6 +5,7 @@ import BottomNav from '@/components/BottomNav';
 import UniversalSearch from '@/components/UniversalSearch';
 import GlobalControls from '@/components/GlobalControls';
 import { LanguageProvider } from '@/lib/i18n';
+import WebMCP from '@/components/WebMCP';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -83,6 +84,7 @@ export default function RootLayout({
           <GlobalControls />
           <UniversalSearch />
           <BottomNav />
+          <WebMCP />
         </LanguageProvider>
       </body>
     </html>

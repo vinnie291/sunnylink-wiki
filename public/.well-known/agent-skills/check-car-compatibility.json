@@ -1,0 +1,29 @@
+{
+  "$schema": "https://agentskills.io/schema/v0.2/skill.json",
+  "name": "check-car-compatibility",
+  "version": "1.0.0",
+  "type": "webmcp",
+  "description": "Check if a specific car make and model is compatible with Sunnypilot. Returns required hardware (device, harness, radar), best settings, and multiple configuration presets from the community.",
+  "tools": [
+    {
+      "name": "check_car",
+      "description": "Check car compatibility with Sunnypilot. Provide make and/or model to get compatibility status and recommended settings.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "make": {
+            "type": "string",
+            "description": "Car manufacturer (e.g. Toyota, Honda, Hyundai, Kia, Subaru, GM, Volkswagen)"
+          },
+          "model": {
+            "type": "string",
+            "description": "Car model (e.g. Camry, Civic, Ioniq 5, Sonata, Outback)"
+          }
+        }
+      }
+    }
+  ],
+  "endpoints": {
+    "data": "https://www.sunnylink.wiki/api/wiki-data?type=cars&make={make}&model={model}"
+  }
+}
