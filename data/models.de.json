@@ -238,20 +238,33 @@
       "models": [
         {
           "name": "OP Model 10 v3",
-          "date": "April 20, 2026",
+          "date": "April 19, 2026",
           "badge": "NEW",
-          "tags": ["Experimental", "Off-Policy"],
+          "tags": ["Experimental", "Off-Policy", "Aggressive"],
           "communityScore": null,
           "totalVotes": 0,
           "sentiment": { "great": 0, "good": 0, "ok": 0, "bad": 0 },
-          "consensus": "Noch keine Community-Daten. Gerade veröffentlicht — schau bald wieder vorbei.",
-          "note": "Gerade veröffentlicht. Noch keine Testdaten verfügbar.",
-          "bestFor": "TBD",
-          "steeringFeel": "TBD",
+          "consensus": "Schrittweise Verbesserung der Querführung gegenüber v1, aber das Längsverhalten ist das Hauptproblem — aggressive Fahrweise, unzureichendes Bremsen vor Ampeln und stehenden Fahrzeugen, und beim ersten Folgefahrzeug wurde eine Vorwärtskollisionswarnung ausgelöst. Community-Empfehlung: bei POPv2 bleiben.",
+          "note": "Bessere Querführung als v1, aber gefährliches Längsverhalten. Hält nicht zuverlässig an Ampeln oder hinter Fahrzeugen — bei Unsicherheit sofort wechseln.",
+          "bestFor": "Nur zum Testen",
+          "steeringFeel": "Instabil / Abweichung von der Spurmitte",
           "forumUrl": "",
-          "testedOn": [],
-          "positives": [],
-          "negatives": []
+          "testedOn": ["2023 Hyundai Elantra HEV"],
+          "positives": [
+            "Deutlich bessere Querführung als OP Model 10 v1",
+            "Querführung nutzbar — Tester mussten nicht sofort wechseln",
+            "Fühlt sich weniger defekt an als v1 (Marci)",
+            "Schrittweiser Fortschritt gegenüber früheren Versionen"
+          ],
+          "negatives": [
+            "Aggressive Fahrweise — verzögert nicht früh genug",
+            "Unzureichendes Bremsen vor Ampeln — noch mit 50 km/h bei Annäherung",
+            "Vorwärtskollisionswarnung beim ersten Folgefahrzeug ausgelöst",
+            "Kann bei Grün nicht anfahren",
+            "Hält nicht in der Spurmitte",
+            "Geschwindigkeitsdrang verschlechtert auch die Querführung",
+            "Community empfiehlt, bei POPv2 zu bleiben"
+          ]
         },
         {
           "name": "OP Model 10 v2",

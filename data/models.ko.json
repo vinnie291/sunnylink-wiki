@@ -238,20 +238,32 @@
       "models": [
         {
           "name": "OP Model 10 v3",
-          "date": "April 20, 2026",
+          "date": "April 19, 2026",
           "badge": "NEW",
-          "tags": ["Experimental", "Off-Policy"],
+          "tags": ["Experimental", "Off-Policy", "Aggressive"],
           "communityScore": null,
           "totalVotes": 0,
           "sentiment": { "great": 0, "good": 0, "ok": 0, "bad": 0 },
-          "consensus": "아직 커뮤니티 데이터가 없습니다. 방금 출시되었습니다 — 곧 다시 확인하세요.",
-          "note": "방금 출시되었습니다. 아직 테스트 데이터가 없습니다.",
-          "bestFor": "TBD",
-          "steeringFeel": "TBD",
-          "forumUrl": "",
-          "testedOn": [],
-          "positives": [],
-          "negatives": []
+          "consensus": "v1 대비 측면 제어가 개선되었으나 종방향 동작이 주요 우려사항입니다. 공격적으로 주행하며 적색 신호 및 정차 차량에 대한 제동이 불충분하고, 첫 번째 선행 차량에서 전방 충돌 경고가 발생했습니다. 커뮤니티 권장사항: POPv2 유지.",
+          "note": "v1보다 측면 제어가 낫지만 위험한 종방향 동작. 적색 신호나 선행 차량에 확실히 멈추지 않음 — 불안하면 즉시 변경하세요.",
+          "bestFor": "테스트 전용",
+          "steeringFeel": "불안정 / 차선 중앙 이탈",
+          "testedOn": ["2023 Hyundai Elantra HEV"],
+          "positives": [
+            "OP Model 10 v1 대비 측면 제어 크게 개선",
+            "측면 제어 사용 가능 — 테스터가 즉시 모델을 바꾸지 않아도 됨",
+            "v1보다 덜 고장난 느낌 (Marci)",
+            "이전 버전 대비 점진적 발전"
+          ],
+          "negatives": [
+            "공격적으로 주행 — 충분히 일찍 감속하지 않음",
+            "적색 신호에 충분히 제동하지 못함 — 신호 접근 시 시속 50km로 주행",
+            "첫 번째 선행 차량에서 전방 충돌 경고 발생",
+            "녹색 신호에 출발 불가",
+            "차선 중앙 유지 불능",
+            "속도에 대한 욕구가 측면 성능도 저하시킴",
+            "커뮤니티는 POPv2 유지 권장"
+          ]
         },
         {
           "name": "OP Model 10 v2",

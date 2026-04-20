@@ -238,20 +238,32 @@
       "models": [
         {
           "name": "OP Model 10 v3",
-          "date": "April 20, 2026",
+          "date": "April 19, 2026",
           "badge": "NEW",
-          "tags": ["Experimental", "Off-Policy"],
+          "tags": ["Experimental", "Off-Policy", "Aggressive"],
           "communityScore": null,
           "totalVotes": 0,
           "sentiment": { "great": 0, "good": 0, "ok": 0, "bad": 0 },
-          "consensus": "Aún no hay datos de la comunidad. Recién lanzado — vuelve pronto.",
-          "note": "Recién lanzado. Aún no hay datos de prueba.",
-          "bestFor": "TBD",
-          "steeringFeel": "TBD",
-          "forumUrl": "",
-          "testedOn": [],
-          "positives": [],
-          "negatives": []
+          "consensus": "Mejora lateral incremental sobre v1, pero el comportamiento longitudinal es la principal preocupación — conduce agresivamente, no frena bien para semáforos en rojo ni para vehículos detenidos, y generó una advertencia de colisión frontal en el primer encuentro. La comunidad recomienda quedarse en POPv2.",
+          "note": "Mejor lateral que v1 pero comportamiento longitudinal peligroso. No se detiene de forma confiable ante semáforos o vehículos detenidos — cambia de modelo si no te sientes seguro.",
+          "bestFor": "Solo para pruebas",
+          "steeringFeel": "Inestable / Fuera del centro del carril",
+          "testedOn": ["2023 Hyundai Elantra HEV"],
+          "positives": [
+            "Control lateral mucho mejor que OP Model 10 v1",
+            "Lateral utilizable — no obligó a los testers a cambiar de modelo inmediatamente",
+            "Se siente menos roto que v1 (Marci)",
+            "Progreso incremental respecto a versiones anteriores"
+          ],
+          "negatives": [
+            "Conduce agresivamente — no desacelera con suficiente anticipación",
+            "Frena insuficientemente ante semáforos en rojo — sigue a 50 km/h al acercarse",
+            "Generó advertencia de colisión frontal en el primer vehículo delante",
+            "No avanza en verde",
+            "No se mantiene en el centro del carril",
+            "El deseo de acelerar también degrada el rendimiento lateral",
+            "La comunidad recomienda quedarse en POPv2"
+          ]
         },
         {
           "name": "OP Model 10 v2",

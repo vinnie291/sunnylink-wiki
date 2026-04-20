@@ -238,11 +238,12 @@
             "models": [
                 {
                     "name": "OP Model 10 v3",
-                    "date": "April 20, 2026",
+                    "date": "April 19, 2026",
                     "badge": "NEW",
                     "tags": [
                         "Experimental",
-                        "Off-Policy"
+                        "Off-Policy",
+                        "Aggressive"
                     ],
                     "communityScore": null,
                     "totalVotes": 0,
@@ -252,14 +253,28 @@
                         "ok": 0,
                         "bad": 0
                     },
-                    "consensus": "No community data yet. Recently released — check back soon.",
-                    "note": "Just released. No test data available yet.",
-                    "bestFor": "TBD",
-                    "steeringFeel": "TBD",
-                    "forumUrl": "",
-                    "testedOn": [],
-                    "positives": [],
-                    "negatives": []
+                    "consensus": "Incremental lateral improvement over v1, but longitudinal behavior is the major concern — model drives aggressively, fails to brake adequately for red lights and stopped leads, and triggered a forward collision warning on first encounter (Karnbir). Lateral is 'usable' per ElusiveJG and notably better than v1, but still wanders from lane center. Marci: 'feels less like something is wrong with the model and more like this just isn't a very good model.' Karnbir: 'Model is nice, just rough around the edges. Pop is still peak.' Community recommendation: stay on POPv2.",
+                    "note": "Better lateral than v1 but dangerous longitudinal behavior. Does not reliably stop for red lights or leads — switch back if it feels unsafe. POPv2 remains the community go-to.",
+                    "bestFor": "Testing Only",
+                    "steeringFeel": "Wandering / Off-Center",
+                    "testedOn": [
+                        "2023 Hyundai Elantra HEV"
+                    ],
+                    "positives": [
+                        "Much better lateral control than OP Model 10 v1",
+                        "Lateral is usable — didn't force testers to pull over immediately",
+                        "Feels less broken than v1 (Marci)",
+                        "Community notes incremental progress over prior versions"
+                    ],
+                    "negatives": [
+                        "Drives aggressively — doesn't slow down soon enough",
+                        "Fails to stop adequately for red lights — still going 30 mph approaching reds",
+                        "Triggered forward collision warning on first lead encounter",
+                        "Unable to go on green",
+                        "Doesn't stay in the middle of the lane",
+                        "Aggressive desire to speed also degrades lateral performance",
+                        "Community recommends staying on POPv2"
+                    ]
                 },
                 {
                     "name": "OP Model 10 v2",

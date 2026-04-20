@@ -238,20 +238,32 @@
       "models": [
         {
           "name": "OP Model 10 v3",
-          "date": "April 20, 2026",
+          "date": "April 19, 2026",
           "badge": "NEW",
-          "tags": ["Experimental", "Off-Policy"],
+          "tags": ["Experimental", "Off-Policy", "Aggressive"],
           "communityScore": null,
           "totalVotes": 0,
           "sentiment": { "great": 0, "good": 0, "ok": 0, "bad": 0 },
-          "consensus": "Aucune donnée communautaire pour l'instant. Vient d'être publié — revenez bientôt.",
-          "note": "Vient d'être publié. Aucune donnée de test disponible.",
-          "bestFor": "TBD",
-          "steeringFeel": "TBD",
-          "forumUrl": "",
-          "testedOn": [],
-          "positives": [],
-          "negatives": []
+          "consensus": "Amélioration latérale progressive par rapport à v1, mais le comportement longitudinal est la principale inquiétude — conduite agressive, freinage insuffisant aux feux rouges et devant les véhicules arrêtés, et alerte de collision frontale déclenchée dès le premier suivi. La communauté recommande de rester sur POPv2.",
+          "note": "Meilleur latéralement que v1 mais comportement longitudinal dangereux. Ne s'arrête pas de manière fiable aux feux ou derrière des véhicules — changez de modèle si vous vous sentez en danger.",
+          "bestFor": "Tests uniquement",
+          "steeringFeel": "Instable / Dérive du centre de voie",
+          "testedOn": ["2023 Hyundai Elantra HEV"],
+          "positives": [
+            "Contrôle latéral nettement meilleur que OP Model 10 v1",
+            "Latéral utilisable — n'a pas forcé les testeurs à changer immédiatement",
+            "Se sent moins cassé que v1 (Marci)",
+            "Progression incrémentale par rapport aux versions précédentes"
+          ],
+          "negatives": [
+            "Conduite agressive — ne ralentit pas assez tôt",
+            "Freinage insuffisant aux feux rouges — toujours à 50 km/h en approche",
+            "Alerte de collision frontale déclenchée dès le premier véhicule suivi",
+            "Incapable de démarrer au feu vert",
+            "Ne reste pas au centre de la voie",
+            "Le désir d'accélérer dégrade aussi les performances latérales",
+            "La communauté recommande de rester sur POPv2"
+          ]
         },
         {
           "name": "OP Model 10 v2",

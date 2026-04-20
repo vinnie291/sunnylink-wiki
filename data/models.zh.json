@@ -238,20 +238,32 @@
       "models": [
         {
           "name": "OP Model 10 v3",
-          "date": "April 20, 2026",
+          "date": "April 19, 2026",
           "badge": "NEW",
-          "tags": ["Experimental", "Off-Policy"],
+          "tags": ["Experimental", "Off-Policy", "Aggressive"],
           "communityScore": null,
           "totalVotes": 0,
           "sentiment": { "great": 0, "good": 0, "ok": 0, "bad": 0 },
-          "consensus": "暂无社区数据。刚刚发布——请稍后再来查看。",
-          "note": "刚刚发布。暂无测试数据。",
-          "bestFor": "TBD",
-          "steeringFeel": "TBD",
-          "forumUrl": "",
-          "testedOn": [],
-          "positives": [],
-          "negatives": []
+          "consensus": "相比v1横向控制有所改善，但纵向行为是主要问题——模型驾驶激进，对红灯和前车制动不足，首次跟车时触发了前碰撞警告。社区建议继续使用POPv2。",
+          "note": "横向比v1好，但纵向行为存在危险。不能可靠地在红灯和前车处停车——感觉不安全请立即切换。",
+          "bestFor": "仅供测试",
+          "steeringFeel": "漂移 / 偏离车道中心",
+          "testedOn": ["2023 Hyundai Elantra HEV"],
+          "positives": [
+            "横向控制比OP Model 10 v1大幅改善",
+            "横向可用——测试者无需立即更换模型",
+            "感觉比v1更稳定（Marci）",
+            "相比前版本有渐进式改进"
+          ],
+          "negatives": [
+            "驾驶激进——减速不够及时",
+            "红灯制动不足——接近红灯时仍以50km/h行驶",
+            "首次跟车触发前碰撞警告",
+            "绿灯无法起步",
+            "无法保持在车道中央",
+            "对速度的渴望也影响横向性能",
+            "社区建议继续使用POPv2"
+          ]
         },
         {
           "name": "OP Model 10 v2",
