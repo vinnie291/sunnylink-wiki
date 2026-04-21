@@ -510,7 +510,7 @@ export default function ModelLibrary() {
             </aside>
 
             {/* Main Content Area */}
-            <div className="flex-1 min-w-0 pr-14 lg:pr-0">
+            <div className="flex-1 min-w-0">
                 {/* Sentinel: marks the search bar's natural position */}
                 <div ref={sentinelRef} className="lg:hidden h-0" />
 
@@ -673,6 +673,7 @@ export default function ModelLibrary() {
                 )}
 
                 {/* Model Grid / List */}
+                <div className="pr-20 lg:pr-0">
                 {activeModels.length > 0 ? (
                     <AnimatePresence mode="wait">
                         {viewMode === 'list' ? (
@@ -752,6 +753,7 @@ export default function ModelLibrary() {
                         <p className="text-slate-400">Try adjusting your search terms</p>
                     </div>
                 )}
+                </div>
 
             </div>
 
