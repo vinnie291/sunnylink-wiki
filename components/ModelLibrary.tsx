@@ -510,7 +510,7 @@ export default function ModelLibrary() {
             </aside>
 
             {/* Main Content Area */}
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 pr-14 lg:pr-0">
                 {/* Sentinel: marks the search bar's natural position */}
                 <div ref={sentinelRef} className="lg:hidden h-0" />
 
