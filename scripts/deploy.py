@@ -131,7 +131,7 @@ def deploy():
                 "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
                 "entrypoint": "gcloud",
                 "args": [
-                    "run", "deploy", "wiki-app",
+                    "run", "deploy", "sunnylink-wiki-service",
                     "--image", image_tag,
                     "--region", REGION,
                     "--platform", "managed",
