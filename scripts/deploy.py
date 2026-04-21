@@ -165,14 +165,18 @@ def deploy():
     terminal = {"SUCCESS", "FAILURE", "CANCELLED", "TIMEOUT", "INTERNAL_ERROR"}
     last_status = ""
     while True:
-        token = _get_token()
-        r = requests.get(f"{BASE_URL}/builds/{build_id}", headers=_headers(token))
-        status = r.json().get("status", "UNKNOWN")
-        if status != last_status:
-            print(f"  → {status}")
-            last_status = status
-        if status in terminal:
-            break
+        try:
+            token = _get_token()
+            r = requests.get(f"{BASE_URL}/builds/{build_id}", headers=_headers(token))
+            if r.text.strip():
+                status = r.json().get("status", "UNKNOWN")
+                if status != last_status:
+                    print(f"  → {status}")
+                    last_status = status
+                if status in terminal:
+                    break
+        except Exception:
+            pass
         time.sleep(20)
 
     if status == "SUCCESS":
