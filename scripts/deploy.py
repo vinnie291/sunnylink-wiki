@@ -116,6 +116,7 @@ def deploy():
                 "name": "gcr.io/cloud-builders/docker",
                 "args": [
                     "build",
+                    "--no-cache",
                     "-t", image_tag,
                     "-t", f"{image}:latest",
                     "--build-arg", f"NEXT_PUBLIC_GOOGLE_SCRIPT_URL={GOOGLE_SCRIPT_URL}",
