@@ -220,7 +220,7 @@ function ModelCard({ model }: { model: Model }) {
             )}
 
             {/* Vibe Check / Consensus */}
-            <p className="text-sm text-slate-300 leading-relaxed mb-3">
+            <p className="text-sm text-slate-300 leading-relaxed mb-3 break-words">
                 {model.consensus}
                 {model.note && (
                     <span className="text-yellow-300/80 italic"> {model.note}</span>
@@ -730,7 +730,7 @@ export default function ModelLibrary() {
                                 </div>
                             </motion.div>
                         ) : (
-                            <div key="grid-view" className="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
+                            <div key="grid-view" className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-2">
                                 {activeModels.map((model) => (
                                     <motion.div
                                         layout
