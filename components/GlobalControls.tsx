@@ -11,7 +11,6 @@ export default function GlobalControls() {
     const { t } = useLanguage();
     const pathname = usePathname();
     const isWizard = pathname === '/wizard';
-    const isSettings = pathname === '/';
     const [sidebarSticky, setSidebarSticky] = useState(false);
     const [scrolledPastHeader, setScrolledPastHeader] = useState(false);
 
@@ -54,7 +53,7 @@ export default function GlobalControls() {
             <div className={`
                 absolute top-4 right-4 sm:top-8 sm:right-8 flex items-center gap-4 pointer-events-auto
                 transition-opacity duration-200 ease-out
-                ${(isSettings && scrolledPastHeader) ? 'opacity-0 pointer-events-none' : 'opacity-100'}
+                ${scrolledPastHeader ? 'opacity-0 pointer-events-none' : 'opacity-100'}
             `}>
                 <a
                     href="https://www.sunnylink.ai/dashboard"
