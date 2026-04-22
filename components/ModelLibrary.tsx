@@ -421,7 +421,7 @@ export default function ModelLibrary() {
     const effectiveIsSticky = isSticky || isSearchActive;
 
     return (
-        <div className="lg:flex lg:gap-8">
+        <div className="lg:flex lg:gap-8 overflow-x-hidden">
             {/* Mobile Category Sidebar */}
             <MobileCategorySidebar
                 isOpen={sidebarOpen}
@@ -697,9 +697,7 @@ export default function ModelLibrary() {
                                             {activeModels.map((model) => (
                                                 <motion.tr
                                                     layout
-                                                    layoutId={`model-${model.name}`}
                                                     key={model.name}
-
                                                     className="group hover:bg-slate-800/50 cursor-pointer transition-colors"
                                                 >
                                                     <td className="p-3 md:p-4 font-medium text-white">
@@ -731,11 +729,10 @@ export default function ModelLibrary() {
                                 </div>
                             </motion.div>
                         ) : (
-                            <div key="grid-view" className="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
+                            <div key="grid-view" className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-2">
                                 {activeModels.map((model) => (
                                     <motion.div
                                         layout
-                                        layoutId={`model-${model.name}`}
                                         key={model.name}
                                         className="h-full"
                                     >
