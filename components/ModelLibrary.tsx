@@ -128,10 +128,10 @@ function ModelCard({ model }: { model: Model }) {
     return (
         <div
             id={model.name}
-            className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-cyan-500/50 transition-all duration-300 group"
+            className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-cyan-500/50 transition-all duration-300 group overflow-hidden"
         >
             {/* Header */}
-            <div className="flex justify-between items-start mb-3">
+            <div className="flex justify-between items-start mb-3 gap-2">
                 <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                         <h3 className="text-lg font-bold text-white truncate">{model.name}</h3>
@@ -178,7 +178,7 @@ function ModelCard({ model }: { model: Model }) {
                     <span className="text-xs text-slate-500">{model.date}</span>
                 </div>
                 {model.communityScore !== undefined && (
-                    <div className="flex flex-col items-end ml-3">
+                    <div className="flex flex-col items-end shrink-0">
                         <span className={`text-2xl font-bold ${getScoreColor(model.communityScore)}`}>
                             {model.communityScore}%
                         </span>
@@ -195,11 +195,11 @@ function ModelCard({ model }: { model: Model }) {
             {model.sentiment && (
                 <div className="mb-4">
                     <SentimentBar sentiment={model.sentiment} />
-                    <div className="flex justify-between text-[9px] text-slate-600 mt-1">
+                    <div className="grid grid-cols-4 text-[9px] text-slate-600 mt-1">
                         <span>Great {model.sentiment.great}%</span>
-                        <span>Good {model.sentiment.good}%</span>
-                        <span>OK {model.sentiment.ok}%</span>
-                        <span>Bad {model.sentiment.bad}%</span>
+                        <span className="text-center">Good {model.sentiment.good}%</span>
+                        <span className="text-center">OK {model.sentiment.ok}%</span>
+                        <span className="text-right">Bad {model.sentiment.bad}%</span>
                     </div>
                 </div>
             )}
@@ -220,7 +220,7 @@ function ModelCard({ model }: { model: Model }) {
             )}
 
             {/* Vibe Check / Consensus */}
-            <p className="text-sm text-slate-300 leading-relaxed mb-3">
+            <p className="text-sm text-slate-300 leading-relaxed mb-3 break-words">
                 {model.consensus}
                 {model.note && (
                     <span className="text-yellow-300/80 italic"> {model.note}</span>
@@ -421,7 +421,7 @@ export default function ModelLibrary() {
     const effectiveIsSticky = isSticky || isSearchActive;
 
     return (
-        <div className="lg:flex lg:gap-8">
+        <div className="lg:flex lg:gap-8 overflow-x-hidden">
             {/* Mobile Category Sidebar */}
             <MobileCategorySidebar
                 isOpen={sidebarOpen}
@@ -697,9 +697,7 @@ export default function ModelLibrary() {
                                             {activeModels.map((model) => (
                                                 <motion.tr
                                                     layout
-                                                    layoutId={`model-${model.name}`}
                                                     key={model.name}
-
                                                     className="group hover:bg-slate-800/50 cursor-pointer transition-colors"
                                                 >
                                                     <td className="p-3 md:p-4 font-medium text-white">
@@ -731,11 +729,10 @@ export default function ModelLibrary() {
                                 </div>
                             </motion.div>
                         ) : (
-                            <div key="grid-view" className="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
+                            <div key="grid-view" className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-2">
                                 {activeModels.map((model) => (
                                     <motion.div
                                         layout
-                                        layoutId={`model-${model.name}`}
                                         key={model.name}
                                         className="h-full"
                                     >
