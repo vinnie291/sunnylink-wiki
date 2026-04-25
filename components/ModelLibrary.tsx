@@ -128,7 +128,7 @@ function ModelCard({ model }: { model: Model }) {
     return (
         <div
             id={model.name}
-            className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-cyan-500/50 transition-all duration-300 group overflow-hidden"
+            className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 pr-16 lg:pr-4 hover:border-cyan-500/50 transition-all duration-300 group overflow-hidden"
         >
             {/* Header */}
             <div className="flex justify-between items-start mb-3 gap-2">
@@ -673,7 +673,7 @@ export default function ModelLibrary() {
                 )}
 
                 {/* Model Grid / List */}
-                <div className="pr-20 lg:pr-0">
+                <div>
                 {activeModels.length > 0 ? (
                     <AnimatePresence mode="wait">
                         {viewMode === 'list' ? (
