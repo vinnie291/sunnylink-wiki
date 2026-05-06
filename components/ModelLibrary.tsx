@@ -257,8 +257,8 @@ function ModelCard({ model }: { model: Model }) {
                 <div className="mt-3 pt-3 border-t border-slate-700/50">
                     <p className="text-xs text-slate-500 mb-1">🚗 Tested on:</p>
                     <div className="flex flex-wrap gap-1">
-                        {model.testedOn.map((car) => (
-                            <span key={car} className="px-2 py-0.5 text-[10px] rounded bg-slate-800 text-slate-400">
+                        {model.testedOn.map((car, i) => (
+                            <span key={`${car}-${i}`} className="px-2 py-0.5 text-[10px] rounded bg-slate-800 text-slate-400">
                                 {car}
                             </span>
                         ))}
@@ -286,6 +286,8 @@ export default function ModelLibrary() {
     const [showMobileCategories, setShowMobileCategories] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const vibeGuideRef = useRef<HTMLDivElement>(null);
+    const [vibeGuideHeight, setVibeGuideHeight] = useState(0);
     const { t } = useLanguage();
 
 
@@ -324,6 +326,17 @@ export default function ModelLibrary() {
     const modelsData = useTranslatedModels();
     const rawCategories = modelsData.categories as ModelCategory[];
     const vibeGuide = modelsData.vibeGuide as Record<string, VibeGuide>;
+
+    // Measure vibe guide content height for smooth open/close without sporadic scrolling
+    useEffect(() => {
+        const el = vibeGuideRef.current;
+        if (!el) return;
+        const measure = () => setVibeGuideHeight(el.scrollHeight);
+        measure();
+        const ro = new ResizeObserver(measure);
+        ro.observe(el);
+        return () => ro.disconnect();
+    }, [vibeGuide]);
 
     const categories = useMemo(() => {
         const uniqueModels = new Map<string, Model>();
@@ -421,7 +434,7 @@ export default function ModelLibrary() {
     const effectiveIsSticky = isSticky || isSearchActive;
 
     return (
-        <div className="lg:flex lg:gap-8 overflow-x-hidden">
+        <div className="lg:flex lg:gap-8">
             {/* Mobile Category Sidebar */}
             <MobileCategorySidebar
                 isOpen={sidebarOpen}
@@ -541,17 +554,22 @@ export default function ModelLibrary() {
                                 </svg>
                             </button>
 
-                            <div className={`grid gap-2 transition-all duration-300 overflow-hidden ${showVibeGuide ? 'max-h-[1000px] opacity-100 mt-2 pb-4' : 'max-h-0 opacity-0 mt-0'}`}>
-                                {Object.entries(vibeGuide).map(([key, guide]) => (
-                                    <div key={key} className="p-3 rounded-lg bg-slate-800/50 border border-slate-700/50">
-                                        <h4 className="text-white font-semibold text-xs mb-1">{guide.title}</h4>
-                                        <p className="text-[10px] text-slate-500 mb-1">{guide.includes}</p>
-                                        <p className="text-[10px] text-slate-400 mb-1">{guide.vibe}</p>
-                                        <p className="text-[10px] text-emerald-400">
-                                            <span className="font-medium">Best:</span> {guide.bestFor}
-                                        </p>
-                                    </div>
-                                ))}
+                            <div
+                                style={{ height: showVibeGuide ? vibeGuideHeight : 0 }}
+                                className={`overflow-hidden transition-[height,opacity] duration-300 ease-in-out ${showVibeGuide ? 'opacity-100 mt-2 pb-4' : 'opacity-0 mt-0'}`}
+                            >
+                                <div ref={vibeGuideRef} className="grid gap-2">
+                                    {Object.entries(vibeGuide).map(([key, guide]) => (
+                                        <div key={key} className="p-3 rounded-lg bg-slate-800/50 border border-slate-700/50">
+                                            <h4 className="text-white font-semibold text-xs mb-1">{guide.title}</h4>
+                                            <p className="text-[10px] text-slate-500 mb-1">{guide.includes}</p>
+                                            <p className="text-[10px] text-slate-400 mb-1">{guide.vibe}</p>
+                                            <p className="text-[10px] text-emerald-400">
+                                                <span className="font-medium">Best:</span> {guide.bestFor}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
 
                             <div className="space-y-3">
@@ -696,7 +714,6 @@ export default function ModelLibrary() {
                                         <tbody className="divide-y divide-slate-800">
                                             {activeModels.map((model) => (
                                                 <motion.tr
-                                                    layout
                                                     key={model.name}
                                                     className="group hover:bg-slate-800/50 cursor-pointer transition-colors"
                                                 >
@@ -732,7 +749,6 @@ export default function ModelLibrary() {
                             <div key="grid-view" className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-2">
                                 {activeModels.map((model) => (
                                     <motion.div
-                                        layout
                                         key={model.name}
                                         className="h-full"
                                     >
