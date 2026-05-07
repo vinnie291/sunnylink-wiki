@@ -206,17 +206,7 @@ export default function MobileCategorySidebar({
                                 }}
                             />
 
-                            {/* SunnyTune filter */}
-                            <SidebarButton
-                                isActive={activeCategories.includes('sunnytune')}
-                                variant="amber"
-                                icon={<SunnyTuneIcon />}
-                                label={t('filter.sunnytune')}
-                                onClick={() => {
-                                    onToggleCategory?.('sunnytune');
-                                    onClose();
-                                }}
-                            />
+
 
                             {categories.map((cat) => (
                                 <SidebarButton

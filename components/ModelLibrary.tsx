@@ -292,6 +292,7 @@ export default function ModelLibrary() {
     const [showMobileCategories, setShowMobileCategories] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [activeFilters, setActiveFilters] = useState<string[]>([]);
     const vibeGuideRef = useRef<HTMLDivElement>(null);
     const [vibeGuideHeight, setVibeGuideHeight] = useState(0);
     const { t } = useLanguage();
@@ -363,6 +364,16 @@ export default function ModelLibrary() {
 
     // Filter models based on search
 
+    // Badges that qualify as "recommended"
+    const RECOMMENDED_BADGES = ['FLAGSHIP', 'POPULAR', 'LEGENDARY', 'COMMUNITY CHOICE'];
+
+    const handleToggleFilter = (filterId: string) => {
+        setActiveFilters(prev =>
+            prev.includes(filterId)
+                ? prev.filter(f => f !== filterId)
+                : [...prev, filterId]
+        );
+    };
 
     const baseModels = searchQuery
         ? categories[0].models // search across 'All Models'
@@ -370,9 +381,16 @@ export default function ModelLibrary() {
 
     // Fuzzy search using Fuse.js for models (searches name, consensus, tags)
     const modelsToDisplay = useMemo(() => {
-        if (!searchQuery || searchQuery.trim().length === 0) return baseModels;
+        let result = baseModels;
 
-        const fuse = new Fuse(baseModels, {
+        // Apply recommended filter
+        if (activeFilters.includes('recommended')) {
+            result = result.filter(m => m.badge && RECOMMENDED_BADGES.includes(m.badge));
+        }
+
+        if (!searchQuery || searchQuery.trim().length === 0) return result;
+
+        const fuse = new Fuse(result, {
             keys: ['name', 'consensus', 'tags'],
             threshold: 0.3,
             includeScore: true,
@@ -380,8 +398,8 @@ export default function ModelLibrary() {
             minMatchCharLength: 2,
         });
 
-        return fuse.search(searchQuery).map(result => result.item);
-    }, [baseModels, searchQuery]);
+        return fuse.search(searchQuery).map(r => r.item);
+    }, [baseModels, searchQuery, activeFilters]);
 
     const activeModels = useMemo(() => {
         const sorted = [...modelsToDisplay].sort((a, b) => {
@@ -448,6 +466,8 @@ export default function ModelLibrary() {
                 categories={categories}
                 mode="models"
                 activeCategory={activeCategory}
+                activeCategories={activeFilters}
+                onToggleCategory={handleToggleFilter}
                 onSelectCategory={(id) => {
                     setActiveCategory(id);
                     setSearchQuery('');
