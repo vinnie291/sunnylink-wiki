@@ -9,6 +9,7 @@ import ViewToggle from './ViewToggle';
 import SearchFilter from './SearchFilter';
 import MobileCategorySidebar from './MobileCategorySidebar';
 import SidebarInlineControls from './SidebarInlineControls';
+import DriveSimulation, { deriveDrivingProfile } from './DriveSimulation';
 import { useViewMode } from '../hooks/useViewMode';
 import { useStickySearch } from '../hooks/useStickySearch';
 import { useDesktopSidebarSticky } from '../hooks/useDesktopSidebarSticky';
@@ -125,74 +126,78 @@ function ModelCard({ model }: { model: Model }) {
         return icons[tag] || '•';
     };
 
+    const profile = deriveDrivingProfile(model);
+
     return (
         <div
             id={model.name}
-            className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-cyan-500/50 transition-all duration-300 group overflow-hidden"
+            className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300 group"
         >
-            {/* Header */}
-            <div className="flex justify-between items-start mb-3 gap-2">
-                <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="text-lg font-bold text-white truncate">{model.name}</h3>
-                        {model.badge && (
-                            <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full border ${getBadgeColor(model.badge)}`}>
-                                {model.badge}
-                            </span>
-                        )}
+            {/* Animated drive simulation hero */}
+            <DriveSimulation profile={profile} seedKey={model.name} />
 
-                        {/* Flag Button */}
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                const title = encodeURIComponent(`Issue with Model: ${model.name}`);
-                                const body = encodeURIComponent(`describe the issue with this model here...`);
-                                window.open(`https://github.com/vinnie291/sunnylink-wiki/issues/new?title=${title}&body=${body}`, '_blank');
-                            }}
-                            className="p-1 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
-                            title="Flag this model"
-                        >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
-                            </svg>
-                        </button>
-
-                        {/* Share Button */}
-                        <button
-                            onClick={handleCopyLink}
-                            className="p-1 rounded-lg text-slate-500 hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors"
-                            title={copied ? 'Copied!' : 'Share this model'}
-                        >
-                            {copied ? (
-                                <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                </svg>
-                            ) : (
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                                </svg>
+            <div className="p-4">
+                {/* Header */}
+                <div className="flex justify-between items-start mb-3 gap-2">
+                    <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                            <h3 className="text-lg font-bold text-white truncate">{model.name}</h3>
+                            {model.badge && (
+                                <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full border ${getBadgeColor(model.badge)}`}>
+                                    {model.badge}
+                                </span>
                             )}
-                        </button>
 
+                            {/* Flag Button */}
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    const title = encodeURIComponent(`Issue with Model: ${model.name}`);
+                                    const body = encodeURIComponent(`describe the issue with this model here...`);
+                                    window.open(`https://github.com/vinnie291/sunnylink-wiki/issues/new?title=${title}&body=${body}`, '_blank');
+                                }}
+                                className="p-1 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
+                                title="Flag this model"
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+                                </svg>
+                            </button>
+
+                            {/* Share Button */}
+                            <button
+                                onClick={handleCopyLink}
+                                className="p-1 rounded-lg text-slate-500 hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors"
+                                title={copied ? 'Copied!' : 'Share this model'}
+                            >
+                                {copied ? (
+                                    <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                ) : (
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                                    </svg>
+                                )}
+                            </button>
+
+                        </div>
+                        <span className="text-xs text-slate-500">{model.date}</span>
                     </div>
-                    <span className="text-xs text-slate-500">{model.date}</span>
+                    {model.communityScore !== undefined && (
+                        <div className="flex flex-col items-end shrink-0">
+                            <span className={`text-2xl font-bold ${getScoreColor(model.communityScore)}`}>
+                                {model.communityScore}%
+                            </span>
+                            {model.totalVotes && (
+                                <span className="text-[10px] text-slate-500">{model.totalVotes} votes</span>
+                            )}
+                        </div>
+                    )}
                 </div>
-                {model.communityScore !== undefined && (
-                    <div className="flex flex-col items-end shrink-0">
-                        <span className={`text-2xl font-bold ${getScoreColor(model.communityScore)}`}>
-                            {model.communityScore}%
-                        </span>
-                        {model.totalVotes && (
-                            <span className="text-[10px] text-slate-500">{model.totalVotes} votes</span>
-                        )}
-                    </div>
-                )}
 
-
-            </div>
-
-            {/* Sentiment Bar */}
-            {model.sentiment && (
+                {/* Sentiment Bar */}
+                {model.sentiment && (
                 <div className="mb-4">
                     <SentimentBar sentiment={model.sentiment} />
                     <div className="grid grid-cols-4 text-[9px] text-slate-600 mt-1">
@@ -265,6 +270,7 @@ function ModelCard({ model }: { model: Model }) {
                     </div>
                 </div>
             )}
+            </div>
         </div>
     );
 }
