@@ -17,6 +17,8 @@ interface ModelLike {
     sentiment?: SentimentData;
     consensus?: string;
     badge?: string;
+    positives?: string[];
+    negatives?: string[];
 }
 
 export interface DrivingProfile {
@@ -36,13 +38,15 @@ export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
     const feel = model.steeringFeel || '';
     const score = model.communityScore ?? 50;
     const consensus = (model.consensus || '').toLowerCase();
+    const negs = (model.negatives || []).join(' ').toLowerCase();
+    const pos = (model.positives || []).join(' ').toLowerCase();
 
     // --- speed ---
     let speed = 45;
     if (tags.includes('City')) speed = 30;
     else if (tags.includes('Comfort') || tags.includes('Eco')) speed = 40;
-    else if (tags.includes('Highway')) speed = 65;
-    if (tags.includes('Aggressive') || tags.includes('Fast Long')) speed = 70;
+    else if (tags.includes('Highway') || tags.includes('Curves')) speed = 65;
+    if (tags.includes('Aggressive') || tags.includes('Fast Long')) speed = 75;
 
     // --- smoothness ---
     let smoothness = 0.7;
@@ -53,34 +57,51 @@ export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
     else if (feel === 'Light') smoothness = 0.65;
     else if (feel === 'Heavy') smoothness = 0.6;
     else if (feel === 'Twitchy') smoothness = 0.3;
-    else if (feel === 'Volatile (Varies by Drop)') smoothness = 0.25;
-    if (tags.includes('Twitchy') || tags.includes('Unstable') || tags.includes('Horrible')) {
+    else if (feel === 'Volatile (Varies by Drop)' || feel === 'Varies') smoothness = 0.25;
+    
+    if (tags.includes('Twitchy') || tags.includes('Unstable') || tags.includes('Horrible') || negs.includes('jerky') || negs.includes('octagonal')) {
         smoothness *= 0.5;
     }
 
     // --- wobble ---
     const badPct = model.sentiment?.bad ?? 0;
     let wobble = Math.min(0.55, badPct / 60);
+    
+    // Explicit keywords override wobble severity
+    if (negs.includes('ping-pong') || negs.includes('wobble') || negs.includes('oscillating') || negs.includes('twitchy') || consensus.includes('ping-pong')) {
+        wobble = Math.max(wobble, 0.6); // pronounced wobble
+    }
+    
     if (feel === 'Twitchy' || feel === 'Volatile (Varies by Drop)') wobble = Math.max(wobble, 0.5);
     if (consensus.includes('wiggl') || consensus.includes('jerky') || consensus.includes('twitch')) {
         wobble = Math.max(wobble, 0.3);
     }
-    if (tags.includes('Stable Benchmark') || tags.includes('Stable')) wobble = 0;
+    
+    // Super stable overrides
+    if (tags.includes('Stable Benchmark') || tags.includes('Stable') || feel === 'Stock' || pos.includes('stable')) {
+        wobble = Math.min(wobble, 0.05);
+    }
 
     // --- lane offset ---
     let offset = 0;
-    if (tags.includes('Right-Hugging(C4)')) offset = 0.35;
+    if (tags.includes('Right-Hugging(C4)') || negs.includes('right-hugging') || consensus.includes('hugs right')) {
+        offset = 0.35;
+    }
+    if (negs.includes('left-hugging') || negs.includes('hugs left') || consensus.includes('hugs left') || negs.includes('left-lane hugging')) {
+        offset = -0.35;
+    }
 
-    // --- color (drives card accent too) ---
-    let color = '#22c55e';
-    if (score < 80) color = '#06b6d4';
-    if (score < 60) color = '#eab308';
-    if (score < 40) color = '#ef4444';
+    // --- color ---
+    let color = '#22c55e'; // Green
+    if (score < 80) color = '#06b6d4'; // Cyan
+    if (score < 60) color = '#eab308'; // Yellow
+    if (score < 40) color = '#ef4444'; // Red
 
     // --- follow distance ---
     let followDistance = 0.6;
-    if (tags.includes('Aggressive')) followDistance = 0.3;
-    if (tags.includes('Comfort') || feel === 'Ultra-Smooth') followDistance = 0.8;
+    if (tags.includes('Aggressive') || pos.includes('close following')) followDistance = 0.3;
+    if (tags.includes('Comfort') || feel === 'Ultra-Smooth' || pos.includes('relaxed')) followDistance = 0.8;
+    if (negs.includes('yoyo') || negs.includes('yo-yo')) followDistance = 0.7;
 
     // --- reaction lag ---
     let reactionLag = 0.4;
@@ -88,23 +109,30 @@ export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
     else if (feel === 'Twitchy') reactionLag = 0.7;
     else if (feel === 'Heavy') reactionLag = 0.55;
     else if (feel === 'Ultra-Smooth') reactionLag = 0.3;
+    
+    // "Hugs turns tight" means turning early/sharp
+    if (negs.includes('hugs turns tight') || pos.includes('tight curves')) reactionLag = 0.05;
+    if (negs.includes('oversteer')) reactionLag = 0.15; 
+    if (negs.includes('late braking') || negs.includes('lock out partway')) reactionLag = 0.8;
 
     // --- path width ---
     let pathWidth = 0.7;
     if (feel === 'Confident' || feel === 'Ultra-Smooth') pathWidth = 0.85;
     if (feel === 'Twitchy' || feel === 'Light') pathWidth = 0.55;
     if (feel === 'Stiff') pathWidth = 0.75;
+    if (wobble > 0.4) pathWidth = 0.5; // low confidence path visualization
 
     // --- label ---
     let label = 'WMI';
-    if (tags.includes('Aggressive')) label = 'AGGRESSIVE';
+    if (tags.includes('Stable Benchmark') || tags.includes('Legendary')) label = 'LEGENDARY';
+    else if (tags.includes('Aggressive')) label = 'AGGRESSIVE';
     else if (tags.includes('Comfort')) label = 'COMFORT';
     else if (tags.includes('Off-Policy')) label = 'OFF-POLICY';
-    else if (tags.includes('Stable Benchmark') || tags.includes('Stable')) label = 'STABLE';
+    else if (tags.includes('Stable')) label = 'STABLE';
     else if (tags.includes('Highway')) label = 'HIGHWAY';
     else if (tags.includes('City')) label = 'CITY';
     else if (tags.includes('Curves')) label = 'CURVES';
-    else if (tags.includes('Experimental') || tags.includes('Dev')) label = 'EXPERIMENTAL';
+    else if (tags.includes('Experimental') || tags.includes('Dev') || tags.includes('Early')) label = 'EXPERIMENTAL';
     else if (feel) label = feel.toUpperCase().split(' ')[0];
 
     return {
