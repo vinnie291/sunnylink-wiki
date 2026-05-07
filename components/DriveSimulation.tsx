@@ -175,29 +175,24 @@ function rng(seed: number) {
 //   - Gaussian "bumps" → distinct bend events of various radii
 // All bumps are wide (width ≥ 0.07) so the curves enter and exit gradually,
 // like real freeway/arterial geometry rather than tight switchbacks.
-function roadCurveAt(p: number): number {
+function roadHeading(z: number) {
+    const LOOP_Z = 200;
     const TAU = Math.PI * 2;
-    // Gentle continuous baseline — small amplitudes, multi-frequency.
-    const baseline =
-        Math.sin(TAU * p) * 12 +
-        Math.sin(TAU * p * 2 + 0.7) * 6 +
-        Math.sin(TAU * p * 3 - 0.3) * 3;
+    const p = (z % LOOP_Z) / LOOP_Z;
+    return 0.15 * Math.sin(TAU * p) + 0.1 * Math.sin(TAU * p * 2) + 0.05 * Math.sin(TAU * p * 3);
+}
 
-    const bump = (center: number, amp: number, width: number) => {
-        let d = p - center;
-        if (d > 0.5) d -= 1;
-        else if (d < -0.5) d += 1;
-        return amp * Math.exp(-(d * d) / (2 * width * width));
-    };
+function roadX(z: number) {
+    const LOOP_Z = 200;
+    const TAU = Math.PI * 2;
+    const k1 = TAU / LOOP_Z;
+    const k2 = 2 * TAU / LOOP_Z;
+    const k3 = 3 * TAU / LOOP_Z;
+    return -0.15/k1 * Math.cos(k1 * z) - 0.1/k2 * Math.cos(k2 * z) - 0.05/k3 * Math.cos(k3 * z);
+}
 
-    // Realistic mix: long sweeping curves rather than switchbacks.
-    return (
-        baseline +
-        bump(0.20, 38, 0.075) +   // long sweeping right (highway curve)
-        bump(0.42, -28, 0.07) +   // moderate left transition
-        bump(0.65, -52, 0.075) +  // moderate left curve (the most pronounced bend)
-        bump(0.85, 26, 0.07)      // recovering right
-    );
+function relativeX(carZ: number, d: number) {
+    return roadX(carZ + d) - roadX(carZ) - d * roadHeading(carZ);
 }
 
 // View geometry — three-lane road. The car (trajectory) sits in the MIDDLE lane,
@@ -259,56 +254,43 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
         if (!isVisible) return;
 
         // ===== geometry helpers (shared across frames) =====
-        // Middle-lane centerline (= the car's lane). Trajectory anchors here at
-        // x = VB_W/2 at the camera. Bend uses smoothstep so the curve is visible
-        // throughout the road, not just compressed at the horizon.
-        const myLaneCenterX = (yFrac: number, horizonX: number) =>
-            VB_W / 2 + horizonX * yFrac * yFrac * (3 - 2 * yFrac);
-        // Half-width of ONE lane at depth yFrac (perspective taper).
-        const laneHalfWidth = (yFrac: number) =>
-            LANE_HALF_BOTTOM + (LANE_HALF_TOP - LANE_HALF_BOTTOM) * yFrac;
-        // Two dividers — one on each side of the car's lane.
-        const dividerLeftXAt = (yFrac: number, horizonX: number) =>
-            myLaneCenterX(yFrac, horizonX) - laneHalfWidth(yFrac);
-        const dividerRightXAt = (yFrac: number, horizonX: number) =>
-            myLaneCenterX(yFrac, horizonX) + laneHalfWidth(yFrac);
-        // Outer road edges (3 lane-widths from middle-lane center).
-        const leftRoadEdgeX = (yFrac: number, horizonX: number) =>
-            myLaneCenterX(yFrac, horizonX) - 3 * laneHalfWidth(yFrac);
-        const rightRoadEdgeX = (yFrac: number, horizonX: number) =>
-            myLaneCenterX(yFrac, horizonX) + 3 * laneHalfWidth(yFrac);
-        // World depth → screen yFrac via hyperbolic perspective.
-        // Markers at small depth → small yFrac → near camera (bottom of screen).
-        // dy/dd is large at small d → markers visibly accelerate toward camera.
         const PERSPECTIVE_K = 1.6;
         const depthToYFrac = (d: number) => d / (d + PERSPECTIVE_K);
-        // Inverse: yFrac → world depth (used to set marker spacing in world units)
         const yFracToDepth = (yFrac: number) =>
             yFrac >= 1 ? Infinity : (yFrac * PERSPECTIVE_K) / (1 - yFrac);
 
-        // Chosen-path width tapers wide-at-camera → narrow-at-tip
-        const PATH_WIDTH_BOTTOM = 0.78;
-        const PATH_WIDTH_TOP = 0.30;
-        // Trajectory ends short of the horizon (like a real driver-assist UI's
-        // near-future plan). Gives lateral room without exiting the road.
+        const laneHalfWidth = (yFrac: number) =>
+            LANE_HALF_BOTTOM + (LANE_HALF_TOP - LANE_HALF_BOTTOM) * yFrac;
+
+        const PATH_WIDTH_BOTTOM = 0.80;
+        const PATH_WIDTH_TOP = 0.80;
         const TIP_YFRAC = 0.88;
 
         // ===== draw a single frame from current state =====
         const drawFrame = (
-            t: number,
-            actualHorizonX: number,
-            trajectoryX: number,
+            carZ: number,
+            actualTipX: number,
+            targetTipX: number,
             markerDepths: number[],
             wheelAngle: number
         ) => {
             const STEPS = 24;
-            // Outer road edges (left and right) + full-road fill.
+            
+            const getRoadCenterX = (yFrac: number) => {
+                if (yFrac >= 1) return VB_W / 2 - roadHeading(carZ) * 400;
+                const d = yFracToDepth(yFrac);
+                const rx = relativeX(carZ, d);
+                return VB_W / 2 + (rx / (d + PERSPECTIVE_K)) * 400;
+            };
+
             let leftD = '', rightD = '';
             for (let i = 0; i <= STEPS; i++) {
                 const yFrac = i / STEPS;
                 const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
-                const lx = leftRoadEdgeX(yFrac, actualHorizonX);
-                const rx = rightRoadEdgeX(yFrac, actualHorizonX);
+                const centerX = getRoadCenterX(yFrac);
+                
+                const lx = centerX - 3 * laneHalfWidth(yFrac);
+                const rx = centerX + 3 * laneHalfWidth(yFrac);
                 if (i === 0) {
                     leftD = `M ${lx.toFixed(2)} ${y.toFixed(2)}`;
                     rightD = `M ${rx.toFixed(2)} ${y.toFixed(2)}`;
@@ -317,37 +299,35 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
                     rightD += ` L ${rx.toFixed(2)} ${y.toFixed(2)}`;
                 }
             }
-            // Fill: walk left edge bottom→top, then right edge top→bottom (whole road, both lanes).
+            
             let fillD = leftD;
             for (let i = STEPS; i >= 0; i--) {
                 const yFrac = i / STEPS;
                 const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
-                fillD += ` L ${rightRoadEdgeX(yFrac, actualHorizonX).toFixed(2)} ${y.toFixed(2)}`;
+                const centerX = getRoadCenterX(yFrac);
+                fillD += ` L ${(centerX + 3 * laneHalfWidth(yFrac)).toFixed(2)} ${y.toFixed(2)}`;
             }
             fillD += ' Z';
+            
             leftEdgeRef.current?.setAttribute('d', leftD);
             rightEdgeRef.current?.setAttribute('d', rightD);
             roadFillRef.current?.setAttribute('d', fillD);
 
-            // Chosen path: a single smooth arc from the car (yFrac=0) to a model-determined
-            // trajectory tip (yFrac=TIP_YFRAC). Acts like a planned car trajectory — anchored
-            // at the bottom, never twists or bulges off the lane.
-            // Curve uses yFrac² (not the road's smoothstep) so the arc naturally cuts the
-            // inside of the curve, the way a real driving line does.
-            // actualHorizonX is unused here (the trajectoryX is already model-relative);
-            // void-ref it to silence linters.
-            void actualHorizonX;
             const widthScale = profile.pathWidth;
-            const arcDX = (yFrac: number) => trajectoryX * yFrac * yFrac;
+            const relativeTipX = targetTipX - actualTipX;
+            const arcDX = (yFrac: number) => relativeTipX * Math.pow(yFrac / TIP_YFRAC, 2);
+            
             const pathHW = (yFrac: number) => {
                 const taper = PATH_WIDTH_BOTTOM + (PATH_WIDTH_TOP - PATH_WIDTH_BOTTOM) * yFrac;
                 return laneHalfWidth(yFrac) * taper * widthScale;
             };
+            
             let chosenD = '';
             for (let i = 0; i <= STEPS; i++) {
                 const yFrac = (i / STEPS) * TIP_YFRAC;
                 const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
-                const cx = VB_W / 2 + arcDX(yFrac);
+                const roadCx = getRoadCenterX(yFrac);
+                const cx = roadCx + arcDX(yFrac);
                 const lx = cx - pathHW(yFrac);
                 if (i === 0) chosenD = `M ${lx.toFixed(2)} ${y.toFixed(2)}`;
                 else chosenD += ` L ${lx.toFixed(2)} ${y.toFixed(2)}`;
@@ -355,50 +335,54 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
             for (let i = STEPS; i >= 0; i--) {
                 const yFrac = (i / STEPS) * TIP_YFRAC;
                 const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
-                const cx = VB_W / 2 + arcDX(yFrac);
+                const roadCx = getRoadCenterX(yFrac);
+                const cx = roadCx + arcDX(yFrac);
                 chosenD += ` L ${(cx + pathHW(yFrac)).toFixed(2)} ${y.toFixed(2)}`;
             }
             chosenD += ' Z';
             chosenPathRef.current?.setAttribute('d', chosenD);
 
-            // Lane divider dashes — rendered on BOTH dividers (one each side of the car's lane).
-            // Each dash is a perspective trapezoid: spans world depths [d − L/2, d + L/2],
-            // narrow at the far end, wider at the near end, naturally tilted along the road's
-            // tangent because near and far X are sampled from dividerXAt at each end.
             if (dashGroupRef.current) {
-                const DASH_LEN = 1.4;     // world units
-                const DASH_BASE_W = 5;    // viewBox units at camera
+                const DASH_LEN = 1.4;
+                const DASH_BASE_W = 5;
                 let svg = '';
                 for (const d of markerDepths) {
-                    const dNear = Math.max(0.05, d - DASH_LEN / 2);
                     const dFar = d + DASH_LEN / 2;
+                    if (dFar < 0) continue;
+
+                    const dNear = Math.max(-1.2, d - DASH_LEN / 2);
                     const yFracNear = depthToYFrac(dNear);
                     const yFracFar = depthToYFrac(dFar);
-                    if (yFracFar > 0.94) continue; // dash entirely past horizon
+                    if (yFracFar > 0.98) continue;
 
                     const yNear = CAR_Y + (HORIZON_Y - CAR_Y) * yFracNear;
                     const yFar = CAR_Y + (HORIZON_Y - CAR_Y) * yFracFar;
+                    
                     const wNear = DASH_BASE_W * (1 - yFracNear);
                     const wFar = DASH_BASE_W * (1 - yFracFar);
+                    const wMid = (wNear + wFar) / 2;
 
-                    // Opacity gates on the far end (so dashes fade in as they emerge from horizon)
-                    const opacity = Math.max(0, Math.min(0.85, (0.94 - yFracFar) * 1.5));
+                    const opacity = Math.max(0, Math.min(0.85, (0.98 - yFracFar) * 8));
                     if (opacity <= 0.005) continue;
 
-                    // Both divider dashes for this depth — left and right of the car
-                    const xNL = dividerLeftXAt(yFracNear, actualHorizonX);
-                    const xFL = dividerLeftXAt(yFracFar, actualHorizonX);
-                    const xNR = dividerRightXAt(yFracNear, actualHorizonX);
-                    const xFR = dividerRightXAt(yFracFar, actualHorizonX);
+                    const centerNear = getRoadCenterX(yFracNear);
+                    const centerFar = getRoadCenterX(yFracFar);
+
+                    const hwNear = laneHalfWidth(yFracNear);
+                    const hwFar = laneHalfWidth(yFracFar);
+
+                    const xNL = centerNear - hwNear;
+                    const xFL = centerFar - hwFar;
+                    const xNR = centerNear + hwNear;
+                    const xFR = centerFar + hwFar;
 
                     const fill = `rgba(255,255,255,${opacity.toFixed(2)})`;
-                    svg += `<path d="M ${(xNL - wNear / 2).toFixed(2)} ${yNear.toFixed(2)} L ${(xFL - wFar / 2).toFixed(2)} ${yFar.toFixed(2)} L ${(xFL + wFar / 2).toFixed(2)} ${yFar.toFixed(2)} L ${(xNL + wNear / 2).toFixed(2)} ${yNear.toFixed(2)} Z" fill="${fill}"/>`;
-                    svg += `<path d="M ${(xNR - wNear / 2).toFixed(2)} ${yNear.toFixed(2)} L ${(xFR - wFar / 2).toFixed(2)} ${yFar.toFixed(2)} L ${(xFR + wFar / 2).toFixed(2)} ${yFar.toFixed(2)} L ${(xNR + wNear / 2).toFixed(2)} ${yNear.toFixed(2)} Z" fill="${fill}"/>`;
+                    svg += `<path d="M ${xNL.toFixed(2)} ${yNear.toFixed(2)} L ${xFL.toFixed(2)} ${yFar.toFixed(2)}" stroke="${fill}" stroke-width="${wMid.toFixed(2)}" stroke-linecap="butt" fill="none" />`;
+                    svg += `<path d="M ${xNR.toFixed(2)} ${yNear.toFixed(2)} L ${xFR.toFixed(2)} ${yFar.toFixed(2)}" stroke="${fill}" stroke-width="${wMid.toFixed(2)}" stroke-linecap="butt" fill="none" />`;
                 }
                 dashGroupRef.current.innerHTML = svg;
             }
 
-            // Steering wheel rotation — match the road's bend direction.
             if (wheelRef.current) {
                 wheelRef.current.setAttribute(
                     'transform',
@@ -406,10 +390,9 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
                 );
             }
 
-            // Speed text alpha pulse with curvature
             if (speedTextRef.current) {
-                const curvature = Math.abs(roadCurveAt(t));
-                const alpha = 0.9 - (curvature / 95) * 0.15;
+                const curvature = Math.abs(roadHeading(carZ));
+                const alpha = Math.max(0.3, 0.9 - (curvature / 0.3) * 0.4);
                 speedTextRef.current.setAttribute('opacity', alpha.toFixed(2));
             }
         };
@@ -425,18 +408,12 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
 
         // ===== animated state =====
         const seedRng = rng(seed);
-        // wobble: sum of sines with random phases — smooth, deterministic
         const phase1 = seedRng() * Math.PI * 2;
         const phase2 = seedRng() * Math.PI * 2;
         const phase3 = seedRng() * Math.PI * 2;
 
-        // Persistent state across frames
-        let perceivedHorizonX = 0; // exponentially smoothed actualHorizonX
-
-        // Marker world depths spaced uniformly between camera and MAX_DEPTH.
-        // Fewer + farther → no stacking when perspective compresses near the horizon.
-        const NUM_MARKERS = 5;
-        const MAX_DEPTH = 18;
+        const NUM_MARKERS = 11;
+        const MAX_DEPTH = 40;
         const markerDepths: number[] = [];
         for (let i = 0; i < NUM_MARKERS; i++) {
             markerDepths.push(1 + (i / NUM_MARKERS) * MAX_DEPTH);
@@ -445,8 +422,9 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
         let raf = 0;
         let startTs = 0;
         let lastNow = 0;
-        let perceivedWheelAngle = 0; // exponentially smoothed steering angle
-        const DURATION = 10000;
+        let perceivedTipX = 0;
+        let perceivedWheelAngle = 0;
+        let carZ = 0;
 
         const tick = (now: number) => {
             if (!startTs) startTs = now;
@@ -454,63 +432,46 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
             const dt = Math.min(0.05, (now - lastNow) / 1000);
             lastNow = now;
 
-            const elapsed = (now - startTs) % DURATION;
-            const t = elapsed / DURATION;
+            const worldSpeed = 2.0 + (profile.speed / 70) * 5.5;
+            carZ += worldSpeed * dt;
 
-            // Actual road horizon offset (viewBox units). roadCurveAt is ~[-95, +95].
-            const actualHorizonX = roadCurveAt(t) * 0.7;
+            const tipD = yFracToDepth(TIP_YFRAC);
+            const actualTipX = (relativeX(carZ, tipD) / (tipD + PERSPECTIVE_K)) * 400;
 
-            // Temporal smoothing — perceivedHorizonX exponentially eases toward actual.
-            // Higher pathSmoothness → faster tracking; lower → more lag (heavy/twitchy).
             const trackRate = 0.7 + profile.pathSmoothness * 5.5;
-            perceivedHorizonX =
-                actualHorizonX +
-                (perceivedHorizonX - actualHorizonX) * Math.exp(-trackRate * dt);
+            perceivedTipX = actualTipX + (perceivedTipX - actualTipX) * Math.exp(-trackRate * dt);
 
-            // Wobble: 3-sine sum, deterministic per model.
             const tSec = now / 1000;
             const wobbleAmp = profile.laneWobble * 14;
             const wobble =
                 (Math.sin(tSec * 1.7 + phase1) * 0.5 +
-                    Math.sin(tSec * 3.3 + phase2) * 0.3 +
-                    Math.sin(tSec * 5.9 + phase3) * 0.2) *
-                wobbleAmp;
+                 Math.sin(tSec * 3.3 + phase2) * 0.3 +
+                 Math.sin(tSec * 5.9 + phase3) * 0.2) * wobbleAmp;
 
-            // Right/left-hugging bias — applied to where the trajectory points at its tip
             const offsetBias = profile.laneOffset * 14;
+            
+            let targetTipX = perceivedTipX + offsetBias + wobble;
 
-            // Trajectory tip X-offset: where the model's planned path AIMS at TIP_YFRAC.
-            // Sources: smoothed perception of the road curve, intentional bias, wobble.
-            // Clamped to keep the path's edges inside the RIGHT LANE at the trajectory tip
-            // (a normal car shouldn't drift into the oncoming/adjacent lane).
-            const tipSmooth = TIP_YFRAC * TIP_YFRAC * (3 - 2 * TIP_YFRAC); // road bend at tip
-            const tipQuad = TIP_YFRAC * TIP_YFRAC; // path bend at tip (yFrac²)
-            const tipLaneHW = LANE_HALF_BOTTOM + (LANE_HALF_TOP - LANE_HALF_BOTTOM) * TIP_YFRAC;
+            const tipLaneHW = laneHalfWidth(TIP_YFRAC);
             const tipTaper = PATH_WIDTH_BOTTOM + (PATH_WIDTH_TOP - PATH_WIDTH_BOTTOM) * TIP_YFRAC;
             const tipPathHW = tipLaneHW * tipTaper * profile.pathWidth;
             const margin = 0.5;
-            const minTrajX = (actualHorizonX * tipSmooth - tipLaneHW + margin + tipPathHW) / tipQuad;
-            const maxTrajX = (actualHorizonX * tipSmooth + tipLaneHW - margin - tipPathHW) / tipQuad;
 
-            let trajectoryX = perceivedHorizonX + offsetBias + wobble;
-            if (trajectoryX < minTrajX) trajectoryX = minTrajX;
-            else if (trajectoryX > maxTrajX) trajectoryX = maxTrajX;
+            const minTipX = actualTipX - tipLaneHW + margin + tipPathHW;
+            const maxTipX = actualTipX + tipLaneHW - margin - tipPathHW;
 
-            // Steering wheel: target angle proportional to where the model PERCEIVES
-            // the road is curving. Smoothed for natural hand motion.
-            const targetWheelAngle = (perceivedHorizonX / 66.5) * 38; // ±38° at peak curvature
-            perceivedWheelAngle =
-                targetWheelAngle +
-                (perceivedWheelAngle - targetWheelAngle) * Math.exp(-6 * dt);
+            if (targetTipX < minTipX) targetTipX = minTipX;
+            else if (targetTipX > maxTipX) targetTipX = maxTipX;
 
-            // Advance markers (constant world speed → perspective creates visual acceleration).
-            const worldSpeed = 2.0 + (profile.speed / 70) * 5.5;
+            const targetWheelAngle = (actualTipX / 70) * 45;
+            perceivedWheelAngle = targetWheelAngle + (perceivedWheelAngle - targetWheelAngle) * Math.exp(-6 * dt);
+
             for (let i = 0; i < markerDepths.length; i++) {
                 markerDepths[i] -= worldSpeed * dt;
-                if (markerDepths[i] < 0) markerDepths[i] += MAX_DEPTH;
+                if (markerDepths[i] < -1.0) markerDepths[i] += MAX_DEPTH;
             }
 
-            drawFrame(t, actualHorizonX, trajectoryX, markerDepths, perceivedWheelAngle);
+            drawFrame(carZ, actualTipX, targetTipX, markerDepths, perceivedWheelAngle);
 
             raf = requestAnimationFrame(tick);
         };
