@@ -10,6 +10,7 @@ import SearchFilter from './SearchFilter';
 import MobileCategorySidebar from './MobileCategorySidebar';
 import SidebarInlineControls from './SidebarInlineControls';
 import DriveSimulation, { deriveDrivingProfile } from './DriveSimulation';
+import FullScreenDriveVisualizer from './FullScreenDriveVisualizer';
 import { useViewMode } from '../hooks/useViewMode';
 import { useStickySearch } from '../hooks/useStickySearch';
 import { useDesktopSidebarSticky } from '../hooks/useDesktopSidebarSticky';
@@ -71,7 +72,7 @@ function SentimentBar({ sentiment }: { sentiment: SentimentData }) {
 }
 
 // Model Card Component
-function ModelCard({ model }: { model: Model }) {
+function ModelCard({ model, onExpand }: { model: Model; onExpand?: (modelName: string) => void }) {
     const [copied, setCopied] = useState(false);
 
     const handleCopyLink = async (e: React.MouseEvent) => {
@@ -134,7 +135,25 @@ function ModelCard({ model }: { model: Model }) {
             className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300 group"
         >
             {/* Animated drive simulation hero */}
-            <DriveSimulation profile={profile} seedKey={model.name} />
+            <div className="relative">
+                <DriveSimulation profile={profile} seedKey={model.name} disableRainbow={true} />
+                {onExpand && (
+                    <button
+                        type="button"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onExpand(model.name);
+                        }}
+                        aria-label={`Expand ${model.name} in fullscreen visualizer`}
+                        title="Expand to fullscreen visualizer"
+                        className="absolute top-2 right-2 z-10 h-8 w-8 rounded-lg bg-black/40 hover:bg-black/70 backdrop-blur-sm text-white flex items-center justify-center transition-colors border border-white/10"
+                    >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4h4m8 0h4v4m0 8v4h-4m-8 0H4v-4" />
+                        </svg>
+                    </button>
+                )}
+            </div>
 
             <div className="p-4">
                 {/* Header */}
@@ -293,6 +312,7 @@ export default function ModelLibrary() {
     const [searchQuery, setSearchQuery] = useState('');
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [activeFilters, setActiveFilters] = useState<string[]>([]);
+    const [visualizerModelName, setVisualizerModelName] = useState<string | null>(null);
     const vibeGuideRef = useRef<HTMLDivElement>(null);
     const [vibeGuideHeight, setVibeGuideHeight] = useState(0);
     const { t } = useLanguage();
@@ -798,7 +818,7 @@ export default function ModelLibrary() {
                             >
                                 {activeModels.map((model) => (
                                     <div key={model.name} className="h-full">
-                                        <ModelCard model={model} />
+                                        <ModelCard model={model} onExpand={setVisualizerModelName} />
                                     </div>
                                 ))}
                             </motion.div>
@@ -814,7 +834,12 @@ export default function ModelLibrary() {
 
             </div>
 
-
+            <FullScreenDriveVisualizer
+                isOpen={visualizerModelName !== null}
+                onClose={() => setVisualizerModelName(null)}
+                models={categories[0].models}
+                initialModelName={visualizerModelName ?? undefined}
+            />
         </div>
     );
 }

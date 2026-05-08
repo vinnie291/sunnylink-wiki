@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useMemo } from 'react';
+import { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 
 interface SentimentData {
     great: number;
@@ -31,6 +31,7 @@ export interface DrivingProfile {
     reactionLag: number;    // 0..1 (1 = late to react to curves)
     pathWidth: number;      // 0..1 (visual confidence)
     label: string;          // short personality tag
+    rainbowMode?: boolean;  // when true the chosen-path fill cycles through hues
 }
 
 export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
@@ -145,7 +146,41 @@ export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
         reactionLag,
         pathWidth,
         label,
+        rainbowMode: false,
     };
+}
+
+// Speed unit detection — show mph in places that use it for road signs,
+// kph everywhere else. Maps the locale region; falls back to mph for SSR.
+type SpeedUnit = 'mph' | 'kph';
+const MPH_REGIONS = new Set(['US', 'GB', 'LR', 'MM']);
+
+function detectSpeedUnit(): SpeedUnit {
+    if (typeof navigator === 'undefined') return 'mph';
+    const lang = navigator.language || '';
+    let region = '';
+    try {
+        const loc = new Intl.Locale(lang);
+        region = (loc.maximize?.().region ?? '').toUpperCase();
+    } catch {
+        // older browsers — fall through
+    }
+    if (!region) {
+        const m = lang.match(/-([A-Z]{2})/i);
+        region = m?.[1]?.toUpperCase() ?? '';
+    }
+    return MPH_REGIONS.has(region) ? 'mph' : 'kph';
+}
+
+const SPEED_LIMITS: Record<SpeedUnit, { min: number; max: number; step: number }> = {
+    mph: { min: 25, max: 100, step: 5 },
+    kph: { min: 40, max: 160, step: 10 },
+};
+const MPH_TO_KPH = 1.609344;
+
+function clampToStep(value: number, limits: { min: number; max: number; step: number }): number {
+    const snapped = Math.round(value / limits.step) * limits.step;
+    return Math.max(limits.min, Math.min(limits.max, snapped));
 }
 
 // Cheap deterministic 32-bit hash → seed for per-model noise
@@ -202,37 +237,58 @@ const VB_H = 225;
 const HORIZON_Y = 88;
 const CAR_Y = VB_H;             // bottom edge
 const LANE_HALF_BOTTOM = 55;    // half of one lane's width at camera
-const LANE_HALF_TOP = 5;        // half of one lane's width at horizon
+const LANE_HALF_TOP = 5;        // half of one lane's width
 
 interface Props {
     profile: DrivingProfile;
     seedKey: string; // model name (deterministic noise)
+    disableRainbow?: boolean;
 }
 
-export default function DriveSimulation({ profile, seedKey }: Props) {
+export default function DriveSimulation({ profile, seedKey, disableRainbow }: Props) {
     const containerRef = useRef<HTMLDivElement>(null);
     const leftEdgeRef = useRef<SVGPathElement>(null);
     const rightEdgeRef = useRef<SVGPathElement>(null);
     const roadFillRef = useRef<SVGPathElement>(null);
     const chosenPathRef = useRef<SVGPathElement>(null);
+    const leftLaneKeepRef = useRef<SVGPathElement>(null);
+    const rightLaneKeepRef = useRef<SVGPathElement>(null);
     const dashGroupRef = useRef<SVGGElement>(null);
     const wheelRef = useRef<SVGGElement>(null);
-    const speedTextRef = useRef<SVGTextElement>(null);
+    const speedTextRef = useRef<HTMLDivElement>(null);
+    const rainbowGradientRef = useRef<SVGLinearGradientElement>(null);
 
     const [isVisible, setIsVisible] = useState(false);
     const [reduceMotion, setReduceMotion] = useState(false);
-    const [speed, setSpeed] = useState(profile.speed);
+    // SSR-safe default; the unit-detection effect refines this on mount.
+    const [unit, setUnit] = useState<SpeedUnit>('mph');
+    const limits = SPEED_LIMITS[unit];
+    const [speed, setSpeed] = useState(() =>
+        clampToStep(profile.speed, SPEED_LIMITS.mph)
+    );
 
-    // Keep displayed speed in sync when the underlying model/profile changes
+    // Refs let the animation loop pick up live profile/speed/unit changes
+    // without tearing down the RAF (which would reset carZ + marker depths).
+    const profileRef = useRef(profile);
+    const speedRef = useRef(speed);
+    const unitRef = useRef(unit);
+    useEffect(() => { profileRef.current = profile; }, [profile]);
+    useEffect(() => { speedRef.current = speed; }, [speed]);
+    useEffect(() => { unitRef.current = unit; }, [unit]);
+
+    // Detect the user's preferred speed unit once on mount.
+    useEffect(() => { setUnit(detectSpeedUnit()); }, []);
+
+    // Resync the displayed speed when the model/profile or unit changes,
+    // converting profile.speed (always in mph) into the active unit and
+    // clamping into the unit's allowed band.
     useEffect(() => {
-        setSpeed(profile.speed);
-    }, [profile.speed]);
+        const nativeRaw = unit === 'mph' ? profile.speed : profile.speed * MPH_TO_KPH;
+        setSpeed(clampToStep(nativeRaw, SPEED_LIMITS[unit]));
+    }, [profile.speed, unit]);
 
-    const SPEED_STEP = 5;
-    const SPEED_MIN = 5;
-    const SPEED_MAX = 120;
     const adjustSpeed = (delta: number) =>
-        setSpeed((s) => Math.max(SPEED_MIN, Math.min(SPEED_MAX, s + delta)));
+        setSpeed((s) => Math.max(limits.min, Math.min(limits.max, s + delta)));
 
     // Detect reduced motion
     useEffect(() => {
@@ -261,32 +317,28 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
 
     const seed = useMemo(() => hashSeed(seedKey), [seedKey]);
 
-    // Animation loop
-    useEffect(() => {
-        if (!isVisible) return;
+    // ===== shared geometry helpers (closure captures only refs / module constants) =====
+    const PERSPECTIVE_K = 1.6;
+    const depthToYFrac = (d: number) => d / (d + PERSPECTIVE_K);
+    const yFracToDepth = (yFrac: number) =>
+        yFrac >= 1 ? Infinity : (yFrac * PERSPECTIVE_K) / (1 - yFrac);
+    const laneHalfWidth = (yFrac: number) =>
+        LANE_HALF_BOTTOM + (LANE_HALF_TOP - LANE_HALF_BOTTOM) * yFrac;
+    const PATH_WIDTH_BOTTOM = 0.80;
+    const PATH_WIDTH_TOP = 0.80;
+    const TIP_YFRAC = 0.88;
 
-        // ===== geometry helpers (shared across frames) =====
-        const PERSPECTIVE_K = 1.6;
-        const depthToYFrac = (d: number) => d / (d + PERSPECTIVE_K);
-        const yFracToDepth = (yFrac: number) =>
-            yFrac >= 1 ? Infinity : (yFrac * PERSPECTIVE_K) / (1 - yFrac);
-
-        const laneHalfWidth = (yFrac: number) =>
-            LANE_HALF_BOTTOM + (LANE_HALF_TOP - LANE_HALF_BOTTOM) * yFrac;
-
-        const PATH_WIDTH_BOTTOM = 0.80;
-        const PATH_WIDTH_TOP = 0.80;
-        const TIP_YFRAC = 0.88;
-
-        // ===== draw a single frame from current state =====
-        const drawFrame = (
-            carZ: number,
-            actualTipX: number,
-            targetTipX: number,
-            markerDepths: number[],
-            wheelAngle: number
-        ) => {
-            const STEPS = 24;
+    // Stable drawFrame: reads live profile from ref, so a settings change
+    // updates the next frame without restarting the RAF loop.
+    const drawFrame = useCallback((
+        carZ: number,
+        actualTipX: number,
+        targetTipX: number,
+        markerDepths: number[],
+        wheelAngle: number
+    ) => {
+        const profile = profileRef.current;
+        const STEPS = 24;
             
             const getRoadCenterX = (yFrac: number) => {
                 if (yFrac >= 1) return VB_W / 2 - roadHeading(carZ) * 400;
@@ -354,6 +406,27 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
             chosenD += ' Z';
             chosenPathRef.current?.setAttribute('d', chosenD);
 
+            // Lane-keeping lines: solid strokes that hug the inner lane
+            // dividers and follow the road's curvature. Sit just inside the
+            // lane edges so they have visible padding from the chosen path.
+            const LANE_KEEP_INSET = 0.92;
+            let leftLkD = '', rightLkD = '';
+            for (let i = 0; i <= STEPS; i++) {
+                const yFrac = (i / STEPS) * TIP_YFRAC;
+                const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
+                const roadCx = getRoadCenterX(yFrac);
+                const lkHW = laneHalfWidth(yFrac) * LANE_KEEP_INSET;
+                if (i === 0) {
+                    leftLkD = `M ${(roadCx - lkHW).toFixed(2)} ${y.toFixed(2)}`;
+                    rightLkD = `M ${(roadCx + lkHW).toFixed(2)} ${y.toFixed(2)}`;
+                } else {
+                    leftLkD += ` L ${(roadCx - lkHW).toFixed(2)} ${y.toFixed(2)}`;
+                    rightLkD += ` L ${(roadCx + lkHW).toFixed(2)} ${y.toFixed(2)}`;
+                }
+            }
+            leftLaneKeepRef.current?.setAttribute('d', leftLkD);
+            rightLaneKeepRef.current?.setAttribute('d', rightLkD);
+
             if (dashGroupRef.current) {
                 const DASH_LEN = 1.4;
                 const DASH_BASE_W = 5;
@@ -405,20 +478,31 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
             if (speedTextRef.current) {
                 const curvature = Math.abs(roadHeading(carZ));
                 const alpha = Math.max(0.3, 0.9 - (curvature / 0.3) * 0.4);
-                speedTextRef.current.setAttribute('opacity', alpha.toFixed(2));
+                speedTextRef.current.style.opacity = alpha.toFixed(2);
             }
-        };
 
-        // ===== reduced motion: render one static frame =====
-        if (reduceMotion) {
-            const initialDepths: number[] = [];
-            for (let i = 0; i < 5; i++) initialDepths.push(1.5 + i * 3.5);
-            const trajX = profile.laneOffset * 14;
-            drawFrame(0, 0, trajX, initialDepths, 0);
-            return;
-        }
+            if (profile.rainbowMode && !disableRainbow && rainbowGradientRef.current) {
+                // Animate the rainbow path — flow it down towards the car at a vibrant pace
+                const offset = (carZ * 1.8) % 1;
+                rainbowGradientRef.current.setAttribute('gradientTransform', `translate(0, ${offset})`);
+            }
+        }, [disableRainbow]);
 
-        // ===== animated state =====
+    // Static-frame redraw — runs in reduced-motion mode whenever profile changes.
+    useEffect(() => {
+        if (!isVisible || !reduceMotion) return;
+        const profile = profileRef.current;
+        const initialDepths: number[] = [];
+        for (let i = 0; i < 5; i++) initialDepths.push(1.5 + i * 3.5);
+        const trajX = profile.laneOffset * 14;
+        drawFrame(0, 0, trajX, initialDepths, 0);
+    }, [isVisible, reduceMotion, profile, drawFrame]);
+
+    // Animation loop — only restarts when seed (model) or visibility changes.
+    // Live profile/speed edits flow through refs without tearing down state.
+    useEffect(() => {
+        if (!isVisible || reduceMotion) return;
+
         const seedRng = rng(seed);
         const phase1 = seedRng() * Math.PI * 2;
         const phase2 = seedRng() * Math.PI * 2;
@@ -432,19 +516,22 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
         }
 
         let raf = 0;
-        let startTs = 0;
         let lastNow = 0;
         let perceivedTipX = 0;
         let perceivedWheelAngle = 0;
         let carZ = 0;
 
         const tick = (now: number) => {
-            if (!startTs) startTs = now;
+            const profile = profileRef.current;
+            const speed = speedRef.current;
+            // Animation calibration is in mph; convert if the UI is showing kph.
+            const speedMph = unitRef.current === 'mph' ? speed : speed / MPH_TO_KPH;
+
             if (!lastNow) lastNow = now;
             const dt = Math.min(0.05, (now - lastNow) / 1000);
             lastNow = now;
 
-            const worldSpeed = 2.0 + (speed / 70) * 5.5;
+            const worldSpeed = 2.0 + (speedMph / 70) * 5.5;
             carZ += worldSpeed * dt;
 
             const tipD = yFracToDepth(TIP_YFRAC);
@@ -461,7 +548,7 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
                  Math.sin(tSec * 5.9 + phase3) * 0.2) * wobbleAmp;
 
             const offsetBias = profile.laneOffset * 14;
-            
+
             let targetTipX = perceivedTipX + offsetBias + wobble;
 
             const tipLaneHW = laneHalfWidth(TIP_YFRAC);
@@ -490,7 +577,9 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
 
         raf = requestAnimationFrame(tick);
         return () => cancelAnimationFrame(raf);
-    }, [isVisible, reduceMotion, profile, seed, speed]);
+    }, [isVisible, reduceMotion, seed, drawFrame]);
+
+    const isRainbowActive = profile.rainbowMode && !disableRainbow;
 
     return (
         <div
@@ -509,10 +598,19 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
                         <stop offset="0%" stopColor="#0f172a" />
                         <stop offset="60%" stopColor="#020617" />
                     </linearGradient>
-                    <linearGradient id={`path-${seed}`} x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor={profile.pathColor} stopOpacity="0.15" />
-                        <stop offset="60%" stopColor={profile.pathColor} stopOpacity="0.55" />
-                        <stop offset="100%" stopColor={profile.pathColor} stopOpacity="0.85" />
+                    <linearGradient 
+                        id={`path-${seed}`} 
+                        ref={rainbowGradientRef}
+                        x1="0" y1="0" x2="0" y2="1" 
+                        spreadMethod="repeat"
+                    >
+                        <stop offset="0%" stopColor="#ef4444" stopOpacity="1" />
+                        <stop offset="16.6%" stopColor="#f97316" stopOpacity="1" />
+                        <stop offset="33.3%" stopColor="#eab308" stopOpacity="1" />
+                        <stop offset="50%" stopColor="#22c55e" stopOpacity="1" />
+                        <stop offset="66.6%" stopColor="#3b82f6" stopOpacity="1" />
+                        <stop offset="83.3%" stopColor="#a855f7" stopOpacity="1" />
+                        <stop offset="100%" stopColor="#ef4444" stopOpacity="1" />
                     </linearGradient>
                 </defs>
 
@@ -532,49 +630,35 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
                 <path ref={rightEdgeRef} d="M 365 225 L 215 88" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" />
 
                 {/* chosen path (model's decision — sits in the middle lane) */}
-                <path ref={chosenPathRef} d="M 170 225 L 197 104 L 203 104 L 230 225 Z" fill={`url(#path-${seed})`} stroke={profile.pathColor} strokeOpacity="0.6" strokeWidth="0.8" />
+                <path
+                    ref={chosenPathRef}
+                    d="M 170 225 L 197 104 L 203 104 L 230 225 Z"
+                    fill={isRainbowActive ? `url(#path-${seed})` : profile.pathColor}
+                    fillOpacity={isRainbowActive ? '1' : '0.4'}
+                    stroke="none"
+                />
 
-                {/* speed indicator (top-center) */}
-                <g>
-                    <text
-                        ref={speedTextRef}
-                        x={VB_W / 2}
-                        y="42"
-                        textAnchor="middle"
-                        fill="white"
-                        fontSize="28"
-                        fontWeight="700"
-                        fontFamily="system-ui, -apple-system, sans-serif"
-                        style={{ paintOrder: 'stroke' }}
-                    >
-                        {speed}
-                    </text>
-                    <text
-                        x={VB_W / 2}
-                        y="58"
-                        textAnchor="middle"
-                        fill="rgba(255,255,255,0.65)"
-                        fontSize="9"
-                        fontWeight="600"
-                        letterSpacing="2"
-                        fontFamily="system-ui, -apple-system, sans-serif"
-                    >
-                        MPH
-                    </text>
-                </g>
-
-                {/* personality label (top-left) */}
-                <text
-                    x="14"
-                    y="22"
-                    fill={profile.pathColor}
-                    fontSize="9"
-                    fontWeight="700"
-                    letterSpacing="1.5"
-                    fontFamily="system-ui, -apple-system, sans-serif"
-                >
-                    {profile.label}
-                </text>
+                {/* lane-keeping lines: solid colored strokes hugging the lane edges */}
+                <path
+                    ref={leftLaneKeepRef}
+                    d=""
+                    fill="none"
+                    stroke={profile.pathColor}
+                    strokeOpacity="0.9"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                />
+                <path
+                    ref={rightLaneKeepRef}
+                    d=""
+                    fill="none"
+                    stroke={profile.pathColor}
+                    strokeOpacity="0.9"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                />
 
                 {/* steering wheel (bottom-left) — rotates with the road's curvature */}
                 <g ref={wheelRef} transform={`translate(22 ${VB_H - 24})`}>
@@ -596,34 +680,60 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
                 </g>
             </svg>
 
-            {/* subtle vignette at top to fade the scene */}
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-black/40 to-transparent" />
-
-            {/* speed controls — flank the MPH readout */}
+            {/* personality label (top-left) — shrunk and capped so it never
+                crowds the speed indicator at any simulator size. */}
             <div
-                className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-[14%] select-none"
-                style={{ top: '16%' }}
+                className="absolute left-[4%] top-[8%] select-none pointer-events-none max-w-[28%] truncate"
+                style={{ color: profile.pathColor }}
             >
-                <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); adjustSpeed(-SPEED_STEP); }}
-                    disabled={speed <= SPEED_MIN}
-                    aria-label="Decrease simulation speed"
-                    className="h-7 w-7 rounded-full bg-white/10 hover:bg-white/25 active:bg-white/35 backdrop-blur-sm text-white text-base font-bold leading-none flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                    −
-                </button>
-                {/* spacer reserved for the SVG MPH text */}
-                <div aria-hidden="true" className="w-12" />
-                <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); adjustSpeed(SPEED_STEP); }}
-                    disabled={speed >= SPEED_MAX}
-                    aria-label="Increase simulation speed"
-                    className="h-7 w-7 rounded-full bg-white/10 hover:bg-white/25 active:bg-white/35 backdrop-blur-sm text-white text-base font-bold leading-none flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                    +
-                </button>
+                <span className="text-[clamp(8px,1.7cqw,12px)] font-bold tracking-[0.18em] uppercase opacity-90 whitespace-nowrap">
+                    {profile.label}
+                </span>
+            </div>
+
+            {/* subtle vignette at top to fade the scene */}
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-black/45 to-transparent" />
+
+            {/* speed controls — flank the MPH readout.
+                Vertically centered within the area above the horizon (top ~39% of
+                the viewBox), using container queries for proportional scaling. */}
+            <div
+                className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center select-none pointer-events-none @container"
+                style={{ top: '19%', width: '100%' }}
+            >
+                <div className="flex items-center gap-[clamp(10px,3cqw,24px)]">
+                    <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); adjustSpeed(-limits.step); }}
+                        disabled={speed <= limits.min}
+                        aria-label={`Decrease simulation speed (${unit})`}
+                        className="pointer-events-auto h-[8cqw] w-[8cqw] min-h-[24px] min-w-[24px] rounded-full bg-white/10 hover:bg-white/25 active:bg-white/35 backdrop-blur-md text-white text-[5cqw] font-bold leading-none flex items-center justify-center transition-all duration-200 disabled:opacity-20 disabled:cursor-not-allowed hover:scale-110 active:scale-95 border border-white/5 shadow-lg"
+                    >
+                        −
+                    </button>
+
+                    <div
+                        ref={speedTextRef}
+                        className="flex flex-col items-center leading-none w-[20cqw] min-w-[68px]"
+                    >
+                        <span className="text-[clamp(28px,11cqw,64px)] font-bold text-white tracking-tighter tabular-nums">
+                            {speed}
+                        </span>
+                        <span className="text-[clamp(8px,3.2cqw,16px)] font-semibold text-white/70 tracking-[0.25em] -mt-[0.5cqw]">
+                            {unit.toUpperCase()}
+                        </span>
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); adjustSpeed(limits.step); }}
+                        disabled={speed >= limits.max}
+                        aria-label={`Increase simulation speed (${unit})`}
+                        className="pointer-events-auto h-[8cqw] w-[8cqw] min-h-[24px] min-w-[24px] rounded-full bg-white/10 hover:bg-white/25 active:bg-white/35 backdrop-blur-md text-white text-[5cqw] font-bold leading-none flex items-center justify-center transition-all duration-200 disabled:opacity-20 disabled:cursor-not-allowed hover:scale-110 active:scale-95 border border-white/5 shadow-lg"
+                    >
+                        +
+                    </button>
+                </div>
             </div>
         </div>
     );
