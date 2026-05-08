@@ -302,27 +302,44 @@ export default function ModelLibrary() {
 
     // Hash-based scroll anchoring for shared model links
     useEffect(() => {
+        let highlightTimer: ReturnType<typeof setTimeout> | undefined;
+        let scrollTimer: ReturnType<typeof setTimeout> | undefined;
+        let highlightedEl: HTMLElement | null = null;
+
         const handleHashChange = () => {
             const hash = window.location.hash;
-            if (hash) {
-                const modelName = decodeURIComponent(hash.slice(1));
-                // Switch to "All Models" so the target card is rendered
-                setActiveCategory('all');
-                // Delay to allow the grid to render
-                setTimeout(() => {
-                    const el = document.getElementById(modelName);
-                    if (el) {
-                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        el.classList.add('ring-2', 'ring-cyan-500/70');
-                        setTimeout(() => el.classList.remove('ring-2', 'ring-cyan-500/70'), 3000);
-                    }
-                }, 300);
+            if (!hash || hash.length < 2) return;
+
+            let modelName: string;
+            try {
+                modelName = decodeURIComponent(hash.slice(1));
+            } catch {
+                return;
             }
+
+            setActiveCategory('all');
+
+            scrollTimer = setTimeout(() => {
+                const el = document.getElementById(modelName);
+                if (!el) return;
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                el.classList.add('ring-2', 'ring-cyan-500/70');
+                highlightedEl = el;
+                highlightTimer = setTimeout(() => {
+                    highlightedEl?.classList.remove('ring-2', 'ring-cyan-500/70');
+                    highlightedEl = null;
+                }, 3000);
+            }, 300);
         };
 
         handleHashChange();
         window.addEventListener('hashchange', handleHashChange);
-        return () => window.removeEventListener('hashchange', handleHashChange);
+        return () => {
+            window.removeEventListener('hashchange', handleHashChange);
+            if (scrollTimer) clearTimeout(scrollTimer);
+            if (highlightTimer) clearTimeout(highlightTimer);
+            highlightedEl?.classList.remove('ring-2', 'ring-cyan-500/70');
+        };
     }, []);
 
     const [sortBy, setSortBy] = useState<string>('date-desc');
@@ -772,19 +789,19 @@ export default function ModelLibrary() {
                                 </div>
                             </motion.div>
                         ) : (
-                            <div key="grid-view" className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-2">
+                            <motion.div
+                                key="grid-view"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-2"
+                            >
                                 {activeModels.map((model) => (
-                                    <motion.div
-                                        key={model.name}
-                                        className="h-full"
-                                    >
-                                        <ModelCard
-                                            model={model}
-
-                                        />
-                                    </motion.div>
+                                    <div key={model.name} className="h-full">
+                                        <ModelCard model={model} />
+                                    </div>
                                 ))}
-                            </div>
+                            </motion.div>
                         )}
                     </AnimatePresence>
                 ) : (

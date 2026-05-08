@@ -78,7 +78,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-sans antialiased pb-20 md:pb-0 overflow-x-hidden">
+      <body className="font-sans antialiased pb-20 md:pb-0 overflow-x-hidden" suppressHydrationWarning>
         <LanguageProvider>
           {children}
           <GlobalControls />

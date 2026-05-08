@@ -221,6 +221,18 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
 
     const [isVisible, setIsVisible] = useState(false);
     const [reduceMotion, setReduceMotion] = useState(false);
+    const [speed, setSpeed] = useState(profile.speed);
+
+    // Keep displayed speed in sync when the underlying model/profile changes
+    useEffect(() => {
+        setSpeed(profile.speed);
+    }, [profile.speed]);
+
+    const SPEED_STEP = 5;
+    const SPEED_MIN = 5;
+    const SPEED_MAX = 120;
+    const adjustSpeed = (delta: number) =>
+        setSpeed((s) => Math.max(SPEED_MIN, Math.min(SPEED_MAX, s + delta)));
 
     // Detect reduced motion
     useEffect(() => {
@@ -432,7 +444,7 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
             const dt = Math.min(0.05, (now - lastNow) / 1000);
             lastNow = now;
 
-            const worldSpeed = 2.0 + (profile.speed / 70) * 5.5;
+            const worldSpeed = 2.0 + (speed / 70) * 5.5;
             carZ += worldSpeed * dt;
 
             const tipD = yFracToDepth(TIP_YFRAC);
@@ -478,19 +490,19 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
 
         raf = requestAnimationFrame(tick);
         return () => cancelAnimationFrame(raf);
-    }, [isVisible, reduceMotion, profile, seed]);
+    }, [isVisible, reduceMotion, profile, seed, speed]);
 
     return (
         <div
             ref={containerRef}
             className="relative w-full overflow-hidden rounded-lg bg-slate-950"
             style={{ aspectRatio: '16 / 9' }}
-            aria-hidden="true"
         >
             <svg
                 viewBox={`0 0 ${VB_W} ${VB_H}`}
                 className="absolute inset-0 w-full h-full"
                 preserveAspectRatio="xMidYMid slice"
+                aria-hidden="true"
             >
                 <defs>
                     <linearGradient id={`bg-${seed}`} x1="0" y1="0" x2="0" y2="1">
@@ -535,7 +547,7 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
                         fontFamily="system-ui, -apple-system, sans-serif"
                         style={{ paintOrder: 'stroke' }}
                     >
-                        {profile.speed}
+                        {speed}
                     </text>
                     <text
                         x={VB_W / 2}
@@ -586,6 +598,33 @@ export default function DriveSimulation({ profile, seedKey }: Props) {
 
             {/* subtle vignette at top to fade the scene */}
             <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-black/40 to-transparent" />
+
+            {/* speed controls — flank the MPH readout */}
+            <div
+                className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-[14%] select-none"
+                style={{ top: '16%' }}
+            >
+                <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); adjustSpeed(-SPEED_STEP); }}
+                    disabled={speed <= SPEED_MIN}
+                    aria-label="Decrease simulation speed"
+                    className="h-7 w-7 rounded-full bg-white/10 hover:bg-white/25 active:bg-white/35 backdrop-blur-sm text-white text-base font-bold leading-none flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                    −
+                </button>
+                {/* spacer reserved for the SVG MPH text */}
+                <div aria-hidden="true" className="w-12" />
+                <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); adjustSpeed(SPEED_STEP); }}
+                    disabled={speed >= SPEED_MAX}
+                    aria-label="Increase simulation speed"
+                    className="h-7 w-7 rounded-full bg-white/10 hover:bg-white/25 active:bg-white/35 backdrop-blur-sm text-white text-base font-bold leading-none flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                    +
+                </button>
+            </div>
         </div>
     );
 }
