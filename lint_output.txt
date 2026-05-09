@@ -1,0 +1,70 @@
+
+> sunnylink-wiki@0.1.0 lint
+> eslint
+
+
+/Users/vinhle/Documents/dev/sunnylink-wiki-3/sunnylink-wiki/app/wizard/page.tsx
+  3:8  warning  'ExitWizardButton' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/vinhle/Documents/dev/sunnylink-wiki-3/sunnylink-wiki/components/CategorySidebarButton.tsx
+  11:58  warning  'isSticky' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/vinhle/Documents/dev/sunnylink-wiki-3/sunnylink-wiki/components/ConfigWizard.tsx
+    5:30   warning  'X' is defined but never used                                    @typescript-eslint/no-unused-vars
+    5:33   warning  'CheckCircle2' is defined but never used                         @typescript-eslint/no-unused-vars
+    5:47   warning  'Download' is defined but never used                             @typescript-eslint/no-unused-vars
+  159:65   error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  159:102  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  361:23   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/Users/vinhle/Documents/dev/sunnylink-wiki-3/sunnylink-wiki/components/Header.tsx
+  3:8  warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/vinhle/Documents/dev/sunnylink-wiki-3/sunnylink-wiki/components/LanguageSwitcher.tsx
+  41:68  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  42:28  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/vinhle/Documents/dev/sunnylink-wiki-3/sunnylink-wiki/components/MobileCategorySidebar.tsx
+  34:10  warning  'SunnyTuneIcon' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/vinhle/Documents/dev/sunnylink-wiki-3/sunnylink-wiki/components/ModelLibrary (1).tsx
+    3:29  warning  'useRef' is defined but never used                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+  326:8   warning  React Hook useMemo has a missing dependency: 'rawCategories'. Either include it or remove the dependency array                                                                                                                        react-hooks/exhaustive-deps
+  331:11  warning  The 'baseModels' conditional could make the dependencies of useMemo Hook (at line 348) change on every render. Move it inside the useMemo callback. Alternatively, wrap the initialization of 'baseModels' in its own useMemo() Hook  react-hooks/exhaustive-deps
+  575:78  error    Unexpected any. Specify a different type                                                                                                                                                                                              @typescript-eslint/no-explicit-any
+
+/Users/vinhle/Documents/dev/sunnylink-wiki-3/sunnylink-wiki/components/ModelLibrary.tsx
+  439:8   warning  React Hook useMemo has a missing dependency: 'RECOMMENDED_BADGES'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  722:78  error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+
+/Users/vinhle/Documents/dev/sunnylink-wiki-3/sunnylink-wiki/components/ToggleCard (1).tsx
+  74:3  warning  'unit' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/vinhle/Documents/dev/sunnylink-wiki-3/sunnylink-wiki/components/ToggleCard.tsx
+  77:3  warning  'unit' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/vinhle/Documents/dev/sunnylink-wiki-3/sunnylink-wiki/hooks/useFuzzySearch.ts
+   88:8   warning  React Hook useMemo has an unnecessary dependency: 'isLoaded'. Either exclude it or remove the dependency array                       react-hooks/exhaustive-deps
+  100:23  error    Unexpected any. Specify a different type                                                                                             @typescript-eslint/no-explicit-any
+  100:31  error    Unexpected any. Specify a different type                                                                                             @typescript-eslint/no-explicit-any
+  109:8   warning  React Hook useMemo has unnecessary dependencies: 'enrichedItems' and 'isLoaded'. Either exclude them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/vinhle/Documents/dev/sunnylink-wiki-3/sunnylink-wiki/mt-translate.mjs
+   73:21  warning  'key' is assigned a value but never used               @typescript-eslint/no-unused-vars
+  120:11  warning  'originalToggles' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  121:11  warning  'originalModels' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  122:11  warning  'originalFeatures' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/vinhle/Documents/dev/sunnylink-wiki-3/sunnylink-wiki/scripts/google-apps-script.js
+  16:10  warning  'doPost' is defined but never used  @typescript-eslint/no-unused-vars
+  54:10  warning  'doGet' is defined but never used   @typescript-eslint/no-unused-vars
+  54:16  warning  'e' is defined but never used       @typescript-eslint/no-unused-vars
+
+/Users/vinhle/Documents/dev/sunnylink-wiki-3/sunnylink-wiki/update_drive.ts
+   31:7  warning  'drawFrameOldStart' is assigned a value but never used     @typescript-eslint/no-unused-vars
+   32:7  warning  'drawFrameOldEnd' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  183:7  warning  'animateStateOldStart' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  184:7  warning  'animateStateOldEnd' is assigned a value but never used    @typescript-eslint/no-unused-vars
+
+✖ 35 problems (9 errors, 26 warnings)
+
