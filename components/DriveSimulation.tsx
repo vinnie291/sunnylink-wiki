@@ -32,6 +32,8 @@ export interface DrivingProfile {
     pathWidth: number;      // 0..1 (visual confidence)
     label: string;          // short personality tag
     rainbowMode?: boolean;  // when true the chosen-path fill cycles through hues
+    curveStyle: number;     // -1..1 (>0 hugs apex, <0 drifts wide)
+    scenarioKey: ScenarioKey;
 }
 
 export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
@@ -136,6 +138,22 @@ export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
     else if (tags.includes('Experimental') || tags.includes('Dev') || tags.includes('Early')) label = 'EXPERIMENTAL';
     else if (feel) label = feel.toUpperCase().split(' ')[0];
 
+    // --- curve style ---
+    // >0 = hugs apex (cuts inside the bend); <0 = drifts wide.
+    let curveStyle = 0.2;
+    if (tags.includes('Aggressive') || negs.includes('hugs turns tight') || pos.includes('tight curves')) {
+        curveStyle = 0.8;
+    } else if (tags.includes('Stable Benchmark') || feel === 'Stiff') {
+        curveStyle = 0.0;
+    } else if (negs.includes('wide turns') || negs.includes('understeer') || negs.includes('drifts')) {
+        curveStyle = -0.55;
+    } else if (feel === 'Ultra-Smooth' || feel === 'Confident') {
+        curveStyle = 0.35;
+    }
+
+    // --- scenario ---
+    const scenarioKey = pickScenarioKey(model.name, tags);
+
     return {
         speed,
         pathSmoothness: smoothness,
@@ -147,6 +165,8 @@ export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
         pathWidth,
         label,
         rainbowMode: false,
+        curveStyle,
+        scenarioKey,
     };
 }
 
@@ -205,29 +225,95 @@ function rng(seed: number) {
     };
 }
 
-// 10s scripted curvature in raw viewBox units. Built as:
-//   - C∞ smooth periodic baseline (multi-sine) → continuous highway-style drift
-//   - Gaussian "bumps" → distinct bend events of various radii
-// All bumps are wide (width ≥ 0.07) so the curves enter and exit gradually,
-// like real freeway/arterial geometry rather than tight switchbacks.
-function roadHeading(z: number) {
-    const LOOP_Z = 200;
-    const TAU = Math.PI * 2;
-    const p = (z % LOOP_Z) / LOOP_Z;
-    return 0.15 * Math.sin(TAU * p) + 0.1 * Math.sin(TAU * p * 2) + 0.05 * Math.sin(TAU * p * 3);
+// Driving scenarios — each is a periodic multi-sine with its own loop
+// length, speed scaling, and integration table. Different scenarios stress
+// different model behaviors (highway = gentle drift, curves = constant
+// steering, city = sharp kinks + lower top speed).
+const TAU = Math.PI * 2;
+
+export type ScenarioKey = 'highway' | 'curves' | 'city';
+
+interface Scenario {
+    key: ScenarioKey;
+    label: string;
+    loopZ: number;
+    speedMul: number;
+    heading: (z: number) => number;
+    x: (z: number) => number;
+    relativeX: (carZ: number, d: number) => number;
 }
 
-function roadX(z: number) {
-    const LOOP_Z = 200;
-    const TAU = Math.PI * 2;
-    const k1 = TAU / LOOP_Z;
-    const k2 = 2 * TAU / LOOP_Z;
-    const k3 = 3 * TAU / LOOP_Z;
-    return -0.15/k1 * Math.cos(k1 * z) - 0.1/k2 * Math.cos(k2 * z) - 0.05/k3 * Math.cos(k3 * z);
+function makeScenario(
+    key: ScenarioKey,
+    label: string,
+    loopZ: number,
+    speedMul: number,
+    deadzone: number,
+    harmonics: { n: number; amp: number }[],
+): Scenario {
+    const headingRaw = (z: number) => {
+        const p = (((z % loopZ) + loopZ) % loopZ) / loopZ;
+        return harmonics.reduce(
+            (acc, { n, amp }) => acc + amp * Math.sin(TAU * n * p),
+            0,
+        );
+    };
+    const heading = (z: number) => {
+        const raw = headingRaw(z);
+        if (Math.abs(raw) < deadzone) return 0;
+        return Math.sign(raw) * (Math.abs(raw) - deadzone);
+    };
+
+    // Trapezoid integration; the heading is odd-symmetric over its period
+    // so the integral closes to 0 → x() is itself periodic in loopZ.
+    const TABLE_SIZE = 4096;
+    const dz = loopZ / TABLE_SIZE;
+    const table = new Float32Array(TABLE_SIZE + 1);
+    let acc = 0;
+    table[0] = 0;
+    for (let i = 0; i < TABLE_SIZE; i++) {
+        acc += (heading(i * dz) + heading((i + 1) * dz)) * 0.5 * dz;
+        table[i + 1] = acc;
+    }
+    const x = (z: number) => {
+        const period = (((z % loopZ) + loopZ) % loopZ);
+        const idxF = period / dz;
+        const i0 = Math.floor(idxF);
+        const t = idxF - i0;
+        return table[i0] * (1 - t) + table[i0 + 1] * t;
+    };
+    const relativeX = (carZ: number, d: number) =>
+        x(carZ + d) - x(carZ) - d * heading(carZ);
+
+    return { key, label, loopZ, speedMul, heading, x, relativeX };
 }
 
-function relativeX(carZ: number, d: number) {
-    return roadX(carZ + d) - roadX(carZ) - d * roadHeading(carZ);
+const SCENARIOS: Record<ScenarioKey, Scenario> = {
+    highway: makeScenario('highway', 'HIGHWAY', 220, 1.0, 0.08, [
+        { n: 1, amp: 0.13 },
+        { n: 2, amp: 0.08 },
+        { n: 3, amp: 0.04 },
+    ]),
+    curves: makeScenario('curves', 'CURVES', 130, 0.85, 0.04, [
+        { n: 1, amp: 0.22 },
+        { n: 2, amp: 0.15 },
+        { n: 3, amp: 0.08 },
+    ]),
+    city: makeScenario('city', 'CITY', 110, 0.55, 0.03, [
+        { n: 1, amp: 0.08 },
+        { n: 3, amp: 0.18 },
+        { n: 5, amp: 0.10 },
+    ]),
+};
+
+function pickScenarioKey(name: string, tags: string[]): ScenarioKey {
+    if (tags.includes('City')) return 'city';
+    if (tags.includes('Curves')) return 'curves';
+    if (tags.includes('Highway')) return 'highway';
+    // Hash-based fallback so models without explicit road tags get variety
+    // (each model deterministically lands on one scenario).
+    const choices: ScenarioKey[] = ['highway', 'curves', 'city'];
+    return choices[hashSeed(name) % 3];
 }
 
 // View geometry — three-lane road. The car (trajectory) sits in the MIDDLE lane,
@@ -238,6 +324,13 @@ const HORIZON_Y = 88;
 const CAR_Y = VB_H;             // bottom edge
 const LANE_HALF_BOTTOM = 55;    // half of one lane's width at camera
 const LANE_HALF_TOP = 5;        // half of one lane's width
+
+// Car body half-width is 28 vbox units (see player-car SVG below); lane
+// half-width at the camera is 55. To keep the body visibly centred we
+// constrain the *target* to ±12 (well inside the lane) and hard-clamp
+// the actual position to ±18 to absorb any spring overshoot.
+const CAR_BOUND = 18;
+const CAR_SAFE_BOUND = 12;
 
 interface Props {
     profile: DrivingProfile;
@@ -257,6 +350,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
     const wheelRef = useRef<SVGGElement>(null);
     const speedTextRef = useRef<HTMLDivElement>(null);
     const rainbowGradientRef = useRef<SVGLinearGradientElement>(null);
+    const leadCarRef = useRef<SVGGElement>(null);
 
     const [isVisible, setIsVisible] = useState(false);
     const [reduceMotion, setReduceMotion] = useState(false);
@@ -272,9 +366,11 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
     const profileRef = useRef(profile);
     const speedRef = useRef(speed);
     const unitRef = useRef(unit);
+    const scenarioRef = useRef<Scenario>(SCENARIOS[profile.scenarioKey]);
     useEffect(() => { profileRef.current = profile; }, [profile]);
     useEffect(() => { speedRef.current = speed; }, [speed]);
     useEffect(() => { unitRef.current = unit; }, [unit]);
+    useEffect(() => { scenarioRef.current = SCENARIOS[profile.scenarioKey]; }, [profile.scenarioKey]);
 
     // Detect the user's preferred speed unit once on mount.
     useEffect(() => { setUnit(detectSpeedUnit()); }, []);
@@ -335,15 +431,17 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
         actualTipX: number,
         targetTipX: number,
         markerDepths: number[],
-        wheelAngle: number
+        wheelAngle: number,
+        carX: number,
     ) => {
         const profile = profileRef.current;
+        const scenario = scenarioRef.current;
         const STEPS = 24;
-            
+
             const getRoadCenterX = (yFrac: number) => {
-                if (yFrac >= 1) return VB_W / 2 - roadHeading(carZ) * 400;
+                if (yFrac >= 1) return VB_W / 2 - scenario.heading(carZ) * 400;
                 const d = yFracToDepth(yFrac);
-                const rx = relativeX(carZ, d);
+                const rx = scenario.relativeX(carZ, d);
                 return VB_W / 2 + (rx / (d + PERSPECTIVE_K)) * 400;
             };
 
@@ -378,8 +476,15 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
             roadFillRef.current?.setAttribute('d', fillD);
 
             const widthScale = profile.pathWidth;
+            // Path emanates from the car (depth 0) and curves up to the
+            // model's tip target. Quadratic ease-in keeps the line tangent
+            // to the car's heading at the bottom and bends toward the tip
+            // — so the painted path and the car are always visibly joined.
             const relativeTipX = targetTipX - actualTipX;
-            const arcDX = (yFrac: number) => relativeTipX * Math.pow(yFrac / TIP_YFRAC, 2);
+            const arcDX = (yFrac: number) => {
+                const t = yFrac / TIP_YFRAC;
+                return carX + (relativeTipX - carX) * Math.pow(t, 2);
+            };
             
             const pathHW = (yFrac: number) => {
                 const taper = PATH_WIDTH_BOTTOM + (PATH_WIDTH_TOP - PATH_WIDTH_BOTTOM) * yFrac;
@@ -476,9 +581,24 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
             }
 
             if (speedTextRef.current) {
-                const curvature = Math.abs(roadHeading(carZ));
+                const curvature = Math.abs(scenario.heading(carZ));
                 const alpha = Math.max(0.3, 0.9 - (curvature / 0.3) * 0.4);
                 speedTextRef.current.style.opacity = alpha.toFixed(2);
+            }
+
+            // Lead-car chevron — sits ahead of the (hidden) ego car at a depth driven
+            // by profile.followDistance. Shrinks via perspective and tracks the
+            // road's curvature so it stays in the centre lane around bends.
+            if (leadCarRef.current) {
+                const leadDepth = 1.5 + profile.followDistance * 7;
+                const leadYFrac = depthToYFrac(leadDepth);
+                const leadY = CAR_Y + (HORIZON_Y - CAR_Y) * leadYFrac;
+                const leadX = getRoadCenterX(leadYFrac);
+                const leadScale = Math.max(0.12, 1 - leadYFrac);
+                leadCarRef.current.setAttribute(
+                    'transform',
+                    `translate(${leadX.toFixed(2)} ${leadY.toFixed(2)}) scale(${leadScale.toFixed(3)})`
+                );
             }
 
             if (profile.rainbowMode && !disableRainbow && rainbowGradientRef.current) {
@@ -495,7 +615,8 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
         const initialDepths: number[] = [];
         for (let i = 0; i < 5; i++) initialDepths.push(1.5 + i * 3.5);
         const trajX = profile.laneOffset * 14;
-        drawFrame(0, 0, trajX, initialDepths, 0);
+        const restingCarX = profile.laneOffset * 14;
+        drawFrame(0, 0, trajX, initialDepths, 0, restingCarX);
     }, [isVisible, reduceMotion, profile, drawFrame]);
 
     // Animation loop — only restarts when seed (model) or visibility changes.
@@ -520,9 +641,12 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
         let perceivedTipX = 0;
         let perceivedWheelAngle = 0;
         let carZ = 0;
+        let carX = profileRef.current.laneOffset * 14;
+        let carVx = 0;
 
         const tick = (now: number) => {
             const profile = profileRef.current;
+            const scenario = scenarioRef.current;
             const speed = speedRef.current;
             // Animation calibration is in mph; convert if the UI is showing kph.
             const speedMph = unitRef.current === 'mph' ? speed : speed / MPH_TO_KPH;
@@ -531,23 +655,41 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
             const dt = Math.min(0.05, (now - lastNow) / 1000);
             lastNow = now;
 
-            const worldSpeed = 2.0 + (speedMph / 70) * 5.5;
+            // Scenario speedMul scales how fast the world flows past — city
+            // scenarios visually feel slower than highway at the same mph.
+            const worldSpeed = (2.0 + (speedMph / 70) * 5.5) * scenario.speedMul;
             carZ += worldSpeed * dt;
 
             const tipD = yFracToDepth(TIP_YFRAC);
-            const actualTipX = (relativeX(carZ, tipD) / (tipD + PERSPECTIVE_K)) * 400;
+            const actualTipX = (scenario.relativeX(carZ, tipD) / (tipD + PERSPECTIVE_K)) * 400;
 
             const trackRate = 0.7 + profile.pathSmoothness * 5.5;
             perceivedTipX = actualTipX + (perceivedTipX - actualTipX) * Math.exp(-trackRate * dt);
 
+            // Triangle-wave "ping-pong" wobble — feels like the car is being
+            // shoved off one lane line and torque-corrected back, instead of
+            // the gentle boat-rock of a sine sum. Frequency picks up with
+            // wobble amplitude (twitchy models bounce faster, not just wider).
+            // We still mix in two faint sine harmonics with the per-model
+            // phases so two twitchy models don't look identical.
             const tSec = now / 1000;
-            const wobbleAmp = profile.laneWobble * 14;
-            const wobble =
-                (Math.sin(tSec * 1.7 + phase1) * 0.5 +
-                 Math.sin(tSec * 3.3 + phase2) * 0.3 +
-                 Math.sin(tSec * 5.9 + phase3) * 0.2) * wobbleAmp;
+            const wobbleAmp = profile.laneWobble * 16;
+            const bounceFreq = 2.0 + profile.laneWobble * 3;
+            const triangle = Math.asin(Math.sin(tSec * bounceFreq + phase1)) / (Math.PI / 2);
+            const detune =
+                Math.sin(tSec * 3.3 + phase2) * 0.12 +
+                Math.sin(tSec * 5.9 + phase3) * 0.06;
+            const wobble = (triangle + detune) * wobbleAmp;
 
-            const offsetBias = profile.laneOffset * 14;
+            // Apex cutting: how aggressively the model bends inside the
+            // curve. curveStyle picks the *direction* (>0 cuts the apex,
+            // <0 drifts wide); reactionLag scales the *magnitude* — a
+            // sluggish model commits less to either behavior.
+            const currentCurvature = scenario.heading(carZ);
+            const apexCutOffset =
+                currentCurvature * profile.curveStyle * (1 - profile.reactionLag) * 30;
+
+            const offsetBias = profile.laneOffset * 14 + apexCutOffset;
 
             let targetTipX = perceivedTipX + offsetBias + wobble;
 
@@ -570,7 +712,30 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
                 if (markerDepths[i] < -1.0) markerDepths[i] += MAX_DEPTH;
             }
 
-            drawFrame(carZ, actualTipX, targetTipX, markerDepths, perceivedWheelAngle);
+            // The car follows the painted trajectory exactly: its target is
+            // the SAME (offsetBias + wobble) intent that drives the path tip,
+            // scaled down because the car sits at depth 0 (the path tip is
+            // at depth tipD, where the model's full intent is expressed).
+            // No independent curveStyle pull, no separate lookahead — just
+            // a scaled copy of the path's own signal, so the car cannot
+            // diverge from the painted line.
+            const rawTarget = (offsetBias + wobble) * 0.35;
+            const targetCarX = Math.max(-CAR_SAFE_BOUND, Math.min(CAR_SAFE_BOUND, rawTarget));
+
+            // Spring-damper. Smoother models track tightly (high damping),
+            // twitchy models overshoot (low damping → visible wobble pulses).
+            const stiffness = 6 + profile.pathSmoothness * 14;
+            const damping = 4 + profile.pathSmoothness * 8;
+            carVx += (targetCarX - carX) * stiffness * dt;
+            carVx *= Math.exp(-damping * dt);
+            carX += carVx * dt;
+
+            // Hard safety clamp at the lane wall — kicks in only if the
+            // spring overshoots its (already-clamped) target.
+            if (carX > CAR_BOUND) { carX = CAR_BOUND; carVx = Math.min(0, carVx); }
+            else if (carX < -CAR_BOUND) { carX = -CAR_BOUND; carVx = Math.max(0, carVx); }
+
+            drawFrame(carZ, actualTipX, targetTipX, markerDepths, perceivedWheelAngle, carX);
 
             raf = requestAnimationFrame(tick);
         };
@@ -598,6 +763,25 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
                         <stop offset="0%" stopColor="#0f172a" />
                         <stop offset="60%" stopColor="#020617" />
                     </linearGradient>
+
+                    {/* Horizon fade — opaque near the camera, transparent as we
+                        approach the horizon, so the chosen path and lane-keep
+                        lines no longer terminate in a hard flat edge.
+                        userSpaceOnUse so the stops are anchored to viewBox y. */}
+                    <linearGradient
+                        id={`path-fade-${seed}`}
+                        gradientUnits="userSpaceOnUse"
+                        x1="0" y1={CAR_Y}
+                        x2="0" y2={HORIZON_Y}
+                    >
+                        <stop offset="0%" stopColor="white" stopOpacity="1" />
+                        <stop offset="60%" stopColor="white" stopOpacity="1" />
+                        <stop offset="92%" stopColor="white" stopOpacity="0" />
+                        <stop offset="100%" stopColor="white" stopOpacity="0" />
+                    </linearGradient>
+                    <mask id={`fade-mask-${seed}`} maskUnits="userSpaceOnUse" x="0" y="0" width={VB_W} height={VB_H}>
+                        <rect x="0" y="0" width={VB_W} height={VB_H} fill={`url(#path-fade-${seed})`} />
+                    </mask>
                     <linearGradient 
                         id={`path-${seed}`} 
                         ref={rainbowGradientRef}
@@ -629,36 +813,58 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
                 <path ref={leftEdgeRef} d="M 35 225 L 185 88" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" />
                 <path ref={rightEdgeRef} d="M 365 225 L 215 88" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" />
 
-                {/* chosen path (model's decision — sits in the middle lane) */}
-                <path
-                    ref={chosenPathRef}
-                    d="M 170 225 L 197 104 L 203 104 L 230 225 Z"
-                    fill={isRainbowActive ? `url(#path-${seed})` : profile.pathColor}
-                    fillOpacity={isRainbowActive ? '1' : '0.4'}
-                    stroke="none"
-                />
+                {/* chosen path + lane-keep lines, grouped so a single horizon
+                    fade mask softly dissolves them as they approach the horizon. */}
+                <g mask={`url(#fade-mask-${seed})`}>
+                    {/* chosen path (model's decision — sits in the middle lane) */}
+                    <path
+                        ref={chosenPathRef}
+                        d="M 170 225 L 197 104 L 203 104 L 230 225 Z"
+                        fill={isRainbowActive ? `url(#path-${seed})` : profile.pathColor}
+                        fillOpacity={isRainbowActive ? '1' : '0.4'}
+                        stroke="none"
+                    />
 
-                {/* lane-keeping lines: solid colored strokes hugging the lane edges */}
-                <path
-                    ref={leftLaneKeepRef}
-                    d=""
-                    fill="none"
-                    stroke={profile.pathColor}
-                    strokeOpacity="0.9"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                />
-                <path
-                    ref={rightLaneKeepRef}
-                    d=""
-                    fill="none"
-                    stroke={profile.pathColor}
-                    strokeOpacity="0.9"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                />
+                    {/* lane-keeping lines: solid colored strokes hugging the lane edges */}
+                    <path
+                        ref={leftLaneKeepRef}
+                        d=""
+                        fill="none"
+                        stroke={profile.pathColor}
+                        strokeOpacity="0.9"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                    <path
+                        ref={rightLaneKeepRef}
+                        d=""
+                        fill="none"
+                        stroke={profile.pathColor}
+                        strokeOpacity="0.9"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                </g>
+
+                {/* Lead-car chevron — visualises followDistance.
+                    Positioned/scaled per-frame in drawFrame; starts fully
+                    collapsed so it doesn't flash on the first paint. */}
+                <g ref={leadCarRef} transform="translate(200 225) scale(0)" pointerEvents="none">
+                    <polygon
+                        points="-15,-10 15,-10 0,10"
+                        fill="#facc15"
+                        stroke="#854d0e"
+                        strokeWidth="1.5"
+                        strokeLinejoin="round"
+                    />
+                    <polygon
+                        points="-11,-15 11,-15 0,-5"
+                        fill="#facc15"
+                        opacity="0.55"
+                    />
+                </g>
 
                 {/* steering wheel (bottom-left) — rotates with the road's curvature */}
                 <g ref={wheelRef} transform={`translate(22 ${VB_H - 24})`}>
@@ -691,7 +897,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
                 </span>
             </div>
 
-            {/* subtle vignette at top to fade the scene */}
+{/* subtle vignette at top to fade the scene */}
             <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-black/45 to-transparent" />
 
             {/* speed controls — flank the MPH readout.

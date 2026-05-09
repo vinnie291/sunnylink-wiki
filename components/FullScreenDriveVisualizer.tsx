@@ -152,7 +152,7 @@ export default function FullScreenDriveVisualizer({ isOpen, onClose, models, ini
 
     return createPortal(
         <div className="fixed inset-0 z-[100] bg-slate-950 flex flex-col animate-in fade-in duration-150">
-            <header className="shrink-0 flex items-center gap-3 px-4 md:px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm">
+            <header className="relative z-30 shrink-0 flex items-center gap-3 px-4 md:px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm">
                 <span className="hidden sm:inline-flex items-center gap-2 text-xs uppercase tracking-wider text-slate-400 font-semibold">
                     <span aria-hidden>🛣️</span> Drive Visualizer
                 </span>
@@ -321,7 +321,7 @@ function ModelSearchCombobox({
                     id="visualizer-model-listbox"
                     role="listbox"
                     ref={listRef}
-                    className="absolute top-full left-0 right-0 mt-1 max-h-72 overflow-y-auto bg-slate-900 border border-slate-700 rounded-lg shadow-2xl z-20"
+                    className="absolute top-full left-0 right-0 mt-1 max-h-72 overflow-y-auto bg-slate-900 border border-slate-700 rounded-lg shadow-2xl z-50"
                 >
                     {results.length === 0 ? (
                         <div className="px-3 py-4 text-xs text-slate-500 text-center">No models match &ldquo;{query}&rdquo;</div>

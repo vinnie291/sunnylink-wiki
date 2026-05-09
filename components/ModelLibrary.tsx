@@ -295,6 +295,68 @@ function ModelCard({ model, onExpand }: { model: Model; onExpand?: (modelName: s
 }
 
 // Helper for Vibe Icons
+// Skeleton + lazy mount — keeps the model grid cheap while scrolling.
+// Each card mounts (and starts its DriveSimulation) only when it lands
+// within ~400px of the viewport, then fades in.
+function ModelCardSkeleton() {
+    return (
+        <div className="bg-slate-900/40 border border-slate-700/40 rounded-xl overflow-hidden h-full animate-pulse">
+            <div className="aspect-video bg-slate-800/50" />
+            <div className="p-4 space-y-3">
+                <div className="h-5 w-3/5 bg-slate-800 rounded" />
+                <div className="h-1.5 bg-slate-800 rounded" />
+                <div className="flex gap-2">
+                    <div className="h-5 w-14 bg-slate-800 rounded-full" />
+                    <div className="h-5 w-20 bg-slate-800 rounded-full" />
+                </div>
+                <div className="h-10 bg-slate-800/60 rounded" />
+                <div className="flex gap-2">
+                    <div className="h-7 w-24 bg-slate-800/60 rounded-lg" />
+                    <div className="h-7 w-20 bg-slate-800/60 rounded-lg" />
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function LazyModelCard({ children }: { children: React.ReactNode }) {
+    const [shown, setShown] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (shown) return;
+        const el = ref.current;
+        if (!el) return;
+        if (typeof IntersectionObserver === 'undefined') {
+            setShown(true);
+            return;
+        }
+        const io = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setShown(true);
+                    io.disconnect();
+                }
+            },
+            { rootMargin: '400px 0px', threshold: 0 },
+        );
+        io.observe(el);
+        return () => io.disconnect();
+    }, [shown]);
+
+    return (
+        <div ref={ref} className="h-full">
+            {shown ? (
+                <div className="h-full animate-in fade-in duration-300">
+                    {children}
+                </div>
+            ) : (
+                <ModelCardSkeleton />
+            )}
+        </div>
+    );
+}
+
 const getVibeIcon = (consensus?: string) => {
     switch (consensus?.toLowerCase()) {
         case 'aggressive': return '🚀';
@@ -823,7 +885,9 @@ export default function ModelLibrary() {
                             >
                                 {activeModels.map((model) => (
                                     <div key={model.name} className="h-full">
-                                        <ModelCard model={model} onExpand={setVisualizerModelName} />
+                                        <LazyModelCard>
+                                            <ModelCard model={model} onExpand={setVisualizerModelName} />
+                                        </LazyModelCard>
                                     </div>
                                 ))}
                             </motion.div>
