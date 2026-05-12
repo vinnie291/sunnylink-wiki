@@ -1,8 +1,8 @@
 {
     "appName": "Sunnylink Model Database",
     "version": "8.1",
-    "totalModels": 82,
-    "lastUpdated": "2026-04-11",
+    "totalModels": 85,
+    "lastUpdated": "2026-04-19",
     "vibeGuide": {
         "wmi_2026": {
             "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -47,10 +47,10 @@
         "opm": {
             "title": "The OPM Series (Off-Policy Models)",
             "subtitle": "Learning from Corrections",
-            "includes": "Off-Policy Model v5, Off-Policy Model v4, Off-Policy Model v3, Off-Policy Model v2, Off-Policy Model",
+            "includes": "OP Model 10 v3 (latest), OP Model 10 v2/v1, OP Model 7-9, Off-Policy Model v1-v5",
             "vibe": "These models use off-policy training — they learn from moments where the model's behavior differed from the human driver's corrections, rather than just cloning driving behavior. This allows them to learn more effectively from edge cases. They show improved highway centering and quicker lateral recentering compared to standard WMI models, though longitudinal control is still being refined.",
             "bestFor": "Highway-focused driving with improved lane centering.",
-            "recommendation": "Try Off-Policy Model v5 for the latest improvements. Be aware that low-speed performance and turns may vary by vehicle."
+            "recommendation": "OP Model 10 v3 is the current pick of the latest 10-series — v1 was rough, v2 fixed braking but stalled off the line, and v3 brought DEC-level acceleration back. Be aware that low-speed performance and turns may still vary by vehicle."
         }
     },
     "categories": [
@@ -236,6 +236,103 @@
             "description": "Latest End-to-End architecture. Understands 3D scenes, stop signs, and complex intersections.",
             "icon": "🚀",
             "models": [
+                {
+                    "name": "OP Model 10 v3",
+                    "date": "April 19, 2026",
+                    "badge": "NEW",
+                    "tags": [
+                        "Recommended",
+                        "Off-Policy",
+                        "Smooth"
+                    ],
+                    "communityScore": 80,
+                    "totalVotes": 5,
+                    "sentiment": {
+                        "great": 60,
+                        "good": 30,
+                        "ok": 10,
+                        "bad": 0
+                    },
+                    "consensus": "Strong rebound for the OP Model 10 line. Acceleration is reported as on par with DEC ('accelerates just as well') — a clear fix for v1/v2's sluggish off-the-line behavior. Early daily-driver impressions describe it as 'great' and the recommended pick across v1/v2/v3.",
+                    "note": "Referenced in the OP Model 9 thread as the supersession that received significantly better feedback. Recommended over v1 and v2.",
+                    "bestFor": "Daily / Experimental Mode",
+                    "steeringFeel": "Confident",
+                    "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v3-apr-19-2026/4690",
+                    "testedOn": [
+                        "2018 Corolla Sport"
+                    ],
+                    "positives": [
+                        "DEC-level acceleration in Experimental Mode",
+                        "Resolves v2's sluggish stops",
+                        "Reviewer plans to daily-drive it"
+                    ],
+                    "negatives": []
+                },
+                {
+                    "name": "OP Model 10 v2",
+                    "date": "April 18, 2026",
+                    "badge": "NEW",
+                    "tags": [
+                        "Experimental",
+                        "Off-Policy",
+                        "Smooth"
+                    ],
+                    "communityScore": 58,
+                    "totalVotes": 3,
+                    "sentiment": {
+                        "great": 0,
+                        "good": 50,
+                        "ok": 35,
+                        "bad": 15
+                    },
+                    "consensus": "Major step up from v1. Longitudinal feel is the highlight — the softest, most consistent braking the reviewer has felt in a while. Lateral still hugs left (fixable with camera offset) and the model remains slow to straighten the wheel after sharp turns.",
+                    "note": "Hugs-left can be mitigated with camera offset +0.05 to +0.10. Some lingering hesitation off the line and slow wheel return after corners.",
+                    "bestFor": "Comfort / Highway",
+                    "steeringFeel": "Smooth",
+                    "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v2-apr-18-2026/4657",
+                    "testedOn": [],
+                    "positives": [
+                        "Softest, most consistent braking in a while",
+                        "Solid longitudinal control",
+                        "Reaches cruise speed well"
+                    ],
+                    "negatives": [
+                        "Hesitant to accelerate from a stop",
+                        "Left-lane hugging",
+                        "Slow to straighten wheel after sharp turns"
+                    ]
+                },
+                {
+                    "name": "OP Model 10",
+                    "date": "April 17, 2026",
+                    "badge": "NEW",
+                    "tags": [
+                        "Experimental",
+                        "Off-Policy",
+                        "Twitchy",
+                        "Unstable"
+                    ],
+                    "communityScore": 22,
+                    "totalVotes": 4,
+                    "sentiment": {
+                        "great": 0,
+                        "good": 0,
+                        "ok": 10,
+                        "bad": 90
+                    },
+                    "consensus": "Initial release of the OP Model 10 line received strongly negative early feedback. Reviewers cite poor lateral control with late corrections that snap dramatically after the car has already left the lane line. No positives reported.",
+                    "note": "Quickly superseded by v2 and v3. Skip directly to v3 for the recommended option.",
+                    "bestFor": "Testing Only",
+                    "steeringFeel": "Twitchy",
+                    "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-apr-17-2026/4648",
+                    "testedOn": [],
+                    "positives": [],
+                    "negatives": [
+                        "Late lane corrections",
+                        "Dramatic hard snaps after leaving lane lines",
+                        "Frequently drives outside the painted lane"
+                    ]
+                },
                 {
                     "name": "OP Model 9",
                     "date": "April 10, 2026",
