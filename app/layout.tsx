@@ -6,6 +6,7 @@ import UniversalSearch from '@/components/UniversalSearch';
 import GlobalControls from '@/components/GlobalControls';
 import { LanguageProvider } from '@/lib/i18n';
 import WebMCP from '@/components/WebMCP';
+import SessionDonateModal from '@/components/SessionDonateModal';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -85,6 +86,7 @@ export default function RootLayout({
           <UniversalSearch />
           <BottomNav />
           <WebMCP />
+          <SessionDonateModal />
         </LanguageProvider>
       </body>
     </html>
