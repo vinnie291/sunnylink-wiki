@@ -169,11 +169,11 @@ export default function ModelsPage() {
             <div>
                 {/* SEO hero — server-rendered, so the H1 and intro paragraph
                     land in the initial HTML for crawlers. */}
-                <header className="mb-8 max-w-4xl">
-                    <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 leading-tight">
+                <header className="mb-8">
+                    <h1 className="text-xl md:text-2xl font-bold text-white mb-2 leading-tight">
                         openpilot Driving Models — Complete Database &amp; Comparison
                     </h1>
-                    <p className="text-slate-400 text-base leading-relaxed">
+                    <p className="text-slate-400 text-sm leading-relaxed">
                         Browse the most complete community-maintained list of <strong className="text-slate-200">openpilot driving models</strong> from <strong className="text-slate-200">comma.ai</strong> and <strong className="text-slate-200">sunnypilot</strong>. Compare {MODEL_COUNT}+ models — WMI V12, OP Model 10, Dark Souls, Tomb Raider, Off-Policy, Down to Ride and more — with community ratings, release dates, steering feel, and lane behavior. Visualize each model&rsquo;s driving personality in real time. Updated regularly with the latest end-to-end (E2E) releases.
                     </p>
                 </header>
@@ -185,16 +185,16 @@ export default function ModelsPage() {
                 {/* Long-form FAQ — visible content, matched 1:1 by the FAQPage
                     JSON-LD below so Google can render rich answer snippets. */}
                 <section className="mt-16 border-t border-slate-800 pt-10 max-w-4xl">
-                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                    <h2 className="text-xl md:text-2xl font-bold text-white mb-2">
                         About openpilot driving models
                     </h2>
-                    <p className="text-slate-400 text-sm mb-8">
+                    <p className="text-slate-400 text-xs mb-8">
                         Common questions about comma.ai openpilot, sunnypilot, and the model picker.
                     </p>
-                    <div className="space-y-7">
+                    <div className="space-y-6">
                         {FAQ.map((item) => (
                             <article key={item.q}>
-                                <h3 className="text-base md:text-lg font-semibold text-white mb-2">
+                                <h3 className="text-sm md:text-base font-semibold text-white mb-1.5">
                                     {item.q}
                                 </h3>
                                 <p className="text-slate-400 text-sm leading-relaxed">
