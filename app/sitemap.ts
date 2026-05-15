@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import modelsData from '@/data/models.json';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://www.sunnylink.wiki'; // Assuming deployment URL, should ideally be env var
+    const baseUrl = 'https://www.sunnylink.wiki';
 
     // Surface the dataset's actual lastUpdated so /models gets refreshed
     // in search-engine indexes whenever new openpilot models are added.
@@ -28,10 +28,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.8,
         },
         {
+            url: `${baseUrl}/cars`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.8,
+        },
+        {
             url: `${baseUrl}/wizard`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/quiz`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.6,
         },
         {
             url: `${baseUrl}/stats`,

@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
             userAgent: '*',
             allow: '/',
         },
-        sitemap: 'https://sunnylink-wiki.vercel.app/sitemap.xml',
+        sitemap: 'https://www.sunnylink.wiki/sitemap.xml',
     };
 }
