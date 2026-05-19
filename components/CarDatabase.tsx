@@ -18,6 +18,7 @@ import ViewToggle from './ViewToggle';
 import MobileCategorySidebar from './MobileCategorySidebar';
 import SidebarInlineControls from './SidebarInlineControls';
 import ScrollToTop from './ScrollToTop';
+import { BRAND_ICONS, DefaultCarIcon } from './icons/BrandIcons';
 
 const CategorySidebarButton = dynamic(() => import('./CategorySidebarButton'), { ssr: false });
 
@@ -103,12 +104,19 @@ export default function CarDatabase() {
 
         return CAR_MAKES
             .filter(make => counts[make] > 0)
-            .map(make => ({
-                id: make.toLowerCase(),
-                name: make,
-                icon: '🏢',
-                count: counts[make]
-            }));
+            .map(make => {
+                const IconComponent = BRAND_ICONS[make.toLowerCase()];
+                return {
+                    id: make.toLowerCase(),
+                    name: make,
+                    icon: IconComponent ? (
+                        <IconComponent className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
+                    ) : (
+                        <DefaultCarIcon className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
+                    ),
+                    count: counts[make]
+                };
+            });
     }, [vehicles]);
 
     const recommendedCount = useMemo(() => {
@@ -403,7 +411,19 @@ export default function CarDatabase() {
                             {searchQuery ? (
                                 <><span>🔍</span> {t('settings.searchResults') || 'Search Results'}</>
                             ) : selectedMake ? (
-                                <><span>🏢</span> {selectedMake}</>
+                                (() => {
+                                    const SelectedIcon = BRAND_ICONS[selectedMake.toLowerCase()];
+                                    return (
+                                        <>
+                                            {SelectedIcon ? (
+                                                <SelectedIcon className="w-6 h-6 text-white shrink-0" />
+                                            ) : (
+                                                <DefaultCarIcon className="w-6 h-6 text-white shrink-0" />
+                                            )}
+                                            {selectedMake}
+                                        </>
+                                    );
+                                })()
                             ) : (
                                 <><span>🚗</span> {t('cars.title') || 'Car Database'}</>
                             )}

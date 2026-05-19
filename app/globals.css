@@ -249,3 +249,18 @@ html {
 .discourse-content sup.footnote-ref {
   display: none;
 }
+
+/* ─── Uniform Brand Icons Overrides ─── */
+/* Overrides hardcoded inline fills/strokes in third-party brand SVGs to inherit currentColor dynamically */
+.brand-icon-svg [fill]:not([fill="none"]),
+.brand-icon-svg path:not([fill]):not([stroke]),
+.brand-icon-svg polygon:not([fill]):not([stroke]),
+.brand-icon-svg circle:not([fill]):not([stroke]),
+.brand-icon-svg rect:not([fill]):not([stroke]),
+.brand-icon-svg ellipse:not([fill]):not([stroke]) {
+  fill: currentColor !important;
+}
+
+.brand-icon-svg [stroke]:not([stroke="none"]) {
+  stroke: currentColor !important;
+}

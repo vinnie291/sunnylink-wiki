@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, ReactNode } from 'react';
 import { useLanguage } from '../lib/i18n';
 import { getFilterButtonClasses, getFilterBadgeClasses, type FilterVariant } from '../lib/filterStyles';
 
 interface Category {
     id: string;
     name: string;
-    icon: string;
+    icon: ReactNode;
     count?: number;
     description?: string;
     models?: unknown[];
