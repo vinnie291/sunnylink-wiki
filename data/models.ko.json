@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.1",
-  "totalModels": 82,
-  "lastUpdated": "2026-04-11",
+  "totalModels": 85,
+  "lastUpdated": "2026-04-19",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -47,7 +47,7 @@
     "opm": {
       "title": "The OPM Series (Off-Policy Models)",
       "subtitle": "Learning from Corrections",
-      "includes": "Off-Policy Model v5, Off-Policy Model v4, Off-Policy Model v3, Off-Policy Model v2, Off-Policy Model",
+      "includes": "OP Model 10 v3 (latest), OP Model 10 v2/v1, OP Model 7-9, Off-Policy Model v1-v5",
       "vibe": "이러한 모델은 정책 외 훈련을 사용합니다. 즉, 단순히 운전 행동을 복제하는 것이 아니라 모델의 행동이 인간 운전자의 수정 사항과 다른 순간부터 학습합니다. 이를 통해 극단적인 경우로부터 더 효과적으로 학습할 수 있습니다. 종방향 제어는 여전히 개선되고 있지만 표준 WMI 모델에 비해 개선된 고속도로 센터링과 더 빠른 측면 센터링을 보여줍니다.",
       "bestFor": "Highway-focused driving with improved lane centering.",
       "recommendation": "측면 제어의 최신 개선 사항을 보려면 Off-Policy Model v2를 사용해 보세요. 종단적(제동/가속) 동작은 WMI 모델과 다르게 느껴질 수 있습니다."
@@ -90,16 +90,16 @@
             "21 Hyundai Palisade"
           ],
           "positives": [
-            "저속에서의 덜컥거림 없음",
-            "탁월한 측면 제어",
-            "매우 부드러운 전환",
-            "E2E에서 속도 안정화",
-            "NNLC와 잘 작동함"
+            "No low-speed jerkiness",
+            "Excellent lateral control",
+            "Ultra-smooth transitions",
+            "Stabilizes speed in E2E",
+            "Works well with NNLC"
           ],
           "negatives": [
-            "늦은 제동 (실험적 롱)",
-            "코너를 빡빡하게 돔",
-            "앞차 없는 야간에 왼쪽으로 쏠림"
+            "Late braking (experimental long)",
+            "Hugs turns tight",
+            "Hugs left at night without lead car"
           ]
         },
         {
@@ -237,13 +237,110 @@
       "icon": "🚀",
       "models": [
         {
+          "name": "OP Model 10 v3",
+          "date": "April 19, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Recommended",
+            "Off-Policy",
+            "Smooth"
+          ],
+          "communityScore": 51,
+          "totalVotes": 21,
+          "sentiment": {
+            "great": 14,
+            "good": 34,
+            "ok": 19,
+            "bad": 33
+          },
+          "consensus": "Strong rebound for the OP Model 10 line. Acceleration is reported as on par with DEC ('accelerates just as well') — a clear fix for v1/v2's sluggish off-the-line behavior. Early daily-driver impressions describe it as 'great' and the recommended pick across v1/v2/v3.",
+          "note": "Referenced in the OP Model 9 thread as the supersession that received significantly better feedback. Recommended over v1 and v2.",
+          "bestFor": "Daily / Experimental Mode",
+          "steeringFeel": "Confident",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v3-apr-19-2026/4690",
+          "testedOn": [
+            "2018 Corolla Sport"
+          ],
+          "positives": [
+            "DEC-level acceleration in Experimental Mode",
+            "Resolves v2's sluggish stops",
+            "Reviewer plans to daily-drive it"
+          ],
+          "negatives": []
+        },
+        {
+          "name": "OP Model 10 v2",
+          "date": "April 18, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Off-Policy",
+            "Smooth"
+          ],
+          "communityScore": 30,
+          "totalVotes": 12,
+          "sentiment": {
+            "great": 8,
+            "good": 17,
+            "ok": 17,
+            "bad": 58
+          },
+          "consensus": "Major step up from v1. Longitudinal feel is the highlight — the softest, most consistent braking the reviewer has felt in a while. Lateral still hugs left (fixable with camera offset) and the model remains slow to straighten the wheel after sharp turns.",
+          "note": "Hugs-left can be mitigated with camera offset +0.05 to +0.10. Some lingering hesitation off the line and slow wheel return after corners.",
+          "bestFor": "Comfort / Highway",
+          "steeringFeel": "Smooth",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v2-apr-18-2026/4657",
+          "testedOn": [],
+          "positives": [
+            "Softest, most consistent braking in a while",
+            "Solid longitudinal control",
+            "Reaches cruise speed well"
+          ],
+          "negatives": [
+            "Hesitant to accelerate from a stop",
+            "Left-lane hugging",
+            "Slow to straighten wheel after sharp turns"
+          ]
+        },
+        {
+          "name": "OP Model 10",
+          "date": "April 17, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Off-Policy",
+            "Twitchy",
+            "Unstable"
+          ],
+          "communityScore": 15,
+          "totalVotes": 7,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 29,
+            "bad": 71
+          },
+          "consensus": "Initial release of the OP Model 10 line received strongly negative early feedback. Reviewers cite poor lateral control with late corrections that snap dramatically after the car has already left the lane line. No positives reported.",
+          "note": "Quickly superseded by v2 and v3. Skip directly to v3 for the recommended option.",
+          "bestFor": "Testing Only",
+          "steeringFeel": "Twitchy",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-apr-17-2026/4648",
+          "testedOn": [],
+          "positives": [],
+          "negatives": [
+            "Late lane corrections",
+            "Dramatic hard snaps after leaving lane lines",
+            "Frequently drives outside the painted lane"
+          ]
+        },
+        {
           "name": "OP Model 9",
           "date": "April 10, 2026",
           "badge": "NEW",
           "tags": [
-            "실험적",
+            "Experimental",
             "Off-Policy",
-            "끔찍함"
+            "Horrible"
           ],
           "communityScore": 6,
           "totalVotes": 9,
@@ -255,15 +352,15 @@
           },
           "consensus": "커뮤니티 피드백은 9명의 투표자로 압도적으로 부정적입니다. 44%가 '나쁨', 44%가 '끔찍함', 11%만 'Ok'로 평가했습니다. 사용자들은 이 모델이 '꽤 나쁘다'며 '제거/되돌리기'해야 한다고 보고합니다. 긍정적인 리뷰가 제출되지 않았습니다.",
           "note": "일상 주행에는 권장하지 않습니다. 훨씬 더 나은 피드백을 받은 OP Model 10 v3으로 대체되었습니다.",
-          "bestFor": "테스트 전용",
-          "steeringFeel": "불안정함",
+          "bestFor": "Testing Only",
+          "steeringFeel": "Twitchy",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-9-apr-10-2026/4478",
           "testedOn": [],
           "positives": [],
           "negatives": [
-            "불안정한 횡방향 제어",
-            "만장일치 부정적 피드백",
-            "이전 OP 모델 문제를 해결하지 못함"
+            "Unstable lateral control",
+            "Unanimously negative feedback",
+            "Does not resolve previous OP model issues"
           ]
         },
         {
@@ -1039,12 +1136,12 @@
             "2021 Camry XSE"
           ],
           "positives": [
-            "반응성 좋은 조향",
-            "신호등/표지판에서의 일관된 정지"
+            "Responsive steering",
+            "Consistent stopping for lights/signs"
           ],
           "negatives": [
-            "일부 차량에서 뚜렷한 왼쪽 쏠림",
-            "이유 없는 급제동 (롱 모드)"
+            "Pronounced left-hugging for some",
+            "Brakes hard for no reason (long mode)"
           ]
         },
         {
@@ -1070,12 +1167,12 @@
             "2021 Toyota RAV4 hybrid"
           ],
           "positives": [
-            "왼쪽 쏠림 방지 (CGWM과 달리)",
-            "신뢰할 수 있는 측면 제어"
+            "Avoids left-hugging found in CGWM",
+            "Trustworthy lateral"
           ],
           "negatives": [
-            "고속도로에서의 느린 흔들림 (느린 핑퐁)",
-            "고속 급코너에서의 오버스티어"
+            "Drunk driver look (slow ping-pong)",
+            "Oversteer on high-speed sharp corners"
           ],
           "note": "CGWM의 왼쪽 쏠림 문제를 피했지만, 고속에서의 급격한 코너링 시 오버스티어 경향이 있을 수 있습니다."
         },

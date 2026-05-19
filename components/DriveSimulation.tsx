@@ -34,6 +34,16 @@ export interface DrivingProfile {
     rainbowMode?: boolean;  // when true the chosen-path fill cycles through hues
     curveStyle: number;     // -1..1 (>0 hugs apex, <0 drifts wide)
     scenarioKey: ScenarioKey;
+    yoyoMode?: boolean;
+    octagonalMode?: boolean;
+    accelerationLag?: boolean;
+    lateBraking?: boolean;
+    creepMode?: 'creep' | 'fails_stop' | 'none';
+    stopSignStops?: boolean;
+    afraidOfGreen?: boolean;
+    slowWheelReturn?: boolean;
+    negatives?: string[];
+    positives?: string[];
 }
 
 export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
@@ -51,6 +61,10 @@ export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
     else if (tags.includes('Highway') || tags.includes('Curves')) speed = 65;
     if (tags.includes('Aggressive') || tags.includes('Fast Long')) speed = 75;
 
+    if (negs.includes('speeds aggressively') || negs.includes('aggressive speed')) {
+        speed = Math.min(100, speed + 10);
+    }
+
     // --- smoothness ---
     let smoothness = 0.7;
     if (feel === 'Ultra-Smooth') smoothness = 0.95;
@@ -66,6 +80,13 @@ export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
         smoothness *= 0.5;
     }
 
+    if (negs.includes('notchy') || consensus.includes('notchy') || negs.includes('jerkiness') || consensus.includes('jerkiness') || negs.includes('oscillations') || negs.includes('twitchy') || consensus.includes('twitchy')) {
+        smoothness = Math.min(smoothness, 0.3);
+    }
+    if (negs.includes('late lane corrections') || negs.includes('snaps') || negs.includes('hard snaps') || negs.includes('correction')) {
+        smoothness = 0.15;
+    }
+
     // --- wobble ---
     const badPct = model.sentiment?.bad ?? 0;
     let wobble = Math.min(0.55, badPct / 60);
@@ -78,6 +99,13 @@ export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
     if (feel === 'Twitchy' || feel === 'Volatile (Varies by Drop)') wobble = Math.max(wobble, 0.5);
     if (consensus.includes('wiggl') || consensus.includes('jerky') || consensus.includes('twitch')) {
         wobble = Math.max(wobble, 0.3);
+    }
+
+    if (negs.includes('ping-pong') || negs.includes('wobble') || negs.includes('oscillating') || negs.includes('oscillations') || negs.includes('twitchy') || negs.includes('ping-ponging') || negs.includes('motion sickness') || negs.includes('notchy') || negs.includes('jerkiness') || consensus.includes('ping-pong') || consensus.includes('oscillation') || consensus.includes('notchy')) {
+        wobble = Math.max(wobble, 0.65);
+    }
+    if (negs.includes('late lane corrections') || negs.includes('snaps') || negs.includes('hard snaps') || negs.includes('correction')) {
+        wobble = Math.max(wobble, 0.75);
     }
     
     // Super stable overrides
@@ -118,6 +146,13 @@ export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
     if (negs.includes('oversteer')) reactionLag = 0.15; 
     if (negs.includes('late braking') || negs.includes('lock out partway')) reactionLag = 0.8;
 
+    if (negs.includes('slow to straighten') || negs.includes('slow wheel return') || negs.includes('sluggish wheel return') || consensus.includes('slow to straighten') || consensus.includes('slow wheel return')) {
+        reactionLag = Math.max(reactionLag, 0.85);
+    }
+    if (negs.includes('late lane corrections') || negs.includes('snaps') || negs.includes('hard snaps') || negs.includes('correction')) {
+        reactionLag = Math.max(reactionLag, 0.85);
+    }
+
     // --- path width ---
     let pathWidth = 0.7;
     if (feel === 'Confident' || feel === 'Ultra-Smooth') pathWidth = 0.85;
@@ -154,6 +189,24 @@ export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
     // --- scenario ---
     const scenarioKey = pickScenarioKey(model.name, tags);
 
+    const negatives = model.negatives || [];
+    const positives = model.positives || [];
+    const yoyoMode = negs.includes('yoyo') || negs.includes('yo-yo');
+    const octagonalMode = negs.includes('octagonal') || negs.includes('jerky curve') || consensus.includes('octagonal');
+    const accelerationLag = negs.includes('hesitant to accelerate') || negs.includes('sluggish off-the-line') || consensus.includes('hesitant to accelerate');
+    const lateBraking = negs.includes('late braking') || negs.includes('lock out partway');
+    
+    let creepMode: 'creep' | 'fails_stop' | 'none' = 'none';
+    if (negs.includes('creeps at red') || negs.includes('creeps') || consensus.includes('creeps')) {
+        creepMode = 'creep';
+    } else if (negs.includes('fails to stay stopped') || consensus.includes('fails to stay stopped')) {
+        creepMode = 'fails_stop';
+    }
+    
+    const stopSignStops = pos.includes('stops for every stop') || pos.includes('stop sign') || consensus.includes('stop sign');
+    const afraidOfGreen = negs.includes('afraid of green') || negs.includes('green lights') || consensus.includes('afraid of green');
+    const slowWheelReturn = negs.includes('slow to straighten') || negs.includes('slow wheel return') || negs.includes('sluggish wheel return') || consensus.includes('slow to straighten') || consensus.includes('slow wheel return');
+
     return {
         speed,
         pathSmoothness: smoothness,
@@ -167,6 +220,16 @@ export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
         rainbowMode: false,
         curveStyle,
         scenarioKey,
+        yoyoMode,
+        octagonalMode,
+        accelerationLag,
+        lateBraking,
+        creepMode,
+        stopSignStops,
+        afraidOfGreen,
+        slowWheelReturn,
+        negatives,
+        positives,
     };
 }
 
@@ -336,9 +399,10 @@ interface Props {
     profile: DrivingProfile;
     seedKey: string; // model name (deterministic noise)
     disableRainbow?: boolean;
+    hideStatus?: boolean;
 }
 
-export default function DriveSimulation({ profile, seedKey, disableRainbow }: Props) {
+export default function DriveSimulation({ profile, seedKey, disableRainbow, hideStatus }: Props) {
     const containerRef = useRef<HTMLDivElement>(null);
     const leftEdgeRef = useRef<SVGPathElement>(null);
     const rightEdgeRef = useRef<SVGPathElement>(null);
@@ -351,6 +415,9 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
     const speedTextRef = useRef<HTMLDivElement>(null);
     const rainbowGradientRef = useRef<SVGLinearGradientElement>(null);
     const leadCarRef = useRef<SVGGElement>(null);
+    const intersectionGroupRef = useRef<SVGGElement>(null);
+    const speedValRef = useRef<HTMLSpanElement>(null);
+    const statusTextRef = useRef<HTMLSpanElement>(null);
 
     const [isVisible, setIsVisible] = useState(false);
     const [reduceMotion, setReduceMotion] = useState(false);
@@ -586,19 +653,108 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
                 speedTextRef.current.style.opacity = alpha.toFixed(2);
             }
 
-            // Lead-car chevron — sits ahead of the (hidden) ego car at a depth driven
-            // by profile.followDistance. Shrinks via perspective and tracks the
-            // road's curvature so it stays in the centre lane around bends.
+            // Lead-car chevron — visualises followDistance.
+            // Positioned/scaled per-frame in drawFrame; starts fully
+            // collapsed so it doesn't flash on the first paint.
             if (leadCarRef.current) {
-                const leadDepth = 1.5 + profile.followDistance * 7;
+                let followDistance = profile.followDistance;
+                if (profile.yoyoMode) {
+                    const fluctuation = Math.sin(carZ / 10) * 0.12;
+                    followDistance = Math.max(0.2, Math.min(0.95, followDistance + fluctuation));
+                }
+                const leadDepth = 1.5 + followDistance * 7;
                 const leadYFrac = depthToYFrac(leadDepth);
                 const leadY = CAR_Y + (HORIZON_Y - CAR_Y) * leadYFrac;
-                const leadX = getRoadCenterX(leadYFrac);
+        const leadX = getRoadCenterX(leadYFrac);
                 const leadScale = Math.max(0.12, 1 - leadYFrac);
                 leadCarRef.current.setAttribute(
                     'transform',
                     `translate(${leadX.toFixed(2)} ${leadY.toFixed(2)}) scale(${leadScale.toFixed(3)})`
                 );
+            }
+
+            if (intersectionGroupRef.current) {
+                let svg = '';
+                if (scenario.key === 'city') {
+                    const intersectionInterval = 120;
+                    const currentIntersectionZ = Math.floor(carZ / intersectionInterval) * intersectionInterval + intersectionInterval;
+                    const stopDistance = currentIntersectionZ - carZ;
+                    
+                    if (stopDistance > -1.2 && stopDistance < 45) {
+                        const yFrac = depthToYFrac(stopDistance);
+                        if (yFrac < 0.98) {
+                            const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
+                            const roadCenterX = getRoadCenterX(yFrac);
+                            const hw = laneHalfWidth(yFrac);
+                            const scale = (1.0 / Math.max(0.2, stopDistance + PERSPECTIVE_K)) * 2.2;
+                            
+                            const lx = roadCenterX - hw;
+                            const rx = roadCenterX + hw;
+                            const stopLineWidth = 4 * scale;
+                            svg += `<path d="M ${lx.toFixed(2)} ${y.toFixed(2)} L ${rx.toFixed(2)} ${y.toFixed(2)}" stroke="rgba(255,255,255,0.75)" stroke-width="${stopLineWidth.toFixed(2)}" stroke-linecap="square" />`;
+                            
+                            const poleX = roadCenterX + hw * 1.35;
+                            const poleTopY = y - 40 * scale;
+                            const poleWidth = 1.8 * scale;
+                            svg += `<line x1="${poleX.toFixed(2)}" y1="${y.toFixed(2)}" x2="${poleX.toFixed(2)}" y2="${poleTopY.toFixed(2)}" stroke="#64748b" stroke-width="${poleWidth.toFixed(2)}" />`;
+                            
+                            const intersectionId = Math.floor(currentIntersectionZ / intersectionInterval);
+                            const isStopSign = profile.stopSignStops ? true : (profile.afraidOfGreen || profile.creepMode !== 'none' ? false : (intersectionId % 2 === 0));
+                            
+                            if (isStopSign) {
+                                const r = 9 * scale;
+                                const pts: string[] = [];
+                                for (let a = 0; a < 8; a++) {
+                                    const angle = (a * Math.PI) / 4 + Math.PI / 8;
+                                    const px = poleX + r * Math.cos(angle);
+                                    const py = poleTopY + r * Math.sin(angle);
+                                    pts.push(`${px.toFixed(2)},${py.toFixed(2)}`);
+                                }
+                                svg += `<polygon points="${pts.join(' ')}" fill="#ef4444" stroke="white" stroke-width="${(0.8 * scale).toFixed(2)}" />`;
+                                svg += `<text x="${poleX.toFixed(2)}" y="${(poleTopY + 2.5 * scale).toFixed(2)}" fill="white" font-size="${(3.5 * scale).toFixed(2)}" font-weight="bold" font-family="sans-serif" text-anchor="middle">STOP</text>`;
+                            } else {
+                                const boxW = 7 * scale;
+                                const boxH = 18 * scale;
+                                const bx = poleX - boxW / 2;
+                                const by = poleTopY - boxH / 2;
+                                svg += `<rect x="${bx.toFixed(2)}" y="${by.toFixed(2)}" width="${boxW.toFixed(2)}" height="${boxH.toFixed(2)}" rx="${(1.5 * scale).toFixed(2)}" fill="#1e293b" stroke="#475569" stroke-width="${(0.6 * scale).toFixed(2)}" />`;
+                                
+                                let lightState: 'red' | 'yellow' | 'green' = 'red';
+                                if (profile.afraidOfGreen) {
+                                    lightState = 'green';
+                                } else if (profile.creepMode !== 'none') {
+                                    lightState = 'red';
+                                } else {
+                                    if (stopDistance < 18) {
+                                        lightState = 'green';
+                                    } else if (stopDistance < 24) {
+                                        lightState = 'yellow';
+                                    } else {
+                                        lightState = 'red';
+                                    }
+                                }
+                                
+                                const r = 2.0 * scale;
+                                const cyRed = poleTopY - 4.5 * scale;
+                                const cyYellow = poleTopY;
+                                const cyGreen = poleTopY + 4.5 * scale;
+                                
+                                const redColor = lightState === 'red' ? '#ef4444' : '#450a0a';
+                                const yellowColor = lightState === 'yellow' ? '#facc15' : '#422006';
+                                const greenColor = lightState === 'green' ? '#22c55e' : '#062f14';
+                                
+                                const redGlow = lightState === 'red' ? `style="filter: drop-shadow(0 0 ${4*scale}px #ef4444)"` : '';
+                                const yellowGlow = lightState === 'yellow' ? `style="filter: drop-shadow(0 0 ${4*scale}px #facc15)"` : '';
+                                const greenGlow = lightState === 'green' ? `style="filter: drop-shadow(0 0 ${4*scale}px #22c55e)"` : '';
+                                
+                                svg += `<circle cx="${poleX.toFixed(2)}" cy="${cyRed.toFixed(2)}" r="${r.toFixed(2)}" fill="${redColor}" ${redGlow} />`;
+                                svg += `<circle cx="${poleX.toFixed(2)}" cy="${cyYellow.toFixed(2)}" r="${r.toFixed(2)}" fill="${yellowColor}" ${yellowGlow} />`;
+                                svg += `<circle cx="${poleX.toFixed(2)}" cy="${cyGreen.toFixed(2)}" r="${r.toFixed(2)}" fill="${greenColor}" ${greenGlow} />`;
+                            }
+                        }
+                    }
+                }
+                intersectionGroupRef.current.innerHTML = svg;
             }
 
             if (profile.rainbowMode && !disableRainbow && rainbowGradientRef.current) {
@@ -643,6 +799,10 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
         let carZ = 0;
         let carX = profileRef.current.laneOffset * 14;
         let carVx = 0;
+        let currentSpeedMph = unitRef.current === 'mph' ? speedRef.current : speedRef.current / MPH_TO_KPH;
+        let stopTime = 0;
+        let snapTimer = 0;
+        let snapDirection = 0; // -1 for left snap, 1 for right snap, 0 for none
 
         const tick = (now: number) => {
             const profile = profileRef.current;
@@ -655,9 +815,130 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
             const dt = Math.min(0.05, (now - lastNow) / 1000);
             lastNow = now;
 
+            let targetSpeedMph = speedMph;
+            let currentStatus = "SYSTEM ACTIVE";
+            let statusColor = "#34d399"; // emerald-400
+
+            if (scenario.key === 'city') {
+                const intersectionInterval = 120;
+                const currentIntersectionZ = Math.floor(carZ / intersectionInterval) * intersectionInterval + intersectionInterval;
+                const stopDistance = currentIntersectionZ - carZ;
+                const dToStop = stopDistance - 4.5;
+                
+                const intersectionId = Math.floor(currentIntersectionZ / intersectionInterval);
+                const isStopSign = profile.stopSignStops ? true : (profile.afraidOfGreen || profile.creepMode !== 'none' ? false : (intersectionId % 2 === 0));
+                
+                let lightState: 'red' | 'yellow' | 'green' = 'red';
+                if (profile.afraidOfGreen) {
+                    lightState = 'green';
+                } else if (profile.creepMode !== 'none') {
+                    lightState = 'red';
+                } else {
+                    if (stopDistance < 18) {
+                        lightState = 'green';
+                    } else if (stopDistance < 24) {
+                        lightState = 'yellow';
+                    } else {
+                        lightState = 'red';
+                    }
+                }
+                
+                if (isStopSign || lightState === 'red') {
+                    if (dToStop > 0) {
+                        let decel = 1.0;
+                        if (profile.lateBraking) {
+                            decel = Math.min(1.0, Math.pow(dToStop / 18, 2));
+                        } else if (profile.pathSmoothness < 0.4) {
+                            decel = Math.min(1.0, dToStop / 40);
+                        } else {
+                            decel = Math.min(1.0, dToStop / 30);
+                        }
+                        targetSpeedMph = Math.min(targetSpeedMph, speedMph * decel);
+                        stopTime = 0;
+                        
+                        if (isStopSign) {
+                            currentStatus = "🛑 APPROACHING STOP SIGN";
+                            statusColor = "#f87171"; // red-400
+                        } else {
+                            currentStatus = "🔴 APPROACHING RED LIGHT";
+                            statusColor = "#f87171"; // red-400
+                        }
+                    } else {
+                        stopTime += dt;
+                        if (profile.creepMode === 'creep') {
+                            targetSpeedMph = 2.5;
+                            currentStatus = "🐌 CREEPING AT RED";
+                            statusColor = "#fbbf24"; // amber-400
+                        } else if (profile.creepMode === 'fails_stop') {
+                            if (stopTime > 1.0) {
+                                targetSpeedMph = 4.0;
+                                currentStatus = "🚨 FAILING TO STAY STOPPED";
+                                statusColor = "#ef4444"; // red-500
+                            } else {
+                                targetSpeedMph = 0.0;
+                                currentStatus = "🛑 STOPPED AT RED LIGHT";
+                                statusColor = "#ef4444"; // red-500
+                            }
+                        } else if (isStopSign) {
+                            if (stopTime > 1.8) {
+                                targetSpeedMph = speedMph;
+                                currentStatus = "🟢 RECOVERING SPEED";
+                                statusColor = "#34d399"; // emerald-400
+                            } else {
+                                targetSpeedMph = 0.0;
+                                currentStatus = "🛑 STOPPED AT STOP SIGN";
+                                statusColor = "#ef4444"; // red-500
+                            }
+                        } else {
+                            if (stopTime > 2.0) {
+                                targetSpeedMph = speedMph;
+                                currentStatus = "🟢 RECOVERING SPEED";
+                                statusColor = "#34d399"; // emerald-400
+                            } else {
+                                targetSpeedMph = 0.0;
+                                currentStatus = "🛑 STOPPED AT RED LIGHT";
+                                statusColor = "#ef4444"; // red-500
+                            }
+                        }
+                    }
+                } else if (lightState === 'green' && profile.afraidOfGreen) {
+                    if (dToStop > 0 && dToStop < 22) {
+                        targetSpeedMph = Math.min(targetSpeedMph, 11.0);
+                        currentStatus = "⚠️ HESITATING AT GREEN";
+                        statusColor = "#fbbf24"; // amber-400
+                    } else {
+                        targetSpeedMph = speedMph;
+                    }
+                }
+            }
+
+            // Implement speed fluctuations in yoyoMode trailing a lead car
+            if (profile.yoyoMode && currentStatus === "SYSTEM ACTIVE") {
+                // Sinusoidal speed fluctuation: simulate dynamic acceleration/deceleration overcorrecting
+                const fluctuation = Math.sin(carZ / 12) * (speedMph * 0.12);
+                targetSpeedMph += fluctuation;
+                currentStatus = "🔄 YOYO FOLLOWING";
+                statusColor = "#22d3ee"; // cyan-400
+            }
+
+            // Smooth speed transitions
+            if (targetSpeedMph > currentSpeedMph) {
+                const accelRate = profile.accelerationLag ? 0.35 : 1.3;
+                currentSpeedMph += (targetSpeedMph - currentSpeedMph) * accelRate * dt;
+            } else if (targetSpeedMph < currentSpeedMph) {
+                const brakeRate = 2.5;
+                currentSpeedMph += (targetSpeedMph - currentSpeedMph) * brakeRate * dt;
+            }
+
+            // Update displayed speed text directly on DOM for high-performance fluid renders
+            const displayedSpeed = Math.round(unitRef.current === 'mph' ? currentSpeedMph : currentSpeedMph * MPH_TO_KPH);
+            if (speedValRef.current) {
+                speedValRef.current.textContent = String(displayedSpeed);
+            }
+
             // Scenario speedMul scales how fast the world flows past — city
             // scenarios visually feel slower than highway at the same mph.
-            const worldSpeed = (2.0 + (speedMph / 70) * 5.5) * scenario.speedMul;
+            const worldSpeed = (2.0 + (currentSpeedMph / 70) * 5.5) * scenario.speedMul;
             carZ += worldSpeed * dt;
 
             const tipD = yFracToDepth(TIP_YFRAC);
@@ -666,12 +947,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
             const trackRate = 0.7 + profile.pathSmoothness * 5.5;
             perceivedTipX = actualTipX + (perceivedTipX - actualTipX) * Math.exp(-trackRate * dt);
 
-            // Triangle-wave "ping-pong" wobble — feels like the car is being
-            // shoved off one lane line and torque-corrected back, instead of
-            // the gentle boat-rock of a sine sum. Frequency picks up with
-            // wobble amplitude (twitchy models bounce faster, not just wider).
-            // We still mix in two faint sine harmonics with the per-model
-            // phases so two twitchy models don't look identical.
+            // Triangle-wave "ping-pong" wobble
             const tSec = now / 1000;
             const wobbleAmp = profile.laneWobble * 16;
             const bounceFreq = 2.0 + profile.laneWobble * 3;
@@ -681,10 +957,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
                 Math.sin(tSec * 5.9 + phase3) * 0.06;
             const wobble = (triangle + detune) * wobbleAmp;
 
-            // Apex cutting: how aggressively the model bends inside the
-            // curve. curveStyle picks the *direction* (>0 cuts the apex,
-            // <0 drifts wide); reactionLag scales the *magnitude* — a
-            // sluggish model commits less to either behavior.
+            // Apex cutting
             const currentCurvature = scenario.heading(carZ);
             const apexCutOffset =
                 currentCurvature * profile.curveStyle * (1 - profile.reactionLag) * 30;
@@ -704,38 +977,92 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
             if (targetTipX < minTipX) targetTipX = minTipX;
             else if (targetTipX > maxTipX) targetTipX = maxTipX;
 
-            const targetWheelAngle = (actualTipX / 70) * 45;
-            perceivedWheelAngle = targetWheelAngle + (perceivedWheelAngle - targetWheelAngle) * Math.exp(-6 * dt);
+            // Steering Wheel Rotation depends on BOTH road curvature and lateral speed input (carVx)
+            const targetWheelAngle = (actualTipX / 70) * 45 + (carVx * 4.0);
+            
+            let returnRate = 6.0;
+            if (profile.slowWheelReturn) {
+                // If returning to center (wheel angle moving towards 0), slow it down drastically
+                const isReturning = Math.sign(targetWheelAngle) !== Math.sign(perceivedWheelAngle) || Math.abs(targetWheelAngle) < Math.abs(perceivedWheelAngle);
+                if (isReturning) {
+                    returnRate = 1.0; // very sluggish return!
+                }
+            }
+            perceivedWheelAngle = targetWheelAngle + (perceivedWheelAngle - targetWheelAngle) * Math.exp(-returnRate * dt);
+
+            let finalWheelAngle = perceivedWheelAngle;
+            if (profile.octagonalMode) {
+                finalWheelAngle = Math.round(perceivedWheelAngle / 8) * 8;
+                if (currentStatus === "SYSTEM ACTIVE" && Math.abs(finalWheelAngle) > 2) {
+                    currentStatus = "⚙️ NOTCHY STEERING";
+                    statusColor = "#818cf8"; // indigo-400
+                }
+            }
+
+            let finalTargetTipX = targetTipX;
+            if (profile.octagonalMode) {
+                finalTargetTipX = Math.round(targetTipX / 3.5) * 3.5;
+            }
 
             for (let i = 0; i < markerDepths.length; i++) {
                 markerDepths[i] -= worldSpeed * dt;
                 if (markerDepths[i] < -1.0) markerDepths[i] += MAX_DEPTH;
             }
 
-            // The car follows the painted trajectory exactly: its target is
-            // the SAME (offsetBias + wobble) intent that drives the path tip,
-            // scaled down because the car sits at depth 0 (the path tip is
-            // at depth tipD, where the model's full intent is expressed).
-            // No independent curveStyle pull, no separate lookahead — just
-            // a scaled copy of the path's own signal, so the car cannot
-            // diverge from the painted line.
             const rawTarget = (offsetBias + wobble) * 0.35;
-            const targetCarX = Math.max(-CAR_SAFE_BOUND, Math.min(CAR_SAFE_BOUND, rawTarget));
+            let targetCarX = Math.max(-CAR_SAFE_BOUND, Math.min(CAR_SAFE_BOUND, rawTarget));
 
-            // Spring-damper. Smoother models track tightly (high damping),
-            // twitchy models overshoot (low damping → visible wobble pulses).
-            const stiffness = 6 + profile.pathSmoothness * 14;
-            const damping = 4 + profile.pathSmoothness * 8;
+            // Implement realistic "late lane corrections / dramatic snaps" for unstable models
+            const isLateCorrectingModel = profile.pathSmoothness < 0.25;
+            let stiffness = 6 + profile.pathSmoothness * 14;
+            let damping = 4 + profile.pathSmoothness * 8;
+
+            if (isLateCorrectingModel) {
+                if (snapTimer > 0) {
+                    snapTimer -= dt;
+                    stiffness = 32; // extremely tight, fast snap-back
+                    damping = 10;   // high damping to arrest the velocity
+                    targetCarX = snapDirection * 7.5; // pull hard back in the opposite direction
+                    currentStatus = "🚨 CORRECTING SNAP";
+                    statusColor = "#ef4444"; // red-500
+                } else {
+                    // Drift phase: extremely low stiffness so the car wanders off center
+                    stiffness = 1.8;
+                    damping = 1.2;
+                    
+                    // If we drift too close to the lane edge, trigger a snap!
+                    if (Math.abs(carX) > 8.5) {
+                        snapTimer = 0.75; // snap-back duration of 0.75s
+                        snapDirection = -Math.sign(carX); // snap in the opposite direction
+                    } else if (Math.abs(carX) > 4.5) {
+                        currentStatus = "⚠️ DRIFTING OUT OF LANE";
+                        statusColor = "#fbbf24"; // amber-400
+                    }
+                }
+            }
+
             carVx += (targetCarX - carX) * stiffness * dt;
             carVx *= Math.exp(-damping * dt);
             carX += carVx * dt;
 
-            // Hard safety clamp at the lane wall — kicks in only if the
-            // spring overshoots its (already-clamped) target.
             if (carX > CAR_BOUND) { carX = CAR_BOUND; carVx = Math.min(0, carVx); }
             else if (carX < -CAR_BOUND) { carX = -CAR_BOUND; carVx = Math.max(0, carVx); }
 
-            drawFrame(carZ, actualTipX, targetTipX, markerDepths, perceivedWheelAngle, carX);
+            drawFrame(carZ, actualTipX, finalTargetTipX, markerDepths, finalWheelAngle, carX);
+
+            // Update dynamic status overlay
+            if (statusTextRef.current) {
+                statusTextRef.current.textContent = currentStatus;
+                statusTextRef.current.style.color = statusColor;
+                statusTextRef.current.style.borderColor = statusColor + "40"; // 25% opacity border matching the color
+                
+                // Add pulsing animation for warnings and critical snaps
+                if (currentStatus.startsWith("🚨") || currentStatus.startsWith("🔴") || currentStatus.startsWith("🛑")) {
+                    statusTextRef.current.style.animation = "pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite";
+                } else {
+                    statusTextRef.current.style.animation = "none";
+                }
+            }
 
             raf = requestAnimationFrame(tick);
         };
@@ -846,6 +1173,9 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
                         strokeLinecap="round"
                         strokeLinejoin="round"
                     />
+
+                    {/* 3D dynamic intersections (traffic lights, stop signs & lines) */}
+                    <g ref={intersectionGroupRef} />
                 </g>
 
                 {/* Lead-car chevron — visualises followDistance.
@@ -897,6 +1227,18 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
                 </span>
             </div>
 
+            {/* Dynamic Telemetry Status (top-right) */}
+            {!hideStatus && (
+                <div className="absolute right-[4%] top-[8%] select-none pointer-events-none max-w-[50%] truncate text-right">
+                    <span
+                        ref={statusTextRef}
+                        className="text-[clamp(8px,1.7cqw,12px)] font-bold tracking-[0.12em] uppercase px-2.5 py-1 rounded bg-slate-900/80 border border-white/10 text-emerald-400 shadow-md backdrop-blur-sm transition-all duration-300"
+                    >
+                        SYSTEM ACTIVE
+                    </span>
+                </div>
+            )}
+
 {/* subtle vignette at top to fade the scene */}
             <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-black/45 to-transparent" />
 
@@ -922,7 +1264,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow }: Pr
                         ref={speedTextRef}
                         className="flex flex-col items-center leading-none w-[20cqw] min-w-[68px]"
                     >
-                        <span className="text-[clamp(28px,11cqw,64px)] font-bold text-white tracking-tighter tabular-nums">
+                        <span ref={speedValRef} className="text-[clamp(28px,11cqw,64px)] font-bold text-white tracking-tighter tabular-nums">
                             {speed}
                         </span>
                         <span className="text-[clamp(8px,3.2cqw,16px)] font-semibold text-white/70 tracking-[0.25em] -mt-[0.5cqw]">

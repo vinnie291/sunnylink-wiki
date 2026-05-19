@@ -136,7 +136,7 @@ function ModelCard({ model, onExpand }: { model: Model; onExpand?: (modelName: s
         >
             {/* Animated drive simulation hero */}
             <div className="relative">
-                <DriveSimulation profile={profile} seedKey={model.name} disableRainbow={true} />
+                <DriveSimulation profile={profile} seedKey={model.name} disableRainbow={true} hideStatus={true} />
                 {onExpand && (
                     <button
                         type="button"
