@@ -2,6 +2,11 @@ import PageShell from '@/components/PageShell';
 import ModelLibrary from '@/components/ModelLibrary';
 import type { Metadata } from 'next';
 import modelsData from '@/data/models.json';
+import { fetchModelForumActivity, type ForumActivityMap } from '@/lib/discourse-models-sync';
+
+// Weekly sync of forum vote/comment activity onto each model card.
+// Pairs with the per-fetch revalidate inside lib/discourse-models-sync.
+export const revalidate = 60 * 60 * 24 * 7; // 7 days
 
 // ──────────────────────────────────────────────────────────────────────
 // SEO target: capture searches for "openpilot models" / "comma.ai
@@ -163,7 +168,24 @@ const webPageLd = {
     },
 };
 
-export default function ModelsPage() {
+function collectForumUrls(): string[] {
+    const urls: string[] = [];
+    for (const category of modelsData.categories as { models: { forumUrl?: string }[] }[]) {
+        for (const m of category.models) {
+            if (m.forumUrl) urls.push(m.forumUrl);
+        }
+    }
+    return urls;
+}
+
+export default async function ModelsPage() {
+    let forumActivity: ForumActivityMap = {};
+    try {
+        forumActivity = await fetchModelForumActivity(collectForumUrls());
+    } catch (err) {
+        console.error('[models page] forum activity fetch failed:', err);
+    }
+
     return (
         <PageShell>
             <div>
@@ -179,7 +201,7 @@ export default function ModelsPage() {
                 </header>
 
                 <section id="openpilot-models-library" aria-label="openpilot models database">
-                    <ModelLibrary />
+                    <ModelLibrary forumActivity={forumActivity} />
                 </section>
 
                 {/* Long-form FAQ — visible content, matched 1:1 by the FAQPage

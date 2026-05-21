@@ -16,6 +16,14 @@ import { useStickySearch } from '../hooks/useStickySearch';
 import { useDesktopSidebarSticky } from '../hooks/useDesktopSidebarSticky';
 import { useLanguage } from '../lib/i18n';
 import { useTranslatedModels } from '../lib/useTranslatedData';
+import type { ForumActivity, ForumActivityMap } from '../lib/discourse-models-sync';
+
+function extractTopicId(forumUrl: string): number | null {
+    const m = forumUrl.match(/\/t\/(?:[^/]+\/)?(\d+)(?:[/?#]|$)/);
+    if (!m) return null;
+    const id = Number(m[1]);
+    return Number.isFinite(id) ? id : null;
+}
 
 const CategorySidebarButton = dynamic(() => import('./CategorySidebarButton'), { ssr: false });
 
@@ -71,8 +79,85 @@ function SentimentBar({ sentiment }: { sentiment: SentimentData }) {
     );
 }
 
+function relativeTime(iso: string): string {
+    const then = new Date(iso).getTime();
+    if (!Number.isFinite(then)) return '';
+    const diff = Date.now() - then;
+    const mins = Math.round(diff / 60000);
+    if (mins < 60) return `${Math.max(1, mins)}m ago`;
+    const hrs = Math.round(mins / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    const days = Math.round(hrs / 24);
+    if (days < 30) return `${days}d ago`;
+    const months = Math.round(days / 30);
+    if (months < 12) return `${months}mo ago`;
+    return `${Math.round(months / 12)}y ago`;
+}
+
+function ForumActivityPanel({ activity, forumUrl }: { activity: ForumActivity; forumUrl: string }) {
+    return (
+        <div className="mt-3 pt-3 border-t border-slate-700/50">
+            <div className="flex items-center justify-between mb-2">
+                <p className="text-xs text-slate-500 flex items-center gap-3">
+                    <span className="inline-flex items-center gap-1" title="Likes on the original post (community votes)">
+                        <span aria-hidden>❤️</span>
+                        <span className="text-slate-300 font-medium">{activity.voteCount}</span>
+                        <span>votes</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                        <span aria-hidden>💬</span>
+                        <span className="text-slate-300 font-medium">{activity.replyCount}</span>
+                        <span>replies</span>
+                    </span>
+                    {activity.lastPostedAt && (
+                        <span className="hidden sm:inline">active {relativeTime(activity.lastPostedAt)}</span>
+                    )}
+                </p>
+                <span className="text-[10px] text-slate-600 uppercase tracking-wider">synced weekly</span>
+            </div>
+
+            {activity.recentComments.length > 0 && (
+                <ul className="space-y-2">
+                    {activity.recentComments.map((c) => (
+                        <li key={c.postNumber} className="text-xs">
+                            <a
+                                href={`${forumUrl.replace(/\/$/, '')}/${c.postNumber}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="block rounded-lg bg-slate-800/40 hover:bg-slate-800/70 border border-slate-700/40 px-2.5 py-2 transition-colors"
+                            >
+                                <div className="flex items-center gap-2 mb-0.5">
+                                    <span className="text-cyan-300 font-medium truncate">
+                                        @{c.username}
+                                    </span>
+                                    <span className="text-slate-500">{relativeTime(c.createdAt)}</span>
+                                    {c.likeCount > 0 && (
+                                        <span className="ml-auto text-slate-500">❤️ {c.likeCount}</span>
+                                    )}
+                                </div>
+                                <p className="text-slate-300 leading-snug line-clamp-2 break-words">
+                                    {c.snippet}
+                                </p>
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
+}
+
 // Model Card Component
-function ModelCard({ model, onExpand }: { model: Model; onExpand?: (modelName: string) => void }) {
+function ModelCard({
+    model,
+    onExpand,
+    forumActivity,
+}: {
+    model: Model;
+    onExpand?: (modelName: string) => void;
+    forumActivity?: ForumActivity;
+}) {
     const [copied, setCopied] = useState(false);
 
     const handleCopyLink = async (e: React.MouseEvent) => {
@@ -289,6 +374,12 @@ function ModelCard({ model, onExpand }: { model: Model; onExpand?: (modelName: s
                     </div>
                 </div>
             )}
+
+            {/* Forum activity — votes (OP likes) + most recent comments,
+                synced weekly from community.sunnypilot.ai. */}
+            {forumActivity && model.forumUrl && (
+                <ForumActivityPanel activity={forumActivity} forumUrl={model.forumUrl} />
+            )}
             </div>
         </div>
     );
@@ -367,7 +458,7 @@ const getVibeIcon = (consensus?: string) => {
     }
 };
 
-export default function ModelLibrary() {
+export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumActivityMap } = {}) {
     const [activeCategory, setActiveCategory] = useState<string>('all');
     const [showVibeGuide, setShowVibeGuide] = useState(false);
     const [showMobileCategories, setShowMobileCategories] = useState(false);
@@ -883,13 +974,17 @@ export default function ModelLibrary() {
                                 exit={{ opacity: 0 }}
                                 className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-2"
                             >
-                                {activeModels.map((model) => (
-                                    <div key={model.name} className="h-full">
-                                        <LazyModelCard>
-                                            <ModelCard model={model} onExpand={setVisualizerModelName} />
-                                        </LazyModelCard>
-                                    </div>
-                                ))}
+                                {activeModels.map((model) => {
+                                    const topicId = model.forumUrl ? extractTopicId(model.forumUrl) : null;
+                                    const activity = topicId && forumActivity ? forumActivity[topicId] : undefined;
+                                    return (
+                                        <div key={model.name} className="h-full">
+                                            <LazyModelCard>
+                                                <ModelCard model={model} onExpand={setVisualizerModelName} forumActivity={activity} />
+                                            </LazyModelCard>
+                                        </div>
+                                    );
+                                })}
                             </motion.div>
                         )}
                     </AnimatePresence>
