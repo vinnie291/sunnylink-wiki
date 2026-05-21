@@ -6,7 +6,7 @@ import { fetchModelForumActivity, type ForumActivityMap } from '@/lib/discourse-
 
 // Weekly sync of forum vote/comment activity onto each model card.
 // Pairs with the per-fetch revalidate inside lib/discourse-models-sync.
-export const revalidate = 60 * 60 * 24 * 7; // 7 days
+export const revalidate = 604800; // 7 days (604800 seconds)
 
 // ──────────────────────────────────────────────────────────────────────
 // SEO target: capture searches for "openpilot models" / "comma.ai
