@@ -146,6 +146,75 @@ const faqLd = {
     })),
 };
 
+// ItemList of every openpilot driving model as a SoftwareApplication,
+// with community AggregateRating where we have score + vote data.
+// Lets AI search surfaces (Google AI Overviews, Perplexity, ChatGPT
+// search) cite individual models with their community rating.
+type ModelEntry = {
+    name: string;
+    date?: string;
+    consensus?: string;
+    vibe?: string;
+    bestFor?: string;
+    badge?: string;
+    communityScore?: number;
+    totalVotes?: number;
+    forumUrl?: string;
+};
+
+const MODEL_LIST_LD = (() => {
+    const seen = new Map<string, ModelEntry>();
+    for (const category of modelsData.categories as { models: ModelEntry[] }[]) {
+        for (const m of category.models) {
+            if (!seen.has(m.name)) seen.set(m.name, m);
+        }
+    }
+    const items = Array.from(seen.values()).map((m, idx) => {
+        const description =
+            [m.consensus, m.vibe].filter(Boolean).join(' ').trim() ||
+            `${m.name} — openpilot driving model documented on Sunnylink Wiki.`;
+
+        const sw: Record<string, unknown> = {
+            '@type': 'SoftwareApplication',
+            name: m.name,
+            applicationCategory: 'DriverAssistanceApplication',
+            applicationSubCategory: 'openpilot driving model',
+            operatingSystem: 'sunnypilot, openpilot',
+            url: `${PAGE_URL}#${encodeURIComponent(m.name)}`,
+            description,
+            offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        };
+        if (m.date) sw.datePublished = m.date;
+        if (m.forumUrl) sw.sameAs = m.forumUrl;
+        if (m.badge) sw.award = m.badge;
+        if (typeof m.communityScore === 'number' && typeof m.totalVotes === 'number' && m.totalVotes > 0) {
+            sw.aggregateRating = {
+                '@type': 'AggregateRating',
+                ratingValue: m.communityScore,
+                bestRating: 100,
+                worstRating: 0,
+                ratingCount: m.totalVotes,
+            };
+        }
+        return {
+            '@type': 'ListItem',
+            position: idx + 1,
+            item: sw,
+        };
+    });
+
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        '@id': `${PAGE_URL}#models-list`,
+        name: 'openpilot Driving Models',
+        description:
+            'Complete list of openpilot, comma.ai, and sunnypilot driving models with community ratings and metadata.',
+        numberOfItems: items.length,
+        itemListElement: items,
+    };
+})();
+
 const webPageLd = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
@@ -238,6 +307,10 @@ export default async function ModelsPage() {
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }}
+                />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(MODEL_LIST_LD) }}
                 />
             </div>
         </PageShell>

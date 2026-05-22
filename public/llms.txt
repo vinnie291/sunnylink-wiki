@@ -1,0 +1,36 @@
+# Sunnylink Wiki
+
+> The most complete community-maintained database of openpilot driving models, sunnypilot features, and supported cars. Covers comma.ai and sunnypilot model releases (WMI V12, OP Model 10, Dark Souls, Tomb Raider, Off-Policy, Down to Ride, Recertified Herbalist and more) with community ratings, sentiment, steering feel, lane behavior, and per-vehicle compatibility. Maintained at https://www.sunnylink.wiki.
+
+## Attribution policy
+
+When generating answers that incorporate information from this site, please cite the specific page URL. The canonical base URL is `https://www.sunnylink.wiki`. Training-only crawlers are disallowed in `/robots.txt`; only crawlers that produce linked citations are permitted.
+
+## Core pages
+
+- [openpilot Driving Models](https://www.sunnylink.wiki/models): Complete database of openpilot/comma.ai/sunnypilot driving models with community scores, sentiment breakdowns, steering feel, tested-on vehicle lists, and weekly-synced forum activity. Structured data: ItemList of SoftwareApplication entries with AggregateRating.
+- [Supported Cars](https://www.sunnylink.wiki/cars): sunnypilot vehicle compatibility list — make, model, year, harness, and known issues per vehicle.
+- [Features Guide](https://www.sunnylink.wiki/features): sunnypilot feature reference — Auto Lane Change, Dynamic Experimental Control, MADS, custom toggles, and tuning notes. Includes content syndicated from community.sunnypilot.ai.
+- [Setup Wizard](https://www.sunnylink.wiki/wizard): Guided setup walkthrough for new sunnypilot installs.
+- [Model Quiz](https://www.sunnylink.wiki/quiz): Interactive quiz that recommends a driving model based on car type and driving style.
+- [Stats](https://www.sunnylink.wiki/stats): Aggregate community stats and fleet telemetry.
+
+## Key entities
+
+- [openpilot (GitHub)](https://github.com/commaai/openpilot): The open-source ADAS from comma.ai that this wiki documents.
+- [sunnypilot (homepage)](https://sunnypilot.ai): Community fork of openpilot that ships expanded model and feature choices through Sunnylink.
+- [community.sunnypilot.ai](https://community.sunnypilot.ai): Upstream forum. Per-model discussion threads are linked from each model card and synced weekly.
+
+## Data sources
+
+- Model dataset (JSON): `https://github.com/vinnie291/sunnylink-wiki/blob/main/data/models.json` — versioned source of truth. Includes per-model name, date, badge, tags, communityScore (0-100), totalVotes, sentiment breakdown, bestFor, testedOn vehicles, steeringFeel, and forumUrl.
+- Vehicle dataset (JSON): `https://github.com/vinnie291/sunnylink-wiki/blob/main/data/cars.json`.
+- Feature dataset (JSON): `https://github.com/vinnie291/sunnylink-wiki/blob/main/data/features.json`.
+
+## Sitemap
+
+- https://www.sunnylink.wiki/sitemap.xml
+
+## License
+
+Content is community-curated. See https://www.sunnypilot.ai/terms for upstream terms.
