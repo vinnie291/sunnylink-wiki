@@ -14,7 +14,7 @@ import FullScreenDriveVisualizer from './FullScreenDriveVisualizer';
 import { useViewMode } from '../hooks/useViewMode';
 import { useStickySearch } from '../hooks/useStickySearch';
 import { useDesktopSidebarSticky } from '../hooks/useDesktopSidebarSticky';
-import { useLanguage } from '../lib/i18n';
+import { useLanguage, Locale } from '../lib/i18n';
 import { useTranslatedModels } from '../lib/useTranslatedData';
 import type { ForumActivity, ForumActivityMap } from '../lib/discourse-models-sync';
 
@@ -34,6 +34,15 @@ interface SentimentData {
     bad: number;
 }
 
+interface SkillRatings {
+    lat: number;
+    stability: number;
+    turns: number;
+    long: number;
+    urban: number;
+    comfort: number;
+}
+
 interface Model {
     name: string;
     date: string;
@@ -49,6 +58,9 @@ interface Model {
     steeringFeel?: string;
     note?: string;
     forumUrl?: string;
+    positives?: string[];
+    negatives?: string[];
+    skillRatings?: SkillRatings;
 }
 
 interface ModelCategory {
@@ -79,6 +91,257 @@ function SentimentBar({ sentiment }: { sentiment: SentimentData }) {
     );
 }
 
+const SKILL_LABELS: Record<Locale, Record<keyof SkillRatings, string>> = {
+    en: {
+        lat: 'Lateral Control',
+        stability: 'Highway Stability',
+        turns: 'Curve & Turning',
+        long: 'Longitudinal Control',
+        urban: 'Urban Capability',
+        comfort: 'Passenger Comfort'
+    },
+    ko: {
+        lat: '측면 제어',
+        stability: '고속도로 안정성',
+        turns: '곡선 및 회전',
+        long: '종방향 제어',
+        urban: '도심 주행 능력',
+        comfort: '승차감 및 편안함'
+    },
+    zh: {
+        lat: '横向控制',
+        stability: '高速稳定性',
+        turns: '弯道与转向',
+        long: '纵向控制',
+        urban: '城市路况能力',
+        comfort: '乘客舒适度'
+    },
+    fr: {
+        lat: 'Contrôle Latéral',
+        stability: 'Stabilité sur Autoroute',
+        turns: 'Virages & Courbes',
+        long: 'Contrôle Longitudinal',
+        urban: 'Capacité Urbaine',
+        comfort: 'Confort Passager'
+    },
+    de: {
+        lat: 'Querlenkung',
+        stability: 'Autobahnstabilität',
+        turns: 'Kurvenverhalten',
+        long: 'Längslenkung',
+        urban: 'Stadt-Tauglichkeit',
+        comfort: 'Fahrkomfort'
+    },
+    es: {
+        lat: 'Control Lateral',
+        stability: 'Estabilidad en Autovía',
+        turns: 'Curvas y Giros',
+        long: 'Control Longitudinal',
+        urban: 'Capacidad Urbana',
+        comfort: 'Confort del Pasajero'
+    }
+};
+
+export function deriveSkillRatings(model: Model): SkillRatings {
+    if (model.skillRatings) {
+        return model.skillRatings;
+    }
+
+    const tags = model.tags || [];
+    const feel = (model.steeringFeel || '').toLowerCase();
+    const consensus = (model.consensus || '').toLowerCase();
+    const note = (model.note || '').toLowerCase();
+    const pos = (model.positives || []).map(p => p.toLowerCase());
+    const neg = (model.negatives || []).map(n => n.toLowerCase());
+    const score = model.communityScore ?? 50;
+
+    const hasWord = (word: string): boolean => {
+        return (
+            consensus.includes(word) ||
+            note.includes(word) ||
+            feel.includes(word) ||
+            pos.some(p => p.includes(word)) ||
+            neg.some(n => n.includes(word))
+        );
+    };
+
+    const hasPosWord = (word: string): boolean => pos.some(p => p.includes(word));
+    const hasNegWord = (word: string): boolean => neg.some(n => n.includes(word));
+
+    const baseScore = 60 + Math.round((score - 50) * 0.3);
+
+    // Dynamic checks for Legacy, Off-Policy, and WMI (World Model) characteristics
+    const isLegacy = tags.includes('Legacy') || 
+                     tags.includes('Deprecated') || 
+                     consensus.includes('legacy') || 
+                     consensus.includes('older model') || 
+                     consensus.includes('predecessor') || 
+                     consensus.includes('oldest') ||
+                     model.name.toLowerCase().includes('herbalist') || 
+                     model.name.toLowerCase().includes('dakota') || 
+                     model.name.toLowerCase().includes('notre dame') || 
+                     model.name.toLowerCase().includes('blue diamond') || 
+                     model.name.toLowerCase().includes('farmville');
+
+    const isOffPolicy = tags.includes('Off-Policy') || 
+                        model.name.toLowerCase().includes('off-policy') || 
+                        model.name.toLowerCase().includes('op model');
+
+    const isWMI = model.name.toLowerCase().includes('wmi') || 
+                  model.name.toLowerCase().includes('world model') ||
+                  consensus.includes('wmi') || 
+                  consensus.includes('world model') ||
+                  (model.badge && model.badge.includes('FLAGSHIP')) ||
+                  tags.includes('C4 Default');
+
+    // Lateral Control
+    let lat = baseScore + 5;
+    if (tags.includes('Smooth')) lat += 6;
+    if (tags.includes('Curves')) lat += 5;
+    if (tags.includes('Highway')) lat += 4;
+    if (tags.includes('Stiff')) lat += 8;
+    if (feel.includes('smooth') || feel.includes('tight') || feel.includes('stiff')) lat += 5;
+    if (hasWord('on rails') || hasWord('lateral control') || hasWord('perfect centering')) lat += 12;
+    if (hasWord('ping pong') || hasWord('weave') || hasWord('wiggly') || hasWord('loose') || hasWord('left hugging')) lat -= 12;
+    if (hasNegWord('lateral') || hasNegWord('centering') || hasNegWord('weaving')) lat -= 10;
+    if (hasPosWord('lateral') || hasPosWord('centering') || hasPosWord('rails')) lat += 8;
+    
+    // Penalize poor lateral performance directly
+    if (hasWord('poor lateral') || hasWord('bad lateral') || hasWord('unstable lateral') || hasWord('terrible lateral')) lat -= 15;
+
+    // Highway Stability
+    let stability = baseScore + 2;
+    if (tags.includes('Highway')) stability += 12;
+    if (tags.includes('Stiff')) stability += 6;
+    if (feel.includes('stiff') || feel.includes('firm')) stability += 5;
+    if (hasWord('rock solid') || hasWord('stable') || hasWord('gold standard') || hasWord('reliability') || hasWord('boring')) stability += 10;
+    if (hasWord('wiggle') || hasWord('nervous') || hasWord('twitchy') || hasWord('jitter') || hasWord('loose') || hasWord('wiggly') || hasWord('ping pong')) stability -= 10;
+    if (hasNegWord('highway') || hasNegWord('stability') || hasNegWord('speed')) stability -= 8;
+    if (hasPosWord('highway') || hasPosWord('stable') || hasPosWord('solid')) stability += 8;
+    
+    if (isLegacy) stability += 10; // Legacy legends boost
+    
+    // WMI/E2E models are smart but slightly "loose" on straight highways unless explicitly stiff
+    if (isWMI && !tags.includes('Stiff') && !feel.includes('stiff') && !feel.includes('heavy') && !feel.includes('stiffer')) {
+        stability -= 6;
+    }
+
+    // Curve & Turning
+    let turns = baseScore - 2;
+    if (tags.includes('Curves')) turns += 14;
+    if (tags.includes('City')) turns += 5;
+    if (hasWord('curves') || hasWord('turns') || hasWord('winding') || hasWord('sharp') || hasWord('handling')) turns += 8;
+    if (hasWord('hugs turns') || hasWord('on rails')) turns += 6;
+    
+    // Penalize turning problems including oversteer and turn lockouts
+    if (hasWord('understeer') || hasWord('overshoot') || hasWord('cutting') || hasWord('scary turns') || hasWord('oversteer') || hasWord('oversteering') || hasWord('lock out') || hasWord('locking out')) turns -= 12;
+    
+    if (hasNegWord('turn') || hasNegWord('curve') || hasNegWord('corner')) turns -= 8;
+    if (hasPosWord('turn') || hasPosWord('curve') || hasPosWord('corner')) turns += 8;
+
+    // Longitudinal Control
+    let long = baseScore;
+    if (tags.includes('Smart')) long += 8;
+    if (tags.includes('City')) long += 4;
+    if (hasWord('braking') || hasWord('acceleration') || hasWord('longitudinal') || hasWord('follow distance') || hasWord('dec-level')) long += 8;
+    
+    // Penalize hard braking and traffic light creeping
+    if (hasWord('late braking') || hasWord('abrupt') || hasWord('rough start') || hasWord('jerkiness') || hasWord('stalls') || hasWord('brakes hard') || hasWord('hard braking') || hasWord('creeps at red lights') || hasWord('creeping')) long -= 12;
+    
+    if (hasNegWord('brake') || hasNegWord('accel') || hasNegWord('stopping') || hasNegWord('jerk')) long -= 8;
+    if (hasPosWord('brake') || hasPosWord('accel') || hasPosWord('stopping') || hasPosWord('following')) long += 6;
+
+    // Urban Capability
+    let urban = baseScore - 5;
+    if (tags.includes('City')) urban += 15;
+    if (tags.includes('Smart')) urban += 10;
+    if (hasWord('urban') || hasWord('city') || hasWord('stop sign') || hasWord('traffic light') || hasWord('intersection') || hasWord('pedestrian') || hasWord('e2e')) urban += 10;
+    if (hasWord('struggles in city') || hasWord('bad at stop signs') || hasWord('ignores lights') || hasWord('fails stop') || hasWord('creeps at red lights')) urban -= 15;
+    if (hasNegWord('city') || hasNegWord('stop sign') || hasNegWord('traffic') || hasNegWord('intersection')) urban -= 10;
+    if (hasPosWord('city') || hasPosWord('stop sign') || hasPosWord('traffic') || hasPosWord('intersection')) urban += 8;
+    
+    if (isLegacy) urban -= 12; // Legacy legends penalty
+    if (isWMI) urban += 6;     // WMI models urban boost due to E2E perception
+
+    // Passenger Comfort
+    let comfort = baseScore + 2;
+    if (tags.includes('Comfort')) comfort += 14;
+    if (tags.includes('Smooth')) comfort += 8;
+    if (feel.includes('smooth') || feel.includes('soft') || feel.includes('comfort')) comfort += 6;
+    if (hasWord('comfort') || hasWord('smoothness') || hasWord('wife approved') || hasWord('passenger') || hasWord('gentle') || hasWord('natural')) comfort += 10;
+    
+    // Penalize comfort for oscillations and motion sickness
+    if (hasWord('jerkiness') || hasWord('stiff') || hasWord('abrupt') || hasWord('harsh') || hasWord('twitchy') || hasWord('shake') || hasWord('rough') || hasWord('motion sickness') || hasWord('oscillations')) comfort -= 12;
+    
+    if (hasNegWord('jerk') || hasNegWord('stiff') || hasNegWord('harsh') || hasNegWord('rough') || hasNegWord('twitchy')) comfort -= 10;
+    if (hasPosWord('smooth') || hasPosWord('comfort') || hasPosWord('wife') || hasPosWord('gentle')) comfort += 8;
+
+    // Penalize comfort for Aggressive, Dev, or Experimental characteristics
+    if (tags.includes('Aggressive') || tags.includes('Dev') || tags.includes('Experimental') || feel.includes('aggressive') || feel.includes('stiff') || feel.includes('heavy') || hasWord('aggressive') || hasWord('unforgiving') || hasWord('experimental long')) comfort -= 12;
+    
+    // Penalize comfort for Off-Policy models due to jerky/experimental long
+    if (isOffPolicy) comfort -= 8;
+
+    const clamp = (val: number) => Math.max(35, Math.min(99, val));
+
+    return {
+        lat: clamp(lat),
+        stability: clamp(stability),
+        turns: clamp(turns),
+        long: clamp(long),
+        urban: clamp(urban),
+        comfort: clamp(comfort)
+    };
+}
+
+// Glowing Skill Bar Component
+function SkillBar({ label, value, colorClass }: { label: string; value: number; colorClass: string }) {
+    return (
+        <div className="space-y-1">
+            <div className="flex justify-between items-center text-[10px]">
+                <span className="text-slate-400 font-medium truncate pr-1">{label}</span>
+                <span className="text-slate-300 font-bold font-mono text-[9px] bg-slate-800/40 px-1 py-0.2 rounded border border-slate-700/20 shrink-0">
+                    {value}/99
+                </span>
+            </div>
+            <div className="h-1.5 w-full bg-slate-950/50 rounded-full overflow-hidden border border-slate-800/30 relative">
+                <div
+                    style={{ width: `${(value / 99) * 100}%` }}
+                    className={`h-full rounded-full transition-all duration-1000 ease-out bg-gradient-to-r ${colorClass}`}
+                />
+            </div>
+        </div>
+    );
+}
+
+// Grid of 6 Skill Bars
+function SkillRatingsGrid({ ratings }: { ratings: SkillRatings }) {
+    const { locale } = useLanguage();
+    const labels = SKILL_LABELS[locale as Locale] || SKILL_LABELS.en;
+
+    const skills = [
+        { key: 'lat' as const, color: 'from-cyan-400 to-blue-500 shadow-[0_0_8px_rgba(34,211,238,0.3)]' },
+        { key: 'stability' as const, color: 'from-emerald-400 to-teal-500 shadow-[0_0_8px_rgba(52,211,153,0.3)]' },
+        { key: 'turns' as const, color: 'from-indigo-400 to-violet-500 shadow-[0_0_8px_rgba(129,140,248,0.3)]' },
+        { key: 'long' as const, color: 'from-amber-400 to-orange-500 shadow-[0_0_8px_rgba(251,191,36,0.3)]' },
+        { key: 'urban' as const, color: 'from-rose-400 to-pink-500 shadow-[0_0_8px_rgba(251,113,133,0.3)]' },
+        { key: 'comfort' as const, color: 'from-sky-400 to-indigo-500 shadow-[0_0_8px_rgba(56,189,248,0.3)]' },
+    ];
+
+    return (
+        <div className="grid grid-cols-2 gap-x-3 gap-y-2.5 my-3.5 bg-slate-950/20 backdrop-blur-md p-3 rounded-lg border border-slate-800/40">
+            {skills.map((skill) => (
+                <SkillBar
+                    key={skill.key}
+                    label={labels[skill.key]}
+                    value={ratings[skill.key]}
+                    colorClass={skill.color}
+                />
+            ))}
+        </div>
+    );
+}
+
 function relativeTime(iso: string): string {
     const then = new Date(iso).getTime();
     if (!Number.isFinite(then)) return '';
@@ -94,30 +357,27 @@ function relativeTime(iso: string): string {
     return `${Math.round(months / 12)}y ago`;
 }
 
-function ForumActivityPanel({ activity, forumUrl }: { activity: ForumActivity; forumUrl: string }) {
+function ForumActivityPanel({ activity, forumUrl }: { activity?: ForumActivity; forumUrl: string }) {
     return (
         <div className="mt-3 pt-3 border-t border-slate-700/50">
-            <div className="flex items-center justify-between mb-2">
-                <p className="text-xs text-slate-500 flex items-center gap-3">
-                    <span className="inline-flex items-center gap-1" title="Likes on the original post (community votes)">
-                        <span aria-hidden>❤️</span>
-                        <span className="text-slate-300 font-medium">{activity.voteCount}</span>
-                        <span>votes</span>
-                    </span>
-                    <span className="inline-flex items-center gap-1">
-                        <span aria-hidden>💬</span>
-                        <span className="text-slate-300 font-medium">{activity.replyCount}</span>
-                        <span>replies</span>
-                    </span>
-                    {activity.lastPostedAt && (
-                        <span className="hidden sm:inline">active {relativeTime(activity.lastPostedAt)}</span>
-                    )}
-                </p>
-                <span className="text-[10px] text-slate-600 uppercase tracking-wider">synced weekly</span>
-            </div>
+            {activity && (
+                <div className="flex items-center justify-between mb-2">
+                    <p className="text-xs text-slate-500 flex items-center gap-3">
+                        <span className="inline-flex items-center gap-1">
+                            <span aria-hidden>💬</span>
+                            <span className="text-slate-300 font-medium">{activity.replyCount}</span>
+                            <span>replies</span>
+                        </span>
+                        {activity.lastPostedAt && (
+                            <span className="hidden sm:inline">active {relativeTime(activity.lastPostedAt)}</span>
+                        )}
+                    </p>
+                    <span className="text-[10px] text-slate-600 uppercase tracking-wider">synced weekly</span>
+                </div>
+            )}
 
-            {activity.recentComments.length > 0 && (
-                <ul className="space-y-2">
+            {activity && activity.recentComments.length > 0 && (
+                <ul className="space-y-2 mb-3">
                     {activity.recentComments.map((c) => (
                         <li key={c.postNumber} className="text-xs">
                             <a
@@ -143,6 +403,20 @@ function ForumActivityPanel({ activity, forumUrl }: { activity: ForumActivity; f
                         </li>
                     ))}
                 </ul>
+            )}
+
+            {forumUrl && (
+                <div className={activity ? "mt-3" : ""}>
+                    <a
+                        href={forumUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/30 transition-colors"
+                    >
+                        <span>💬</span> Discuss
+                    </a>
+                </div>
             )}
         </div>
     );
@@ -314,9 +588,9 @@ function ModelCard({
             )}
 
             {/* Tags */}
-            {model.tags && model.tags.length > 0 && (
+            {((model.tags && model.tags.length > 0) || model.bestFor || model.steeringFeel) && (
                 <div className="flex flex-wrap gap-1.5 mb-3">
-                    {model.tags.map((tag) => (
+                    {model.tags?.map((tag) => (
                         <span
                             key={tag}
                             className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-slate-800/60 text-slate-300 border border-slate-700/50"
@@ -325,6 +599,16 @@ function ModelCard({
                             <span>{tag}</span>
                         </span>
                     ))}
+                    {model.bestFor && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">
+                            <span>🎯</span> Best for: {model.bestFor}
+                        </span>
+                    )}
+                    {model.steeringFeel && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-slate-700/50 text-slate-300 border border-slate-600/50">
+                            <span>🎮</span> {model.steeringFeel}
+                        </span>
+                    )}
                 </div>
             )}
 
@@ -336,30 +620,8 @@ function ModelCard({
                 )}
             </p>
 
-            {/* Footer Badges */}
-            <div className="flex flex-wrap gap-2">
-                {model.bestFor && (
-                    <span className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-lg bg-violet-500/20 text-violet-300 border border-violet-500/30">
-                        <span>🎯</span> Best for: {model.bestFor}
-                    </span>
-                )}
-                {model.steeringFeel && (
-                    <span className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-lg bg-slate-700/50 text-slate-300 border border-slate-600/50">
-                        <span>🎮</span> {model.steeringFeel}
-                    </span>
-                )}
-                {model.forumUrl && (
-                    <a
-                        href={model.forumUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/30 transition-colors"
-                    >
-                        <span>💬</span> Discuss
-                    </a>
-                )}
-            </div>
+            {/* Skill Attributes Grid */}
+            <SkillRatingsGrid ratings={deriveSkillRatings(model)} />
 
             {/* Tested On — always visible */}
             {model.testedOn && model.testedOn.length > 0 && (
@@ -377,7 +639,7 @@ function ModelCard({
 
             {/* Forum activity — votes (OP likes) + most recent comments,
                 synced weekly from community.sunnypilot.ai. */}
-            {forumActivity && model.forumUrl && (
+            {model.forumUrl && (
                 <ForumActivityPanel activity={forumActivity} forumUrl={model.forumUrl} />
             )}
             </div>
