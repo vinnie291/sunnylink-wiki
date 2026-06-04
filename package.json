@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "db:push": "drizzle-kit push",
-    "db:seed": "tsx scripts/seed.ts"
+    "db:seed": "tsx scripts/seed.ts",
+    "sentiment:sync": "tsx scripts/analyze_discord_sentiment.ts"
   },
   "dependencies": {
     "@cardog-icons/react": "^1.2.0",
