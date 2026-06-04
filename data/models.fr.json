@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.1",
-  "totalModels": 85,
-  "lastUpdated": "2026-04-19",
+  "totalModels": 93,
+  "lastUpdated": "2026-06-04",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -2399,6 +2399,145 @@
           "testedOn": [
             "Toyota Sienna"
           ]
+        },
+        {
+          "name": "Deep_RL V1",
+          "date": "December 2025",
+          "badge": "openpilot only",
+          "tags": [
+            "Experimental",
+            "Stock-Only",
+            "Off-Policy"
+          ],
+          "communityScore": 45,
+          "totalVotes": 12,
+          "sentiment": {
+            "great": 15,
+            "good": 25,
+            "ok": 50,
+            "bad": 10
+          },
+          "consensus": "Modèle d'imitation de bout en bout précoce testant les planificateurs de trajectoire d'apprentissage profond. Contrôle latéral stable sur les tronçons d'autoroute droits, mais affiche de légères oscillations de centrage sur les routes sinueuses. Adaptation de la vitesse très stable, mais lutte avec le glissement en accordéon et l'engagement de virage serré.",
+          "note": "⚠️ Exclusif à stock openpilot. NON disponible sur sunnylink/sunnypilot.",
+          "bestFor": "Highway Centering / Testing",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Honda Accord Hybrid 2025"
+          ],
+          "positives": [
+            "Stable highway speed matching",
+            "Decent lane keeping on straight runs"
+          ],
+          "negatives": [
+            "Minor centering oscillations (lane-weaving) on curvy roads",
+            "Struggles with stop-and-go creep",
+            "Poor turn-in performance on sharp corners"
+          ]
+        },
+        {
+          "name": "Deep_RL V2",
+          "date": "February 2026",
+          "badge": "openpilot only",
+          "tags": [
+            "Experimental",
+            "Stock-Only",
+            "Off-Policy"
+          ],
+          "communityScore": 58,
+          "totalVotes": 18,
+          "sentiment": {
+            "great": 20,
+            "good": 40,
+            "ok": 30,
+            "bad": 10
+          },
+          "consensus": "Modèle de planification de bout en bout raffiné axé sur le contrôle de la vitesse et des transitions de freinage plus douces. Résout le louvoiement latéral observé dans la V1 avec des commandes de direction beaucoup mais amorties. Cependant, le démarrage à l'arrêt dans les embouteillages est lent, nécessitant des coups d'accélérateur actifs du conducteur.",
+          "note": "⚠️ Exclusif à stock openpilot. NON disponible sur sunnylink/sunnypilot.",
+          "bestFor": "Comfort / Stop-and-Go",
+          "steeringFeel": "Solid",
+          "testedOn": [
+            "Honda Accord Hybrid 2025"
+          ],
+          "positives": [
+            "Excellent lateral dampening (no more weaving)",
+            "Extremely smooth braking transitions",
+            "High comfort level"
+          ],
+          "negatives": [
+            "Sluggish launch from a dead stop",
+            "Requires driver interventions (gas pedal) in heavy traffic"
+          ]
+        },
+        {
+          "name": "Deep_RL V3",
+          "date": "May 2026",
+          "badge": "openpilot only",
+          "tags": [
+            "Experimental",
+            "Stock-Only",
+            "Off-Policy"
+          ],
+          "communityScore": 84,
+          "totalVotes": 35,
+          "sentiment": {
+            "great": 60,
+            "good": 30,
+            "ok": 10,
+            "bad": 0
+          },
+          "consensus": "Itération avancée offrant une meilleure compréhension des scènes 3D, testée intensivement par @Eyezenheim dans la région de la baie de SF. Performances exceptionnelles pour négocier les rues escarpées de San Francisco et passer en douceur sur le pont de la baie de SF. La tenue latérale dans les courbes est très confiante et naturelle, même si elle peut encore couper les virages urbains d'un peu trop près.",
+          "note": "⚠️ Exclusif à stock openpilot. NON disponible sur sunnylink/sunnypilot.",
+          "bestFor": "Highway Curves / Urban Driving",
+          "steeringFeel": "Natural",
+          "testedOn": [
+            "Honda Accord Hybrid 2025",
+            "Hyundai Ioniq 5"
+          ],
+          "positives": [
+            "Phenomenal lateral holding on steep curves",
+            "Seamless highway transitions and merges",
+            "Highly natural human-like steering"
+          ],
+          "negatives": [
+            "May cut urban corners slightly too tight",
+            "Occasional caution needed at complex intersections"
+          ]
+        },
+        {
+          "name": "OPmode16lDeep",
+          "date": "June 2026",
+          "badge": "openpilot only",
+          "tags": [
+            "Experimental",
+            "Stock-Only",
+            "Off-Policy",
+            "Longitudinal"
+          ],
+          "communityScore": 85,
+          "totalVotes": 14,
+          "sentiment": {
+            "great": 50,
+            "good": 30,
+            "ok": 15,
+            "bad": 5
+          },
+          "consensus": "Un modèle hybride expérimental de pointe combinant un contrôle latéral hors-politique (off-policy) avec un apprentissage longitudinal par renforcement profond avancé. Les premiers tests réalisés par @Eyezenheim démontrent un freinage très impressionnant et fluide ainsi qu'un centrage de voie excellent sur les autoroutes complexes de la Bay Area. Résout les oscillations de vitesse précédentes, bien qu'il soit encore en développement actif.",
+          "note": "⚠️ Exclusif à openpilot d'origine (stock). NON disponible sur sunnylink/sunnypilot.",
+          "bestFor": "Highway / Experimental Long",
+          "steeringFeel": "Stable",
+          "testedOn": [
+            "Honda Accord Hybrid 2025"
+          ],
+          "positives": [
+            "Extremely smooth deep longitudinal control",
+            "No speed hunting or yoyo acceleration",
+            "Solid lateral holding on curves"
+          ],
+          "negatives": [
+            "Experimental build with potential edge cases",
+            "Requires careful monitoring in tight urban environments"
+          ],
+          "forumUrl": "https://youtu.be/g06_gXTVvA0"
         }
       ]
     }

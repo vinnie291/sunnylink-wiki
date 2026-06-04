@@ -1,8 +1,8 @@
 {
     "appName": "Sunnylink Model Database",
     "version": "8.1",
-    "totalModels": 85,
-    "lastUpdated": "2026-04-19",
+    "totalModels": 93,
+    "lastUpdated": "2026-06-04",
     "vibeGuide": {
         "wmi_2026": {
             "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -2398,6 +2398,145 @@
                     "testedOn": [
                         "Toyota Sienna"
                     ]
+                },
+                {
+                    "name": "Deep_RL V1",
+                    "date": "December 2025",
+                    "badge": "openpilot only",
+                    "tags": [
+                        "Experimental",
+                        "Stock-Only",
+                        "Off-Policy"
+                    ],
+                    "communityScore": 45,
+                    "totalVotes": 12,
+                    "sentiment": {
+                        "great": 15,
+                        "good": 25,
+                        "ok": 50,
+                        "bad": 10
+                    },
+                    "consensus": "Early end-to-end imitation model testing deep learning trajectory planners. Stable lateral control on straight highway runs, but displays minor centering oscillations on curvy roads. Highly stable speed matching, but struggles with stop-and-go creep and tight turn-in.",
+                    "note": "⚠️ Exclusive to stock openpilot. NOT available on sunnylink/sunnypilot.",
+                    "bestFor": "Highway Centering / Testing",
+                    "steeringFeel": "Balanced",
+                    "testedOn": [
+                        "Honda Accord Hybrid 2025"
+                    ],
+                    "positives": [
+                        "Stable highway speed matching",
+                        "Decent lane keeping on straight runs"
+                    ],
+                    "negatives": [
+                        "Minor centering oscillations (lane-weaving) on curvy roads",
+                        "Struggles with stop-and-go creep",
+                        "Poor turn-in performance on sharp corners"
+                    ]
+                },
+                {
+                    "name": "Deep_RL V2",
+                    "date": "February 2026",
+                    "badge": "openpilot only",
+                    "tags": [
+                        "Experimental",
+                        "Stock-Only",
+                        "Off-Policy"
+                    ],
+                    "communityScore": 58,
+                    "totalVotes": 18,
+                    "sentiment": {
+                        "great": 20,
+                        "good": 40,
+                        "ok": 30,
+                        "bad": 10
+                    },
+                    "consensus": "Refined end-to-end planning model focusing on speed control and smoother braking transitions. Solves the lateral weaving seen in V1 with much damper steering inputs. However, launch from a dead stop in stop-and-go traffic is sluggish, requiring active gas-pedal nudges from the driver.",
+                    "note": "⚠️ Exclusive to stock openpilot. NOT available on sunnylink/sunnypilot.",
+                    "bestFor": "Comfort / Stop-and-Go",
+                    "steeringFeel": "Solid",
+                    "testedOn": [
+                        "Honda Accord Hybrid 2025"
+                    ],
+                    "positives": [
+                        "Excellent lateral dampening (no more weaving)",
+                        "Extremely smooth braking transitions",
+                        "High comfort level"
+                    ],
+                    "negatives": [
+                        "Sluggish launch from a dead stop",
+                        "Requires driver interventions (gas pedal) in heavy traffic"
+                    ]
+                },
+                {
+                    "name": "Deep_RL V3",
+                    "date": "May 2026",
+                    "badge": "openpilot only",
+                    "tags": [
+                        "Experimental",
+                        "Stock-Only",
+                        "Off-Policy"
+                    ],
+                    "communityScore": 84,
+                    "totalVotes": 35,
+                    "sentiment": {
+                        "great": 60,
+                        "good": 30,
+                        "ok": 10,
+                        "bad": 0
+                    },
+                    "consensus": "Advanced iteration featuring improved 3D scene understanding, tested extensively by @Eyezenheim in the SF Bay Area. Outstanding performance negotiating San Francisco's steep streets and transitioning seamlessly onto the SF Bay Bridge. Lateral holding on curves is highly confident and natural, though it can still cut urban corners slightly too tight.",
+                    "note": "⚠️ Exclusive to stock openpilot. NOT available on sunnylink/sunnypilot.",
+                    "bestFor": "Highway Curves / Urban Driving",
+                    "steeringFeel": "Natural",
+                    "testedOn": [
+                        "Honda Accord Hybrid 2025",
+                        "Hyundai Ioniq 5"
+                    ],
+                    "positives": [
+                        "Phenomenal lateral holding on steep curves",
+                        "Seamless highway transitions and merges",
+                        "Highly natural human-like steering"
+                    ],
+                    "negatives": [
+                        "May cut urban corners slightly too tight",
+                        "Occasional caution needed at complex intersections"
+                    ]
+                },
+                {
+                    "name": "OPmode16lDeep",
+                    "date": "June 2026",
+                    "badge": "openpilot only",
+                    "tags": [
+                        "Experimental",
+                        "Stock-Only",
+                        "Off-Policy",
+                        "Longitudinal"
+                    ],
+                    "communityScore": 85,
+                    "totalVotes": 14,
+                    "sentiment": {
+                        "great": 50,
+                        "good": 30,
+                        "ok": 15,
+                        "bad": 5
+                    },
+                    "consensus": "A cutting-edge experimental hybrid model combining off-policy lateral control with advanced deep reinforcement longitudinal learning. Early tests by @Eyezenheim demonstrate highly impressive, smooth braking and excellent lane centering on complex bay area highways. Solves previous speed hunting oscillations, though it is still under active development.",
+                    "note": "⚠️ Exclusive to stock openpilot. NOT available on sunnylink/sunnypilot.",
+                    "bestFor": "Highway / Experimental Long",
+                    "steeringFeel": "Stable",
+                    "testedOn": [
+                        "Honda Accord Hybrid 2025"
+                    ],
+                    "positives": [
+                        "Extremely smooth deep longitudinal control",
+                        "No speed hunting or yoyo acceleration",
+                        "Solid lateral holding on curves"
+                    ],
+                    "negatives": [
+                        "Experimental build with potential edge cases",
+                        "Requires careful monitoring in tight urban environments"
+                    ],
+                    "forumUrl": "https://youtu.be/g06_gXTVvA0"
                 }
             ]
         }

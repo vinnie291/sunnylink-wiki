@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.1",
-  "totalModels": 85,
-  "lastUpdated": "2026-04-19",
+  "totalModels": 93,
+  "lastUpdated": "2026-06-04",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -2399,6 +2399,145 @@
           "testedOn": [
             "Toyota Sienna"
           ]
+        },
+        {
+          "name": "Deep_RL V1",
+          "date": "December 2025",
+          "badge": "openpilot only",
+          "tags": [
+            "Experimental",
+            "Stock-Only",
+            "Off-Policy"
+          ],
+          "communityScore": 45,
+          "totalVotes": 12,
+          "sentiment": {
+            "great": 15,
+            "good": 25,
+            "ok": 50,
+            "bad": 10
+          },
+          "consensus": "Frühes End-to-End-Imitationsmodell zum Testen von Deep-Learning-Trajektorienplanern. Stabile Querführung auf geraden Autobahnstrecken, zeigt jedoch leichte Zentrierungsoszillationen auf kurvigen Straßen. Sehr stabile Geschwindigkeitsanpassung, hat jedoch Probleme mit Stop-and-Go-Kriechen und engem Einlenken.",
+          "note": "⚠️ Exklusiv für Stock Openpilot. NICHT auf Sunnylink/Sunnypilot verfügbar.",
+          "bestFor": "Highway Centering / Testing",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Honda Accord Hybrid 2025"
+          ],
+          "positives": [
+            "Stable highway speed matching",
+            "Decent lane keeping on straight runs"
+          ],
+          "negatives": [
+            "Minor centering oscillations (lane-weaving) on curvy roads",
+            "Struggles with stop-and-go creep",
+            "Poor turn-in performance on sharp corners"
+          ]
+        },
+        {
+          "name": "Deep_RL V2",
+          "date": "February 2026",
+          "badge": "openpilot only",
+          "tags": [
+            "Experimental",
+            "Stock-Only",
+            "Off-Policy"
+          ],
+          "communityScore": 58,
+          "totalVotes": 18,
+          "sentiment": {
+            "great": 20,
+            "good": 40,
+            "ok": 30,
+            "bad": 10
+          },
+          "consensus": "Verfeinertes End-to-End-Planungsmodell mit Fokus auf Geschwindigkeitsregelung und sanftere Bremsübergänge. Löst das bei V1 beobachtete seitliche Weben mit viel gedämpfteren Lenkeingaben. Das Anfahren aus dem Stand im Stop-and-Go-Verkehr ist jedoch träge und erfordert aktive Gaspedal-Nudges des Fahrers.",
+          "note": "⚠️ Exklusiv für Stock Openpilot. NICHT auf Sunnylink/Sunnypilot verfügbar.",
+          "bestFor": "Comfort / Stop-and-Go",
+          "steeringFeel": "Solid",
+          "testedOn": [
+            "Honda Accord Hybrid 2025"
+          ],
+          "positives": [
+            "Excellent lateral dampening (no more weaving)",
+            "Extremely smooth braking transitions",
+            "High comfort level"
+          ],
+          "negatives": [
+            "Sluggish launch from a dead stop",
+            "Requires driver interventions (gas pedal) in heavy traffic"
+          ]
+        },
+        {
+          "name": "Deep_RL V3",
+          "date": "May 2026",
+          "badge": "openpilot only",
+          "tags": [
+            "Experimental",
+            "Stock-Only",
+            "Off-Policy"
+          ],
+          "communityScore": 84,
+          "totalVotes": 35,
+          "sentiment": {
+            "great": 60,
+            "good": 30,
+            "ok": 10,
+            "bad": 0
+          },
+          "consensus": "Fortgeschrittene Iteration mit verbessertem 3D-Szenenverständnis, intensiv getestet von @Eyezenheim im SF-Bay-Area-Gebiet. Hervorragende Leistung auf den steilen Straßen von San Francisco und nahtlose Übergänge auf die SF Bay Bridge. Die Querführung in Kurven ist sehr souverän und natürlich, auch wenn städtische Kurven immer noch etwas zu eng geschnitten werden können.",
+          "note": "⚠️ Exklusiv für Stock Openpilot. NICHT auf Sunnylink/Sunnypilot verfügbar.",
+          "bestFor": "Highway Curves / Urban Driving",
+          "steeringFeel": "Natural",
+          "testedOn": [
+            "Honda Accord Hybrid 2025",
+            "Hyundai Ioniq 5"
+          ],
+          "positives": [
+            "Phenomenal lateral holding on steep curves",
+            "Seamless highway transitions and merges",
+            "Highly natural human-like steering"
+          ],
+          "negatives": [
+            "May cut urban corners slightly too tight",
+            "Occasional caution needed at complex intersections"
+          ]
+        },
+        {
+          "name": "OPmode16lDeep",
+          "date": "June 2026",
+          "badge": "openpilot only",
+          "tags": [
+            "Experimental",
+            "Stock-Only",
+            "Off-Policy",
+            "Longitudinal"
+          ],
+          "communityScore": 85,
+          "totalVotes": 14,
+          "sentiment": {
+            "great": 50,
+            "good": 30,
+            "ok": 15,
+            "bad": 5
+          },
+          "consensus": "Ein hochmodernes, experimentelles Hybridmodell, das Off-Policy-Querlenkung mit fortschrittlichem Deep-Reinforcement-Längslernen kombiniert. Erste Tests von @Eyezenheim zeigen ein höchst beeindruckendes, sanftes Bremsverhalten und eine hervorragende Spurzentrierung auf komplexen Autobahnen in der Bay Area. Löst frühere Geschwindigkeitsschwankungen (Oszillationen), befindet sich jedoch noch in der aktiven Entwicklung.",
+          "note": "⚠️ Exklusiv für Stock-openpilot. NICHT auf Sunnylink/sunnypilot verfügbar.",
+          "bestFor": "Highway / Experimental Long",
+          "steeringFeel": "Stable",
+          "testedOn": [
+            "Honda Accord Hybrid 2025"
+          ],
+          "positives": [
+            "Extremely smooth deep longitudinal control",
+            "No speed hunting or yoyo acceleration",
+            "Solid lateral holding on curves"
+          ],
+          "negatives": [
+            "Experimental build with potential edge cases",
+            "Requires careful monitoring in tight urban environments"
+          ],
+          "forumUrl": "https://youtu.be/g06_gXTVvA0"
         }
       ]
     }
