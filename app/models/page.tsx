@@ -264,9 +264,23 @@ export default async function ModelsPage() {
                     <h1 className="text-xl md:text-2xl font-bold text-white mb-2 leading-tight">
                         openpilot Driving Models — Complete Database &amp; Comparison
                     </h1>
-                    <p className="text-slate-400 text-sm leading-relaxed">
+                    <p className="text-slate-400 text-sm leading-relaxed mb-4">
                         Browse the most complete community-maintained list of <strong className="text-slate-200">openpilot driving models</strong> from <strong className="text-slate-200">comma.ai</strong> and <strong className="text-slate-200">sunnypilot</strong>. Compare {MODEL_COUNT}+ models — WMI V12, OP Model 10, Dark Souls, Tomb Raider, Off-Policy, Down to Ride and more — with community ratings, release dates, steering feel, and lane behavior. Visualize each model&rsquo;s driving personality in real time. Updated regularly with the latest end-to-end (E2E) releases.
                     </p>
+
+                    <div className="flex items-start gap-3.5 p-4 bg-slate-950/40 backdrop-blur-md border border-amber-500/10 border-l-4 border-l-amber-500/50 rounded-xl shadow-lg shadow-amber-950/5">
+                        <svg className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <div>
+                            <h4 className="text-xs font-semibold text-amber-400 uppercase tracking-wider mb-1">
+                                Disclaimer &amp; Reference Notice
+                            </h4>
+                            <p className="text-slate-300 text-xs leading-relaxed">
+                                User mileage may vary based on your comma device, mounting location, vehicle hardware, openpilot fork, and software version. This page is provided for reference only and does not claim to be a perfectly accurate representation of driving model behavior in real-world scenarios. Always remain alert and ready to resume manual control immediately.
+                            </p>
+                        </div>
+                    </div>
                 </header>
 
                 <section id="openpilot-models-library" aria-label="openpilot models database">
