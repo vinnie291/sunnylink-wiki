@@ -436,9 +436,10 @@ function makeScenario(
 }
 
 // ── The Gauntlet — one designed route that stresses every behavior ──
-// Corners of increasing sharpness, two traffic lights, a stopped-traffic
-// zone, and a cut-in event, laid out along a single 380-unit loop.
-export const GAUNTLET_LOOP = 380;
+// Corners of increasing sharpness, two traffic lights, a stop sign, a
+// stopped-traffic zone, and a cut-in event, laid out along a single
+// 440-unit loop.
+export const GAUNTLET_LOOP = 440;
 
 export interface GauntletCorner {
     start: number;
@@ -458,11 +459,12 @@ export const GAUNTLET_CORNERS: GauntletCorner[] = [
 
 export const GAUNTLET_EVENTS = {
     leadZoneEnd: 78,         // lead-follow demo until here (and after leadZoneRestart)
-    leadZoneRestart: 338,
+    leadZoneRestart: 398,
     redLightZ: 95,
     trafficZone: { carZ: 165, stopAt: 158.5, end: 178 },
     cutInZ: 215,
     greenLightZ: 288,
+    stopSignZ: 368,          // straight after the hairpin (braking zone clears the exit ramp)
 } as const;
 
 // Per-sharpness corner speed factor (fraction of set speed a careful
@@ -540,6 +542,9 @@ interface Props {
     disableRainbow?: boolean;
     hideStatus?: boolean;
     scenarioOverride?: ScenarioKey;
+    // Compact card view: status pill moves to the bottom-right (the card's
+    // expand button occupies the top-right corner).
+    mini?: boolean;
 }
 
 // Ghosted block car — rear view, semi-transparent so it reads as
@@ -553,6 +558,20 @@ function ghostCarSvg(x: number, y: number, scale: number, opacity: number, braki
         + `<rect x="-14.5" y="-8" width="8" height="4.5" rx="1.2" fill="#ef4444" fill-opacity="${brake}" />`
         + `<rect x="6.5" y="-8" width="8" height="4.5" rx="1.2" fill="#ef4444" fill-opacity="${brake}" />`
         + `</g>`;
+}
+
+// Roadside stop sign — octagon on a pole, matching the city scenario's look.
+function stopSignSvg(poleX: number, baseY: number, scale: number): string {
+    const poleTopY = baseY - 40 * scale;
+    const r = 9 * scale;
+    const pts: string[] = [];
+    for (let a = 0; a < 8; a++) {
+        const angle = (a * Math.PI) / 4 + Math.PI / 8;
+        pts.push(`${(poleX + r * Math.cos(angle)).toFixed(2)},${(poleTopY + r * Math.sin(angle)).toFixed(2)}`);
+    }
+    return `<line x1="${poleX.toFixed(2)}" y1="${baseY.toFixed(2)}" x2="${poleX.toFixed(2)}" y2="${poleTopY.toFixed(2)}" stroke="#64748b" stroke-width="${(1.8 * scale).toFixed(2)}" />`
+        + `<polygon points="${pts.join(' ')}" fill="#ef4444" stroke="white" stroke-width="${(0.8 * scale).toFixed(2)}" />`
+        + `<text x="${poleX.toFixed(2)}" y="${(poleTopY + 2.5 * scale).toFixed(2)}" fill="white" font-size="${(3.5 * scale).toFixed(2)}" font-weight="bold" font-family="sans-serif" text-anchor="middle">STOP</text>`;
 }
 
 // Roadside chevron warning sign for sharp corners (sharpness ≥ 3).
@@ -572,7 +591,7 @@ interface FrameExtras {
     redLightGreen: boolean; // gauntlet light #1 has released
 }
 
-export default function DriveSimulation({ profile, seedKey, disableRainbow, hideStatus, scenarioOverride }: Props) {
+export default function DriveSimulation({ profile, seedKey, disableRainbow, hideStatus, scenarioOverride, mini }: Props) {
     const containerRef = useRef<HTMLDivElement>(null);
     const leftEdgeRef = useRef<SVGPathElement>(null);
     const rightEdgeRef = useRef<SVGPathElement>(null);
@@ -935,6 +954,22 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                     drawLight(GAUNTLET_EVENTS.redLightZ, extras.redLightGreen ? 'green' : 'red');
                     drawLight(GAUNTLET_EVENTS.greenLightZ, 'green');
 
+                    // Stop sign + stop line
+                    {
+                        const d = wrapDist(GAUNTLET_EVENTS.stopSignZ);
+                        if (d > -1.2 && d < 45) {
+                            const yFrac = depthToYFrac(d);
+                            if (yFrac < 0.98) {
+                                const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
+                                const roadCenterX = getRoadCenterX(yFrac);
+                                const hw = laneHalfWidth(yFrac);
+                                const scale = (1.0 / Math.max(0.2, d + PERSPECTIVE_K)) * 2.2;
+                                svg += `<path d="M ${(roadCenterX - hw).toFixed(2)} ${y.toFixed(2)} L ${(roadCenterX + hw).toFixed(2)} ${y.toFixed(2)}" stroke="rgba(255,255,255,0.75)" stroke-width="${(4 * scale).toFixed(2)}" stroke-linecap="square" />`;
+                                svg += stopSignSvg(roadCenterX + hw * 1.35, y, scale);
+                            }
+                        }
+                    }
+
                     // Chevron warning signs on the outside of sharp corners
                     for (const c of GAUNTLET_CORNERS) {
                         if (c.sharpness < 3) continue;
@@ -1073,6 +1108,16 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
         const phase2 = seedRng() * Math.PI * 2;
         const phase3 = seedRng() * Math.PI * 2;
 
+        // Ambient traffic fleet for the gauntlet — deterministic per model,
+        // spread across the adjacent lanes with varied closing speeds so the
+        // road reads like real traffic rather than two looping props.
+        const ambientFleet = Array.from({ length: 4 }, (_, i) => ({
+            lane: (i % 2 === 0 ? -1 : 1) as -1 | 1,   // alternate lanes, two per side
+            speedFac: 0.28 + seedRng() * 0.38,         // how fast we close on it
+            phase: seedRng() * 38,
+            opacity: 0.28 + seedRng() * 0.15,
+        }));
+
         const NUM_MARKERS = 11;
         const MAX_DEPTH = 40;
         const markerDepths: number[] = [];
@@ -1096,6 +1141,8 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
         let gLap = -1;
         let gLightStopT = 0;
         let gLightDone = false;
+        let gSignStopT = 0;
+        let gSignDone = false;
         let gTrafficPhase: 'idle' | 'waiting' | 'resume' | 'done' = 'idle';
         let gTrafficWaitT = 0;
         let gTrafficAdvance = 0;
@@ -1219,6 +1266,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                 if (curLap !== gLap) {
                     gLap = curLap;
                     gLightStopT = 0; gLightDone = false;
+                    gSignStopT = 0; gSignDone = false;
                     gTrafficPhase = 'idle'; gTrafficWaitT = 0; gTrafficAdvance = 0;
                     gCutInPhase = 'idle'; gCutInT = 0;
                 }
@@ -1278,6 +1326,25 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                             consider(0, '🛑 STOPPED AT RED LIGHT', '#ef4444');
                         }
                         if (gLightStopT > 2.2) gLightDone = true; // light releases
+                    }
+                }
+
+                // 2b) Stop sign — full stop, rolling stop, or blow-through
+                const signStopAt = GAUNTLET_EVENTS.stopSignZ - 4.5;
+                const dToSign = signStopAt - routePos;
+                if (!gSignDone) {
+                    if (dToSign > 0 && dToSign < 28) {
+                        const ramp = profile.lateBraking ? Math.pow(dToSign / 28, 2) : dToSign / 28;
+                        consider(speedMph * ramp, '🛑 APPROACHING STOP SIGN', '#f87171');
+                    } else if (dToSign <= 0 && routePos < GAUNTLET_EVENTS.stopSignZ + 3) {
+                        gSignStopT += dt;
+                        if (profile.lightStopReliability < 0.35 && !profile.stopSignStops) {
+                            consider(4.5, '⚠️ ROLLING THE STOP SIGN', '#fbbf24');
+                            if (gSignStopT > 0.6) gSignDone = true;
+                        } else {
+                            consider(0, '🛑 STOPPED AT STOP SIGN', '#ef4444');
+                            if (gSignStopT > 1.8) gSignDone = true;
+                        }
                     }
                 }
 
@@ -1385,9 +1452,20 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                     }
                 }
 
-                // Ambient ghost traffic in the adjacent lanes
-                ghosts.push({ depth: 30 - ((carZ * 0.35 + 7) % 34), lateral: 1, opacity: 0.35, braking: false });
-                ghosts.push({ depth: 30 - ((carZ * 0.5 + 21) % 34), lateral: -1, opacity: 0.35, braking: false });
+                // Ambient ghost traffic in the adjacent lanes. Cars brake
+                // (lights up) while alongside the stopped-traffic zone so
+                // the whole road reacts to the congestion.
+                const nearCongestion = gTrafficPhase === 'waiting' ||
+                    (gTrafficPhase === 'idle' && tz.stopAt - routePos > 0 && tz.stopAt - routePos < 30);
+                for (const a of ambientFleet) {
+                    const depth = 34 - ((carZ * a.speedFac + a.phase) % 38);
+                    ghosts.push({
+                        depth,
+                        lateral: a.lane,
+                        opacity: a.opacity,
+                        braking: nearCongestion && depth > 2,
+                    });
+                }
 
                 gauntletExtras = { lead, ghosts, routePos, redLightGreen: gLightDone };
             }
@@ -1723,7 +1801,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
 
             {/* Dynamic Telemetry Status (top-right) */}
             {!hideStatus && (
-                <div className="absolute right-[4%] top-[8%] select-none pointer-events-none max-w-[50%] truncate text-right">
+                <div className={`absolute select-none pointer-events-none max-w-[50%] truncate text-right ${mini ? 'right-[3%] bottom-[12%]' : 'right-[4%] top-[8%]'}`}>
                     <span
                         ref={statusTextRef}
                         className="text-[clamp(8px,1.7cqw,12px)] font-bold tracking-[0.12em] uppercase px-2.5 py-1 rounded bg-slate-900/80 border border-white/10 text-emerald-400 shadow-md backdrop-blur-sm transition-all duration-300"
@@ -1798,6 +1876,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                         <div className="absolute -top-1 h-3 w-1 rounded-sm bg-emerald-400" style={{ left: `${(GAUNTLET_EVENTS.greenLightZ / GAUNTLET_LOOP) * 100}%` }} title="Green light" />
                         <div className="absolute -top-1 h-3 w-1.5 rounded-sm bg-amber-400" style={{ left: `${(GAUNTLET_EVENTS.trafficZone.carZ / GAUNTLET_LOOP) * 100}%` }} title="Stopped traffic" />
                         <div className="absolute -top-1 h-3 w-1 rounded-sm bg-fuchsia-400" style={{ left: `${(GAUNTLET_EVENTS.cutInZ / GAUNTLET_LOOP) * 100}%` }} title="Cut-in" />
+                        <div className="absolute -top-1 h-3 w-1 rounded-sm bg-red-500" style={{ left: `${(GAUNTLET_EVENTS.stopSignZ / GAUNTLET_LOOP) * 100}%` }} title="Stop sign" />
                         <div
                             ref={progressDotRef}
                             className="absolute -top-[3px] h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]"
