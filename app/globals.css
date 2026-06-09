@@ -77,6 +77,8 @@ html {
   -webkit-text-fill-color: transparent !important;
   background-size: 500% auto !important;
   animation: textShine 5s ease-in-out infinite alternate;
+  padding-bottom: 0.15em;
+  margin-bottom: -0.15em;
 }
 
 /* Highlight animation for deep-linked cards */
@@ -535,4 +537,76 @@ html.light {
   --color-rose-800: oklch(45.5% 0.188 13.697);
   --color-rose-900: oklch(41% 0.159 10.272);
   --color-rose-950: oklch(27.1% 0.105 12.094);
+}
+
+/* Premium Buy Me a Coffee Button */
+.btn-coffee {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  font-weight: 700;
+  font-size: 0.875rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none !important;
+}
+
+/* Light Mode: Filled yellow with dark text for premium look and high contrast */
+html.light .btn-coffee {
+  background-color: #FFDD00;
+  color: #000000 !important;
+  border: 1px solid #E6C700;
+  box-shadow: 0 4px 12px rgba(255, 221, 0, 0.15);
+}
+
+html.light .btn-coffee:hover {
+  background-color: #FFE84D;
+  border-color: #FFDD00;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 221, 0, 0.25);
+}
+
+html.light .btn-coffee:active {
+  background-color: #E6C700;
+  transform: translateY(0);
+}
+
+/* Dark Mode: Sleek outline with glow effect */
+:root:not(.light) .btn-coffee {
+  background-color: transparent;
+  color: #FFDD00 !important;
+  border: 1px solid rgba(255, 221, 0, 0.4);
+}
+
+:root:not(.light) .btn-coffee:hover {
+  background-color: rgba(255, 221, 0, 0.08);
+  border-color: #FFDD00;
+  transform: translateY(-2px);
+  box-shadow: 0 0 16px rgba(255, 221, 0, 0.3);
+}
+
+:root:not(.light) .btn-coffee:active {
+  background-color: rgba(255, 221, 0, 0.15);
+  transform: translateY(0);
+}
+
+/* Footer Coffee Link */
+.link-coffee {
+  color: #d97706 !important; /* dark yellow/amber for light mode */
+  transition: color 0.2s ease;
+}
+
+.link-coffee:hover {
+  color: #b45309 !important;
+}
+
+:root:not(.light) .link-coffee {
+  color: var(--color-yellow-400) !important;
+}
+
+:root:not(.light) .link-coffee:hover {
+  color: var(--color-yellow-300) !important;
 }

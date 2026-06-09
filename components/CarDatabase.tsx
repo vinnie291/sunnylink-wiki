@@ -368,7 +368,7 @@ export default function CarDatabase() {
                         href="https://buymeacoffee.com/vinhle.co"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-2xl border border-[#FFDD00]/50 text-[#FFDD00] font-bold text-sm transition-all duration-300 hover:bg-[#FFDD00]/10 hover:border-[#FFDD00] hover:shadow-[0_0_16px_rgba(255,221,0,0.4)] hover:animate-pulse"
+                        className="btn-coffee"
                     >
                         <span className="text-lg">☕</span>
                         {t('footer.buyMeCoffee') || 'Buy Me a Coffee'}
