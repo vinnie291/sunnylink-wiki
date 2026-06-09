@@ -151,7 +151,7 @@ export default function FullScreenDriveVisualizer({ isOpen, onClose, models, ini
     if (!mounted || !isOpen || !selectedModel) return null;
 
     return createPortal(
-        <div className="fixed inset-0 z-[100] bg-slate-950 flex flex-col animate-in fade-in duration-150">
+        <div className="force-dark fixed inset-0 z-[100] bg-slate-950 flex flex-col animate-in fade-in duration-150">
             <header className="relative z-30 shrink-0 flex items-center gap-3 px-4 md:px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm">
                 <span className="hidden sm:inline-flex items-center gap-2 text-xs uppercase tracking-wider text-slate-400 font-semibold">
                     <span aria-hidden>🛣️</span> Drive Visualizer
