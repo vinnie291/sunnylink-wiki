@@ -261,7 +261,7 @@ export default async function ModelsPage() {
                 {/* SEO hero — server-rendered, so the H1 and intro paragraph
                     land in the initial HTML for crawlers. */}
                 <header className="mb-8">
-                    <h1 className="text-xl md:text-2xl font-bold text-white mb-2 leading-tight">
+                    <h1 className="text-xl md:text-2xl font-bold text-slate-100 mb-2 leading-tight">
                         openpilot Driving Models — Complete Database &amp; Comparison
                     </h1>
                     <p className="text-slate-400 text-sm leading-relaxed mb-4">
@@ -290,7 +290,7 @@ export default async function ModelsPage() {
                 {/* Long-form FAQ — visible content, matched 1:1 by the FAQPage
                     JSON-LD below so Google can render rich answer snippets. */}
                 <section className="mt-16 border-t border-slate-800 pt-10 max-w-4xl">
-                    <h2 className="text-xl md:text-2xl font-bold text-white mb-2">
+                    <h2 className="text-xl md:text-2xl font-bold text-slate-100 mb-2">
                         About openpilot driving models
                     </h2>
                     <p className="text-slate-400 text-xs mb-8">
@@ -299,7 +299,7 @@ export default async function ModelsPage() {
                     <div className="space-y-6">
                         {FAQ.map((item) => (
                             <article key={item.q}>
-                                <h3 className="text-sm md:text-base font-semibold text-white mb-1.5">
+                                <h3 className="text-sm md:text-base font-semibold text-slate-100 mb-1.5">
                                     {item.q}
                                 </h3>
                                 <p className="text-slate-400 text-sm leading-relaxed">

@@ -519,7 +519,7 @@ function ModelCard({
                 <div className="flex justify-between items-start mb-3 gap-2">
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                            <h3 className="text-lg font-bold text-white truncate">{model.name}</h3>
+                            <h3 className="text-lg font-bold text-slate-100 truncate">{model.name}</h3>
                             {model.badge && (
                                 <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full border ${getBadgeColor(model.badge)}`}>
                                     {model.badge}
@@ -961,8 +961,8 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                         className={`
                             w-full flex items-center justify-between px-4 py-3 rounded-xl border text-left transition-all
                             ${showVibeGuide
-                                ? 'bg-gradient-to-r from-cyan-500/20 to-violet-500/20 border-cyan-500/30 text-white'
-                                : 'bg-slate-800/30 border-slate-700/50 text-slate-300 hover:text-white hover:bg-slate-700/50'
+                                ? 'bg-gradient-to-r from-cyan-500/20 to-violet-500/20 border-cyan-500/30 text-slate-100'
+                                : 'bg-slate-800/30 border-slate-700/50 text-slate-300 hover:text-slate-100 hover:bg-slate-700/50'
                             }
                         `}
                     >
@@ -989,7 +989,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                         transition-all duration-200 border
                                         ${activeCategory === cat.id && !searchQuery
                                             ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30'
-                                            : 'bg-slate-700/30 text-slate-400 border-transparent hover:bg-slate-700/50 hover:text-white'
+                                            : 'bg-slate-700/30 text-slate-400 border-transparent hover:bg-slate-700/50 hover:text-slate-100'
                                         }
                                     `}
                                 >
@@ -1044,7 +1044,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                 <div ref={vibeGuideRef} className="grid gap-2">
                                     {Object.entries(vibeGuide).map(([key, guide]) => (
                                         <div key={key} className="p-3 rounded-lg bg-slate-800/50 border border-slate-700/50">
-                                            <h4 className="text-white font-semibold text-xs mb-1">{guide.title}</h4>
+                                            <h4 className="text-slate-100 font-semibold text-xs mb-1">{guide.title}</h4>
                                             <p className="text-[10px] text-slate-500 mb-1">{guide.includes}</p>
                                             <p className="text-[10px] text-slate-400 mb-1">{guide.vibe}</p>
                                             <p className="text-[10px] text-emerald-400">
@@ -1104,7 +1104,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                 {/* Header with Sort */}
                 <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>
-                        <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+                        <h2 className="text-2xl font-bold text-slate-100 mb-2 flex items-center gap-3">
                             {searchQuery ? (
                                 <><span>🔍</span> {t('models.title')}</>
                             ) : (
@@ -1137,7 +1137,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                 onChange={(e) => setSortBy(e.target.value as any)}
                                 className="
                                     appearance-none outline-none bg-transparent w-full
-                                    pl-2 pr-10 py-2.5 text-sm font-medium text-white
+                                    pl-2 pr-10 py-2.5 text-sm font-medium text-slate-100
                                     cursor-pointer
                                 "
                             >
@@ -1162,7 +1162,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                     <div className="hidden lg:grid mb-8 gap-3 md:grid-cols-2 animate-in fade-in slide-in-from-top-4 duration-300">
                         {Object.entries(vibeGuide).map(([key, guide]) => (
                             <div key={key} className="p-4 rounded-xl bg-slate-800/30 border border-slate-700/50 hover:bg-slate-800/50 transition-colors">
-                                <h4 className="text-white font-semibold text-sm mb-1">{guide.title}</h4>
+                                <h4 className="text-slate-100 font-semibold text-sm mb-1">{guide.title}</h4>
                                 <p className="text-xs text-slate-500 mb-2">{guide.includes}</p>
                                 <p className="text-xs text-slate-400 mb-2">{guide.vibe}</p>
                                 <p className="text-xs text-emerald-400">
@@ -1188,9 +1188,9 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                     <table className="w-full text-left border-collapse">
                                         <thead>
                                             <tr className="bg-slate-800/80 text-slate-400 text-sm uppercase tracking-wider">
-                                                <th className="p-3 md:p-4 font-medium cursor-pointer hover:text-white" onClick={() => handleSort('name')}>Name</th>
-                                                <th className="p-3 md:p-4 font-medium cursor-pointer hover:text-white whitespace-nowrap" onClick={() => handleSort('date')}>Date</th>
-                                                <th className="p-3 md:p-4 font-medium cursor-pointer hover:text-white whitespace-nowrap" onClick={() => handleSort('score')}>Score</th>
+                                                <th className="p-3 md:p-4 font-medium cursor-pointer hover:text-slate-100" onClick={() => handleSort('name')}>Name</th>
+                                                <th className="p-3 md:p-4 font-medium cursor-pointer hover:text-slate-100 whitespace-nowrap" onClick={() => handleSort('date')}>Date</th>
+                                                <th className="p-3 md:p-4 font-medium cursor-pointer hover:text-slate-100 whitespace-nowrap" onClick={() => handleSort('score')}>Score</th>
                                                 <th className="hidden md:table-cell p-4 font-medium">Badges</th>
                                             </tr>
                                         </thead>
@@ -1200,7 +1200,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                                     key={model.name}
                                                     className="group hover:bg-slate-800/50 cursor-pointer transition-colors"
                                                 >
-                                                    <td className="p-3 md:p-4 font-medium text-white">
+                                                    <td className="p-3 md:p-4 font-medium text-slate-100">
                                                         <div className="flex items-center gap-2 md:gap-3">
                                                             <span className="text-lg md:text-2xl">{getVibeIcon(model.consensus)}</span>
                                                             <span className="text-sm md:text-base">{model.name}</span>
@@ -1253,7 +1253,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                 ) : (
                     <div className="text-center py-20 bg-slate-800/30 rounded-2xl border border-slate-700/50">
                         <span className="text-4xl mb-4 block">🔍</span>
-                        <h3 className="text-xl font-medium text-white mb-2">No models found</h3>
+                        <h3 className="text-xl font-medium text-slate-100 mb-2">No models found</h3>
                         <p className="text-slate-400">Try adjusting your search terms</p>
                     </div>
                 )}

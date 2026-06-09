@@ -89,7 +89,7 @@ export default function SessionDonateModal() {
                 <div className="text-4xl text-center mb-3" aria-hidden>☕</div>
                 <h2
                     id="donate-modal-title"
-                    className="text-xl sm:text-2xl font-bold text-white text-center leading-snug mb-2"
+                    className="text-xl sm:text-2xl font-bold text-slate-100 text-center leading-snug mb-2"
                 >
                     Has this site helped you setup your sunnypilot?
                 </h2>
@@ -105,7 +105,7 @@ export default function SessionDonateModal() {
                         trackEvent('donate_modal_clicked', { destination: BMC_URL });
                         dismiss('cta');
                     }}
-                    className="block w-full text-center font-bold py-3 px-5 rounded-xl bg-[#FFDD00] hover:bg-[#ffe84d] active:bg-[#e6c700] text-slate-900 transition-colors shadow-md"
+                    className="block w-full text-center font-bold py-3 px-5 rounded-xl bg-[#FFDD00] hover:bg-[#ffe84d] active:bg-[#e6c700] text-black transition-colors shadow-md"
                 >
                     ☕ Buy me a coffee
                 </a>

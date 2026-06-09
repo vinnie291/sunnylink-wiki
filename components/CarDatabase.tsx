@@ -332,7 +332,7 @@ export default function CarDatabase() {
                                 <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 text-[10px] font-bold uppercase tracking-wider mb-2 shadow-[0_0_12px_rgba(34,211,238,0.5)] animate-pulse">
                                     <span>✨</span> NEW
                                 </div>
-                                <h3 className="text-white font-bold text-sm mb-1 group-hover:text-cyan-300 transition-colors">
+                                <h3 className="text-slate-100 font-bold text-sm mb-1 group-hover:text-cyan-300 transition-colors">
                                     {t('wizard.title') || 'Setup Wizard'}
                                 </h3>
                                 <p className="text-slate-400 text-xs leading-relaxed max-w-[85%] group-hover:text-slate-300 transition-colors">
@@ -357,7 +357,7 @@ export default function CarDatabase() {
 
                     {/* Quick Tip */}
                     <div className="bg-gradient-to-br from-cyan-500/10 to-violet-500/10 rounded-2xl border border-cyan-500/20 p-4">
-                        <p className="text-sm font-medium text-white mb-2">💡 {t('cars.tip.title') || 'Quick Tip'}</p>
+                        <p className="text-sm font-medium text-slate-100 mb-2">💡 {t('cars.tip.title') || 'Quick Tip'}</p>
                         <p className="text-xs text-slate-400 leading-relaxed">
                             {t('cars.tip.desc') || 'Select your brand to see all tested models and community settings at a glance.'}
                         </p>
@@ -407,7 +407,7 @@ export default function CarDatabase() {
                 {/* Header Section */}
                 <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>
-                        <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+                        <h2 className="text-2xl font-bold text-slate-100 mb-2 flex items-center gap-3">
                             {searchQuery ? (
                                 <><span>🔍</span> {t('settings.searchResults') || 'Search Results'}</>
                             ) : selectedMake ? (
@@ -416,9 +416,9 @@ export default function CarDatabase() {
                                     return (
                                         <>
                                             {SelectedIcon ? (
-                                                <SelectedIcon className="w-6 h-6 text-white shrink-0" />
+                                                <SelectedIcon className="w-6 h-6 text-slate-100 shrink-0" />
                                             ) : (
-                                                <DefaultCarIcon className="w-6 h-6 text-white shrink-0" />
+                                                <DefaultCarIcon className="w-6 h-6 text-slate-100 shrink-0" />
                                             )}
                                             {selectedMake}
                                         </>
@@ -451,7 +451,7 @@ export default function CarDatabase() {
                                 id="cars-sort"
                                 value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value)}
-                                className="appearance-none outline-none bg-transparent w-full pl-2 pr-10 py-2.5 text-sm font-medium text-white cursor-pointer"
+                                className="appearance-none outline-none bg-transparent w-full pl-2 pr-10 py-2.5 text-sm font-medium text-slate-100 cursor-pointer"
                             >
                                 <option value="recommended-first" className="bg-slate-800">{t('cars.sort.recommended') || 'Recommended First'}</option>
                                 <option value="rating-desc" className="bg-slate-800">{t('cars.sort.ratingHighLow') || 'Rating (High-Low)'}</option>
@@ -483,7 +483,7 @@ export default function CarDatabase() {
                                     <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 text-[10px] font-bold uppercase tracking-wider mb-2 shadow-[0_0_12px_rgba(34,211,238,0.5)] animate-pulse">
                                         <span>✨</span> NEW
                                     </div>
-                                    <h3 className="text-white font-bold text-sm mb-1 group-hover:text-cyan-300 transition-colors">
+                                    <h3 className="text-slate-100 font-bold text-sm mb-1 group-hover:text-cyan-300 transition-colors">
                                         {t('wizard.title') || 'Setup Wizard'}
                                     </h3>
                                     <p className="text-slate-400 text-xs leading-relaxed max-w-[85%] group-hover:text-slate-300 transition-colors">
@@ -522,7 +522,7 @@ export default function CarDatabase() {
                                                         </div>
                                                     )}
                                                 </div>
-                                                <h3 className={`font-bold text-white ${viewMode === 'grid' ? 'text-xl' : 'text-lg md:text-xl'}`}>{vehicle.model}</h3>
+                                                <h3 className={`font-bold text-slate-100 ${viewMode === 'grid' ? 'text-xl' : 'text-lg md:text-xl'}`}>{vehicle.model}</h3>
                                                 <div className="text-sm text-slate-500">{vehicle.displayYears}</div>
                                             </div>
 
@@ -559,7 +559,7 @@ export default function CarDatabase() {
                                     }`}>
                                         <div className="flex items-center gap-1.5">
                                             <span className="text-yellow-500">⭐</span>
-                                            <span className="text-sm font-bold text-white">
+                                            <span className="text-sm font-bold text-slate-100">
                                                 {vehicle.reviews.length > 0 
                                                     ? (vehicle.reviews.reduce((acc, r) => acc + r.rating, 0) / vehicle.reviews.length).toFixed(1)
                                                     : '--'}
@@ -579,7 +579,7 @@ export default function CarDatabase() {
                 {filteredVehicles.length === 0 && (
                     <div className="text-center py-20 bg-slate-800/30 rounded-2xl border border-slate-700/50 mt-6 md:mt-0">
                         <div className="text-5xl mb-4">🔍</div>
-                        <h3 className="text-xl font-medium text-white mb-2">No vehicles found</h3>
+                        <h3 className="text-xl font-medium text-slate-100 mb-2">No vehicles found</h3>
                         <p className="text-slate-400 mb-6">Try adjusting your filters or search terms.</p>
                         <button
                             onClick={() => {
@@ -588,7 +588,7 @@ export default function CarDatabase() {
                                 setShowRecommended(false);
                                 setShowSunnyTune(false);
                             }}
-                            className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-xl transition-colors"
+                            className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-slate-100 rounded-xl transition-colors"
                         >
                             Clear All
                         </button>

@@ -167,7 +167,7 @@ export default function FullScreenDriveVisualizer({ isOpen, onClose, models, ini
                 <button
                     onClick={onClose}
                     aria-label="Close fullscreen visualizer"
-                    className="h-9 w-9 rounded-lg bg-slate-800 hover:bg-slate-700 text-white flex items-center justify-center transition-colors"
+                    className="h-9 w-9 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-100 flex items-center justify-center transition-colors"
                 >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -309,7 +309,7 @@ function ModelSearchCombobox({
                     onChange={(e) => { setOpen(true); setQuery(e.target.value); setHighlight(0); }}
                     onKeyDown={onKeyDown}
                     placeholder="Search models..."
-                    className="w-full bg-slate-800 border border-slate-700 hover:border-slate-600 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-white text-sm rounded-lg pl-8 pr-9 py-2 truncate transition-colors"
+                    className="w-full bg-slate-800 border border-slate-700 hover:border-slate-600 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-slate-100 text-sm rounded-lg pl-8 pr-9 py-2 truncate transition-colors"
                 />
                 <svg className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -339,7 +339,7 @@ function ModelSearchCombobox({
                                     onMouseEnter={() => setHighlight(i)}
                                     onClick={() => commit(m.name)}
                                     className={`w-full text-left px-3 py-2 text-sm flex items-center justify-between gap-2 transition-colors ${
-                                        active ? 'bg-cyan-500/15 text-white' : 'text-slate-300 hover:bg-slate-800'
+                                        active ? 'bg-cyan-500/15 text-slate-100' : 'text-slate-300 hover:bg-slate-800'
                                     }`}
                                 >
                                     <span className="truncate flex items-center gap-2">
@@ -383,14 +383,14 @@ function SettingsPanel({
         <div className="p-4 lg:p-5 space-y-4">
             <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                    <h3 className="text-white font-semibold text-base">Sunnylink Settings</h3>
+                    <h3 className="text-slate-100 font-semibold text-base">Sunnylink Settings</h3>
                     <p className="text-xs text-slate-500 truncate">
                         Driving <span className="text-cyan-300 font-medium">{modelName}</span>
                     </p>
                 </div>
                 <button
                     onClick={() => onChange(DEFAULT_SETTINGS)}
-                    className="shrink-0 px-3 py-1.5 rounded-lg text-[11px] font-semibold border bg-slate-800 border-slate-700 text-slate-400 hover:text-white transition-colors"
+                    className="shrink-0 px-3 py-1.5 rounded-lg text-[11px] font-semibold border bg-slate-800 border-slate-700 text-slate-400 hover:text-slate-100 transition-colors"
                 >
                     Reset
                 </button>
@@ -539,7 +539,7 @@ function Accordion({
                 aria-expanded={open}
             >
                 <span className="min-w-0">
-                    <span className="flex items-center gap-2 font-semibold text-white text-sm">
+                    <span className="flex items-center gap-2 font-semibold text-slate-100 text-sm">
                         {icon && <span aria-hidden>{icon}</span>}
                         <span>{title}</span>
                     </span>
@@ -633,7 +633,7 @@ function Toggle({
             className="w-full flex items-center justify-between gap-3 p-2.5 rounded-lg bg-slate-800/40 border border-slate-700/50 hover:border-slate-600 transition-colors text-left"
         >
             <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-1.5 text-xs font-semibold text-white">
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-100">
                     <span>{label}</span>
                     {live && <LiveBadge />}
                 </div>
@@ -683,7 +683,7 @@ function Segmented<T extends string>({
                             className={`px-2 py-1.5 rounded-md text-xs font-medium transition-colors ${
                                 active
                                     ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                                    : 'text-slate-400 hover:text-white border border-transparent'
+                                    : 'text-slate-400 hover:text-slate-100 border border-transparent'
                             }`}
                         >
                             {opt.label}

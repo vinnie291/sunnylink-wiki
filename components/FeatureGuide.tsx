@@ -104,7 +104,7 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
         <div className="space-y-6">
             {/* Header */}
             <div className="text-center">
-                <h2 className="text-2xl font-bold text-white mb-2">
+                <h2 className="text-2xl font-bold text-slate-100 mb-2">
                     📖 {t('features.title')}
                 </h2>
                 <p className="text-slate-400 text-sm">
@@ -128,7 +128,7 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                         >
                             <div className="flex-1">
                                 <div className="flex items-center gap-2 flex-wrap mb-1">
-                                    <span className="text-lg font-bold text-white">{feature.name}</span>
+                                    <span className="text-lg font-bold text-slate-100">{feature.name}</span>
                                     <span className={`px-2 py-0.5 text-[10px] font-medium rounded-full border ${getCategoryColor(feature.category)}`}>
                                         {feature.category}
                                     </span>
@@ -234,7 +234,7 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                 onClick={() => setShowGlossary(!showGlossary)}
                 className="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-slate-800/30 border border-slate-700/50 text-left hover:bg-slate-700/30 transition-colors"
             >
-                <span className="text-white font-medium">📚 Glossary of Terms</span>
+                <span className="text-slate-100 font-medium">📚 Glossary of Terms</span>
                 <svg className={`w-5 h-5 text-slate-500 transition-transform ${showGlossary ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>

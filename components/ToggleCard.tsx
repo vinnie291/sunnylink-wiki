@@ -112,7 +112,7 @@ function SliderSimulator({
         {/* Minus button */}
         <button
           onClick={() => nudge(-1)}
-          className="flex-shrink-0 text-xl font-bold text-slate-400 hover:text-white transition-colors w-6 text-center select-none cursor-pointer"
+          className="flex-shrink-0 text-xl font-bold text-slate-400 hover:text-slate-100 transition-colors w-6 text-center select-none cursor-pointer"
           aria-label="Decrease"
         >
           −
@@ -151,7 +151,7 @@ function SliderSimulator({
         {/* Plus button */}
         <button
           onClick={() => nudge(1)}
-          className="flex-shrink-0 text-xl font-bold text-slate-400 hover:text-white transition-colors w-6 text-center select-none cursor-pointer"
+          className="flex-shrink-0 text-xl font-bold text-slate-400 hover:text-slate-100 transition-colors w-6 text-center select-none cursor-pointer"
           aria-label="Increase"
         >
           +
@@ -193,7 +193,7 @@ function DropdownSimulator({
             className={`
               w-full text-left px-4 py-3 text-sm flex items-center gap-3 transition-colors
               ${option === selected
-                ? 'text-white bg-slate-800/50'
+                ? 'text-slate-100 bg-slate-800/50'
                 : 'text-slate-400 hover:bg-slate-800/30 hover:text-slate-300'
               }
               ${option !== options[options.length - 1] ? 'border-b border-slate-700/30' : ''}
@@ -221,7 +221,7 @@ function DropdownSimulator({
 
       {/* Dropdown select */}
       <div className="rounded-xl bg-slate-900/70 border border-slate-700/50 px-4 py-3 flex items-center justify-between">
-        <span className="text-sm text-white">{selected}</span>
+        <span className="text-sm text-slate-100">{selected}</span>
         <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
@@ -464,7 +464,7 @@ export default function ToggleCard({
                 </span>
               )}
             </div>
-            <h2 className="text-xl lg:text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors leading-tight">
+            <h2 className="text-xl lg:text-2xl font-bold text-slate-100 group-hover:text-cyan-400 transition-colors leading-tight">
               {setting.label}
             </h2>
             <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-1.5">
@@ -535,7 +535,7 @@ export default function ToggleCard({
               <div className="mb-5">
                 <button
                   onClick={() => toggleSection('discourse')}
-                  className="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors w-full text-left"
+                  className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors w-full text-left"
                 >
                   <svg
                     className={`w-4 h-4 transition-transform ${expandedSection === 'discourse' ? 'rotate-90' : ''}`}
@@ -580,7 +580,7 @@ export default function ToggleCard({
               <div className="mb-5">
                 <button
                   onClick={() => toggleSection('deepdive')}
-                  className="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors w-full text-left"
+                  className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors w-full text-left"
                 >
                   <svg
                     className={`w-4 h-4 transition-transform ${expandedSection === 'deepdive' ? 'rotate-90' : ''}`}
@@ -618,7 +618,7 @@ export default function ToggleCard({
                       className={`
                         px-2 py-0.5 text-xs rounded-md border
                         ${option === setting.default
-                          ? 'bg-slate-700 text-white border-slate-600'
+                          ? 'bg-slate-700 text-slate-100 border-slate-600'
                           : option === setting.recommended
                             ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
                             : 'bg-slate-800/50 text-slate-400 border-slate-700/50'
@@ -670,7 +670,7 @@ export default function ToggleCard({
                 <div className="rounded-xl bg-slate-900/60 border border-slate-700/40 p-4">
                   <div className="flex items-start gap-2 mb-2">
                     <span className="text-base">📌</span>
-                    <span className="text-sm font-semibold text-white">{t('settings.whenToUse')}:</span>
+                    <span className="text-sm font-semibold text-slate-100">{t('settings.whenToUse')}:</span>
                   </div>
                   <p className="text-slate-400 text-sm leading-relaxed pl-7">
                     {setting.useCase}
@@ -683,7 +683,7 @@ export default function ToggleCard({
                 <div className="rounded-xl bg-slate-900/60 border border-slate-700/40 p-4">
                   <div className="flex items-start gap-2 mb-3">
                     <span className="text-base">⚖️</span>
-                    <span className="text-sm font-semibold text-white">
+                    <span className="text-sm font-semibold text-slate-100">
                       {setting.safetyLevel === 'critical' ? t('settings.safetyConsiderations') : t('settings.tradeoffsPitfalls')}
                     </span>
                   </div>

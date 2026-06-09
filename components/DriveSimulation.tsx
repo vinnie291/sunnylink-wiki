@@ -1076,7 +1076,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
     return (
         <div
             ref={containerRef}
-            className="relative w-full overflow-hidden rounded-lg bg-slate-950"
+            className="force-dark relative w-full overflow-hidden rounded-lg bg-slate-950"
             style={{ aspectRatio: '16 / 9' }}
         >
             <svg

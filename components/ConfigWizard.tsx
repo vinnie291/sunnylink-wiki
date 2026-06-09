@@ -341,7 +341,7 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
         <div className="cw-step-enter space-y-6">
             <div className="text-center space-y-4">
                 <div className="text-5xl mb-2">🛠️</div>
-                <h2 className="text-2xl md:text-3xl font-bold text-white">
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-100">
                     {t('cw.welcome.title') === 'cw.welcome.title' ? 'Config Wizard' : t('cw.welcome.title')}
                 </h2>
                 <div className="flex items-center justify-center gap-1.5 -mt-1 mb-8">
@@ -416,7 +416,7 @@ function CarStep({ config, onChange, onNext, onBack }: { config: ConfigValues; o
         <div className="cw-step-enter space-y-6">
             <div className="text-center space-y-2">
                 <div className="text-4xl">🚗</div>
-                <h2 className="text-xl md:text-2xl font-bold text-white">Your Vehicle</h2>
+                <h2 className="text-xl md:text-2xl font-bold text-slate-100">Your Vehicle</h2>
                 <p className="text-sm text-slate-400">Select your vehicle to load community-recommended settings</p>
             </div>
 
@@ -518,7 +518,7 @@ function CarStep({ config, onChange, onNext, onBack }: { config: ConfigValues; o
             </div>
 
             <div className="flex justify-between max-w-xl mx-auto">
-                <button onClick={onBack} className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500 transition-all">
+                <button onClick={onBack} className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-100 border border-slate-700 hover:border-slate-500 transition-all">
                     ← Back
                 </button>
                 <button 
@@ -571,7 +571,7 @@ function SettingsStep({ title, icon, description, settingKeys, config, onChange,
         <div className="cw-step-enter space-y-5">
             <div className="text-center space-y-2">
                 <div className="text-4xl">{icon}</div>
-                <h2 className="text-xl md:text-2xl font-bold text-white">{title}</h2>
+                <h2 className="text-xl md:text-2xl font-bold text-slate-100">{title}</h2>
                 <p className="text-sm text-slate-400">{description}</p>
             </div>
 
@@ -597,7 +597,7 @@ function SettingsStep({ title, icon, description, settingKeys, config, onChange,
             </div>
 
             <div className="flex justify-between max-w-2xl mx-auto">
-                <button onClick={onBack} className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500 transition-all">
+                <button onClick={onBack} className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-100 border border-slate-700 hover:border-slate-500 transition-all">
                     ← Back
                 </button>
                 <button onClick={onNext}
@@ -655,7 +655,7 @@ function ReviewStep({
                     onClick={() => onChange(key, isOn ? 'False' : 'True')}
                     className="flex items-center justify-between w-full text-xs font-sans font-medium hover:opacity-80 transition-opacity text-left"
                 >
-                    <span className={isOn ? 'text-white' : 'text-slate-500'}>{isOn ? '✓ ON' : '✗ OFF'}</span>
+                    <span className={isOn ? 'text-slate-100' : 'text-slate-500'}>{isOn ? '✓ ON' : '✗ OFF'}</span>
                 </button>
             );
         }
@@ -667,7 +667,7 @@ function ReviewStep({
                     className="bg-transparent text-xs font-sans font-medium text-slate-200 outline-none w-full cursor-pointer hover:text-cyan-400"
                 >
                     {meta.options.map(opt => (
-                        <option key={opt} value={opt} className="bg-slate-800 text-white">{opt}</option>
+                        <option key={opt} value={opt} className="bg-slate-800 text-slate-100">{opt}</option>
                     ))}
                 </select>
             );
@@ -705,7 +705,7 @@ function ReviewStep({
         <div className="cw-step-enter space-y-6">
             <div className="text-center space-y-2">
                 <div className="text-4xl px-2">📋</div>
-                <h2 className="text-xl md:text-2xl font-bold text-white">Review Settings</h2>
+                <h2 className="text-xl md:text-2xl font-bold text-slate-100">Review Settings</h2>
                 <p className="text-sm text-slate-400">Review and adjust your {totalExported} settings before exporting</p>
             </div>
 
@@ -730,7 +730,7 @@ function ReviewStep({
             </div>
 
             <div className="flex justify-between max-w-2xl mx-auto pt-4">
-                <button onClick={onBack} className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500 transition-all">
+                <button onClick={onBack} className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-100 border border-slate-700 hover:border-slate-500 transition-all">
                     ← Back
                 </button>
                 <button onClick={onNext}
@@ -819,7 +819,7 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
         <div className="cw-step-enter space-y-6">
             <div className="text-center space-y-2">
                 <div className="text-4xl">📦</div>
-                <h2 className="text-xl md:text-2xl font-bold text-white">Your Config is Ready!</h2>
+                <h2 className="text-xl md:text-2xl font-bold text-slate-100">Your Config is Ready!</h2>
                 <p className="text-sm text-slate-400">
                     {config.make && config.model
                         ? `${config.year} ${config.make} ${config.model} — ${changedCount} customized settings`
@@ -865,7 +865,7 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
                     <div className="mt-3 animate-fade-in relative">
                         <div className="absolute top-3 right-3 z-10">
                             <button onClick={handleCopy}
-                                className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800/90 backdrop-blur-sm text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-600 transition-all flex items-center justify-center gap-1.5 shadow-lg">
+                                className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800/90 backdrop-blur-sm text-slate-300 hover:text-slate-100 hover:bg-slate-700 border border-slate-600 transition-all flex items-center justify-center gap-1.5 shadow-lg">
                                 {copied ? '✅ Copied!' : '📋 Copy JSON'}
                             </button>
                         </div>
@@ -890,11 +890,11 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
 
             {/* Navigation */}
             <div className="flex justify-between max-w-2xl mx-auto">
-                <button onClick={onBack} className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500 transition-all">
+                <button onClick={onBack} className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-100 border border-slate-700 hover:border-slate-500 transition-all">
                     ← Back
                 </button>
                 <button onClick={onRestart}
-                    className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500 transition-all">
+                    className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-100 border border-slate-700 hover:border-slate-500 transition-all">
                     🔄 Start Over
                 </button>
             </div>

@@ -106,7 +106,7 @@ export default function LanguageSwitcher() {
                     cursor-pointer
                     ${isActive
                                             ? 'bg-cyan-500/20 text-cyan-300'
-                                            : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
+                                            : 'text-slate-300 hover:bg-slate-700/50 hover:text-slate-100'
                                         }
                   `}
                                 >

@@ -144,7 +144,7 @@ export default function MobileCategorySidebar({
                     </h2>
                     <button
                         onClick={onClose}
-                        className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+                        className="p-2 rounded-xl text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-all"
                         aria-label="Close sidebar"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

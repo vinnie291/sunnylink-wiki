@@ -70,15 +70,15 @@ export function BranchDistributionChart({ data }: { data: ChartData[] }) {
                     </Pie>
                     <Tooltip
                         contentStyle={{
-                            backgroundColor: 'rgb(30 41 59)', // slate-800
-                            border: '1px solid rgb(71 85 105)', // slate-600
+                            backgroundColor: 'var(--color-slate-800)',
+                            border: '1px solid var(--color-slate-600)',
                             borderRadius: '0.75rem',
                             color: 'white'
                         }}
                         formatter={(value) => [(value ?? 0).toLocaleString(), 'Count']}
                     />
                     <Legend
-                        wrapperStyle={{ color: '#94a3b8' }}
+                        wrapperStyle={{ color: 'var(--color-slate-400)' }}
                         formatter={(value) => <span className="text-slate-400 text-sm">{value}</span>}
                     />
                 </PieChart>
@@ -120,8 +120,8 @@ export function TopModelsChart({ data }: { data: ChartData[] }) {
                     />
                     <Tooltip
                         contentStyle={{
-                            backgroundColor: 'rgb(30 41 59)',
-                            border: '1px solid rgb(71 85 105)',
+                            backgroundColor: 'var(--color-slate-800)',
+                            border: '1px solid var(--color-slate-600)',
                             borderRadius: '0.75rem',
                             color: 'white'
                         }}
@@ -144,7 +144,7 @@ export default function StatsCharts({ branchDistribution, topModels }: StatsChar
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Branch Distribution */}
             <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <h3 className="text-lg font-semibold text-slate-100 mb-4 flex items-center gap-2">
                     <span>🌿</span>
                     Branch Distribution
                 </h3>
@@ -153,7 +153,7 @@ export default function StatsCharts({ branchDistribution, topModels }: StatsChar
 
             {/* Top Models */}
             <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <h3 className="text-lg font-semibold text-slate-100 mb-4 flex items-center gap-2">
                     <span>🧠</span>
                     Top Models
                 </h3>

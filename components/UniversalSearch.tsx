@@ -222,7 +222,7 @@ export default function UniversalSearch() {
                         ref={inputRef}
                         type="text"
                         placeholder={t('search.universalPlaceholder')}
-                        className="flex-1 bg-transparent text-lg text-white placeholder-slate-500 outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus:ring-0"
+                        className="flex-1 bg-transparent text-lg text-slate-100 placeholder-slate-500 outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus:ring-0"
                         style={{ outline: 'none', boxShadow: 'none' }}
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
@@ -230,7 +230,7 @@ export default function UniversalSearch() {
                     />
                     <button 
                         onClick={() => setIsOpen(false)}
-                        className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
+                        className="p-1 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800/50 transition-colors"
                     >
                         <X className="w-5 h-5" />
                     </button>
@@ -261,7 +261,7 @@ export default function UniversalSearch() {
                                             {getIcon(item.type)}
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <div className={`font-medium truncate ${index === activeIndex ? 'text-white' : 'text-slate-200'}`}>
+                                            <div className={`font-medium truncate ${index === activeIndex ? 'text-slate-100' : 'text-slate-200'}`}>
                                                 <HighlightMatch text={item.title} />
                                             </div>
                                             <div className={`text-sm truncate mt-0.5 ${index === activeIndex ? 'text-slate-300' : 'text-slate-500'}`}>

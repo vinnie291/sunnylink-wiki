@@ -25,7 +25,7 @@ export default function StatsClient() {
                 {/* Page Title with Live Indicator */}
                 <div className="text-center mb-6">
                     <div className="inline-flex items-center gap-3 mb-4">
-                        <h2 className="text-2xl md:text-3xl font-bold text-white">
+                        <h2 className="text-2xl md:text-3xl font-bold text-slate-100">
                             {t('stats.title')}
                         </h2>
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-medium">
@@ -69,7 +69,7 @@ export default function StatsClient() {
                         {' '}•{' '}
                         <a href="https://github.com/sunnypilot/sunnypilot" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 transition-colors">{t('footer.github')}</a>
                         {' '}•{' '}
-                        <a href="https://buymeacoffee.com/vinhle.co" target="_blank" rel="noopener noreferrer" className="text-[#FFDD00] hover:text-[#ffe84d] transition-colors">{t('footer.buyMeCoffee')}</a>
+                        <a href="https://buymeacoffee.com/vinhle.co" target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:text-yellow-300 transition-colors">{t('footer.buyMeCoffee')}</a>
                     </p>
                 </footer>
             </div>

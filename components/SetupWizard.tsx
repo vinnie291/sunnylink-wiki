@@ -243,7 +243,7 @@ export default function SetupWizard() {
 
     const StepHeader = ({ title, icon }: { title: string, icon?: string }) => (
         <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-white flex items-center gap-2">
+            <h2 className="text-3xl font-bold text-slate-100 flex items-center gap-2">
                 <span>{title}</span>
                 {icon && <span>{icon}</span>}
             </h2>
@@ -284,7 +284,7 @@ export default function SetupWizard() {
 
                     {/* Text Section - Left on Desktop */}
                     <div className="flex-1 text-center md:text-left order-2 md:order-1">
-                        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+                        <h1 className="text-4xl md:text-6xl font-bold text-slate-100 mb-6 tracking-tight">
                             Sunnylink <br className="hidden md:block" />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">{t('wizard.title')}</span>
                         </h1>
@@ -362,7 +362,7 @@ export default function SetupWizard() {
                     </div>
                     <div className="flex items-center justify-between mb-8">
                         <div>
-                            <h2 className="text-3xl font-bold text-white mb-2">{t('wizard.results.title')}</h2>
+                            <h2 className="text-3xl font-bold text-slate-100 mb-2">{t('wizard.results.title')}</h2>
                             <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider ${answers.complexity === 'advanced' ? 'bg-purple-500/20 text-purple-400' : 'bg-green-500/20 text-green-400'}`}>
                                 {t('wizard.results.setup', { level: answers.complexity })}
                             </span>
@@ -409,7 +409,7 @@ export default function SetupWizard() {
                                                 <span className="text-[10px] font-bold bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded">{t('wizard.recipe.advLabel')}</span>
                                             )}
                                         </div>
-                                        <h3 className="text-lg font-medium text-white mb-1">{item.label}</h3>
+                                        <h3 className="text-lg font-medium text-slate-100 mb-1">{item.label}</h3>
                                         <div className="text-2xl font-bold text-cyan-400 mb-2">
                                             {typeof item.value === 'boolean' ? (item.value ? t('wizard.recipe.value.on') : t('wizard.recipe.value.off')) : item.value}
                                         </div>
@@ -429,7 +429,7 @@ export default function SetupWizard() {
                             className="
                                 px-6 py-3 rounded-xl 
                                 bg-slate-800 text-slate-400 
-                                hover:text-white hover:bg-slate-700 
+                                hover:text-slate-100 hover:bg-slate-700 
                                 transition-all duration-200 
                                 font-medium flex items-center justify-center gap-2 mx-auto
                             "
@@ -453,14 +453,14 @@ export default function SetupWizard() {
                                 className={`p-6 rounded-xl border text-left transition-all ${answers.device === 'comma3' ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
                             >
                                 <div className="text-2xl mb-2">📸</div>
-                                <div className="font-bold text-white">Comma 3 / 3X</div>
+                                <div className="font-bold text-slate-100">Comma 3 / 3X</div>
                             </button>
                             <button
                                 onClick={() => updateAnswer('device', 'comma4')}
                                 className={`p-6 rounded-xl border text-left transition-all ${answers.device === 'comma4' ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
                             >
                                 <div className="text-2xl mb-2">🔮</div>
-                                <div className="font-bold text-white">Comma 4</div>
+                                <div className="font-bold text-slate-100">Comma 4</div>
                             </button>
                         </div>
                     </div>
@@ -471,7 +471,7 @@ export default function SetupWizard() {
                             <select
                                 value={answers.carMake}
                                 onChange={(e) => updateAnswer('carMake', e.target.value)}
-                                className="w-full p-4 pr-12 rounded-xl bg-slate-800 border border-slate-700 text-white focus:border-cyan-500 outline-none appearance-none cursor-pointer"
+                                className="w-full p-4 pr-12 rounded-xl bg-slate-800 border border-slate-700 text-slate-100 focus:border-cyan-500 outline-none appearance-none cursor-pointer"
                             >
                                 <option value="hyundai_kia">{t('wizard.step1.make.hyundai')}</option>
                                 <option value="toyota_lexus">{t('wizard.step1.make.toyota')}</option>
@@ -491,7 +491,7 @@ export default function SetupWizard() {
                     <div className="pt-8 flex justify-end">
                         <button
                             onClick={() => setStep('complexity')}
-                            className="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-200 transition-colors"
+                            className="px-8 py-3 bg-slate-100 text-slate-950 rounded-xl font-bold hover:bg-slate-300 transition-colors"
                         >{t('wizard.next')} ➔</button>
                     </div>
                 </div>
@@ -506,7 +506,7 @@ export default function SetupWizard() {
                             className={`p-6 rounded-xl border text-left transition-all ${answers.complexity === 'easy' ? 'bg-green-500/20 border-green-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
                         >
                             <div className="text-3xl mb-3">🟢</div>
-                            <h3 className="text-xl font-bold text-white mb-2">{t('wizard.step2.easy.title')}</h3>
+                            <h3 className="text-xl font-bold text-slate-100 mb-2">{t('wizard.step2.easy.title')}</h3>
                             <p className="text-sm text-slate-400">{t('wizard.step2.easy.desc')}</p>
                         </button>
                         <button
@@ -514,15 +514,15 @@ export default function SetupWizard() {
                             className={`p-6 rounded-xl border text-left transition-all ${answers.complexity === 'advanced' ? 'bg-purple-500/20 border-purple-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
                         >
                             <div className="text-3xl mb-3">🟣</div>
-                            <h3 className="text-xl font-bold text-white mb-2">{t('wizard.step2.adv.title')}</h3>
+                            <h3 className="text-xl font-bold text-slate-100 mb-2">{t('wizard.step2.adv.title')}</h3>
                             <p className="text-sm text-slate-400">{t('wizard.step2.adv.desc')}</p>
                         </button>
                     </div>
                     <div className="pt-8 flex justify-between">
-                        <button onClick={() => setStep('hardware')} className="text-slate-500 hover:text-white">← {t('wizard.previous')}</button>
+                        <button onClick={() => setStep('hardware')} className="text-slate-500 hover:text-slate-100">← {t('wizard.previous')}</button>
                         <button
                             onClick={() => setStep('vibe')}
-                            className="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-200 transition-colors"
+                            className="px-8 py-3 bg-slate-100 text-slate-950 rounded-xl font-bold hover:bg-slate-300 transition-colors"
                         >{t('wizard.next')} ➔</button>
                     </div>
                 </div>
@@ -544,15 +544,15 @@ export default function SetupWizard() {
                             >
                                 <div className="text-4xl">{opt.icon}</div>
                                 <div>
-                                    <div className="font-bold text-white text-lg">{opt.title}</div>
+                                    <div className="font-bold text-slate-100 text-lg">{opt.title}</div>
                                     <div className="text-slate-400 text-sm">{opt.desc}</div>
                                 </div>
                             </button>
                         ))}
                     </div>
                     <div className="pt-8 flex justify-between">
-                        <button onClick={() => setStep('complexity')} className="text-slate-500 hover:text-white">← {t('wizard.previous')}</button>
-                        <button onClick={() => setStep('capabilities')} className="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-200 transition-colors">{t('wizard.next')} ➔</button>
+                        <button onClick={() => setStep('complexity')} className="text-slate-500 hover:text-slate-100">← {t('wizard.previous')}</button>
+                        <button onClick={() => setStep('capabilities')} className="px-8 py-3 bg-slate-100 text-slate-950 rounded-xl font-bold hover:bg-slate-300 transition-colors">{t('wizard.next')} ➔</button>
                     </div>
                 </div>
             )}
@@ -565,11 +565,11 @@ export default function SetupWizard() {
                             <h3 className="text-lg text-slate-300">{t('wizard.step4.stop.title')}</h3>
                             <div className="flex gap-4">
                                 <button onClick={() => updateAnswer('cityDriving', true)} className={`flex-1 p-4 rounded-xl border ${answers.cityDriving ? 'bg-green-500/20 border-green-500' : 'bg-slate-800 border-slate-700'}`}>
-                                    <div className="font-bold text-white">{t('wizard.step4.stop.yes')}</div>
+                                    <div className="font-bold text-slate-100">{t('wizard.step4.stop.yes')}</div>
                                     <div className="text-xs text-slate-400">{t('wizard.step4.stop.yesDesc')}</div>
                                 </button>
                                 <button onClick={() => updateAnswer('cityDriving', false)} className={`flex-1 p-4 rounded-xl border ${!answers.cityDriving ? 'bg-slate-700 border-slate-500' : 'bg-slate-800 border-slate-700'}`}>
-                                    <div className="font-bold text-white">{t('wizard.step4.stop.no')}</div>
+                                    <div className="font-bold text-slate-100">{t('wizard.step4.stop.no')}</div>
                                     <div className="text-xs text-slate-400">{t('wizard.step4.stop.noDesc')}</div>
                                 </button>
                             </div>
@@ -588,7 +588,7 @@ export default function SetupWizard() {
                         </div>
                     </div>
                     <div className="pt-8 flex justify-between">
-                        <button onClick={() => setStep('vibe')} className="text-slate-500 hover:text-white">← {t('wizard.previous')}</button>
+                        <button onClick={() => setStep('vibe')} className="text-slate-500 hover:text-slate-100">← {t('wizard.previous')}</button>
                         <button
                             onClick={() => {
                                 if (answers.complexity === 'advanced') {
@@ -621,15 +621,15 @@ export default function SetupWizard() {
                             >
                                 <div className="text-4xl">{opt.icon}</div>
                                 <div>
-                                    <div className="font-bold text-white text-lg">{opt.title}</div>
+                                    <div className="font-bold text-slate-100 text-lg">{opt.title}</div>
                                     <div className="text-slate-400 text-sm">{opt.desc}</div>
                                 </div>
                             </button>
                         ))}
                     </div>
                     <div className="pt-8 flex justify-between">
-                        <button onClick={() => setStep('capabilities')} className="text-slate-500 hover:text-white">← {t('wizard.previous')}</button>
-                        <button onClick={() => setStep('mads')} className="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-200 transition-colors">{t('wizard.next')} ➔</button>
+                        <button onClick={() => setStep('capabilities')} className="text-slate-500 hover:text-slate-100">← {t('wizard.previous')}</button>
+                        <button onClick={() => setStep('mads')} className="px-8 py-3 bg-slate-100 text-slate-950 rounded-xl font-bold hover:bg-slate-300 transition-colors">{t('wizard.next')} ➔</button>
                     </div>
                 </div>
             )}
@@ -644,7 +644,7 @@ export default function SetupWizard() {
                             className={`p-6 rounded-xl border text-left transition-all ${answers.madsMode === 'default' ? 'bg-slate-700 border-slate-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
                         >
                             <div className="text-3xl mb-3">🛑</div>
-                            <h3 className="text-xl font-bold text-white mb-2">{t('wizard.step6.def.title')}</h3>
+                            <h3 className="text-xl font-bold text-slate-100 mb-2">{t('wizard.step6.def.title')}</h3>
                             <p className="text-sm text-slate-400">{t('wizard.step6.def.desc')}</p>
                         </button>
                         <button
@@ -652,12 +652,12 @@ export default function SetupWizard() {
                             className={`p-6 rounded-xl border text-left transition-all ${answers.madsMode === 'always_on' ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
                         >
                             <div className="text-3xl mb-3">🛡️</div>
-                            <h3 className="text-xl font-bold text-white mb-2">{t('wizard.step6.always.title')}</h3>
+                            <h3 className="text-xl font-bold text-slate-100 mb-2">{t('wizard.step6.always.title')}</h3>
                             <p className="text-sm text-slate-400">{t('wizard.step6.always.desc')}</p>
                         </button>
                     </div>
                     <div className="pt-8 flex justify-between">
-                        <button onClick={() => setStep('laneChange')} className="text-slate-500 hover:text-white">← {t('wizard.previous')}</button>
+                        <button onClick={() => setStep('laneChange')} className="text-slate-500 hover:text-slate-100">← {t('wizard.previous')}</button>
                         <button onClick={() => setStep('results')} className="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold shadow-green-500/20 hover:scale-105 transition-transform">{t('wizard.step4.generate')}</button>
                     </div>
                 </div>

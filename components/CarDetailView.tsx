@@ -108,7 +108,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                 {/* Close Button */}
                 <button
                     onClick={onClose}
-                    className="absolute top-6 right-6 p-2 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors z-10"
+                    className="absolute top-6 right-6 p-2 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-100 transition-colors z-10"
                 >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -120,7 +120,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                     <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
                         <div>
                             <div className="text-sm font-bold text-cyan-500 uppercase tracking-widest mb-1">{vehicle.make}</div>
-                            <h2 className="text-4xl font-bold text-white">{vehicle.model}</h2>
+                            <h2 className="text-4xl font-bold text-slate-100">{vehicle.model}</h2>
                             {vehicle.variants.length > 1 ? (
                                 <div className="relative mt-2 inline-block">
                                     <select
@@ -216,7 +216,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                             <select
                                                 value={selectedConfigIdx}
                                                 onChange={(e) => setSelectedConfigIdx(Number(e.target.value))}
-                                                className="appearance-none bg-slate-800/80 hover:bg-slate-700 border border-slate-700/50 text-white text-sm font-bold py-2 pl-4 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all cursor-pointer w-full"
+                                                className="appearance-none bg-slate-800/80 hover:bg-slate-700 border border-slate-700/50 text-slate-100 text-sm font-bold py-2 pl-4 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all cursor-pointer w-full"
                                             >
                                                 {configs.map((config, idx) => (
                                                     <option key={idx} value={idx}>{config.name}</option>
@@ -242,7 +242,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                         <div key={idx} className="p-4 rounded-2xl bg-slate-800/30 border border-slate-700/50 flex items-center justify-between">
                                             <div>
                                                 <div className="text-xs text-slate-500 mb-0.5">{s.label}</div>
-                                                <div className="font-bold text-white">{s.value}</div>
+                                                <div className="font-bold text-slate-100">{s.value}</div>
                                             </div>
                                             <span className="text-2xl">{s.icon}</span>
                                         </div>
@@ -283,19 +283,19 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                 <div className="flex flex-col gap-4">
                                     <div className="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
                                         <div className="text-xs text-slate-500 mb-1">{t('cars.device') || 'Device'}</div>
-                                        <div className="font-bold text-white flex items-center gap-2">
+                                        <div className="font-bold text-slate-100 flex items-center gap-2">
                                             <span>📱</span> {currentVehicle.hardware.device}
                                         </div>
                                     </div>
                                     <div className="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
                                         <div className="text-xs text-slate-500 mb-1">{t('cars.harness') || 'Harness'}</div>
-                                        <div className="font-bold text-white flex items-center gap-2">
+                                        <div className="font-bold text-slate-100 flex items-center gap-2">
                                             <span>🔌</span> {currentVehicle.hardware.harness}
                                         </div>
                                     </div>
                                     <div className="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
                                         <div className="text-xs text-slate-500 mb-1">{t('cars.radar') || 'Radar'}</div>
-                                        <div className="font-bold text-white flex items-center gap-2">
+                                        <div className="font-bold text-slate-100 flex items-center gap-2">
                                             <span>📡</span> {currentVehicle.hardware.radar}
                                         </div>
                                     </div>
@@ -308,7 +308,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                         href={currentVehicle.sunnyTuneUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#3B82F6] hover:to-[#60A5FA] text-white font-bold transition-all shadow-lg hover:shadow-blue-500/30"
+                                        className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#3B82F6] hover:to-[#60A5FA] text-slate-100 font-bold transition-all shadow-lg hover:shadow-blue-500/30"
                                     >
                                         <svg 
                                           xmlns="http://www.w3.org/2000/svg" 
@@ -320,7 +320,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                           strokeWidth="2" 
                                           strokeLinecap="round" 
                                           strokeLinejoin="round" 
-                                          className="lucide lucide-git-fork w-4 h-4 text-white"
+                                          className="lucide lucide-git-fork w-4 h-4 text-slate-100"
                                         >
                                           <circle cx="12" cy="18" r="3"></circle>
                                           <circle cx="6" cy="6" r="3"></circle>

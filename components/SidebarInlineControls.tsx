@@ -2,6 +2,7 @@
 
 import LanguageSwitcher from './LanguageSwitcher';
 import SearchButton from './SearchButton';
+import ThemeToggle from './ThemeToggle';
 
 /**
  * Inline version of GlobalControls that appears at the top of the desktop sidebar
@@ -25,6 +26,9 @@ export default function SidebarInlineControls({ visible }: { visible: boolean })
             </div>
             <div className="flex-1 min-w-0">
                 <SearchButton stretch />
+            </div>
+            <div className="shrink-0">
+                <ThemeToggle />
             </div>
         </div>
     );
