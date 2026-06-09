@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import LanguageSwitcher from './LanguageSwitcher';
 import SearchButton from './SearchButton';
+import ThemeToggle from './ThemeToggle';
 import ExitWizardButton from './ExitWizardButton';
 import { useLanguage } from '../lib/i18n';
 
@@ -45,6 +46,7 @@ export default function GlobalControls() {
                 <div className="flex items-center gap-3">
                     <LanguageSwitcher />
                     <SearchButton />
+                    <ThemeToggle />
                 </div>
                 {isWizard && <ExitWizardButton />}
             </div>

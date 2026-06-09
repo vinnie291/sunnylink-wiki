@@ -14,7 +14,7 @@ export default function ExitWizardButton() {
                 border border-slate-700/50 
                 hover:bg-slate-700/50 hover:border-slate-600/50 
                 transition-all duration-200 
-                text-sm font-medium text-slate-400 hover:text-white
+                text-sm font-medium text-slate-400 hover:text-slate-100
             "
         >
             <X className="w-4 h-4" />

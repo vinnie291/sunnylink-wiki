@@ -6,6 +6,7 @@ import UniversalSearch from '@/components/UniversalSearch';
 import GlobalControls from '@/components/GlobalControls';
 import { LanguageProvider } from '@/lib/i18n';
 import WebMCP from '@/components/WebMCP';
+import SessionDonateModal from '@/components/SessionDonateModal';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -37,6 +38,22 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
+        {/* Theme bootstrap — applies saved/system theme before first paint to prevent flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var t = localStorage.getItem('theme');
+                  if (!t) {
+                    t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                  }
+                  if (t === 'light') document.documentElement.classList.add('light');
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
         {/* Google Analytics — deferred until user interaction to save ~60 KiB on initial load */}
         <script
           dangerouslySetInnerHTML={{
@@ -78,13 +95,14 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-sans antialiased pb-20 md:pb-0 overflow-x-hidden">
+      <body className="font-sans antialiased pb-20 md:pb-0 overflow-x-hidden" suppressHydrationWarning>
         <LanguageProvider>
           {children}
           <GlobalControls />
           <UniversalSearch />
           <BottomNav />
           <WebMCP />
+          <SessionDonateModal />
         </LanguageProvider>
       </body>
     </html>

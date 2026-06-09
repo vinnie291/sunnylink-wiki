@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, ReactNode } from 'react';
 import { useLanguage } from '../lib/i18n';
 import { getFilterButtonClasses, getFilterBadgeClasses } from '../lib/filterStyles';
 
 interface Category {
     id: string;
     name: string;
-    icon: string;
+    icon: ReactNode;
     count: number;
 }
 

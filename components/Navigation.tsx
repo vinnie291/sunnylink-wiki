@@ -26,7 +26,7 @@ export default function Navigation() {
                 px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all
                 ${isActive(item.href)
                         ? 'bg-cyan-700 text-white shadow-lg shadow-cyan-500/30'
-                        : 'text-slate-400 hover:text-white hover:bg-slate-700/50'
+                        : 'text-slate-400 hover:text-slate-100 hover:bg-slate-700/50'
                     }
               `}
                 >

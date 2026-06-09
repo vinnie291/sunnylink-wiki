@@ -34,7 +34,7 @@ export default function EmptyState({ searchQuery, onClearSearch }: EmptyStatePro
             </div>
 
             {/* Message */}
-            <h3 className="text-xl font-semibold text-white mb-2">
+            <h3 className="text-xl font-semibold text-slate-100 mb-2">
                 {t('empty.title')}
             </h3>
             <p className="text-slate-400 mb-6 max-w-md">
@@ -51,7 +51,7 @@ export default function EmptyState({ searchQuery, onClearSearch }: EmptyStatePro
                             onClick={() => {
                                 // This would need to be passed up, for now just clear
                             }}
-                            className="px-3 py-1.5 rounded-lg text-sm bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:bg-slate-700/50 hover:text-white transition-all"
+                            className="px-3 py-1.5 rounded-lg text-sm bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:bg-slate-700/50 hover:text-slate-100 transition-all"
                         >
                             {suggestion}
                         </button>

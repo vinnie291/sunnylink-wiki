@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, ReactNode } from 'react';
 import { useLanguage } from '../lib/i18n';
 import { getFilterButtonClasses, getFilterBadgeClasses, type FilterVariant } from '../lib/filterStyles';
 
 interface Category {
     id: string;
     name: string;
-    icon: string;
+    icon: ReactNode;
     count?: number;
     description?: string;
     models?: unknown[];
@@ -144,7 +144,7 @@ export default function MobileCategorySidebar({
                     </h2>
                     <button
                         onClick={onClose}
-                        className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+                        className="p-2 rounded-xl text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-all"
                         aria-label="Close sidebar"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -206,17 +206,7 @@ export default function MobileCategorySidebar({
                                 }}
                             />
 
-                            {/* SunnyTune filter */}
-                            <SidebarButton
-                                isActive={activeCategories.includes('sunnytune')}
-                                variant="amber"
-                                icon={<SunnyTuneIcon />}
-                                label={t('filter.sunnytune')}
-                                onClick={() => {
-                                    onToggleCategory?.('sunnytune');
-                                    onClose();
-                                }}
-                            />
+
 
                             {categories.map((cat) => (
                                 <SidebarButton

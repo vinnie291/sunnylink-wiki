@@ -44,7 +44,7 @@ export default function PageShell({ children, showFooter = true, showHeader = tr
                             {' '}•{' '}
                             <a href="https://github.com/sunnypilot/sunnypilot" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 transition-colors">{t('footer.github')}</a>
                             {' '}•{' '}
-                            <a href="https://buymeacoffee.com/vinhle.co" target="_blank" rel="noopener noreferrer" className="text-[#FFDD00] hover:text-[#ffe84d] transition-colors">☕ {t('footer.buyMeCoffee')}</a>
+                            <a href="https://buymeacoffee.com/vinhle.co" target="_blank" rel="noopener noreferrer" className="link-coffee font-medium">☕ {t('footer.buyMeCoffee')}</a>
                         </p>
                     </footer>
                 )}

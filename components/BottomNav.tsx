@@ -49,7 +49,7 @@ export default function BottomNav() {
                 `}
                             >
                                 <span className="text-xl">{item.icon}</span>
-                                <span className={`text-[9px] font-medium mt-0.5 ${isActive ? 'text-white' : 'text-slate-400'}`}>
+                                <span className={`text-[9px] font-medium mt-0.5 ${isActive ? 'text-slate-100' : 'text-slate-400'}`}>
                                     {t(item.labelKey)}
                                 </span>
                             </Link>

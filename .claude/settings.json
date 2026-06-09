@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -sS -o /tmp/m4.html -w \"HTTP %{http_code}\\\\n\" \"http://localhost:3000/models\")",
+      "Bash(curl -sS -o /tmp/m5.html -w \"HTTP %{http_code}\\\\n\" \"http://localhost:3000/models\")"
+    ]
+  }
+}

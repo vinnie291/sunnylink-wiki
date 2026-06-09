@@ -180,7 +180,7 @@ export default function SettingsDatabase({
 
                     {/* Help Card */}
                     <div className="bg-gradient-to-br from-cyan-500/10 to-violet-500/10 rounded-2xl border border-cyan-500/20 p-4">
-                        <p className="text-sm font-medium text-white mb-2">💡 {t('settings.quickTip')}</p>
+                        <p className="text-sm font-medium text-slate-100 mb-2">💡 {t('settings.quickTip')}</p>
                         <p className="text-xs text-slate-400 leading-relaxed">
                             {t('settings.quickTipDesc')}
                         </p>
@@ -191,7 +191,7 @@ export default function SettingsDatabase({
                         href="https://buymeacoffee.com/vinhle.co"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-2xl border border-[#FFDD00]/50 text-[#FFDD00] font-bold text-sm transition-all duration-300 hover:bg-[#FFDD00]/10 hover:border-[#FFDD00] hover:shadow-[0_0_16px_rgba(255,221,0,0.4)] hover:animate-pulse"
+                        className="btn-coffee"
                     >
                         <span className="text-lg">☕</span>
                         {t('footer.buyMeCoffee')}
@@ -247,7 +247,7 @@ export default function SettingsDatabase({
                 {/* Header Controls */}
                 < div className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4" >
                     <div>
-                        <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+                        <h2 className="text-2xl font-bold text-slate-100 mb-2 flex items-center gap-3">
                             {searchQuery ? (
                                 <>
                                     <span>🔍</span> {t('settings.searchResults')}
@@ -289,7 +289,7 @@ export default function SettingsDatabase({
                                 onChange={(e) => setSortBy(e.target.value)}
                                 className="
                                     appearance-none outline-none bg-transparent w-full
-                                    pl-2 pr-10 py-2.5 text-sm font-medium text-white
+                                    pl-2 pr-10 py-2.5 text-sm font-medium text-slate-100
                                     cursor-pointer
                                 "
                             >
@@ -317,9 +317,9 @@ export default function SettingsDatabase({
                                         <table className="w-full text-left border-collapse">
                                             <thead>
                                                 <tr className="bg-slate-800/80 text-slate-400 text-sm uppercase tracking-wider">
-                                                    <th className="p-4 font-medium cursor-pointer hover:text-white" onClick={() => handleSort('name')}>Setting Name</th>
+                                                    <th className="p-4 font-medium cursor-pointer hover:text-slate-100" onClick={() => handleSort('name')}>Setting Name</th>
                                                     <th className="p-4 font-medium">Default Value</th>
-                                                    <th className="p-4 font-medium cursor-pointer hover:text-white" onClick={() => handleSort('category')}>Category</th>
+                                                    <th className="p-4 font-medium cursor-pointer hover:text-slate-100" onClick={() => handleSort('category')}>Category</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-slate-800">
@@ -329,7 +329,7 @@ export default function SettingsDatabase({
                                                         className={`group hover:bg-slate-800/50 transition-colors ${highlightedKey === setting.key ? 'bg-cyan-500/10' : ''}`}
                                                     >
                                                         <td className="p-4">
-                                                            <div className="font-medium text-white">{setting.label}</div>
+                                                            <div className="font-medium text-slate-100">{setting.label}</div>
                                                             <div className="text-xs text-slate-400 font-mono mt-0.5">{setting.key}</div>
                                                         </td>
                                                         <td className="p-4">

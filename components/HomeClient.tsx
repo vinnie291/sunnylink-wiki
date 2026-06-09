@@ -198,7 +198,7 @@ export default function HomeClient({ discourseSettings }: HomeClientProps) {
                             href="https://buymeacoffee.com/vinhle.co"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#FFDD00] hover:text-[#ffe84d] transition-colors"
+                            className="link-coffee font-medium"
                         >
                             ☕ {t('footer.buyMeCoffee')}
                         </a>

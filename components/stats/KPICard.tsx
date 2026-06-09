@@ -28,7 +28,7 @@ export default function KPICard({ title, value, icon, subtitle }: KPICardProps) 
             <div className="flex items-start justify-between">
                 <div>
                     <p className="text-slate-400 text-sm font-medium mb-1">{title}</p>
-                    <p className="text-3xl font-bold text-white">
+                    <p className="text-3xl font-bold text-slate-100">
                         {typeof value === 'number' ? value.toLocaleString() : value}
                     </p>
                     {subtitle && (

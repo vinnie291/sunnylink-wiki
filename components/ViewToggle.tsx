@@ -9,7 +9,7 @@ export default function ViewToggle({ viewMode, onChange }: ViewToggleProps) {
         <div className="flex bg-slate-800/50 p-1 rounded-xl border border-slate-700/50 backdrop-blur-sm">
             <button
                 onClick={() => onChange('grid')}
-                className={`relative px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${viewMode === 'grid' ? 'text-white bg-cyan-500/20 border border-cyan-500/30 shadow-sm' : 'text-slate-400 hover:text-slate-300 border border-transparent'}`}
+                className={`relative px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${viewMode === 'grid' ? 'text-slate-100 bg-cyan-500/20 border border-cyan-500/30 shadow-sm' : 'text-slate-400 hover:text-slate-300 border border-transparent'}`}
                 aria-label="Grid view"
             >
                 <span className="relative z-10 flex items-center gap-2">
@@ -19,7 +19,7 @@ export default function ViewToggle({ viewMode, onChange }: ViewToggleProps) {
             </button>
             <button
                 onClick={() => onChange('list')}
-                className={`relative px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${viewMode === 'list' ? 'text-white bg-cyan-500/20 border border-cyan-500/30 shadow-sm' : 'text-slate-400 hover:text-slate-300 border border-transparent'}`}
+                className={`relative px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${viewMode === 'list' ? 'text-slate-100 bg-cyan-500/20 border border-cyan-500/30 shadow-sm' : 'text-slate-400 hover:text-slate-300 border border-transparent'}`}
                 aria-label="List view"
             >
                 <span className="relative z-10 flex items-center gap-2">
