@@ -434,6 +434,10 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
     const speedRef = useRef(speed);
     const unitRef = useRef(unit);
     const scenarioRef = useRef<Scenario>(SCENARIOS[profile.scenarioKey]);
+    // Current traffic-light colour, written by the physics loop and read by
+    // drawFrame so the rendered light matches the car's stop/hold behaviour
+    // (the two run as separate passes and must not disagree).
+    const lightStateRef = useRef<'red' | 'yellow' | 'green'>('red');
     useEffect(() => { profileRef.current = profile; }, [profile]);
     useEffect(() => { speedRef.current = speed; }, [speed]);
     useEffect(() => { unitRef.current = unit; }, [unit]);
@@ -719,21 +723,15 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                                 const by = poleTopY - boxH / 2;
                                 svg += `<rect x="${bx.toFixed(2)}" y="${by.toFixed(2)}" width="${boxW.toFixed(2)}" height="${boxH.toFixed(2)}" rx="${(1.5 * scale).toFixed(2)}" fill="#1e293b" stroke="#475569" stroke-width="${(0.6 * scale).toFixed(2)}" />`;
                                 
-                                let lightState: 'red' | 'yellow' | 'green' = 'red';
-                                if (profile.afraidOfGreen) {
-                                    lightState = 'green';
-                                } else if (profile.creepMode !== 'none') {
-                                    lightState = 'red';
-                                } else {
-                                    if (stopDistance < 18) {
-                                        lightState = 'green';
-                                    } else if (stopDistance < 24) {
-                                        lightState = 'yellow';
-                                    } else {
-                                        lightState = 'red';
-                                    }
-                                }
-                                
+                                // Mirror the physics loop's current light colour
+                                // (set in tick) so the rendered signal agrees with
+                                // the car's stop/hold behaviour. In the static
+                                // (reduced-motion) redraw the loop isn't running, so
+                                // this reads its last/default value — a red light,
+                                // which is fine to show at rest.
+                                const lightState: 'red' | 'yellow' | 'green' =
+                                    profile.afraidOfGreen ? 'green' : lightStateRef.current;
+
                                 const r = 2.0 * scale;
                                 const cyRed = poleTopY - 4.5 * scale;
                                 const cyYellow = poleTopY;
@@ -827,81 +825,18 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                 
                 const intersectionId = Math.floor(currentIntersectionZ / intersectionInterval);
                 const isStopSign = profile.stopSignStops ? true : (profile.afraidOfGreen || profile.creepMode !== 'none' ? false : (intersectionId % 2 === 0));
-                
+
+                // Minimum time the car holds at a stopped red light before the
+                // signal cycles to green — long enough to read as a real light
+                // rather than a momentary tap-stop.
+                const RED_LIGHT_HOLD_S = 3.5;
+
                 let lightState: 'red' | 'yellow' | 'green' = 'red';
+
                 if (profile.afraidOfGreen) {
+                    // Light is green but the model hesitates to proceed through it.
                     lightState = 'green';
-                } else if (profile.creepMode !== 'none') {
-                    lightState = 'red';
-                } else {
-                    if (stopDistance < 18) {
-                        lightState = 'green';
-                    } else if (stopDistance < 24) {
-                        lightState = 'yellow';
-                    } else {
-                        lightState = 'red';
-                    }
-                }
-                
-                if (isStopSign || lightState === 'red') {
-                    if (dToStop > 0) {
-                        let decel = 1.0;
-                        if (profile.lateBraking) {
-                            decel = Math.min(1.0, Math.pow(dToStop / 18, 2));
-                        } else if (profile.pathSmoothness < 0.4) {
-                            decel = Math.min(1.0, dToStop / 40);
-                        } else {
-                            decel = Math.min(1.0, dToStop / 30);
-                        }
-                        targetSpeedMph = Math.min(targetSpeedMph, speedMph * decel);
-                        stopTime = 0;
-                        
-                        if (isStopSign) {
-                            currentStatus = "🛑 APPROACHING STOP SIGN";
-                            statusColor = "#f87171"; // red-400
-                        } else {
-                            currentStatus = "🔴 APPROACHING RED LIGHT";
-                            statusColor = "#f87171"; // red-400
-                        }
-                    } else {
-                        stopTime += dt;
-                        if (profile.creepMode === 'creep') {
-                            targetSpeedMph = 2.5;
-                            currentStatus = "🐌 CREEPING AT RED";
-                            statusColor = "#fbbf24"; // amber-400
-                        } else if (profile.creepMode === 'fails_stop') {
-                            if (stopTime > 1.0) {
-                                targetSpeedMph = 4.0;
-                                currentStatus = "🚨 FAILING TO STAY STOPPED";
-                                statusColor = "#ef4444"; // red-500
-                            } else {
-                                targetSpeedMph = 0.0;
-                                currentStatus = "🛑 STOPPED AT RED LIGHT";
-                                statusColor = "#ef4444"; // red-500
-                            }
-                        } else if (isStopSign) {
-                            if (stopTime > 1.8) {
-                                targetSpeedMph = speedMph;
-                                currentStatus = "🟢 RECOVERING SPEED";
-                                statusColor = "#34d399"; // emerald-400
-                            } else {
-                                targetSpeedMph = 0.0;
-                                currentStatus = "🛑 STOPPED AT STOP SIGN";
-                                statusColor = "#ef4444"; // red-500
-                            }
-                        } else {
-                            if (stopTime > 2.0) {
-                                targetSpeedMph = speedMph;
-                                currentStatus = "🟢 RECOVERING SPEED";
-                                statusColor = "#34d399"; // emerald-400
-                            } else {
-                                targetSpeedMph = 0.0;
-                                currentStatus = "🛑 STOPPED AT RED LIGHT";
-                                statusColor = "#ef4444"; // red-500
-                            }
-                        }
-                    }
-                } else if (lightState === 'green' && profile.afraidOfGreen) {
+                    stopTime = 0;
                     if (dToStop > 0 && dToStop < 22) {
                         targetSpeedMph = Math.min(targetSpeedMph, 11.0);
                         currentStatus = "⚠️ HESITATING AT GREEN";
@@ -909,7 +844,77 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                     } else {
                         targetSpeedMph = speedMph;
                     }
+                } else if (dToStop > 0) {
+                    // Approaching the line — decelerate. Red lights stay red on
+                    // approach (a real light you stop at doesn't pre-empt green).
+                    let decel = 1.0;
+                    if (profile.lateBraking) {
+                        decel = Math.min(1.0, Math.pow(dToStop / 18, 2));
+                    } else if (profile.pathSmoothness < 0.4) {
+                        decel = Math.min(1.0, dToStop / 40);
+                    } else {
+                        decel = Math.min(1.0, dToStop / 30);
+                    }
+                    targetSpeedMph = Math.min(targetSpeedMph, speedMph * decel);
+                    stopTime = 0;
+                    lightState = 'red';
+
+                    if (isStopSign) {
+                        currentStatus = "🛑 APPROACHING STOP SIGN";
+                    } else {
+                        currentStatus = "🔴 APPROACHING RED LIGHT";
+                    }
+                    statusColor = "#f87171"; // red-400
+                } else {
+                    // Stopped at the line.
+                    stopTime += dt;
+                    if (profile.creepMode === 'creep') {
+                        lightState = 'red';
+                        targetSpeedMph = 2.5;
+                        currentStatus = "🐌 CREEPING AT RED";
+                        statusColor = "#fbbf24"; // amber-400
+                    } else if (profile.creepMode === 'fails_stop') {
+                        lightState = 'red';
+                        if (stopTime > 1.0) {
+                            targetSpeedMph = 4.0;
+                            currentStatus = "🚨 FAILING TO STAY STOPPED";
+                            statusColor = "#ef4444"; // red-500
+                        } else {
+                            targetSpeedMph = 0.0;
+                            currentStatus = "🛑 STOPPED AT RED LIGHT";
+                            statusColor = "#ef4444"; // red-500
+                        }
+                    } else if (isStopSign) {
+                        // Stop signs are a brief full stop, then proceed.
+                        lightState = 'red';
+                        if (stopTime > 1.8) {
+                            targetSpeedMph = speedMph;
+                            currentStatus = "🟢 RECOVERING SPEED";
+                            statusColor = "#34d399"; // emerald-400
+                        } else {
+                            targetSpeedMph = 0.0;
+                            currentStatus = "🛑 STOPPED AT STOP SIGN";
+                            statusColor = "#ef4444"; // red-500
+                        }
+                    } else {
+                        // Red light: hold for the full signal duration, then the
+                        // light turns green and the car proceeds.
+                        if (stopTime > RED_LIGHT_HOLD_S) {
+                            lightState = 'green';
+                            targetSpeedMph = speedMph;
+                            currentStatus = "🟢 GREEN — PROCEEDING";
+                            statusColor = "#34d399"; // emerald-400
+                        } else {
+                            lightState = 'red';
+                            targetSpeedMph = 0.0;
+                            currentStatus = "🛑 STOPPED AT RED LIGHT";
+                            statusColor = "#ef4444"; // red-500
+                        }
+                    }
                 }
+
+                // Publish for drawFrame so the rendered light matches the physics.
+                lightStateRef.current = lightState;
             }
 
             // Implement speed fluctuations in yoyoMode trailing a lead car
