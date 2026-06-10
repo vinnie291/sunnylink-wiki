@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import ToggleCard from './ToggleCard';
+import LazyReveal from './LazyReveal';
 import SearchFilter from './SearchFilter';
 import CategoryFilter from './CategoryFilter';
 import EmptyState from './EmptyState';
@@ -354,13 +355,15 @@ export default function SettingsDatabase({
                                 <div className="md:hidden grid gap-4">
                                     {visibleSettings.map((setting) => (
                                         <div key={setting.key}>
-                                            <ToggleCard
-                                                setting={setting}
-                                                categoryName={setting.categoryName || ''}
-                                                categoryIcon={setting.categoryIcon || ''}
-                                                categoryId={setting.categoryId || ''}
-                                                isHighlighted={setting.key === highlightedKey}
-                                            />
+                                            <LazyReveal>
+                                                <ToggleCard
+                                                    setting={setting}
+                                                    categoryName={setting.categoryName || ''}
+                                                    categoryIcon={setting.categoryIcon || ''}
+                                                    categoryId={setting.categoryId || ''}
+                                                    isHighlighted={setting.key === highlightedKey}
+                                                />
+                                            </LazyReveal>
                                         </div>
                                     ))}
                                 </div>
@@ -369,13 +372,15 @@ export default function SettingsDatabase({
                             <div className="grid gap-4">
                                 {visibleSettings.map((setting) => (
                                     <div key={setting.key}>
-                                        <ToggleCard
-                                            setting={setting}
-                                            categoryName={setting.categoryName || ''}
-                                            categoryIcon={setting.categoryIcon || ''}
-                                            categoryId={setting.categoryId || ''}
-                                            isHighlighted={setting.key === highlightedKey}
-                                        />
+                                        <LazyReveal>
+                                            <ToggleCard
+                                                setting={setting}
+                                                categoryName={setting.categoryName || ''}
+                                                categoryIcon={setting.categoryIcon || ''}
+                                                categoryId={setting.categoryId || ''}
+                                                isHighlighted={setting.key === highlightedKey}
+                                            />
+                                        </LazyReveal>
                                     </div>
                                 ))}
                             </div>

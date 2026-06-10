@@ -700,7 +700,7 @@ function LazyModelCard({ children }: { children: React.ReactNode }) {
     return (
         <div ref={ref} className="h-full">
             {shown ? (
-                <div className="h-full animate-in fade-in duration-300">
+                <div className="h-full animate-fade-in">
                     {children}
                 </div>
             ) : (
