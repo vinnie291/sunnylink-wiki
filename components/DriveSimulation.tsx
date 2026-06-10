@@ -44,6 +44,15 @@ export interface DrivingProfile {
     slowWheelReturn?: boolean;
     negatives?: string[];
     positives?: string[];
+    // ── Behavior ratings (0..1, derived from community feedback phrases) ──
+    cornerCutting: number;          // 1 = badly cuts corners / hugs apex inside
+    longPingPong: number;           // 1 = severe speed/gap oscillation behind a lead
+    trafficHandling: number;        // 1 = handles slower/stopped traffic well
+    leadAccelResponse: number;      // 1 = accelerates promptly when lead pulls away
+    cornerBrakeReliability: number; // 1 = reliably slows for corners
+    lightStopReliability: number;   // 1 = reliably stops (and stays stopped) for lights
+    wobbleSpeedBias: number;        // 1 = wobble worsens at high speed, -1 = at low speed
+    slowWobble?: boolean;           // "drunk driver" slow ping-pong character
 }
 
 export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
@@ -207,6 +216,55 @@ export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
     const afraidOfGreen = negs.includes('afraid of green') || negs.includes('green lights') || consensus.includes('afraid of green');
     const slowWheelReturn = negs.includes('slow to straighten') || negs.includes('slow wheel return') || negs.includes('sluggish wheel return') || consensus.includes('slow to straighten') || consensus.includes('slow wheel return');
 
+    // ── Behavior ratings, mined from community feedback phrasing ──
+    // Each starts at a community-score-informed baseline, then explicit
+    // positive/negative phrases pull it toward 1 or 0.
+    const all = `${negs} ${consensus}`;
+    const baseline = Math.max(0.25, Math.min(0.8, 0.35 + (score - 50) / 120));
+    const hasAny = (haystack: string, terms: string[]) => terms.some((t) => haystack.includes(t));
+
+    // Does it cut corners?
+    let cornerCutting = 0.2;
+    if (hasAny(all, ['cut urban corners', 'cuts corners', 'curve inside-line', 'inside line', 'hugs turns tight', 'too tight'])) cornerCutting = 0.85;
+    else if (tags.includes('Aggressive')) cornerCutting = 0.5;
+    if (hasAny(pos, ['wider turns away from curbs', 'wide turns']) || hasAny(negs, ['wide turns', 'understeer'])) cornerCutting = 0.05;
+
+    // Longitudinal ping-pong following a lead car
+    let longPingPong = Math.max(0, 0.45 - baseline * 0.4);
+    if (hasAny(all, ['yoyo', 'yo-yo', 'inconsistent gap', 'surging'])) longPingPong = 0.85;
+    if (hasAny(pos, ['solid longitudinal', 'smooth stops for leads', 'smooth stops behind leads', 'stable highway speed matching', 'stabilizes speed'])) longPingPong = Math.min(longPingPong, 0.1);
+
+    // Slower / stopped traffic ahead
+    let trafficHandling = baseline;
+    if (hasAny(all, ['stop-and-go', 'heavy traffic', 'requires driver interventions', 'brakes hard for no reason', 'late braking', 'sluggish stops'])) trafficHandling = 0.2;
+    if (hasAny(pos, ['smooth stops', 'consistent braking', 'softest', 'solid longitudinal', 'resolves v2’s sluggish stops', 'sluggish stops'])) trafficHandling = Math.max(trafficHandling, 0.85);
+
+    // Acceleration following a lead
+    let leadAccelResponse = baseline;
+    if (hasAny(all, ['hesitant when lead vehicle moves', 'hesitant to accelerate', 'sluggish launch', 'sluggish off-the-line', 'drives too slow without a lead', 'slow to follow'])) leadAccelResponse = 0.15;
+    if (hasAny(pos, ['quick acceleration', 'aggressive longitudinal acceleration', 'smooth city acceleration', 'reaches cruise speed well', 'more willing to reach set speeds', 'dec-level acceleration'])) leadAccelResponse = Math.max(leadAccelResponse, 0.9);
+
+    // Reliably slows for corners
+    let cornerBrakeReliability = baseline + 0.15;
+    if (hasAny(all, ['oversteer on high-speed', 'poor turn-in', 'turns lock out', 'speeds aggressively', 'too fast into', 'hot into'])) cornerBrakeReliability = 0.2;
+    if (hasAny(pos, ['good 90-degree turn handling', 'better cornering', 'slows for curves', 'curve speed'])) cornerBrakeReliability = Math.max(cornerBrakeReliability, 0.9);
+    cornerBrakeReliability = Math.max(0, Math.min(1, cornerBrakeReliability));
+
+    // Reliably stops for lights
+    let lightStopReliability = baseline + 0.2;
+    if (creepMode !== 'none' || afraidOfGreen) lightStopReliability = 0.15;
+    if (hasAny(all, ['hesitant at neighborhood intersections', 'inconsistent city speed', 'complex intersections'])) lightStopReliability = Math.min(lightStopReliability, 0.35);
+    if (hasAny(pos, ['stays stopped at red lights', 'consistent stopping for lights', 'stops for every stop'])) lightStopReliability = 0.95;
+    lightStopReliability = Math.max(0, Math.min(1, lightStopReliability));
+
+    // Wobble that depends on speed ("extreme ping-pong above 50mph",
+    // "twitchy at low speeds") — biases the live wobble amplitude.
+    let wobbleSpeedBias = 0;
+    if (hasAny(all, ['above 50mph', 'above 65mph', 'high speed', 'high-speed', 'at high speeds'])) wobbleSpeedBias = 1;
+    else if (hasAny(all, ['at low speeds', 'low-speed jerk', 'low speed jerk'])) wobbleSpeedBias = -1;
+
+    const slowWobble = all.includes('drunk');
+
     return {
         speed,
         pathSmoothness: smoothness,
@@ -230,6 +288,14 @@ export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
         slowWheelReturn,
         negatives,
         positives,
+        cornerCutting,
+        longPingPong,
+        trafficHandling,
+        leadAccelResponse,
+        cornerBrakeReliability,
+        lightStopReliability,
+        wobbleSpeedBias,
+        slowWobble,
     };
 }
 
@@ -294,7 +360,7 @@ function rng(seed: number) {
 // steering, city = sharp kinks + lower top speed).
 const TAU = Math.PI * 2;
 
-export type ScenarioKey = 'highway' | 'curves' | 'city';
+export type ScenarioKey = 'highway' | 'curves' | 'city' | 'gauntlet';
 
 interface Scenario {
     key: ScenarioKey;
@@ -304,6 +370,46 @@ interface Scenario {
     heading: (z: number) => number;
     x: (z: number) => number;
     relativeX: (carZ: number, d: number) => number;
+}
+
+function buildScenario(
+    key: ScenarioKey,
+    label: string,
+    loopZ: number,
+    speedMul: number,
+    headingFn: (z: number) => number,
+): Scenario {
+    // Trapezoid integration. Harmonic scenarios are odd-symmetric so their
+    // integral closes to 0 naturally; designed routes (gauntlet) get a
+    // constant-heading drift correction so x() stays periodic in loopZ.
+    const TABLE_SIZE = 4096;
+    const dz = loopZ / TABLE_SIZE;
+
+    let drift = 0;
+    for (let i = 0; i < TABLE_SIZE; i++) {
+        drift += (headingFn(i * dz) + headingFn((i + 1) * dz)) * 0.5 * dz;
+    }
+    const correction = drift / loopZ;
+    const heading = (z: number) => headingFn((((z % loopZ) + loopZ) % loopZ)) - correction;
+
+    const table = new Float32Array(TABLE_SIZE + 1);
+    let acc = 0;
+    table[0] = 0;
+    for (let i = 0; i < TABLE_SIZE; i++) {
+        acc += (heading(i * dz) + heading((i + 1) * dz)) * 0.5 * dz;
+        table[i + 1] = acc;
+    }
+    const x = (z: number) => {
+        const period = (((z % loopZ) + loopZ) % loopZ);
+        const idxF = period / dz;
+        const i0 = Math.floor(idxF);
+        const t = idxF - i0;
+        return table[i0] * (1 - t) + table[i0 + 1] * t;
+    };
+    const relativeX = (carZ: number, d: number) =>
+        x(carZ + d) - x(carZ) - d * heading(carZ);
+
+    return { key, label, loopZ, speedMul, heading, x, relativeX };
 }
 
 function makeScenario(
@@ -326,29 +432,68 @@ function makeScenario(
         if (Math.abs(raw) < deadzone) return 0;
         return Math.sign(raw) * (Math.abs(raw) - deadzone);
     };
+    return buildScenario(key, label, loopZ, speedMul, heading);
+}
 
-    // Trapezoid integration; the heading is odd-symmetric over its period
-    // so the integral closes to 0 → x() is itself periodic in loopZ.
-    const TABLE_SIZE = 4096;
-    const dz = loopZ / TABLE_SIZE;
-    const table = new Float32Array(TABLE_SIZE + 1);
-    let acc = 0;
-    table[0] = 0;
-    for (let i = 0; i < TABLE_SIZE; i++) {
-        acc += (heading(i * dz) + heading((i + 1) * dz)) * 0.5 * dz;
-        table[i + 1] = acc;
+// ── The Gauntlet — one designed route that stresses every behavior ──
+// Corners of increasing sharpness, two traffic lights, a stop sign, a
+// stopped-traffic zone, and a cut-in event, laid out along a single
+// 440-unit loop.
+export const GAUNTLET_LOOP = 440;
+
+export interface GauntletCorner {
+    start: number;
+    end: number;
+    curv: number;       // signed curvature (+ = right)
+    sharpness: 1 | 2 | 3 | 4;
+}
+
+export const GAUNTLET_CORNERS: GauntletCorner[] = [
+    { start: 45, end: 75, curv: 0.14, sharpness: 1 },   // gentle right
+    { start: 110, end: 140, curv: -0.20, sharpness: 2 },  // medium left
+    { start: 180, end: 205, curv: 0.30, sharpness: 3 },   // sharp right
+    { start: 240, end: 255, curv: -0.22, sharpness: 2 },  // S-curve left…
+    { start: 256, end: 271, curv: 0.22, sharpness: 2 },   // …then right
+    { start: 300, end: 330, curv: -0.42, sharpness: 4 },  // hairpin left
+];
+
+export const GAUNTLET_EVENTS = {
+    leadZoneEnd: 78,         // lead-follow demo until here (and after leadZoneRestart)
+    leadZoneRestart: 398,
+    redLightZ: 95,
+    trafficZone: { carZ: 165, stopAt: 158.5, end: 178 },
+    cutInZ: 215,
+    greenLightZ: 288,
+    stopSignZ: 368,          // straight after the hairpin (braking zone clears the exit ramp)
+} as const;
+
+// Per-sharpness corner speed factor (fraction of set speed a careful
+// model slows to). Sharper corner → bigger required slowdown.
+const CORNER_SPEED_FACTOR: Record<number, number> = { 1: 0.85, 2: 0.65, 3: 0.45, 4: 0.32 };
+
+// Minimum time the car holds at a stopped red light before the signal
+// cycles to green — long enough to read as a real light rather than a
+// momentary tap-stop. Shared by the city and gauntlet scenarios.
+const RED_LIGHT_HOLD_S = 3.5;
+
+function gauntletHeading(z: number): number {
+    // Smooth ramp in/out of each constant-curvature arc (real roads use
+    // clothoid-like transitions; smoothstep is close enough visually).
+    const RAMP = 7;
+    let h = 0;
+    for (const c of GAUNTLET_CORNERS) {
+        if (z <= c.start - RAMP || z >= c.end + RAMP) continue;
+        let w = 1;
+        if (z < c.start) w = smoothstep((z - (c.start - RAMP)) / RAMP);
+        else if (z > c.end) w = smoothstep(((c.end + RAMP) - z) / RAMP);
+        h += c.curv * w;
     }
-    const x = (z: number) => {
-        const period = (((z % loopZ) + loopZ) % loopZ);
-        const idxF = period / dz;
-        const i0 = Math.floor(idxF);
-        const t = idxF - i0;
-        return table[i0] * (1 - t) + table[i0 + 1] * t;
-    };
-    const relativeX = (carZ: number, d: number) =>
-        x(carZ + d) - x(carZ) - d * heading(carZ);
+    return h;
+}
 
-    return { key, label, loopZ, speedMul, heading, x, relativeX };
+function smoothstep(t: number): number {
+    const x = Math.max(0, Math.min(1, t));
+    return x * x * (3 - 2 * x);
 }
 
 const SCENARIOS: Record<ScenarioKey, Scenario> = {
@@ -367,6 +512,7 @@ const SCENARIOS: Record<ScenarioKey, Scenario> = {
         { n: 3, amp: 0.18 },
         { n: 5, amp: 0.10 },
     ]),
+    gauntlet: buildScenario('gauntlet', 'GAUNTLET', GAUNTLET_LOOP, 0.7, gauntletHeading),
 };
 
 function pickScenarioKey(name: string, tags: string[]): ScenarioKey {
@@ -400,9 +546,57 @@ interface Props {
     seedKey: string; // model name (deterministic noise)
     disableRainbow?: boolean;
     hideStatus?: boolean;
+    scenarioOverride?: ScenarioKey;
+    // Compact card view: status pill moves to the bottom-right (the card's
+    // expand button occupies the top-right corner).
+    mini?: boolean;
 }
 
-export default function DriveSimulation({ profile, seedKey, disableRainbow, hideStatus }: Props) {
+// Ghosted block car — rear view, semi-transparent so it reads as
+// "simulated traffic" rather than a real obstacle. Used for the lead car,
+// stopped traffic, ambient adjacent-lane traffic, and the cut-in car.
+function ghostCarSvg(x: number, y: number, scale: number, opacity: number, braking: boolean): string {
+    const brake = braking ? 1 : 0.45;
+    return `<g transform="translate(${x.toFixed(2)} ${y.toFixed(2)}) scale(${scale.toFixed(3)})" opacity="${opacity.toFixed(2)}">`
+        + `<rect x="-16" y="-28" width="32" height="28" rx="4.5" fill="#475569" fill-opacity="0.55" stroke="#94a3b8" stroke-opacity="0.8" stroke-width="1.4" />`
+        + `<rect x="-12" y="-24" width="24" height="9" rx="2" fill="#0f172a" fill-opacity="0.7" />`
+        + `<rect x="-14.5" y="-8" width="8" height="4.5" rx="1.2" fill="#ef4444" fill-opacity="${brake}" />`
+        + `<rect x="6.5" y="-8" width="8" height="4.5" rx="1.2" fill="#ef4444" fill-opacity="${brake}" />`
+        + `</g>`;
+}
+
+// Roadside stop sign — octagon on a pole, matching the city scenario's look.
+function stopSignSvg(poleX: number, baseY: number, scale: number): string {
+    const poleTopY = baseY - 40 * scale;
+    const r = 9 * scale;
+    const pts: string[] = [];
+    for (let a = 0; a < 8; a++) {
+        const angle = (a * Math.PI) / 4 + Math.PI / 8;
+        pts.push(`${(poleX + r * Math.cos(angle)).toFixed(2)},${(poleTopY + r * Math.sin(angle)).toFixed(2)}`);
+    }
+    return `<line x1="${poleX.toFixed(2)}" y1="${baseY.toFixed(2)}" x2="${poleX.toFixed(2)}" y2="${poleTopY.toFixed(2)}" stroke="#64748b" stroke-width="${(1.8 * scale).toFixed(2)}" />`
+        + `<polygon points="${pts.join(' ')}" fill="#ef4444" stroke="white" stroke-width="${(0.8 * scale).toFixed(2)}" />`
+        + `<text x="${poleX.toFixed(2)}" y="${(poleTopY + 2.5 * scale).toFixed(2)}" fill="white" font-size="${(3.5 * scale).toFixed(2)}" font-weight="bold" font-family="sans-serif" text-anchor="middle">STOP</text>`;
+}
+
+// Roadside chevron warning sign for sharp corners (sharpness ≥ 3).
+function chevronSignSvg(x: number, y: number, scale: number, dir: number): string {
+    const a = 6 * dir;
+    return `<g transform="translate(${x.toFixed(2)} ${y.toFixed(2)}) scale(${scale.toFixed(3)})">`
+        + `<line x1="0" y1="0" x2="0" y2="-20" stroke="#64748b" stroke-width="2" />`
+        + `<rect x="-9" y="-34" width="18" height="14" rx="2" fill="#facc15" stroke="#854d0e" stroke-width="1" />`
+        + `<path d="M ${-a} -31 L ${a} -27 L ${-a} -23" fill="none" stroke="#1c1917" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />`
+        + `</g>`;
+}
+
+interface FrameExtras {
+    lead: { depth: number; lateral: number; opacity: number; braking: boolean } | null;
+    ghosts: { depth: number; lateral: number; opacity: number; braking: boolean }[];
+    routePos: number;
+    light1: 'red' | 'yellow' | 'green'; // gauntlet light #1 live phase
+}
+
+export default function DriveSimulation({ profile, seedKey, disableRainbow, hideStatus, scenarioOverride, mini }: Props) {
     const containerRef = useRef<HTMLDivElement>(null);
     const leftEdgeRef = useRef<SVGPathElement>(null);
     const rightEdgeRef = useRef<SVGPathElement>(null);
@@ -416,6 +610,8 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
     const rainbowGradientRef = useRef<SVGLinearGradientElement>(null);
     const leadCarRef = useRef<SVGGElement>(null);
     const intersectionGroupRef = useRef<SVGGElement>(null);
+    const trafficGroupRef = useRef<SVGGElement>(null);
+    const progressDotRef = useRef<HTMLDivElement>(null);
     const speedValRef = useRef<HTMLSpanElement>(null);
     const statusTextRef = useRef<HTMLSpanElement>(null);
 
@@ -433,7 +629,8 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
     const profileRef = useRef(profile);
     const speedRef = useRef(speed);
     const unitRef = useRef(unit);
-    const scenarioRef = useRef<Scenario>(SCENARIOS[profile.scenarioKey]);
+    const effectiveScenarioKey = scenarioOverride ?? profile.scenarioKey;
+    const scenarioRef = useRef<Scenario>(SCENARIOS[effectiveScenarioKey]);
     // Current traffic-light colour, written by the physics loop and read by
     // drawFrame so the rendered light matches the car's stop/hold behaviour
     // (the two run as separate passes and must not disagree).
@@ -441,7 +638,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
     useEffect(() => { profileRef.current = profile; }, [profile]);
     useEffect(() => { speedRef.current = speed; }, [speed]);
     useEffect(() => { unitRef.current = unit; }, [unit]);
-    useEffect(() => { scenarioRef.current = SCENARIOS[profile.scenarioKey]; }, [profile.scenarioKey]);
+    useEffect(() => { scenarioRef.current = SCENARIOS[effectiveScenarioKey]; }, [effectiveScenarioKey]);
 
     // Detect the user's preferred speed unit once on mount.
     useEffect(() => { setUnit(detectSpeedUnit()); }, []);
@@ -504,6 +701,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
         markerDepths: number[],
         wheelAngle: number,
         carX: number,
+        extras?: FrameExtras,
     ) => {
         const profile = profileRef.current;
         const scenario = scenarioRef.current;
@@ -661,25 +859,144 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
             // Positioned/scaled per-frame in drawFrame; starts fully
             // collapsed so it doesn't flash on the first paint.
             if (leadCarRef.current) {
-                let followDistance = profile.followDistance;
-                if (profile.yoyoMode) {
-                    const fluctuation = Math.sin(carZ / 10) * 0.12;
-                    followDistance = Math.max(0.2, Math.min(0.95, followDistance + fluctuation));
+                if (extras) {
+                    // Gauntlet: longitudinal sim drives the lead car directly.
+                    if (extras.lead) {
+                        const leadYFrac = depthToYFrac(extras.lead.depth);
+                        const leadY = CAR_Y + (HORIZON_Y - CAR_Y) * leadYFrac;
+                        const leadX = getRoadCenterX(leadYFrac) + extras.lead.lateral * 2 * laneHalfWidth(leadYFrac);
+                        const leadScale = Math.max(0.12, 1 - leadYFrac);
+                        leadCarRef.current.setAttribute(
+                            'transform',
+                            `translate(${leadX.toFixed(2)} ${leadY.toFixed(2)}) scale(${leadScale.toFixed(3)})`
+                        );
+                        leadCarRef.current.setAttribute('opacity', extras.lead.opacity.toFixed(2));
+                        leadCarRef.current.querySelectorAll<SVGRectElement>('[data-brake]').forEach((r) =>
+                            r.setAttribute('fill-opacity', extras.lead!.braking ? '1' : '0.45'));
+                    } else {
+                        leadCarRef.current.setAttribute('transform', 'translate(200 225) scale(0)');
+                    }
+                } else {
+                    let followDistance = profile.followDistance;
+                    if (profile.yoyoMode) {
+                        const fluctuation = Math.sin(carZ / 10) * 0.12;
+                        followDistance = Math.max(0.2, Math.min(0.95, followDistance + fluctuation));
+                    }
+                    const leadDepth = 1.5 + followDistance * 7;
+                    const leadYFrac = depthToYFrac(leadDepth);
+                    const leadY = CAR_Y + (HORIZON_Y - CAR_Y) * leadYFrac;
+                    const leadX = getRoadCenterX(leadYFrac);
+                    const leadScale = Math.max(0.12, 1 - leadYFrac);
+                    leadCarRef.current.setAttribute(
+                        'transform',
+                        `translate(${leadX.toFixed(2)} ${leadY.toFixed(2)}) scale(${leadScale.toFixed(3)})`
+                    );
+                    leadCarRef.current.setAttribute('opacity', '1');
                 }
-                const leadDepth = 1.5 + followDistance * 7;
-                const leadYFrac = depthToYFrac(leadDepth);
-                const leadY = CAR_Y + (HORIZON_Y - CAR_Y) * leadYFrac;
-        const leadX = getRoadCenterX(leadYFrac);
-                const leadScale = Math.max(0.12, 1 - leadYFrac);
-                leadCarRef.current.setAttribute(
-                    'transform',
-                    `translate(${leadX.toFixed(2)} ${leadY.toFixed(2)}) scale(${leadScale.toFixed(3)})`
-                );
+            }
+
+            // Gauntlet ghost traffic — stopped cars, cut-in car, ambient
+            // adjacent-lane traffic. Rendered far-to-near so closer cars
+            // paint on top.
+            if (trafficGroupRef.current) {
+                let svg = '';
+                if (extras) {
+                    const sorted = [...extras.ghosts].sort((a, b) => b.depth - a.depth);
+                    for (const g of sorted) {
+                        if (g.depth < -0.5 || g.depth > 42 || g.opacity <= 0.02) continue;
+                        const yFrac = depthToYFrac(g.depth);
+                        if (yFrac > 0.96) continue;
+                        const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
+                        const x = getRoadCenterX(yFrac) + g.lateral * 2 * laneHalfWidth(yFrac);
+                        const scale = Math.max(0.1, (1 - yFrac) * 1.55);
+                        svg += ghostCarSvg(x, y, scale, g.opacity, g.braking);
+                    }
+                }
+                trafficGroupRef.current.innerHTML = svg;
+            }
+
+            // Gauntlet route progress dot
+            if (extras && progressDotRef.current) {
+                const frac = (extras.routePos / GAUNTLET_LOOP) * 100;
+                progressDotRef.current.style.left = `${frac.toFixed(2)}%`;
             }
 
             if (intersectionGroupRef.current) {
                 let svg = '';
-                if (scenario.key === 'city') {
+                if (scenario.key === 'gauntlet' && extras) {
+                    const routePos = extras.routePos;
+                    const wrapDist = (z: number) => {
+                        const d = ((z - routePos) % GAUNTLET_LOOP + GAUNTLET_LOOP) % GAUNTLET_LOOP;
+                        return d > GAUNTLET_LOOP / 2 ? d - GAUNTLET_LOOP : d;
+                    };
+
+                    const drawLight = (lightZ: number, state: 'red' | 'yellow' | 'green') => {
+                        const stopDistance = wrapDist(lightZ);
+                        if (stopDistance <= -1.2 || stopDistance >= 45) return;
+                        const yFrac = depthToYFrac(stopDistance);
+                        if (yFrac >= 0.98) return;
+                        const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
+                        const roadCenterX = getRoadCenterX(yFrac);
+                        const hw = laneHalfWidth(yFrac);
+                        const scale = (1.0 / Math.max(0.2, stopDistance + PERSPECTIVE_K)) * 2.2;
+
+                        svg += `<path d="M ${(roadCenterX - hw).toFixed(2)} ${y.toFixed(2)} L ${(roadCenterX + hw).toFixed(2)} ${y.toFixed(2)}" stroke="rgba(255,255,255,0.75)" stroke-width="${(4 * scale).toFixed(2)}" stroke-linecap="square" />`;
+
+                        const poleX = roadCenterX + hw * 1.35;
+                        const poleTopY = y - 40 * scale;
+                        svg += `<line x1="${poleX.toFixed(2)}" y1="${y.toFixed(2)}" x2="${poleX.toFixed(2)}" y2="${poleTopY.toFixed(2)}" stroke="#64748b" stroke-width="${(1.8 * scale).toFixed(2)}" />`;
+                        svg += `<rect x="${(poleX - 3.5 * scale).toFixed(2)}" y="${(poleTopY - 9 * scale).toFixed(2)}" width="${(7 * scale).toFixed(2)}" height="${(18 * scale).toFixed(2)}" rx="${(1.5 * scale).toFixed(2)}" fill="#1e293b" stroke="#475569" stroke-width="${(0.6 * scale).toFixed(2)}" />`;
+
+                        const r = 2.0 * scale;
+                        const lamps: ['red' | 'yellow' | 'green', number, string, string][] = [
+                            ['red', poleTopY - 4.5 * scale, '#ef4444', '#450a0a'],
+                            ['yellow', poleTopY, '#facc15', '#422006'],
+                            ['green', poleTopY + 4.5 * scale, '#22c55e', '#062f14'],
+                        ];
+                        for (const [name, cy, on, off] of lamps) {
+                            const lit = name === state;
+                            const glow = lit ? ` style="filter: drop-shadow(0 0 ${4 * scale}px ${on})"` : '';
+                            svg += `<circle cx="${poleX.toFixed(2)}" cy="${cy.toFixed(2)}" r="${r.toFixed(2)}" fill="${lit ? on : off}"${glow} />`;
+                        }
+                    };
+
+                    drawLight(GAUNTLET_EVENTS.redLightZ, extras.light1);
+                    drawLight(GAUNTLET_EVENTS.greenLightZ, 'green');
+
+                    // Stop sign + stop line
+                    {
+                        const d = wrapDist(GAUNTLET_EVENTS.stopSignZ);
+                        if (d > -1.2 && d < 45) {
+                            const yFrac = depthToYFrac(d);
+                            if (yFrac < 0.98) {
+                                const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
+                                const roadCenterX = getRoadCenterX(yFrac);
+                                const hw = laneHalfWidth(yFrac);
+                                const scale = (1.0 / Math.max(0.2, d + PERSPECTIVE_K)) * 2.2;
+                                svg += `<path d="M ${(roadCenterX - hw).toFixed(2)} ${y.toFixed(2)} L ${(roadCenterX + hw).toFixed(2)} ${y.toFixed(2)}" stroke="rgba(255,255,255,0.75)" stroke-width="${(4 * scale).toFixed(2)}" stroke-linecap="square" />`;
+                                svg += stopSignSvg(roadCenterX + hw * 1.35, y, scale);
+                            }
+                        }
+                    }
+
+                    // Chevron warning signs on the outside of sharp corners
+                    for (const c of GAUNTLET_CORNERS) {
+                        if (c.sharpness < 3) continue;
+                        for (let signZ = c.start; signZ < c.end; signZ += 11) {
+                            const d = wrapDist(signZ);
+                            if (d <= 0 || d >= 40) continue;
+                            const yFrac = depthToYFrac(d);
+                            if (yFrac >= 0.96) continue;
+                            const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
+                            const hw = laneHalfWidth(yFrac);
+                            // outside of the curve: right curve (+) → left roadside
+                            const side = c.curv > 0 ? -1 : 1;
+                            const x = getRoadCenterX(yFrac) + side * hw * 3.6;
+                            const scale = Math.max(0.1, (1 - yFrac) * 1.4);
+                            svg += chevronSignSvg(x, y, scale, c.curv > 0 ? 1 : -1);
+                        }
+                    }
+                } else if (scenario.key === 'city') {
                     const intersectionInterval = 120;
                     const currentIntersectionZ = Math.floor(carZ / intersectionInterval) * intersectionInterval + intersectionInterval;
                     const stopDistance = currentIntersectionZ - carZ;
@@ -770,8 +1087,19 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
         for (let i = 0; i < 5; i++) initialDepths.push(1.5 + i * 3.5);
         const trajX = profile.laneOffset * 14;
         const restingCarX = profile.laneOffset * 14;
-        drawFrame(0, 0, trajX, initialDepths, 0, restingCarX);
-    }, [isVisible, reduceMotion, profile, drawFrame]);
+        const extras: FrameExtras | undefined = effectiveScenarioKey === 'gauntlet'
+            ? {
+                lead: { depth: 1.5 + profile.followDistance * 7, lateral: 0, opacity: 0.85, braking: false },
+                ghosts: [
+                    { depth: 14, lateral: -1, opacity: 0.35, braking: false },
+                    { depth: 20, lateral: 1, opacity: 0.35, braking: false },
+                ],
+                routePos: 0,
+                light1: 'red',
+            }
+            : undefined;
+        drawFrame(0, 0, trajX, initialDepths, 0, restingCarX, extras);
+    }, [isVisible, reduceMotion, profile, drawFrame, effectiveScenarioKey]);
 
     // Animation loop — only restarts when seed (model) or visibility changes.
     // Live profile/speed edits flow through refs without tearing down state.
@@ -782,6 +1110,17 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
         const phase1 = seedRng() * Math.PI * 2;
         const phase2 = seedRng() * Math.PI * 2;
         const phase3 = seedRng() * Math.PI * 2;
+
+        // Ambient traffic fleet for the gauntlet — deterministic per model,
+        // spread across the adjacent lanes with varied closing speeds and
+        // loop lengths so cars don't bunch into a repeating convoy.
+        const ambientFleet = Array.from({ length: 6 }, (_, i) => ({
+            lane: (i % 2 === 0 ? -1 : 1) as -1 | 1,   // alternate lanes, three per side
+            speedFac: 0.22 + seedRng() * 0.45,         // how fast we close on it
+            phase: seedRng() * 44,
+            loop: 36 + seedRng() * 14,                 // respawn distance, varied per car
+            opacity: 0.26 + seedRng() * 0.17,
+        }));
 
         const NUM_MARKERS = 11;
         const MAX_DEPTH = 40;
@@ -801,6 +1140,22 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
         let stopTime = 0;
         let snapTimer = 0;
         let snapDirection = 0; // -1 for left snap, 1 for right snap, 0 for none
+
+        // ── Gauntlet event state (reset each lap) ──
+        let gLap = -1;
+        // Light #1 runs a real signal cycle: green on approach → yellow →
+        // red (dwell) → green again. The model reacts to each phase.
+        let gLightPhase: 'approach' | 'yellow' | 'red' | 'go' = 'approach';
+        let gLightT = 0;      // time in current phase
+        let gLightStopT = 0;  // time spent stopped at the red
+        let gQueueAdv = 0;    // how far the queued car has pulled away on green
+        let gSignStopT = 0;
+        let gSignDone = false;
+        let gTrafficPhase: 'idle' | 'waiting' | 'resume' | 'done' = 'idle';
+        let gTrafficWaitT = 0;
+        let gTrafficAdvance = 0;
+        let gCutInPhase: 'idle' | 'merging' | 'following' | 'leaving' | 'done' = 'idle';
+        let gCutInT = 0;
 
         const tick = (now: number) => {
             const profile = profileRef.current;
@@ -825,11 +1180,6 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                 
                 const intersectionId = Math.floor(currentIntersectionZ / intersectionInterval);
                 const isStopSign = profile.stopSignStops ? true : (profile.afraidOfGreen || profile.creepMode !== 'none' ? false : (intersectionId % 2 === 0));
-
-                // Minimum time the car holds at a stopped red light before the
-                // signal cycles to green — long enough to read as a real light
-                // rather than a momentary tap-stop.
-                const RED_LIGHT_HOLD_S = 3.5;
 
                 let lightState: 'red' | 'yellow' | 'green' = 'red';
 
@@ -917,8 +1267,277 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                 lightStateRef.current = lightState;
             }
 
+            // ───────────────── Gauntlet — all behaviors on one route ─────────────────
+            let gauntletExtras: FrameExtras | undefined;
+            if (scenario.key === 'gauntlet') {
+                const tSec = now / 1000;
+                const routePos = ((carZ % GAUNTLET_LOOP) + GAUNTLET_LOOP) % GAUNTLET_LOOP;
+                const curLap = Math.floor(carZ / GAUNTLET_LOOP);
+                if (curLap !== gLap) {
+                    gLap = curLap;
+                    gLightPhase = 'approach'; gLightT = 0; gLightStopT = 0; gQueueAdv = 0;
+                    gSignStopT = 0; gSignDone = false;
+                    gTrafficPhase = 'idle'; gTrafficWaitT = 0; gTrafficAdvance = 0;
+                    gCutInPhase = 'idle'; gCutInT = 0;
+                }
+
+                const ghosts: FrameExtras['ghosts'] = [];
+                let lead: FrameExtras['lead'] = null;
+
+                const consider = (t: number, status: string, color: string) => {
+                    if (t < targetSpeedMph) {
+                        targetSpeedMph = Math.max(0, t);
+                        currentStatus = status;
+                        statusColor = color;
+                    }
+                };
+
+                // 1) Corners — does it slow down reliably? does it cut the apex?
+                const brakeReliability = profile.cornerBrakeReliability;
+                for (const c of GAUNTLET_CORNERS) {
+                    const caps = [99, 55, 38, 26];
+                    const cornerSpeed = Math.min(speedMph * CORNER_SPEED_FACTOR[c.sharpness], caps[c.sharpness - 1]);
+                    // Unreliable models don't shed enough speed before the bend
+                    const effective = cornerSpeed + (speedMph - cornerSpeed) * (1 - brakeReliability) * 0.7;
+                    const brakeDist = profile.lateBraking ? 13 : 26;
+                    const dTo = c.start - routePos;
+                    if (dTo > 0 && dTo < brakeDist) {
+                        const ramp = profile.lateBraking ? Math.pow(dTo / brakeDist, 2) : dTo / brakeDist;
+                        consider(
+                            effective + (speedMph - effective) * ramp,
+                            brakeReliability < 0.4 ? `⚠️ HOT INTO CORNER S${c.sharpness}` : `🌀 SLOWING FOR CORNER S${c.sharpness}`,
+                            brakeReliability < 0.4 ? '#fbbf24' : '#38bdf8',
+                        );
+                    } else if (routePos >= c.start && routePos <= c.end) {
+                        let st = `🌀 CORNER S${c.sharpness}`;
+                        let col = '#38bdf8';
+                        if (profile.cornerCutting > 0.5) { st = `✂️ CUTTING APEX S${c.sharpness}`; col = '#f472b6'; }
+                        else if (brakeReliability < 0.4) { st = `⚠️ HOT INTO CORNER S${c.sharpness}`; col = '#fbbf24'; }
+                        consider(effective, st, col);
+                    }
+                }
+
+                // 2) Light #1 — a real signal cycle. Green as the car
+                // approaches, flips yellow then red in front of the model,
+                // dwells, and releases to green so the model's launch
+                // (review-derived accel rating) is visible.
+                const lightStopAt = GAUNTLET_EVENTS.redLightZ - 4.5;
+                const dToLight = lightStopAt - routePos;
+                let light1: FrameExtras['light1'] = 'green';
+
+                if (gLightPhase === 'approach') {
+                    if (dToLight > 0 && dToLight < 38) { gLightPhase = 'yellow'; gLightT = 0; }
+                } else if (gLightPhase === 'yellow') {
+                    gLightT += dt;
+                    light1 = 'yellow';
+                    if (dToLight <= 0) {
+                        // Crossed the line before it went red — squeezed through.
+                        gLightPhase = 'go'; gLightT = 0;
+                    } else {
+                        // Cautious models start shedding speed on yellow;
+                        // late-brakers carry speed until the red.
+                        if (!profile.lateBraking && profile.lightStopReliability >= 0.35) {
+                            consider(speedMph * 0.75, '🟡 YELLOW — EASING OFF', '#facc15');
+                        } else if (currentStatus === 'SYSTEM ACTIVE') {
+                            currentStatus = '🟡 YELLOW AHEAD'; statusColor = '#facc15';
+                        }
+                        if (gLightT > 1.0) { gLightPhase = 'red'; gLightT = 0; }
+                    }
+                } else if (gLightPhase === 'red') {
+                    gLightT += dt;
+                    light1 = 'red';
+                    if (dToLight > 0) {
+                        const ramp = profile.lateBraking ? Math.pow(dToLight / 32, 2) : dToLight / 32;
+                        consider(speedMph * ramp, '🔴 APPROACHING RED LIGHT', '#f87171');
+                    } else if (routePos < GAUNTLET_EVENTS.redLightZ + 3) {
+                        gLightStopT += dt;
+                        if (profile.creepMode === 'creep') {
+                            consider(2.5, '🐌 CREEPING AT RED', '#fbbf24');
+                        } else if (profile.creepMode === 'fails_stop' && gLightStopT > 1.0) {
+                            consider(4.0, '🚨 FAILING TO STAY STOPPED', '#ef4444');
+                        } else if (profile.lightStopReliability < 0.3 && profile.creepMode === 'none') {
+                            consider(3.0, '⚠️ ROLLING THE RED LIGHT', '#fbbf24');
+                        } else {
+                            consider(0, '🛑 STOPPED AT RED LIGHT', '#ef4444');
+                        }
+                    }
+                    // Signal releases once the model has dwelled at the line
+                    // (stopped, creeping, or failing to hold) — or if it
+                    // rolled straight through the intersection.
+                    if (gLightStopT > RED_LIGHT_HOLD_S || routePos > GAUNTLET_EVENTS.redLightZ + 2) { gLightPhase = 'go'; gLightT = 0; }
+                } else if (gLightPhase === 'go') {
+                    gLightT += dt;
+                    light1 = 'green';
+                    if (dToLight > -3) {
+                        if (profile.afraidOfGreen) {
+                            consider(8, '⚠️ HESITATING AT GREEN', '#fbbf24');
+                        } else if (currentStatus === 'SYSTEM ACTIVE' && gLightT < 2.0) {
+                            currentStatus = profile.leadAccelResponse < 0.4
+                                ? '🐌 SLOW LAUNCH ON GREEN'
+                                : '🟢 GREEN — ACCELERATING';
+                            statusColor = profile.leadAccelResponse < 0.4 ? '#fbbf24' : '#34d399';
+                        }
+                    }
+                }
+
+                // Queued car at the light (left lane): waits with brake
+                // lights through the red, launches ahead of us on green.
+                if (gLightPhase !== 'approach' || dToLight < 42) {
+                    if (gLightPhase === 'go') gQueueAdv += dt * (3.5 + gQueueAdv * 1.2);
+                    const queueDepth = (GAUNTLET_EVENTS.redLightZ - 2.5 + gQueueAdv) - routePos;
+                    const queueOp = Math.max(0, Math.min(0.8, 0.8 - Math.max(0, gQueueAdv - 16) / 10));
+                    if (queueOp > 0.02) {
+                        ghosts.push({ depth: queueDepth, lateral: -1, opacity: queueOp, braking: gLightPhase !== 'go' });
+                    }
+                }
+
+                // 2b) Stop sign — full stop, rolling stop, or blow-through
+                const signStopAt = GAUNTLET_EVENTS.stopSignZ - 4.5;
+                const dToSign = signStopAt - routePos;
+                if (!gSignDone) {
+                    if (dToSign > 0 && dToSign < 28) {
+                        const ramp = profile.lateBraking ? Math.pow(dToSign / 28, 2) : dToSign / 28;
+                        consider(speedMph * ramp, '🛑 APPROACHING STOP SIGN', '#f87171');
+                    } else if (dToSign <= 0 && routePos < GAUNTLET_EVENTS.stopSignZ + 3) {
+                        gSignStopT += dt;
+                        if (profile.lightStopReliability < 0.35 && !profile.stopSignStops) {
+                            consider(4.5, '⚠️ ROLLING THE STOP SIGN', '#fbbf24');
+                            if (gSignStopT > 0.6) gSignDone = true;
+                        } else {
+                            consider(0, '🛑 STOPPED AT STOP SIGN', '#ef4444');
+                            if (gSignStopT > 1.8) gSignDone = true;
+                        }
+                    }
+                }
+
+                // 3) Stopped traffic ahead — ghosted block cars in our lane
+                const tz = GAUNTLET_EVENTS.trafficZone;
+                if (gTrafficPhase !== 'done') {
+                    const dTraffic = tz.stopAt - routePos;
+                    const handling = profile.trafficHandling;
+                    if (gTrafficPhase === 'idle' && dTraffic > 0 && dTraffic < 30) {
+                        let t: number;
+                        if (handling < 0.4) {
+                            // late, harsh braking with pumping pulses
+                            t = speedMph * Math.pow(dTraffic / 30, 2.2) + Math.sin(tSec * 9) * 2.5;
+                            consider(Math.max(0, t), '🚨 HARSH LATE BRAKING', '#ef4444');
+                        } else {
+                            t = dTraffic < 6 ? (dTraffic / 6) * 8 : 6 + (speedMph - 6) * (dTraffic / 30);
+                            consider(t, '🚗 SLOW TRAFFIC AHEAD', '#fbbf24');
+                        }
+                        if (dTraffic < 1.2) gTrafficPhase = 'waiting';
+                    } else if (dTraffic <= 0 || gTrafficPhase !== 'idle') {
+                        if (gTrafficPhase === 'idle') gTrafficPhase = 'waiting';
+                        if (gTrafficPhase === 'waiting') {
+                            gTrafficWaitT += dt;
+                            consider(0, '🛑 STOPPED BEHIND TRAFFIC', '#ef4444');
+                            if (gTrafficWaitT > 1.6) gTrafficPhase = 'resume';
+                        } else if (gTrafficPhase === 'resume') {
+                            gTrafficAdvance += dt * (4 + gTrafficAdvance * 1.1);
+                            if (gTrafficAdvance > 32) gTrafficPhase = 'done';
+                            const gap = (tz.carZ + gTrafficAdvance) - routePos - 4;
+                            consider(
+                                Math.min(speedMph, Math.max(0, gap * 4)),
+                                profile.leadAccelResponse < 0.4 ? '🐌 SLUGGISH RESUME BEHIND LEAD' : '🟢 TRAFFIC CLEARING — RESUMING',
+                                profile.leadAccelResponse < 0.4 ? '#fbbf24' : '#34d399',
+                            );
+                        }
+                    }
+                    // The stopped pack: two in our lane, one in each
+                    // adjacent lane — congestion across the whole road.
+                    const fade = Math.max(0, Math.min(0.75, 0.75 - Math.max(0, gTrafficAdvance - 18) / 12));
+                    const braking = gTrafficPhase !== 'resume';
+                    ghosts.push({ depth: (tz.carZ + gTrafficAdvance) - routePos, lateral: 0, opacity: fade, braking });
+                    ghosts.push({ depth: (tz.carZ + 4 + gTrafficAdvance * 1.06) - routePos, lateral: -1, opacity: fade, braking });
+                    ghosts.push({ depth: (tz.carZ + 7 + gTrafficAdvance * 0.95) - routePos, lateral: 0, opacity: fade * 0.9, braking });
+                    ghosts.push({ depth: (tz.carZ + 2.5 + gTrafficAdvance * 1.12) - routePos, lateral: 1, opacity: fade * 0.95, braking });
+                }
+
+                // 4) Cut-in — a car merges from the right lane directly ahead
+                if (gCutInPhase === 'idle' && routePos > GAUNTLET_EVENTS.cutInZ - 14 && routePos < GAUNTLET_EVENTS.cutInZ) {
+                    gCutInPhase = 'merging';
+                    gCutInT = 0;
+                }
+                if (gCutInPhase !== 'idle' && gCutInPhase !== 'done') {
+                    gCutInT += dt;
+                    const reactDelay = 0.2 + (1 - profile.trafficHandling) * 0.8;
+                    if (gCutInPhase === 'merging') {
+                        const m = smoothstep(Math.min(1, gCutInT / 1.1));
+                        ghosts.push({ depth: 7.5 - m * 1.5, lateral: 1 - m, opacity: 0.85, braking: false });
+                        if (gCutInT > reactDelay) {
+                            consider(
+                                speedMph * 0.55,
+                                profile.trafficHandling < 0.4 ? '⚠️ LATE REACTION TO CUT-IN' : '🚧 CUT-IN — ADJUSTING GAP',
+                                profile.trafficHandling < 0.4 ? '#ef4444' : '#fbbf24',
+                            );
+                        }
+                        if (gCutInT >= 1.1) { gCutInPhase = 'following'; gCutInT = 0; }
+                    } else if (gCutInPhase === 'following') {
+                        ghosts.push({ depth: 6 + gCutInT * 0.4, lateral: 0, opacity: 0.85, braking: gCutInT < 0.8 });
+                        consider(speedMph * 0.72, '🚧 FOLLOWING CUT-IN CAR', '#fbbf24');
+                        if (gCutInT > 2.2) { gCutInPhase = 'leaving'; gCutInT = 0; }
+                    } else if (gCutInPhase === 'leaving') {
+                        const op = Math.max(0, 0.85 - gCutInT * 0.45);
+                        ghosts.push({ depth: 7 + gCutInT * 9, lateral: 0, opacity: op, braking: false });
+                        if (gCutInT > 2) gCutInPhase = 'done';
+                    }
+                }
+
+                // 5) Lead-follow zone — accel response + longitudinal ping-pong
+                const inLeadZone = routePos < GAUNTLET_EVENTS.leadZoneEnd || routePos > GAUNTLET_EVENTS.leadZoneRestart;
+                if (inLeadZone) {
+                    const baseGap = 2.5 + profile.followDistance * 5;
+                    const leadOsc = Math.sin(tSec * 0.55);     // lead naturally varying speed
+                    const pp = profile.longPingPong;
+                    const ppOsc = Math.sin(tSec * 1.7) * pp;   // our overshooting response
+                    let leadDepth = baseGap + leadOsc * 2.0 + ppOsc * 2.8;
+                    if (profile.leadAccelResponse < 0.45 && leadOsc > 0) {
+                        leadDepth += leadOsc * 2.5; // gap stretches when the lead pulls away
+                    }
+                    // fade near the zone edges so the lead doesn't pop in/out
+                    let opacity = 0.85;
+                    if (routePos < GAUNTLET_EVENTS.leadZoneEnd) {
+                        opacity *= Math.min(1, (GAUNTLET_EVENTS.leadZoneEnd - routePos) / 8);
+                    } else {
+                        opacity *= Math.min(1, (routePos - GAUNTLET_EVENTS.leadZoneRestart) / 8);
+                    }
+                    lead = { depth: Math.max(1.2, leadDepth), lateral: 0, opacity, braking: leadOsc < -0.35 };
+
+                    const t = speedMph * (1 + leadOsc * 0.10 + ppOsc * 0.14);
+                    if (t < targetSpeedMph) targetSpeedMph = t;
+                    if (currentStatus === 'SYSTEM ACTIVE') {
+                        if (pp > 0.45 && Math.abs(ppOsc) > pp * 0.5) {
+                            currentStatus = '🪀 PING-PONG FOLLOWING'; statusColor = '#22d3ee';
+                        } else if (profile.leadAccelResponse < 0.45 && leadOsc > 0.3) {
+                            currentStatus = '🐌 SLOW TO FOLLOW LEAD'; statusColor = '#fbbf24';
+                        } else {
+                            currentStatus = '🚘 FOLLOWING LEAD'; statusColor = '#34d399';
+                        }
+                    }
+                }
+
+                // Ambient ghost traffic in the adjacent lanes. Cars brake
+                // (lights up) while alongside the stopped-traffic zone so
+                // the whole road reacts to the congestion.
+                const nearCongestion = gTrafficPhase === 'waiting' ||
+                    (gTrafficPhase === 'idle' && tz.stopAt - routePos > 0 && tz.stopAt - routePos < 30);
+                // Adjacent lanes also slow to a brake-light wall at the red.
+                const nearRedLight = light1 !== 'green' && dToLight > 0 && dToLight < 30;
+                for (const a of ambientFleet) {
+                    const depth = a.loop - 4 - ((carZ * a.speedFac + a.phase) % a.loop);
+                    ghosts.push({
+                        depth,
+                        lateral: a.lane,
+                        opacity: a.opacity,
+                        braking: (nearCongestion || nearRedLight) && depth > 2,
+                    });
+                }
+
+                gauntletExtras = { lead, ghosts, routePos, light1 };
+            }
+
             // Implement speed fluctuations in yoyoMode trailing a lead car
-            if (profile.yoyoMode && currentStatus === "SYSTEM ACTIVE") {
+            if (scenario.key !== 'gauntlet' && profile.yoyoMode && currentStatus === "SYSTEM ACTIVE") {
                 // Sinusoidal speed fluctuation: simulate dynamic acceleration/deceleration overcorrecting
                 const fluctuation = Math.sin(carZ / 12) * (speedMph * 0.12);
                 targetSpeedMph += fluctuation;
@@ -926,12 +1545,18 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                 statusColor = "#22d3ee"; // cyan-400
             }
 
-            // Smooth speed transitions
+            // Smooth speed transitions. Acceleration rate reflects how
+            // promptly the model gets going again behind a lead.
             if (targetSpeedMph > currentSpeedMph) {
-                const accelRate = profile.accelerationLag ? 0.35 : 1.3;
+                let accelRate = profile.accelerationLag ? 0.35 : 1.3;
+                if (scenario.key === 'gauntlet') {
+                    accelRate = 0.3 + profile.leadAccelResponse * 1.4;
+                    if (profile.accelerationLag) accelRate = Math.min(accelRate, 0.35);
+                }
                 currentSpeedMph += (targetSpeedMph - currentSpeedMph) * accelRate * dt;
             } else if (targetSpeedMph < currentSpeedMph) {
-                const brakeRate = 2.5;
+                // Poor traffic handling brakes later but harder.
+                const brakeRate = scenario.key === 'gauntlet' && profile.trafficHandling < 0.4 ? 3.6 : 2.5;
                 currentSpeedMph += (targetSpeedMph - currentSpeedMph) * brakeRate * dt;
             }
 
@@ -952,20 +1577,32 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
             const trackRate = 0.7 + profile.pathSmoothness * 5.5;
             perceivedTipX = actualTipX + (perceivedTipX - actualTipX) * Math.exp(-trackRate * dt);
 
-            // Triangle-wave "ping-pong" wobble
+            // Triangle-wave "ping-pong" wobble. Community feedback often
+            // notes wobble that only appears at high (or low) speed —
+            // wobbleSpeedBias scales the live amplitude accordingly.
             const tSec = now / 1000;
-            const wobbleAmp = profile.laneWobble * 16;
-            const bounceFreq = 2.0 + profile.laneWobble * 3;
+            let wobbleAmp = profile.laneWobble * 16;
+            if (profile.wobbleSpeedBias > 0) {
+                wobbleAmp *= 0.35 + Math.max(0, currentSpeedMph - 25) / 50;
+            } else if (profile.wobbleSpeedBias < 0) {
+                wobbleAmp *= Math.max(0.3, 1.5 - currentSpeedMph / 45);
+            }
+            // "drunk driver look" = slow, lazy ping-pong
+            const bounceFreq = (2.0 + profile.laneWobble * 3) * (profile.slowWobble ? 0.45 : 1);
             const triangle = Math.asin(Math.sin(tSec * bounceFreq + phase1)) / (Math.PI / 2);
             const detune =
                 Math.sin(tSec * 3.3 + phase2) * 0.12 +
                 Math.sin(tSec * 5.9 + phase3) * 0.06;
             const wobble = (triangle + detune) * wobbleAmp;
 
-            // Apex cutting
+            // Apex cutting — on the gauntlet the dedicated cornerCutting
+            // rating dominates so corner-cutting models visibly dive inside.
             const currentCurvature = scenario.heading(carZ);
+            const cutGain = scenario.key === 'gauntlet'
+                ? profile.curveStyle * 0.4 + profile.cornerCutting * 1.3
+                : profile.curveStyle;
             const apexCutOffset =
-                currentCurvature * profile.curveStyle * (1 - profile.reactionLag) * 30;
+                currentCurvature * cutGain * (1 - profile.reactionLag) * 30;
 
             const offsetBias = profile.laneOffset * 14 + apexCutOffset;
 
@@ -1053,7 +1690,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
             if (carX > CAR_BOUND) { carX = CAR_BOUND; carVx = Math.min(0, carVx); }
             else if (carX < -CAR_BOUND) { carX = -CAR_BOUND; carVx = Math.max(0, carVx); }
 
-            drawFrame(carZ, actualTipX, finalTargetTipX, markerDepths, finalWheelAngle, carX);
+            drawFrame(carZ, actualTipX, finalTargetTipX, markerDepths, finalWheelAngle, carX, gauntletExtras);
 
             // Update dynamic status overlay
             if (statusTextRef.current) {
@@ -1180,24 +1817,20 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
 
                     {/* 3D dynamic intersections (traffic lights, stop signs & lines) */}
                     <g ref={intersectionGroupRef} />
+
+                    {/* Ghosted block-car traffic (gauntlet scenario) */}
+                    <g ref={trafficGroupRef} />
                 </g>
 
-                {/* Lead-car chevron — visualises followDistance.
-                    Positioned/scaled per-frame in drawFrame; starts fully
-                    collapsed so it doesn't flash on the first paint. */}
+                {/* Lead car — ghosted block car visualising followDistance /
+                    the gauntlet's longitudinal sim. Positioned/scaled
+                    per-frame in drawFrame; starts fully collapsed so it
+                    doesn't flash on the first paint. */}
                 <g ref={leadCarRef} transform="translate(200 225) scale(0)" pointerEvents="none">
-                    <polygon
-                        points="-15,-10 15,-10 0,10"
-                        fill="#facc15"
-                        stroke="#854d0e"
-                        strokeWidth="1.5"
-                        strokeLinejoin="round"
-                    />
-                    <polygon
-                        points="-11,-15 11,-15 0,-5"
-                        fill="#facc15"
-                        opacity="0.55"
-                    />
+                    <rect x="-16" y="-28" width="32" height="28" rx="4.5" fill="#475569" fillOpacity="0.6" stroke="#94a3b8" strokeOpacity="0.85" strokeWidth="1.4" />
+                    <rect x="-12" y="-24" width="24" height="9" rx="2" fill="#0f172a" fillOpacity="0.75" />
+                    <rect data-brake x="-14.5" y="-8" width="8" height="4.5" rx="1.2" fill="#ef4444" fillOpacity="0.45" />
+                    <rect data-brake x="6.5" y="-8" width="8" height="4.5" rx="1.2" fill="#ef4444" fillOpacity="0.45" />
                 </g>
 
                 {/* steering wheel (bottom-left) — rotates with the road's curvature */}
@@ -1284,6 +1917,36 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                     </button>
                 </div>
             </div>
+
+            {/* Gauntlet route progress strip — event markers along the loop,
+                with a moving dot showing where the car currently is. */}
+            {effectiveScenarioKey === 'gauntlet' && !hideStatus && (
+                <div className="absolute inset-x-[4%] bottom-[4%] select-none pointer-events-none">
+                    <div className="relative h-1 rounded-full bg-white/15">
+                        {GAUNTLET_CORNERS.map((c) => (
+                            <div
+                                key={`c-${c.start}`}
+                                className="absolute -top-0.5 h-2 rounded-sm bg-sky-400/60"
+                                style={{
+                                    left: `${(c.start / GAUNTLET_LOOP) * 100}%`,
+                                    width: `${((c.end - c.start) / GAUNTLET_LOOP) * 100}%`,
+                                }}
+                                title={`Corner S${c.sharpness}`}
+                            />
+                        ))}
+                        <div className="absolute -top-1 h-3 w-1 rounded-sm bg-red-400" style={{ left: `${(GAUNTLET_EVENTS.redLightZ / GAUNTLET_LOOP) * 100}%` }} title="Red light" />
+                        <div className="absolute -top-1 h-3 w-1 rounded-sm bg-emerald-400" style={{ left: `${(GAUNTLET_EVENTS.greenLightZ / GAUNTLET_LOOP) * 100}%` }} title="Green light" />
+                        <div className="absolute -top-1 h-3 w-1.5 rounded-sm bg-amber-400" style={{ left: `${(GAUNTLET_EVENTS.trafficZone.carZ / GAUNTLET_LOOP) * 100}%` }} title="Stopped traffic" />
+                        <div className="absolute -top-1 h-3 w-1 rounded-sm bg-fuchsia-400" style={{ left: `${(GAUNTLET_EVENTS.cutInZ / GAUNTLET_LOOP) * 100}%` }} title="Cut-in" />
+                        <div className="absolute -top-1 h-3 w-1 rounded-sm bg-red-500" style={{ left: `${(GAUNTLET_EVENTS.stopSignZ / GAUNTLET_LOOP) * 100}%` }} title="Stop sign" />
+                        <div
+                            ref={progressDotRef}
+                            className="absolute -top-[3px] h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]"
+                            style={{ left: '0%' }}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

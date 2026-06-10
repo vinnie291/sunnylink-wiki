@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Fuse from 'fuse.js';
 
-import DriveSimulation, { deriveDrivingProfile, DrivingProfile } from './DriveSimulation';
+import DriveSimulation, { deriveDrivingProfile, DrivingProfile, ScenarioKey } from './DriveSimulation';
 
 interface SentimentData {
     great: number;
@@ -75,6 +75,7 @@ export default function FullScreenDriveVisualizer({ isOpen, onClose, models, ini
     const [mounted, setMounted] = useState(false);
     const [selectedName, setSelectedName] = useState<string>(initialModelName ?? models[0]?.name ?? '');
     const [settings, setSettings] = useState<SunnylinkSettings>(DEFAULT_SETTINGS);
+    const [scenario, setScenario] = useState<ScenarioKey>('gauntlet');
 
     useEffect(() => setMounted(true), []);
 
@@ -151,7 +152,7 @@ export default function FullScreenDriveVisualizer({ isOpen, onClose, models, ini
     if (!mounted || !isOpen || !selectedModel) return null;
 
     return createPortal(
-        <div className="fixed inset-0 z-[100] bg-slate-950 flex flex-col animate-in fade-in duration-150">
+        <div className="force-dark fixed inset-0 z-[100] bg-slate-950 flex flex-col animate-in fade-in duration-150">
             <header className="relative z-30 shrink-0 flex items-center gap-3 px-4 md:px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm">
                 <span className="hidden sm:inline-flex items-center gap-2 text-xs uppercase tracking-wider text-slate-400 font-semibold">
                     <span aria-hidden>🛣️</span> Drive Visualizer
@@ -178,6 +179,10 @@ export default function FullScreenDriveVisualizer({ isOpen, onClose, models, ini
             <div className="flex-1 min-h-0 flex flex-col lg:flex-row">
                 {/* Settings sidebar — sits on the left on large screens, stacks below on mobile */}
                 <aside className="order-2 lg:order-1 lg:w-[360px] lg:shrink-0 max-h-[55vh] lg:max-h-none overflow-y-auto border-t lg:border-t-0 lg:border-r border-slate-800 bg-slate-900/60">
+                    <div className="p-4 lg:p-5 pb-0 space-y-4">
+                        <ScenarioPicker value={scenario} onChange={setScenario} />
+                        <BehaviorRatings profile={profile} />
+                    </div>
                     <SettingsPanel
                         settings={settings}
                         onChange={setSettings}
@@ -193,12 +198,84 @@ export default function FullScreenDriveVisualizer({ isOpen, onClose, models, ini
                             maxWidth: 'calc((100vh - 160px) * 16 / 9)',
                         }}
                     >
-                        <DriveSimulation profile={profile} seedKey={selectedModel.name} />
+                        <DriveSimulation profile={profile} seedKey={selectedModel.name} scenarioOverride={scenario} />
                     </div>
                 </div>
             </div>
         </div>,
         document.body
+    );
+}
+
+// ───────────────────────────────────────── Scenario picker ─────────────────────────────────────────
+
+const SCENARIO_OPTIONS: { value: ScenarioKey; label: string; hint: string }[] = [
+    { value: 'gauntlet', label: '🏁 Gauntlet', hint: 'All-in-one test route: lead car, variable corners, lights, stopped traffic, and a cut-in' },
+    { value: 'highway', label: '🛣️ Highway', hint: 'Gentle drift at speed' },
+    { value: 'curves', label: '🔄 Curves', hint: 'Constant steering load' },
+    { value: 'city', label: '🏙️ City', hint: 'Intersections and sharp kinks' },
+];
+
+function ScenarioPicker({ value, onChange }: { value: ScenarioKey; onChange: (s: ScenarioKey) => void }) {
+    const active = SCENARIO_OPTIONS.find((o) => o.value === value);
+    return (
+        <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-3">
+            <div className="text-[10px] uppercase tracking-[0.12em] text-slate-500 font-semibold mb-2">Route</div>
+            <div className="grid grid-cols-4 gap-1 p-1 rounded-lg bg-slate-800/60 border border-slate-700/50">
+                {SCENARIO_OPTIONS.map((opt) => (
+                    <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => onChange(opt.value)}
+                        className={`px-1 py-1.5 rounded-md text-[11px] font-medium transition-colors ${
+                            opt.value === value
+                                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                                : 'text-slate-400 hover:text-slate-100 border border-transparent'
+                        }`}
+                    >
+                        {opt.label}
+                    </button>
+                ))}
+            </div>
+            {active && <p className="mt-1.5 text-[11px] text-slate-500 leading-snug">{active.hint}</p>}
+        </div>
+    );
+}
+
+// ───────────────────────────────────────── Behavior ratings ─────────────────────────────────────────
+
+function RatingBar({ label, value, hint }: { label: string; value: number; hint: string }) {
+    const pct = Math.round(value * 100);
+    const color = pct >= 70 ? 'bg-emerald-500' : pct >= 40 ? 'bg-yellow-500' : 'bg-red-500';
+    const textColor = pct >= 70 ? 'text-emerald-400' : pct >= 40 ? 'text-yellow-400' : 'text-red-400';
+    return (
+        <div title={hint}>
+            <div className="flex justify-between items-baseline gap-2">
+                <span className="text-[11px] text-slate-300">{label}</span>
+                <span className={`text-[11px] font-semibold tabular-nums ${textColor}`}>{pct}</span>
+            </div>
+            <div className="mt-0.5 h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                <div className={`h-full rounded-full ${color}`} style={{ width: `${pct}%` }} />
+            </div>
+        </div>
+    );
+}
+
+// Higher = better for every bar, so "cuts corners" and "ping-pong"
+// severities are inverted into discipline/smoothness scores.
+function BehaviorRatings({ profile }: { profile: DrivingProfile }) {
+    return (
+        <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-3 space-y-2.5">
+            <div className="text-[10px] uppercase tracking-[0.12em] text-slate-500 font-semibold">
+                Behavior Ratings <span className="normal-case font-normal tracking-normal">— from community feedback</span>
+            </div>
+            <RatingBar label="Corner discipline" value={1 - profile.cornerCutting} hint="Does it cut corners / dive for the apex?" />
+            <RatingBar label="Slows for corners" value={profile.cornerBrakeReliability} hint="How reliably it sheds speed before a bend" />
+            <RatingBar label="Stops for lights" value={profile.lightStopReliability} hint="Stops — and stays stopped — at red lights" />
+            <RatingBar label="Lead-follow smoothness" value={1 - profile.longPingPong} hint="Longitudinal ping-pong when following a lead car" />
+            <RatingBar label="Accel behind lead" value={profile.leadAccelResponse} hint="How promptly it accelerates when the lead pulls away" />
+            <RatingBar label="Slow / stopped traffic" value={profile.trafficHandling} hint="Braking quality approaching slower or stopped traffic" />
+        </div>
     );
 }
 
