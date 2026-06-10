@@ -1194,7 +1194,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                     } else {
                         targetSpeedMph = speedMph;
                     }
-                } else if (dToStop > 0) {
+                } else if (dToStop > 0.75) {
                     // Approaching the line — decelerate. Red lights stay red on
                     // approach (a real light you stop at doesn't pre-empt green).
                     let decel = 1.0;
@@ -1346,7 +1346,11 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                 } else if (gLightPhase === 'red') {
                     gLightT += dt;
                     light1 = 'red';
-                    if (dToLight > 0) {
+                    // "At the line" starts slightly before the stop point —
+                    // the exponential decel approaches it asymptotically and
+                    // would otherwise stall just short, never starting the
+                    // dwell timer.
+                    if (dToLight > 0.75) {
                         const ramp = profile.lateBraking ? Math.pow(dToLight / 32, 2) : dToLight / 32;
                         consider(speedMph * ramp, '🔴 APPROACHING RED LIGHT', '#f87171');
                     } else if (routePos < GAUNTLET_EVENTS.redLightZ + 3) {
@@ -1395,10 +1399,10 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                 const signStopAt = GAUNTLET_EVENTS.stopSignZ - 4.5;
                 const dToSign = signStopAt - routePos;
                 if (!gSignDone) {
-                    if (dToSign > 0 && dToSign < 28) {
+                    if (dToSign > 0.75 && dToSign < 28) {
                         const ramp = profile.lateBraking ? Math.pow(dToSign / 28, 2) : dToSign / 28;
                         consider(speedMph * ramp, '🛑 APPROACHING STOP SIGN', '#f87171');
-                    } else if (dToSign <= 0 && routePos < GAUNTLET_EVENTS.stopSignZ + 3) {
+                    } else if (dToSign <= 0.75 && routePos < GAUNTLET_EVENTS.stopSignZ + 3) {
                         gSignStopT += dt;
                         if (profile.lightStopReliability < 0.35 && !profile.stopSignStops) {
                             consider(4.5, '⚠️ ROLLING THE STOP SIGN', '#fbbf24');
@@ -1559,6 +1563,11 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                 const brakeRate = scenario.key === 'gauntlet' && profile.trafficHandling < 0.4 ? 3.6 : 2.5;
                 currentSpeedMph += (targetSpeedMph - currentSpeedMph) * brakeRate * dt;
             }
+            // Snap the exponential decay to a true standstill so stops at
+            // lights/signs read as a real hold rather than an endless crawl.
+            if (targetSpeedMph <= 0.05 && currentSpeedMph < 1.0) {
+                currentSpeedMph = 0;
+            }
 
             // Update displayed speed text directly on DOM for high-performance fluid renders
             const displayedSpeed = Math.round(unitRef.current === 'mph' ? currentSpeedMph : currentSpeedMph * MPH_TO_KPH);
@@ -1568,7 +1577,11 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
 
             // Scenario speedMul scales how fast the world flows past — city
             // scenarios visually feel slower than highway at the same mph.
-            const worldSpeed = (2.0 + (currentSpeedMph / 70) * 5.5) * scenario.speedMul;
+            // The low-speed ramp takes the flow to a dead stop below ~5 mph;
+            // without it the constant 2.0 base kept the car drifting through
+            // red lights and stop signs it was supposed to hold at.
+            const lowSpeedRamp = Math.min(1, currentSpeedMph / 5);
+            const worldSpeed = (2.0 + (currentSpeedMph / 70) * 5.5) * lowSpeedRamp * scenario.speedMul;
             carZ += worldSpeed * dt;
 
             const tipD = yFracToDepth(TIP_YFRAC);
@@ -1853,24 +1866,15 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                 </g>
             </svg>
 
-            {/* Route info (top-left): a thin, subtle personality label with the
-                live drive status stacked beneath it. Both stay minimal so they
-                never crowd the speed indicator at any simulator size. */}
-            <div className="absolute left-[4%] top-[8%] select-none pointer-events-none max-w-[55%] flex flex-col gap-0.5">
+            {/* Route info (top-left): a thin, subtle personality label kept
+                minimal so it never crowds the speed indicator. */}
+            <div className="absolute left-[4%] top-[8%] select-none pointer-events-none max-w-[55%]">
                 <span
                     className="text-[clamp(7px,1.4cqw,10px)] font-medium tracking-[0.2em] uppercase opacity-55 whitespace-nowrap truncate [text-shadow:0_1px_2px_rgba(0,0,0,0.6)]"
                     style={{ color: profile.pathColor }}
                 >
                     {profile.label}
                 </span>
-                {!hideStatus && (
-                    <span
-                        ref={statusTextRef}
-                        className="text-[clamp(7px,1.5cqw,11px)] font-semibold tracking-[0.1em] uppercase text-emerald-400 truncate transition-colors duration-300 [text-shadow:0_1px_3px_rgba(0,0,0,0.85)]"
-                    >
-                        SYSTEM ACTIVE
-                    </span>
-                )}
             </div>
 
 {/* subtle vignette at top to fade the scene */}
@@ -1880,7 +1884,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                 Vertically centered within the area above the horizon (top ~39% of
                 the viewBox), using container queries for proportional scaling. */}
             <div
-                className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center select-none pointer-events-none @container"
+                className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center select-none pointer-events-none @container"
                 style={{ top: '19%', width: '100%' }}
             >
                 <div className="flex items-center gap-[clamp(10px,3cqw,24px)]">
@@ -1916,6 +1920,16 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                         +
                     </button>
                 </div>
+                {/* Live drive status — centered directly beneath the speed
+                    readout so it reads as part of the telemetry cluster. */}
+                {!hideStatus && (
+                    <span
+                        ref={statusTextRef}
+                        className="mt-[1cqw] max-w-[80%] text-center text-[clamp(7px,1.5cqw,11px)] font-semibold tracking-[0.1em] uppercase text-emerald-400 truncate transition-colors duration-300 [text-shadow:0_1px_3px_rgba(0,0,0,0.85)]"
+                    >
+                        SYSTEM ACTIVE
+                    </span>
+                )}
             </div>
 
             {/* Gauntlet route progress strip — event markers along the loop,
