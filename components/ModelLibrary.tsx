@@ -1174,6 +1174,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                 )}
 
                 {/* Model Grid / List */}
+                <div>
                 {activeModels.length > 0 ? (
                     <AnimatePresence mode="wait">
                         {viewMode === 'list' ? (
@@ -1257,6 +1258,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                         <p className="text-slate-400">Try adjusting your search terms</p>
                     </div>
                 )}
+                </div>
 
             </div>
 

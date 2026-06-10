@@ -37,11 +37,14 @@ export default function GlobalControls() {
     return (
         <div className="fixed inset-x-0 top-0 z-50 pointer-events-none">
             {/* Top-Left: Language Switcher, Search, and optional Exit Wizard */}
-            {/* On lg+ screens, hide when sidebar is sticky (inline version takes over) */}
+            {/* Below lg: hide once scrolled past the header so the cluster doesn't
+                overlap the sticky filter bar (mirrors the top-right Dashboard button).
+                On lg+: hide when the sidebar is sticky (inline version takes over). */}
             <div className={`
                 absolute top-4 left-4 sm:top-8 sm:left-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 pointer-events-auto
                 transition-opacity duration-200 ease-out
-                ${sidebarSticky ? 'lg:opacity-0 lg:pointer-events-none' : 'lg:opacity-100'}
+                ${scrolledPastHeader ? 'opacity-0 pointer-events-none' : 'opacity-100'}
+                ${sidebarSticky ? 'lg:opacity-0 lg:pointer-events-none' : 'lg:opacity-100 lg:pointer-events-auto'}
             `}>
                 <div className="flex items-center gap-3">
                     <LanguageSwitcher />
