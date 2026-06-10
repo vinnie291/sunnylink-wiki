@@ -1059,8 +1059,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
             if (statusTextRef.current) {
                 statusTextRef.current.textContent = currentStatus;
                 statusTextRef.current.style.color = statusColor;
-                statusTextRef.current.style.borderColor = statusColor + "40"; // 25% opacity border matching the color
-                
+
                 // Add pulsing animation for warnings and critical snaps
                 if (currentStatus.startsWith("🚨") || currentStatus.startsWith("🔴") || currentStatus.startsWith("🛑")) {
                     statusTextRef.current.style.animation = "pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite";
@@ -1221,28 +1220,25 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                 </g>
             </svg>
 
-            {/* personality label (top-left) — shrunk and capped so it never
-                crowds the speed indicator at any simulator size. */}
-            <div
-                className="absolute left-[4%] top-[8%] select-none pointer-events-none max-w-[28%] truncate"
-                style={{ color: profile.pathColor }}
-            >
-                <span className="text-[clamp(8px,1.7cqw,12px)] font-bold tracking-[0.18em] uppercase opacity-90 whitespace-nowrap">
+            {/* Route info (top-left): a thin, subtle personality label with the
+                live drive status stacked beneath it. Both stay minimal so they
+                never crowd the speed indicator at any simulator size. */}
+            <div className="absolute left-[4%] top-[8%] select-none pointer-events-none max-w-[55%] flex flex-col gap-0.5">
+                <span
+                    className="text-[clamp(7px,1.4cqw,10px)] font-medium tracking-[0.2em] uppercase opacity-55 whitespace-nowrap truncate [text-shadow:0_1px_2px_rgba(0,0,0,0.6)]"
+                    style={{ color: profile.pathColor }}
+                >
                     {profile.label}
                 </span>
-            </div>
-
-            {/* Dynamic Telemetry Status (top-right) */}
-            {!hideStatus && (
-                <div className="absolute right-[4%] top-[8%] select-none pointer-events-none max-w-[50%] truncate text-right">
+                {!hideStatus && (
                     <span
                         ref={statusTextRef}
-                        className="text-[clamp(8px,1.7cqw,12px)] font-bold tracking-[0.12em] uppercase px-2.5 py-1 rounded bg-slate-900/80 border border-white/10 text-emerald-400 shadow-md backdrop-blur-sm transition-all duration-300"
+                        className="text-[clamp(7px,1.5cqw,11px)] font-semibold tracking-[0.1em] uppercase text-emerald-400 truncate transition-colors duration-300 [text-shadow:0_1px_3px_rgba(0,0,0,0.85)]"
                     >
                         SYSTEM ACTIVE
                     </span>
-                </div>
-            )}
+                )}
+            </div>
 
 {/* subtle vignette at top to fade the scene */}
             <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-black/45 to-transparent" />
