@@ -1,7 +1,7 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.1",
-  "totalModels": 93,
+  "totalModels": 87,
   "lastUpdated": "2026-06-04",
   "vibeGuide": {
     "wmi_2026": {
@@ -303,7 +303,7 @@
           ]
         },
         {
-          "name": "OP Model 10",
+          "name": "OP Model v10",
           "date": "April 17, 2026",
           "badge": "NEW",
           "tags": [
@@ -1113,70 +1113,6 @@
       "icon": "🛋️",
       "models": [
         {
-          "name": "Cool GWM (CGWM)",
-          "date": "October 24, 2025",
-          "tags": [
-            "Smooth",
-            "Community"
-          ],
-          "communityScore": 76,
-          "totalVotes": 32,
-          "sentiment": {
-            "great": 35,
-            "good": 40,
-            "ok": 15,
-            "bad": 10
-          },
-          "consensus": "Auch als gWM10 bezeichnet. Ein viel genutztes Modell, das für konsistente Stopps an Ampeln und Schildern bekannt ist. Bietet ein ruhigeres Fahrgefühl als frühere Versionen.",
-          "note": "Beliebte Alternative für GWM-Plattformen, allerdings mit Tendenz zum Linkshalten.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
-          "forumUrl": "https://community.sunnypilot.ai/t/cool-gwm-24-oct-2025/460",
-          "testedOn": [
-            "2021 Camry XSE"
-          ],
-          "positives": [
-            "Responsive steering",
-            "Consistent stopping for lights/signs"
-          ],
-          "negatives": [
-            "Pronounced left-hugging for some",
-            "Brakes hard for no reason (long mode)"
-          ]
-        },
-        {
-          "name": "gWM9",
-          "date": "October 21, 2025",
-          "tags": [
-            "Lateral",
-            "Community"
-          ],
-          "communityScore": 54,
-          "totalVotes": 267,
-          "sentiment": {
-            "great": 9,
-            "good": 9,
-            "ok": 76,
-            "bad": 6
-          },
-          "consensus": "Vorgänger von Cool GWM und für viele der aktuelle \"Maßstab\". Bekannt für vertrauenswürdige laterale Kontrolle auf Toyota RAV4 und anderen Plattformen.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
-          "forumUrl": "https://community.sunnypilot.ai/t/gwm9-21-oct-2025/308",
-          "testedOn": [
-            "2021 Toyota RAV4 hybrid"
-          ],
-          "positives": [
-            "Avoids left-hugging found in CGWM",
-            "Trustworthy lateral"
-          ],
-          "negatives": [
-            "Drunk driver look (slow ping-pong)",
-            "Oversteer on high-speed sharp corners"
-          ],
-          "note": "Vermeidet das Linksfahren von CGWM, kann aber bei hohen Geschwindigkeiten in scharfen Kurven zum Übersteuern neigen."
-        },
-        {
           "name": "Down to Ride v5",
           "date": "July 08, 2025",
           "tags": [
@@ -1783,25 +1719,26 @@
           ]
         },
         {
-          "name": "GWM V9",
+          "name": "GWM V9 (gWM9)",
           "date": "October 21, 2025",
           "tags": [
             "Community"
           ],
-          "communityScore": 70,
-          "totalVotes": 28,
+          "communityScore": 54,
+          "totalVotes": 267,
           "sentiment": {
-            "great": 25,
-            "good": 40,
-            "ok": 27,
-            "bad": 8
+            "great": 9,
+            "good": 9,
+            "ok": 76,
+            "bad": 6
           },
           "consensus": "Generisches Weltmodell Version 9. Standardleistung.",
           "bestFor": "All-Around",
           "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
-          ]
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/gwm9-21-oct-2025/308"
         },
         {
           "name": "The Cool Peoples Model v3",
@@ -1933,7 +1870,7 @@
           ]
         },
         {
-          "name": "gNM v8",
+          "name": "gWM v8",
           "date": "September 28, 2025",
           "tags": [
             "Generic"
@@ -1954,7 +1891,7 @@
           ]
         },
         {
-          "name": "gNM v6",
+          "name": "gWM v6",
           "date": "September 20, 2025",
           "tags": [
             "Generic"
@@ -1975,7 +1912,7 @@
           ]
         },
         {
-          "name": "gNM v5",
+          "name": "gWM v5",
           "date": "September 09, 2025",
           "tags": [
             "Generic"
@@ -1996,7 +1933,7 @@
           ]
         },
         {
-          "name": "gNM Model v3",
+          "name": "gWM Model v3",
           "date": "August 22, 2025",
           "tags": [
             "Generic",
@@ -2284,31 +2221,6 @@
       "icon": "🔧",
       "models": [
         {
-          "name": "Alpha Longitudinal",
-          "date": "Early 2025",
-          "badge": "SPECIALTY",
-          "tags": [
-            "Hyundai",
-            "Longitudinal",
-            "SCC Bypass"
-          ],
-          "communityScore": 88,
-          "totalVotes": 120,
-          "sentiment": {
-            "great": 60,
-            "good": 30,
-            "ok": 10,
-            "bad": 0
-          },
-          "consensus": "Essential for bypassing the factory 20 MPH SCC minimum on modern Hyundais, enabling smooth stop-and-go in heavy traffic.",
-          "bestFor": "Stop-and-Go Traffic",
-          "steeringFeel": "Stock",
-          "testedOn": [
-            "Hyundai Sonata",
-            "Hyundai Ioniq 5"
-          ]
-        },
-        {
           "name": "BluePilot 5.0",
           "date": "Late 2025",
           "tags": [
@@ -2333,28 +2245,6 @@
           ]
         },
         {
-          "name": "TCP V3",
-          "date": "Mid 2025",
-          "tags": [
-            "Honda",
-            "Legacy"
-          ],
-          "communityScore": 82,
-          "totalVotes": 60,
-          "sentiment": {
-            "great": 40,
-            "good": 40,
-            "ok": 15,
-            "bad": 5
-          },
-          "consensus": "The Torque Control Profile V3. Highly regarded for older Honda platforms to prevent steering micro-vibrations.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
-          "testedOn": [
-            "Honda Accord"
-          ]
-        },
-        {
           "name": "sunnypilot (MVL Fork)",
           "date": "Late 2025",
           "tags": [
@@ -2375,29 +2265,6 @@
           "steeringFeel": "Light",
           "testedOn": [
             "Honda Odyssey"
-          ]
-        },
-        {
-          "name": "sunnypilot (C3X Mode)",
-          "date": "Late 2025",
-          "tags": [
-            "Toyota",
-            "Sienna",
-            "Fork"
-          ],
-          "communityScore": 85,
-          "totalVotes": 90,
-          "sentiment": {
-            "great": 50,
-            "good": 30,
-            "ok": 15,
-            "bad": 5
-          },
-          "consensus": "Optimized for comma 3X hardware on TSS2 Toyotas. Drastically improves behavior in dense city grids.",
-          "bestFor": "City Grids",
-          "steeringFeel": "Balanced",
-          "testedOn": [
-            "Toyota Sienna"
           ]
         },
         {
@@ -2502,42 +2369,6 @@
             "May cut urban corners slightly too tight",
             "Occasional caution needed at complex intersections"
           ]
-        },
-        {
-          "name": "OPmode16lDeep",
-          "date": "June 2026",
-          "badge": "openpilot only",
-          "tags": [
-            "Experimental",
-            "Stock-Only",
-            "Off-Policy",
-            "Longitudinal"
-          ],
-          "communityScore": 85,
-          "totalVotes": 14,
-          "sentiment": {
-            "great": 50,
-            "good": 30,
-            "ok": 15,
-            "bad": 5
-          },
-          "consensus": "Ein hochmodernes, experimentelles Hybridmodell, das Off-Policy-Querlenkung mit fortschrittlichem Deep-Reinforcement-Längslernen kombiniert. Erste Tests von @Eyezenheim zeigen ein höchst beeindruckendes, sanftes Bremsverhalten und eine hervorragende Spurzentrierung auf komplexen Autobahnen in der Bay Area. Löst frühere Geschwindigkeitsschwankungen (Oszillationen), befindet sich jedoch noch in der aktiven Entwicklung.",
-          "note": "⚠️ Exklusiv für Stock-openpilot. NICHT auf Sunnylink/sunnypilot verfügbar.",
-          "bestFor": "Highway / Experimental Long",
-          "steeringFeel": "Stable",
-          "testedOn": [
-            "Honda Accord Hybrid 2025"
-          ],
-          "positives": [
-            "Extremely smooth deep longitudinal control",
-            "No speed hunting or yoyo acceleration",
-            "Solid lateral holding on curves"
-          ],
-          "negatives": [
-            "Experimental build with potential edge cases",
-            "Requires careful monitoring in tight urban environments"
-          ],
-          "forumUrl": "https://youtu.be/g06_gXTVvA0"
         }
       ]
     }

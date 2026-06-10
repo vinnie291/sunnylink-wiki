@@ -61,6 +61,7 @@ const STRONG_POSITIVE_KEYWORDS = [
 // Custom model-to-filename aliases for exact mapping of main models
 const SPECIAL_ALIASES: Record<string, string[]> = {
     "TCPmV3 (The Cool Peoples Model)": ["the cool peoples model v3", "the cool people’s model v3", "tcpmv3"],
+    "GWM V9 (gWM9)": ["gwm9"],
     "Down to Ride v6": ["down to ride [revision 6]", "down to ride revision 6", "dtr6"],
     "WMI V12": ["wmiv12", "wmi v12"],
     "WMI V11": ["wmiv11", "wmi v11"],
