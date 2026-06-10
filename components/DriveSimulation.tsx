@@ -588,7 +588,7 @@ interface FrameExtras {
     lead: { depth: number; lateral: number; opacity: number; braking: boolean } | null;
     ghosts: { depth: number; lateral: number; opacity: number; braking: boolean }[];
     routePos: number;
-    redLightGreen: boolean; // gauntlet light #1 has released
+    light1: 'red' | 'yellow' | 'green'; // gauntlet light #1 live phase
 }
 
 export default function DriveSimulation({ profile, seedKey, disableRainbow, hideStatus, scenarioOverride, mini }: Props) {
@@ -921,7 +921,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                         return d > GAUNTLET_LOOP / 2 ? d - GAUNTLET_LOOP : d;
                     };
 
-                    const drawLight = (lightZ: number, state: 'red' | 'green') => {
+                    const drawLight = (lightZ: number, state: 'red' | 'yellow' | 'green') => {
                         const stopDistance = wrapDist(lightZ);
                         if (stopDistance <= -1.2 || stopDistance >= 45) return;
                         const yFrac = depthToYFrac(stopDistance);
@@ -951,7 +951,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                         }
                     };
 
-                    drawLight(GAUNTLET_EVENTS.redLightZ, extras.redLightGreen ? 'green' : 'red');
+                    drawLight(GAUNTLET_EVENTS.redLightZ, extras.light1);
                     drawLight(GAUNTLET_EVENTS.greenLightZ, 'green');
 
                     // Stop sign + stop line
@@ -1092,7 +1092,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                     { depth: 20, lateral: 1, opacity: 0.35, braking: false },
                 ],
                 routePos: 0,
-                redLightGreen: false,
+                light1: 'red',
             }
             : undefined;
         drawFrame(0, 0, trajX, initialDepths, 0, restingCarX, extras);
@@ -1109,13 +1109,14 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
         const phase3 = seedRng() * Math.PI * 2;
 
         // Ambient traffic fleet for the gauntlet — deterministic per model,
-        // spread across the adjacent lanes with varied closing speeds so the
-        // road reads like real traffic rather than two looping props.
-        const ambientFleet = Array.from({ length: 4 }, (_, i) => ({
-            lane: (i % 2 === 0 ? -1 : 1) as -1 | 1,   // alternate lanes, two per side
-            speedFac: 0.28 + seedRng() * 0.38,         // how fast we close on it
-            phase: seedRng() * 38,
-            opacity: 0.28 + seedRng() * 0.15,
+        // spread across the adjacent lanes with varied closing speeds and
+        // loop lengths so cars don't bunch into a repeating convoy.
+        const ambientFleet = Array.from({ length: 6 }, (_, i) => ({
+            lane: (i % 2 === 0 ? -1 : 1) as -1 | 1,   // alternate lanes, three per side
+            speedFac: 0.22 + seedRng() * 0.45,         // how fast we close on it
+            phase: seedRng() * 44,
+            loop: 36 + seedRng() * 14,                 // respawn distance, varied per car
+            opacity: 0.26 + seedRng() * 0.17,
         }));
 
         const NUM_MARKERS = 11;
@@ -1139,8 +1140,12 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
 
         // ── Gauntlet event state (reset each lap) ──
         let gLap = -1;
-        let gLightStopT = 0;
-        let gLightDone = false;
+        // Light #1 runs a real signal cycle: green on approach → yellow →
+        // red (dwell) → green again. The model reacts to each phase.
+        let gLightPhase: 'approach' | 'yellow' | 'red' | 'go' = 'approach';
+        let gLightT = 0;      // time in current phase
+        let gLightStopT = 0;  // time spent stopped at the red
+        let gQueueAdv = 0;    // how far the queued car has pulled away on green
         let gSignStopT = 0;
         let gSignDone = false;
         let gTrafficPhase: 'idle' | 'waiting' | 'resume' | 'done' = 'idle';
@@ -1265,7 +1270,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                 const curLap = Math.floor(carZ / GAUNTLET_LOOP);
                 if (curLap !== gLap) {
                     gLap = curLap;
-                    gLightStopT = 0; gLightDone = false;
+                    gLightPhase = 'approach'; gLightT = 0; gLightStopT = 0; gQueueAdv = 0;
                     gSignStopT = 0; gSignDone = false;
                     gTrafficPhase = 'idle'; gTrafficWaitT = 0; gTrafficAdvance = 0;
                     gCutInPhase = 'idle'; gCutInT = 0;
@@ -1307,14 +1312,39 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                     }
                 }
 
-                // 2) Red light — stop reliability, creeping, failing to stay stopped
+                // 2) Light #1 — a real signal cycle. Green as the car
+                // approaches, flips yellow then red in front of the model,
+                // dwells, and releases to green so the model's launch
+                // (review-derived accel rating) is visible.
                 const lightStopAt = GAUNTLET_EVENTS.redLightZ - 4.5;
                 const dToLight = lightStopAt - routePos;
-                if (!gLightDone) {
-                    if (dToLight > 0 && dToLight < 32) {
+                let light1: FrameExtras['light1'] = 'green';
+
+                if (gLightPhase === 'approach') {
+                    if (dToLight > 0 && dToLight < 38) { gLightPhase = 'yellow'; gLightT = 0; }
+                } else if (gLightPhase === 'yellow') {
+                    gLightT += dt;
+                    light1 = 'yellow';
+                    if (dToLight <= 0) {
+                        // Crossed the line before it went red — squeezed through.
+                        gLightPhase = 'go'; gLightT = 0;
+                    } else {
+                        // Cautious models start shedding speed on yellow;
+                        // late-brakers carry speed until the red.
+                        if (!profile.lateBraking && profile.lightStopReliability >= 0.35) {
+                            consider(speedMph * 0.75, '🟡 YELLOW — EASING OFF', '#facc15');
+                        } else if (currentStatus === 'SYSTEM ACTIVE') {
+                            currentStatus = '🟡 YELLOW AHEAD'; statusColor = '#facc15';
+                        }
+                        if (gLightT > 1.0) { gLightPhase = 'red'; gLightT = 0; }
+                    }
+                } else if (gLightPhase === 'red') {
+                    gLightT += dt;
+                    light1 = 'red';
+                    if (dToLight > 0) {
                         const ramp = profile.lateBraking ? Math.pow(dToLight / 32, 2) : dToLight / 32;
                         consider(speedMph * ramp, '🔴 APPROACHING RED LIGHT', '#f87171');
-                    } else if (dToLight <= 0 && routePos < GAUNTLET_EVENTS.redLightZ + 3) {
+                    } else if (routePos < GAUNTLET_EVENTS.redLightZ + 3) {
                         gLightStopT += dt;
                         if (profile.creepMode === 'creep') {
                             consider(2.5, '🐌 CREEPING AT RED', '#fbbf24');
@@ -1325,7 +1355,34 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                         } else {
                             consider(0, '🛑 STOPPED AT RED LIGHT', '#ef4444');
                         }
-                        if (gLightStopT > 2.2) gLightDone = true; // light releases
+                    }
+                    // Signal releases once the model has dwelled at the line
+                    // (stopped, creeping, or failing to hold) — or if it
+                    // rolled straight through the intersection.
+                    if (gLightStopT > 2.2 || routePos > GAUNTLET_EVENTS.redLightZ + 2) { gLightPhase = 'go'; gLightT = 0; }
+                } else if (gLightPhase === 'go') {
+                    gLightT += dt;
+                    light1 = 'green';
+                    if (dToLight > -3) {
+                        if (profile.afraidOfGreen) {
+                            consider(8, '⚠️ HESITATING AT GREEN', '#fbbf24');
+                        } else if (currentStatus === 'SYSTEM ACTIVE' && gLightT < 2.0) {
+                            currentStatus = profile.leadAccelResponse < 0.4
+                                ? '🐌 SLOW LAUNCH ON GREEN'
+                                : '🟢 GREEN — ACCELERATING';
+                            statusColor = profile.leadAccelResponse < 0.4 ? '#fbbf24' : '#34d399';
+                        }
+                    }
+                }
+
+                // Queued car at the light (left lane): waits with brake
+                // lights through the red, launches ahead of us on green.
+                if (gLightPhase !== 'approach' || dToLight < 42) {
+                    if (gLightPhase === 'go') gQueueAdv += dt * (3.5 + gQueueAdv * 1.2);
+                    const queueDepth = (GAUNTLET_EVENTS.redLightZ - 2.5 + gQueueAdv) - routePos;
+                    const queueOp = Math.max(0, Math.min(0.8, 0.8 - Math.max(0, gQueueAdv - 16) / 10));
+                    if (queueOp > 0.02) {
+                        ghosts.push({ depth: queueDepth, lateral: -1, opacity: queueOp, braking: gLightPhase !== 'go' });
                     }
                 }
 
@@ -1381,12 +1438,14 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                             );
                         }
                     }
-                    // The stopped pack: two in our lane, one in the left lane
+                    // The stopped pack: two in our lane, one in each
+                    // adjacent lane — congestion across the whole road.
                     const fade = Math.max(0, Math.min(0.75, 0.75 - Math.max(0, gTrafficAdvance - 18) / 12));
                     const braking = gTrafficPhase !== 'resume';
                     ghosts.push({ depth: (tz.carZ + gTrafficAdvance) - routePos, lateral: 0, opacity: fade, braking });
                     ghosts.push({ depth: (tz.carZ + 4 + gTrafficAdvance * 1.06) - routePos, lateral: -1, opacity: fade, braking });
                     ghosts.push({ depth: (tz.carZ + 7 + gTrafficAdvance * 0.95) - routePos, lateral: 0, opacity: fade * 0.9, braking });
+                    ghosts.push({ depth: (tz.carZ + 2.5 + gTrafficAdvance * 1.12) - routePos, lateral: 1, opacity: fade * 0.95, braking });
                 }
 
                 // 4) Cut-in — a car merges from the right lane directly ahead
@@ -1457,17 +1516,19 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                 // the whole road reacts to the congestion.
                 const nearCongestion = gTrafficPhase === 'waiting' ||
                     (gTrafficPhase === 'idle' && tz.stopAt - routePos > 0 && tz.stopAt - routePos < 30);
+                // Adjacent lanes also slow to a brake-light wall at the red.
+                const nearRedLight = light1 !== 'green' && dToLight > 0 && dToLight < 30;
                 for (const a of ambientFleet) {
-                    const depth = 34 - ((carZ * a.speedFac + a.phase) % 38);
+                    const depth = a.loop - 4 - ((carZ * a.speedFac + a.phase) % a.loop);
                     ghosts.push({
                         depth,
                         lateral: a.lane,
                         opacity: a.opacity,
-                        braking: nearCongestion && depth > 2,
+                        braking: (nearCongestion || nearRedLight) && depth > 2,
                     });
                 }
 
-                gauntletExtras = { lead, ghosts, routePos, redLightGreen: gLightDone };
+                gauntletExtras = { lead, ghosts, routePos, light1 };
             }
 
             // Implement speed fluctuations in yoyoMode trailing a lead car
