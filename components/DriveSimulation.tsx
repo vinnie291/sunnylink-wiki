@@ -1846,23 +1846,17 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                     <rect data-brake x="6.5" y="-8" width="8" height="4.5" rx="1.2" fill="#ef4444" fillOpacity="0.45" />
                 </g>
 
-                {/* steering wheel (bottom-left) — rotates with the road's curvature */}
-                <g ref={wheelRef} transform={`translate(22 ${VB_H - 24})`}>
-                    {/* drop shadow for depth */}
-                    <circle cx="0" cy="0.8" r="13" fill="rgba(0,0,0,0.45)" />
-                    {/* outer rim (thicker donut) */}
-                    <circle r="12.5" fill="white" />
-                    <circle r="8.5" fill="#0b1220" />
-                    {/* three trapezoidal spokes — upside-down triangle: 2 upper points (left + right), 1 lower point */}
-                    <g fill="white" transform="rotate(180)">
-                        <path d="M -2.4 -2.6 L -1.5 -8.4 L 1.5 -8.4 L 2.4 -2.6 Z" />
-                        <path d="M -2.4 -2.6 L -1.5 -8.4 L 1.5 -8.4 L 2.4 -2.6 Z" transform="rotate(120)" />
-                        <path d="M -2.4 -2.6 L -1.5 -8.4 L 1.5 -8.4 L 2.4 -2.6 Z" transform="rotate(-120)" />
+                {/* steering wheel (bottom-left) — rotates with the road's curvature.
+                    Drawn as a classic open wheel: thin rim, three spokes
+                    (two horizontal, one down) and a small hub. */}
+                <g ref={wheelRef} transform={`translate(22 ${VB_H - 24})`} fill="none" stroke="white" strokeOpacity="0.9">
+                    <circle r="11" strokeWidth="2.2" />
+                    <g strokeWidth="1.8" strokeLinecap="round">
+                        <line x1="-9.9" y1="0" x2="-3.2" y2="0" />
+                        <line x1="3.2" y1="0" x2="9.9" y2="0" />
+                        <line x1="0" y1="3.2" x2="0" y2="9.9" />
                     </g>
-                    {/* center boss + inner airbag detail */}
-                    <circle r="4" fill="white" />
-                    <circle r="2.4" fill="#0b1220" />
-                    <circle r="0.9" fill="white" />
+                    <circle r="3" fill="white" stroke="none" />
                 </g>
             </svg>
 
@@ -1935,12 +1929,12 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
             {/* Gauntlet route progress strip — event markers along the loop,
                 with a moving dot showing where the car currently is. */}
             {effectiveScenarioKey === 'gauntlet' && !hideStatus && (
-                <div className="absolute inset-x-[4%] bottom-[4%] select-none pointer-events-none">
-                    <div className="relative h-1 rounded-full bg-white/15">
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-[5%] w-[55%] select-none pointer-events-none">
+                    <div className="relative h-px rounded-full bg-white/15">
                         {GAUNTLET_CORNERS.map((c) => (
                             <div
                                 key={`c-${c.start}`}
-                                className="absolute -top-0.5 h-2 rounded-sm bg-sky-400/60"
+                                className="absolute -top-px h-[3px] rounded-full bg-sky-400/50"
                                 style={{
                                     left: `${(c.start / GAUNTLET_LOOP) * 100}%`,
                                     width: `${((c.end - c.start) / GAUNTLET_LOOP) * 100}%`,
@@ -1948,14 +1942,14 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                                 title={`Corner S${c.sharpness}`}
                             />
                         ))}
-                        <div className="absolute -top-1 h-3 w-1 rounded-sm bg-red-400" style={{ left: `${(GAUNTLET_EVENTS.redLightZ / GAUNTLET_LOOP) * 100}%` }} title="Red light" />
-                        <div className="absolute -top-1 h-3 w-1 rounded-sm bg-emerald-400" style={{ left: `${(GAUNTLET_EVENTS.greenLightZ / GAUNTLET_LOOP) * 100}%` }} title="Green light" />
-                        <div className="absolute -top-1 h-3 w-1.5 rounded-sm bg-amber-400" style={{ left: `${(GAUNTLET_EVENTS.trafficZone.carZ / GAUNTLET_LOOP) * 100}%` }} title="Stopped traffic" />
-                        <div className="absolute -top-1 h-3 w-1 rounded-sm bg-fuchsia-400" style={{ left: `${(GAUNTLET_EVENTS.cutInZ / GAUNTLET_LOOP) * 100}%` }} title="Cut-in" />
-                        <div className="absolute -top-1 h-3 w-1 rounded-sm bg-red-500" style={{ left: `${(GAUNTLET_EVENTS.stopSignZ / GAUNTLET_LOOP) * 100}%` }} title="Stop sign" />
+                        <div className="absolute -top-[2.5px] h-1.5 w-px bg-red-400/80" style={{ left: `${(GAUNTLET_EVENTS.redLightZ / GAUNTLET_LOOP) * 100}%` }} title="Red light" />
+                        <div className="absolute -top-[2.5px] h-1.5 w-px bg-emerald-400/80" style={{ left: `${(GAUNTLET_EVENTS.greenLightZ / GAUNTLET_LOOP) * 100}%` }} title="Green light" />
+                        <div className="absolute -top-[2.5px] h-1.5 w-px bg-amber-400/80" style={{ left: `${(GAUNTLET_EVENTS.trafficZone.carZ / GAUNTLET_LOOP) * 100}%` }} title="Stopped traffic" />
+                        <div className="absolute -top-[2.5px] h-1.5 w-px bg-fuchsia-400/80" style={{ left: `${(GAUNTLET_EVENTS.cutInZ / GAUNTLET_LOOP) * 100}%` }} title="Cut-in" />
+                        <div className="absolute -top-[2.5px] h-1.5 w-px bg-red-500/80" style={{ left: `${(GAUNTLET_EVENTS.stopSignZ / GAUNTLET_LOOP) * 100}%` }} title="Stop sign" />
                         <div
                             ref={progressDotRef}
-                            className="absolute -top-[3px] h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]"
+                            className="absolute -top-[2px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white shadow-[0_0_4px_rgba(255,255,255,0.7)]"
                             style={{ left: '0%' }}
                         />
                     </div>
