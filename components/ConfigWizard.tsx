@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { useLanguage } from '../lib/i18n';
+import { buildSunnylinkExport } from '../lib/wizardExport';
 import { GitFork, RefreshCw, X, CheckCircle2, Download } from 'lucide-react';
 import './ConfigWizard.css';
 
@@ -104,7 +105,7 @@ const DEFAULT_CONFIG: ConfigValues = {
     CameraOffset: 0,
     AutoLaneChangeTimer: 'Nudge',
     AutoLaneChangeBsmDelay: 'True',
-    HyundaiLongitudinalTuning: 'Standard',
+    HyundaiLongitudinalTuning: 'Off',
     TorqueControlTuneVersion: 'Default',
     TeslaCoopSteering: 'False',
     VisionBasedTurnSpeedControl: 'True',
@@ -747,28 +748,8 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
     const [showJson, setShowJson] = useState(false);
     const previewRef = useRef<HTMLPreElement>(null);
 
-    // Build export object
-    const exportObj = useMemo(() => {
-        const settings: Record<string, string | number> = {};
-        // Exclude vehicle meta keys from settings
-        const excludeKeys = new Set(['make', 'model', 'year', 'device']);
-        for (const [key, val] of Object.entries(config)) {
-            if (excludeKeys.has(key)) continue;
-            settings[key] = val;
-        }
-        return {
-            version: 2,
-            timestamp: Date.now(),
-            source: 'sunnylink-wiki-wizard',
-            vehicle: {
-                make: config.make || 'Unknown',
-                model: config.model || 'Unknown',
-                year: config.year,
-                device: config.device,
-            },
-            settings,
-        };
-    }, [config]);
+    // Build export object in the sunnylink-standard format (exportVersion 1)
+    const exportObj = useMemo(() => buildSunnylinkExport(config), [config]);
 
     const jsonStr = useMemo(() => JSON.stringify(exportObj, null, 2), [exportObj]);
 

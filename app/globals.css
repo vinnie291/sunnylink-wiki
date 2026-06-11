@@ -23,6 +23,9 @@ body {
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+  /* Prevent scroll anchoring from fighting the collapsing sticky filter bar
+     (it re-adjusts scrollY when the bar collapses, causing a stick/unstick loop) */
+  overflow-anchor: none;
 }
 
 /* Custom scrollbar */

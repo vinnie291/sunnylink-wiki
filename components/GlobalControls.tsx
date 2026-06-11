@@ -37,14 +37,14 @@ export default function GlobalControls() {
     return (
         <div className="fixed inset-x-0 top-0 z-50 pointer-events-none">
             {/* Top-Left: Language Switcher, Search, and optional Exit Wizard */}
-            {/* Below lg: hide once scrolled past the header so the cluster doesn't
-                overlap the sticky filter bar (mirrors the top-right Dashboard button).
-                On lg+: hide when the sidebar is sticky (inline version takes over). */}
+            {/* Below lg: always visible — floats above the sticky filter bar (top-16)
+                so the controls stay reachable while scrolling.
+                On lg+: hide when scrolled past the header or when the sidebar is
+                sticky (inline version takes over). */}
             <div className={`
                 absolute top-4 left-4 sm:top-8 sm:left-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 pointer-events-auto
                 transition-opacity duration-200 ease-out
-                ${scrolledPastHeader ? 'opacity-0 pointer-events-none' : 'opacity-100'}
-                ${sidebarSticky ? 'lg:opacity-0 lg:pointer-events-none' : 'lg:opacity-100 lg:pointer-events-auto'}
+                ${scrolledPastHeader || sidebarSticky ? 'lg:opacity-0 lg:pointer-events-none' : ''}
             `}>
                 <div className="flex items-center gap-3">
                     <LanguageSwitcher />
@@ -55,10 +55,12 @@ export default function GlobalControls() {
             </div>
 
             {/* Top-Right: Dashboard Button */}
+            {/* Below lg: always visible alongside the left controls; on lg+ it
+                hides once scrolled past the header. */}
             <div className={`
                 absolute top-4 right-4 sm:top-8 sm:right-8 flex items-center gap-4 pointer-events-auto
                 transition-opacity duration-200 ease-out
-                ${scrolledPastHeader ? 'opacity-0 pointer-events-none' : 'opacity-100'}
+                ${scrolledPastHeader ? 'lg:opacity-0 lg:pointer-events-none' : ''}
             `}>
                 <a
                     href="https://www.sunnylink.ai/dashboard"
