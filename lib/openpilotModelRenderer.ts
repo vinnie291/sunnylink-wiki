@@ -223,8 +223,8 @@ export function computeModelRenderFrame(
     rectWidth: number,
     rectHeight: number,
     // model_renderer.py: self._path_offset_z, sourced from liveCalibration's
-    // height (falls back to 0 here rather than openpilot's HEIGHT_INIT
-    // constant, which isn't decoded from the log).
+    // height (callers fall back to HEIGHT_INIT when the log doesn't carry it,
+    // matching openpilot — a 0 offset collapses the path onto the horizon).
     pathOffsetZ = 0,
 ): RenderFrame {
     const transform = calcFrameMatrix(rpyCalib, rectWidth, rectHeight);

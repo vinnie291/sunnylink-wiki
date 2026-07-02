@@ -83,13 +83,17 @@ function parseModelV2(event: Event): ParsedModelV2 {
     };
 }
 
+// calibrationd's HEIGHT_INIT — pre-2022 logs don't carry liveCalibration.height,
+// and a 0 fallback puts the path at device height, collapsing it to the horizon.
+export const HEIGHT_INIT = 1.22;
+
 function parseLiveCalibration(event: Event): ParsedLiveCalibration {
     const calib = event.liveCalibration;
     const height = calib.height;
     return {
         logMonoTime: event.logMonoTime,
         rpyCalib: Float32Array.from(calib.rpyCalib),
-        height: height.length > 0 ? height.get(0) : 0,
+        height: height.length > 0 ? height.get(0) : HEIGHT_INIT,
     };
 }
 

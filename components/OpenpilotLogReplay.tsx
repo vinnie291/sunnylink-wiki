@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ParsedLog, ParsedModelV2, ParsedLiveCalibration } from '../lib/openpilotLog/parseLogFile';
+import { ParsedLog, ParsedModelV2, ParsedLiveCalibration, HEIGHT_INIT } from '../lib/openpilotLog/parseLogFile';
 import { computeModelRenderFrame, drawModelRenderFrame } from '../lib/openpilotModelRenderer';
 
 const CANVAS_W = 800;
@@ -65,7 +65,7 @@ export default function OpenpilotLogReplay({ log }: Props) {
         ctx.fillRect(0, CANVAS_H / 2, CANVAS_W, CANVAS_H / 2);
 
         const rpyCalib = calib?.rpyCalib ?? [0, 0, 0];
-        const pathOffsetZ = calib?.height ?? 0;
+        const pathOffsetZ = calib?.height ?? HEIGHT_INIT;
         const frame = computeModelRenderFrame(model, rpyCalib, CANVAS_W, CANVAS_H, pathOffsetZ);
         drawModelRenderFrame(ctx, frame, CANVAS_W, CANVAS_H);
     }, [log, startTime]);
