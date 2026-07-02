@@ -1134,7 +1134,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                             </div>
                             <select
                                 value={sortBy}
-                                onChange={(e) => setSortBy(e.target.value as any)}
+                                onChange={(e) => setSortBy(e.target.value)}
                                 className="
                                     appearance-none outline-none bg-transparent w-full
                                     pl-2 pr-10 py-2.5 text-sm font-medium text-slate-100

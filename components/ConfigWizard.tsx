@@ -157,7 +157,7 @@ function getSettingMeta(key: string): SettingMeta | null {
             if (s.key === key) {
                 const meta = { ...s } as SettingMeta;
                 if (key === 'DrivingModel' && !meta.options) {
-                    const allModels = (modelsData.categories as any[]).flatMap(c => c.models.map((m: any) => m.name));
+                    const allModels = (modelsData.categories as Array<{ models: Array<{ name: string }> }>).flatMap(c => c.models.map((m) => m.name));
                     meta.options = ['Default', ...allModels];
                 }
                 return meta;
@@ -359,7 +359,7 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
                 </div>
                 <p className="text-slate-400 max-w-lg mx-auto leading-relaxed">
                     Build a complete, device-ready sunnypilot configuration file in minutes.
-                    We'll guide you through every setting with community-tested recommendations for your specific vehicle.
+                    We&apos;ll guide you through every setting with community-tested recommendations for your specific vehicle.
                 </p>
             </div>
 
