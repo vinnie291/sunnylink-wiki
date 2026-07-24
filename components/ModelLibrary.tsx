@@ -16,7 +16,17 @@ import { useStickySearch } from '../hooks/useStickySearch';
 import { useDesktopSidebarSticky } from '../hooks/useDesktopSidebarSticky';
 import { useLanguage, Locale } from '../lib/i18n';
 import { useTranslatedModels } from '../lib/useTranslatedData';
+import {
+    deriveSkillRatings,
+    deriveSkillRatingsDetail,
+    describeAxisEvidence,
+    SkillRatings,
+    SkillRatingsDetail,
+} from '../lib/skillRatings';
 import type { ForumActivity, ForumActivityMap } from '../lib/discourse-models-sync';
+
+export { deriveSkillRatings };
+export type { SkillRatings };
 
 function extractTopicId(forumUrl: string): number | null {
     const m = forumUrl.match(/\/t\/(?:[^/]+\/)?(\d+)(?:[/?#]|$)/);
@@ -32,15 +42,6 @@ interface SentimentData {
     good: number;
     ok: number;
     bad: number;
-}
-
-interface SkillRatings {
-    lat: number;
-    stability: number;
-    turns: number;
-    long: number;
-    urban: number;
-    comfort: number;
 }
 
 interface Model {
@@ -142,162 +143,10 @@ const SKILL_LABELS: Record<Locale, Record<keyof SkillRatings, string>> = {
     }
 };
 
-export function deriveSkillRatings(model: Model): SkillRatings {
-    if (model.skillRatings) {
-        return model.skillRatings;
-    }
-
-    const tags = model.tags || [];
-    const feel = (model.steeringFeel || '').toLowerCase();
-    const consensus = (model.consensus || '').toLowerCase();
-    const note = (model.note || '').toLowerCase();
-    const pos = (model.positives || []).map(p => p.toLowerCase());
-    const neg = (model.negatives || []).map(n => n.toLowerCase());
-    const score = model.communityScore ?? 50;
-
-    const hasWord = (word: string): boolean => {
-        return (
-            consensus.includes(word) ||
-            note.includes(word) ||
-            feel.includes(word) ||
-            pos.some(p => p.includes(word)) ||
-            neg.some(n => n.includes(word))
-        );
-    };
-
-    const hasPosWord = (word: string): boolean => pos.some(p => p.includes(word));
-    const hasNegWord = (word: string): boolean => neg.some(n => n.includes(word));
-
-    const baseScore = 60 + Math.round((score - 50) * 0.3);
-
-    // Dynamic checks for Legacy, Off-Policy, and WMI (World Model) characteristics
-    const isLegacy = tags.includes('Legacy') || 
-                     tags.includes('Deprecated') || 
-                     consensus.includes('legacy') || 
-                     consensus.includes('older model') || 
-                     consensus.includes('predecessor') || 
-                     consensus.includes('oldest') ||
-                     model.name.toLowerCase().includes('herbalist') || 
-                     model.name.toLowerCase().includes('dakota') || 
-                     model.name.toLowerCase().includes('notre dame') || 
-                     model.name.toLowerCase().includes('blue diamond') || 
-                     model.name.toLowerCase().includes('farmville');
-
-    const isOffPolicy = tags.includes('Off-Policy') || 
-                        model.name.toLowerCase().includes('off-policy') || 
-                        model.name.toLowerCase().includes('op model');
-
-    const isWMI = model.name.toLowerCase().includes('wmi') || 
-                  model.name.toLowerCase().includes('world model') ||
-                  consensus.includes('wmi') || 
-                  consensus.includes('world model') ||
-                  (model.badge && model.badge.includes('FLAGSHIP')) ||
-                  tags.includes('C4 Default');
-
-    // Lateral Control
-    let lat = baseScore + 5;
-    if (tags.includes('Smooth')) lat += 6;
-    if (tags.includes('Curves')) lat += 5;
-    if (tags.includes('Highway')) lat += 4;
-    if (tags.includes('Stiff')) lat += 8;
-    if (feel.includes('smooth') || feel.includes('tight') || feel.includes('stiff')) lat += 5;
-    if (hasWord('on rails') || hasWord('lateral control') || hasWord('perfect centering')) lat += 12;
-    if (hasWord('ping pong') || hasWord('weave') || hasWord('wiggly') || hasWord('loose') || hasWord('left hugging')) lat -= 12;
-    if (hasNegWord('lateral') || hasNegWord('centering') || hasNegWord('weaving')) lat -= 10;
-    if (hasPosWord('lateral') || hasPosWord('centering') || hasPosWord('rails')) lat += 8;
-    
-    // Penalize poor lateral performance directly
-    if (hasWord('poor lateral') || hasWord('bad lateral') || hasWord('unstable lateral') || hasWord('terrible lateral')) lat -= 15;
-
-    // Highway Stability
-    let stability = baseScore + 2;
-    if (tags.includes('Highway')) stability += 12;
-    if (tags.includes('Stiff')) stability += 6;
-    if (feel.includes('stiff') || feel.includes('firm')) stability += 5;
-    if (hasWord('rock solid') || hasWord('stable') || hasWord('gold standard') || hasWord('reliability') || hasWord('boring')) stability += 10;
-    if (hasWord('wiggle') || hasWord('nervous') || hasWord('twitchy') || hasWord('jitter') || hasWord('loose') || hasWord('wiggly') || hasWord('ping pong')) stability -= 10;
-    if (hasNegWord('highway') || hasNegWord('stability') || hasNegWord('speed')) stability -= 8;
-    if (hasPosWord('highway') || hasPosWord('stable') || hasPosWord('solid')) stability += 8;
-    
-    if (isLegacy) stability += 10; // Legacy legends boost
-    
-    // WMI/E2E models are smart but slightly "loose" on straight highways unless explicitly stiff
-    if (isWMI && !tags.includes('Stiff') && !feel.includes('stiff') && !feel.includes('heavy') && !feel.includes('stiffer')) {
-        stability -= 6;
-    }
-
-    // Curve & Turning
-    let turns = baseScore - 2;
-    if (tags.includes('Curves')) turns += 14;
-    if (tags.includes('City')) turns += 5;
-    if (hasWord('curves') || hasWord('turns') || hasWord('winding') || hasWord('sharp') || hasWord('handling')) turns += 8;
-    if (hasWord('hugs turns') || hasWord('on rails')) turns += 6;
-    
-    // Penalize turning problems including oversteer and turn lockouts
-    if (hasWord('understeer') || hasWord('overshoot') || hasWord('cutting') || hasWord('scary turns') || hasWord('oversteer') || hasWord('oversteering') || hasWord('lock out') || hasWord('locking out')) turns -= 12;
-    
-    if (hasNegWord('turn') || hasNegWord('curve') || hasNegWord('corner')) turns -= 8;
-    if (hasPosWord('turn') || hasPosWord('curve') || hasPosWord('corner')) turns += 8;
-
-    // Longitudinal Control
-    let long = baseScore;
-    if (tags.includes('Smart')) long += 8;
-    if (tags.includes('City')) long += 4;
-    if (hasWord('braking') || hasWord('acceleration') || hasWord('longitudinal') || hasWord('follow distance') || hasWord('dec-level')) long += 8;
-    
-    // Penalize hard braking and traffic light creeping
-    if (hasWord('late braking') || hasWord('abrupt') || hasWord('rough start') || hasWord('jerkiness') || hasWord('stalls') || hasWord('brakes hard') || hasWord('hard braking') || hasWord('creeps at red lights') || hasWord('creeping')) long -= 12;
-    
-    if (hasNegWord('brake') || hasNegWord('accel') || hasNegWord('stopping') || hasNegWord('jerk')) long -= 8;
-    if (hasPosWord('brake') || hasPosWord('accel') || hasPosWord('stopping') || hasPosWord('following')) long += 6;
-
-    // Urban Capability
-    let urban = baseScore - 5;
-    if (tags.includes('City')) urban += 15;
-    if (tags.includes('Smart')) urban += 10;
-    if (hasWord('urban') || hasWord('city') || hasWord('stop sign') || hasWord('traffic light') || hasWord('intersection') || hasWord('pedestrian') || hasWord('e2e')) urban += 10;
-    if (hasWord('struggles in city') || hasWord('bad at stop signs') || hasWord('ignores lights') || hasWord('fails stop') || hasWord('creeps at red lights')) urban -= 15;
-    if (hasNegWord('city') || hasNegWord('stop sign') || hasNegWord('traffic') || hasNegWord('intersection')) urban -= 10;
-    if (hasPosWord('city') || hasPosWord('stop sign') || hasPosWord('traffic') || hasPosWord('intersection')) urban += 8;
-    
-    if (isLegacy) urban -= 12; // Legacy legends penalty
-    if (isWMI) urban += 6;     // WMI models urban boost due to E2E perception
-
-    // Passenger Comfort
-    let comfort = baseScore + 2;
-    if (tags.includes('Comfort')) comfort += 14;
-    if (tags.includes('Smooth')) comfort += 8;
-    if (feel.includes('smooth') || feel.includes('soft') || feel.includes('comfort')) comfort += 6;
-    if (hasWord('comfort') || hasWord('smoothness') || hasWord('wife approved') || hasWord('passenger') || hasWord('gentle') || hasWord('natural')) comfort += 10;
-    
-    // Penalize comfort for oscillations and motion sickness
-    if (hasWord('jerkiness') || hasWord('stiff') || hasWord('abrupt') || hasWord('harsh') || hasWord('twitchy') || hasWord('shake') || hasWord('rough') || hasWord('motion sickness') || hasWord('oscillations')) comfort -= 12;
-    
-    if (hasNegWord('jerk') || hasNegWord('stiff') || hasNegWord('harsh') || hasNegWord('rough') || hasNegWord('twitchy')) comfort -= 10;
-    if (hasPosWord('smooth') || hasPosWord('comfort') || hasPosWord('wife') || hasPosWord('gentle')) comfort += 8;
-
-    // Penalize comfort for Aggressive, Dev, or Experimental characteristics
-    if (tags.includes('Aggressive') || tags.includes('Dev') || tags.includes('Experimental') || feel.includes('aggressive') || feel.includes('stiff') || feel.includes('heavy') || hasWord('aggressive') || hasWord('unforgiving') || hasWord('experimental long')) comfort -= 12;
-    
-    // Penalize comfort for Off-Policy models due to jerky/experimental long
-    if (isOffPolicy) comfort -= 8;
-
-    const clamp = (val: number) => Math.max(35, Math.min(99, val));
-
-    return {
-        lat: clamp(lat),
-        stability: clamp(stability),
-        turns: clamp(turns),
-        long: clamp(long),
-        urban: clamp(urban),
-        comfort: clamp(comfort)
-    };
-}
-
 // Glowing Skill Bar Component
-function SkillBar({ label, value, colorClass }: { label: string; value: number; colorClass: string }) {
+function SkillBar({ label, value, colorClass, evidence }: { label: string; value: number; colorClass: string; evidence?: string }) {
     return (
-        <div className="space-y-1">
+        <div className="space-y-1" title={evidence ? `${label} — ${value}/99\n${evidence}` : undefined}>
             <div className="flex justify-between items-center text-[10px]">
                 <span className="text-slate-400 font-medium truncate pr-1">{label}</span>
                 <span className="text-slate-300 font-bold font-mono text-[9px] bg-slate-800/40 px-1 py-0.2 rounded border border-slate-700/20 shrink-0">
@@ -315,9 +164,10 @@ function SkillBar({ label, value, colorClass }: { label: string; value: number; 
 }
 
 // Grid of 6 Skill Bars
-function SkillRatingsGrid({ ratings }: { ratings: SkillRatings }) {
+function SkillRatingsGrid({ detail }: { detail: SkillRatingsDetail }) {
     const { locale } = useLanguage();
     const labels = SKILL_LABELS[locale as Locale] || SKILL_LABELS.en;
+    const ratings = detail.ratings;
 
     const skills = [
         { key: 'lat' as const, color: 'from-cyan-400 to-blue-500 shadow-[0_0_8px_rgba(34,211,238,0.3)]' },
@@ -336,6 +186,7 @@ function SkillRatingsGrid({ ratings }: { ratings: SkillRatings }) {
                     label={labels[skill.key]}
                     value={ratings[skill.key]}
                     colorClass={skill.color}
+                    evidence={describeAxisEvidence(detail, skill.key)}
                 />
             ))}
         </div>
@@ -621,7 +472,7 @@ function ModelCard({
             </p>
 
             {/* Skill Attributes Grid */}
-            <SkillRatingsGrid ratings={deriveSkillRatings(model)} />
+            <SkillRatingsGrid detail={deriveSkillRatingsDetail(model)} />
 
             {/* Tested On — always visible */}
             {model.testedOn && model.testedOn.length > 0 && (
