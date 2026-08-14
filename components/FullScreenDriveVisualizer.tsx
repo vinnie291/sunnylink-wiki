@@ -4,7 +4,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Fuse from 'fuse.js';
 
-import DriveSimulation, { deriveDrivingProfile, DrivingProfile } from './DriveSimulation';
+import UnifiedDriveSimulation from './UnifiedDriveSimulation';
+import { deriveDrivingProfile, DrivingProfile } from './DriveSimulation';
 import { ScenarioKey } from '../lib/gauntletRoute';
 
 interface SentimentData {
@@ -207,7 +208,7 @@ export default function FullScreenDriveVisualizer({ isOpen, onClose, models, ini
                             maxWidth: 'calc((100vh - 160px) * 16 / 9)',
                         }}
                     >
-                        <DriveSimulation profile={profile} seedKey={selectedModel.name} scenarioOverride={scenario} />
+                        <UnifiedDriveSimulation profile={profile} seedKey={selectedModel.name} scenarioOverride={scenario} />
                     </div>
                 </div>
             </div>

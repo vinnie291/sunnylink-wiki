@@ -226,6 +226,11 @@ export function computeModelRenderFrame(
     // height (callers fall back to HEIGHT_INIT when the log doesn't carry it,
     // matching openpilot — a 0 offset collapses the path onto the horizon).
     pathOffsetZ = 0,
+    // Optional scale factor for lane line / road edge ribbon widths.
+    // Default 1.0 matches the real openpilot renderer; the synthetic
+    // simulator uses a higher value (e.g. 6–8) so lanes are visible
+    // at the wiki's small canvas size.
+    laneLineScale = 1.0,
 ): RenderFrame {
     const transform = calcFrameMatrix(rpyCalib, rectWidth, rectHeight);
     const clip: ClipRegion = {
@@ -246,14 +251,14 @@ export function computeModelRenderFrame(
     const laneLines: RenderPolygon[] = model.laneLines.map((line, i) => {
         const prob = model.laneLineProbs[i] ?? 0;
         const alpha = clamp(prob, 0, 0.7);
-        const points = mapLineToPolygon(line, 0.025 * prob, 0, laneLineMaxIdx, maxDistance, transform, clip, true);
+        const points = mapLineToPolygon(line, 0.025 * prob * laneLineScale, 0, laneLineMaxIdx, maxDistance, transform, clip, true);
         return { points, color: `rgba(255,255,255,${alpha.toFixed(3)})` };
     });
 
     const roadEdges: RenderPolygon[] = model.roadEdges.map((edge, i) => {
         const std = model.roadEdgeStds[i] ?? 0;
         const alpha = clamp(1 - std, 0, 1);
-        const points = mapLineToPolygon(edge, 0.025, 0, laneLineMaxIdx, maxDistance, transform, clip, true);
+        const points = mapLineToPolygon(edge, 0.025 * laneLineScale, 0, laneLineMaxIdx, maxDistance, transform, clip, true);
         return { points, color: `rgba(255,0,0,${alpha.toFixed(3)})` };
     });
 

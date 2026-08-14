@@ -9,7 +9,8 @@ import ViewToggle from './ViewToggle';
 import SearchFilter from './SearchFilter';
 import MobileCategorySidebar from './MobileCategorySidebar';
 import SidebarInlineControls from './SidebarInlineControls';
-import DriveSimulation, { deriveDrivingProfile } from './DriveSimulation';
+import UnifiedDriveSimulation from './UnifiedDriveSimulation';
+import { deriveDrivingProfile } from './DriveSimulation';
 import FullScreenDriveVisualizer from './FullScreenDriveVisualizer';
 import { useViewMode } from '../hooks/useViewMode';
 import { useStickySearch } from '../hooks/useStickySearch';
@@ -495,7 +496,7 @@ function ModelCard({
         >
             {/* Animated drive simulation hero */}
             <div className="relative">
-                <DriveSimulation profile={profile} seedKey={model.name} disableRainbow={true} scenarioOverride="gauntlet" mini />
+                <UnifiedDriveSimulation profile={profile} seedKey={model.name} scenarioOverride="gauntlet" hideHud />
                 {onExpand && (
                     <button
                         type="button"
