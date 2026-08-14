@@ -237,6 +237,163 @@
       "icon": "🚀",
       "models": [
         {
+          "name": "RDF Model",
+          "date": "5 août 2026",
+          "badge": "NEW",
+          "tags": [
+            "Recommandé",
+            "Longitudinal",
+            "Autoroute",
+            "Yassine/MVL"
+          ],
+          "communityScore": 78,
+          "totalVotes": 32,
+          "sentiment": {
+            "great": 45,
+            "good": 35,
+            "ok": 15,
+            "bad": 5
+          },
+          "consensus": "Ajusté par Yassine/MVL avec des gains longitudinaux notables par rapport à POP et CD210. Offre des arrêts/redémarrages très fluides et une tenue de cap assurée sur autoroute.",
+          "note": "À associer avec les réglages récents de MVL pour Honda/Hyundai. Contrôle longitudinal très solide.",
+          "bestFor": "Autoroute / Trafic dense",
+          "steeringFeel": "Assuré",
+          "forumUrl": "https://community.sunnypilot.ai/t/rdf-model-august-5-2026/6569",
+          "testedOn": [
+            "2022 Honda Civic",
+            "2024 Ioniq 5 (HDA2)",
+            "2022 Rivian R1T (Angle Steering)",
+            "2025 Ioniq 5N",
+            "comma 4"
+          ],
+          "positives": [
+            "Amélioration nette des accélérations et freinages",
+            "Stop & go très fluide sur autoroute",
+            "Puissance de braquage affirmée dans les grandes courbes",
+            "Détection précise des véhicules de tête"
+          ],
+          "negatives": [
+            "Abandon dans les virages très serrés sur certains véhicules lourds",
+            "Légères oscillations latérales à basse vitesse pendant l auto-calibrage",
+            "Ralentissement brusque en cas de véhicule coupant la voie"
+          ]
+        },
+        {
+          "name": "Rebellious Hope Model",
+          "date": "27 juillet 2026",
+          "badge": "NEW",
+          "tags": [
+            "Expérimental",
+            "Virages",
+            "Assistance de couple"
+          ],
+          "communityScore": 68,
+          "totalVotes": 24,
+          "sentiment": {
+            "great": 30,
+            "good": 40,
+            "ok": 20,
+            "bad": 10
+          },
+          "consensus": "Conçu pour négocier les virages serrés où le couple maximal est atteint sans franchir les lignes comme CD210. Excellente tenue de voie en courbe.",
+          "note": "Parfait pour les routes sinueuses. Activez la pause latérale à basse vitesse en cas de louvoiement.",
+          "bestFor": "Routes sinueuses / Virages assistés",
+          "steeringFeel": "Ferme",
+          "forumUrl": "https://community.sunnypilot.ai/t/rebellious-hope-model-july-27-2026/6560",
+          "testedOn": [
+            "2023 Lexus RC 350",
+            "Hyundai Ioniq 5",
+            "Honda Civic Hybrid",
+            "comma 4"
+          ],
+          "positives": [
+            "Meilleur maintien de ligne en virage à fort couple que CD210",
+            "Centrage ferme dans les courbes",
+            "Profil de décélération prévisible"
+          ],
+          "negatives": [
+            "Oscillations latérales à basse vitesse sur Lexus/Toyota",
+            "Transition un peu sèche lors de l intervention du conducteur"
+          ]
+        },
+        {
+          "name": "Rebel Legion Model",
+          "date": "22 juillet 2026",
+          "badge": "NEW",
+          "tags": [
+            "Autoroute",
+            "Stable",
+            "Expérimental"
+          ],
+          "communityScore": 72,
+          "totalVotes": 20,
+          "sentiment": {
+            "great": 35,
+            "good": 45,
+            "ok": 15,
+            "bad": 5
+          },
+          "consensus": "La variante autoroutière de la série Rebel. Privilégie un maintien de voie rectiligne parfait et des changements de voie doux.",
+          "note": "Recommandé pour les longs trajets sur autoroute en quête de sérénité.",
+          "bestFor": "Trajets autoroutiers",
+          "steeringFeel": "Équilibré",
+          "forumUrl": "https://community.sunnypilot.ai/t/rebel-legion-model-july-22-2026/6559",
+          "testedOn": [
+            "Hyundai Ioniq 5",
+            "Kia EV6",
+            "Toyota RAV4 Prime",
+            "Honda CR-V",
+            "comma 4"
+          ],
+          "positives": [
+            "Centrage autoroutier verrouillé sans dérive",
+            "Transitions très douces lors des changements de voie",
+            "Distances de suivi sécurisantes"
+          ],
+          "negatives": [
+            "Moins agressif en ville que Rebellious Hope",
+            "Accélération modérée après un arrêt complet"
+          ]
+        },
+        {
+          "name": "OP Model 16 Deep",
+          "date": "3 juin 2026",
+          "badge": "NEW",
+          "tags": [
+            "Réseau profond",
+            "Urbain",
+            "Off-Policy"
+          ],
+          "communityScore": 71,
+          "totalVotes": 29,
+          "sentiment": {
+            "great": 38,
+            "good": 38,
+            "ok": 18,
+            "bad": 6
+          },
+          "consensus": "Architecture réseau étendue offrant une perception spatiale supérieure en milieu urbain et dans les intersections complexes. Conçu pour Comma 4.",
+          "note": "Optimisé pour Comma 4. Recommandé en zones urbaines et périurbaines denses.",
+          "bestFor": "Conduite urbaine et mixte",
+          "steeringFeel": "Confiant",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-16-deep-june-03-2026/6557",
+          "testedOn": [
+            "2025 Kia K4",
+            "2024 Honda Civic",
+            "Toyota Prius (2023+)",
+            "comma 4"
+          ],
+          "positives": [
+            "Perception multi-voies et intersections nettement améliorée",
+            "Excellente gestion des zones de travaux",
+            "Couple de braquage assuré en virage moyen"
+          ],
+          "negatives": [
+            "Charge de calcul plus élevée sur matériel comma 3X ancien",
+            "Freinage parfois sec pour les piétons sur le trottoir"
+          ]
+        },
+        {
           "name": "OP Model 10 v3",
           "date": "April 19, 2026",
           "badge": "NEW",
@@ -2220,6 +2377,44 @@
       "description": "Vehicle-specific forks, longitudinal tunes, and specialized branch models tailored for specific hardware platforms.",
       "icon": "🔧",
       "models": [
+        {
+          "name": "Michael RL V2",
+          "date": "18 juillet 2026",
+          "badge": "openpilot only",
+          "tags": [
+            "Apprentissage par renforcement",
+            "Naturel",
+            "Expérimental"
+          ],
+          "communityScore": 76,
+          "totalVotes": 25,
+          "sentiment": {
+            "great": 48,
+            "good": 32,
+            "ok": 12,
+            "bad": 8
+          },
+          "consensus": "Nouvelle génération de modèle par renforcement après Deep_RL V3. Conduite fluide et anticipation naturelle des courbes très proche d un conducteur humain.",
+          "note": "Idéal pour les branches expérimentales d openpilot et les conducteurs préférant une conduite vivante.",
+          "bestFor": "Conduite naturelle et humaine",
+          "steeringFeel": "Naturel",
+          "forumUrl": "https://community.sunnypilot.ai/t/michael-rl-v2-july-18-2026/6558",
+          "testedOn": [
+            "comma 4",
+            "Toyota Corolla",
+            "Hyundai Palisade",
+            "Subaru Outback"
+          ],
+          "positives": [
+            "Positionnement de voie naturel avec recherche d apex",
+            "Freinage longitudinal progressif et anticipatif",
+            "Corrections de direction fluides sans à-coups"
+          ],
+          "negatives": [
+            "Prend les virages un peu plus serrés que les modèles classiques",
+            "Légère hésitation si le marquage au sol s interrompt brutalement"
+          ]
+        },
         {
           "name": "BluePilot 5.0",
           "date": "Late 2025",
