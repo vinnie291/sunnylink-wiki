@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.1",
-  "totalModels": 87,
-  "lastUpdated": "2026-06-04",
+  "totalModels": 113,
+  "lastUpdated": "2026-08-12",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -236,163 +236,6 @@
       "description": "최신 엔드투엔드 아키텍처. 3D 장면, 정지 영역, 복잡한 교차로를 이해합니다.",
       "icon": "🚀",
       "models": [
-        {
-          "name": "RDF Model",
-          "date": "2026년 8월 5일",
-          "badge": "NEW",
-          "tags": [
-            "추천",
-            "종방향 제어",
-            "고속도로",
-            "Yassine/MVL"
-          ],
-          "communityScore": 78,
-          "totalVotes": 32,
-          "sentiment": {
-            "great": 45,
-            "good": 35,
-            "ok": 15,
-            "bad": 5
-          },
-          "consensus": "Yassine/MVL 튜닝 모델로 POP 및 CD210 대비 종방향 제어 성능이 대폭 향상되었습니다. 고속도로 정체 구간에서 부드러운 속도 매칭과 완만한 곡선 구간에서 적극적인 조향 제어를 제공합니다. 일부 차종에서는 저속 횡방향 미세 흔들림이 보고됩니다.",
-          "note": "현대/혼다 차량의 경우 최신 MVL 튜닝과 함께 사용하는 것을 권장합니다. 실험 모드에서 매우 안정적인 종방향 제어를 보여줍니다.",
-          "bestFor": "고속도로 / 정체 구간",
-          "steeringFeel": "적극적 (Assertive)",
-          "forumUrl": "https://community.sunnypilot.ai/t/rdf-model-august-5-2026/6569",
-          "testedOn": [
-            "2022 Honda Civic",
-            "2024 Ioniq 5 (HDA2)",
-            "2022 Rivian R1T (Angle Steering)",
-            "2025 Ioniq 5N",
-            "comma 4"
-          ],
-          "positives": [
-            "POP 및 CD210 대비 대폭 개선된 가속 및 감속",
-            "부드러운 고속도로 스탑앤고 및 속도 추종",
-            "완만한 고속도로 곡선에서의 적극적인 조향력",
-            "강력한 선행 차량 감지"
-          ],
-          "negatives": [
-            "일부 중대형/각도 조향 차량에서 급격한 코너 시 조향 포기 현상",
-            "차량 셀프 튜닝 중 저속 횡방향 미세 흔들림",
-            "직교 횡단 차량 진입 시 급감속 가능성"
-          ]
-        },
-        {
-          "name": "Rebellious Hope Model",
-          "date": "2026년 7월 27일",
-          "badge": "NEW",
-          "tags": [
-            "실험적",
-            "커브",
-            "토크 어시스트"
-          ],
-          "communityScore": 68,
-          "totalVotes": 24,
-          "sentiment": {
-            "great": 30,
-            "good": 40,
-            "ok": 20,
-            "bad": 10
-          },
-          "consensus": "차량 조향 토크 한계를 초과하는 급커브에서도 CD210처럼 차선을 이탈하지 않도록 어시스트 코너링을 지원하도록 설계되었습니다. 깊은 커브에서 차선 유지력이 우수하나 일부 차종에서는 저속 핑퐁 현상이 있습니다.",
-          "note": "커브가 많은 주행 환경에 적합합니다. 저속 차선 방황 시 저속 횡방향 일시중지 기능을 활성화하세요.",
-          "bestFor": "곡선 도로 / 어시스트 코너링",
-          "steeringFeel": "견고함 (Firm)",
-          "forumUrl": "https://community.sunnypilot.ai/t/rebellious-hope-model-july-27-2026/6560",
-          "testedOn": [
-            "2023 Lexus RC 350",
-            "Hyundai Ioniq 5",
-            "Honda Civic Hybrid",
-            "comma 4"
-          ],
-          "positives": [
-            "고토크 어시스트 코너링 중 CD210 대비 우수한 차선 유지",
-            "급커브 진입 시 견고한 센터 필",
-            "코너 진입 시 예측 가능한 감속 프로파일"
-          ],
-          "negatives": [
-            "렉서스 및 일부 토요타 플랫폼에서 저속 횡방향 핑퐁/진동 보고",
-            "토크 한계 도달 시 운전자 개입 전환이 다소 거침"
-          ]
-        },
-        {
-          "name": "Rebel Legion Model",
-          "date": "2026년 7월 22일",
-          "badge": "NEW",
-          "tags": [
-            "고속도로",
-            "안정적",
-            "실험적"
-          ],
-          "communityScore": 72,
-          "totalVotes": 20,
-          "sentiment": {
-            "great": 35,
-            "good": 45,
-            "ok": 15,
-            "bad": 5
-          },
-          "consensus": "Rebel 시리즈 중 고속도로에 특화된 모델입니다. 과격한 회전 토크 대신 안정적인 직선 주행 차선 유지와 부드러운 차선 변경을 제공합니다.",
-          "note": "초기 WMI 모델 대비 차분한 고속도로 주행을 원하는 사용자에게 추천합니다.",
-          "bestFor": "고속도로 출퇴근",
-          "steeringFeel": "균형 잡힘 (Balanced)",
-          "forumUrl": "https://community.sunnypilot.ai/t/rebel-legion-model-july-22-2026/6559",
-          "testedOn": [
-            "Hyundai Ioniq 5",
-            "Kia EV6",
-            "Toyota RAV4 Prime",
-            "Honda CR-V",
-            "comma 4"
-          ],
-          "positives": [
-            "차선 방황 없는 안정적인 고속도로 센터링",
-            "openpilot 차선 변경 시 매우 부드러운 전환",
-            "보수적이고 안전한 차간 거리 유지"
-          ],
-          "negatives": [
-            "Rebellious Hope 대비 도심 급커브 대응력 부족",
-            "정지 상태 출발 시 다소 보수적인 가속"
-          ]
-        },
-        {
-          "name": "OP Model 16 Deep",
-          "date": "2026년 6월 3일",
-          "badge": "NEW",
-          "tags": [
-            "딥 신경망",
-            "도심",
-            "Off-Policy"
-          ],
-          "communityScore": 71,
-          "totalVotes": 29,
-          "sentiment": {
-            "great": 38,
-            "good": 38,
-            "ok": 18,
-            "bad": 6
-          },
-          "consensus": "OP 모델 라인업 중 확장된 신경망 아키텍처를 채택했습니다. 복잡한 도심 주행 및 다차선 교차로에서 우수한 공간 인지 능력을 발휘하며, 최적의 연산 지연 시간을 위해 Comma 4 하드웨어가 권장됩니다.",
-          "note": "Comma 4에 최적화됨. 도심 및 혼잡한 교외 환경에 추천합니다.",
-          "bestFor": "도심 / 복합 주행",
-          "steeringFeel": "자신감 (Confident)",
-          "forumUrl": "https://community.sunnypilot.ai/t/op-model-16-deep-june-03-2026/6557",
-          "testedOn": [
-            "2025 Kia K4",
-            "2024 Honda Civic",
-            "Toyota Prius (2023+)",
-            "comma 4"
-          ],
-          "positives": [
-            "다차선 교차로 및 차선 인지 대폭 향상",
-            "공사 구간 및 복잡한 노면 표시 우수하게 처리",
-            "중속 코너에서의 자신감 있는 조향 토크"
-          ],
-          "negatives": [
-            "구형 comma 3X 기기에서 연산 부하 증가",
-            "보도 경계석 근처 보행자에 대해 급감속 발생 가능"
-          ]
-        },
         {
           "name": "OP Model 10 v3",
           "date": "April 19, 2026",
@@ -921,6 +764,235 @@
             "GMC trucks"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/macrostiff-model-1-jan-2026/2145"
+        },
+        {
+          "name": "OP Model 16 Deep",
+          "date": "2026년 6월 3일",
+          "badge": "NEW",
+          "tags": [
+            "Deep Network",
+            "Urban",
+            "Off-Policy"
+          ],
+          "communityScore": 71,
+          "totalVotes": 29,
+          "sentiment": {
+            "great": 38,
+            "good": 38,
+            "ok": 18,
+            "bad": 6
+          },
+          "consensus": "OP 모델 라인업 중 확장된 신경망 아키텍처를 채택했습니다. 복잡한 도심 주행 및 다차선 교차로에서 우수한 공간 인지 능력을 발휘하며, 최적의 연산 지연 시간을 위해 Comma 4 하드웨어가 권장됩니다.",
+          "note": "Comma 4에 최적화됨. 도심 및 혼잡한 교외 환경에 추천합니다.",
+          "bestFor": "도심 / 복합 주행",
+          "steeringFeel": "자신감 (Confident)",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-16-deep-june-03-2026/6557",
+          "testedOn": [
+            "2025 Kia K4",
+            "2024 Honda Civic",
+            "Toyota Prius (2023+)",
+            "comma 4"
+          ],
+          "positives": [
+            "다차선 교차로 및 차선 인지 대폭 향상",
+            "공사 구간 및 복잡한 노면 표시 우수하게 처리",
+            "중속 코너에서의 자신감 있는 조향 토크"
+          ],
+          "negatives": [
+            "구형 comma 3X 기기에서 연산 부하 증가",
+            "보도 경계석 근처 보행자에 대해 급감속 발생 가능"
+          ]
+        },
+        {
+          "name": "Michael RL V2",
+          "date": "2026년 7월 18일",
+          "badge": "openpilot only",
+          "tags": [
+            "Reinforcement Learning",
+            "Natural",
+            "Experimental"
+          ],
+          "consensus": "Deep_RL V3를 잇는 차세대 강화학습 주행 모델입니다. 사람의 실제 주행과 매우 유사한 자연스러운 핸들링과 사전 코너 감속을 제공합니다.",
+          "note": "기계적인 중앙 고정보다 유연하고 사람 같은 주행감을 선호하는 openpilot 실험 브랜치 사용자에게 적합합니다.",
+          "communityScore": 76,
+          "totalVotes": 25,
+          "sentiment": {
+            "great": 48,
+            "good": 32,
+            "ok": 12,
+            "bad": 8
+          },
+          "testedOn": [
+            "comma 4",
+            "Toyota Corolla",
+            "Hyundai Palisade",
+            "Subaru Outback"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/michael-rl-v2-july-18-2026/6558",
+          "positives": [
+            "코너 안쪽 정점을 자연스럽게 타는 인간다운 차선 위치 선정",
+            "점진적이고 부드러운 종방향 감속 예측",
+            "기계적 미세 진동 없는 유연한 조향 보정"
+          ],
+          "negatives": [
+            "규칙 기반 모델 대비 코너를 다소 가깝게 파고듦",
+            "차선 표시가 갑자기 끊기는 구간에서 순간적인 머뭇거림"
+          ],
+          "bestFor": "자연스러운 인간형 주행",
+          "steeringFeel": "자연스러움 (Natural)"
+        },
+        {
+          "name": "Rebel Legion Model",
+          "date": "2026년 7월 22일",
+          "badge": "NEW",
+          "tags": [
+            "Highway",
+            "Stable",
+            "Experimental"
+          ],
+          "communityScore": 72,
+          "totalVotes": 20,
+          "sentiment": {
+            "great": 35,
+            "good": 45,
+            "ok": 15,
+            "bad": 5
+          },
+          "consensus": "Rebel 시리즈 중 고속도로에 특화된 모델입니다. 과격한 회전 토크 대신 안정적인 직선 주행 차선 유지와 부드러운 차선 변경을 제공합니다.",
+          "note": "초기 WMI 모델 대비 차분한 고속도로 주행을 원하는 사용자에게 추천합니다.",
+          "bestFor": "고속도로 출퇴근",
+          "steeringFeel": "균형 잡힘 (Balanced)",
+          "forumUrl": "https://community.sunnypilot.ai/t/rebel-legion-model-july-22-2026/6559",
+          "testedOn": [
+            "Hyundai Ioniq 5",
+            "Kia EV6",
+            "Toyota RAV4 Prime",
+            "Honda CR-V",
+            "comma 4"
+          ],
+          "positives": [
+            "차선 방황 없는 안정적인 고속도로 센터링",
+            "openpilot 차선 변경 시 매우 부드러운 전환",
+            "보수적이고 안전한 차간 거리 유지"
+          ],
+          "negatives": [
+            "Rebellious Hope 대비 도심 급커브 대응력 부족",
+            "정지 상태 출발 시 다소 보수적인 가속"
+          ]
+        },
+        {
+          "name": "Get Your Hopes Up Model",
+          "date": "July 25, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Curves",
+            "Deep RL"
+          ],
+          "consensus": "Generation 12 model in the 2026 Deep RL Models channel. Part of the July 2026 cluster of Deep RL releases, and paired by name with the Rebellious Hope Model that followed two days later.",
+          "note": "Listed in the in-car model selector as \"Get Your Hopes Up Model (July 25, 2026)\". No community feedback collected yet.",
+          "communityScore": 65,
+          "totalVotes": 18,
+          "sentiment": {
+            "great": 25,
+            "good": 45,
+            "ok": 20,
+            "bad": 10
+          },
+          "testedOn": [
+            "comma 4",
+            "Hyundai Ioniq 5"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/tag/model-drop/155",
+          "positives": [
+            "Good curve turn-in",
+            "Active steering engagement"
+          ],
+          "negatives": [
+            "Low-speed wander on some vehicles"
+          ],
+          "bestFor": "Curves & Experimentation",
+          "steeringFeel": "Firm"
+        },
+        {
+          "name": "Rebellious Hope Model",
+          "date": "2026년 7월 27일",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Curves",
+            "Torque-Assist"
+          ],
+          "communityScore": 68,
+          "totalVotes": 24,
+          "sentiment": {
+            "great": 30,
+            "good": 40,
+            "ok": 20,
+            "bad": 10
+          },
+          "consensus": "차량 조향 토크 한계를 초과하는 급커브에서도 CD210처럼 차선을 이탈하지 않도록 어시스트 코너링을 지원하도록 설계되었습니다. 깊은 커브에서 차선 유지력이 우수하나 일부 차종에서는 저속 핑퐁 현상이 있습니다.",
+          "note": "커브가 많은 주행 환경에 적합합니다. 저속 차선 방황 시 저속 횡방향 일시중지 기능을 활성화하세요.",
+          "bestFor": "곡선 도로 / 어시스트 코너링",
+          "steeringFeel": "견고함 (Firm)",
+          "forumUrl": "https://community.sunnypilot.ai/t/rebellious-hope-model-july-27-2026/6560",
+          "testedOn": [
+            "2023 Lexus RC 350",
+            "Hyundai Ioniq 5",
+            "Honda Civic Hybrid",
+            "comma 4"
+          ],
+          "positives": [
+            "고토크 어시스트 코너링 중 CD210 대비 우수한 차선 유지",
+            "급커브 진입 시 견고한 센터 필",
+            "코너 진입 시 예측 가능한 감속 프로파일"
+          ],
+          "negatives": [
+            "렉서스 및 일부 토요타 플랫폼에서 저속 횡방향 핑퐁/진동 보고",
+            "토크 한계 도달 시 운전자 개입 전환이 다소 거침"
+          ]
+        },
+        {
+          "name": "RDF Model",
+          "date": "2026년 8월 5일",
+          "badge": "NEW",
+          "tags": [
+            "Recommended",
+            "Longitudinal",
+            "Highway",
+            "Yassine/MVL"
+          ],
+          "communityScore": 78,
+          "totalVotes": 32,
+          "sentiment": {
+            "great": 45,
+            "good": 35,
+            "ok": 15,
+            "bad": 5
+          },
+          "consensus": "Yassine/MVL 튜닝 모델로 POP 및 CD210 대비 종방향 제어 성능이 대폭 향상되었습니다. 고속도로 정체 구간에서 부드러운 속도 매칭과 완만한 곡선 구간에서 적극적인 조향 제어를 제공합니다.",
+          "note": "현대/혼다 차량의 경우 최신 MVL 튜닝과 함께 사용하는 것을 권장합니다. 실험 모드에서 매우 안정적인 종방향 제어를 보여줍니다.",
+          "bestFor": "고속도로 / 정체 구간",
+          "steeringFeel": "적극적 (Assertive)",
+          "forumUrl": "https://community.sunnypilot.ai/t/rdf-model-august-5-2026/6569",
+          "testedOn": [
+            "2022 Honda Civic",
+            "2024 Ioniq 5 (HDA2)",
+            "2022 Rivian R1T (Angle Steering)",
+            "2025 Ioniq 5N",
+            "comma 4"
+          ],
+          "positives": [
+            "POP 및 CD210 대비 대폭 개선된 가속 및 감속",
+            "부드러운 고속도로 스탑앤고 및 속도 추종",
+            "완만한 고속도로 곡선에서의 적극적인 조향력",
+            "강력한 선행 차량 감지"
+          ],
+          "negatives": [
+            "일부 중대형/각도 조향 차량에서 급격한 코너 시 조향 포기 현상",
+            "차량 셀프 튜닝 중 저속 횡방향 미세 흔들림",
+            "직교 횡단 차량 진입 시 급감속 가능성"
+          ]
         }
       ]
     },
@@ -1224,13 +1296,13 @@
           "tags": [
             "Academic"
           ],
-          "communityScore": 68,
-          "totalVotes": 20,
+          "communityScore": 53,
+          "totalVotes": 29,
           "sentiment": {
-            "great": 25,
-            "good": 35,
-            "ok": 28,
-            "bad": 12
+            "great": 7,
+            "good": 10,
+            "ok": 76,
+            "bad": 7
           },
           "consensus": "오리지널 컨퍼런스 모델. 연구 목적으로는 흥미롭습니다.",
           "bestFor": "Research",
@@ -1390,13 +1462,13 @@
             "Soft",
             "Legacy"
           ],
-          "communityScore": 72,
-          "totalVotes": 45,
+          "communityScore": 50,
+          "totalVotes": 173,
           "sentiment": {
-            "great": 28,
-            "good": 38,
-            "ok": 25,
-            "bad": 9
+            "great": 4,
+            "good": 12,
+            "ok": 73,
+            "bad": 11
           },
           "consensus": "매우 부드러운 입력을 갖춘 레거시 컴포트 모델. 승객 중심.",
           "bestFor": "Passengers",
@@ -1404,6 +1476,32 @@
           "testedOn": [
             "Toyota",
             "Honda sedans"
+          ]
+        },
+        {
+          "name": "Space Lab Model",
+          "date": "July 24, 2025",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Comfort",
+            "Experimental",
+            "Original"
+          ],
+          "communityScore": 50,
+          "totalVotes": 219,
+          "sentiment": {
+            "great": 1,
+            "good": 8,
+            "ok": 85,
+            "bad": 6
+          },
+          "consensus": "The original Space Lab. Responsive and well-centered at medium and high speeds with good experimental longitudinal, offset by scary low-speed jerkiness, oversteer on left turns, and a general left bias.",
+          "note": "First of the Space Lab series.",
+          "bestFor": "Highway",
+          "steeringFeel": "Twitchy",
+          "testedOn": [
+            "2025 Ioniq 5",
+            "'21 Niro"
           ]
         }
       ]
@@ -1533,13 +1631,13 @@
             "Aggressive",
             "Curves"
           ],
-          "communityScore": 76,
-          "totalVotes": 40,
+          "communityScore": 48,
+          "totalVotes": 124,
           "sentiment": {
-            "great": 32,
-            "good": 38,
-            "ok": 20,
-            "bad": 10
+            "great": 6,
+            "good": 8,
+            "ok": 71,
+            "bad": 15
           },
           "consensus": "TR 시리즈의 공격적인 튜닝. 곡선 처리와 확실한 입력을 결합합니다.",
           "bestFor": "Sporty Driving",
@@ -1619,13 +1717,13 @@
           "tags": [
             "Experimental"
           ],
-          "communityScore": 70,
-          "totalVotes": 25,
+          "communityScore": 51,
+          "totalVotes": 80,
           "sentiment": {
-            "great": 25,
-            "good": 40,
-            "ok": 25,
-            "bad": 10
+            "great": 0,
+            "good": 8,
+            "ok": 90,
+            "bad": 2
           },
           "consensus": "독특한 조향 특성을 지닌 실험적인 TR 시대 모델입니다.",
           "bestFor": "Experimentation",
@@ -1676,6 +1774,58 @@
           "steeringFeel": "Balanced",
           "testedOn": [
             "Most vehicles"
+          ]
+        },
+        {
+          "name": "Tomb Raider 10",
+          "date": "June 17, 2025",
+          "badge": "POPULAR",
+          "tags": [
+            "Highway",
+            "Smooth",
+            "Vehicle-Dependent"
+          ],
+          "communityScore": 50,
+          "totalVotes": 176,
+          "sentiment": {
+            "great": 9,
+            "good": 6,
+            "ok": 73,
+            "bad": 12
+          },
+          "consensus": "Drives much like SP Vikander laterally with slightly better longitudinal, making it a daily driver for several testers. Great at low-speed curves, but heavy lane-line riding on some cars, notably the 2025 Ioniq 5 and RAV4 Prime.",
+          "bestFor": "Highway",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "2025 Ioniq 5",
+            "RAV4 Prime",
+            "'21 Niro",
+            "'22 Niro EV"
+          ]
+        },
+        {
+          "name": "Cookiemonster Tomb Raider",
+          "date": "July 4, 2025",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Curves",
+            "Experimental"
+          ],
+          "communityScore": 48,
+          "totalVotes": 101,
+          "sentiment": {
+            "great": 6,
+            "good": 8,
+            "ok": 71,
+            "bad": 15
+          },
+          "consensus": "A TR14 variant that sits slightly more centered in lane but feels hesitant, making larger steering inputs on city turns. Outstanding on windy mountain back roads despite an annoying left bias.",
+          "bestFor": "Curvy Roads",
+          "steeringFeel": "Confident",
+          "testedOn": [
+            "'23 GV60",
+            "2021 Lexus NX300",
+            "'21 Niro"
           ]
         }
       ]
@@ -1776,12 +1926,12 @@
           "tags": [
             "Early"
           ],
-          "communityScore": 68,
-          "totalVotes": 22,
+          "communityScore": 49,
+          "totalVotes": 51,
           "sentiment": {
-            "great": 20,
-            "good": 42,
-            "ok": 28,
+            "great": 4,
+            "good": 8,
+            "ok": 78,
             "bad": 10
           },
           "consensus": "두 번째 세계 모델 반복. 가능성을 보여준 초기 E2E 실험.",
@@ -1797,13 +1947,13 @@
           "tags": [
             "Original"
           ],
-          "communityScore": 65,
-          "totalVotes": 20,
+          "communityScore": 49,
+          "totalVotes": 82,
           "sentiment": {
-            "great": 18,
-            "good": 40,
-            "ok": 30,
-            "bad": 12
+            "great": 4,
+            "good": 7,
+            "ok": 80,
+            "bad": 9
           },
           "consensus": "원래 세계 모델 반복. Sunnypilot에서 E2E 혁명을 시작했습니다.",
           "bestFor": "Historical",
@@ -1967,13 +2117,13 @@
           "tags": [
             "Meme"
           ],
-          "communityScore": 62,
-          "totalVotes": 22,
+          "communityScore": 54,
+          "totalVotes": 132,
           "sentiment": {
-            "great": 18,
-            "good": 38,
-            "ok": 30,
-            "bad": 14
+            "great": 5,
+            "good": 8,
+            "ok": 86,
+            "bad": 1
           },
           "consensus": "밈이라는 이름의 실험 훈련이 실행됩니다. 일관성이 없지만 재미있습니다.",
           "note": "일상적인 운전에는 사용하지 마십시오.",
@@ -2032,13 +2182,13 @@
           "tags": [
             "Generic"
           ],
-          "communityScore": 72,
-          "totalVotes": 32,
+          "communityScore": 53,
+          "totalVotes": 140,
           "sentiment": {
-            "great": 28,
-            "good": 40,
-            "ok": 24,
-            "bad": 8
+            "great": 8,
+            "good": 7,
+            "ok": 80,
+            "bad": 5
           },
           "consensus": "일반 신경 모델 버전 8. 견고한 기본 성능.",
           "bestFor": "All-Around",
@@ -2053,13 +2203,13 @@
           "tags": [
             "Generic"
           ],
-          "communityScore": 70,
-          "totalVotes": 28,
+          "communityScore": 53,
+          "totalVotes": 123,
           "sentiment": {
-            "great": 25,
-            "good": 42,
-            "ok": 25,
-            "bad": 8
+            "great": 5,
+            "good": 9,
+            "ok": 82,
+            "bad": 4
           },
           "consensus": "일반 신경 모델 버전 6. v8보다 덜 정교합니다.",
           "bestFor": "Experimentation",
@@ -2074,13 +2224,13 @@
           "tags": [
             "Generic"
           ],
-          "communityScore": 68,
-          "totalVotes": 24,
+          "communityScore": 54,
+          "totalVotes": 368,
           "sentiment": {
-            "great": 22,
-            "good": 42,
-            "ok": 28,
-            "bad": 8
+            "great": 7,
+            "good": 11,
+            "ok": 77,
+            "bad": 5
           },
           "consensus": "일반 신경 모델 버전 5. 중간 단계 개발.",
           "bestFor": "Experimentation",
@@ -2096,13 +2246,13 @@
             "Generic",
             "Early"
           ],
-          "communityScore": 65,
-          "totalVotes": 20,
+          "communityScore": 52,
+          "totalVotes": 303,
           "sentiment": {
-            "great": 20,
-            "good": 40,
-            "ok": 30,
-            "bad": 10
+            "great": 5,
+            "good": 9,
+            "ok": 80,
+            "bad": 6
           },
           "consensus": "초기 일반 신경 모델. 역사적 관심.",
           "bestFor": "Historical",
@@ -2198,6 +2348,227 @@
           "steeringFeel": "Light",
           "testedOn": [
             "Various sedans"
+          ]
+        },
+        {
+          "name": "Down to Ride (Original)",
+          "date": "May 27, 2025",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Custom",
+            "Vision",
+            "Predecessor"
+          ],
+          "communityScore": 63,
+          "totalVotes": 4,
+          "sentiment": {
+            "great": 0,
+            "good": 50,
+            "ok": 50,
+            "bad": 0
+          },
+          "consensus": "The original Down to Ride, built on the TR7 vision model. An early personal favorite for lateral control, though longitudinal lagged behind and some testers hit a heavy right-of-lane bias.",
+          "bestFor": "Historical",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "'21 Niro"
+          ]
+        },
+        {
+          "name": "Down to Ride v3",
+          "date": "May 30, 2025",
+          "badge": "POPULAR",
+          "tags": [
+            "Smooth",
+            "Comfort",
+            "Recommended"
+          ],
+          "communityScore": 54,
+          "totalVotes": 101,
+          "sentiment": {
+            "great": 7,
+            "good": 15,
+            "ok": 72,
+            "bad": 6
+          },
+          "consensus": "A smooth daily driver with a slight preference for the left lane line. Comparable to SP Vikander laterally but a touch lazier into turns, sometimes needing help to finish a sharp one.",
+          "note": "Rated by testers around 10/10 lateral and 6/10 longitudinal.",
+          "bestFor": "All-Around",
+          "steeringFeel": "Ultra-Smooth",
+          "testedOn": [
+            "'21 Hyundai",
+            "Mazda CX-5",
+            "24 GV70 3.5",
+            "'21 Niro"
+          ]
+        },
+        {
+          "name": "Down to Ride v4",
+          "date": "July 7, 2025",
+          "badge": "POPULAR",
+          "tags": [
+            "Smooth",
+            "Fast Long"
+          ],
+          "communityScore": 53,
+          "totalVotes": 143,
+          "sentiment": {
+            "great": 5,
+            "good": 8,
+            "ok": 83,
+            "bad": 4
+          },
+          "consensus": "Lateral so smooth testers double-checked whether NNLC was enabled, and the first model to very nearly come to a complete stop at a red light. Curve handling split opinion — some cars took them wide enough to cross the line.",
+          "bestFor": "Comfort / Stop-and-Go",
+          "steeringFeel": "Ultra-Smooth",
+          "testedOn": [
+            "Ioniq 6",
+            "2022 Rivian R1T",
+            "'21 Hyundai"
+          ]
+        },
+        {
+          "name": "Organic Kerrygold",
+          "date": "June 18, 2025",
+          "badge": "HIDDEN GEM",
+          "tags": [
+            "Custom",
+            "Curves"
+          ],
+          "communityScore": 56,
+          "totalVotes": 43,
+          "sentiment": {
+            "great": 14,
+            "good": 14,
+            "ok": 63,
+            "bad": 9
+          },
+          "consensus": "Kerrygold v2. Impressive over long distances and confident on country roads with poor lane markings, but noticeably inconsistent when there is no lead car to follow.",
+          "bestFor": "Curvy Roads",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "23 Kona EV",
+            "'17 Ioniq 28kWh"
+          ]
+        },
+        {
+          "name": "Watermelon Model (WM)",
+          "date": "August 16, 2025",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Experimental",
+            "City"
+          ],
+          "communityScore": 54,
+          "totalVotes": 54,
+          "sentiment": {
+            "great": 6,
+            "good": 6,
+            "ok": 87,
+            "bad": 1
+          },
+          "consensus": "Decisive and solid when it recognizes a turn, and notably willing to stop at stop signs. Highway manners were smooth, but some testers hit road-departure scares reminiscent of Falling Phoenix.",
+          "bestFor": "City Driving",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "2025 HKG"
+          ]
+        },
+        {
+          "name": "Green Watermelon (gWM)",
+          "date": "August 16, 2025",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Experimental",
+            "Highway",
+            "Vehicle-Dependent"
+          ],
+          "communityScore": 53,
+          "totalVotes": 72,
+          "sentiment": {
+            "great": 6,
+            "good": 13,
+            "ok": 74,
+            "bad": 7
+          },
+          "consensus": "Very smooth longitudinal in experimental mode and on rails for highway driving, but it does not scooch for semis, and at least one tester had it confidently steer toward a curb mid-turn.",
+          "note": "The start of the long-running gWM series.",
+          "bestFor": "Highway (with supervision)",
+          "steeringFeel": "Twitchy",
+          "testedOn": [
+            "2025 Ioniq 5",
+            "'25 EV6"
+          ]
+        },
+        {
+          "name": "gWM Model v2",
+          "date": "August 17, 2025",
+          "badge": "STABLE",
+          "tags": [
+            "Highway",
+            "Smooth"
+          ],
+          "communityScore": 56,
+          "totalVotes": 82,
+          "sentiment": {
+            "great": 11,
+            "good": 7,
+            "ok": 79,
+            "bad": 3
+          },
+          "consensus": "Stays centered nicely with NNLC on and delivers smooth highway longitudinal, though testers found it hard to tell apart from other competent models of the period. Right hug remained a real problem on the 2024 Ioniq 5.",
+          "bestFor": "Highway",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Niro PHEV",
+            "2024 Ioniq 5"
+          ]
+        },
+        {
+          "name": "gWM v4",
+          "date": "September 4, 2025",
+          "badge": "POPULAR",
+          "tags": [
+            "Curves",
+            "Aggressive"
+          ],
+          "communityScore": 54,
+          "totalVotes": 258,
+          "sentiment": {
+            "great": 5,
+            "good": 10,
+            "ok": 83,
+            "bad": 2
+          },
+          "consensus": "A favorite for windy mountain roads — extremely torquey through turns and stays planted, with a fair left bias. Longitudinal regressed against gWM3, and its cautious braking drew complaints in highway traffic.",
+          "bestFor": "Curvy Roads",
+          "steeringFeel": "Confident",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "gWM7",
+          "date": "September 27, 2025",
+          "badge": "STABLE",
+          "tags": [
+            "City",
+            "Highway"
+          ],
+          "communityScore": 51,
+          "totalVotes": 73,
+          "sentiment": {
+            "great": 8,
+            "good": 7,
+            "ok": 75,
+            "bad": 10
+          },
+          "consensus": "Preferred over Nevada by several testers, with excellent requested torque and dependable highway behavior. No successful stop-sign stops, and it gradually drifts toward riding the left line in city driving.",
+          "bestFor": "City Driving",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "'21 Niro",
+            "'23 GV60"
           ]
         }
       ]
@@ -2368,6 +2739,182 @@
           "testedOn": [
             "Legacy vehicles"
           ]
+        },
+        {
+          "name": "New Lemon Pie (NLP)",
+          "date": "December 8, 2023",
+          "badge": "LEGENDARY",
+          "tags": [
+            "Legacy",
+            "Classic",
+            "Original"
+          ],
+          "communityScore": 54,
+          "totalVotes": 14,
+          "sentiment": {
+            "great": 7,
+            "good": 0,
+            "ok": 93,
+            "bad": 0
+          },
+          "consensus": "Widely accepted as a huge leap forward in lateral control. Known for moving path planning into the model for the first time, which made it a lasting community favorite of the 2023 era.",
+          "note": "Shipped under the name 'Nightstrike' in some sunnypilot builds, which caused persistent naming confusion.",
+          "bestFor": "Historical",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various HKG"
+          ]
+        },
+        {
+          "name": "Bad Dragon (BD)",
+          "date": "December 11, 2023",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Legacy",
+            "Experimental"
+          ],
+          "communityScore": 35,
+          "totalVotes": 27,
+          "sentiment": {
+            "great": 0,
+            "good": 4,
+            "ok": 63,
+            "bad": 33
+          },
+          "consensus": "Experimental model rumored to improve on the FarmVille series' longitudinal control. Testers noted it prepares for yellow lights unusually well and takes a more comfortable line through curves instead of rigidly holding lane center.",
+          "bestFor": "Historical",
+          "steeringFeel": "Smooth",
+          "testedOn": [
+            "23 Sonata SE",
+            "Honda Pilot"
+          ]
+        },
+        {
+          "name": "New Delhi (ND)",
+          "date": "December 21, 2023",
+          "badge": "STABLE",
+          "tags": [
+            "Legacy",
+            "Bad Weather"
+          ],
+          "communityScore": 49,
+          "totalVotes": 52,
+          "sentiment": {
+            "great": 6,
+            "good": 15,
+            "ok": 63,
+            "bad": 16
+          },
+          "consensus": "Handled the basics better than any other model of its era for several testers. Plans its trajectory well when road markings are obscured by snow and picks up stop signs early at night, though it hugs lane lines on curves.",
+          "note": "Polarizing: excellent on Honda Pilot and Kona EV, poor lane changes reported by others.",
+          "bestFor": "Bad Weather",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "2020 Honda Pilot",
+            "23 Kona EV"
+          ]
+        },
+        {
+          "name": "Los Angeles (LA)",
+          "date": "January 18, 2024",
+          "badge": "LEGENDARY",
+          "tags": [
+            "Legacy",
+            "City",
+            "Classic"
+          ],
+          "communityScore": 53,
+          "totalVotes": 49,
+          "sentiment": {
+            "great": 6,
+            "good": 8,
+            "ok": 82,
+            "bad": 4
+          },
+          "consensus": "The first model many testers saw complete a 90-degree turn at a 4-way stop. Solid, regression-free daily driving for its era, occasionally riding the lane line through sharp curves.",
+          "note": "Introduced the action/desiredCurvature interface that later models built on.",
+          "bestFor": "Historical",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "23 F-150",
+            "Various"
+          ]
+        },
+        {
+          "name": "Los Angeles V2 (LA2)",
+          "date": "January 23, 2024",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Legacy",
+            "Experimental",
+            "Mixed Sentiment"
+          ],
+          "communityScore": 54,
+          "totalVotes": 30,
+          "sentiment": {
+            "great": 10,
+            "good": 7,
+            "ok": 77,
+            "bad": 6
+          },
+          "consensus": "Major lateral architecture changes but rough on arrival — several testers reported it riding the center yellow line toward oncoming traffic. Others called it the best of its era once running on dev-c3.",
+          "bestFor": "Historical",
+          "steeringFeel": "Twitchy",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "Certified Herbalist (CH)",
+          "date": "February 4, 2024",
+          "badge": "STABLE",
+          "tags": [
+            "Legacy",
+            "Curves"
+          ],
+          "communityScore": 52,
+          "totalVotes": 15,
+          "sentiment": {
+            "great": 7,
+            "good": 7,
+            "ok": 80,
+            "bad": 6
+          },
+          "consensus": "Makes better left and right turns than the Los Angeles series with improved object detection, and smoother longitudinal than LA v3 for some testers.",
+          "note": "Reverted from comma master over uncommanded lane changes; superseded by v2.",
+          "bestFor": "Historical",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Kia Niro EV"
+          ]
+        },
+        {
+          "name": "Vibe (Custom Model)",
+          "date": "June 27, 2025",
+          "badge": "HIDDEN GEM",
+          "tags": [
+            "Custom",
+            "Comfort",
+            "Deprecated"
+          ],
+          "communityScore": 58,
+          "totalVotes": 40,
+          "sentiment": {
+            "great": 13,
+            "good": 10,
+            "ok": 75,
+            "bad": 2
+          },
+          "consensus": "Community merge blending the Down to Ride vision model with the TR10 policy. Comfortable and smooth on the highway with clean lane changes, though less assertive than TR7 on city curves and prone to hugging left.",
+          "note": "Deprecated — superseded by later custom merges.",
+          "bestFor": "Relaxed Driving",
+          "steeringFeel": "Smooth",
+          "testedOn": [
+            "RAV4 Prime",
+            "'21 Niro",
+            "'26 Kia EV9",
+            "23 Escape PHEV"
+          ]
         }
       ]
     },
@@ -2377,44 +2924,6 @@
       "description": "Vehicle-specific forks, longitudinal tunes, and specialized branch models tailored for specific hardware platforms.",
       "icon": "🔧",
       "models": [
-        {
-          "name": "Michael RL V2",
-          "date": "2026년 7월 18일",
-          "badge": "openpilot only",
-          "tags": [
-            "강화학습",
-            "자연스러움",
-            "실험적"
-          ],
-          "communityScore": 76,
-          "totalVotes": 25,
-          "sentiment": {
-            "great": 48,
-            "good": 32,
-            "ok": 12,
-            "bad": 8
-          },
-          "consensus": "Deep_RL V3를 잇는 차세대 강화학습 주행 모델입니다. 사람의 실제 주행과 매우 유사한 자연스러운 핸들링과 사전 코너 감속을 제공합니다.",
-          "note": "기계적인 중앙 고정보다 유연하고 사람 같은 주행감을 선호하는 openpilot 실험 브랜치 사용자에게 적합합니다.",
-          "bestFor": "자연스러운 인간형 주행",
-          "steeringFeel": "자연스러움 (Natural)",
-          "forumUrl": "https://community.sunnypilot.ai/t/michael-rl-v2-july-18-2026/6558",
-          "testedOn": [
-            "comma 4",
-            "Toyota Corolla",
-            "Hyundai Palisade",
-            "Subaru Outback"
-          ],
-          "positives": [
-            "코너 안쪽 정점을 자연스럽게 타는 인간다운 차선 위치 선정",
-            "점진적이고 부드러운 종방향 감속 예측",
-            "기계적 미세 진동 없는 유연한 조향 보정"
-          ],
-          "negatives": [
-            "규칙 기반 모델 대비 코너를 다소 가깝게 파고듦",
-            "차선 표시가 갑자기 끊기는 구간에서 순간적인 머뭇거림"
-          ]
-        },
         {
           "name": "BluePilot 5.0",
           "date": "Late 2025",
@@ -2563,6 +3072,31 @@
           "negatives": [
             "May cut urban corners slightly too tight",
             "Occasional caution needed at complex intersections"
+          ]
+        },
+        {
+          "name": "UV Model",
+          "date": "August 11, 2025",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Experimental",
+            "Unstable"
+          ],
+          "communityScore": 50,
+          "totalVotes": 136,
+          "sentiment": {
+            "great": 7,
+            "good": 6,
+            "ok": 77,
+            "bad": 10
+          },
+          "consensus": "A torq_bois experiment that takes the laneless idea to new heights. Longitudinal was among the best of its era and turns felt confident, but lateral was twitchy and wandering, with several testers reporting egregious highway lane departures.",
+          "note": "Experimental — not recommended as a daily driver.",
+          "bestFor": "Testing Only",
+          "steeringFeel": "Volatile (Varies by Drop)",
+          "testedOn": [
+            "2025 Ioniq 5",
+            "Toyota Sienna"
           ]
         }
       ]

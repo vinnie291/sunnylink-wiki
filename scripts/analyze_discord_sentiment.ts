@@ -79,6 +79,46 @@ const SPECIAL_ALIASES: Record<string, string[]> = {
     "OP Model": ["op model ", "opmodel [", "op model (", "op model [", "op model_drop"], 
     "Pop v2": ["pop model v2", "pop v2"],
     "Pop Model": ["pop model ", "pop model ["],
+
+    // Models whose thread title differs from the model name. Without these the
+    // thread exists but is silently skipped, leaving the model unscored.
+    "Aggressive TR": ["aggressive tomb raider"],
+    "Neurips Driving Model": ["neurips model"],
+    "Liquid Crystal Driving": ["liquid crystal"],
+    "WMI": ["wmi model"],
+    "WMI2": ["wmiv2"],
+    "gWM Model v3": ["gwm v3 model"],
+    "gWM v5": ["gwm5"],
+    "gWM v6": ["gwm6"],
+    "gWM v8": ["gwm8"],
+    // Registry/in-car name is "Digon"; the Discord thread spells it "Dijon".
+    "Nuggets in Digon": ["nuggets in dijon", "nuggets in digon"],
+    // Thread is titled just "DA" — too short for the generic matcher, so pin it exactly.
+    "Duck Amigo": ["=da"],
+
+    // Models recovered from the Discord archive.
+    "New Lemon Pie (NLP)": ["new lemon pie"],
+    "Bad Dragon (BD)": ["bad dragon"],
+    "New Delhi (ND)": ["new delhi"],
+    // "LA- Los Angeles" is a prefix of "LA- Los Angeles V2", so v1 must match exactly.
+    "Los Angeles (LA)": ["=la- los angeles"],
+    "Los Angeles V2 (LA2)": ["la- los angeles v2"],
+    // Also a prefix of both "... V2" and "CHLR - Recertified Herbalist".
+    "Certified Herbalist (CH)": ["=ch - certified herbalist"],
+    "Vibe (Custom Model)": ["vibe (custom model)"],
+    "Down to Ride (Original)": ["=dtr - down to ride"],
+    "Down to Ride v3": ["down to ride v3"],
+    "Down to Ride v4": ["down to ride v4"],
+    "Organic Kerrygold": ["organic kerrygold"],
+    "Watermelon Model (WM)": ["watermelon model (wm)"],
+    "Green Watermelon (gWM)": ["green watermelon"],
+    "gWM Model v2": ["gwm model v2"],
+    "gWM v4": ["gwm v4"],
+    "gWM7": ["gwm7"],
+    "Tomb Raider 10": ["tomb raider 10"],
+    "Cookiemonster Tomb Raider": ["cookiemonster"],
+    "Space Lab Model": ["=space lab model"],
+    "UV Model": ["uv model"],
 };
 
 function normalize(s: string): string {
@@ -97,10 +137,17 @@ function matchesModel(modelName: string, filename: string): boolean {
     const normThread = normalize(threadName);
     const normModel = normalize(modelName);
 
-    // 1. Check special custom aliases
+    // 1. Check special custom aliases.
+    //    An alias prefixed with '=' must match the whole thread name, which is how
+    //    a model is kept from also swallowing its own sequel's thread (e.g. the
+    //    "Los Angeles" thread name is a prefix of "Los Angeles V2").
     if (SPECIAL_ALIASES[modelName]) {
         for (const alias of SPECIAL_ALIASES[modelName]) {
-            if (normThread.includes(normalize(alias))) {
+            if (alias.startsWith('=')) {
+                if (normThread === normalize(alias.slice(1))) {
+                    return true;
+                }
+            } else if (normThread.includes(normalize(alias))) {
                 return true;
             }
         }
