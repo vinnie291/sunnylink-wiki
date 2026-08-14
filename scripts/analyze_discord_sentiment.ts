@@ -91,7 +91,8 @@ const SPECIAL_ALIASES: Record<string, string[]> = {
     "gWM v5": ["gwm5"],
     "gWM v6": ["gwm6"],
     "gWM v8": ["gwm8"],
-    "Nuggets in Dijon": ["nuggets in dijon"],
+    // Registry/in-car name is "Digon"; the Discord thread spells it "Dijon".
+    "Nuggets in Digon": ["nuggets in dijon", "nuggets in digon"],
     // Thread is titled just "DA" — too short for the generic matcher, so pin it exactly.
     "Duck Amigo": ["=da"],
 
