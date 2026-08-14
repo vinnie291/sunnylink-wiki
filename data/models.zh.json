@@ -237,6 +237,163 @@
       "icon": "🚀",
       "models": [
         {
+          "name": "RDF Model",
+          "date": "2026年8月5日",
+          "badge": "NEW",
+          "tags": [
+            "推荐",
+            "纵向控制",
+            "高速公路",
+            "Yassine/MVL"
+          ],
+          "communityScore": 78,
+          "totalVotes": 32,
+          "sentiment": {
+            "great": 45,
+            "good": 35,
+            "ok": 15,
+            "bad": 5
+          },
+          "consensus": "由 Yassine/MVL 调优，纵向表现较 POP 和 CD210 有显著提升。在高速跟车及大曲率弯道上提供平稳顺畅的加减速与果断转向。部分车型在低速时有轻微横向微晃。",
+          "note": "建议本田/现代平台搭配最新 MVL 调优使用。实验模式下纵向表现极其扎实。",
+          "bestFor": "高速 / 走走停停路况",
+          "steeringFeel": "果断自信 (Assertive)",
+          "forumUrl": "https://community.sunnypilot.ai/t/rdf-model-august-5-2026/6569",
+          "testedOn": [
+            "2022 Honda Civic",
+            "2024 Ioniq 5 (HDA2)",
+            "2022 Rivian R1T (Angle Steering)",
+            "2025 Ioniq 5N",
+            "comma 4"
+          ],
+          "positives": [
+            "加减速与跟车平顺性大幅优于 POP 与 CD210",
+            "高速走走停停与速度匹配极为平顺",
+            "大弯道转向力矩充沛果断",
+            "前车识别精准可靠"
+          ],
+          "negatives": [
+            "在部分重型/角度转向车辆上大角度急弯可能放弃转向",
+            "自学习校准期间低速横向有轻微微晃",
+            "横穿前方的车辆可能引起突兀减速"
+          ]
+        },
+        {
+          "name": "Rebellious Hope Model",
+          "date": "2026年7月27日",
+          "badge": "NEW",
+          "tags": [
+            "实验性",
+            "弯道",
+            "扭矩辅助"
+          ],
+          "communityScore": 68,
+          "totalVotes": 24,
+          "sentiment": {
+            "great": 30,
+            "good": 40,
+            "ok": 20,
+            "bad": 10
+          },
+          "consensus": "专为克服转向扭矩极限设计的过弯辅助模型，在急弯中相比 CD210 能更好守住车道线。在连续弯道表现优异，但部分车型低速时偶有画龙晃动。",
+          "note": "非常适合弯道较多的路线。若遇到低速画龙，可开启低速暂停横向控制。",
+          "bestFor": "多弯路段 / 辅助过弯",
+          "steeringFeel": "紧实沉稳 (Firm)",
+          "forumUrl": "https://community.sunnypilot.ai/t/rebellious-hope-model-july-27-2026/6560",
+          "testedOn": [
+            "2023 Lexus RC 350",
+            "Hyundai Ioniq 5",
+            "Honda Civic Hybrid",
+            "comma 4"
+          ],
+          "positives": [
+            "高扭矩辅助过弯时车道保持明显优于 CD210",
+            "切入急弯时居中感紧实沉稳",
+            "进弯减速曲线线性易预测"
+          ],
+          "negatives": [
+            "雷克萨斯及部分丰田车型在低速时有横向震荡反馈",
+            "在扭矩超限需人工接管时过渡略显生硬"
+          ]
+        },
+        {
+          "name": "Rebel Legion Model",
+          "date": "2026年7月22日",
+          "badge": "NEW",
+          "tags": [
+            "高速公路",
+            "稳定",
+            "实验性"
+          ],
+          "communityScore": 72,
+          "totalVotes": 20,
+          "sentiment": {
+            "great": 35,
+            "good": 45,
+            "ok": 15,
+            "bad": 5
+          },
+          "consensus": "Rebel 系列的高速专注版本。舍弃部分激进过弯扭矩，换取极为沉稳的高速直线居中与平稳变道。",
+          "note": "推荐给需要比早期 WMI 模型更平稳巡航的高速通勤车主。",
+          "bestFor": "高速通勤",
+          "steeringFeel": "均衡 (Balanced)",
+          "forumUrl": "https://community.sunnypilot.ai/t/rebel-legion-model-july-22-2026/6559",
+          "testedOn": [
+            "Hyundai Ioniq 5",
+            "Kia EV6",
+            "Toyota RAV4 Prime",
+            "Honda CR-V",
+            "comma 4"
+          ],
+          "positives": [
+            "高速直线车道居中稳如泰山无漂移",
+            "openpilot 变道动作细腻平顺",
+            "跟车车距控制稳重安全"
+          ],
+          "negatives": [
+            "城市急弯转向力度不及 Rebellious Hope",
+            "静止起步加速相对保守"
+          ]
+        },
+        {
+          "name": "OP Model 16 Deep",
+          "date": "2026年6月3日",
+          "badge": "NEW",
+          "tags": [
+            "深度网络",
+            "城市",
+            "Off-Policy"
+          ],
+          "communityScore": 71,
+          "totalVotes": 29,
+          "sentiment": {
+            "great": 38,
+            "good": 38,
+            "ok": 18,
+            "bad": 6
+          },
+          "consensus": "OP 系列升级的大规模神经网络模型。在复杂城市路况和多车道交叉口表现出卓越的空间感知能力，推荐配合 Comma 4 硬件以获得最佳算力延迟表现。",
+          "note": "专为 Comma 4 优化。适合拥堵复杂的城市及城郊路况。",
+          "bestFor": "城市 / 混合路况",
+          "steeringFeel": "自信 (Confident)",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-16-deep-june-03-2026/6557",
+          "testedOn": [
+            "2025 Kia K4",
+            "2024 Honda Civic",
+            "Toyota Prius (2023+)",
+            "comma 4"
+          ],
+          "positives": [
+            "多车道与路口感知能力大幅进化",
+            "施工路障及复杂地面标线应对自如",
+            "中速弯道转向扭矩反馈自信充分"
+          ],
+          "negatives": [
+            "老款 comma 3X 硬件上算力开销较高",
+            "对靠近路缘的行人刹车可能偏急促"
+          ]
+        },
+        {
           "name": "OP Model 10 v3",
           "date": "April 19, 2026",
           "badge": "NEW",
@@ -2220,6 +2377,44 @@
       "description": "Vehicle-specific forks, longitudinal tunes, and specialized branch models tailored for specific hardware platforms.",
       "icon": "🔧",
       "models": [
+        {
+          "name": "Michael RL V2",
+          "date": "2026年7月18日",
+          "badge": "openpilot only",
+          "tags": [
+            "强化学习",
+            "自然拟人",
+            "实验性"
+          ],
+          "communityScore": 76,
+          "totalVotes": 25,
+          "sentiment": {
+            "great": 48,
+            "good": 32,
+            "ok": 12,
+            "bad": 8
+          },
+          "consensus": "继 Deep_RL V3 后的下一代强化学习模型。方向盘转动平滑细腻，弯道预判减速非常接近真人驾驶习惯。",
+          "note": "适合追求拟人化流畅驾驶感而非死板居中的 openpilot 实验分支车主。",
+          "bestFor": "自然拟人化驾驶",
+          "steeringFeel": "自然 (Natural)",
+          "forumUrl": "https://community.sunnypilot.ai/t/michael-rl-v2-july-18-2026/6558",
+          "testedOn": [
+            "comma 4",
+            "Toyota Corolla",
+            "Hyundai Palisade",
+            "Subaru Outback"
+          ],
+          "positives": [
+            "过弯时自然切内弯顶点的拟人化寻迹",
+            "纵向减速预判渐进而平顺",
+            "转向微调流畅无机械生硬感"
+          ],
+          "negatives": [
+            "相比规则模型弯道切线稍显贴近内侧",
+            "在标线突然中断或分岔处偶尔有轻微犹豫"
+          ]
+        },
         {
           "name": "BluePilot 5.0",
           "date": "Late 2025",

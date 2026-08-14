@@ -1,2376 +1,2571 @@
 {
-    "appName": "Sunnylink Model Database",
-    "version": "8.1",
-    "totalModels": 87,
-    "lastUpdated": "2026-06-04",
-    "vibeGuide": {
-        "wmi_2026": {
-            "title": "The WMI & 2026 World Series (The Modern Standard)",
-            "subtitle": "End-to-End Intelligence",
-            "includes": "WMI V12, V11, V10, SC Model, Macrostiff",
-            "vibe": "These are the cutting edge. 'WMI' likely stands for 'World Model Iteration.' These models use the latest End-to-End (E2E) architecture, meaning they 'see' the world more like a human. They understand 3D scenes, stop signs, intersections, and road edges - not just painted lines. WMI V12 is the current flagship. It's the smartest at complex urban scenarios but can feel slightly 'loose' on straight highways because it's constantly micro-adjusting like a human driver would. If you drive mostly city streets with stop signs and turns, this is your series.",
-            "bestFor": "Daily driving in 2026. They balance smoothness with intelligence.",
-            "recommendation": "Start with WMI V12. If it feels too 'wiggly' on highways, try Macrostiff for tighter steering feel."
-        },
-        "aggressive": {
-            "title": "The Aggressive Series",
-            "subtitle": "Traffic Warriors",
-            "includes": "Dark Souls Model, Dark Souls v2, Firehose",
-            "vibe": "High-performance, high-attention. Dark Souls is named because it's 'unforgiving' or 'hardcore.' Expect tighter following distances, faster acceleration, and sharper turns. It drives like a human who is in a hurry but still safe. Great for heavy trucks (F-150s, Sierras) that need authoritative inputs to move their mass. The Firehose model is the raw, unfiltered developer feed from comma.ai's State-of-the-Art (SOTA) training runs. It represents the absolute 'bleeding edge' of model development, updating almost daily as new data is ingested from the global fleet.",
-            "bestFor": "Heavy traffic commuters (Dark Souls) or adventurous testers (Firehose).",
-            "recommendation": "Dark Souls v2 for trucks and SUVs. Only try Firehose if you want to test the newest, potentially unstable SOTA iterations before they are finalized."
-        },
-        "comfort": {
-            "title": "The Comfort & Smooth Series",
-            "subtitle": "Passenger Friendly",
-            "includes": "Down to Ride (DTR), Space Lab, Kumars Vibe",
-            "vibe": "Relaxed and passenger-friendly. Down to Ride (DTR) is famous for being 'wife-approved.' It prioritizes gentle braking and slow turns over perfect lane centering. Kumars Vibe is custom-tuned for a specific car setup but became popular because it removes the 'robotic' feel - very natural steering transitions. These models are perfect for road trips where passengers might get motion sick from abrupt steering corrections.",
-            "bestFor": "Road trips with family or passengers who get motion sick.",
-            "recommendation": "Start with Down to Ride v6. It's the community's go-to for passenger comfort."
-        },
-        "tomb_raider": {
-            "title": "The Tomb Raider / Trash Folder (TR) Series",
-            "subtitle": "Hidden Gems",
-            "includes": "Tomb Raider 16, 15, 14, Le Tomb Raider",
-            "vibe": "These are experimental training runs. Despite the name, some are hidden gems! Tomb Raider 16 (Trash Folder 16) was a community favorite for a long time due to its unique handling of highway curves. It felt like driving 'on rails.' These models often have quirks but can surprise you with excellent performance in specific scenarios. Worth trying if you drive curvy roads.",
-            "bestFor": "Adventurous users looking for unique driving characteristics.",
-            "recommendation": "Tomb Raider 16 for winding backroads. Don't let the 'Trash Folder' name scare you!"
-        },
-        "legacy": {
-            "title": "The Legacy Legends",
-            "subtitle": "Old Reliable",
-            "includes": "Recertified Herbalist, North Dakota, Blue Diamond",
-            "vibe": "The 'Old Guard.' These models are from 2023-2024. They are less 'smart' (bad at stop signs) but incredible at highway lane keeping. Recertified Herbalist is the 'Gold Standard' of stability. North Dakota is famous for its STIFF steering - it hugs the center of the lane and refuses to move. WD40 'lubricated' this stiffness for smoother inputs. Blue Diamond excels in rain and poor lane markings. These are the 'Toyota Camry' of models - boring, reliable, and rock solid.",
-            "bestFor": "Highway-focused driving with rock-solid lane centering.",
-            "recommendation": "Recertified Herbalist for long road trips. North Dakota if you want maximum stiffness."
-        },
-        "opm": {
-            "title": "The OPM Series (Off-Policy Models)",
-            "subtitle": "Learning from Corrections",
-            "includes": "OP Model 10 v3 (latest), OP Model 10 v2/v1, OP Model 7-9, Off-Policy Model v1-v5",
-            "vibe": "These models use off-policy training — they learn from moments where the model's behavior differed from the human driver's corrections, rather than just cloning driving behavior. This allows them to learn more effectively from edge cases. They show improved highway centering and quicker lateral recentering compared to standard WMI models, though longitudinal control is still being refined.",
-            "bestFor": "Highway-focused driving with improved lane centering.",
-            "recommendation": "OP Model 10 v3 is the current pick of the latest 10-series — v1 was rough, v2 fixed braking but stalled off the line, and v3 brought DEC-level acceleration back. Be aware that low-speed performance and turns may still vary by vehicle."
-        }
+  "appName": "Sunnylink Model Database",
+  "version": "8.1",
+  "totalModels": 87,
+  "lastUpdated": "2026-06-04",
+  "vibeGuide": {
+    "wmi_2026": {
+      "title": "The WMI & 2026 World Series (The Modern Standard)",
+      "subtitle": "End-to-End Intelligence",
+      "includes": "WMI V12, V11, V10, SC Model, Macrostiff",
+      "vibe": "These are the cutting edge. 'WMI' likely stands for 'World Model Iteration.' These models use the latest End-to-End (E2E) architecture, meaning they 'see' the world more like a human. They understand 3D scenes, stop signs, intersections, and road edges - not just painted lines. WMI V12 is the current flagship. It's the smartest at complex urban scenarios but can feel slightly 'loose' on straight highways because it's constantly micro-adjusting like a human driver would. If you drive mostly city streets with stop signs and turns, this is your series.",
+      "bestFor": "Daily driving in 2026. They balance smoothness with intelligence.",
+      "recommendation": "Start with WMI V12. If it feels too 'wiggly' on highways, try Macrostiff for tighter steering feel."
     },
-    "categories": [
+    "aggressive": {
+      "title": "The Aggressive Series",
+      "subtitle": "Traffic Warriors",
+      "includes": "Dark Souls Model, Dark Souls v2, Firehose",
+      "vibe": "High-performance, high-attention. Dark Souls is named because it's 'unforgiving' or 'hardcore.' Expect tighter following distances, faster acceleration, and sharper turns. It drives like a human who is in a hurry but still safe. Great for heavy trucks (F-150s, Sierras) that need authoritative inputs to move their mass. The Firehose model is the raw, unfiltered developer feed from comma.ai's State-of-the-Art (SOTA) training runs. It represents the absolute 'bleeding edge' of model development, updating almost daily as new data is ingested from the global fleet.",
+      "bestFor": "Heavy traffic commuters (Dark Souls) or adventurous testers (Firehose).",
+      "recommendation": "Dark Souls v2 for trucks and SUVs. Only try Firehose if you want to test the newest, potentially unstable SOTA iterations before they are finalized."
+    },
+    "comfort": {
+      "title": "The Comfort & Smooth Series",
+      "subtitle": "Passenger Friendly",
+      "includes": "Down to Ride (DTR), Space Lab, Kumars Vibe",
+      "vibe": "Relaxed and passenger-friendly. Down to Ride (DTR) is famous for being 'wife-approved.' It prioritizes gentle braking and slow turns over perfect lane centering. Kumars Vibe is custom-tuned for a specific car setup but became popular because it removes the 'robotic' feel - very natural steering transitions. These models are perfect for road trips where passengers might get motion sick from abrupt steering corrections.",
+      "bestFor": "Road trips with family or passengers who get motion sick.",
+      "recommendation": "Start with Down to Ride v6. It's the community's go-to for passenger comfort."
+    },
+    "tomb_raider": {
+      "title": "The Tomb Raider / Trash Folder (TR) Series",
+      "subtitle": "Hidden Gems",
+      "includes": "Tomb Raider 16, 15, 14, Le Tomb Raider",
+      "vibe": "These are experimental training runs. Despite the name, some are hidden gems! Tomb Raider 16 (Trash Folder 16) was a community favorite for a long time due to its unique handling of highway curves. It felt like driving 'on rails.' These models often have quirks but can surprise you with excellent performance in specific scenarios. Worth trying if you drive curvy roads.",
+      "bestFor": "Adventurous users looking for unique driving characteristics.",
+      "recommendation": "Tomb Raider 16 for winding backroads. Don't let the 'Trash Folder' name scare you!"
+    },
+    "legacy": {
+      "title": "The Legacy Legends",
+      "subtitle": "Old Reliable",
+      "includes": "Recertified Herbalist, North Dakota, Blue Diamond",
+      "vibe": "The 'Old Guard.' These models are from 2023-2024. They are less 'smart' (bad at stop signs) but incredible at highway lane keeping. Recertified Herbalist is the 'Gold Standard' of stability. North Dakota is famous for its STIFF steering - it hugs the center of the lane and refuses to move. WD40 'lubricated' this stiffness for smoother inputs. Blue Diamond excels in rain and poor lane markings. These are the 'Toyota Camry' of models - boring, reliable, and rock solid.",
+      "bestFor": "Highway-focused driving with rock-solid lane centering.",
+      "recommendation": "Recertified Herbalist for long road trips. North Dakota if you want maximum stiffness."
+    },
+    "opm": {
+      "title": "The OPM Series (Off-Policy Models)",
+      "subtitle": "Learning from Corrections",
+      "includes": "OP Model 10 v3 (latest), OP Model 10 v2/v1, OP Model 7-9, Off-Policy Model v1-v5",
+      "vibe": "These models use off-policy training — they learn from moments where the model's behavior differed from the human driver's corrections, rather than just cloning driving behavior. This allows them to learn more effectively from edge cases. They show improved highway centering and quicker lateral recentering compared to standard WMI models, though longitudinal control is still being refined.",
+      "bestFor": "Highway-focused driving with improved lane centering.",
+      "recommendation": "OP Model 10 v3 is the current pick of the latest 10-series — v1 was rough, v2 fixed braking but stalled off the line, and v3 brought DEC-level acceleration back. Be aware that low-speed performance and turns may still vary by vehicle."
+    }
+  },
+  "categories": [
+    {
+      "id": "favorites",
+      "name": "Favorites",
+      "description": "The most popular models for daily driving right now. Community-tested and approved.",
+      "icon": "⭐",
+      "models": [
         {
-            "id": "favorites",
-            "name": "Favorites",
-            "description": "The most popular models for daily driving right now. Community-tested and approved.",
-            "icon": "⭐",
-            "models": [
-                {
-                    "name": "TCPmV3 (The Cool Peoples Model)",
-                    "date": "October 10, 2025",
-                    "badge": "COMMUNITY CHOICE",
-                    "tags": [
-                        "Custom",
-                        "Smooth",
-                        "Highway"
-                    ],
-                    "communityScore": 52,
-                    "totalVotes": 184,
-                    "sentiment": {
-                        "great": 7,
-                        "good": 11,
-                        "ok": 74,
-                        "bad": 8
-                    },
-                    "consensus": "Highly praised community model known for its exceptional smoothness and lack of low-speed jerkiness. Many users describe it as 'awesome' and superior to standard releases for lateral control consistency.",
-                    "note": "Particularly popular with Kia e-Niro users in the UK. One of the best custom lateral models of late 2025.",
-                    "bestFor": "All-Around / Comfort",
-                    "steeringFeel": "Ultra-Smooth",
-                    "forumUrl": "https://community.sunnypilot.ai/t/the-cool-peoples-model-v3-10-october-2025/1151",
-                    "testedOn": [
-                        "Kia e-Niro",
-                        "Honda Civic",
-                        "2025 Ioniq 5",
-                        "Corolla Hatchback",
-                        "21 Hyundai Palisade"
-                    ],
-                    "positives": [
-                        "No low-speed jerkiness",
-                        "Excellent lateral control",
-                        "Ultra-smooth transitions",
-                        "Stabilizes speed in E2E",
-                        "Works well with NNLC"
-                    ],
-                    "negatives": [
-                        "Late braking (experimental long)",
-                        "Hugs turns tight",
-                        "Hugs left at night without lead car"
-                    ]
-                },
-                {
-                    "name": "WMI V12",
-                    "date": "January 13, 2026",
-                    "badge": "FLAGSHIP",
-                    "tags": [
-                        "Smart",
-                        "City",
-                        "Highway"
-                    ],
-                    "communityScore": 54,
-                    "totalVotes": 65,
-                    "sentiment": {
-                        "great": 11,
-                        "good": 11,
-                        "ok": 69,
-                        "bad": 9
-                    },
-                    "consensus": "The current flagship and daily driver for most users in 2026. Highest intelligence for complex scenarios like intersections, stop signs, and tight urban turns.",
-                    "note": "Can feel slightly 'loose' on straight highways.",
-                    "bestFor": "Mixed Driving",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Hyundai Ioniq 5",
-                        "Kia EV6",
-                        "Toyota RAV4",
-                        "Honda Accord",
-                        "Audi A3",
-                        "Hyundai Tucson (Hybrid)",
-                        "Hyundai Elantra",
-                        "Hyundai Sonata",
-                        "Kia K5",
-                        "Hyundai Kona EV",
-                        "Toyota Tundra (2022-2024)"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/wmiv12-13-jan-2026/2368"
-                },
-                {
-                    "name": "Dark Souls Model v2",
-                    "date": "December 11, 2025",
-                    "badge": "POPULAR",
-                    "tags": [
-                        "Aggressive",
-                        "Trucks",
-                        "Highway"
-                    ],
-                    "communityScore": 51,
-                    "totalVotes": 120,
-                    "sentiment": {
-                        "great": 3,
-                        "good": 11,
-                        "ok": 79,
-                        "bad": 7
-                    },
-                    "consensus": "The 'unforgiving' model, refined. Tighter following distance, faster reactions, sharper turns. Excellent for larger vehicles that need authority.",
-                    "note": "Named 'Dark Souls' because it's unforgiving.",
-                    "bestFor": "Heavy Traffic",
-                    "steeringFeel": "Stiff",
-                    "testedOn": [
-                        "Ford F-150",
-                        "GMC Sierra",
-                        "Kia Sportage",
-                        "Toyota Tacoma",
-                        "Lincoln Navigator",
-                        "Ram 1500",
-                        "Hyundai Elantra",
-                        "Ford F-150 Lightning (2022-2024)"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/dark-souls-model-v2-12-dec-2025/1657"
-                },
-                {
-                    "name": "Nevada Model",
-                    "date": "September 07, 2025",
-                    "badge": "POPULAR",
-                    "tags": [
-                        "Stable Benchmark",
-                        "Highway"
-                    ],
-                    "communityScore": 52,
-                    "totalVotes": 431,
-                    "sentiment": {
-                        "great": 6,
-                        "good": 10,
-                        "ok": 76,
-                        "bad": 8
-                    },
-                    "consensus": "The 'neutral' benchmark. If a new model feels weird, Nevada is what you compare it to. Well-balanced between smooth and responsive.",
-                    "bestFor": "All-Around",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Most vehicles",
-                        "Kia Sportage PHEV"
-                    ]
-                },
-                {
-                    "name": "Down to Ride v6",
-                    "date": "August 12, 2025",
-                    "badge": "LEGENDARY",
-                    "tags": [
-                        "Comfort",
-                        "Smooth",
-                        "Right-Hugging(C4)"
-                    ],
-                    "communityScore": 55,
-                    "totalVotes": 465,
-                    "sentiment": {
-                        "great": 11,
-                        "good": 8,
-                        "ok": 76,
-                        "bad": 5
-                    },
-                    "consensus": "The legendary 'Wife Approved' model. Sacrifices perfect lane centering for passenger comfort. Won't jerk the wheel; gently drifts into turns. Note: Some Comma 4 users (specifically Ioniq 5) report pronounced right-side lane hugging.",
-                    "note": "Perfect for road trips. If hugging right on C4, try Adjust Camera Offset (-0.05 to -0.10).",
-                    "bestFor": "Passengers",
-                    "steeringFeel": "Light",
-                    "testedOn": [
-                        "Hyundai Palisade",
-                        "Kia Telluride",
-                        "Toyota Camry",
-                        "Honda CR-V",
-                        "Audi A3",
-                        "Mazda CX-5 (2021-2024)",
-                        "Honda Pilot (2019-2022)",
-                        "Lincoln Corsair (2020-2023)",
-                        "Hyundai Ioniq 5 (HDA II)"
-                    ]
-                }
-            ]
+          "name": "TCPmV3 (The Cool Peoples Model)",
+          "date": "October 10, 2025",
+          "badge": "COMMUNITY CHOICE",
+          "tags": [
+            "Custom",
+            "Smooth",
+            "Highway"
+          ],
+          "communityScore": 52,
+          "totalVotes": 184,
+          "sentiment": {
+            "great": 7,
+            "good": 11,
+            "ok": 74,
+            "bad": 8
+          },
+          "consensus": "Highly praised community model known for its exceptional smoothness and lack of low-speed jerkiness. Many users describe it as 'awesome' and superior to standard releases for lateral control consistency.",
+          "note": "Particularly popular with Kia e-Niro users in the UK. One of the best custom lateral models of late 2025.",
+          "bestFor": "All-Around / Comfort",
+          "steeringFeel": "Ultra-Smooth",
+          "forumUrl": "https://community.sunnypilot.ai/t/the-cool-peoples-model-v3-10-october-2025/1151",
+          "testedOn": [
+            "Kia e-Niro",
+            "Honda Civic",
+            "2025 Ioniq 5",
+            "Corolla Hatchback",
+            "21 Hyundai Palisade"
+          ],
+          "positives": [
+            "No low-speed jerkiness",
+            "Excellent lateral control",
+            "Ultra-smooth transitions",
+            "Stabilizes speed in E2E",
+            "Works well with NNLC"
+          ],
+          "negatives": [
+            "Late braking (experimental long)",
+            "Hugs turns tight",
+            "Hugs left at night without lead car"
+          ]
         },
         {
-            "id": "world_2026",
-            "name": "WMI 2026",
-            "description": "Latest End-to-End architecture. Understands 3D scenes, stop signs, and complex intersections.",
-            "icon": "🚀",
-            "models": [
-                {
-                    "name": "OP Model 10 v3",
-                    "date": "April 19, 2026",
-                    "badge": "NEW",
-                    "tags": [
-                        "Recommended",
-                        "Off-Policy",
-                        "Smooth"
-                    ],
-                    "communityScore": 51,
-                    "totalVotes": 21,
-                    "sentiment": {
-                        "great": 14,
-                        "good": 34,
-                        "ok": 19,
-                        "bad": 33
-                    },
-                    "consensus": "Strong rebound for the OP Model 10 line. Acceleration is reported as on par with DEC ('accelerates just as well') — a clear fix for v1/v2's sluggish off-the-line behavior. Early daily-driver impressions describe it as 'great' and the recommended pick across v1/v2/v3.",
-                    "note": "Referenced in the OP Model 9 thread as the supersession that received significantly better feedback. Recommended over v1 and v2.",
-                    "bestFor": "Daily / Experimental Mode",
-                    "steeringFeel": "Confident",
-                    "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v3-apr-19-2026/4690",
-                    "testedOn": [
-                        "2018 Corolla Sport"
-                    ],
-                    "positives": [
-                        "DEC-level acceleration in Experimental Mode",
-                        "Resolves v2's sluggish stops",
-                        "Reviewer plans to daily-drive it"
-                    ],
-                    "negatives": []
-                },
-                {
-                    "name": "OP Model 10 v2",
-                    "date": "April 18, 2026",
-                    "badge": "NEW",
-                    "tags": [
-                        "Experimental",
-                        "Off-Policy",
-                        "Smooth"
-                    ],
-                    "communityScore": 30,
-                    "totalVotes": 12,
-                    "sentiment": {
-                        "great": 8,
-                        "good": 17,
-                        "ok": 17,
-                        "bad": 58
-                    },
-                    "consensus": "Major step up from v1. Longitudinal feel is the highlight — the softest, most consistent braking the reviewer has felt in a while. Lateral still hugs left (fixable with camera offset) and the model remains slow to straighten the wheel after sharp turns.",
-                    "note": "Hugs-left can be mitigated with camera offset +0.05 to +0.10. Some lingering hesitation off the line and slow wheel return after corners.",
-                    "bestFor": "Comfort / Highway",
-                    "steeringFeel": "Smooth",
-                    "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v2-apr-18-2026/4657",
-                    "testedOn": [],
-                    "positives": [
-                        "Softest, most consistent braking in a while",
-                        "Solid longitudinal control",
-                        "Reaches cruise speed well"
-                    ],
-                    "negatives": [
-                        "Hesitant to accelerate from a stop",
-                        "Left-lane hugging",
-                        "Slow to straighten wheel after sharp turns"
-                    ]
-                },
-                {
-                    "name": "OP Model v10",
-                    "date": "April 17, 2026",
-                    "badge": "NEW",
-                    "tags": [
-                        "Experimental",
-                        "Off-Policy",
-                        "Twitchy",
-                        "Unstable"
-                    ],
-                    "communityScore": 15,
-                    "totalVotes": 7,
-                    "sentiment": {
-                        "great": 0,
-                        "good": 0,
-                        "ok": 29,
-                        "bad": 71
-                    },
-                    "consensus": "Initial release of the OP Model 10 line received strongly negative early feedback. Reviewers cite poor lateral control with late corrections that snap dramatically after the car has already left the lane line. No positives reported.",
-                    "note": "Quickly superseded by v2 and v3. Skip directly to v3 for the recommended option.",
-                    "bestFor": "Testing Only",
-                    "steeringFeel": "Twitchy",
-                    "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-apr-17-2026/4648",
-                    "testedOn": [],
-                    "positives": [],
-                    "negatives": [
-                        "Late lane corrections",
-                        "Dramatic hard snaps after leaving lane lines",
-                        "Frequently drives outside the painted lane"
-                    ]
-                },
-                {
-                    "name": "OP Model 9",
-                    "date": "April 10, 2026",
-                    "badge": "NEW",
-                    "tags": [
-                        "Experimental",
-                        "Off-Policy",
-                        "Horrible"
-                    ],
-                    "communityScore": 6,
-                    "totalVotes": 9,
-                    "sentiment": {
-                        "great": 0,
-                        "good": 0,
-                        "ok": 11,
-                        "bad": 89
-                    },
-                    "consensus": "Community feedback is overwhelmingly negative with 9 voters. 44% rated 'Bad', 44% rated 'Horrible', and only 11% rated 'Ok'. Users report the model should be 'removed/reverted' as it is 'quite bad'. No positive reviews have been submitted.",
-                    "note": "Not recommended for daily driving. Superseded by OP Model 10 v3 which received significantly better feedback.",
-                    "bestFor": "Testing Only",
-                    "steeringFeel": "Twitchy",
-                    "forumUrl": "https://community.sunnypilot.ai/t/op-model-9-apr-10-2026/4478",
-                    "testedOn": [],
-                    "positives": [],
-                    "negatives": [
-                        "Unstable lateral control",
-                        "Unanimously negative feedback",
-                        "Does not resolve previous OP model issues"
-                    ]
-                },
-                {
-                    "name": "OP Model 8",
-                    "date": "April 07, 2026",
-                    "badge": "NEW",
-                    "tags": [
-                        "Experimental",
-                        "Off-Policy",
-                        "Twitchy"
-                    ],
-                    "communityScore": 38,
-                    "totalVotes": 10,
-                    "sentiment": {
-                        "great": 0,
-                        "good": 10,
-                        "ok": 20,
-                        "bad": 70
-                    },
-                    "consensus": "Early community feedback is predominantly negative. Users report twitchy, oscillating steering at high speeds, difficulty maintaining lane in stop-and-go traffic, and consistent left-lane hugging. The model appears to struggle with the lateral stability that OP Model 7 had improved.",
-                    "note": "Left-hugging is a consistent issue. If trying this model, adjust camera offset (+0.05 to +0.10). Not recommended for daily driving at this stage.",
-                    "bestFor": "Testing Only",
-                    "steeringFeel": "Twitchy",
-                    "forumUrl": "https://community.sunnypilot.ai/t/op-model-8-apr-7-2026/4380",
-                    "testedOn": [],
-                    "positives": [],
-                    "negatives": [
-                        "Twitchy / oscillating steering at high speeds",
-                        "Struggles to maintain lane in stop-and-go traffic",
-                        "Consistent left-lane hugging"
-                    ]
-                },
-                {
-                    "name": "OP Model 7",
-                    "date": "April 03, 2026",
-                    "badge": "NEW",
-                    "tags": [
-                        "Recommended",
-                        "Self-Correcting",
-                        "Off-Policy"
-                    ],
-                    "communityScore": 63,
-                    "totalVotes": 8,
-                    "sentiment": {
-                        "great": 25,
-                        "good": 25,
-                        "ok": 38,
-                        "bad": 12
-                    },
-                    "consensus": "Significant leap forward for the Off-Policy series. Praised as the most confident OP model yet, with smoother longitudinal deceleration for stopped leads and improved lateral control that self-corrects even when overshooting sharp 90-degree turns. However, random left-hugging persists for some users.",
-                    "note": "Best lateral of the series so far. If hugging left, adjust camera offset (+0.05).",
-                    "bestFor": "Highway & Winding Roads",
-                    "steeringFeel": "Confident",
-                    "forumUrl": "https://community.sunnypilot.ai/t/op-model-7-april-03-2026/4317",
-                    "testedOn": [
-                        "Hyundai Ioniq 5",
-                        "VW Atlas",
-                        "2023 Elantra HEV",
-                        "Angle steering vehicles"
-                    ],
-                    "positives": [
-                        "Excellent lateral self-correction",
-                        "Smooth stops for leads",
-                        "Quick acceleration"
-                    ],
-                    "negatives": [
-                        "Random left-hugging for some",
-                        "Inconsistent city speed",
-                        "Jerky steering on specific angle cars"
-                    ]
-                },
-                {
-                    "name": "OP Model",
-                    "date": "April 01, 2026",
-                    "badge": "NEW",
-                    "tags": [
-                        "Experimental",
-                        "Early Feedback"
-                    ],
-                    "communityScore": 49,
-                    "totalVotes": 238,
-                    "sentiment": {
-                        "great": 5,
-                        "good": 9,
-                        "ok": 75,
-                        "bad": 11
-                    },
-                    "consensus": "Very early model drop with limited community feedback so far. Initial votes lean positive (Good) but sample size is extremely small. Needs more testing and community evaluation before drawing conclusions.",
-                    "note": "Very few votes so far — check back for updated consensus as more users test it.",
-                    "bestFor": "TBD",
-                    "steeringFeel": "TBD",
-                    "forumUrl": "https://community.sunnypilot.ai/t/op-model-april-01-2026/4314",
-                    "testedOn": []
-                },
-                {
-                    "name": "Pop v2",
-                    "date": "March 24, 2026",
-                    "badge": "NEW",
-                    "tags": [
-                        "Experimental",
-                        "Mixed Sentiment",
-                        "Aggressive Long"
-                    ],
-                    "communityScore": 51,
-                    "totalVotes": 124,
-                    "sentiment": {
-                        "great": 4,
-                        "good": 11,
-                        "ok": 77,
-                        "bad": 8
-                    },
-                    "consensus": "Highly polarizing release with growing negative sentiment. Longitudinal control is praised by some (smooth stops behind leads on GV60), but multiple reports of 'afraid of green lights' behavior and failure to stay stopped at red lights. Lateral unwind is improved but stiffer steering causes oscillations and motion sickness on some vehicles. Very vehicle-dependent — F-150 Lightning reports twitchy low-speed behavior.",
-                    "note": "Vehicle dependent. Great on GV60, twitchy on F-150 Lightning. Subaru Crosstrek users report motion sickness. Torque Tune v0 recommended.",
-                    "bestFor": "Highway (with supervision)",
-                    "steeringFeel": "Varies",
-                    "forumUrl": "https://community.sunnypilot.ai/t/pop-model-v2-24-mar-2026/4019",
-                    "testedOn": [
-                        "GV60",
-                        "Ford F-150 Lightning",
-                        "Honda Civic Hybrid",
-                        "Hyundai Kona",
-                        "2020 Subaru Crosstrek"
-                    ],
-                    "positives": [
-                        "Better lateral unwind",
-                        "Smooth stops behind leads (GV60)",
-                        "Improved longitudinal for some"
-                    ],
-                    "negatives": [
-                        "Afraid of green lights",
-                        "Fails to stay stopped at red lights",
-                        "Twitchy at low speeds (F-150 Lightning)",
-                        "Stiffer steering causes oscillations",
-                        "Yoyo following distance",
-                        "Motion sickness inducing on some vehicles"
-                    ]
-                },
-                {
-                    "name": "Pop Model",
-                    "date": "March 20, 2026",
-                    "badge": "NEW",
-                    "tags": [
-                        "Experimental",
-                        "Highway",
-                        "Fast Long"
-                    ],
-                    "communityScore": 49,
-                    "totalVotes": 223,
-                    "sentiment": {
-                        "great": 5,
-                        "good": 9,
-                        "ok": 75,
-                        "bad": 11
-                    },
-                    "consensus": "Community sentiment has warmed significantly with more testing. Lateral control is vehicle-dependent — Honda Civic users report the best lat in a while with no ping-pong and centering 'like it owes the lane lines money,' while Hyundai Kona and others experience extreme line-to-line ping-ponging above 50mph. More willing to reach set speeds than Pop v2. Still known for creeping at red lights.",
-                    "note": "Very vehicle-dependent. Honda/Kia users trending positive. Torque tune version matters — test with v0 first.",
-                    "bestFor": "Highway",
-                    "steeringFeel": "Varies",
-                    "testedOn": [
-                        "2025 Honda Civic Hybrid",
-                        "2026 Civic Hybrid ST",
-                        "2023 Hyundai Kona Electric",
-                        "GV60",
-                        "Kia Niro",
-                        "Honda Ridgeline",
-                        "BYD Frigate 07",
-                        "Hyundai Elantra",
-                        "Honda Odyssey",
-                        "Toyota Sienna",
-                        "Kia EV6",
-                        "Kia K5",
-                        "Honda Pilot (2019-2022)",
-                        "Tesla Model 3 / Y",
-                        "Toyota Corolla (2023-2024)"
-                    ],
-                    "positives": [
-                        "Confident lateral on some vehicles",
-                        "Quick recentering",
-                        "Good 90-degree turn handling",
-                        "Stays stopped at red lights",
-                        "11/10 lateral on Kia Niro",
-                        "More willing to reach set speeds"
-                    ],
-                    "negatives": [
-                        "Extreme ping-pong on some vehicles above 50mph",
-                        "Speeds aggressively without a lead car",
-                        "Jerky/octagonal curve handling",
-                        "Creeps at red lights"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/pop-model-20-mar-2026/3921"
-                },
-                {
-                    "name": "CD210 Model",
-                    "date": "January 31, 2026",
-                    "badge": null,
-                    "tags": [
-                        "Smart",
-                        "Highway",
-                        "Vehicle-Dependent"
-                    ],
-                    "communityScore": 51,
-                    "totalVotes": 50,
-                    "sentiment": {
-                        "great": 4,
-                        "good": 12,
-                        "ok": 76,
-                        "bad": 8
-                    },
-                    "consensus": "Based on WMI V12 architecture with subtle differences. Shows improved red light stopping behavior and less ping-pong at low speeds. However, multiple users report pronounced oversteering on turns — especially problematic on Toyota vehicles with low-torque EPS. Hard braking at close range and red light creeping are also noted drawbacks.",
-                    "note": "Vehicle-dependent: praised on Hyundai Ioniq 5, but struggles with Toyota RAV4 Prime. Consider enabling 'pause lateral while turning' if oversteering is an issue.",
-                    "bestFor": "Mixed Driving",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Hyundai Ioniq 5 (2025)",
-                        "Toyota RAV4 Prime (2025)",
-                        "Subaru Crosstrek",
-                        "Subaru Ascent (2019-2022)",
-                        "Volvo XC90 (2016-2022)",
-                        "comma 4",
-                        "comma 4"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/cd210-model-31-jan-2026/2704"
-                },
-                {
-                    "name": "WMI V11",
-                    "date": "January 12, 2026",
-                    "badge": "NEW",
-                    "tags": [
-                        "Smart",
-                        "Highway"
-                    ],
-                    "communityScore": 55,
-                    "totalVotes": 22,
-                    "sentiment": {
-                        "great": 5,
-                        "good": 9,
-                        "ok": 86,
-                        "bad": 0
-                    },
-                    "consensus": "Slightly more stable than V12 on straightaways. Good fallback if V12 feels too jittery.",
-                    "note": "Preferred for mostly-highway commutes.",
-                    "bestFor": "Highway",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Hyundai Ioniq 5",
-                        "Kia EV6",
-                        "Toyota Prius"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/wmiv11-12-jan-2026/2352"
-                },
-                {
-                    "name": "WMI v10",
-                    "date": "January 09, 2026",
-                    "tags": [
-                        "Smart",
-                        "Stable"
-                    ],
-                    "communityScore": 50,
-                    "totalVotes": 5,
-                    "sentiment": {
-                        "great": 40,
-                        "good": 0,
-                        "ok": 20,
-                        "bad": 40
-                    },
-                    "consensus": "Well-tested mid-generation model. A solid choice if V11/V12 have issues on your specific vehicle.",
-                    "bestFor": "Mixed Driving",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Hyundai Palisade",
-                        "Kia Telluride",
-                        "Toyota RAV4",
-                        "Toyota Camry",
-                        "Subaru Crosstrek"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/wmiv10-9-jan-2026/2335"
-                },
-                {
-                    "name": "SC Model",
-                    "date": "January 08, 2026",
-                    "badge": "EXPERIMENTAL",
-                    "tags": [
-                        "Experimental",
-                        "Stable"
-                    ],
-                    "communityScore": 52,
-                    "totalVotes": 28,
-                    "sentiment": {
-                        "great": 7,
-                        "good": 14,
-                        "ok": 68,
-                        "bad": 11
-                    },
-                    "consensus": "Likely 'Space Cat' or 'Stable Control' variant. Testing new stability algorithms.",
-                    "note": "Worth trying if you want something different.",
-                    "bestFor": "Experimentation",
-                    "steeringFeel": "Stiff",
-                    "testedOn": [
-                        "Hyundai Ioniq 5",
-                        "Kia EV6",
-                        "Honda Ridgeline"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/sc-model-8-jan-2026/2305"
-                },
-                {
-                    "name": "WMI V9",
-                    "date": "January 07, 2026",
-                    "badge": "STABLE",
-                    "tags": [
-                        "Smart",
-                        "C4 Default",
-                        "2025+"
-                    ],
-                    "communityScore": 48,
-                    "totalVotes": 40,
-                    "sentiment": {
-                        "great": 3,
-                        "good": 5,
-                        "ok": 83,
-                        "bad": 9
-                    },
-                    "consensus": "Rock-solid choice for newer 2025+ platforms (e.g., Kia K4). Currently the default pre-installed model on Comma 4 hardware. Favored for its stability and predictive behavior on modern ADAS architectures.",
-                    "bestFor": "Mixed Driving",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Toyota Camry",
-                        "Honda CR-V",
-                        "2025 Kia K4",
-                        "comma 4"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/wmiv9-7-jan-2026/2275"
-                },
-                {
-                    "name": "WMI V8",
-                    "date": "January 03, 2026",
-                    "tags": [
-                        "Smart"
-                    ],
-                    "communityScore": 55,
-                    "totalVotes": 42,
-                    "sentiment": {
-                        "great": 10,
-                        "good": 10,
-                        "ok": 74,
-                        "bad": 6
-                    },
-                    "consensus": "Early 2026 build that established the foundation. Still functional for conservative E2E users.",
-                    "bestFor": "Highway",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various vehicles"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/wmiv8-3-jan-2026/2184"
-                },
-                {
-                    "name": "WMI V7",
-                    "date": "January 01, 2026",
-                    "tags": [
-                        "Smart"
-                    ],
-                    "communityScore": 58,
-                    "totalVotes": 20,
-                    "sentiment": {
-                        "great": 15,
-                        "good": 10,
-                        "ok": 70,
-                        "bad": 5
-                    },
-                    "consensus": "New Year's release that kick-started the 2026 WMI series. Historical significance.",
-                    "bestFor": "Highway",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Hyundai",
-                        "Toyota"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/wmiv7-1-jan-2026/2150"
-                },
-                {
-                    "name": "Macrostiff Model",
-                    "date": "January 01, 2026",
-                    "badge": "POPULAR",
-                    "tags": [
-                        "Stiff",
-                        "Highway"
-                    ],
-                    "communityScore": 56,
-                    "totalVotes": 38,
-                    "sentiment": {
-                        "great": 11,
-                        "good": 16,
-                        "ok": 66,
-                        "bad": 7
-                    },
-                    "consensus": "World Model tuned for STIFFER steering response. If WMI V12 feels too 'wiggly', this locks it down.",
-                    "note": "Great for vehicles with loose steering racks.",
-                    "bestFor": "Highway",
-                    "steeringFeel": "Heavy",
-                    "testedOn": [
-                        "Ford",
-                        "Chevy",
-                        "GMC trucks"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/macrostiff-model-1-jan-2026/2145"
-                }
-            ]
+          "name": "WMI V12",
+          "date": "January 13, 2026",
+          "badge": "FLAGSHIP",
+          "tags": [
+            "Smart",
+            "City",
+            "Highway"
+          ],
+          "communityScore": 54,
+          "totalVotes": 65,
+          "sentiment": {
+            "great": 11,
+            "good": 11,
+            "ok": 69,
+            "bad": 9
+          },
+          "consensus": "The current flagship and daily driver for most users in 2026. Highest intelligence for complex scenarios like intersections, stop signs, and tight urban turns.",
+          "note": "Can feel slightly 'loose' on straight highways.",
+          "bestFor": "Mixed Driving",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Hyundai Ioniq 5",
+            "Kia EV6",
+            "Toyota RAV4",
+            "Honda Accord",
+            "Audi A3",
+            "Hyundai Tucson (Hybrid)",
+            "Hyundai Elantra",
+            "Hyundai Sonata",
+            "Kia K5",
+            "Hyundai Kona EV",
+            "Toyota Tundra (2022-2024)"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/wmiv12-13-jan-2026/2368"
         },
         {
-            "id": "opm",
-            "name": "OPM Models",
-            "description": "Off-Policy Models learn from driver corrections rather than just cloning behavior, enabling smarter highway centering and recentering.",
-            "icon": "🧪",
-            "models": [
-                {
-                    "name": "Off-Policy Model",
-                    "date": "February 4, 2026",
-                    "badge": "NEW",
-                    "tags": [
-                        "Experimental",
-                        "Off-Policy",
-                        "Highway"
-                    ],
-                    "communityScore": 47,
-                    "totalVotes": 247,
-                    "sentiment": {
-                        "great": 6,
-                        "good": 7,
-                        "ok": 72,
-                        "bad": 15
-                    },
-                    "consensus": "Experimental model using off-policy training — learns from corrections rather than just cloning. Better highway centering and quicker lateral recentering vs WMI V12. However, experimental long mode feels jerky, and sharp turns can be a step backward. Good potential for highway-focused drivers.",
-                    "note": "'Off-policy' means it learned from data where the model's behavior differed from the human driver's action, allowing it to learn from corrections more effectively than standard cloning.",
-                    "bestFor": "Highway",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Hyundai Ioniq 5",
-                        "Honda Civic",
-                        "Toyota"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-4-feb-2026/2819"
-                },
-                {
-                    "name": "Off-Policy Model v2",
-                    "date": "February 20, 2026",
-                    "badge": "NEW",
-                    "tags": [
-                        "Off-Policy",
-                        "Highway",
-                        "Experimental"
-                    ],
-                    "communityScore": 51,
-                    "totalVotes": 21,
-                    "sentiment": {
-                        "great": 14,
-                        "good": 14,
-                        "ok": 52,
-                        "bad": 20
-                    },
-                    "consensus": "Second iteration of off-policy training. Lateral performance is praised — doesn't hug the left side and less huggy on highway turns at 70+. However, longitudinal control is a notable regression: late braking, rubberbanding behind lead cars, and exaggerated follow distances are commonly reported. Best on comma 4; mixed results on other platforms.",
-                    "note": "Strong lateral improvements over v1, but long control needs work. Community opinion is split — some love the lat, others can't tolerate the long behavior.",
-                    "bestFor": "Highway",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Hyundai Elantra HEV",
-                        "Mazda CX-5",
-                        "Rivian",
-                        "comma 4"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v2-20-feb-2026/3162"
-                },
-                {
-                    "name": "Off-Policy Model v3",
-                    "date": "February 26, 2026",
-                    "badge": "NEW",
-                    "tags": [
-                        "Off-Policy",
-                        "Highway",
-                        "PlanPlus",
-                        "Experimental"
-                    ],
-                    "communityScore": 51,
-                    "totalVotes": 66,
-                    "communityViews": 323,
-                    "sentiment": {
-                        "great": 8,
-                        "good": 5,
-                        "ok": 79,
-                        "bad": 8
-                    },
-                    "consensus": "Highly praised third iteration of off-policy training. Community describes it as a 'mad max' version of CD210/WMI — fast longitudinal response with better lateral control than its predecessors. Includes PlanPlus integration for customizable lane centering aggressiveness. Rated A+ by early testers.",
-                    "note": "Minor inconsistency in lead gap following and occasional wobbles at highway speed. PlanPlus integration allows tuning of lane centering vs curve hugging.",
-                    "bestFor": "Highway",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Hyundai Sonata 2022",
-                        "Rivian R1T (2022-2024)",
-                        "comma 4",
-                        "comma 4"
-                    ],
-                    "positives": [
-                        "Aggressive longitudinal acceleration",
-                        "Better lateral than CD210/WMI",
-                        "PlanPlus customizable lane centering",
-                        "A+ community rating"
-                    ],
-                    "negatives": [
-                        "Inconsistent gap between lead cars",
-                        "Occasional wobbles at high speed"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v3-26-feb-2026/3297"
-                },
-                {
-                    "name": "Off-Policy Model v4",
-                    "date": "February 27, 2026",
-                    "badge": "NEW",
-                    "tags": [
-                        "Off-Policy",
-                        "Highway",
-                        "PlanPlus",
-                        "Experimental"
-                    ],
-                    "communityScore": 44,
-                    "totalVotes": 118,
-                    "communityViews": 480,
-                    "sentiment": {
-                        "great": 4,
-                        "good": 7,
-                        "ok": 69,
-                        "bad": 20
-                    },
-                    "consensus": "Fourth iteration of off-policy training with improved oversteer handling compared to v2. Excellent lane centering and smooth city driving when paired with SCC-V. However, shows hesitation when following a lead vehicle and tends to drive slower than surrounding traffic when no lead is present. Mixed results on curves — improved for Hyundai/Toyota but Tesla users report inside-line riding.",
-                    "note": "SCC-V strongly recommended for safe curve speed handling. Hesitant acceleration when following lead vehicles is the main drawback vs WMI/CD210.",
-                    "bestFor": "City Driving",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "2025 Hyundai Ioniq 5",
-                        "2023 Toyota RAV4 Prime",
-                        "Tesla V4"
-                    ],
-                    "positives": [
-                        "Excellent lane centering",
-                        "Smooth city acceleration",
-                        "Improved oversteer vs v2",
-                        "Works well with SCC-V"
-                    ],
-                    "negatives": [
-                        "Hesitant when lead vehicle moves",
-                        "Drives too slow without a lead car",
-                        "Occasional ping-pong at PlanPlus 1.5",
-                        "Curve inside-line on Tesla"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v4-27-feb-2026/3331"
-                },
-                {
-                    "name": "Off-Policy Model v5",
-                    "date": "March 14, 2026",
-                    "badge": "NEW",
-                    "tags": [
-                        "Off-Policy",
-                        "Highway",
-                        "Experimental"
-                    ],
-                    "communityScore": 51,
-                    "totalVotes": 21,
-                    "sentiment": {
-                        "great": 5,
-                        "good": 10,
-                        "ok": 76,
-                        "bad": 9
-                    },
-                    "consensus": "Fifth iteration of off-policy training with significantly more community feedback now. Improved cornering compared to v4 — takes turns wider and away from curbs. Good performance at higher speeds (above 30mph). However, majority rate it as just 'OK' with notable regressions: low-speed behavior struggles to commit to lanes, hugs or crosses lines, and turns lock out partway through. Significant ping-ponging at low speeds reported on Prius Prime. High-speed wobbles above 65mph persist.",
-                    "note": "Community consensus has shifted — majority finds it mediocre. Cornering improvement over v4 but low-speed and turn handling are worse. Torque tune v0 recommended.",
-                    "bestFor": "Highway",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "2026 Hyundai Ioniq 5",
-                        "2023 Lexus RC",
-                        "GV60",
-                        "2022 Toyota RAV4 Prime",
-                        "Prius Prime"
-                    ],
-                    "positives": [
-                        "Better cornering than v4",
-                        "Wider turns away from curbs",
-                        "Good lane changes",
-                        "Good above 30mph"
-                    ],
-                    "negatives": [
-                        "Poor low-speed lane commitment",
-                        "Turns lock out partway",
-                        "High-speed wobbles above 65mph",
-                        "Hesitant at neighborhood intersections",
-                        "Significant ping-ponging at low speeds",
-                        "Gets uncomfortably close to line markings"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v5-14-mar-2026/3756"
-                }
-            ]
+          "name": "Dark Souls Model v2",
+          "date": "December 11, 2025",
+          "badge": "POPULAR",
+          "tags": [
+            "Aggressive",
+            "Trucks",
+            "Highway"
+          ],
+          "communityScore": 51,
+          "totalVotes": 120,
+          "sentiment": {
+            "great": 3,
+            "good": 11,
+            "ok": 79,
+            "bad": 7
+          },
+          "consensus": "The 'unforgiving' model, refined. Tighter following distance, faster reactions, sharper turns. Excellent for larger vehicles that need authority.",
+          "note": "Named 'Dark Souls' because it's unforgiving.",
+          "bestFor": "Heavy Traffic",
+          "steeringFeel": "Stiff",
+          "testedOn": [
+            "Ford F-150",
+            "GMC Sierra",
+            "Kia Sportage",
+            "Toyota Tacoma",
+            "Lincoln Navigator",
+            "Ram 1500",
+            "Hyundai Elantra",
+            "Ford F-150 Lightning (2022-2024)"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/dark-souls-model-v2-12-dec-2025/1657"
         },
         {
-            "id": "aggressive_exp",
-            "name": "Aggressive",
-            "description": "For drivers who want performance, tight following, or bleeding-edge features.",
-            "icon": "🔥",
-            "models": [
-                {
-                    "name": "Dark Souls Model",
-                    "date": "December 03, 2025",
-                    "tags": [
-                        "Aggressive"
-                    ],
-                    "communityScore": 51,
-                    "totalVotes": 134,
-                    "sentiment": {
-                        "great": 3,
-                        "good": 10,
-                        "ok": 80,
-                        "bad": 7
-                    },
-                    "consensus": "Original 'unforgiving' model. Still popular for assertive driving. Less refined than v2 but raw character.",
-                    "bestFor": "Aggressive Driving",
-                    "steeringFeel": "Stiff",
-                    "testedOn": [
-                        "Ford F-150",
-                        "Toyota Tacoma",
-                        "Kia Sportage"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/dark-souls-model-3-dec-2025/1481"
-                },
-                {
-                    "name": "Firehose Model",
-                    "date": "August 31, 2025",
-                    "badge": "DEV",
-                    "tags": [
-                        "Dev",
-                        "Unstable"
-                    ],
-                    "communityScore": 52,
-                    "totalVotes": 490,
-                    "sentiment": {
-                        "great": 5,
-                        "good": 7,
-                        "ok": 84,
-                        "bad": 4
-                    },
-                    "consensus": "The raw, unfiltered developer feed from comma.ai's State-of-the-Art (SOTA) training pipeline. This is the absolute 'bleeding edge' of openpilot intelligence, updating almost daily as it ingests new data from the global firehose. HIGH RISK, HIGH REWARD: It often contains the latest breakthroughs in path planning and vision, but has not yet undergone the long-term validation required for a standard release.",
-                    "note": "Technical Note: This model is a direct output of continuous training. Expect radical shifts in behavior day-to-day. If you experience a 'regressive' build, simply wait for the next daily drop or revert to a stable series.",
-                    "bestFor": "Testing & SOTA Research",
-                    "steeringFeel": "Volatile (Varies by Drop)",
-                    "testedOn": [
-                        "Lexus IS",
-                        "Lexus RX 350",
-                        "Dev vehicles only"
-                    ]
-                },
-                {
-                    "name": "Planplus v2",
-                    "date": "December 11, 2025",
-                    "badge": "DEV",
-                    "tags": [
-                        "Dev",
-                        "Experimental"
-                    ],
-                    "communityScore": 54,
-                    "totalVotes": 60,
-                    "sentiment": {
-                        "great": 8,
-                        "good": 13,
-                        "ok": 72,
-                        "bad": 7
-                    },
-                    "consensus": "Testing a new lateral planner algorithm. Very experimental - for developers and testers.",
-                    "bestFor": "Development",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Test vehicles"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/planplus-v2-model-11-dec-2025/1650"
-                },
-                {
-                    "name": "Neurips Driving Model v2",
-                    "date": "November 12, 2025",
-                    "tags": [
-                        "Academic"
-                    ],
-                    "communityScore": 70,
-                    "totalVotes": 25,
-                    "sentiment": {
-                        "great": 28,
-                        "good": 35,
-                        "ok": 25,
-                        "bad": 12
-                    },
-                    "consensus": "Model presented at NeurIPS AI conference. Showcase technology with academic focus.",
-                    "bestFor": "Research",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Research vehicles"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/neurips-model-12-nov-2025/986"
-                },
-                {
-                    "name": "Neurips Driving Model",
-                    "date": "November 12, 2025",
-                    "tags": [
-                        "Academic"
-                    ],
-                    "communityScore": 68,
-                    "totalVotes": 20,
-                    "sentiment": {
-                        "great": 25,
-                        "good": 35,
-                        "ok": 28,
-                        "bad": 12
-                    },
-                    "consensus": "Original conference model. Interesting for research purposes.",
-                    "bestFor": "Research",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Research vehicles"
-                    ]
-                },
-                {
-                    "name": "Steam Powered Model",
-                    "date": "August 16, 2025",
-                    "badge": "EXPERIMENTAL",
-                    "tags": [
-                        "Experimental"
-                    ],
-                    "communityScore": 54,
-                    "totalVotes": 299,
-                    "sentiment": {
-                        "great": 7,
-                        "good": 12,
-                        "ok": 75,
-                        "bad": 6
-                    },
-                    "consensus": "Experimental longitudinal (gas/brake) behavior. Unique acceleration and braking feel.",
-                    "bestFor": "Experimentation",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                }
-            ]
+          "name": "Nevada Model",
+          "date": "September 07, 2025",
+          "badge": "POPULAR",
+          "tags": [
+            "Stable Benchmark",
+            "Highway"
+          ],
+          "communityScore": 52,
+          "totalVotes": 431,
+          "sentiment": {
+            "great": 6,
+            "good": 10,
+            "ok": 76,
+            "bad": 8
+          },
+          "consensus": "The 'neutral' benchmark. If a new model feels weird, Nevada is what you compare it to. Well-balanced between smooth and responsive.",
+          "bestFor": "All-Around",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Most vehicles",
+            "Kia Sportage PHEV"
+          ]
         },
         {
-            "id": "comfort",
-            "name": "Comfort",
-            "description": "Passenger-friendly models. Smooth inputs over precision. Perfect for road trips.",
-            "icon": "🛋️",
-            "models": [
-                {
-                    "name": "Down to Ride v5",
-                    "date": "July 08, 2025",
-                    "tags": [
-                        "Comfort",
-                        "Smooth"
-                    ],
-                    "communityScore": 52,
-                    "totalVotes": 136,
-                    "sentiment": {
-                        "great": 4,
-                        "good": 11,
-                        "ok": 79,
-                        "bad": 6
-                    },
-                    "consensus": "Previous DTR version. Still smooth and comfortable, slightly less refined than v6.",
-                    "bestFor": "Passengers",
-                    "steeringFeel": "Light",
-                    "testedOn": [
-                        "Hyundai Palisade",
-                        "Toyota Camry"
-                    ]
-                },
-                {
-                    "name": "Space Lab 3",
-                    "date": "August 08, 2025",
-                    "tags": [
-                        "Smooth"
-                    ],
-                    "communityScore": 52,
-                    "totalVotes": 350,
-                    "sentiment": {
-                        "great": 6,
-                        "good": 9,
-                        "ok": 78,
-                        "bad": 7
-                    },
-                    "consensus": "Space-themed smooth model with gentle transitions and a relaxed feel.",
-                    "bestFor": "Relaxed Driving",
-                    "steeringFeel": "Light",
-                    "testedOn": [
-                        "Most sedans"
-                    ]
-                },
-                {
-                    "name": "Space Lab 2",
-                    "date": "July 26, 2025",
-                    "tags": [
-                        "Smooth"
-                    ],
-                    "communityScore": 50,
-                    "totalVotes": 668,
-                    "sentiment": {
-                        "great": 3,
-                        "good": 5,
-                        "ok": 87,
-                        "bad": 5
-                    },
-                    "consensus": "Earlier Space Lab iteration. Good baseline comfort.",
-                    "bestFor": "Relaxed Driving",
-                    "steeringFeel": "Light",
-                    "testedOn": [
-                        "Toyota Camry",
-                        "Honda Accord"
-                    ]
-                },
-                {
-                    "name": "Kumars Vibe",
-                    "date": "August 16, 2025",
-                    "badge": "HIDDEN GEM",
-                    "tags": [
-                        "Smooth",
-                        "Highway"
-                    ],
-                    "communityScore": 56,
-                    "totalVotes": 123,
-                    "sentiment": {
-                        "great": 9,
-                        "good": 10,
-                        "ok": 79,
-                        "bad": 2
-                    },
-                    "consensus": "Custom tune that removes the 'robotic' feeling. Very natural, human-like steering inputs.",
-                    "note": "Community favorite for natural driving feel.",
-                    "bestFor": "Natural Feel",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various Hyundai/Kia",
-                        "Kia Sportage PHEV"
-                    ]
-                },
-                {
-                    "name": "UV + DTR Model",
-                    "date": "August 13, 2025",
-                    "tags": [
-                        "Comfort",
-                        "Vision"
-                    ],
-                    "communityScore": 50,
-                    "totalVotes": 168,
-                    "sentiment": {
-                        "great": 2,
-                        "good": 6,
-                        "ok": 86,
-                        "bad": 6
-                    },
-                    "consensus": "Merge of 'Unlimited Vision' and 'Down to Ride.' Combines visibility with comfort.",
-                    "bestFor": "Mixed Driving",
-                    "steeringFeel": "Light",
-                    "testedOn": [
-                        "Toyota",
-                        "Honda"
-                    ]
-                },
-                {
-                    "name": "Duck Amigo",
-                    "date": "March 18, 2024",
-                    "tags": [
-                        "Soft",
-                        "Legacy"
-                    ],
-                    "communityScore": 72,
-                    "totalVotes": 45,
-                    "sentiment": {
-                        "great": 28,
-                        "good": 38,
-                        "ok": 25,
-                        "bad": 9
-                    },
-                    "consensus": "Legacy comfort model with very soft inputs. Passenger-focused.",
-                    "bestFor": "Passengers",
-                    "steeringFeel": "Light",
-                    "testedOn": [
-                        "Toyota",
-                        "Honda sedans"
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "tomb_raider",
-            "name": "Tomb Raider",
-            "description": "Experimental 'Trash Folder' runs. Hidden gems for curves. Don't let the name scare you!",
-            "icon": "🔬",
-            "models": [
-                {
-                    "name": "Tomb Raider 16",
-                    "date": "July 21, 2025",
-                    "badge": "HIDDEN GEM",
-                    "tags": [
-                        "Curves",
-                        "Highway"
-                    ],
-                    "communityScore": 50,
-                    "totalVotes": 372,
-                    "sentiment": {
-                        "great": 5,
-                        "good": 7,
-                        "ok": 80,
-                        "bad": 8
-                    },
-                    "consensus": "CULT CLASSIC! Often called 'Trash Folder 16.' BEST curve handling of any 2025 model.",
-                    "note": "Drives 'on rails' through winding backroads.",
-                    "bestFor": "Curvy Roads",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Hyundai",
-                        "Kia",
-                        "Toyota"
-                    ]
-                },
-                {
-                    "name": "Tomb Raider 15",
-                    "date": "July 11, 2025",
-                    "tags": [
-                        "Curves",
-                        "Experimental"
-                    ],
-                    "communityScore": 51,
-                    "totalVotes": 249,
-                    "sentiment": {
-                        "great": 5,
-                        "good": 10,
-                        "ok": 76,
-                        "bad": 9
-                    },
-                    "consensus": "Predecessor to TR16. Good curve handling but slightly less refined.",
-                    "bestFor": "Curvy Roads",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Hyundai",
-                        "Toyota"
-                    ]
-                },
-                {
-                    "name": "Le Tomb Raider 14",
-                    "date": "July 14, 2025",
-                    "tags": [
-                        "Experimental"
-                    ],
-                    "communityScore": 53,
-                    "totalVotes": 435,
-                    "sentiment": {
-                        "great": 6,
-                        "good": 7,
-                        "ok": 83,
-                        "bad": 4
-                    },
-                    "consensus": "French-named variant. An experimental fork with unique characteristics.",
-                    "bestFor": "Experimentation",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "Tomb Raider 14",
-                    "date": "June 30, 2025",
-                    "tags": [
-                        "Experimental"
-                    ],
-                    "communityScore": 52,
-                    "totalVotes": 691,
-                    "sentiment": {
-                        "great": 7,
-                        "good": 7,
-                        "ok": 79,
-                        "bad": 7
-                    },
-                    "consensus": "Standard TR14 iteration. Laid groundwork for TR15 and TR16.",
-                    "bestFor": "Experimentation",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "Tomb Raider 13",
-                    "date": "June 27, 2025",
-                    "tags": [
-                        "Experimental"
-                    ],
-                    "communityScore": 53,
-                    "totalVotes": 81,
-                    "sentiment": {
-                        "great": 9,
-                        "good": 9,
-                        "ok": 74,
-                        "bad": 8
-                    },
-                    "consensus": "Earlier TR series. Foundation for curve-handling characteristics.",
-                    "bestFor": "Experimentation",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "Aggressive TR",
-                    "date": "June 28, 2025",
-                    "tags": [
-                        "Aggressive",
-                        "Curves"
-                    ],
-                    "communityScore": 76,
-                    "totalVotes": 40,
-                    "sentiment": {
-                        "great": 32,
-                        "good": 38,
-                        "ok": 20,
-                        "bad": 10
-                    },
-                    "consensus": "Aggressive tune of the TR series. Combines curve handling with assertive inputs.",
-                    "bestFor": "Sporty Driving",
-                    "steeringFeel": "Stiff",
-                    "testedOn": [
-                        "Sporty vehicles"
-                    ]
-                },
-                {
-                    "name": "Tomb Raider 7",
-                    "date": "May 07, 2025",
-                    "tags": [
-                        "Early"
-                    ],
-                    "communityScore": 48,
-                    "totalVotes": 52,
-                    "sentiment": {
-                        "great": 8,
-                        "good": 2,
-                        "ok": 77,
-                        "bad": 13
-                    },
-                    "consensus": "Early TR series. Foundation for later versions.",
-                    "bestFor": "Historical",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "Vegetarian Filet o Fish",
-                    "date": "June 21, 2025",
-                    "tags": [
-                        "Smooth",
-                        "Eco"
-                    ],
-                    "communityScore": 49,
-                    "totalVotes": 111,
-                    "sentiment": {
-                        "great": 6,
-                        "good": 10,
-                        "ok": 71,
-                        "bad": 13
-                    },
-                    "consensus": "Gentle braking profile optimized for hybrids. Maximizes regenerative braking.",
-                    "bestFor": "Hybrids/EVs",
-                    "steeringFeel": "Light",
-                    "testedOn": [
-                        "Toyota Prius",
-                        "Hyundai Ioniq"
-                    ]
-                },
-                {
-                    "name": "Kerrygold Driving",
-                    "date": "June 08, 2025",
-                    "tags": [
-                        "Smooth"
-                    ],
-                    "communityScore": 53,
-                    "totalVotes": 70,
-                    "sentiment": {
-                        "great": 7,
-                        "good": 10,
-                        "ok": 76,
-                        "bad": 7
-                    },
-                    "consensus": "Named after the butter brand - 'Smooth as butter.' Very gentle inputs.",
-                    "bestFor": "Comfort",
-                    "steeringFeel": "Light",
-                    "testedOn": [
-                        "Sedans"
-                    ]
-                },
-                {
-                    "name": "Liquid Crystal Driving",
-                    "date": "June 21, 2025",
-                    "tags": [
-                        "Experimental"
-                    ],
-                    "communityScore": 70,
-                    "totalVotes": 25,
-                    "sentiment": {
-                        "great": 25,
-                        "good": 40,
-                        "ok": 25,
-                        "bad": 10
-                    },
-                    "consensus": "Experimental TR-era model with unique steering characteristics.",
-                    "bestFor": "Experimentation",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "Secret Good Openpilot",
-                    "date": "May 16, 2025",
-                    "badge": "HIDDEN GEM",
-                    "tags": [
-                        "Hidden Gem"
-                    ],
-                    "communityScore": 57,
-                    "totalVotes": 7,
-                    "sentiment": {
-                        "great": 0,
-                        "good": 29,
-                        "ok": 71,
-                        "bad": 0
-                    },
-                    "consensus": "The name says it all - a hidden gem! Surprisingly good all-around performance.",
-                    "bestFor": "All-Around",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various Hyundai/Kia"
-                    ]
-                },
-                {
-                    "name": "Simple Plan Driving",
-                    "date": "July 07, 2025",
-                    "tags": [
-                        "Simple",
-                        "Reliable"
-                    ],
-                    "communityScore": 52,
-                    "totalVotes": 289,
-                    "sentiment": {
-                        "great": 5,
-                        "good": 8,
-                        "ok": 81,
-                        "bad": 6
-                    },
-                    "consensus": "Simplified planning model. Reliable and predictable behavior.",
-                    "bestFor": "Reliability",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Most vehicles"
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "world_2025",
-            "name": "2025 Models",
-            "description": "The 'World Model' development era. Highly varied performance.",
-            "icon": "🌍",
-            "models": [
-                {
-                    "name": "WMI v6",
-                    "date": "December 30, 2025",
-                    "tags": [
-                        "Smart"
-                    ],
-                    "communityScore": 40,
-                    "totalVotes": 15,
-                    "sentiment": {
-                        "great": 13,
-                        "good": 0,
-                        "ok": 53,
-                        "bad": 34
-                    },
-                    "consensus": "Late 2025 iteration bridging to 2026 series. More stable than early WMI versions.",
-                    "bestFor": "Mixed Driving",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "WMI v5",
-                    "date": "December 29, 2025",
-                    "tags": [
-                        "Smart"
-                    ],
-                    "communityScore": 55,
-                    "totalVotes": 5,
-                    "sentiment": {
-                        "great": 0,
-                        "good": 20,
-                        "ok": 80,
-                        "bad": 0
-                    },
-                    "consensus": "Mid-development World Model. Well-tested by the community.",
-                    "bestFor": "Mixed Driving",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "WMI v4",
-                    "date": "December 22, 2025",
-                    "tags": [
-                        "Smart"
-                    ],
-                    "communityScore": 51,
-                    "totalVotes": 31,
-                    "sentiment": {
-                        "great": 6,
-                        "good": 13,
-                        "ok": 71,
-                        "bad": 10
-                    },
-                    "consensus": "Earlier stable World Model. Less intelligent but proven reliable.",
-                    "bestFor": "Highway",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "WMI v3",
-                    "date": "December 19, 2025",
-                    "tags": [
-                        "Early"
-                    ],
-                    "communityScore": 51,
-                    "totalVotes": 14,
-                    "sentiment": {
-                        "great": 0,
-                        "good": 21,
-                        "ok": 71,
-                        "bad": 8
-                    },
-                    "consensus": "Third iteration of World Model. Foundation for stable releases.",
-                    "bestFor": "Highway",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "WMI2",
-                    "date": "December 09, 2025",
-                    "tags": [
-                        "Early"
-                    ],
-                    "communityScore": 68,
-                    "totalVotes": 22,
-                    "sentiment": {
-                        "great": 20,
-                        "good": 42,
-                        "ok": 28,
-                        "bad": 10
-                    },
-                    "consensus": "Second World Model Iteration. Early E2E experiment that showed promise.",
-                    "bestFor": "Historical",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Test vehicles"
-                    ]
-                },
-                {
-                    "name": "WMI",
-                    "date": "December 06, 2025",
-                    "tags": [
-                        "Original"
-                    ],
-                    "communityScore": 65,
-                    "totalVotes": 20,
-                    "sentiment": {
-                        "great": 18,
-                        "good": 40,
-                        "ok": 30,
-                        "bad": 12
-                    },
-                    "consensus": "The ORIGINAL World Model Iteration. Started the E2E revolution in Sunnypilot.",
-                    "bestFor": "Historical",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Test vehicles"
-                    ]
-                },
-                {
-                    "name": "Planplus Model",
-                    "date": "November 28, 2025",
-                    "tags": [
-                        "Experimental"
-                    ],
-                    "communityScore": 50,
-                    "totalVotes": 128,
-                    "sentiment": {
-                        "great": 5,
-                        "good": 9,
-                        "ok": 77,
-                        "bad": 9
-                    },
-                    "consensus": "Lateral planner experiment. Predecessor to Planplus v2.",
-                    "bestFor": "Development",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Test vehicles"
-                    ]
-                },
-                {
-                    "name": "ST Model",
-                    "date": "November 11, 2025",
-                    "tags": [
-                        "Experimental"
-                    ],
-                    "communityScore": 49,
-                    "totalVotes": 144,
-                    "sentiment": {
-                        "great": 3,
-                        "good": 8,
-                        "ok": 80,
-                        "bad": 9
-                    },
-                    "consensus": "Short-term planning model. Focused on immediate path decisions.",
-                    "bestFor": "Experimentation",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "Cool GWM",
-                    "date": "October 24, 2025",
-                    "tags": [
-                        "Community"
-                    ],
-                    "communityScore": 50,
-                    "totalVotes": 254,
-                    "sentiment": {
-                        "great": 7,
-                        "good": 5,
-                        "ok": 79,
-                        "bad": 9
-                    },
-                    "consensus": "Generic World Model variant created by the community.",
-                    "bestFor": "All-Around",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "GWM V9 (gWM9)",
-                    "date": "October 21, 2025",
-                    "tags": [
-                        "Community"
-                    ],
-                    "communityScore": 54,
-                    "totalVotes": 267,
-                    "sentiment": {
-                        "great": 9,
-                        "good": 9,
-                        "ok": 76,
-                        "bad": 6
-                    },
-                    "consensus": "Generic World Model version 9. Standard performance.",
-                    "bestFor": "All-Around",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ],
-                    "forumUrl": "https://community.sunnypilot.ai/t/gwm9-21-oct-2025/308"
-                },
-                {
-                    "name": "The Cool Peoples Model v3",
-                    "date": "October 10, 2025",
-                    "tags": [
-                        "Community"
-                    ],
-                    "communityScore": 52,
-                    "totalVotes": 184,
-                    "sentiment": {
-                        "great": 7,
-                        "good": 11,
-                        "ok": 74,
-                        "bad": 8
-                    },
-                    "consensus": "Third iteration of the community-driven model. Active development.",
-                    "bestFor": "All-Around",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "The Cool Peoples Model v2",
-                    "date": "October 09, 2025",
-                    "tags": [
-                        "Community"
-                    ],
-                    "communityScore": 51,
-                    "totalVotes": 23,
-                    "sentiment": {
-                        "great": 9,
-                        "good": 4,
-                        "ok": 78,
-                        "bad": 9
-                    },
-                    "consensus": "Second version of the community model. Improved on feedback.",
-                    "bestFor": "All-Around",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "The Cool Peoples Model",
-                    "date": "October 03, 2025",
-                    "tags": [
-                        "Community",
-                        "Original"
-                    ],
-                    "communityScore": 52,
-                    "totalVotes": 381,
-                    "sentiment": {
-                        "great": 7,
-                        "good": 10,
-                        "ok": 75,
-                        "bad": 8
-                    },
-                    "consensus": "Original community-driven model. 'By the people, for the people.'",
-                    "bestFor": "All-Around",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "Nuggets in Digon",
-                    "date": "October 09, 2025",
-                    "tags": [
-                        "Meme"
-                    ],
-                    "communityScore": 62,
-                    "totalVotes": 22,
-                    "sentiment": {
-                        "great": 18,
-                        "good": 38,
-                        "ok": 30,
-                        "bad": 14
-                    },
-                    "consensus": "Meme-named experimental training run. Inconsistent but fun.",
-                    "note": "Don't use for daily driving.",
-                    "bestFor": "Fun",
-                    "steeringFeel": "Varies",
-                    "testedOn": [
-                        "Brave testers"
-                    ]
-                },
-                {
-                    "name": "North Nevada Model V2",
-                    "date": "October 08, 2025",
-                    "tags": [
-                        "Stable"
-                    ],
-                    "communityScore": 52,
-                    "totalVotes": 48,
-                    "sentiment": {
-                        "great": 10,
-                        "good": 6,
-                        "ok": 75,
-                        "bad": 9
-                    },
-                    "consensus": "Updated version of the stable benchmark. Refined lane centering.",
-                    "bestFor": "All-Around",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Most vehicles"
-                    ]
-                },
-                {
-                    "name": "North Nevada Model",
-                    "date": "October 07, 2025",
-                    "tags": [
-                        "Stable",
-                        "Classic"
-                    ],
-                    "communityScore": 51,
-                    "totalVotes": 215,
-                    "sentiment": {
-                        "great": 5,
-                        "good": 6,
-                        "ok": 82,
-                        "bad": 7
-                    },
-                    "consensus": "Early stable benchmark. Established the 'neutral' baseline.",
-                    "bestFor": "All-Around",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Most vehicles"
-                    ]
-                },
-                {
-                    "name": "gWM v8",
-                    "date": "September 28, 2025",
-                    "tags": [
-                        "Generic"
-                    ],
-                    "communityScore": 72,
-                    "totalVotes": 32,
-                    "sentiment": {
-                        "great": 28,
-                        "good": 40,
-                        "ok": 24,
-                        "bad": 8
-                    },
-                    "consensus": "Generic Neural Model version 8. Solid baseline performance.",
-                    "bestFor": "All-Around",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "gWM v6",
-                    "date": "September 20, 2025",
-                    "tags": [
-                        "Generic"
-                    ],
-                    "communityScore": 70,
-                    "totalVotes": 28,
-                    "sentiment": {
-                        "great": 25,
-                        "good": 42,
-                        "ok": 25,
-                        "bad": 8
-                    },
-                    "consensus": "Generic Neural Model version 6. Less refined than v8.",
-                    "bestFor": "Experimentation",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "gWM v5",
-                    "date": "September 09, 2025",
-                    "tags": [
-                        "Generic"
-                    ],
-                    "communityScore": 68,
-                    "totalVotes": 24,
-                    "sentiment": {
-                        "great": 22,
-                        "good": 42,
-                        "ok": 28,
-                        "bad": 8
-                    },
-                    "consensus": "Generic Neural Model version 5. Mid-stage development.",
-                    "bestFor": "Experimentation",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "gWM Model v3",
-                    "date": "August 22, 2025",
-                    "tags": [
-                        "Generic",
-                        "Early"
-                    ],
-                    "communityScore": 65,
-                    "totalVotes": 20,
-                    "sentiment": {
-                        "great": 20,
-                        "good": 40,
-                        "ok": 30,
-                        "bad": 10
-                    },
-                    "consensus": "Early Generic Neural Model. Historical interest.",
-                    "bestFor": "Historical",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Test vehicles"
-                    ]
-                },
-                {
-                    "name": "Fly By Wire",
-                    "date": "September 04, 2025",
-                    "badge": "HIDDEN GEM",
-                    "tags": [
-                        "Smooth",
-                        "Highway"
-                    ],
-                    "communityScore": 51,
-                    "totalVotes": 91,
-                    "sentiment": {
-                        "great": 5,
-                        "good": 11,
-                        "ok": 75,
-                        "bad": 9
-                    },
-                    "consensus": "Named after aircraft control systems. Smooth, filtered feel like flying.",
-                    "note": "Minimal steering wheel movement.",
-                    "bestFor": "Highway",
-                    "steeringFeel": "Light",
-                    "testedOn": [
-                        "Sedans",
-                        "SUVs"
-                    ]
-                },
-                {
-                    "name": "Falling Phoenix",
-                    "date": "August 14, 2025",
-                    "tags": [
-                        "Experimental"
-                    ],
-                    "communityScore": 55,
-                    "totalVotes": 208,
-                    "sentiment": {
-                        "great": 11,
-                        "good": 12,
-                        "ok": 70,
-                        "bad": 7
-                    },
-                    "consensus": "Experimental merge. Unique steering some users love.",
-                    "bestFor": "Experimentation",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "SP Vikander Model",
-                    "date": "May 03, 2025",
-                    "tags": [
-                        "Sunnypilot"
-                    ],
-                    "communityScore": 60,
-                    "totalVotes": 45,
-                    "sentiment": {
-                        "great": 16,
-                        "good": 16,
-                        "ok": 64,
-                        "bad": 4
-                    },
-                    "consensus": "Sunnypilot-specific tune. Optimized for this fork.",
-                    "bestFor": "All-Around",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Sunnypilot vehicles"
-                    ]
-                },
-                {
-                    "name": "Filet o Fish",
-                    "date": "March 07, 2025",
-                    "tags": [
-                        "Smooth",
-                        "Original"
-                    ],
-                    "communityScore": 52,
-                    "totalVotes": 157,
-                    "sentiment": {
-                        "great": 8,
-                        "good": 11,
-                        "ok": 71,
-                        "bad": 10
-                    },
-                    "consensus": "Original 'fish' model. Smooth braking profile. Historical significance.",
-                    "bestFor": "Comfort",
-                    "steeringFeel": "Light",
-                    "testedOn": [
-                        "Various sedans"
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "legacy",
-            "name": "Legacy",
-            "description": "The 'Old Guard.' Rock solid highway stability. Less 'smart' but incredible lane keeping.",
-            "icon": "🏛️",
-            "models": [
-                {
-                    "name": "Recertified Herbalist",
-                    "date": "March 01, 2024",
-                    "badge": "LEGENDARY",
-                    "tags": [
-                        "Legendary",
-                        "Highway"
-                    ],
-                    "communityScore": 49,
-                    "totalVotes": 43,
-                    "sentiment": {
-                        "great": 9,
-                        "good": 5,
-                        "ok": 72,
-                        "bad": 14
-                    },
-                    "consensus": "THE most reliable legacy model. The 'Toyota Camry' of models - boring, predictable, rock solid.",
-                    "note": "UNSHAKEABLE on highways. Bad at stop signs.",
-                    "bestFor": "Road Trips",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "All compatible vehicles",
-                        "Kia Sportage PHEV"
-                    ]
-                },
-                {
-                    "name": "North Dakota",
-                    "date": "April 29, 2024",
-                    "badge": "LEGENDARY",
-                    "tags": [
-                        "Stiff",
-                        "Highway"
-                    ],
-                    "communityScore": 51,
-                    "totalVotes": 201,
-                    "sentiment": {
-                        "great": 7,
-                        "good": 9,
-                        "ok": 75,
-                        "bad": 9
-                    },
-                    "consensus": "Known for SUPER STIFF steering. Hugs center lane and REFUSES to move. On rails.",
-                    "note": "Can feel robotic but incredibly stable.",
-                    "bestFor": "Highway",
-                    "steeringFeel": "Heavy",
-                    "testedOn": [
-                        "Most vehicles"
-                    ]
-                },
-                {
-                    "name": "WD40",
-                    "date": "April 09, 2024",
-                    "badge": "POPULAR",
-                    "tags": [
-                        "Smooth",
-                        "Highway"
-                    ],
-                    "communityScore": 68,
-                    "totalVotes": 7,
-                    "sentiment": {
-                        "great": 29,
-                        "good": 14,
-                        "ok": 57,
-                        "bad": 0
-                    },
-                    "consensus": "Named because it 'lubricated' North Dakota's stiffness. Best of both worlds.",
-                    "note": "Stable centering without robotic feel.",
-                    "bestFor": "Highway",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Most vehicles"
-                    ]
-                },
-                {
-                    "name": "Notre Dame",
-                    "date": "July 01, 2024",
-                    "tags": [
-                        "Stable"
-                    ],
-                    "communityScore": 53,
-                    "totalVotes": 61,
-                    "sentiment": {
-                        "great": 3,
-                        "good": 7,
-                        "ok": 89,
-                        "bad": 1
-                    },
-                    "consensus": "Solid legacy model. Named after the cathedral - built to last.",
-                    "bestFor": "Highway",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "Certified Herbalist v2",
-                    "date": "February 19, 2024",
-                    "tags": [
-                        "Predecessor"
-                    ],
-                    "communityScore": 54,
-                    "totalVotes": 115,
-                    "sentiment": {
-                        "great": 10,
-                        "good": 10,
-                        "ok": 73,
-                        "bad": 7
-                    },
-                    "consensus": "Predecessor to Recertified Herbalist. Still good but less polished.",
-                    "bestFor": "Highway",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Various"
-                    ]
-                },
-                {
-                    "name": "Blue Diamond v2",
-                    "date": "December 12, 2023",
-                    "badge": "LEGENDARY",
-                    "tags": [
-                        "Vision",
-                        "Rain"
-                    ],
-                    "communityScore": 53,
-                    "totalVotes": 171,
-                    "sentiment": {
-                        "great": 9,
-                        "good": 6,
-                        "ok": 78,
-                        "bad": 7
-                    },
-                    "consensus": "The 'VISION KING' of older models. EXCELLENT in rain or poor lane markings.",
-                    "note": "Can see lanes that other models miss.",
-                    "bestFor": "Bad Weather",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "All compatible vehicles"
-                    ]
-                },
-                {
-                    "name": "Farmville",
-                    "date": "November 07, 2023",
-                    "tags": [
-                        "Deprecated"
-                    ],
-                    "communityScore": 67,
-                    "totalVotes": 6,
-                    "sentiment": {
-                        "great": 33,
-                        "good": 0,
-                        "ok": 67,
-                        "bad": 0
-                    },
-                    "consensus": "Very old model from 2023. Mostly deprecated.",
-                    "note": "Historical interest only. Don't use for daily driving.",
-                    "bestFor": "Historical",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Legacy vehicles"
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "specialty_forks",
-            "name": "Specialty & Forks",
-            "description": "Vehicle-specific forks, longitudinal tunes, and specialized branch models tailored for specific hardware platforms.",
-            "icon": "🔧",
-            "models": [
-                {
-                    "name": "BluePilot 5.0",
-                    "date": "Late 2025",
-                    "tags": [
-                        "Ford",
-                        "F-150",
-                        "Navigator"
-                    ],
-                    "communityScore": 85,
-                    "totalVotes": 95,
-                    "sentiment": {
-                        "great": 50,
-                        "good": 30,
-                        "ok": 15,
-                        "bad": 5
-                    },
-                    "consensus": "Customized for Ford's BlueCruise hardware logic. Excellent torque management for heavy trucks and SUVs.",
-                    "bestFor": "Towing & Highway",
-                    "steeringFeel": "Stiff",
-                    "testedOn": [
-                        "Ford F-150",
-                        "Lincoln Navigator"
-                    ]
-                },
-                {
-                    "name": "sunnypilot (MVL Fork)",
-                    "date": "Late 2025",
-                    "tags": [
-                        "Honda",
-                        "Odyssey",
-                        "Fork"
-                    ],
-                    "communityScore": 80,
-                    "totalVotes": 45,
-                    "sentiment": {
-                        "great": 35,
-                        "good": 45,
-                        "ok": 15,
-                        "bad": 5
-                    },
-                    "consensus": "Maintained by MVL. Specifically targets the steering deadzone issues present in the Honda Odyssey platform.",
-                    "bestFor": "Mixed Driving",
-                    "steeringFeel": "Light",
-                    "testedOn": [
-                        "Honda Odyssey"
-                    ]
-                },
-                {
-                    "name": "Deep_RL V1",
-                    "date": "December 2025",
-                    "badge": "openpilot only",
-                    "tags": [
-                        "Experimental",
-                        "Stock-Only",
-                        "Off-Policy"
-                    ],
-                    "communityScore": 45,
-                    "totalVotes": 12,
-                    "sentiment": {
-                        "great": 15,
-                        "good": 25,
-                        "ok": 50,
-                        "bad": 10
-                    },
-                    "consensus": "Early end-to-end imitation model testing deep learning trajectory planners. Stable lateral control on straight highway runs, but displays minor centering oscillations on curvy roads. Highly stable speed matching, but struggles with stop-and-go creep and tight turn-in.",
-                    "note": "⚠️ Exclusive to stock openpilot. NOT available on sunnylink/sunnypilot.",
-                    "bestFor": "Highway Centering / Testing",
-                    "steeringFeel": "Balanced",
-                    "testedOn": [
-                        "Honda Accord Hybrid 2025"
-                    ],
-                    "positives": [
-                        "Stable highway speed matching",
-                        "Decent lane keeping on straight runs"
-                    ],
-                    "negatives": [
-                        "Minor centering oscillations (lane-weaving) on curvy roads",
-                        "Struggles with stop-and-go creep",
-                        "Poor turn-in performance on sharp corners"
-                    ]
-                },
-                {
-                    "name": "Deep_RL V2",
-                    "date": "February 2026",
-                    "badge": "openpilot only",
-                    "tags": [
-                        "Experimental",
-                        "Stock-Only",
-                        "Off-Policy"
-                    ],
-                    "communityScore": 58,
-                    "totalVotes": 18,
-                    "sentiment": {
-                        "great": 20,
-                        "good": 40,
-                        "ok": 30,
-                        "bad": 10
-                    },
-                    "consensus": "Refined end-to-end planning model focusing on speed control and smoother braking transitions. Solves the lateral weaving seen in V1 with much damper steering inputs. However, launch from a dead stop in stop-and-go traffic is sluggish, requiring active gas-pedal nudges from the driver.",
-                    "note": "⚠️ Exclusive to stock openpilot. NOT available on sunnylink/sunnypilot.",
-                    "bestFor": "Comfort / Stop-and-Go",
-                    "steeringFeel": "Solid",
-                    "testedOn": [
-                        "Honda Accord Hybrid 2025"
-                    ],
-                    "positives": [
-                        "Excellent lateral dampening (no more weaving)",
-                        "Extremely smooth braking transitions",
-                        "High comfort level"
-                    ],
-                    "negatives": [
-                        "Sluggish launch from a dead stop",
-                        "Requires driver interventions (gas pedal) in heavy traffic"
-                    ]
-                },
-                {
-                    "name": "Deep_RL V3",
-                    "date": "May 2026",
-                    "badge": "openpilot only",
-                    "tags": [
-                        "Experimental",
-                        "Stock-Only",
-                        "Off-Policy"
-                    ],
-                    "communityScore": 84,
-                    "totalVotes": 35,
-                    "sentiment": {
-                        "great": 60,
-                        "good": 30,
-                        "ok": 10,
-                        "bad": 0
-                    },
-                    "consensus": "Advanced iteration featuring improved 3D scene understanding, tested extensively by @Eyezenheim in the SF Bay Area. Outstanding performance negotiating San Francisco's steep streets and transitioning seamlessly onto the SF Bay Bridge. Lateral holding on curves is highly confident and natural, though it can still cut urban corners slightly too tight.",
-                    "note": "⚠️ Exclusive to stock openpilot. NOT available on sunnylink/sunnypilot.",
-                    "bestFor": "Highway Curves / Urban Driving",
-                    "steeringFeel": "Natural",
-                    "testedOn": [
-                        "Honda Accord Hybrid 2025",
-                        "Hyundai Ioniq 5"
-                    ],
-                    "positives": [
-                        "Phenomenal lateral holding on steep curves",
-                        "Seamless highway transitions and merges",
-                        "Highly natural human-like steering"
-                    ],
-                    "negatives": [
-                        "May cut urban corners slightly too tight",
-                        "Occasional caution needed at complex intersections"
-                    ]
-                }
-            ]
+          "name": "Down to Ride v6",
+          "date": "August 12, 2025",
+          "badge": "LEGENDARY",
+          "tags": [
+            "Comfort",
+            "Smooth",
+            "Right-Hugging(C4)"
+          ],
+          "communityScore": 55,
+          "totalVotes": 465,
+          "sentiment": {
+            "great": 11,
+            "good": 8,
+            "ok": 76,
+            "bad": 5
+          },
+          "consensus": "The legendary 'Wife Approved' model. Sacrifices perfect lane centering for passenger comfort. Won't jerk the wheel; gently drifts into turns. Note: Some Comma 4 users (specifically Ioniq 5) report pronounced right-side lane hugging.",
+          "note": "Perfect for road trips. If hugging right on C4, try Adjust Camera Offset (-0.05 to -0.10).",
+          "bestFor": "Passengers",
+          "steeringFeel": "Light",
+          "testedOn": [
+            "Hyundai Palisade",
+            "Kia Telluride",
+            "Toyota Camry",
+            "Honda CR-V",
+            "Audi A3",
+            "Mazda CX-5 (2021-2024)",
+            "Honda Pilot (2019-2022)",
+            "Lincoln Corsair (2020-2023)",
+            "Hyundai Ioniq 5 (HDA II)"
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "id": "world_2026",
+      "name": "WMI 2026",
+      "description": "Latest End-to-End architecture. Understands 3D scenes, stop signs, and complex intersections.",
+      "icon": "🚀",
+      "models": [
+        {
+          "name": "RDF Model",
+          "date": "August 05, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Recommended",
+            "Longitudinal",
+            "Highway",
+            "Yassine/MVL"
+          ],
+          "communityScore": 78,
+          "totalVotes": 32,
+          "sentiment": {
+            "great": 45,
+            "good": 35,
+            "ok": 15,
+            "bad": 5
+          },
+          "consensus": "Tuned by Yassine/MVL with noticeable longitudinal gains over POP and CD210. Offers smooth stop-and-go speed matching and assertive curve tracking on sweeping highways. Some users report slight low-speed lateral wiggles and reduced torque on high-angle curves for certain steer setups.",
+          "note": "Pair with recent MVL tunings if driving Honda/Hyundai platforms. Very solid longitudinal control in experimental mode.",
+          "bestFor": "Highway / Stop & Go",
+          "steeringFeel": "Assertive",
+          "forumUrl": "https://community.sunnypilot.ai/t/rdf-model-august-5-2026/6569",
+          "testedOn": [
+            "2022 Honda Civic",
+            "2024 Ioniq 5 (HDA2)",
+            "2022 Rivian R1T (Angle Steering)",
+            "2025 Ioniq 5N",
+            "comma 4"
+          ],
+          "positives": [
+            "Substantial acceleration and stopping improvements over POP and CD210",
+            "Smooth highway stop & go and speed matching",
+            "Assertive steering power and curve handling on long sweeping curves",
+            "Strong longitudinal lead detection"
+          ],
+          "negatives": [
+            "Gives up on sharp high-angle curves on some heavy/angle vehicles (Rivian R1T)",
+            "Minor low-speed lateral oscillation/wiggle while vehicle self-tunes",
+            "Perpendicular traffic cutting across path can cause abrupt deceleration"
+          ]
+        },
+        {
+          "name": "Rebellious Hope Model",
+          "date": "July 27, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Curves",
+            "Torque-Assist"
+          ],
+          "communityScore": 68,
+          "totalVotes": 24,
+          "sentiment": {
+            "great": 30,
+            "good": 40,
+            "ok": 20,
+            "bad": 10
+          },
+          "consensus": "Designed to handle aggressive cornering where vehicle torque limits are exceeded without blowing through lane lines like CD210. Delivers strong lane retention through bends, though some vehicles experience low-speed lateral ping-ponging.",
+          "note": "Great for routes with challenging curves. If experiencing low-speed wander, toggle pause lateral on low speeds.",
+          "bestFor": "Curved Roads / Assisted Cornering",
+          "steeringFeel": "Firm",
+          "forumUrl": "https://community.sunnypilot.ai/t/rebellious-hope-model-july-27-2026/6560",
+          "testedOn": [
+            "2023 Lexus RC 350",
+            "Hyundai Ioniq 5",
+            "Honda Civic Hybrid",
+            "comma 4"
+          ],
+          "positives": [
+            "Maintains lane line integrity during high-torque assisted cornering better than CD210",
+            "Firm on-center feel when taking aggressive bends",
+            "Predictable deceleration profile into turns"
+          ],
+          "negatives": [
+            "Low-speed lateral ping-pong / oscillations reported on Lexus and some Toyota platforms",
+            "Slightly jerky transition when driver intervenes on torque-limited turns"
+          ]
+        },
+        {
+          "name": "Rebel Legion Model",
+          "date": "July 22, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Highway",
+            "Stable",
+            "Experimental"
+          ],
+          "communityScore": 72,
+          "totalVotes": 20,
+          "sentiment": {
+            "great": 35,
+            "good": 45,
+            "ok": 15,
+            "bad": 5
+          },
+          "consensus": "The highway-focused twin to the Rebel series. Trades aggressive turn torque for rock-steady straight-line tracking and smooth lane changes with minimal wander.",
+          "note": "Recommended for highway commuters looking for a more composed alternative to early WMI models.",
+          "bestFor": "Highway Commutes",
+          "steeringFeel": "Balanced",
+          "forumUrl": "https://community.sunnypilot.ai/t/rebel-legion-model-july-22-2026/6559",
+          "testedOn": [
+            "Hyundai Ioniq 5",
+            "Kia EV6",
+            "Toyota RAV4 Prime",
+            "Honda CR-V",
+            "comma 4"
+          ],
+          "positives": [
+            "Locked-in highway centering with minimal wandering",
+            "Smooth lane transitions during openpilot lane changes",
+            "Conservative lead vehicle follow distance"
+          ],
+          "negatives": [
+            "Less aggressive on sharp urban turns than Rebellious Hope",
+            "Relatively conservative acceleration from complete stops"
+          ]
+        },
+        {
+          "name": "OP Model 16 Deep",
+          "date": "June 03, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Deep Network",
+            "Urban",
+            "Off-Policy"
+          ],
+          "communityScore": 71,
+          "totalVotes": 29,
+          "sentiment": {
+            "great": 38,
+            "good": 38,
+            "ok": 18,
+            "bad": 6
+          },
+          "consensus": "Features an expanded neural network architecture in the OP model lineup. Offers superior spatial perception in messy city driving and multi-lane intersections, though requires modern comma 4 hardware for optimal compute latency.",
+          "note": "Optimized for Comma 4. Recommended for dense suburban and urban environments.",
+          "bestFor": "Urban / Mixed Driving",
+          "steeringFeel": "Confident",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-16-deep-june-03-2026/6557",
+          "testedOn": [
+            "2025 Kia K4",
+            "2024 Honda Civic",
+            "Toyota Prius (2023+)",
+            "comma 4"
+          ],
+          "positives": [
+            "Significantly improved multi-lane awareness and intersection tracking",
+            "Handles complex road markings and construction barrels well",
+            "Confident steering torque on mid-speed turns"
+          ],
+          "negatives": [
+            "Higher compute overhead on older comma 3X hardware",
+            "Can brake abruptly for pedestrians close to the curb"
+          ]
+        },
+        {
+          "name": "OP Model 10 v3",
+          "date": "April 19, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Recommended",
+            "Off-Policy",
+            "Smooth"
+          ],
+          "communityScore": 51,
+          "totalVotes": 21,
+          "sentiment": {
+            "great": 14,
+            "good": 34,
+            "ok": 19,
+            "bad": 33
+          },
+          "consensus": "Strong rebound for the OP Model 10 line. Acceleration is reported as on par with DEC ('accelerates just as well') — a clear fix for v1/v2's sluggish off-the-line behavior. Early daily-driver impressions describe it as 'great' and the recommended pick across v1/v2/v3.",
+          "note": "Referenced in the OP Model 9 thread as the supersession that received significantly better feedback. Recommended over v1 and v2.",
+          "bestFor": "Daily / Experimental Mode",
+          "steeringFeel": "Confident",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v3-apr-19-2026/4690",
+          "testedOn": [
+            "2018 Corolla Sport"
+          ],
+          "positives": [
+            "DEC-level acceleration in Experimental Mode",
+            "Resolves v2's sluggish stops",
+            "Reviewer plans to daily-drive it"
+          ],
+          "negatives": []
+        },
+        {
+          "name": "OP Model 10 v2",
+          "date": "April 18, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Off-Policy",
+            "Smooth"
+          ],
+          "communityScore": 30,
+          "totalVotes": 12,
+          "sentiment": {
+            "great": 8,
+            "good": 17,
+            "ok": 17,
+            "bad": 58
+          },
+          "consensus": "Major step up from v1. Longitudinal feel is the highlight — the softest, most consistent braking the reviewer has felt in a while. Lateral still hugs left (fixable with camera offset) and the model remains slow to straighten the wheel after sharp turns.",
+          "note": "Hugs-left can be mitigated with camera offset +0.05 to +0.10. Some lingering hesitation off the line and slow wheel return after corners.",
+          "bestFor": "Comfort / Highway",
+          "steeringFeel": "Smooth",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v2-apr-18-2026/4657",
+          "testedOn": [],
+          "positives": [
+            "Softest, most consistent braking in a while",
+            "Solid longitudinal control",
+            "Reaches cruise speed well"
+          ],
+          "negatives": [
+            "Hesitant to accelerate from a stop",
+            "Left-lane hugging",
+            "Slow to straighten wheel after sharp turns"
+          ]
+        },
+        {
+          "name": "OP Model v10",
+          "date": "April 17, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Off-Policy",
+            "Twitchy",
+            "Unstable"
+          ],
+          "communityScore": 15,
+          "totalVotes": 7,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 29,
+            "bad": 71
+          },
+          "consensus": "Initial release of the OP Model 10 line received strongly negative early feedback. Reviewers cite poor lateral control with late corrections that snap dramatically after the car has already left the lane line. No positives reported.",
+          "note": "Quickly superseded by v2 and v3. Skip directly to v3 for the recommended option.",
+          "bestFor": "Testing Only",
+          "steeringFeel": "Twitchy",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-apr-17-2026/4648",
+          "testedOn": [],
+          "positives": [],
+          "negatives": [
+            "Late lane corrections",
+            "Dramatic hard snaps after leaving lane lines",
+            "Frequently drives outside the painted lane"
+          ]
+        },
+        {
+          "name": "OP Model 9",
+          "date": "April 10, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Off-Policy",
+            "Horrible"
+          ],
+          "communityScore": 6,
+          "totalVotes": 9,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 11,
+            "bad": 89
+          },
+          "consensus": "Community feedback is overwhelmingly negative with 9 voters. 44% rated 'Bad', 44% rated 'Horrible', and only 11% rated 'Ok'. Users report the model should be 'removed/reverted' as it is 'quite bad'. No positive reviews have been submitted.",
+          "note": "Not recommended for daily driving. Superseded by OP Model 10 v3 which received significantly better feedback.",
+          "bestFor": "Testing Only",
+          "steeringFeel": "Twitchy",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-9-apr-10-2026/4478",
+          "testedOn": [],
+          "positives": [],
+          "negatives": [
+            "Unstable lateral control",
+            "Unanimously negative feedback",
+            "Does not resolve previous OP model issues"
+          ]
+        },
+        {
+          "name": "OP Model 8",
+          "date": "April 07, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Off-Policy",
+            "Twitchy"
+          ],
+          "communityScore": 38,
+          "totalVotes": 10,
+          "sentiment": {
+            "great": 0,
+            "good": 10,
+            "ok": 20,
+            "bad": 70
+          },
+          "consensus": "Early community feedback is predominantly negative. Users report twitchy, oscillating steering at high speeds, difficulty maintaining lane in stop-and-go traffic, and consistent left-lane hugging. The model appears to struggle with the lateral stability that OP Model 7 had improved.",
+          "note": "Left-hugging is a consistent issue. If trying this model, adjust camera offset (+0.05 to +0.10). Not recommended for daily driving at this stage.",
+          "bestFor": "Testing Only",
+          "steeringFeel": "Twitchy",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-8-apr-7-2026/4380",
+          "testedOn": [],
+          "positives": [],
+          "negatives": [
+            "Twitchy / oscillating steering at high speeds",
+            "Struggles to maintain lane in stop-and-go traffic",
+            "Consistent left-lane hugging"
+          ]
+        },
+        {
+          "name": "OP Model 7",
+          "date": "April 03, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Recommended",
+            "Self-Correcting",
+            "Off-Policy"
+          ],
+          "communityScore": 63,
+          "totalVotes": 8,
+          "sentiment": {
+            "great": 25,
+            "good": 25,
+            "ok": 38,
+            "bad": 12
+          },
+          "consensus": "Significant leap forward for the Off-Policy series. Praised as the most confident OP model yet, with smoother longitudinal deceleration for stopped leads and improved lateral control that self-corrects even when overshooting sharp 90-degree turns. However, random left-hugging persists for some users.",
+          "note": "Best lateral of the series so far. If hugging left, adjust camera offset (+0.05).",
+          "bestFor": "Highway & Winding Roads",
+          "steeringFeel": "Confident",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-7-april-03-2026/4317",
+          "testedOn": [
+            "Hyundai Ioniq 5",
+            "VW Atlas",
+            "2023 Elantra HEV",
+            "Angle steering vehicles"
+          ],
+          "positives": [
+            "Excellent lateral self-correction",
+            "Smooth stops for leads",
+            "Quick acceleration"
+          ],
+          "negatives": [
+            "Random left-hugging for some",
+            "Inconsistent city speed",
+            "Jerky steering on specific angle cars"
+          ]
+        },
+        {
+          "name": "OP Model",
+          "date": "April 01, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Early Feedback"
+          ],
+          "communityScore": 49,
+          "totalVotes": 238,
+          "sentiment": {
+            "great": 5,
+            "good": 9,
+            "ok": 75,
+            "bad": 11
+          },
+          "consensus": "Very early model drop with limited community feedback so far. Initial votes lean positive (Good) but sample size is extremely small. Needs more testing and community evaluation before drawing conclusions.",
+          "note": "Very few votes so far — check back for updated consensus as more users test it.",
+          "bestFor": "TBD",
+          "steeringFeel": "TBD",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-april-01-2026/4314",
+          "testedOn": []
+        },
+        {
+          "name": "Pop v2",
+          "date": "March 24, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Mixed Sentiment",
+            "Aggressive Long"
+          ],
+          "communityScore": 51,
+          "totalVotes": 124,
+          "sentiment": {
+            "great": 4,
+            "good": 11,
+            "ok": 77,
+            "bad": 8
+          },
+          "consensus": "Highly polarizing release with growing negative sentiment. Longitudinal control is praised by some (smooth stops behind leads on GV60), but multiple reports of 'afraid of green lights' behavior and failure to stay stopped at red lights. Lateral unwind is improved but stiffer steering causes oscillations and motion sickness on some vehicles. Very vehicle-dependent — F-150 Lightning reports twitchy low-speed behavior.",
+          "note": "Vehicle dependent. Great on GV60, twitchy on F-150 Lightning. Subaru Crosstrek users report motion sickness. Torque Tune v0 recommended.",
+          "bestFor": "Highway (with supervision)",
+          "steeringFeel": "Varies",
+          "forumUrl": "https://community.sunnypilot.ai/t/pop-model-v2-24-mar-2026/4019",
+          "testedOn": [
+            "GV60",
+            "Ford F-150 Lightning",
+            "Honda Civic Hybrid",
+            "Hyundai Kona",
+            "2020 Subaru Crosstrek"
+          ],
+          "positives": [
+            "Better lateral unwind",
+            "Smooth stops behind leads (GV60)",
+            "Improved longitudinal for some"
+          ],
+          "negatives": [
+            "Afraid of green lights",
+            "Fails to stay stopped at red lights",
+            "Twitchy at low speeds (F-150 Lightning)",
+            "Stiffer steering causes oscillations",
+            "Yoyo following distance",
+            "Motion sickness inducing on some vehicles"
+          ]
+        },
+        {
+          "name": "Pop Model",
+          "date": "March 20, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Highway",
+            "Fast Long"
+          ],
+          "communityScore": 49,
+          "totalVotes": 223,
+          "sentiment": {
+            "great": 5,
+            "good": 9,
+            "ok": 75,
+            "bad": 11
+          },
+          "consensus": "Community sentiment has warmed significantly with more testing. Lateral control is vehicle-dependent — Honda Civic users report the best lat in a while with no ping-pong and centering 'like it owes the lane lines money,' while Hyundai Kona and others experience extreme line-to-line ping-ponging above 50mph. More willing to reach set speeds than Pop v2. Still known for creeping at red lights.",
+          "note": "Very vehicle-dependent. Honda/Kia users trending positive. Torque tune version matters — test with v0 first.",
+          "bestFor": "Highway",
+          "steeringFeel": "Varies",
+          "testedOn": [
+            "2025 Honda Civic Hybrid",
+            "2026 Civic Hybrid ST",
+            "2023 Hyundai Kona Electric",
+            "GV60",
+            "Kia Niro",
+            "Honda Ridgeline",
+            "BYD Frigate 07",
+            "Hyundai Elantra",
+            "Honda Odyssey",
+            "Toyota Sienna",
+            "Kia EV6",
+            "Kia K5",
+            "Honda Pilot (2019-2022)",
+            "Tesla Model 3 / Y",
+            "Toyota Corolla (2023-2024)"
+          ],
+          "positives": [
+            "Confident lateral on some vehicles",
+            "Quick recentering",
+            "Good 90-degree turn handling",
+            "Stays stopped at red lights",
+            "11/10 lateral on Kia Niro",
+            "More willing to reach set speeds"
+          ],
+          "negatives": [
+            "Extreme ping-pong on some vehicles above 50mph",
+            "Speeds aggressively without a lead car",
+            "Jerky/octagonal curve handling",
+            "Creeps at red lights"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/pop-model-20-mar-2026/3921"
+        },
+        {
+          "name": "CD210 Model",
+          "date": "January 31, 2026",
+          "badge": null,
+          "tags": [
+            "Smart",
+            "Highway",
+            "Vehicle-Dependent"
+          ],
+          "communityScore": 51,
+          "totalVotes": 50,
+          "sentiment": {
+            "great": 4,
+            "good": 12,
+            "ok": 76,
+            "bad": 8
+          },
+          "consensus": "Based on WMI V12 architecture with subtle differences. Shows improved red light stopping behavior and less ping-pong at low speeds. However, multiple users report pronounced oversteering on turns — especially problematic on Toyota vehicles with low-torque EPS. Hard braking at close range and red light creeping are also noted drawbacks.",
+          "note": "Vehicle-dependent: praised on Hyundai Ioniq 5, but struggles with Toyota RAV4 Prime. Consider enabling 'pause lateral while turning' if oversteering is an issue.",
+          "bestFor": "Mixed Driving",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Hyundai Ioniq 5 (2025)",
+            "Toyota RAV4 Prime (2025)",
+            "Subaru Crosstrek",
+            "Subaru Ascent (2019-2022)",
+            "Volvo XC90 (2016-2022)",
+            "comma 4",
+            "comma 4"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/cd210-model-31-jan-2026/2704"
+        },
+        {
+          "name": "WMI V11",
+          "date": "January 12, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Smart",
+            "Highway"
+          ],
+          "communityScore": 55,
+          "totalVotes": 22,
+          "sentiment": {
+            "great": 5,
+            "good": 9,
+            "ok": 86,
+            "bad": 0
+          },
+          "consensus": "Slightly more stable than V12 on straightaways. Good fallback if V12 feels too jittery.",
+          "note": "Preferred for mostly-highway commutes.",
+          "bestFor": "Highway",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Hyundai Ioniq 5",
+            "Kia EV6",
+            "Toyota Prius"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/wmiv11-12-jan-2026/2352"
+        },
+        {
+          "name": "WMI v10",
+          "date": "January 09, 2026",
+          "tags": [
+            "Smart",
+            "Stable"
+          ],
+          "communityScore": 50,
+          "totalVotes": 5,
+          "sentiment": {
+            "great": 40,
+            "good": 0,
+            "ok": 20,
+            "bad": 40
+          },
+          "consensus": "Well-tested mid-generation model. A solid choice if V11/V12 have issues on your specific vehicle.",
+          "bestFor": "Mixed Driving",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Hyundai Palisade",
+            "Kia Telluride",
+            "Toyota RAV4",
+            "Toyota Camry",
+            "Subaru Crosstrek"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/wmiv10-9-jan-2026/2335"
+        },
+        {
+          "name": "SC Model",
+          "date": "January 08, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Experimental",
+            "Stable"
+          ],
+          "communityScore": 52,
+          "totalVotes": 28,
+          "sentiment": {
+            "great": 7,
+            "good": 14,
+            "ok": 68,
+            "bad": 11
+          },
+          "consensus": "Likely 'Space Cat' or 'Stable Control' variant. Testing new stability algorithms.",
+          "note": "Worth trying if you want something different.",
+          "bestFor": "Experimentation",
+          "steeringFeel": "Stiff",
+          "testedOn": [
+            "Hyundai Ioniq 5",
+            "Kia EV6",
+            "Honda Ridgeline"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/sc-model-8-jan-2026/2305"
+        },
+        {
+          "name": "WMI V9",
+          "date": "January 07, 2026",
+          "badge": "STABLE",
+          "tags": [
+            "Smart",
+            "C4 Default",
+            "2025+"
+          ],
+          "communityScore": 48,
+          "totalVotes": 40,
+          "sentiment": {
+            "great": 3,
+            "good": 5,
+            "ok": 83,
+            "bad": 9
+          },
+          "consensus": "Rock-solid choice for newer 2025+ platforms (e.g., Kia K4). Currently the default pre-installed model on Comma 4 hardware. Favored for its stability and predictive behavior on modern ADAS architectures.",
+          "bestFor": "Mixed Driving",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Toyota Camry",
+            "Honda CR-V",
+            "2025 Kia K4",
+            "comma 4"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/wmiv9-7-jan-2026/2275"
+        },
+        {
+          "name": "WMI V8",
+          "date": "January 03, 2026",
+          "tags": [
+            "Smart"
+          ],
+          "communityScore": 55,
+          "totalVotes": 42,
+          "sentiment": {
+            "great": 10,
+            "good": 10,
+            "ok": 74,
+            "bad": 6
+          },
+          "consensus": "Early 2026 build that established the foundation. Still functional for conservative E2E users.",
+          "bestFor": "Highway",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various vehicles"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/wmiv8-3-jan-2026/2184"
+        },
+        {
+          "name": "WMI V7",
+          "date": "January 01, 2026",
+          "tags": [
+            "Smart"
+          ],
+          "communityScore": 58,
+          "totalVotes": 20,
+          "sentiment": {
+            "great": 15,
+            "good": 10,
+            "ok": 70,
+            "bad": 5
+          },
+          "consensus": "New Year's release that kick-started the 2026 WMI series. Historical significance.",
+          "bestFor": "Highway",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Hyundai",
+            "Toyota"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/wmiv7-1-jan-2026/2150"
+        },
+        {
+          "name": "Macrostiff Model",
+          "date": "January 01, 2026",
+          "badge": "POPULAR",
+          "tags": [
+            "Stiff",
+            "Highway"
+          ],
+          "communityScore": 56,
+          "totalVotes": 38,
+          "sentiment": {
+            "great": 11,
+            "good": 16,
+            "ok": 66,
+            "bad": 7
+          },
+          "consensus": "World Model tuned for STIFFER steering response. If WMI V12 feels too 'wiggly', this locks it down.",
+          "note": "Great for vehicles with loose steering racks.",
+          "bestFor": "Highway",
+          "steeringFeel": "Heavy",
+          "testedOn": [
+            "Ford",
+            "Chevy",
+            "GMC trucks"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/macrostiff-model-1-jan-2026/2145"
+        }
+      ]
+    },
+    {
+      "id": "opm",
+      "name": "OPM Models",
+      "description": "Off-Policy Models learn from driver corrections rather than just cloning behavior, enabling smarter highway centering and recentering.",
+      "icon": "🧪",
+      "models": [
+        {
+          "name": "Off-Policy Model",
+          "date": "February 4, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental",
+            "Off-Policy",
+            "Highway"
+          ],
+          "communityScore": 47,
+          "totalVotes": 247,
+          "sentiment": {
+            "great": 6,
+            "good": 7,
+            "ok": 72,
+            "bad": 15
+          },
+          "consensus": "Experimental model using off-policy training — learns from corrections rather than just cloning. Better highway centering and quicker lateral recentering vs WMI V12. However, experimental long mode feels jerky, and sharp turns can be a step backward. Good potential for highway-focused drivers.",
+          "note": "'Off-policy' means it learned from data where the model's behavior differed from the human driver's action, allowing it to learn from corrections more effectively than standard cloning.",
+          "bestFor": "Highway",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Hyundai Ioniq 5",
+            "Honda Civic",
+            "Toyota"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-4-feb-2026/2819"
+        },
+        {
+          "name": "Off-Policy Model v2",
+          "date": "February 20, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Off-Policy",
+            "Highway",
+            "Experimental"
+          ],
+          "communityScore": 51,
+          "totalVotes": 21,
+          "sentiment": {
+            "great": 14,
+            "good": 14,
+            "ok": 52,
+            "bad": 20
+          },
+          "consensus": "Second iteration of off-policy training. Lateral performance is praised — doesn't hug the left side and less huggy on highway turns at 70+. However, longitudinal control is a notable regression: late braking, rubberbanding behind lead cars, and exaggerated follow distances are commonly reported. Best on comma 4; mixed results on other platforms.",
+          "note": "Strong lateral improvements over v1, but long control needs work. Community opinion is split — some love the lat, others can't tolerate the long behavior.",
+          "bestFor": "Highway",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Hyundai Elantra HEV",
+            "Mazda CX-5",
+            "Rivian",
+            "comma 4"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v2-20-feb-2026/3162"
+        },
+        {
+          "name": "Off-Policy Model v3",
+          "date": "February 26, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Off-Policy",
+            "Highway",
+            "PlanPlus",
+            "Experimental"
+          ],
+          "communityScore": 51,
+          "totalVotes": 66,
+          "communityViews": 323,
+          "sentiment": {
+            "great": 8,
+            "good": 5,
+            "ok": 79,
+            "bad": 8
+          },
+          "consensus": "Highly praised third iteration of off-policy training. Community describes it as a 'mad max' version of CD210/WMI — fast longitudinal response with better lateral control than its predecessors. Includes PlanPlus integration for customizable lane centering aggressiveness. Rated A+ by early testers.",
+          "note": "Minor inconsistency in lead gap following and occasional wobbles at highway speed. PlanPlus integration allows tuning of lane centering vs curve hugging.",
+          "bestFor": "Highway",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Hyundai Sonata 2022",
+            "Rivian R1T (2022-2024)",
+            "comma 4",
+            "comma 4"
+          ],
+          "positives": [
+            "Aggressive longitudinal acceleration",
+            "Better lateral than CD210/WMI",
+            "PlanPlus customizable lane centering",
+            "A+ community rating"
+          ],
+          "negatives": [
+            "Inconsistent gap between lead cars",
+            "Occasional wobbles at high speed"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v3-26-feb-2026/3297"
+        },
+        {
+          "name": "Off-Policy Model v4",
+          "date": "February 27, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Off-Policy",
+            "Highway",
+            "PlanPlus",
+            "Experimental"
+          ],
+          "communityScore": 44,
+          "totalVotes": 118,
+          "communityViews": 480,
+          "sentiment": {
+            "great": 4,
+            "good": 7,
+            "ok": 69,
+            "bad": 20
+          },
+          "consensus": "Fourth iteration of off-policy training with improved oversteer handling compared to v2. Excellent lane centering and smooth city driving when paired with SCC-V. However, shows hesitation when following a lead vehicle and tends to drive slower than surrounding traffic when no lead is present. Mixed results on curves — improved for Hyundai/Toyota but Tesla users report inside-line riding.",
+          "note": "SCC-V strongly recommended for safe curve speed handling. Hesitant acceleration when following lead vehicles is the main drawback vs WMI/CD210.",
+          "bestFor": "City Driving",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "2025 Hyundai Ioniq 5",
+            "2023 Toyota RAV4 Prime",
+            "Tesla V4"
+          ],
+          "positives": [
+            "Excellent lane centering",
+            "Smooth city acceleration",
+            "Improved oversteer vs v2",
+            "Works well with SCC-V"
+          ],
+          "negatives": [
+            "Hesitant when lead vehicle moves",
+            "Drives too slow without a lead car",
+            "Occasional ping-pong at PlanPlus 1.5",
+            "Curve inside-line on Tesla"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v4-27-feb-2026/3331"
+        },
+        {
+          "name": "Off-Policy Model v5",
+          "date": "March 14, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Off-Policy",
+            "Highway",
+            "Experimental"
+          ],
+          "communityScore": 51,
+          "totalVotes": 21,
+          "sentiment": {
+            "great": 5,
+            "good": 10,
+            "ok": 76,
+            "bad": 9
+          },
+          "consensus": "Fifth iteration of off-policy training with significantly more community feedback now. Improved cornering compared to v4 — takes turns wider and away from curbs. Good performance at higher speeds (above 30mph). However, majority rate it as just 'OK' with notable regressions: low-speed behavior struggles to commit to lanes, hugs or crosses lines, and turns lock out partway through. Significant ping-ponging at low speeds reported on Prius Prime. High-speed wobbles above 65mph persist.",
+          "note": "Community consensus has shifted — majority finds it mediocre. Cornering improvement over v4 but low-speed and turn handling are worse. Torque tune v0 recommended.",
+          "bestFor": "Highway",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "2026 Hyundai Ioniq 5",
+            "2023 Lexus RC",
+            "GV60",
+            "2022 Toyota RAV4 Prime",
+            "Prius Prime"
+          ],
+          "positives": [
+            "Better cornering than v4",
+            "Wider turns away from curbs",
+            "Good lane changes",
+            "Good above 30mph"
+          ],
+          "negatives": [
+            "Poor low-speed lane commitment",
+            "Turns lock out partway",
+            "High-speed wobbles above 65mph",
+            "Hesitant at neighborhood intersections",
+            "Significant ping-ponging at low speeds",
+            "Gets uncomfortably close to line markings"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v5-14-mar-2026/3756"
+        }
+      ]
+    },
+    {
+      "id": "aggressive_exp",
+      "name": "Aggressive",
+      "description": "For drivers who want performance, tight following, or bleeding-edge features.",
+      "icon": "🔥",
+      "models": [
+        {
+          "name": "Dark Souls Model",
+          "date": "December 03, 2025",
+          "tags": [
+            "Aggressive"
+          ],
+          "communityScore": 51,
+          "totalVotes": 134,
+          "sentiment": {
+            "great": 3,
+            "good": 10,
+            "ok": 80,
+            "bad": 7
+          },
+          "consensus": "Original 'unforgiving' model. Still popular for assertive driving. Less refined than v2 but raw character.",
+          "bestFor": "Aggressive Driving",
+          "steeringFeel": "Stiff",
+          "testedOn": [
+            "Ford F-150",
+            "Toyota Tacoma",
+            "Kia Sportage"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/dark-souls-model-3-dec-2025/1481"
+        },
+        {
+          "name": "Firehose Model",
+          "date": "August 31, 2025",
+          "badge": "DEV",
+          "tags": [
+            "Dev",
+            "Unstable"
+          ],
+          "communityScore": 52,
+          "totalVotes": 490,
+          "sentiment": {
+            "great": 5,
+            "good": 7,
+            "ok": 84,
+            "bad": 4
+          },
+          "consensus": "The raw, unfiltered developer feed from comma.ai's State-of-the-Art (SOTA) training pipeline. This is the absolute 'bleeding edge' of openpilot intelligence, updating almost daily as it ingests new data from the global firehose. HIGH RISK, HIGH REWARD: It often contains the latest breakthroughs in path planning and vision, but has not yet undergone the long-term validation required for a standard release.",
+          "note": "Technical Note: This model is a direct output of continuous training. Expect radical shifts in behavior day-to-day. If you experience a 'regressive' build, simply wait for the next daily drop or revert to a stable series.",
+          "bestFor": "Testing & SOTA Research",
+          "steeringFeel": "Volatile (Varies by Drop)",
+          "testedOn": [
+            "Lexus IS",
+            "Lexus RX 350",
+            "Dev vehicles only"
+          ]
+        },
+        {
+          "name": "Planplus v2",
+          "date": "December 11, 2025",
+          "badge": "DEV",
+          "tags": [
+            "Dev",
+            "Experimental"
+          ],
+          "communityScore": 54,
+          "totalVotes": 60,
+          "sentiment": {
+            "great": 8,
+            "good": 13,
+            "ok": 72,
+            "bad": 7
+          },
+          "consensus": "Testing a new lateral planner algorithm. Very experimental - for developers and testers.",
+          "bestFor": "Development",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Test vehicles"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/planplus-v2-model-11-dec-2025/1650"
+        },
+        {
+          "name": "Neurips Driving Model v2",
+          "date": "November 12, 2025",
+          "tags": [
+            "Academic"
+          ],
+          "communityScore": 70,
+          "totalVotes": 25,
+          "sentiment": {
+            "great": 28,
+            "good": 35,
+            "ok": 25,
+            "bad": 12
+          },
+          "consensus": "Model presented at NeurIPS AI conference. Showcase technology with academic focus.",
+          "bestFor": "Research",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Research vehicles"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/neurips-model-12-nov-2025/986"
+        },
+        {
+          "name": "Neurips Driving Model",
+          "date": "November 12, 2025",
+          "tags": [
+            "Academic"
+          ],
+          "communityScore": 68,
+          "totalVotes": 20,
+          "sentiment": {
+            "great": 25,
+            "good": 35,
+            "ok": 28,
+            "bad": 12
+          },
+          "consensus": "Original conference model. Interesting for research purposes.",
+          "bestFor": "Research",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Research vehicles"
+          ]
+        },
+        {
+          "name": "Steam Powered Model",
+          "date": "August 16, 2025",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Experimental"
+          ],
+          "communityScore": 54,
+          "totalVotes": 299,
+          "sentiment": {
+            "great": 7,
+            "good": 12,
+            "ok": 75,
+            "bad": 6
+          },
+          "consensus": "Experimental longitudinal (gas/brake) behavior. Unique acceleration and braking feel.",
+          "bestFor": "Experimentation",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "comfort",
+      "name": "Comfort",
+      "description": "Passenger-friendly models. Smooth inputs over precision. Perfect for road trips.",
+      "icon": "🛋️",
+      "models": [
+        {
+          "name": "Down to Ride v5",
+          "date": "July 08, 2025",
+          "tags": [
+            "Comfort",
+            "Smooth"
+          ],
+          "communityScore": 52,
+          "totalVotes": 136,
+          "sentiment": {
+            "great": 4,
+            "good": 11,
+            "ok": 79,
+            "bad": 6
+          },
+          "consensus": "Previous DTR version. Still smooth and comfortable, slightly less refined than v6.",
+          "bestFor": "Passengers",
+          "steeringFeel": "Light",
+          "testedOn": [
+            "Hyundai Palisade",
+            "Toyota Camry"
+          ]
+        },
+        {
+          "name": "Space Lab 3",
+          "date": "August 08, 2025",
+          "tags": [
+            "Smooth"
+          ],
+          "communityScore": 52,
+          "totalVotes": 350,
+          "sentiment": {
+            "great": 6,
+            "good": 9,
+            "ok": 78,
+            "bad": 7
+          },
+          "consensus": "Space-themed smooth model with gentle transitions and a relaxed feel.",
+          "bestFor": "Relaxed Driving",
+          "steeringFeel": "Light",
+          "testedOn": [
+            "Most sedans"
+          ]
+        },
+        {
+          "name": "Space Lab 2",
+          "date": "July 26, 2025",
+          "tags": [
+            "Smooth"
+          ],
+          "communityScore": 50,
+          "totalVotes": 668,
+          "sentiment": {
+            "great": 3,
+            "good": 5,
+            "ok": 87,
+            "bad": 5
+          },
+          "consensus": "Earlier Space Lab iteration. Good baseline comfort.",
+          "bestFor": "Relaxed Driving",
+          "steeringFeel": "Light",
+          "testedOn": [
+            "Toyota Camry",
+            "Honda Accord"
+          ]
+        },
+        {
+          "name": "Kumars Vibe",
+          "date": "August 16, 2025",
+          "badge": "HIDDEN GEM",
+          "tags": [
+            "Smooth",
+            "Highway"
+          ],
+          "communityScore": 56,
+          "totalVotes": 123,
+          "sentiment": {
+            "great": 9,
+            "good": 10,
+            "ok": 79,
+            "bad": 2
+          },
+          "consensus": "Custom tune that removes the 'robotic' feeling. Very natural, human-like steering inputs.",
+          "note": "Community favorite for natural driving feel.",
+          "bestFor": "Natural Feel",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various Hyundai/Kia",
+            "Kia Sportage PHEV"
+          ]
+        },
+        {
+          "name": "UV + DTR Model",
+          "date": "August 13, 2025",
+          "tags": [
+            "Comfort",
+            "Vision"
+          ],
+          "communityScore": 50,
+          "totalVotes": 168,
+          "sentiment": {
+            "great": 2,
+            "good": 6,
+            "ok": 86,
+            "bad": 6
+          },
+          "consensus": "Merge of 'Unlimited Vision' and 'Down to Ride.' Combines visibility with comfort.",
+          "bestFor": "Mixed Driving",
+          "steeringFeel": "Light",
+          "testedOn": [
+            "Toyota",
+            "Honda"
+          ]
+        },
+        {
+          "name": "Duck Amigo",
+          "date": "March 18, 2024",
+          "tags": [
+            "Soft",
+            "Legacy"
+          ],
+          "communityScore": 72,
+          "totalVotes": 45,
+          "sentiment": {
+            "great": 28,
+            "good": 38,
+            "ok": 25,
+            "bad": 9
+          },
+          "consensus": "Legacy comfort model with very soft inputs. Passenger-focused.",
+          "bestFor": "Passengers",
+          "steeringFeel": "Light",
+          "testedOn": [
+            "Toyota",
+            "Honda sedans"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tomb_raider",
+      "name": "Tomb Raider",
+      "description": "Experimental 'Trash Folder' runs. Hidden gems for curves. Don't let the name scare you!",
+      "icon": "🔬",
+      "models": [
+        {
+          "name": "Tomb Raider 16",
+          "date": "July 21, 2025",
+          "badge": "HIDDEN GEM",
+          "tags": [
+            "Curves",
+            "Highway"
+          ],
+          "communityScore": 50,
+          "totalVotes": 372,
+          "sentiment": {
+            "great": 5,
+            "good": 7,
+            "ok": 80,
+            "bad": 8
+          },
+          "consensus": "CULT CLASSIC! Often called 'Trash Folder 16.' BEST curve handling of any 2025 model.",
+          "note": "Drives 'on rails' through winding backroads.",
+          "bestFor": "Curvy Roads",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Hyundai",
+            "Kia",
+            "Toyota"
+          ]
+        },
+        {
+          "name": "Tomb Raider 15",
+          "date": "July 11, 2025",
+          "tags": [
+            "Curves",
+            "Experimental"
+          ],
+          "communityScore": 51,
+          "totalVotes": 249,
+          "sentiment": {
+            "great": 5,
+            "good": 10,
+            "ok": 76,
+            "bad": 9
+          },
+          "consensus": "Predecessor to TR16. Good curve handling but slightly less refined.",
+          "bestFor": "Curvy Roads",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Hyundai",
+            "Toyota"
+          ]
+        },
+        {
+          "name": "Le Tomb Raider 14",
+          "date": "July 14, 2025",
+          "tags": [
+            "Experimental"
+          ],
+          "communityScore": 53,
+          "totalVotes": 435,
+          "sentiment": {
+            "great": 6,
+            "good": 7,
+            "ok": 83,
+            "bad": 4
+          },
+          "consensus": "French-named variant. An experimental fork with unique characteristics.",
+          "bestFor": "Experimentation",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "Tomb Raider 14",
+          "date": "June 30, 2025",
+          "tags": [
+            "Experimental"
+          ],
+          "communityScore": 52,
+          "totalVotes": 691,
+          "sentiment": {
+            "great": 7,
+            "good": 7,
+            "ok": 79,
+            "bad": 7
+          },
+          "consensus": "Standard TR14 iteration. Laid groundwork for TR15 and TR16.",
+          "bestFor": "Experimentation",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "Tomb Raider 13",
+          "date": "June 27, 2025",
+          "tags": [
+            "Experimental"
+          ],
+          "communityScore": 53,
+          "totalVotes": 81,
+          "sentiment": {
+            "great": 9,
+            "good": 9,
+            "ok": 74,
+            "bad": 8
+          },
+          "consensus": "Earlier TR series. Foundation for curve-handling characteristics.",
+          "bestFor": "Experimentation",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "Aggressive TR",
+          "date": "June 28, 2025",
+          "tags": [
+            "Aggressive",
+            "Curves"
+          ],
+          "communityScore": 76,
+          "totalVotes": 40,
+          "sentiment": {
+            "great": 32,
+            "good": 38,
+            "ok": 20,
+            "bad": 10
+          },
+          "consensus": "Aggressive tune of the TR series. Combines curve handling with assertive inputs.",
+          "bestFor": "Sporty Driving",
+          "steeringFeel": "Stiff",
+          "testedOn": [
+            "Sporty vehicles"
+          ]
+        },
+        {
+          "name": "Tomb Raider 7",
+          "date": "May 07, 2025",
+          "tags": [
+            "Early"
+          ],
+          "communityScore": 48,
+          "totalVotes": 52,
+          "sentiment": {
+            "great": 8,
+            "good": 2,
+            "ok": 77,
+            "bad": 13
+          },
+          "consensus": "Early TR series. Foundation for later versions.",
+          "bestFor": "Historical",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "Vegetarian Filet o Fish",
+          "date": "June 21, 2025",
+          "tags": [
+            "Smooth",
+            "Eco"
+          ],
+          "communityScore": 49,
+          "totalVotes": 111,
+          "sentiment": {
+            "great": 6,
+            "good": 10,
+            "ok": 71,
+            "bad": 13
+          },
+          "consensus": "Gentle braking profile optimized for hybrids. Maximizes regenerative braking.",
+          "bestFor": "Hybrids/EVs",
+          "steeringFeel": "Light",
+          "testedOn": [
+            "Toyota Prius",
+            "Hyundai Ioniq"
+          ]
+        },
+        {
+          "name": "Kerrygold Driving",
+          "date": "June 08, 2025",
+          "tags": [
+            "Smooth"
+          ],
+          "communityScore": 53,
+          "totalVotes": 70,
+          "sentiment": {
+            "great": 7,
+            "good": 10,
+            "ok": 76,
+            "bad": 7
+          },
+          "consensus": "Named after the butter brand - 'Smooth as butter.' Very gentle inputs.",
+          "bestFor": "Comfort",
+          "steeringFeel": "Light",
+          "testedOn": [
+            "Sedans"
+          ]
+        },
+        {
+          "name": "Liquid Crystal Driving",
+          "date": "June 21, 2025",
+          "tags": [
+            "Experimental"
+          ],
+          "communityScore": 70,
+          "totalVotes": 25,
+          "sentiment": {
+            "great": 25,
+            "good": 40,
+            "ok": 25,
+            "bad": 10
+          },
+          "consensus": "Experimental TR-era model with unique steering characteristics.",
+          "bestFor": "Experimentation",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "Secret Good Openpilot",
+          "date": "May 16, 2025",
+          "badge": "HIDDEN GEM",
+          "tags": [
+            "Hidden Gem"
+          ],
+          "communityScore": 57,
+          "totalVotes": 7,
+          "sentiment": {
+            "great": 0,
+            "good": 29,
+            "ok": 71,
+            "bad": 0
+          },
+          "consensus": "The name says it all - a hidden gem! Surprisingly good all-around performance.",
+          "bestFor": "All-Around",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various Hyundai/Kia"
+          ]
+        },
+        {
+          "name": "Simple Plan Driving",
+          "date": "July 07, 2025",
+          "tags": [
+            "Simple",
+            "Reliable"
+          ],
+          "communityScore": 52,
+          "totalVotes": 289,
+          "sentiment": {
+            "great": 5,
+            "good": 8,
+            "ok": 81,
+            "bad": 6
+          },
+          "consensus": "Simplified planning model. Reliable and predictable behavior.",
+          "bestFor": "Reliability",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Most vehicles"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "world_2025",
+      "name": "2025 Models",
+      "description": "The 'World Model' development era. Highly varied performance.",
+      "icon": "🌍",
+      "models": [
+        {
+          "name": "WMI v6",
+          "date": "December 30, 2025",
+          "tags": [
+            "Smart"
+          ],
+          "communityScore": 40,
+          "totalVotes": 15,
+          "sentiment": {
+            "great": 13,
+            "good": 0,
+            "ok": 53,
+            "bad": 34
+          },
+          "consensus": "Late 2025 iteration bridging to 2026 series. More stable than early WMI versions.",
+          "bestFor": "Mixed Driving",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "WMI v5",
+          "date": "December 29, 2025",
+          "tags": [
+            "Smart"
+          ],
+          "communityScore": 55,
+          "totalVotes": 5,
+          "sentiment": {
+            "great": 0,
+            "good": 20,
+            "ok": 80,
+            "bad": 0
+          },
+          "consensus": "Mid-development World Model. Well-tested by the community.",
+          "bestFor": "Mixed Driving",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "WMI v4",
+          "date": "December 22, 2025",
+          "tags": [
+            "Smart"
+          ],
+          "communityScore": 51,
+          "totalVotes": 31,
+          "sentiment": {
+            "great": 6,
+            "good": 13,
+            "ok": 71,
+            "bad": 10
+          },
+          "consensus": "Earlier stable World Model. Less intelligent but proven reliable.",
+          "bestFor": "Highway",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "WMI v3",
+          "date": "December 19, 2025",
+          "tags": [
+            "Early"
+          ],
+          "communityScore": 51,
+          "totalVotes": 14,
+          "sentiment": {
+            "great": 0,
+            "good": 21,
+            "ok": 71,
+            "bad": 8
+          },
+          "consensus": "Third iteration of World Model. Foundation for stable releases.",
+          "bestFor": "Highway",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "WMI2",
+          "date": "December 09, 2025",
+          "tags": [
+            "Early"
+          ],
+          "communityScore": 68,
+          "totalVotes": 22,
+          "sentiment": {
+            "great": 20,
+            "good": 42,
+            "ok": 28,
+            "bad": 10
+          },
+          "consensus": "Second World Model Iteration. Early E2E experiment that showed promise.",
+          "bestFor": "Historical",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Test vehicles"
+          ]
+        },
+        {
+          "name": "WMI",
+          "date": "December 06, 2025",
+          "tags": [
+            "Original"
+          ],
+          "communityScore": 65,
+          "totalVotes": 20,
+          "sentiment": {
+            "great": 18,
+            "good": 40,
+            "ok": 30,
+            "bad": 12
+          },
+          "consensus": "The ORIGINAL World Model Iteration. Started the E2E revolution in Sunnypilot.",
+          "bestFor": "Historical",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Test vehicles"
+          ]
+        },
+        {
+          "name": "Planplus Model",
+          "date": "November 28, 2025",
+          "tags": [
+            "Experimental"
+          ],
+          "communityScore": 50,
+          "totalVotes": 128,
+          "sentiment": {
+            "great": 5,
+            "good": 9,
+            "ok": 77,
+            "bad": 9
+          },
+          "consensus": "Lateral planner experiment. Predecessor to Planplus v2.",
+          "bestFor": "Development",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Test vehicles"
+          ]
+        },
+        {
+          "name": "ST Model",
+          "date": "November 11, 2025",
+          "tags": [
+            "Experimental"
+          ],
+          "communityScore": 49,
+          "totalVotes": 144,
+          "sentiment": {
+            "great": 3,
+            "good": 8,
+            "ok": 80,
+            "bad": 9
+          },
+          "consensus": "Short-term planning model. Focused on immediate path decisions.",
+          "bestFor": "Experimentation",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "Cool GWM",
+          "date": "October 24, 2025",
+          "tags": [
+            "Community"
+          ],
+          "communityScore": 50,
+          "totalVotes": 254,
+          "sentiment": {
+            "great": 7,
+            "good": 5,
+            "ok": 79,
+            "bad": 9
+          },
+          "consensus": "Generic World Model variant created by the community.",
+          "bestFor": "All-Around",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "GWM V9 (gWM9)",
+          "date": "October 21, 2025",
+          "tags": [
+            "Community"
+          ],
+          "communityScore": 54,
+          "totalVotes": 267,
+          "sentiment": {
+            "great": 9,
+            "good": 9,
+            "ok": 76,
+            "bad": 6
+          },
+          "consensus": "Generic World Model version 9. Standard performance.",
+          "bestFor": "All-Around",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/gwm9-21-oct-2025/308"
+        },
+        {
+          "name": "The Cool Peoples Model v3",
+          "date": "October 10, 2025",
+          "tags": [
+            "Community"
+          ],
+          "communityScore": 52,
+          "totalVotes": 184,
+          "sentiment": {
+            "great": 7,
+            "good": 11,
+            "ok": 74,
+            "bad": 8
+          },
+          "consensus": "Third iteration of the community-driven model. Active development.",
+          "bestFor": "All-Around",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "The Cool Peoples Model v2",
+          "date": "October 09, 2025",
+          "tags": [
+            "Community"
+          ],
+          "communityScore": 51,
+          "totalVotes": 23,
+          "sentiment": {
+            "great": 9,
+            "good": 4,
+            "ok": 78,
+            "bad": 9
+          },
+          "consensus": "Second version of the community model. Improved on feedback.",
+          "bestFor": "All-Around",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "The Cool Peoples Model",
+          "date": "October 03, 2025",
+          "tags": [
+            "Community",
+            "Original"
+          ],
+          "communityScore": 52,
+          "totalVotes": 381,
+          "sentiment": {
+            "great": 7,
+            "good": 10,
+            "ok": 75,
+            "bad": 8
+          },
+          "consensus": "Original community-driven model. 'By the people, for the people.'",
+          "bestFor": "All-Around",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "Nuggets in Digon",
+          "date": "October 09, 2025",
+          "tags": [
+            "Meme"
+          ],
+          "communityScore": 62,
+          "totalVotes": 22,
+          "sentiment": {
+            "great": 18,
+            "good": 38,
+            "ok": 30,
+            "bad": 14
+          },
+          "consensus": "Meme-named experimental training run. Inconsistent but fun.",
+          "note": "Don't use for daily driving.",
+          "bestFor": "Fun",
+          "steeringFeel": "Varies",
+          "testedOn": [
+            "Brave testers"
+          ]
+        },
+        {
+          "name": "North Nevada Model V2",
+          "date": "October 08, 2025",
+          "tags": [
+            "Stable"
+          ],
+          "communityScore": 52,
+          "totalVotes": 48,
+          "sentiment": {
+            "great": 10,
+            "good": 6,
+            "ok": 75,
+            "bad": 9
+          },
+          "consensus": "Updated version of the stable benchmark. Refined lane centering.",
+          "bestFor": "All-Around",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Most vehicles"
+          ]
+        },
+        {
+          "name": "North Nevada Model",
+          "date": "October 07, 2025",
+          "tags": [
+            "Stable",
+            "Classic"
+          ],
+          "communityScore": 51,
+          "totalVotes": 215,
+          "sentiment": {
+            "great": 5,
+            "good": 6,
+            "ok": 82,
+            "bad": 7
+          },
+          "consensus": "Early stable benchmark. Established the 'neutral' baseline.",
+          "bestFor": "All-Around",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Most vehicles"
+          ]
+        },
+        {
+          "name": "gWM v8",
+          "date": "September 28, 2025",
+          "tags": [
+            "Generic"
+          ],
+          "communityScore": 72,
+          "totalVotes": 32,
+          "sentiment": {
+            "great": 28,
+            "good": 40,
+            "ok": 24,
+            "bad": 8
+          },
+          "consensus": "Generic Neural Model version 8. Solid baseline performance.",
+          "bestFor": "All-Around",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "gWM v6",
+          "date": "September 20, 2025",
+          "tags": [
+            "Generic"
+          ],
+          "communityScore": 70,
+          "totalVotes": 28,
+          "sentiment": {
+            "great": 25,
+            "good": 42,
+            "ok": 25,
+            "bad": 8
+          },
+          "consensus": "Generic Neural Model version 6. Less refined than v8.",
+          "bestFor": "Experimentation",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "gWM v5",
+          "date": "September 09, 2025",
+          "tags": [
+            "Generic"
+          ],
+          "communityScore": 68,
+          "totalVotes": 24,
+          "sentiment": {
+            "great": 22,
+            "good": 42,
+            "ok": 28,
+            "bad": 8
+          },
+          "consensus": "Generic Neural Model version 5. Mid-stage development.",
+          "bestFor": "Experimentation",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "gWM Model v3",
+          "date": "August 22, 2025",
+          "tags": [
+            "Generic",
+            "Early"
+          ],
+          "communityScore": 65,
+          "totalVotes": 20,
+          "sentiment": {
+            "great": 20,
+            "good": 40,
+            "ok": 30,
+            "bad": 10
+          },
+          "consensus": "Early Generic Neural Model. Historical interest.",
+          "bestFor": "Historical",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Test vehicles"
+          ]
+        },
+        {
+          "name": "Fly By Wire",
+          "date": "September 04, 2025",
+          "badge": "HIDDEN GEM",
+          "tags": [
+            "Smooth",
+            "Highway"
+          ],
+          "communityScore": 51,
+          "totalVotes": 91,
+          "sentiment": {
+            "great": 5,
+            "good": 11,
+            "ok": 75,
+            "bad": 9
+          },
+          "consensus": "Named after aircraft control systems. Smooth, filtered feel like flying.",
+          "note": "Minimal steering wheel movement.",
+          "bestFor": "Highway",
+          "steeringFeel": "Light",
+          "testedOn": [
+            "Sedans",
+            "SUVs"
+          ]
+        },
+        {
+          "name": "Falling Phoenix",
+          "date": "August 14, 2025",
+          "tags": [
+            "Experimental"
+          ],
+          "communityScore": 55,
+          "totalVotes": 208,
+          "sentiment": {
+            "great": 11,
+            "good": 12,
+            "ok": 70,
+            "bad": 7
+          },
+          "consensus": "Experimental merge. Unique steering some users love.",
+          "bestFor": "Experimentation",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "SP Vikander Model",
+          "date": "May 03, 2025",
+          "tags": [
+            "Sunnypilot"
+          ],
+          "communityScore": 60,
+          "totalVotes": 45,
+          "sentiment": {
+            "great": 16,
+            "good": 16,
+            "ok": 64,
+            "bad": 4
+          },
+          "consensus": "Sunnypilot-specific tune. Optimized for this fork.",
+          "bestFor": "All-Around",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Sunnypilot vehicles"
+          ]
+        },
+        {
+          "name": "Filet o Fish",
+          "date": "March 07, 2025",
+          "tags": [
+            "Smooth",
+            "Original"
+          ],
+          "communityScore": 52,
+          "totalVotes": 157,
+          "sentiment": {
+            "great": 8,
+            "good": 11,
+            "ok": 71,
+            "bad": 10
+          },
+          "consensus": "Original 'fish' model. Smooth braking profile. Historical significance.",
+          "bestFor": "Comfort",
+          "steeringFeel": "Light",
+          "testedOn": [
+            "Various sedans"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legacy",
+      "name": "Legacy",
+      "description": "The 'Old Guard.' Rock solid highway stability. Less 'smart' but incredible lane keeping.",
+      "icon": "🏛️",
+      "models": [
+        {
+          "name": "Recertified Herbalist",
+          "date": "March 01, 2024",
+          "badge": "LEGENDARY",
+          "tags": [
+            "Legendary",
+            "Highway"
+          ],
+          "communityScore": 49,
+          "totalVotes": 43,
+          "sentiment": {
+            "great": 9,
+            "good": 5,
+            "ok": 72,
+            "bad": 14
+          },
+          "consensus": "THE most reliable legacy model. The 'Toyota Camry' of models - boring, predictable, rock solid.",
+          "note": "UNSHAKEABLE on highways. Bad at stop signs.",
+          "bestFor": "Road Trips",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "All compatible vehicles",
+            "Kia Sportage PHEV"
+          ]
+        },
+        {
+          "name": "North Dakota",
+          "date": "April 29, 2024",
+          "badge": "LEGENDARY",
+          "tags": [
+            "Stiff",
+            "Highway"
+          ],
+          "communityScore": 51,
+          "totalVotes": 201,
+          "sentiment": {
+            "great": 7,
+            "good": 9,
+            "ok": 75,
+            "bad": 9
+          },
+          "consensus": "Known for SUPER STIFF steering. Hugs center lane and REFUSES to move. On rails.",
+          "note": "Can feel robotic but incredibly stable.",
+          "bestFor": "Highway",
+          "steeringFeel": "Heavy",
+          "testedOn": [
+            "Most vehicles"
+          ]
+        },
+        {
+          "name": "WD40",
+          "date": "April 09, 2024",
+          "badge": "POPULAR",
+          "tags": [
+            "Smooth",
+            "Highway"
+          ],
+          "communityScore": 68,
+          "totalVotes": 7,
+          "sentiment": {
+            "great": 29,
+            "good": 14,
+            "ok": 57,
+            "bad": 0
+          },
+          "consensus": "Named because it 'lubricated' North Dakota's stiffness. Best of both worlds.",
+          "note": "Stable centering without robotic feel.",
+          "bestFor": "Highway",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Most vehicles"
+          ]
+        },
+        {
+          "name": "Notre Dame",
+          "date": "July 01, 2024",
+          "tags": [
+            "Stable"
+          ],
+          "communityScore": 53,
+          "totalVotes": 61,
+          "sentiment": {
+            "great": 3,
+            "good": 7,
+            "ok": 89,
+            "bad": 1
+          },
+          "consensus": "Solid legacy model. Named after the cathedral - built to last.",
+          "bestFor": "Highway",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "Certified Herbalist v2",
+          "date": "February 19, 2024",
+          "tags": [
+            "Predecessor"
+          ],
+          "communityScore": 54,
+          "totalVotes": 115,
+          "sentiment": {
+            "great": 10,
+            "good": 10,
+            "ok": 73,
+            "bad": 7
+          },
+          "consensus": "Predecessor to Recertified Herbalist. Still good but less polished.",
+          "bestFor": "Highway",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Various"
+          ]
+        },
+        {
+          "name": "Blue Diamond v2",
+          "date": "December 12, 2023",
+          "badge": "LEGENDARY",
+          "tags": [
+            "Vision",
+            "Rain"
+          ],
+          "communityScore": 53,
+          "totalVotes": 171,
+          "sentiment": {
+            "great": 9,
+            "good": 6,
+            "ok": 78,
+            "bad": 7
+          },
+          "consensus": "The 'VISION KING' of older models. EXCELLENT in rain or poor lane markings.",
+          "note": "Can see lanes that other models miss.",
+          "bestFor": "Bad Weather",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "All compatible vehicles"
+          ]
+        },
+        {
+          "name": "Farmville",
+          "date": "November 07, 2023",
+          "tags": [
+            "Deprecated"
+          ],
+          "communityScore": 67,
+          "totalVotes": 6,
+          "sentiment": {
+            "great": 33,
+            "good": 0,
+            "ok": 67,
+            "bad": 0
+          },
+          "consensus": "Very old model from 2023. Mostly deprecated.",
+          "note": "Historical interest only. Don't use for daily driving.",
+          "bestFor": "Historical",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Legacy vehicles"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "specialty_forks",
+      "name": "Specialty & Forks",
+      "description": "Vehicle-specific forks, longitudinal tunes, and specialized branch models tailored for specific hardware platforms.",
+      "icon": "🔧",
+      "models": [
+        {
+          "name": "Michael RL V2",
+          "date": "July 18, 2026",
+          "badge": "openpilot only",
+          "tags": [
+            "Reinforcement Learning",
+            "Natural",
+            "Experimental"
+          ],
+          "communityScore": 76,
+          "totalVotes": 25,
+          "sentiment": {
+            "great": 48,
+            "good": 32,
+            "ok": 12,
+            "bad": 8
+          },
+          "consensus": "The next evolution in reinforcement learning driving models following Deep_RL V3. Delivers exceptionally natural steering wheel movement and proactive curve anticipation, mimicking human driving dynamics closely.",
+          "note": "Best suited for openpilot experimental branches and drivers who prefer fluid, human-like dynamics over rigid centering.",
+          "bestFor": "Natural Human-Like Driving",
+          "steeringFeel": "Natural",
+          "forumUrl": "https://community.sunnypilot.ai/t/michael-rl-v2-july-18-2026/6558",
+          "testedOn": [
+            "comma 4",
+            "Toyota Corolla",
+            "Hyundai Palisade",
+            "Subaru Outback"
+          ],
+          "positives": [
+            "Human-like lane positioning with intuitive inside-corner apexing",
+            "Progressive and smooth longitudinal braking anticipation",
+            "Fluid steering corrections without mechanical micro-adjustments"
+          ],
+          "negatives": [
+            "Can cut corners slightly closer than rule-based models",
+            "Occasional hesitation when lane markings split or end abruptly"
+          ]
+        },
+        {
+          "name": "BluePilot 5.0",
+          "date": "Late 2025",
+          "tags": [
+            "Ford",
+            "F-150",
+            "Navigator"
+          ],
+          "communityScore": 85,
+          "totalVotes": 95,
+          "sentiment": {
+            "great": 50,
+            "good": 30,
+            "ok": 15,
+            "bad": 5
+          },
+          "consensus": "Customized for Ford's BlueCruise hardware logic. Excellent torque management for heavy trucks and SUVs.",
+          "bestFor": "Towing & Highway",
+          "steeringFeel": "Stiff",
+          "testedOn": [
+            "Ford F-150",
+            "Lincoln Navigator"
+          ]
+        },
+        {
+          "name": "sunnypilot (MVL Fork)",
+          "date": "Late 2025",
+          "tags": [
+            "Honda",
+            "Odyssey",
+            "Fork"
+          ],
+          "communityScore": 80,
+          "totalVotes": 45,
+          "sentiment": {
+            "great": 35,
+            "good": 45,
+            "ok": 15,
+            "bad": 5
+          },
+          "consensus": "Maintained by MVL. Specifically targets the steering deadzone issues present in the Honda Odyssey platform.",
+          "bestFor": "Mixed Driving",
+          "steeringFeel": "Light",
+          "testedOn": [
+            "Honda Odyssey"
+          ]
+        },
+        {
+          "name": "Deep_RL V1",
+          "date": "December 2025",
+          "badge": "openpilot only",
+          "tags": [
+            "Experimental",
+            "Stock-Only",
+            "Off-Policy"
+          ],
+          "communityScore": 45,
+          "totalVotes": 12,
+          "sentiment": {
+            "great": 15,
+            "good": 25,
+            "ok": 50,
+            "bad": 10
+          },
+          "consensus": "Early end-to-end imitation model testing deep learning trajectory planners. Stable lateral control on straight highway runs, but displays minor centering oscillations on curvy roads. Highly stable speed matching, but struggles with stop-and-go creep and tight turn-in.",
+          "note": "⚠️ Exclusive to stock openpilot. NOT available on sunnylink/sunnypilot.",
+          "bestFor": "Highway Centering / Testing",
+          "steeringFeel": "Balanced",
+          "testedOn": [
+            "Honda Accord Hybrid 2025"
+          ],
+          "positives": [
+            "Stable highway speed matching",
+            "Decent lane keeping on straight runs"
+          ],
+          "negatives": [
+            "Minor centering oscillations (lane-weaving) on curvy roads",
+            "Struggles with stop-and-go creep",
+            "Poor turn-in performance on sharp corners"
+          ]
+        },
+        {
+          "name": "Deep_RL V2",
+          "date": "February 2026",
+          "badge": "openpilot only",
+          "tags": [
+            "Experimental",
+            "Stock-Only",
+            "Off-Policy"
+          ],
+          "communityScore": 58,
+          "totalVotes": 18,
+          "sentiment": {
+            "great": 20,
+            "good": 40,
+            "ok": 30,
+            "bad": 10
+          },
+          "consensus": "Refined end-to-end planning model focusing on speed control and smoother braking transitions. Solves the lateral weaving seen in V1 with much damper steering inputs. However, launch from a dead stop in stop-and-go traffic is sluggish, requiring active gas-pedal nudges from the driver.",
+          "note": "⚠️ Exclusive to stock openpilot. NOT available on sunnylink/sunnypilot.",
+          "bestFor": "Comfort / Stop-and-Go",
+          "steeringFeel": "Solid",
+          "testedOn": [
+            "Honda Accord Hybrid 2025"
+          ],
+          "positives": [
+            "Excellent lateral dampening (no more weaving)",
+            "Extremely smooth braking transitions",
+            "High comfort level"
+          ],
+          "negatives": [
+            "Sluggish launch from a dead stop",
+            "Requires driver interventions (gas pedal) in heavy traffic"
+          ]
+        },
+        {
+          "name": "Deep_RL V3",
+          "date": "May 2026",
+          "badge": "openpilot only",
+          "tags": [
+            "Experimental",
+            "Stock-Only",
+            "Off-Policy"
+          ],
+          "communityScore": 84,
+          "totalVotes": 35,
+          "sentiment": {
+            "great": 60,
+            "good": 30,
+            "ok": 10,
+            "bad": 0
+          },
+          "consensus": "Advanced iteration featuring improved 3D scene understanding, tested extensively by @Eyezenheim in the SF Bay Area. Outstanding performance negotiating San Francisco's steep streets and transitioning seamlessly onto the SF Bay Bridge. Lateral holding on curves is highly confident and natural, though it can still cut urban corners slightly too tight.",
+          "note": "⚠️ Exclusive to stock openpilot. NOT available on sunnylink/sunnypilot.",
+          "bestFor": "Highway Curves / Urban Driving",
+          "steeringFeel": "Natural",
+          "testedOn": [
+            "Honda Accord Hybrid 2025",
+            "Hyundai Ioniq 5"
+          ],
+          "positives": [
+            "Phenomenal lateral holding on steep curves",
+            "Seamless highway transitions and merges",
+            "Highly natural human-like steering"
+          ],
+          "negatives": [
+            "May cut urban corners slightly too tight",
+            "Occasional caution needed at complex intersections"
+          ]
+        }
+      ]
+    }
+  ]
 }

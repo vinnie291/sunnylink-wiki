@@ -237,6 +237,163 @@
       "icon": "🚀",
       "models": [
         {
+          "name": "RDF Model",
+          "date": "2026년 8월 5일",
+          "badge": "NEW",
+          "tags": [
+            "추천",
+            "종방향 제어",
+            "고속도로",
+            "Yassine/MVL"
+          ],
+          "communityScore": 78,
+          "totalVotes": 32,
+          "sentiment": {
+            "great": 45,
+            "good": 35,
+            "ok": 15,
+            "bad": 5
+          },
+          "consensus": "Yassine/MVL 튜닝 모델로 POP 및 CD210 대비 종방향 제어 성능이 대폭 향상되었습니다. 고속도로 정체 구간에서 부드러운 속도 매칭과 완만한 곡선 구간에서 적극적인 조향 제어를 제공합니다. 일부 차종에서는 저속 횡방향 미세 흔들림이 보고됩니다.",
+          "note": "현대/혼다 차량의 경우 최신 MVL 튜닝과 함께 사용하는 것을 권장합니다. 실험 모드에서 매우 안정적인 종방향 제어를 보여줍니다.",
+          "bestFor": "고속도로 / 정체 구간",
+          "steeringFeel": "적극적 (Assertive)",
+          "forumUrl": "https://community.sunnypilot.ai/t/rdf-model-august-5-2026/6569",
+          "testedOn": [
+            "2022 Honda Civic",
+            "2024 Ioniq 5 (HDA2)",
+            "2022 Rivian R1T (Angle Steering)",
+            "2025 Ioniq 5N",
+            "comma 4"
+          ],
+          "positives": [
+            "POP 및 CD210 대비 대폭 개선된 가속 및 감속",
+            "부드러운 고속도로 스탑앤고 및 속도 추종",
+            "완만한 고속도로 곡선에서의 적극적인 조향력",
+            "강력한 선행 차량 감지"
+          ],
+          "negatives": [
+            "일부 중대형/각도 조향 차량에서 급격한 코너 시 조향 포기 현상",
+            "차량 셀프 튜닝 중 저속 횡방향 미세 흔들림",
+            "직교 횡단 차량 진입 시 급감속 가능성"
+          ]
+        },
+        {
+          "name": "Rebellious Hope Model",
+          "date": "2026년 7월 27일",
+          "badge": "NEW",
+          "tags": [
+            "실험적",
+            "커브",
+            "토크 어시스트"
+          ],
+          "communityScore": 68,
+          "totalVotes": 24,
+          "sentiment": {
+            "great": 30,
+            "good": 40,
+            "ok": 20,
+            "bad": 10
+          },
+          "consensus": "차량 조향 토크 한계를 초과하는 급커브에서도 CD210처럼 차선을 이탈하지 않도록 어시스트 코너링을 지원하도록 설계되었습니다. 깊은 커브에서 차선 유지력이 우수하나 일부 차종에서는 저속 핑퐁 현상이 있습니다.",
+          "note": "커브가 많은 주행 환경에 적합합니다. 저속 차선 방황 시 저속 횡방향 일시중지 기능을 활성화하세요.",
+          "bestFor": "곡선 도로 / 어시스트 코너링",
+          "steeringFeel": "견고함 (Firm)",
+          "forumUrl": "https://community.sunnypilot.ai/t/rebellious-hope-model-july-27-2026/6560",
+          "testedOn": [
+            "2023 Lexus RC 350",
+            "Hyundai Ioniq 5",
+            "Honda Civic Hybrid",
+            "comma 4"
+          ],
+          "positives": [
+            "고토크 어시스트 코너링 중 CD210 대비 우수한 차선 유지",
+            "급커브 진입 시 견고한 센터 필",
+            "코너 진입 시 예측 가능한 감속 프로파일"
+          ],
+          "negatives": [
+            "렉서스 및 일부 토요타 플랫폼에서 저속 횡방향 핑퐁/진동 보고",
+            "토크 한계 도달 시 운전자 개입 전환이 다소 거침"
+          ]
+        },
+        {
+          "name": "Rebel Legion Model",
+          "date": "2026년 7월 22일",
+          "badge": "NEW",
+          "tags": [
+            "고속도로",
+            "안정적",
+            "실험적"
+          ],
+          "communityScore": 72,
+          "totalVotes": 20,
+          "sentiment": {
+            "great": 35,
+            "good": 45,
+            "ok": 15,
+            "bad": 5
+          },
+          "consensus": "Rebel 시리즈 중 고속도로에 특화된 모델입니다. 과격한 회전 토크 대신 안정적인 직선 주행 차선 유지와 부드러운 차선 변경을 제공합니다.",
+          "note": "초기 WMI 모델 대비 차분한 고속도로 주행을 원하는 사용자에게 추천합니다.",
+          "bestFor": "고속도로 출퇴근",
+          "steeringFeel": "균형 잡힘 (Balanced)",
+          "forumUrl": "https://community.sunnypilot.ai/t/rebel-legion-model-july-22-2026/6559",
+          "testedOn": [
+            "Hyundai Ioniq 5",
+            "Kia EV6",
+            "Toyota RAV4 Prime",
+            "Honda CR-V",
+            "comma 4"
+          ],
+          "positives": [
+            "차선 방황 없는 안정적인 고속도로 센터링",
+            "openpilot 차선 변경 시 매우 부드러운 전환",
+            "보수적이고 안전한 차간 거리 유지"
+          ],
+          "negatives": [
+            "Rebellious Hope 대비 도심 급커브 대응력 부족",
+            "정지 상태 출발 시 다소 보수적인 가속"
+          ]
+        },
+        {
+          "name": "OP Model 16 Deep",
+          "date": "2026년 6월 3일",
+          "badge": "NEW",
+          "tags": [
+            "딥 신경망",
+            "도심",
+            "Off-Policy"
+          ],
+          "communityScore": 71,
+          "totalVotes": 29,
+          "sentiment": {
+            "great": 38,
+            "good": 38,
+            "ok": 18,
+            "bad": 6
+          },
+          "consensus": "OP 모델 라인업 중 확장된 신경망 아키텍처를 채택했습니다. 복잡한 도심 주행 및 다차선 교차로에서 우수한 공간 인지 능력을 발휘하며, 최적의 연산 지연 시간을 위해 Comma 4 하드웨어가 권장됩니다.",
+          "note": "Comma 4에 최적화됨. 도심 및 혼잡한 교외 환경에 추천합니다.",
+          "bestFor": "도심 / 복합 주행",
+          "steeringFeel": "자신감 (Confident)",
+          "forumUrl": "https://community.sunnypilot.ai/t/op-model-16-deep-june-03-2026/6557",
+          "testedOn": [
+            "2025 Kia K4",
+            "2024 Honda Civic",
+            "Toyota Prius (2023+)",
+            "comma 4"
+          ],
+          "positives": [
+            "다차선 교차로 및 차선 인지 대폭 향상",
+            "공사 구간 및 복잡한 노면 표시 우수하게 처리",
+            "중속 코너에서의 자신감 있는 조향 토크"
+          ],
+          "negatives": [
+            "구형 comma 3X 기기에서 연산 부하 증가",
+            "보도 경계석 근처 보행자에 대해 급감속 발생 가능"
+          ]
+        },
+        {
           "name": "OP Model 10 v3",
           "date": "April 19, 2026",
           "badge": "NEW",
@@ -2220,6 +2377,44 @@
       "description": "Vehicle-specific forks, longitudinal tunes, and specialized branch models tailored for specific hardware platforms.",
       "icon": "🔧",
       "models": [
+        {
+          "name": "Michael RL V2",
+          "date": "2026년 7월 18일",
+          "badge": "openpilot only",
+          "tags": [
+            "강화학습",
+            "자연스러움",
+            "실험적"
+          ],
+          "communityScore": 76,
+          "totalVotes": 25,
+          "sentiment": {
+            "great": 48,
+            "good": 32,
+            "ok": 12,
+            "bad": 8
+          },
+          "consensus": "Deep_RL V3를 잇는 차세대 강화학습 주행 모델입니다. 사람의 실제 주행과 매우 유사한 자연스러운 핸들링과 사전 코너 감속을 제공합니다.",
+          "note": "기계적인 중앙 고정보다 유연하고 사람 같은 주행감을 선호하는 openpilot 실험 브랜치 사용자에게 적합합니다.",
+          "bestFor": "자연스러운 인간형 주행",
+          "steeringFeel": "자연스러움 (Natural)",
+          "forumUrl": "https://community.sunnypilot.ai/t/michael-rl-v2-july-18-2026/6558",
+          "testedOn": [
+            "comma 4",
+            "Toyota Corolla",
+            "Hyundai Palisade",
+            "Subaru Outback"
+          ],
+          "positives": [
+            "코너 안쪽 정점을 자연스럽게 타는 인간다운 차선 위치 선정",
+            "점진적이고 부드러운 종방향 감속 예측",
+            "기계적 미세 진동 없는 유연한 조향 보정"
+          ],
+          "negatives": [
+            "규칙 기반 모델 대비 코너를 다소 가깝게 파고듦",
+            "차선 표시가 갑자기 끊기는 구간에서 순간적인 머뭇거림"
+          ]
+        },
         {
           "name": "BluePilot 5.0",
           "date": "Late 2025",

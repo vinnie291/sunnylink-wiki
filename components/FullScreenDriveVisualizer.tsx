@@ -4,7 +4,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Fuse from 'fuse.js';
 
-import DriveSimulation, { deriveDrivingProfile, DrivingProfile, ScenarioKey } from './DriveSimulation';
+import UnifiedDriveSimulation from './UnifiedDriveSimulation';
+import { deriveDrivingProfile, DrivingProfile } from './DriveSimulation';
+import { ScenarioKey } from '../lib/gauntletRoute';
 
 interface SentimentData {
     great: number;
@@ -182,6 +184,14 @@ export default function FullScreenDriveVisualizer({ isOpen, onClose, models, ini
                     <div className="p-4 lg:p-5 pb-0 space-y-4">
                         <ScenarioPicker value={scenario} onChange={setScenario} />
                         <BehaviorRatings profile={profile} />
+                        <a
+                            href="/model-replay"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block text-center text-xs font-medium text-cyan-300 hover:text-cyan-200 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-lg px-3 py-2 transition-colors"
+                        >
+                            Compare against a real model →
+                        </a>
                     </div>
                     <SettingsPanel
                         settings={settings}
@@ -198,7 +208,7 @@ export default function FullScreenDriveVisualizer({ isOpen, onClose, models, ini
                             maxWidth: 'calc((100vh - 160px) * 16 / 9)',
                         }}
                     >
-                        <DriveSimulation profile={profile} seedKey={selectedModel.name} scenarioOverride={scenario} />
+                        <UnifiedDriveSimulation profile={profile} seedKey={selectedModel.name} scenarioOverride={scenario} />
                     </div>
                 </div>
             </div>

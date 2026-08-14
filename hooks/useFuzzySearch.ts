@@ -97,7 +97,7 @@ export function useFuzzySearch<T extends Record<string, unknown>>({
 
         // Sort results to prioritize exact acronym matches
         return results
-            .sort((a: any, b: any) => {
+            .sort((a: { item: T & { _acronym?: string } }, b: { item: T & { _acronym?: string } }) => {
                 const aIsExactAcronym = a.item._acronym === lowerQuery;
                 const bIsExactAcronym = b.item._acronym === lowerQuery;
 
