@@ -115,8 +115,9 @@ export function generateSyntheticFrame(
     // How far ahead the model "sees" — a stopped car predicts a short path
     const maxForward = params.stopped ? 8 : MAX_FORWARD_M;
 
-    // Wobble parameters: frequency and amplitude from profile
-    const wobbleAmp = params.laneWobble * 0.45; // max ~0.45m lateral jitter
+    // Wobble parameters: frequency and amplitude from profile (0 when stopped)
+    const speedScale = params.stopped || params.speedMph <= 0.05 ? 0 : Math.min(1, Math.max(0, params.speedMph / 5));
+    const wobbleAmp = params.laneWobble * 0.45 * speedScale; // max ~0.45m lateral jitter, 0 at standstill
     const wobbleFreq1 = 0.8 + params.speedMph * 0.02;
     const wobbleFreq2 = 1.7 + params.speedMph * 0.01;
     const wobblePhase1 = frameTime * wobbleFreq1;

@@ -354,185 +354,36 @@ function rng(seed: number) {
     };
 }
 
-// Driving scenarios — each is a periodic multi-sine with its own loop
-// length, speed scaling, and integration table. Different scenarios stress
-// different model behaviors (highway = gentle drift, curves = constant
-// steering, city = sharp kinks + lower top speed).
-const TAU = Math.PI * 2;
+import {
+    type ScenarioKey,
+    type Scenario,
+    SCENARIOS,
+    GAUNTLET_LOOP,
+    GAUNTLET_CORNERS,
+    GAUNTLET_EVENTS,
+    CORNER_SPEED_FACTOR,
+    RED_LIGHT_HOLD_S,
+    pickScenarioKey,
+    smoothstep,
+    smootherstep,
+    VB_W,
+    VB_H,
+    HORIZON_Y,
+    CAR_Y,
+    LANE_HALF_BOTTOM,
+    LANE_HALF_TOP,
+    PERSPECTIVE_K,
+    depthToYFrac,
+    yFracToDepth,
+    laneHalfWidth,
+} from '../lib/gauntletRoute';
 
-export type ScenarioKey = 'highway' | 'curves' | 'city' | 'gauntlet';
-
-interface Scenario {
-    key: ScenarioKey;
-    label: string;
-    loopZ: number;
-    speedMul: number;
-    heading: (z: number) => number;
-    x: (z: number) => number;
-    relativeX: (carZ: number, d: number) => number;
-}
-
-function buildScenario(
-    key: ScenarioKey,
-    label: string,
-    loopZ: number,
-    speedMul: number,
-    headingFn: (z: number) => number,
-): Scenario {
-    // Trapezoid integration. Harmonic scenarios are odd-symmetric so their
-    // integral closes to 0 naturally; designed routes (gauntlet) get a
-    // constant-heading drift correction so x() stays periodic in loopZ.
-    const TABLE_SIZE = 4096;
-    const dz = loopZ / TABLE_SIZE;
-
-    let drift = 0;
-    for (let i = 0; i < TABLE_SIZE; i++) {
-        drift += (headingFn(i * dz) + headingFn((i + 1) * dz)) * 0.5 * dz;
-    }
-    const correction = drift / loopZ;
-    const heading = (z: number) => headingFn((((z % loopZ) + loopZ) % loopZ)) - correction;
-
-    const table = new Float32Array(TABLE_SIZE + 1);
-    let acc = 0;
-    table[0] = 0;
-    for (let i = 0; i < TABLE_SIZE; i++) {
-        acc += (heading(i * dz) + heading((i + 1) * dz)) * 0.5 * dz;
-        table[i + 1] = acc;
-    }
-    const x = (z: number) => {
-        const period = (((z % loopZ) + loopZ) % loopZ);
-        const idxF = period / dz;
-        const i0 = Math.floor(idxF);
-        const t = idxF - i0;
-        return table[i0] * (1 - t) + table[i0 + 1] * t;
-    };
-    const relativeX = (carZ: number, d: number) =>
-        x(carZ + d) - x(carZ) - d * heading(carZ);
-
-    return { key, label, loopZ, speedMul, heading, x, relativeX };
-}
-
-function makeScenario(
-    key: ScenarioKey,
-    label: string,
-    loopZ: number,
-    speedMul: number,
-    deadzone: number,
-    harmonics: { n: number; amp: number }[],
-): Scenario {
-    const headingRaw = (z: number) => {
-        const p = (((z % loopZ) + loopZ) % loopZ) / loopZ;
-        return harmonics.reduce(
-            (acc, { n, amp }) => acc + amp * Math.sin(TAU * n * p),
-            0,
-        );
-    };
-    const heading = (z: number) => {
-        const raw = headingRaw(z);
-        if (Math.abs(raw) < deadzone) return 0;
-        return Math.sign(raw) * (Math.abs(raw) - deadzone);
-    };
-    return buildScenario(key, label, loopZ, speedMul, heading);
-}
-
-// ── The Gauntlet — one designed route that stresses every behavior ──
-// Corners of increasing sharpness, two traffic lights, a stop sign, a
-// stopped-traffic zone, and a cut-in event, laid out along a single
-// 440-unit loop.
-export const GAUNTLET_LOOP = 440;
-
-export interface GauntletCorner {
-    start: number;
-    end: number;
-    curv: number;       // signed curvature (+ = right)
-    sharpness: 1 | 2 | 3 | 4;
-}
-
-export const GAUNTLET_CORNERS: GauntletCorner[] = [
-    { start: 45, end: 75, curv: 0.14, sharpness: 1 },   // gentle right
-    { start: 110, end: 140, curv: -0.20, sharpness: 2 },  // medium left
-    { start: 180, end: 205, curv: 0.30, sharpness: 3 },   // sharp right
-    { start: 240, end: 255, curv: -0.22, sharpness: 2 },  // S-curve left…
-    { start: 256, end: 271, curv: 0.22, sharpness: 2 },   // …then right
-    { start: 300, end: 330, curv: -0.42, sharpness: 4 },  // hairpin left
-];
-
-export const GAUNTLET_EVENTS = {
-    leadZoneEnd: 78,         // lead-follow demo until here (and after leadZoneRestart)
-    leadZoneRestart: 398,
-    redLightZ: 95,
-    trafficZone: { carZ: 165, stopAt: 158.5, end: 178 },
-    cutInZ: 215,
-    greenLightZ: 288,
-    stopSignZ: 368,          // straight after the hairpin (braking zone clears the exit ramp)
-} as const;
-
-// Per-sharpness corner speed factor (fraction of set speed a careful
-// model slows to). Sharper corner → bigger required slowdown.
-const CORNER_SPEED_FACTOR: Record<number, number> = { 1: 0.85, 2: 0.65, 3: 0.45, 4: 0.32 };
-
-// Minimum time the car holds at a stopped red light before the signal
-// cycles to green — long enough to read as a real light rather than a
-// momentary tap-stop. Shared by the city and gauntlet scenarios.
-const RED_LIGHT_HOLD_S = 3.5;
-
-function gauntletHeading(z: number): number {
-    // Smooth ramp in/out of each constant-curvature arc (real roads use
-    // clothoid-like transitions; smoothstep is close enough visually).
-    const RAMP = 7;
-    let h = 0;
-    for (const c of GAUNTLET_CORNERS) {
-        if (z <= c.start - RAMP || z >= c.end + RAMP) continue;
-        let w = 1;
-        if (z < c.start) w = smoothstep((z - (c.start - RAMP)) / RAMP);
-        else if (z > c.end) w = smoothstep(((c.end + RAMP) - z) / RAMP);
-        h += c.curv * w;
-    }
-    return h;
-}
-
-function smoothstep(t: number): number {
-    const x = Math.max(0, Math.min(1, t));
-    return x * x * (3 - 2 * x);
-}
-
-const SCENARIOS: Record<ScenarioKey, Scenario> = {
-    highway: makeScenario('highway', 'HIGHWAY', 220, 1.0, 0.08, [
-        { n: 1, amp: 0.13 },
-        { n: 2, amp: 0.08 },
-        { n: 3, amp: 0.04 },
-    ]),
-    curves: makeScenario('curves', 'CURVES', 130, 0.85, 0.04, [
-        { n: 1, amp: 0.22 },
-        { n: 2, amp: 0.15 },
-        { n: 3, amp: 0.08 },
-    ]),
-    city: makeScenario('city', 'CITY', 110, 0.55, 0.03, [
-        { n: 1, amp: 0.08 },
-        { n: 3, amp: 0.18 },
-        { n: 5, amp: 0.10 },
-    ]),
-    gauntlet: buildScenario('gauntlet', 'GAUNTLET', GAUNTLET_LOOP, 0.7, gauntletHeading),
+export {
+    type ScenarioKey,
+    GAUNTLET_LOOP,
+    GAUNTLET_CORNERS,
+    GAUNTLET_EVENTS,
 };
-
-function pickScenarioKey(name: string, tags: string[]): ScenarioKey {
-    if (tags.includes('City')) return 'city';
-    if (tags.includes('Curves')) return 'curves';
-    if (tags.includes('Highway')) return 'highway';
-    // Hash-based fallback so models without explicit road tags get variety
-    // (each model deterministically lands on one scenario).
-    const choices: ScenarioKey[] = ['highway', 'curves', 'city'];
-    return choices[hashSeed(name) % 3];
-}
-
-// View geometry — three-lane road. The car (trajectory) sits in the MIDDLE lane,
-// centered at viewport X = 200. Lane dividers run on BOTH sides of the car view.
-const VB_W = 400;
-const VB_H = 225;
-const HORIZON_Y = 88;
-const CAR_Y = VB_H;             // bottom edge
-const LANE_HALF_BOTTOM = 55;    // half of one lane's width at camera
-const LANE_HALF_TOP = 5;        // half of one lane's width
 
 // Car body half-width is 28 vbox units (see player-car SVG below); lane
 // half-width at the camera is 55. To keep the body visibly centred we
@@ -705,101 +556,107 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
     ) => {
         const profile = profileRef.current;
         const scenario = scenarioRef.current;
-        const STEPS = 24;
+        const STEPS = 80;
+        const ROAD_MAX_YFRAC = 0.985;
 
-            const getRoadCenterX = (yFrac: number) => {
-                if (yFrac >= 1) return VB_W / 2 - scenario.heading(carZ) * 400;
-                const d = yFracToDepth(yFrac);
-                const rx = scenario.relativeX(carZ, d);
-                return VB_W / 2 + (rx / (d + PERSPECTIVE_K)) * 400;
-            };
+        const getRoadCenterX = (yFrac: number) => {
+            if (yFrac >= 1) return VB_W / 2 - scenario.heading(carZ) * 400;
+            const d = yFracToDepth(yFrac);
+            const rx = scenario.relativeX(carZ, d);
+            // Distant smoothing: far-distance bends (>45m) gracefully blend into the car's tangent heading
+            // vanishing point, eliminating sharp zigzag artifacts near the horizon line while preserving
+            // accurate close and mid-range curvature perspective.
+            const distFade = d > 45 ? Math.max(0, 1 - (d - 45) / 60) : 1;
+            const smoothRx = rx * distFade + (-d * scenario.heading(carZ)) * (1 - distFade);
+            return VB_W / 2 + (smoothRx / (d + PERSPECTIVE_K)) * 400;
+        };
 
-            let leftD = '', rightD = '';
-            for (let i = 0; i <= STEPS; i++) {
-                const yFrac = i / STEPS;
-                const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
-                const centerX = getRoadCenterX(yFrac);
-                
-                const lx = centerX - 3 * laneHalfWidth(yFrac);
-                const rx = centerX + 3 * laneHalfWidth(yFrac);
-                if (i === 0) {
-                    leftD = `M ${lx.toFixed(2)} ${y.toFixed(2)}`;
-                    rightD = `M ${rx.toFixed(2)} ${y.toFixed(2)}`;
-                } else {
-                    leftD += ` L ${lx.toFixed(2)} ${y.toFixed(2)}`;
-                    rightD += ` L ${rx.toFixed(2)} ${y.toFixed(2)}`;
-                }
-            }
+        let leftD = '', rightD = '';
+        for (let i = 0; i <= STEPS; i++) {
+            const yFrac = (i / STEPS) * ROAD_MAX_YFRAC;
+            const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
+            const centerX = getRoadCenterX(yFrac);
             
-            let fillD = leftD;
-            for (let i = STEPS; i >= 0; i--) {
-                const yFrac = i / STEPS;
-                const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
-                const centerX = getRoadCenterX(yFrac);
-                fillD += ` L ${(centerX + 3 * laneHalfWidth(yFrac)).toFixed(2)} ${y.toFixed(2)}`;
+            const lx = centerX - 3 * laneHalfWidth(yFrac);
+            const rx = centerX + 3 * laneHalfWidth(yFrac);
+            if (i === 0) {
+                leftD = `M ${lx.toFixed(2)} ${y.toFixed(2)}`;
+                rightD = `M ${rx.toFixed(2)} ${y.toFixed(2)}`;
+            } else {
+                leftD += ` L ${lx.toFixed(2)} ${y.toFixed(2)}`;
+                rightD += ` L ${rx.toFixed(2)} ${y.toFixed(2)}`;
             }
-            fillD += ' Z';
-            
-            leftEdgeRef.current?.setAttribute('d', leftD);
-            rightEdgeRef.current?.setAttribute('d', rightD);
-            roadFillRef.current?.setAttribute('d', fillD);
+        }
+        
+        let fillD = leftD;
+        for (let i = STEPS; i >= 0; i--) {
+            const yFrac = (i / STEPS) * ROAD_MAX_YFRAC;
+            const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
+            const centerX = getRoadCenterX(yFrac);
+            fillD += ` L ${(centerX + 3 * laneHalfWidth(yFrac)).toFixed(2)} ${y.toFixed(2)}`;
+        }
+        fillD += ' Z';
+        
+        leftEdgeRef.current?.setAttribute('d', leftD);
+        rightEdgeRef.current?.setAttribute('d', rightD);
+        roadFillRef.current?.setAttribute('d', fillD);
 
-            const widthScale = profile.pathWidth;
-            // Path emanates from the car (depth 0) and curves up to the
-            // model's tip target. Quadratic ease-in keeps the line tangent
-            // to the car's heading at the bottom and bends toward the tip
-            // — so the painted path and the car are always visibly joined.
-            const relativeTipX = targetTipX - actualTipX;
-            const arcDX = (yFrac: number) => {
-                const t = yFrac / TIP_YFRAC;
-                return carX + (relativeTipX - carX) * Math.pow(t, 2);
-            };
-            
-            const pathHW = (yFrac: number) => {
-                const taper = PATH_WIDTH_BOTTOM + (PATH_WIDTH_TOP - PATH_WIDTH_BOTTOM) * yFrac;
-                return laneHalfWidth(yFrac) * taper * widthScale;
-            };
-            
-            let chosenD = '';
-            for (let i = 0; i <= STEPS; i++) {
-                const yFrac = (i / STEPS) * TIP_YFRAC;
-                const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
-                const roadCx = getRoadCenterX(yFrac);
-                const cx = roadCx + arcDX(yFrac);
-                const lx = cx - pathHW(yFrac);
-                if (i === 0) chosenD = `M ${lx.toFixed(2)} ${y.toFixed(2)}`;
-                else chosenD += ` L ${lx.toFixed(2)} ${y.toFixed(2)}`;
-            }
-            for (let i = STEPS; i >= 0; i--) {
-                const yFrac = (i / STEPS) * TIP_YFRAC;
-                const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
-                const roadCx = getRoadCenterX(yFrac);
-                const cx = roadCx + arcDX(yFrac);
-                chosenD += ` L ${(cx + pathHW(yFrac)).toFixed(2)} ${y.toFixed(2)}`;
-            }
-            chosenD += ' Z';
-            chosenPathRef.current?.setAttribute('d', chosenD);
+        const widthScale = profile.pathWidth;
+        // Path emanates from the car (depth 0) and curves up to the
+        // model's tip target. Quadratic ease-in keeps the line tangent
+        // to the car's heading at the bottom and bends toward the tip
+        // — so the painted path and the car are always visibly joined.
+        const relativeTipX = targetTipX - actualTipX;
+        const arcDX = (yFrac: number) => {
+            const t = yFrac / TIP_YFRAC;
+            return carX + (relativeTipX - carX) * Math.pow(t, 2);
+        };
+        
+        const pathHW = (yFrac: number) => {
+            const taper = PATH_WIDTH_BOTTOM + (PATH_WIDTH_TOP - PATH_WIDTH_BOTTOM) * yFrac;
+            return laneHalfWidth(yFrac) * taper * widthScale;
+        };
+        
+        let chosenD = '';
+        for (let i = 0; i <= STEPS; i++) {
+            const yFrac = (i / STEPS) * TIP_YFRAC;
+            const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
+            const roadCx = getRoadCenterX(yFrac);
+            const cx = roadCx + arcDX(yFrac);
+            const lx = cx - pathHW(yFrac);
+            if (i === 0) chosenD = `M ${lx.toFixed(2)} ${y.toFixed(2)}`;
+            else chosenD += ` L ${lx.toFixed(2)} ${y.toFixed(2)}`;
+        }
+        for (let i = STEPS; i >= 0; i--) {
+            const yFrac = (i / STEPS) * TIP_YFRAC;
+            const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
+            const roadCx = getRoadCenterX(yFrac);
+            const cx = roadCx + arcDX(yFrac);
+            chosenD += ` L ${(cx + pathHW(yFrac)).toFixed(2)} ${y.toFixed(2)}`;
+        }
+        chosenD += ' Z';
+        chosenPathRef.current?.setAttribute('d', chosenD);
 
-            // Lane-keeping lines: solid strokes that hug the inner lane
-            // dividers and follow the road's curvature. Sit just inside the
-            // lane edges so they have visible padding from the chosen path.
-            const LANE_KEEP_INSET = 0.92;
-            let leftLkD = '', rightLkD = '';
-            for (let i = 0; i <= STEPS; i++) {
-                const yFrac = (i / STEPS) * TIP_YFRAC;
-                const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
-                const roadCx = getRoadCenterX(yFrac);
-                const lkHW = laneHalfWidth(yFrac) * LANE_KEEP_INSET;
-                if (i === 0) {
-                    leftLkD = `M ${(roadCx - lkHW).toFixed(2)} ${y.toFixed(2)}`;
-                    rightLkD = `M ${(roadCx + lkHW).toFixed(2)} ${y.toFixed(2)}`;
-                } else {
-                    leftLkD += ` L ${(roadCx - lkHW).toFixed(2)} ${y.toFixed(2)}`;
-                    rightLkD += ` L ${(roadCx + lkHW).toFixed(2)} ${y.toFixed(2)}`;
-                }
+        // Lane-keeping lines: solid strokes that hug the inner lane
+        // dividers and follow the road's curvature. Sit just inside the
+        // lane edges so they have visible padding from the chosen path.
+        const LANE_KEEP_INSET = 0.92;
+        let leftLkD = '', rightLkD = '';
+        for (let i = 0; i <= STEPS; i++) {
+            const yFrac = (i / STEPS) * TIP_YFRAC;
+            const y = CAR_Y + (HORIZON_Y - CAR_Y) * yFrac;
+            const roadCx = getRoadCenterX(yFrac);
+            const lkHW = laneHalfWidth(yFrac) * LANE_KEEP_INSET;
+            if (i === 0) {
+                leftLkD = `M ${(roadCx - lkHW).toFixed(2)} ${y.toFixed(2)}`;
+                rightLkD = `M ${(roadCx + lkHW).toFixed(2)} ${y.toFixed(2)}`;
+            } else {
+                leftLkD += ` L ${(roadCx - lkHW).toFixed(2)} ${y.toFixed(2)}`;
+                rightLkD += ` L ${(roadCx + lkHW).toFixed(2)} ${y.toFixed(2)}`;
             }
-            leftLaneKeepRef.current?.setAttribute('d', leftLkD);
-            rightLaneKeepRef.current?.setAttribute('d', rightLkD);
+        }
+        leftLaneKeepRef.current?.setAttribute('d', leftLkD);
+        rightLaneKeepRef.current?.setAttribute('d', rightLkD);
 
             if (dashGroupRef.current) {
                 const DASH_LEN = 1.4;
@@ -1587,14 +1444,19 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
             const tipD = yFracToDepth(TIP_YFRAC);
             const actualTipX = (scenario.relativeX(carZ, tipD) / (tipD + PERSPECTIVE_K)) * 400;
 
-            const trackRate = 0.7 + profile.pathSmoothness * 5.5;
-            perceivedTipX = actualTipX + (perceivedTipX - actualTipX) * Math.exp(-trackRate * dt);
+            const isStopped = currentSpeedMph <= 0.05;
+            const speedScale = isStopped ? 0 : Math.min(1, currentSpeedMph / 5);
 
-            // Triangle-wave "ping-pong" wobble. Community feedback often
-            // notes wobble that only appears at high (or low) speed —
-            // wobbleSpeedBias scales the live amplitude accordingly.
+            const trackRate = 0.7 + profile.pathSmoothness * 5.5;
+            if (isStopped) {
+                perceivedTipX = actualTipX;
+            } else {
+                perceivedTipX = actualTipX + (perceivedTipX - actualTipX) * Math.exp(-trackRate * dt);
+            }
+
+            // Triangle-wave "ping-pong" wobble (fades to 0 when car is stopped at 0 MPH).
             const tSec = now / 1000;
-            let wobbleAmp = profile.laneWobble * 16;
+            let wobbleAmp = profile.laneWobble * 16 * speedScale;
             if (profile.wobbleSpeedBias > 0) {
                 wobbleAmp *= 0.35 + Math.max(0, currentSpeedMph - 25) / 50;
             } else if (profile.wobbleSpeedBias < 0) {
@@ -1615,7 +1477,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                 ? profile.curveStyle * 0.4 + profile.cornerCutting * 1.3
                 : profile.curveStyle;
             const apexCutOffset =
-                currentCurvature * cutGain * (1 - profile.reactionLag) * 30;
+                currentCurvature * cutGain * (1 - profile.reactionLag) * 30 * speedScale;
 
             const offsetBias = profile.laneOffset * 14 + apexCutOffset;
 
@@ -1643,10 +1505,14 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                     returnRate = 1.0; // very sluggish return!
                 }
             }
-            perceivedWheelAngle = targetWheelAngle + (perceivedWheelAngle - targetWheelAngle) * Math.exp(-returnRate * dt);
+            if (isStopped) {
+                perceivedWheelAngle = (actualTipX / 70) * 45;
+            } else {
+                perceivedWheelAngle = targetWheelAngle + (perceivedWheelAngle - targetWheelAngle) * Math.exp(-returnRate * dt);
+            }
 
             let finalWheelAngle = perceivedWheelAngle;
-            if (profile.octagonalMode) {
+            if (profile.octagonalMode && !isStopped) {
                 finalWheelAngle = Math.round(perceivedWheelAngle / 8) * 8;
                 if (currentStatus === "SYSTEM ACTIVE" && Math.abs(finalWheelAngle) > 2) {
                     currentStatus = "⚙️ NOTCHY STEERING";
@@ -1655,7 +1521,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
             }
 
             let finalTargetTipX = targetTipX;
-            if (profile.octagonalMode) {
+            if (profile.octagonalMode && !isStopped) {
                 finalTargetTipX = Math.round(targetTipX / 3.5) * 3.5;
             }
 
@@ -1672,7 +1538,11 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
             let stiffness = 6 + profile.pathSmoothness * 14;
             let damping = 4 + profile.pathSmoothness * 8;
 
-            if (isLateCorrectingModel) {
+            if (isStopped) {
+                carVx = 0;
+                carX = targetCarX;
+                snapTimer = 0;
+            } else if (isLateCorrectingModel) {
                 if (snapTimer > 0) {
                     snapTimer -= dt;
                     stiffness = 32; // extremely tight, fast snap-back
@@ -1696,12 +1566,14 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                 }
             }
 
-            carVx += (targetCarX - carX) * stiffness * dt;
-            carVx *= Math.exp(-damping * dt);
-            carX += carVx * dt;
+            if (!isStopped) {
+                carVx += (targetCarX - carX) * stiffness * dt;
+                carVx *= Math.exp(-damping * dt);
+                carX += carVx * dt;
 
-            if (carX > CAR_BOUND) { carX = CAR_BOUND; carVx = Math.min(0, carVx); }
-            else if (carX < -CAR_BOUND) { carX = -CAR_BOUND; carVx = Math.max(0, carVx); }
+                if (carX > CAR_BOUND) { carX = CAR_BOUND; carVx = Math.min(0, carVx); }
+                else if (carX < -CAR_BOUND) { carX = -CAR_BOUND; carVx = Math.max(0, carVx); }
+            }
 
             drawFrame(carZ, actualTipX, finalTargetTipX, markerDepths, finalWheelAngle, carX, gauntletExtras);
 

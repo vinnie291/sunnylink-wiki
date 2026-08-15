@@ -287,11 +287,25 @@ function ModelCard({
 
     const handleCopyLink = async (e: React.MouseEvent) => {
         e.stopPropagation();
-        const url = `${window.location.origin}${window.location.pathname}?tab=models#${encodeURIComponent(model.name)}`;
+        const url = `${window.location.origin}/models?model=${encodeURIComponent(model.name)}`;
+        if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+            try {
+                await navigator.share({
+                    title: `${model.name} — openpilot Driving Model`,
+                    text: `Check out the ${model.name} openpilot driving model simulation on Sunnylink Wiki:`,
+                    url,
+                });
+                return;
+            } catch (err: any) {
+                if (err.name === 'AbortError') return;
+            }
+        }
         try {
             await navigator.clipboard.writeText(url);
             setCopied(true);
-            window.history.replaceState(null, '', `?tab=models#${encodeURIComponent(model.name)}`);
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.set('model', model.name);
+            window.history.replaceState(null, '', newUrl.toString());
             setTimeout(() => setCopied(false), 2000);
         } catch (err) {
             console.error('Failed to copy:', err);
@@ -586,47 +600,25 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
 
     // Keyboard shortcut handled by SearchFilter component
 
-    // Hash-based scroll anchoring for shared model links
-    useEffect(() => {
-        let highlightTimer: ReturnType<typeof setTimeout> | undefined;
-        let scrollTimer: ReturnType<typeof setTimeout> | undefined;
-        let highlightedEl: HTMLElement | null = null;
+    const handleOpenVisualizer = (modelName: string) => {
+        setVisualizerModelName(modelName);
+        if (typeof window !== 'undefined') {
+            const url = new URL(window.location.href);
+            url.searchParams.set('model', modelName);
+            window.history.pushState({ visualizerModel: modelName }, '', url.toString());
+        }
+    };
 
-        const handleHashChange = () => {
-            const hash = window.location.hash;
-            if (!hash || hash.length < 2) return;
-
-            let modelName: string;
-            try {
-                modelName = decodeURIComponent(hash.slice(1));
-            } catch {
-                return;
-            }
-
-            setActiveCategory('all');
-
-            scrollTimer = setTimeout(() => {
-                const el = document.getElementById(modelName);
-                if (!el) return;
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                el.classList.add('ring-2', 'ring-cyan-500/70');
-                highlightedEl = el;
-                highlightTimer = setTimeout(() => {
-                    highlightedEl?.classList.remove('ring-2', 'ring-cyan-500/70');
-                    highlightedEl = null;
-                }, 3000);
-            }, 300);
-        };
-
-        handleHashChange();
-        window.addEventListener('hashchange', handleHashChange);
-        return () => {
-            window.removeEventListener('hashchange', handleHashChange);
-            if (scrollTimer) clearTimeout(scrollTimer);
-            if (highlightTimer) clearTimeout(highlightTimer);
-            highlightedEl?.classList.remove('ring-2', 'ring-cyan-500/70');
-        };
-    }, []);
+    const handleCloseVisualizer = () => {
+        setVisualizerModelName(null);
+        if (typeof window !== 'undefined') {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('model');
+            url.searchParams.delete('sim');
+            url.hash = '';
+            window.history.pushState(null, '', url.pathname + (url.search ? url.search : ''));
+        }
+    };
 
     const [sortBy, setSortBy] = useState<string>('date-desc');
     const { viewMode, setViewMode } = useViewMode('models_page', 'grid');
@@ -664,6 +656,59 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
 
         return [allCategory, ...rawCategories];
     }, [rawCategories, t]);
+
+    // Deep-link to open visualizer or scroll to model when URL contains ?model=... or #...
+    useEffect(() => {
+        const checkUrlParams = () => {
+            if (typeof window === 'undefined') return;
+            const params = new URLSearchParams(window.location.search);
+            const queryModel = params.get('model') || params.get('sim');
+            const hashModel = window.location.hash && window.location.hash.length > 1
+                ? decodeURIComponent(window.location.hash.slice(1))
+                : null;
+            const target = queryModel || hashModel;
+
+            if (target && categories[0]?.models) {
+                const found = categories[0].models.find(
+                    m => m.name.toLowerCase() === target.toLowerCase()
+                );
+                if (found) {
+                    setVisualizerModelName(found.name);
+                    return;
+                }
+            }
+
+            if (hashModel) {
+                const el = document.getElementById(hashModel);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    el.classList.add('ring-2', 'ring-cyan-500/70');
+                    setTimeout(() => el.classList.remove('ring-2', 'ring-cyan-500/70'), 3000);
+                }
+            }
+        };
+
+        checkUrlParams();
+
+        const handlePopState = () => {
+            if (typeof window === 'undefined') return;
+            const params = new URLSearchParams(window.location.search);
+            const modelParam = params.get('model') || params.get('sim');
+            if (modelParam && categories[0]?.models) {
+                const found = categories[0].models.find(
+                    m => m.name.toLowerCase() === modelParam.toLowerCase()
+                );
+                if (found) {
+                    setVisualizerModelName(found.name);
+                    return;
+                }
+            }
+            setVisualizerModelName(null);
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, [categories]);
 
     // Filter models based on search
 
@@ -1050,6 +1095,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                             {activeModels.map((model) => (
                                                 <motion.tr
                                                     key={model.name}
+                                                    onClick={() => handleOpenVisualizer(model.name)}
                                                     className="group hover:bg-slate-800/50 cursor-pointer transition-colors"
                                                 >
                                                     <td className="p-3 md:p-4 font-medium text-slate-100">
@@ -1094,7 +1140,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                     return (
                                         <div key={model.name} className="h-full">
                                             <LazyModelCard>
-                                                <ModelCard model={model} onExpand={setVisualizerModelName} forumActivity={activity} />
+                                                <ModelCard model={model} onExpand={handleOpenVisualizer} forumActivity={activity} />
                                             </LazyModelCard>
                                         </div>
                                     );
@@ -1115,7 +1161,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
 
             <FullScreenDriveVisualizer
                 isOpen={visualizerModelName !== null}
-                onClose={() => setVisualizerModelName(null)}
+                onClose={handleCloseVisualizer}
                 models={categories[0].models}
                 initialModelName={visualizerModelName ?? undefined}
             />

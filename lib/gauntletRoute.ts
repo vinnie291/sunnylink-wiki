@@ -20,6 +20,13 @@ export function smoothstep(t: number): number {
     return x * x * (3 - 2 * x);
 }
 
+// Quintic polynomial (smootherstep) with C2 continuity (zero 1st & 2nd derivatives at boundaries)
+// for continuous, curvature-smooth road easement transitions without angular kinks.
+export function smootherstep(t: number): number {
+    const x = Math.max(0, Math.min(1, t));
+    return x * x * x * (x * (x * 6 - 15) + 10);
+}
+
 export type ScenarioKey = 'highway' | 'curves' | 'city' | 'gauntlet';
 
 export interface Scenario {
@@ -89,8 +96,12 @@ function makeScenario(
     };
     const heading = (z: number) => {
         const raw = headingRaw(z);
-        if (Math.abs(raw) < deadzone) return 0;
-        return Math.sign(raw) * (Math.abs(raw) - deadzone);
+        if (deadzone <= 0) return raw;
+        const abs = Math.abs(raw);
+        if (abs <= deadzone * 0.4) return 0;
+        if (abs >= deadzone * 1.6) return Math.sign(raw) * (abs - deadzone);
+        const t = (abs - deadzone * 0.4) / (deadzone * 1.2);
+        return Math.sign(raw) * (abs - deadzone * 0.4) * smootherstep(t);
     };
     return buildScenario(key, label, loopZ, speedMul, heading);
 }
@@ -111,10 +122,10 @@ export interface GauntletCorner {
 export const GAUNTLET_CORNERS: GauntletCorner[] = [
     { start: 45, end: 75, curv: 0.14, sharpness: 1 },   // gentle right
     { start: 110, end: 140, curv: -0.20, sharpness: 2 },  // medium left
-    { start: 180, end: 205, curv: 0.30, sharpness: 3 },   // sharp right
-    { start: 240, end: 255, curv: -0.22, sharpness: 2 },  // S-curve left…
-    { start: 256, end: 271, curv: 0.22, sharpness: 2 },   // …then right
-    { start: 300, end: 330, curv: -0.42, sharpness: 4 },  // hairpin left
+    { start: 180, end: 205, curv: 0.28, sharpness: 3 },   // sharp right
+    { start: 238, end: 252, curv: -0.22, sharpness: 2 },  // S-curve left…
+    { start: 258, end: 272, curv: 0.22, sharpness: 2 },   // …then right
+    { start: 305, end: 335, curv: -0.38, sharpness: 4 },  // hairpin left
 ];
 
 export const GAUNTLET_EVENTS = {
@@ -137,15 +148,15 @@ export const CORNER_SPEED_FACTOR: Record<number, number> = { 1: 0.85, 2: 0.65, 3
 export const RED_LIGHT_HOLD_S = 3.5;
 
 function gauntletHeading(z: number): number {
-    // Smooth ramp in/out of each constant-curvature arc (real roads use
-    // clothoid-like transitions; smoothstep is close enough visually).
-    const RAMP = 7;
+    // Smooth easement transition into each constant-curvature arc using
+    // quintic smootherstep with a generous ramp distance (matching real highway clothoids).
+    const RAMP = 14;
     let h = 0;
     for (const c of GAUNTLET_CORNERS) {
         if (z <= c.start - RAMP || z >= c.end + RAMP) continue;
         let w = 1;
-        if (z < c.start) w = smoothstep((z - (c.start - RAMP)) / RAMP);
-        else if (z > c.end) w = smoothstep(((c.end + RAMP) - z) / RAMP);
+        if (z < c.start) w = smootherstep((z - (c.start - RAMP)) / RAMP);
+        else if (z > c.end) w = smootherstep(((c.end + RAMP) - z) / RAMP);
         h += c.curv * w;
     }
     return h;
@@ -185,6 +196,7 @@ export function pickScenarioKey(name: string, tags: string[]): ScenarioKey {
 export const VB_W = 400;
 export const VB_H = 225;
 export const HORIZON_Y = 88;
+export const CAR_Y = VB_H;             // bottom edge
 export const LANE_HALF_BOTTOM = 55;    // half of one lane's width at camera
 export const LANE_HALF_TOP = 5;        // half of one lane's width
 export const PERSPECTIVE_K = 1.6;
