@@ -6,6 +6,7 @@ import Fuse from 'fuse.js';
 
 import DriveSimulation, { deriveDrivingProfile, DrivingProfile } from './DriveSimulation';
 import { ScenarioKey } from './DriveSimulation';
+import { modelNameToSlug } from '../lib/modelSlug';
 
 interface SentimentData {
     great: number;
@@ -156,14 +157,15 @@ export default function FullScreenDriveVisualizer({ isOpen, onClose, models, ini
         setSelectedName(name);
         if (typeof window !== 'undefined') {
             const url = new URL(window.location.href);
-            url.searchParams.set('model', name);
+            url.searchParams.set('model', modelNameToSlug(name));
             window.history.replaceState({ visualizerModel: name }, '', url.toString());
         }
     };
 
     const handleShare = async () => {
         if (!selectedModel) return;
-        const url = `${window.location.origin}/models?model=${encodeURIComponent(selectedModel.name)}`;
+        const slug = modelNameToSlug(selectedModel.name);
+        const url = `${window.location.origin}/models?model=${slug}`;
         if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
             try {
                 await navigator.share({

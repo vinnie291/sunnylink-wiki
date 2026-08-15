@@ -11,6 +11,7 @@ import MobileCategorySidebar from './MobileCategorySidebar';
 import SidebarInlineControls from './SidebarInlineControls';
 import DriveSimulation, { deriveDrivingProfile } from './DriveSimulation';
 import FullScreenDriveVisualizer from './FullScreenDriveVisualizer';
+import { modelNameToSlug, findModelBySlugOrName } from '../lib/modelSlug';
 import { useViewMode } from '../hooks/useViewMode';
 import { useStickySearch } from '../hooks/useStickySearch';
 import { useDesktopSidebarSticky } from '../hooks/useDesktopSidebarSticky';
@@ -287,7 +288,8 @@ function ModelCard({
 
     const handleCopyLink = async (e: React.MouseEvent) => {
         e.stopPropagation();
-        const url = `${window.location.origin}/models?model=${encodeURIComponent(model.name)}`;
+        const slug = modelNameToSlug(model.name);
+        const url = `${window.location.origin}/models?model=${slug}`;
         if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
             try {
                 await navigator.share({
@@ -304,7 +306,7 @@ function ModelCard({
             await navigator.clipboard.writeText(url);
             setCopied(true);
             const newUrl = new URL(window.location.href);
-            newUrl.searchParams.set('model', model.name);
+            newUrl.searchParams.set('model', slug);
             window.history.replaceState(null, '', newUrl.toString());
             setTimeout(() => setCopied(false), 2000);
         } catch (err) {
@@ -604,7 +606,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
         setVisualizerModelName(modelName);
         if (typeof window !== 'undefined') {
             const url = new URL(window.location.href);
-            url.searchParams.set('model', modelName);
+            url.searchParams.set('model', modelNameToSlug(modelName));
             window.history.pushState({ visualizerModel: modelName }, '', url.toString());
         }
     };
@@ -669,9 +671,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
             const target = queryModel || hashModel;
 
             if (target && categories[0]?.models) {
-                const found = categories[0].models.find(
-                    m => m.name.toLowerCase() === target.toLowerCase()
-                );
+                const found = findModelBySlugOrName(categories[0].models, target);
                 if (found) {
                     setVisualizerModelName(found.name);
                     return;
@@ -695,9 +695,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
             const params = new URLSearchParams(window.location.search);
             const modelParam = params.get('model') || params.get('sim');
             if (modelParam && categories[0]?.models) {
-                const found = categories[0].models.find(
-                    m => m.name.toLowerCase() === modelParam.toLowerCase()
-                );
+                const found = findModelBySlugOrName(categories[0].models, modelParam);
                 if (found) {
                     setVisualizerModelName(found.name);
                     return;
