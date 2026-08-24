@@ -1,9 +1,17 @@
 {
   "appName": "Sunnylink Model Database",
-  "version": "8.1",
-  "totalModels": 113,
-  "lastUpdated": "2026-08-12",
+  "version": "8.2",
+  "totalModels": 121,
+  "lastUpdated": "2026-08-24",
   "vibeGuide": {
+    "chestnut_gpu": {
+      "title": "The Chestnut GPU Series (Big Models)",
+      "subtitle": "eGPU-Only Heavyweights",
+      "includes": "I Desire, BMRLNAP, Tee Time, TTTTFBRLM, Lebowski",
+      "vibe": "These are the 'big models' — driving models too large to run on the comma 3/3X, released only for the Chestnut with an external GPU attached. The extra compute buys a bigger network than anything in the WMI or OP lines, and the drops arrive on a near-daily cadence during a run rather than weekly. Treat this tier as a testing frontier: the hardware requirement is hard (no eGPU, no model), and early drops have shown big-model-specific faults such as an error that demands an immediate takeover about a minute after engagement.",
+      "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
+      "recommendation": "Start with the newest drop in the series and keep a standard-hardware model on hand to fall back to. If you are on a C3 or C3X, this whole tier is unavailable — use WMI 2026 instead."
+    },
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
       "subtitle": "End-to-End Intelligence",
@@ -227,6 +235,101 @@
             "Lincoln Corsair (2020-2023)",
             "Hyundai Ioniq 5 (HDA II)"
           ]
+        }
+      ]
+    },
+    {
+      "id": "chestnut_gpu",
+      "name": "Chestnut GPU",
+      "description": "GPU-accelerated \"big\" driving models. These require a comma Chestnut paired with an external GPU (eGPU) and will not run on C3/C3X hardware.",
+      "icon": "🌰",
+      "models": [
+        {
+          "name": "I Desire Model",
+          "date": "August 21, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "GPU Required",
+            "Chestnut"
+          ],
+          "consensus": "Newest entry in the GPU-only big model run. Announced in Model Discussions with the standard drop poll; community feedback is still being collected.",
+          "note": "Requires a comma Chestnut with an external GPU (eGPU). Will not run on C3/C3X hardware.",
+          "bestFor": "Chestnut eGPU testers",
+          "forumUrl": "https://community.sunnypilot.ai/t/i-desire-model-august-21-2026-big-model/6831",
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "BMRLNAP Model",
+          "date": "August 20, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "GPU Required",
+            "Chestnut"
+          ],
+          "consensus": "Big model drop released one day after Tee Time. Feedback thread is open; no settled community verdict yet.",
+          "note": "Requires a comma Chestnut with an external GPU (eGPU).",
+          "bestFor": "Chestnut eGPU testers",
+          "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-august-20-2026-big-model/6828",
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Tee Time Model",
+          "date": "August 19, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "GPU Required",
+            "Chestnut"
+          ],
+          "consensus": "Part of the mid-August big model cadence following TTTTFBRLM. Drop poll is live and gathering per-vehicle reports.",
+          "note": "Requires a comma Chestnut with an external GPU (eGPU).",
+          "bestFor": "Chestnut eGPU testers",
+          "forumUrl": "https://community.sunnypilot.ai/t/tee-time-model-august-19-2026-big-model/6814",
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "TTTTFBRLM",
+          "date": "August 18, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "GPU Required",
+            "Chestnut",
+            "Early Feedback"
+          ],
+          "consensus": "First of the mid-August big model run. Notable for a reported 'Big Model Error' that forces an immediate takeover roughly one minute after engagement on some Chestnut setups.",
+          "note": "Requires a comma Chestnut with an external GPU (eGPU). A separate Driving Issues thread tracks a 'Big Model Error' takeover prompt on sunnypilot 2026.003.000: https://community.sunnypilot.ai/t/chestnut-model-big-model-error-take-over-immediately-after-1-minute-of-engagement/6845",
+          "bestFor": "Chestnut eGPU testers",
+          "forumUrl": "https://community.sunnypilot.ai/t/ttttfbrlm-august-18-2026-big-model/6813",
+          "testedOn": [],
+          "positives": [],
+          "negatives": [
+            "Reported 'Big Model Error' takeover about one minute into engagement"
+          ]
+        },
+        {
+          "name": "Lebowski Model",
+          "date": "July 01, 2026",
+          "tags": [
+            "Big Model",
+            "GPU Required",
+            "Chestnut"
+          ],
+          "consensus": "Earliest of the archived big model drops carried over into Model Discussions. Establishes the GPU-only tier ahead of the August cadence.",
+          "note": "Requires a comma Chestnut with an external GPU (eGPU).",
+          "bestFor": "Chestnut eGPU testers",
+          "forumUrl": "https://community.sunnypilot.ai/t/lebowski-model-july-01-2026-big-model/6812",
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
         }
       ]
     },
@@ -951,6 +1054,45 @@
             "Low-speed lateral ping-pong / oscillations reported on Lexus and some Toyota platforms",
             "Slightly jerky transition when driver intervenes on torque-limited turns"
           ]
+        },
+        {
+          "name": "Terrible Super Fantastic Do Over Model",
+          "date": "August 15, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental"
+          ],
+          "consensus": "Re-cut of the Terrible Super Fantastic drop from three days earlier. Community feedback thread is open.",
+          "forumUrl": "https://community.sunnypilot.ai/t/terrible-super-fantastic-do-over-model-august-15-2026/6765",
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Terrible Super Fantastic Model",
+          "date": "August 12, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental"
+          ],
+          "consensus": "Mid-August standard-hardware drop, superseded three days later by the 'Do Over' re-cut.",
+          "forumUrl": "https://community.sunnypilot.ai/t/terrible-super-fantastic-model-august-12-2026/6764",
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "RDF Model v2",
+          "date": "August 11, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental"
+          ],
+          "consensus": "Follow-up to the August 5 RDF Model. Second iteration of the same line on standard hardware.",
+          "forumUrl": "https://community.sunnypilot.ai/t/rdf-model-v2-august-11-2026/6763",
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
         },
         {
           "name": "RDF Model",

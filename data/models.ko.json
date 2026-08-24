@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
-  "version": "8.1",
-  "totalModels": 113,
-  "lastUpdated": "2026-08-12",
+  "version": "8.2",
+  "totalModels": 121,
+  "lastUpdated": "2026-08-24",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -51,6 +51,14 @@
       "vibe": "이러한 모델은 정책 외 훈련을 사용합니다. 즉, 단순히 운전 행동을 복제하는 것이 아니라 모델의 행동이 인간 운전자의 수정 사항과 다른 순간부터 학습합니다. 이를 통해 극단적인 경우로부터 더 효과적으로 학습할 수 있습니다. 종방향 제어는 여전히 개선되고 있지만 표준 WMI 모델에 비해 개선된 고속도로 센터링과 더 빠른 측면 센터링을 보여줍니다.",
       "bestFor": "Highway-focused driving with improved lane centering.",
       "recommendation": "측면 제어의 최신 개선 사항을 보려면 Off-Policy Model v2를 사용해 보세요. 종단적(제동/가속) 동작은 WMI 모델과 다르게 느껴질 수 있습니다."
+    },
+    "chestnut_gpu": {
+      "title": "The Chestnut GPU Series (Big Models)",
+      "subtitle": "eGPU-Only Heavyweights",
+      "includes": "I Desire, BMRLNAP, Tee Time, TTTTFBRLM, Lebowski",
+      "vibe": "이른바 '빅 모델'입니다. comma 3/3X에서 구동하기에는 너무 커서, 외장 GPU를 연결한 Chestnut 전용으로만 배포됩니다. 늘어난 연산 성능 덕분에 WMI나 OP 계열보다 큰 네트워크를 사용하며, 한 차례 배포가 시작되면 주 단위가 아니라 거의 매일 새 모델이 올라옵니다. 이 등급은 테스트 최전선으로 보는 것이 좋습니다. 하드웨어 요구 조건이 절대적이고(eGPU가 없으면 모델도 없음), 초기 배포에서는 인게이지 후 약 1분 만에 즉시 인수를 요구하는 오류처럼 빅 모델 특유의 결함이 보고되었습니다.",
+      "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
+      "recommendation": "시리즈에서 가장 최신 배포판부터 시작하고, 문제가 생기면 되돌아갈 표준 하드웨어용 모델을 함께 준비해 두세요. C3나 C3X를 사용 중이라면 이 등급 전체를 사용할 수 없으므로 WMI 2026을 이용하세요."
     }
   },
   "categories": [
@@ -227,6 +235,101 @@
             "Lincoln Corsair (2020-2023)",
             "Hyundai Ioniq 5 (HDA II)"
           ]
+        }
+      ]
+    },
+    {
+      "id": "chestnut_gpu",
+      "name": "Chestnut GPU",
+      "description": "GPU 가속 '빅 모델' 주행 모델입니다. 외장 GPU(eGPU)를 연결한 comma Chestnut이 필요하며 C3/C3X 하드웨어에서는 실행되지 않습니다.",
+      "icon": "🌰",
+      "models": [
+        {
+          "name": "I Desire Model",
+          "date": "August 21, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "GPU Required",
+            "Chestnut"
+          ],
+          "consensus": "Newest entry in the GPU-only big model run. Announced in Model Discussions with the standard drop poll; community feedback is still being collected.",
+          "note": "Requires a comma Chestnut with an external GPU (eGPU). Will not run on C3/C3X hardware.",
+          "bestFor": "Chestnut eGPU testers",
+          "forumUrl": "https://community.sunnypilot.ai/t/i-desire-model-august-21-2026-big-model/6831",
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "BMRLNAP Model",
+          "date": "August 20, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "GPU Required",
+            "Chestnut"
+          ],
+          "consensus": "Big model drop released one day after Tee Time. Feedback thread is open; no settled community verdict yet.",
+          "note": "Requires a comma Chestnut with an external GPU (eGPU).",
+          "bestFor": "Chestnut eGPU testers",
+          "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-august-20-2026-big-model/6828",
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Tee Time Model",
+          "date": "August 19, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "GPU Required",
+            "Chestnut"
+          ],
+          "consensus": "Part of the mid-August big model cadence following TTTTFBRLM. Drop poll is live and gathering per-vehicle reports.",
+          "note": "Requires a comma Chestnut with an external GPU (eGPU).",
+          "bestFor": "Chestnut eGPU testers",
+          "forumUrl": "https://community.sunnypilot.ai/t/tee-time-model-august-19-2026-big-model/6814",
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "TTTTFBRLM",
+          "date": "August 18, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "GPU Required",
+            "Chestnut",
+            "Early Feedback"
+          ],
+          "consensus": "First of the mid-August big model run. Notable for a reported 'Big Model Error' that forces an immediate takeover roughly one minute after engagement on some Chestnut setups.",
+          "note": "Requires a comma Chestnut with an external GPU (eGPU). A separate Driving Issues thread tracks a 'Big Model Error' takeover prompt on sunnypilot 2026.003.000: https://community.sunnypilot.ai/t/chestnut-model-big-model-error-take-over-immediately-after-1-minute-of-engagement/6845",
+          "bestFor": "Chestnut eGPU testers",
+          "forumUrl": "https://community.sunnypilot.ai/t/ttttfbrlm-august-18-2026-big-model/6813",
+          "testedOn": [],
+          "positives": [],
+          "negatives": [
+            "Reported 'Big Model Error' takeover about one minute into engagement"
+          ]
+        },
+        {
+          "name": "Lebowski Model",
+          "date": "July 01, 2026",
+          "tags": [
+            "Big Model",
+            "GPU Required",
+            "Chestnut"
+          ],
+          "consensus": "Earliest of the archived big model drops carried over into Model Discussions. Establishes the GPU-only tier ahead of the August cadence.",
+          "note": "Requires a comma Chestnut with an external GPU (eGPU).",
+          "bestFor": "Chestnut eGPU testers",
+          "forumUrl": "https://community.sunnypilot.ai/t/lebowski-model-july-01-2026-big-model/6812",
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
         }
       ]
     },
@@ -767,7 +870,7 @@
         },
         {
           "name": "OP Model 16 Deep",
-          "date": "2026년 6월 3일",
+          "date": "June 03, 2026",
           "badge": "NEW",
           "tags": [
             "Deep Network",
@@ -784,8 +887,8 @@
           },
           "consensus": "OP 모델 라인업 중 확장된 신경망 아키텍처를 채택했습니다. 복잡한 도심 주행 및 다차선 교차로에서 우수한 공간 인지 능력을 발휘하며, 최적의 연산 지연 시간을 위해 Comma 4 하드웨어가 권장됩니다.",
           "note": "Comma 4에 최적화됨. 도심 및 혼잡한 교외 환경에 추천합니다.",
-          "bestFor": "도심 / 복합 주행",
-          "steeringFeel": "자신감 (Confident)",
+          "bestFor": "Urban / Mixed Driving",
+          "steeringFeel": "Confident",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-16-deep-june-03-2026/6557",
           "testedOn": [
             "2025 Kia K4",
@@ -794,18 +897,18 @@
             "comma 4"
           ],
           "positives": [
-            "다차선 교차로 및 차선 인지 대폭 향상",
-            "공사 구간 및 복잡한 노면 표시 우수하게 처리",
-            "중속 코너에서의 자신감 있는 조향 토크"
+            "Significantly improved multi-lane awareness and intersection tracking",
+            "Handles complex road markings and construction barrels well",
+            "Confident steering torque on mid-speed turns"
           ],
           "negatives": [
-            "구형 comma 3X 기기에서 연산 부하 증가",
-            "보도 경계석 근처 보행자에 대해 급감속 발생 가능"
+            "Higher compute overhead on older comma 3X hardware",
+            "Can brake abruptly for pedestrians close to the curb"
           ]
         },
         {
           "name": "Michael RL V2",
-          "date": "2026년 7월 18일",
+          "date": "July 18, 2026",
           "badge": "openpilot only",
           "tags": [
             "Reinforcement Learning",
@@ -830,20 +933,20 @@
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/michael-rl-v2-july-18-2026/6558",
           "positives": [
-            "코너 안쪽 정점을 자연스럽게 타는 인간다운 차선 위치 선정",
-            "점진적이고 부드러운 종방향 감속 예측",
-            "기계적 미세 진동 없는 유연한 조향 보정"
+            "Human-like lane positioning with intuitive inside-corner apexing",
+            "Progressive and smooth longitudinal braking anticipation",
+            "Fluid steering corrections without mechanical micro-adjustments"
           ],
           "negatives": [
-            "규칙 기반 모델 대비 코너를 다소 가깝게 파고듦",
-            "차선 표시가 갑자기 끊기는 구간에서 순간적인 머뭇거림"
+            "Can cut corners slightly closer than rule-based models",
+            "Occasional hesitation when lane markings split or end abruptly"
           ],
-          "bestFor": "자연스러운 인간형 주행",
-          "steeringFeel": "자연스러움 (Natural)"
+          "bestFor": "Natural Human-Like Driving",
+          "steeringFeel": "Natural"
         },
         {
           "name": "Rebel Legion Model",
-          "date": "2026년 7월 22일",
+          "date": "July 22, 2026",
           "badge": "NEW",
           "tags": [
             "Highway",
@@ -860,8 +963,8 @@
           },
           "consensus": "Rebel 시리즈 중 고속도로에 특화된 모델입니다. 과격한 회전 토크 대신 안정적인 직선 주행 차선 유지와 부드러운 차선 변경을 제공합니다.",
           "note": "초기 WMI 모델 대비 차분한 고속도로 주행을 원하는 사용자에게 추천합니다.",
-          "bestFor": "고속도로 출퇴근",
-          "steeringFeel": "균형 잡힘 (Balanced)",
+          "bestFor": "Highway Commutes",
+          "steeringFeel": "Balanced",
           "forumUrl": "https://community.sunnypilot.ai/t/rebel-legion-model-july-22-2026/6559",
           "testedOn": [
             "Hyundai Ioniq 5",
@@ -871,13 +974,13 @@
             "comma 4"
           ],
           "positives": [
-            "차선 방황 없는 안정적인 고속도로 센터링",
-            "openpilot 차선 변경 시 매우 부드러운 전환",
-            "보수적이고 안전한 차간 거리 유지"
+            "Locked-in highway centering with minimal wandering",
+            "Smooth lane transitions during openpilot lane changes",
+            "Conservative lead vehicle follow distance"
           ],
           "negatives": [
-            "Rebellious Hope 대비 도심 급커브 대응력 부족",
-            "정지 상태 출발 시 다소 보수적인 가속"
+            "Less aggressive on sharp urban turns than Rebellious Hope",
+            "Relatively conservative acceleration from complete stops"
           ]
         },
         {
@@ -916,7 +1019,7 @@
         },
         {
           "name": "Rebellious Hope Model",
-          "date": "2026년 7월 27일",
+          "date": "July 27, 2026",
           "badge": "NEW",
           "tags": [
             "Experimental",
@@ -933,8 +1036,8 @@
           },
           "consensus": "차량 조향 토크 한계를 초과하는 급커브에서도 CD210처럼 차선을 이탈하지 않도록 어시스트 코너링을 지원하도록 설계되었습니다. 깊은 커브에서 차선 유지력이 우수하나 일부 차종에서는 저속 핑퐁 현상이 있습니다.",
           "note": "커브가 많은 주행 환경에 적합합니다. 저속 차선 방황 시 저속 횡방향 일시중지 기능을 활성화하세요.",
-          "bestFor": "곡선 도로 / 어시스트 코너링",
-          "steeringFeel": "견고함 (Firm)",
+          "bestFor": "Curved Roads / Assisted Cornering",
+          "steeringFeel": "Firm",
           "forumUrl": "https://community.sunnypilot.ai/t/rebellious-hope-model-july-27-2026/6560",
           "testedOn": [
             "2023 Lexus RC 350",
@@ -943,18 +1046,57 @@
             "comma 4"
           ],
           "positives": [
-            "고토크 어시스트 코너링 중 CD210 대비 우수한 차선 유지",
-            "급커브 진입 시 견고한 센터 필",
-            "코너 진입 시 예측 가능한 감속 프로파일"
+            "Maintains lane line integrity during high-torque assisted cornering better than CD210",
+            "Firm on-center feel when taking aggressive bends",
+            "Predictable deceleration profile into turns"
           ],
           "negatives": [
-            "렉서스 및 일부 토요타 플랫폼에서 저속 횡방향 핑퐁/진동 보고",
-            "토크 한계 도달 시 운전자 개입 전환이 다소 거침"
+            "Low-speed lateral ping-pong / oscillations reported on Lexus and some Toyota platforms",
+            "Slightly jerky transition when driver intervenes on torque-limited turns"
           ]
         },
         {
+          "name": "Terrible Super Fantastic Do Over Model",
+          "date": "August 15, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental"
+          ],
+          "consensus": "Re-cut of the Terrible Super Fantastic drop from three days earlier. Community feedback thread is open.",
+          "forumUrl": "https://community.sunnypilot.ai/t/terrible-super-fantastic-do-over-model-august-15-2026/6765",
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Terrible Super Fantastic Model",
+          "date": "August 12, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental"
+          ],
+          "consensus": "Mid-August standard-hardware drop, superseded three days later by the 'Do Over' re-cut.",
+          "forumUrl": "https://community.sunnypilot.ai/t/terrible-super-fantastic-model-august-12-2026/6764",
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "RDF Model v2",
+          "date": "August 11, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Experimental"
+          ],
+          "consensus": "Follow-up to the August 5 RDF Model. Second iteration of the same line on standard hardware.",
+          "forumUrl": "https://community.sunnypilot.ai/t/rdf-model-v2-august-11-2026/6763",
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
           "name": "RDF Model",
-          "date": "2026년 8월 5일",
+          "date": "August 05, 2026",
           "badge": "NEW",
           "tags": [
             "Recommended",
@@ -972,8 +1114,8 @@
           },
           "consensus": "Yassine/MVL 튜닝 모델로 POP 및 CD210 대비 종방향 제어 성능이 대폭 향상되었습니다. 고속도로 정체 구간에서 부드러운 속도 매칭과 완만한 곡선 구간에서 적극적인 조향 제어를 제공합니다.",
           "note": "현대/혼다 차량의 경우 최신 MVL 튜닝과 함께 사용하는 것을 권장합니다. 실험 모드에서 매우 안정적인 종방향 제어를 보여줍니다.",
-          "bestFor": "고속도로 / 정체 구간",
-          "steeringFeel": "적극적 (Assertive)",
+          "bestFor": "Highway / Stop & Go",
+          "steeringFeel": "Assertive",
           "forumUrl": "https://community.sunnypilot.ai/t/rdf-model-august-5-2026/6569",
           "testedOn": [
             "2022 Honda Civic",
@@ -983,15 +1125,15 @@
             "comma 4"
           ],
           "positives": [
-            "POP 및 CD210 대비 대폭 개선된 가속 및 감속",
-            "부드러운 고속도로 스탑앤고 및 속도 추종",
-            "완만한 고속도로 곡선에서의 적극적인 조향력",
-            "강력한 선행 차량 감지"
+            "Substantial acceleration and stopping improvements over POP and CD210",
+            "Smooth highway stop & go and speed matching",
+            "Assertive steering power and curve handling on long sweeping curves",
+            "Strong longitudinal lead detection"
           ],
           "negatives": [
-            "일부 중대형/각도 조향 차량에서 급격한 코너 시 조향 포기 현상",
-            "차량 셀프 튜닝 중 저속 횡방향 미세 흔들림",
-            "직교 횡단 차량 진입 시 급감속 가능성"
+            "Gives up on sharp high-angle curves on some heavy/angle vehicles (Rivian R1T)",
+            "Minor low-speed lateral oscillation/wiggle while vehicle self-tunes",
+            "Perpendicular traffic cutting across path can cause abrupt deceleration"
           ]
         }
       ]

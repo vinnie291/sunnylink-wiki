@@ -404,6 +404,9 @@ const CATEGORY_SIGNALS: Record<string, AxisDelta> = {
     opm: { comfort: -4 },
     // 2026 world models are the E2E generation, where urban capability lives.
     world_2026: { urban: 6 },
+    // Chestnut big models are the same generation with more network to spend
+    // on scene understanding, but the tier is still young and lightly tested.
+    chestnut_gpu: { urban: 8 },
 };
 
 /** Fields that report behaviour as unsettled, so evidence is trusted less. */
