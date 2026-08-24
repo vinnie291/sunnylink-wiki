@@ -75,8 +75,11 @@ function syncFiles() {
                         updatedModel[field] = baseModel[field];
                     }
                 }
+                // An absent value or an empty list carries no translation, so it
+                // is safe to seed from the base file.
+                const isUnset = (v) => v === undefined || (Array.isArray(v) && v.length === 0);
                 for (const field of localizedFields) {
-                    if (baseModel[field] !== undefined && updatedModel[field] === undefined) {
+                    if (baseModel[field] !== undefined && isUnset(updatedModel[field])) {
                         updatedModel[field] = baseModel[field];
                     }
                 }

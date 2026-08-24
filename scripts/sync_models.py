@@ -73,8 +73,13 @@ def sync_files():
                 for field in data_fields:
                     if field in base_model:
                         updated_model[field] = base_model[field]
+                # An absent value or an empty list carries no translation, so it
+                # is safe to seed from the base file.
+                def is_unset(v):
+                    return v is None or (isinstance(v, list) and len(v) == 0)
                 for field in localized_fields:
-                    if field in base_model and field not in updated_model:
+                    if field in base_model and (field not in updated_model
+                                                or is_unset(updated_model[field])):
                         updated_model[field] = base_model[field]
 
                 synced_models.append(updated_model)
