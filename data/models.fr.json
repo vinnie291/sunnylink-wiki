@@ -58,7 +58,7 @@
       "includes": "I Desire, BMRLNAP, Tee Time, TTTTFBRLM, Lebowski",
       "vibe": "Ce sont les « big models » : des réseaux de classe Chestnut, plus volumineux que tout ce qu'offrent les gammes WMI ou OP, liés au nouveau module GPU de comma, qui n'a commencé à parvenir aux propriétaires qu'en août 2026. Ils sortent sous le tag big_model du forum, à un rythme quasi quotidien pendant une série. La taille accrue du réseau se voit d'abord en latéral : un développeur sunnypilot a qualifié la première version d'« outstanding » en virage, prenant les tournants urbains à plus de 90 degrés avec l'amplitude appropriée plutôt qu'en les coupant, et les versions les mieux accueillies sont décrites comme posées plutôt que flottantes. La faiblesse récurrente est le mobilier urbain : panneaux stop franchis en « California stop », feux, et sur certaines versions un freinage dur ou tardif ainsi qu'un effet d'à-coups gaz-frein à la vitesse de consigne. Le nombre de votes reste à un chiffre : considérez tous les scores de cette section comme provisoires.",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
-      "recommendation": "BMRLNAP obtient les meilleurs sondages — unanime partout — mais sur deux votes ; I Desire reste la lecture la plus fiable avec quatre. Lebowski mérite le détour si les virages comptent pour vous : le meilleur latéral de la série, le pire longitudinal. Gardez un modèle standard pour les trajets riches en panneaux stop."
+      "recommendation": "BMRLNAP obtient les meilleurs sondages — unanime partout — mais sur deux votes ; I Desire reste la lecture la plus fiable avec quatre. Lebowski mérite le détour si les virages comptent pour vous : le meilleur latéral de la série, le pire longitudinal. Tee Time est à éviter sauf si vous testez : son sondage latéral n'a recueilli aucun vote positif. Gardez un modèle standard pour les trajets riches en panneaux stop."
     }
   },
   "categories": [
@@ -331,15 +331,38 @@
           "badge": "NEW",
           "tags": [
             "Big Model",
-            "Chestnut"
+            "Chestnut",
+            "Mixed Sentiment"
           ],
-          "consensus": "Part of the mid-August big model cadence following TTTTFBRLM. Drop poll is live and gathering per-vehicle reports.",
-          "note": "Modèle de classe Chestnut, lié au nouveau module GPU de comma. Le matériel a commencé à parvenir aux propriétaires en août 2026.",
-          "bestFor": "Testeurs de big models",
+          "consensus": "La version la plus clivante de la série : un sondage de quatre votes réparti à parts égales entre « Bon » et « Mauvais », et la seule entrée dont le sondage latéral n'a recueilli aucun vote positif — ping-pong/flottement chez deux votants sur trois, collage de voie et survirage en courbe chez un chacun, rien pour « doux et stable » ni « naturel ». Le ping-pong est jugé très perceptible à haute vitesse. Le longitudinal paraît contradictoire jusqu'à ce qu'on sépare la douceur du jugement : le sondage est unanime sur l'accélération et le freinage doux, tandis que les retours écrits portent tous sur un ralentissement bien trop précoce — une route à 55 mph voit la vitesse tomber à environ 48, avec une réduction à chaque intersection ou groupe de maisons. Le point fort, ce sont les panneaux stop à basse vitesse : en dessous de 50 mph, décrit comme le meilleur vu sur n'importe quel modèle, s'arrêtant en douceur juste avant le panneau 9 ou 10 fois d'affilée ; au-dessus, un testeur désengage car il ne les voit plus à temps.",
+          "note": "Modèle de classe Chestnut, lié au nouveau module GPU de comma. Le sondage principal compte quatre votes, également répartis entre « Bon » et « Mauvais ». À lire en croisant sondages et commentaires : le sondage longitudinal est unanimement positif alors que le texte reproche un ralentissement trop précoce — cette option mesure donc la douceur, pas la justesse du moment. Le rapport le plus détaillé porte sur une Camry de 2023.",
+          "bestFor": "Testing Only",
           "forumUrl": "https://community.sunnypilot.ai/t/tee-time-model-august-19-2026-big-model/6814",
-          "testedOn": [],
-          "positives": [],
-          "negatives": []
+          "testedOn": [
+            "2023 Camry"
+          ],
+          "positives": [
+            "Comportement face aux panneaux stop sous 50 mph décrit comme le meilleur vu sur un modèle",
+            "S'arrête en douceur juste avant le panneau, 9 ou 10 fois d'affilée",
+            "Accélération et freinage doux à l'unanimité dans le sondage longitudinal",
+            "S'écarte du centre à l'approche d'un véhicule en sens inverse"
+          ],
+          "negatives": [
+            "Aucun vote positif en latéral — ping-pong/flottement chez deux votants sur trois",
+            "Ping-pong très perceptible à haute vitesse",
+            "Ralentit si tôt que cela devient inconfortable en ville",
+            "Perd de la vitesse sur une route à 55 mph et se stabilise autour de 48",
+            "Au-dessus de 50 mph, ne voit plus les panneaux stop à temps, obligeant à désengager"
+          ],
+          "communityScore": 38,
+          "totalVotes": 4,
+          "sentiment": {
+            "great": 0,
+            "good": 50,
+            "ok": 0,
+            "bad": 50
+          },
+          "steeringFeel": "Twitchy"
         },
         {
           "name": "TTTTFBRLM",

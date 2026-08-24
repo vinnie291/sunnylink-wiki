@@ -58,7 +58,7 @@
       "includes": "I Desire, BMRLNAP, Tee Time, TTTTFBRLM, Lebowski",
       "vibe": "这些就是所谓的“大模型”——Chestnut 级网络，规模超过 WMI 或 OP 系列的任何一版，并与 comma 新推出的 GPU 扩展模块绑定，而该硬件直到 2026 年 8 月才开始送达用户。它们以论坛 big_model 标签发布，在一轮发布期间几乎每天更新。更大的网络首先体现在横向控制上：首个版本的转弯表现被一位 sunnypilot 开发者称为“outstanding”，在市区 90 度以上的转弯中会以合适的弧度绕行而不是切弯；口碑最好的几版被形容为沉稳扎实而非飘忽。反复出现的短板是城市道路设施：把停车标志当作“加州式停车”滚过、红绿灯处理欠佳，部分版本还存在急刹或制动过晚，以及达到设定车速后的加减速顿挫。各帖投票数仍是个位数，因此本档位的所有分数都应视为暂定值。",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
-      "recommendation": "BMRLNAP 的投票表现最好——所有投票均为全票一致——但仅有 2 票；4 票的 I Desire 更可靠。如果你看重转弯表现，值得研究 Lebowski：本轮横向最强、纵向最弱。在停车标志密集的路线上请准备一个标准模型备用。"
+      "recommendation": "BMRLNAP 的投票表现最好——所有投票均为全票一致——但仅有 2 票；4 票的 I Desire 更可靠。如果你看重转弯表现，值得研究 Lebowski：本轮横向最强、纵向最弱。除非你是在做测试，否则建议跳过 Tee Time——它的横向投票没有获得任何正面票。在停车标志密集的路线上请准备一个标准模型备用。"
     }
   },
   "categories": [
@@ -331,15 +331,38 @@
           "badge": "NEW",
           "tags": [
             "Big Model",
-            "Chestnut"
+            "Chestnut",
+            "Mixed Sentiment"
           ],
-          "consensus": "Part of the mid-August big model cadence following TTTTFBRLM. Drop poll is live and gathering per-vehicle reports.",
-          "note": "Chestnut 级模型，与 comma 新推出的 GPU 扩展模块绑定。 该硬件自 2026 年 8 月起开始送达用户。",
-          "bestFor": "大模型测试者",
+          "consensus": "本轮分歧最大的一版：4 票的投票在“好”与“差”之间对半分，也是唯一一个横向投票没有获得任何正面票的条目——三位投票者中有两位选择画龙/游移，贴线与弯道转向过度各一位，“平顺稳定”和“自然”均为零票。高速下的画龙现象被形容为非常明显。纵向乍看矛盾，但把平顺度与判断力分开看就清楚了：投票全票认为“加速与制动平顺”，而文字反馈几乎都在说减速过早——在 55 mph 的道路上车速会掉到 48 mph 左右，遇到任何交叉路口或成片房屋都会降速。亮点是低速下的停车标志处理：在 50 mph 以下被称为在任何模型上见过的最佳表现，能连续 9 到 10 次平顺地在标志前恰好停稳；但超过该速度后，测试者因其无法及时识别标志而选择解除。",
+          "note": "Chestnut 级模型，与 comma 新推出的 GPU 扩展模块绑定。主投票为 4 票，“好”与“差”对半分。建议把投票与评论结合起来看：纵向投票全票正面，而文字反馈抱怨减速过早，说明该投票选项衡量的是平顺度，而非时机是否恰当。最详细的反馈来自一辆 2023 款凯美瑞。",
+          "bestFor": "Testing Only",
           "forumUrl": "https://community.sunnypilot.ai/t/tee-time-model-august-19-2026-big-model/6814",
-          "testedOn": [],
-          "positives": [],
-          "negatives": []
+          "testedOn": [
+            "2023 Camry"
+          ],
+          "positives": [
+            "50 mph 以下的停车标志处理被称为在任何模型上见过的最佳表现",
+            "能连续 9 到 10 次平顺地在标志前恰好停稳",
+            "纵向投票中“加速与制动平顺”获全票一致",
+            "对向来车接近时会主动偏离中线"
+          ],
+          "negatives": [
+            "横向没有任何正面票——三位投票者中两位选择画龙/游移",
+            "高速下画龙现象非常明显",
+            "减速过早，在城市道路上体感不适",
+            "在 55 mph 道路上掉速，稳定在 48 mph 左右",
+            "超过 50 mph 后无法及时识别停车标志，需要解除"
+          ],
+          "communityScore": 38,
+          "totalVotes": 4,
+          "sentiment": {
+            "great": 0,
+            "good": 50,
+            "ok": 0,
+            "bad": 50
+          },
+          "steeringFeel": "Twitchy"
         },
         {
           "name": "TTTTFBRLM",
