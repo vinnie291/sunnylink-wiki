@@ -56,9 +56,9 @@
       "title": "The Chestnut GPU Series (Big Models)",
       "subtitle": "eGPU-Only Heavyweights",
       "includes": "I Desire, BMRLNAP, Tee Time, TTTTFBRLM, Lebowski",
-      "vibe": "이른바 '빅 모델'입니다. comma 3/3X에서 구동하기에는 너무 커서, 외장 GPU를 연결한 Chestnut 전용으로만 배포됩니다. 늘어난 연산 성능 덕분에 WMI나 OP 계열보다 큰 네트워크를 사용하며, 한 차례 배포가 시작되면 주 단위가 아니라 거의 매일 새 모델이 올라옵니다. 이 등급은 테스트 최전선으로 보는 것이 좋습니다. 하드웨어 요구 조건이 절대적이고(eGPU가 없으면 모델도 없음), 초기 배포에서는 인게이지 후 약 1분 만에 즉시 인수를 요구하는 오류처럼 빅 모델 특유의 결함이 보고되었습니다.",
+      "vibe": "이른바 '빅 모델'입니다. 포럼의 big_model 태그로 배포되는 대형 주행 모델로, comma의 Chestnut 및 eGPU 도입과 함께 한 차례 배포 기간에는 주 단위가 아니라 거의 매일 올라옵니다. 커진 네트워크는 차선 유지와 정속 주행에서 드러납니다. 가장 좋은 평가를 받은 모델은 붕 뜨지 않고 안정적으로 눌러 앉은 느낌이라는 평과 함께, 멀미를 유발하는 긴 진동이 없다는 점이 언급됩니다. 배포 전반에서 반복되는 약점은 신호등과 정지 표지판 같은 도심 요소이며, 구름 정지와 머뭇거리는 가속도 함께 지적됩니다. 한 배포판에서는 인게이지 약 1분 후 즉시 인수를 요구하는 오류가 보고되었습니다. 이 스레드들의 투표 수는 아직 한 자릿수이므로 점수는 잠정치로 보아야 합니다.",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
-      "recommendation": "시리즈에서 가장 최신 배포판부터 시작하고, 문제가 생기면 되돌아갈 표준 하드웨어용 모델을 함께 준비해 두세요. C3나 C3X를 사용 중이라면 이 등급 전체를 사용할 수 없으므로 WMI 2026을 이용하세요."
+      "recommendation": "현재로서는 I Desire가 가장 낫습니다. 이번 배포 중 가장 좋은 투표 결과이자 유일하게 만장일치가 나온 종방향 평가입니다. 정지 표지판이 많은 구간을 위해 표준 모델을 함께 준비하고, 스레드에 요구 사항이 명시되어 있지 않으므로 배포 스레드에서 자신의 하드웨어 관련 언급을 확인하세요."
     }
   },
   "categories": [
@@ -241,7 +241,7 @@
     {
       "id": "chestnut_gpu",
       "name": "Chestnut GPU",
-      "description": "GPU 가속 '빅 모델' 주행 모델입니다. 외장 GPU(eGPU)를 연결한 comma Chestnut이 필요하며 C3/C3X 하드웨어에서는 실행되지 않습니다.",
+      "description": "포럼의 '빅 모델' 등급입니다. big_model 태그로 배포되는 대형 주행 모델로, Chestnut 및 eGPU 도입과 함께 한 차례 배포 기간에는 거의 매일 올라옵니다.",
       "icon": "🌰",
       "models": [
         {
@@ -250,16 +250,39 @@
           "badge": "NEW",
           "tags": [
             "Big Model",
-            "GPU Required",
-            "Chestnut"
+            "Chestnut",
+            "Highway",
+            "Smooth"
           ],
-          "consensus": "Newest entry in the GPU-only big model run. Announced in Model Discussions with the standard drop poll; community feedback is still being collected.",
-          "note": "Requires a comma Chestnut with an external GPU (eGPU). Will not run on C3/C3X hardware.",
-          "bestFor": "Chestnut eGPU 테스터",
+          "consensus": "빅 모델 배포 중 초기 반응이 가장 좋습니다. 4표의 소규모 투표에서 75%가 '좋음' 이상을 주었고, 지금까지 유일하게 만장일치가 나온 종방향 결과이기도 합니다. 두 명 모두 '부드러운 가속과 제동'을 선택했고 급격함, 늦은 제동, 정체 구간 불량에는 표가 없었습니다. 붕 뜨지 않는 안정적인 차선 유지와, 멀미를 유발하는 긴 진동이 없는 정속 주행이 호평받았습니다. 신호등과 정지 표지판은 여전히 약점이며, 횡방향 투표는 '부드럽고 안정적'과 차선 쏠림/핑퐁으로 정확히 반씩 나뉘었습니다.",
+          "note": "포럼의 big_model 태그로 배포되었습니다. 투표 수가 아직 매우 적어(대표 투표 4표, 세부 투표 2~3표) 점수는 잠정치입니다. 한 사용자는 대시보드에 장착한 C4와 C3X에서 사용했고, 다른 사용자는 2023년형 캠리로 시골 도로에서 테스트했습니다.",
+          "bestFor": "고속도로 / 정속 주행",
           "forumUrl": "https://community.sunnypilot.ai/t/i-desire-model-august-21-2026-big-model/6831",
-          "testedOn": [],
-          "positives": [],
-          "negatives": []
+          "testedOn": [
+            "2023 Camry"
+          ],
+          "positives": [
+            "뛰어난 차선 유지와 정속 주행, 붕 뜨지 않고 안정적",
+            "종방향 투표에서 만장일치로 부드러운 가속과 제동",
+            "멀미를 유발하는 긴 진동 없음",
+            "정지 표지판은 제때 인식하고 적절히 감속함"
+          ],
+          "negatives": [
+            "신호등과 정지 표지판이 최대 약점",
+            "구름 정지 — 한 주행에서 표지판 10개 중 1개에서만 완전 정지",
+            "고속에서 머뭇거리는 가속, 55mph 도로에서 53mph로 안착",
+            "정지·양보 표지판이 없는 교차 도로에서도 감속함",
+            "저속에서의 통상적인 진동과 일부 도로에서의 핑퐁 현상"
+          ],
+          "communityScore": 81,
+          "totalVotes": 4,
+          "sentiment": {
+            "great": 50,
+            "good": 25,
+            "ok": 25,
+            "bad": 0
+          },
+          "steeringFeel": "Varies"
         },
         {
           "name": "BMRLNAP Model",
@@ -267,12 +290,11 @@
           "badge": "NEW",
           "tags": [
             "Big Model",
-            "GPU Required",
             "Chestnut"
           ],
           "consensus": "Big model drop released one day after Tee Time. Feedback thread is open; no settled community verdict yet.",
-          "note": "Requires a comma Chestnut with an external GPU (eGPU).",
-          "bestFor": "Chestnut eGPU 테스터",
+          "note": "포럼의 big_model 태그로 배포되었습니다. 하드웨어 요구 사항은 배포 스레드에 명시되어 있지 않습니다.",
+          "bestFor": "빅 모델 테스터",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-august-20-2026-big-model/6828",
           "testedOn": [],
           "positives": [],
@@ -284,12 +306,11 @@
           "badge": "NEW",
           "tags": [
             "Big Model",
-            "GPU Required",
             "Chestnut"
           ],
           "consensus": "Part of the mid-August big model cadence following TTTTFBRLM. Drop poll is live and gathering per-vehicle reports.",
-          "note": "Requires a comma Chestnut with an external GPU (eGPU).",
-          "bestFor": "Chestnut eGPU 테스터",
+          "note": "포럼의 big_model 태그로 배포되었습니다. 하드웨어 요구 사항은 배포 스레드에 명시되어 있지 않습니다.",
+          "bestFor": "빅 모델 테스터",
           "forumUrl": "https://community.sunnypilot.ai/t/tee-time-model-august-19-2026-big-model/6814",
           "testedOn": [],
           "positives": [],
@@ -301,13 +322,12 @@
           "badge": "NEW",
           "tags": [
             "Big Model",
-            "GPU Required",
             "Chestnut",
             "Early Feedback"
           ],
           "consensus": "First of the mid-August big model run. Notable for a reported 'Big Model Error' that forces an immediate takeover roughly one minute after engagement on some Chestnut setups.",
-          "note": "Requires a comma Chestnut with an external GPU (eGPU). A separate Driving Issues thread tracks a 'Big Model Error' takeover prompt on sunnypilot 2026.003.000: https://community.sunnypilot.ai/t/chestnut-model-big-model-error-take-over-immediately-after-1-minute-of-engagement/6845",
-          "bestFor": "Chestnut eGPU 테스터",
+          "note": "포럼의 big_model 태그로 배포되었습니다. 하드웨어 요구 사항은 배포 스레드에 명시되어 있지 않습니다. 별도의 Driving Issues 스레드에서 sunnypilot 2026.003.000의 'Big Model Error' 인수 경고를 다루고 있습니다: https://community.sunnypilot.ai/t/chestnut-model-big-model-error-take-over-immediately-after-1-minute-of-engagement/6845",
+          "bestFor": "빅 모델 테스터",
           "forumUrl": "https://community.sunnypilot.ai/t/ttttfbrlm-august-18-2026-big-model/6813",
           "testedOn": [],
           "positives": [],
@@ -320,12 +340,11 @@
           "date": "2026년 7월 1일",
           "tags": [
             "Big Model",
-            "GPU Required",
             "Chestnut"
           ],
           "consensus": "Earliest of the archived big model drops carried over into Model Discussions. Establishes the GPU-only tier ahead of the August cadence.",
-          "note": "Requires a comma Chestnut with an external GPU (eGPU).",
-          "bestFor": "Chestnut eGPU 테스터",
+          "note": "포럼의 big_model 태그로 배포되었습니다. 하드웨어 요구 사항은 배포 스레드에 명시되어 있지 않습니다.",
+          "bestFor": "빅 모델 테스터",
           "forumUrl": "https://community.sunnypilot.ai/t/lebowski-model-july-01-2026-big-model/6812",
           "testedOn": [],
           "positives": [],

@@ -56,9 +56,9 @@
       "title": "The Chestnut GPU Series (Big Models)",
       "subtitle": "eGPU-Only Heavyweights",
       "includes": "I Desire, BMRLNAP, Tee Time, TTTTFBRLM, Lebowski",
-      "vibe": "Estos son los «big models»: modelos de conducción demasiado grandes para ejecutarse en el comma 3/3X, publicados solo para el Chestnut con una GPU externa conectada. El cómputo adicional permite una red mayor que cualquiera de las líneas WMI u OP, y durante una tanda los lanzamientos llegan casi a diario en lugar de semanalmente. Trata este nivel como una frontera de pruebas: el requisito de hardware es estricto (sin eGPU, no hay modelo) y los primeros lanzamientos han mostrado fallos propios de los big models, como un error que exige tomar el control de inmediato alrededor de un minuto después de activarlo.",
+      "vibe": "Estos son los «big models»: modelos de conducción más grandes publicados bajo la etiqueta big_model del foro, que llegan casi a diario durante una tanda en lugar de semanalmente, junto al despliegue de Chestnut y las eGPU de comma. El mayor tamaño de la red se nota en el mantenimiento de carril y la conducción en crucero: el mejor valorado se describe como asentado en lugar de flotante, sin las oscilaciones largas que provocan mareo. El punto débil recurrente en toda la tanda es el mobiliario urbano —semáforos y señales de stop—, además de paradas rodadas y aceleración dubitativa; en una de las versiones se reporta un error que exige tomar el control de inmediato alrededor de un minuto tras la activación. Los votos en estos hilos siguen siendo de un solo dígito, así que considera las puntuaciones provisionales.",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
-      "recommendation": "Empieza por el lanzamiento más reciente de la serie y ten a mano un modelo de hardware estándar como alternativa. Si usas un C3 o un C3X, todo este nivel no está disponible: utiliza WMI 2026 en su lugar."
+      "recommendation": "I Desire es la mejor opción hasta ahora: la encuesta más sólida de la tanda y el único resultado longitudinal unánime. Ten a mano un modelo estándar para rutas con muchas señales de stop y consulta el hilo de la versión para ver si tu hardware encaja, ya que los hilos no detallan los requisitos."
     }
   },
   "categories": [
@@ -241,7 +241,7 @@
     {
       "id": "chestnut_gpu",
       "name": "Chestnut GPU",
-      "description": "Modelos de conducción «grandes» acelerados por GPU. Requieren un comma Chestnut con una GPU externa (eGPU) y no funcionan en hardware C3/C3X.",
+      "description": "El nivel «big model» del foro: modelos de conducción más grandes publicados bajo la etiqueta big_model junto al despliegue de Chestnut y eGPU, con una cadencia casi diaria durante una tanda.",
       "icon": "🌰",
       "models": [
         {
@@ -250,16 +250,39 @@
           "badge": "NEW",
           "tags": [
             "Big Model",
-            "GPU Required",
-            "Chestnut"
+            "Chestnut",
+            "Highway",
+            "Smooth"
           ],
-          "consensus": "Newest entry in the GPU-only big model run. Announced in Model Discussions with the standard drop poll; community feedback is still being collected.",
-          "note": "Requires a comma Chestnut with an external GPU (eGPU). Will not run on C3/C3X hardware.",
-          "bestFor": "Probadores de Chestnut con eGPU",
+          "consensus": "La mejor acogida inicial de la tanda de big models: un 75 % lo sitúa en «Bueno» o mejor en una encuesta pequeña de cuatro votos, además del único resultado longitudinal unánime hasta ahora: ambos votantes eligieron «aceleración y frenada suaves», sin votos para brusca, dura/tardía ni mal tráfico denso. Elogiado por un mantenimiento de carril asentado y no flotante y una conducción en crucero sin las oscilaciones largas que provocan mareo. Los semáforos y las señales de stop siguen siendo el punto débil, y la encuesta lateral se reparte por igual entre «suave y estable» y pegarse al carril / ping-pong.",
+          "note": "Publicado bajo la etiqueta big_model del foro. El número de votos sigue siendo muy pequeño (4 en la encuesta principal, 2-3 en las de detalle), así que la puntuación es provisional. Un usuario lo probó con un C4 montado en el salpicadero y un C3X; otro probó un Camry de 2023 en carreteras rurales.",
+          "bestFor": "Autopista / Crucero",
           "forumUrl": "https://community.sunnypilot.ai/t/i-desire-model-august-21-2026-big-model/6831",
-          "testedOn": [],
-          "positives": [],
-          "negatives": []
+          "testedOn": [
+            "2023 Camry"
+          ],
+          "positives": [
+            "Excelente mantenimiento de carril y conducción en crucero; asentado en lugar de flotante",
+            "Aceleración y frenada suaves por unanimidad en la encuesta longitudinal",
+            "Sin oscilaciones largas que provoquen mareo",
+            "Aun así ve las señales de stop a tiempo y frena de forma adecuada"
+          ],
+          "negatives": [
+            "Los semáforos y las señales de stop son su talón de Aquiles",
+            "Paradas rodadas: parada completa en solo 1 de cada 10 señales en un trayecto",
+            "Aceleración dubitativa a velocidad, se estabiliza a 53 mph en carreteras de 55 mph",
+            "Reduce la velocidad en cruces sin señal de stop ni de ceda el paso",
+            "Oscilación habitual a baja velocidad, con ping-pong errático en algunas carreteras"
+          ],
+          "communityScore": 81,
+          "totalVotes": 4,
+          "sentiment": {
+            "great": 50,
+            "good": 25,
+            "ok": 25,
+            "bad": 0
+          },
+          "steeringFeel": "Varies"
         },
         {
           "name": "BMRLNAP Model",
@@ -267,12 +290,11 @@
           "badge": "NEW",
           "tags": [
             "Big Model",
-            "GPU Required",
             "Chestnut"
           ],
           "consensus": "Big model drop released one day after Tee Time. Feedback thread is open; no settled community verdict yet.",
-          "note": "Requires a comma Chestnut with an external GPU (eGPU).",
-          "bestFor": "Probadores de Chestnut con eGPU",
+          "note": "Publicado bajo la etiqueta big_model del foro. Los requisitos de hardware no se detallan en los hilos de la versión.",
+          "bestFor": "Probadores de big models",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-august-20-2026-big-model/6828",
           "testedOn": [],
           "positives": [],
@@ -284,12 +306,11 @@
           "badge": "NEW",
           "tags": [
             "Big Model",
-            "GPU Required",
             "Chestnut"
           ],
           "consensus": "Part of the mid-August big model cadence following TTTTFBRLM. Drop poll is live and gathering per-vehicle reports.",
-          "note": "Requires a comma Chestnut with an external GPU (eGPU).",
-          "bestFor": "Probadores de Chestnut con eGPU",
+          "note": "Publicado bajo la etiqueta big_model del foro. Los requisitos de hardware no se detallan en los hilos de la versión.",
+          "bestFor": "Probadores de big models",
           "forumUrl": "https://community.sunnypilot.ai/t/tee-time-model-august-19-2026-big-model/6814",
           "testedOn": [],
           "positives": [],
@@ -301,13 +322,12 @@
           "badge": "NEW",
           "tags": [
             "Big Model",
-            "GPU Required",
             "Chestnut",
             "Early Feedback"
           ],
           "consensus": "First of the mid-August big model run. Notable for a reported 'Big Model Error' that forces an immediate takeover roughly one minute after engagement on some Chestnut setups.",
-          "note": "Requires a comma Chestnut with an external GPU (eGPU). A separate Driving Issues thread tracks a 'Big Model Error' takeover prompt on sunnypilot 2026.003.000: https://community.sunnypilot.ai/t/chestnut-model-big-model-error-take-over-immediately-after-1-minute-of-engagement/6845",
-          "bestFor": "Probadores de Chestnut con eGPU",
+          "note": "Publicado bajo la etiqueta big_model del foro. Los requisitos de hardware no se detallan en los hilos de la versión. Un hilo aparte en Driving Issues sigue un aviso de toma de control «Big Model Error» en sunnypilot 2026.003.000: https://community.sunnypilot.ai/t/chestnut-model-big-model-error-take-over-immediately-after-1-minute-of-engagement/6845",
+          "bestFor": "Probadores de big models",
           "forumUrl": "https://community.sunnypilot.ai/t/ttttfbrlm-august-18-2026-big-model/6813",
           "testedOn": [],
           "positives": [],
@@ -320,12 +340,11 @@
           "date": "1 de julio de 2026",
           "tags": [
             "Big Model",
-            "GPU Required",
             "Chestnut"
           ],
           "consensus": "Earliest of the archived big model drops carried over into Model Discussions. Establishes the GPU-only tier ahead of the August cadence.",
-          "note": "Requires a comma Chestnut with an external GPU (eGPU).",
-          "bestFor": "Probadores de Chestnut con eGPU",
+          "note": "Publicado bajo la etiqueta big_model del foro. Los requisitos de hardware no se detallan en los hilos de la versión.",
+          "bestFor": "Probadores de big models",
           "forumUrl": "https://community.sunnypilot.ai/t/lebowski-model-july-01-2026-big-model/6812",
           "testedOn": [],
           "positives": [],
