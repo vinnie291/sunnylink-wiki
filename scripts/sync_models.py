@@ -93,6 +93,7 @@ def sync_files():
 
         with open(locale_path, 'w', encoding='utf-8') as f:
             json.dump(locale_content, f, indent=2, ensure_ascii=False)
+            f.write('\n')
         print(f"✓ Synchronized {locale_file}")
 
 if __name__ == "__main__":

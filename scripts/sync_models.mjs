@@ -96,7 +96,7 @@ function syncFiles() {
 
         localeContent.categories = syncedCategories;
 
-        fs.writeFileSync(localePath, JSON.stringify(localeContent, null, 2), 'utf8');
+        fs.writeFileSync(localePath, JSON.stringify(localeContent, null, 2) + '\n', 'utf8');
         console.log(`✓ Synchronized ${localeFile}`);
     }
 }

@@ -61,7 +61,8 @@ const corr = (a: number[], b: number[]) => {
 };
 
 const polarityOf = (model: RatableModel) => {
-    const s = model.sentiment!;
+    const s = model.sentiment;
+    if (!s) return model.communityScore ?? 50;
     const opinionated = s.great + s.good + s.bad;
     return opinionated ? (100 * (s.great + 0.75 * s.good)) / opinionated : 50;
 };
@@ -128,7 +129,7 @@ const polStats = stats(polarity);
 const scoreStats = stats(communityScore);
 console.log(`  polarity       mean ${polStats.mean.toFixed(1)}  sd ${polStats.sd.toFixed(1)}   (lib: 59.2 / 17.3)`);
 console.log(`  communityScore mean ${scoreStats.mean.toFixed(1)}  sd ${scoreStats.sd.toFixed(1)}   (lib: 54.3 / 11.5)`);
-console.log(`  ok%% vs log(votes) correlation ${corr(logVotes, details.map((d) => d.model.sentiment!.ok)).toFixed(2)} ` +
+console.log(`  ok%% vs log(votes) correlation ${corr(logVotes, details.map((d) => d.model.sentiment?.ok ?? 50)).toFixed(2)} ` +
     '(the sample-size bias that keeps communityScore out of the anchor)');
 
 if (process.argv.includes('full')) {
