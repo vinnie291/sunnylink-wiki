@@ -58,7 +58,7 @@
       "includes": "I Desire, BMRLNAP, Tee Time, TTTTFBRLM, Lebowski",
       "vibe": "这些就是所谓的“大模型”——以论坛 big_model 标签发布的更大体量驾驶模型，伴随 comma 的 Chestnut 与 eGPU 推出，在一轮发布期间几乎每天更新而非每周一次。更大的网络体现在车道保持与巡航上：口碑最好的一版被形容为沉稳扎实而非飘忽，也没有那种让人晕车的长周期摆动。整轮发布中反复出现的短板是城市道路设施——红绿灯和停车标志——以及滚动停车和迟疑的加速；其中一版还有报告称启用约一分钟后出现要求立即接管的错误。这些主题帖的投票数仍是个位数，因此分数应视为暂定值。",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
-      "recommendation": "目前首选是 I Desire——本轮投票表现最好，也是唯一一个纵向评价全票一致的版本。在停车标志密集的路线上请准备一个标准模型备用；由于帖子并未写明硬件要求，建议先在对应发布帖中确认你的设备情况。"
+      "recommendation": "BMRLNAP 的投票表现最好——所有投票均为全票一致——但仅有 2 票；4 票的 I Desire 是更可靠的参考。两者短板相同：在停车标志密集的路线上请准备一个标准模型备用，并在对应发布帖中确认你的设备情况，因为帖子并未写明硬件要求。"
     }
   },
   "categories": [
@@ -290,15 +290,40 @@
           "badge": "NEW",
           "tags": [
             "Big Model",
-            "Chestnut"
+            "Chestnut",
+            "Smooth",
+            "Early Feedback"
           ],
-          "consensus": "Big model drop released one day after Tee Time. Feedback thread is open; no settled community verdict yet.",
-          "note": "以论坛 big_model 标签发布。发布帖中并未写明硬件要求。",
-          "bestFor": "大模型测试者",
+          "consensus": "本轮大模型中口碑最好的一版，但投票者仅两人：主投票全票“5 - 很棒”，横向全票“平顺稳定”，纵向也全票“加速与制动平顺”。一位 sunnypilot 开发者称其“literally definition of end to end”。纵向控制是亮点——在 60 mph 下也能稳住车速，红灯转绿时能迅速重新加速，对来不及通过的黄灯也应对得当。停车标志是需要注意的地方：从 60 mph 接近时速度略快，难以在标志处或标志前停稳；黄昏时段的一次行程中滚过的停车标志明显更多，需要人工介入。",
+          "note": "以论坛 big_model 标签发布。该分数来自一次全票但仅有 2 票的投票，因此属于暂定值，无法与样本更大的条目直接比较；细分投票也是同样这两位用户。最详细的反馈来自一辆 2023 款凯美瑞，车主表示尽管存在黄昏滚停车标志的问题，仍打算把它作为日常使用的模型。",
+          "bestFor": "All-Around",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-august-20-2026-big-model/6828",
-          "testedOn": [],
-          "positives": [],
-          "negatives": []
+          "testedOn": [
+            "2023 Camry"
+          ],
+          "positives": [
+            "主投票全票“5 - 很棒”，横向也全票平顺稳定",
+            "纵向投票中“加速与制动平顺”获全票一致",
+            "即使在 60 mph 下也能稳住车速",
+            "红灯转绿时重新加速非常迅速",
+            "对来不及通过的黄灯应对得当"
+          ],
+          "negatives": [
+            "从 60 mph 接近停车标志时速度略快，难以在标志处或标志前停稳",
+            "黄昏行程中滚过的停车标志明显更多，需要人工介入",
+            "夜间在标志和信号灯处的停车位置略微靠前",
+            "对引导车辆并入新车道的锥桶反应偏慢",
+            "略有游移，在较窄道路上有轻微左偏"
+          ],
+          "communityScore": 100,
+          "totalVotes": 2,
+          "sentiment": {
+            "great": 100,
+            "good": 0,
+            "ok": 0,
+            "bad": 0
+          },
+          "steeringFeel": "Smooth"
         },
         {
           "name": "Tee Time Model",

@@ -58,7 +58,7 @@
       "includes": "I Desire, BMRLNAP, Tee Time, TTTTFBRLM, Lebowski",
       "vibe": "Estos son los «big models»: modelos de conducción más grandes publicados bajo la etiqueta big_model del foro, que llegan casi a diario durante una tanda en lugar de semanalmente, junto al despliegue de Chestnut y las eGPU de comma. El mayor tamaño de la red se nota en el mantenimiento de carril y la conducción en crucero: el mejor valorado se describe como asentado en lugar de flotante, sin las oscilaciones largas que provocan mareo. El punto débil recurrente en toda la tanda es el mobiliario urbano —semáforos y señales de stop—, además de paradas rodadas y aceleración dubitativa; en una de las versiones se reporta un error que exige tomar el control de inmediato alrededor de un minuto tras la activación. Los votos en estos hilos siguen siendo de un solo dígito, así que considera las puntuaciones provisionales.",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
-      "recommendation": "I Desire es la mejor opción hasta ahora: la encuesta más sólida de la tanda y el único resultado longitudinal unánime. Ten a mano un modelo estándar para rutas con muchas señales de stop y consulta el hilo de la versión para ver si tu hardware encaja, ya que los hilos no detallan los requisitos."
+      "recommendation": "BMRLNAP es el mejor en las encuestas —unánime en todas— pero con dos votos; I Desire es la lectura más fiable con cuatro. Ambos comparten la misma debilidad: ten a mano un modelo estándar para rutas con muchas señales de stop y consulta el hilo de la versión para ver si tu hardware encaja, ya que los hilos no detallan los requisitos."
     }
   },
   "categories": [
@@ -290,15 +290,40 @@
           "badge": "NEW",
           "tags": [
             "Big Model",
-            "Chestnut"
+            "Chestnut",
+            "Smooth",
+            "Early Feedback"
           ],
-          "consensus": "Big model drop released one day after Tee Time. Feedback thread is open; no settled community verdict yet.",
-          "note": "Publicado bajo la etiqueta big_model del foro. Los requisitos de hardware no se detallan en los hilos de la versión.",
-          "bestFor": "Probadores de big models",
+          "consensus": "La versión mejor recibida de la tanda de big models, aunque con solo dos votantes: encuesta principal unánime en «5 - Genial», lateral unánime en «suave y estable» y aceleración y frenada suaves por unanimidad. Un desarrollador de sunnypilot lo describió como «literally definition of end to end». El control longitudinal es lo más destacado: mantiene bien la velocidad incluso a 60 mph, vuelve rápido al acelerador cuando un semáforo en rojo pasa a verde y responde bien a los ámbar que no le da tiempo a pasar. Las señales de stop son la salvedad: llega algo rápido para detenerse en la señal o antes de ella, y en un trayecto al anochecer se saltó bastantes más y necesitó intervención.",
+          "note": "Publicado bajo la etiqueta big_model del foro. La puntuación procede de una encuesta unánime pero de solo dos votos, así que es provisional y no comparable con las entradas de muestra mayor; las encuestas de detalle tienen los mismos dos votantes. El informe más completo es el de un Camry de 2023, cuyo conductor pensaba usarlo a diario pese a las señales de stop saltadas al anochecer.",
+          "bestFor": "All-Around",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-august-20-2026-big-model/6828",
-          "testedOn": [],
-          "positives": [],
-          "negatives": []
+          "testedOn": [
+            "2023 Camry"
+          ],
+          "positives": [
+            "Encuesta principal unánime en «5 - Genial» y lateral unánime suave y estable",
+            "Aceleración y frenada suaves por unanimidad en la encuesta longitudinal",
+            "Mantiene bien la velocidad incluso a 60 mph",
+            "Muy rápido al volver al acelerador cuando el rojo pasa a verde",
+            "Muy buena respuesta a los ámbar que no le da tiempo a cruzar"
+          ],
+          "negatives": [
+            "Llega a las señales de stop desde 60 mph algo rápido para detenerse en la señal o antes",
+            "Se saltó bastantes más señales de stop en un trayecto al anochecer y necesitó intervención",
+            "La posición de parada de noche queda algo adelantada en señales y semáforos",
+            "Reacción tardía a los conos que desvían el tráfico a un nuevo carril",
+            "Algo de vagabundeo, con ligero pegado a la izquierda en carreteras estrechas"
+          ],
+          "communityScore": 100,
+          "totalVotes": 2,
+          "sentiment": {
+            "great": 100,
+            "good": 0,
+            "ok": 0,
+            "bad": 0
+          },
+          "steeringFeel": "Smooth"
         },
         {
           "name": "Tee Time Model",

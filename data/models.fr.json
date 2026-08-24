@@ -58,7 +58,7 @@
       "includes": "I Desire, BMRLNAP, Tee Time, TTTTFBRLM, Lebowski",
       "vibe": "Ce sont les « big models » : des modèles de conduite plus volumineux publiés sous le tag big_model du forum, qui arrivent presque quotidiennement pendant une série plutôt que chaque semaine, parallèlement au déploiement de Chestnut et des eGPU de comma. La taille accrue du réseau se voit dans le maintien de voie et la conduite en croisière : le mieux accueilli est décrit comme posé plutôt que flottant, sans les longues oscillations qui donnent le mal des transports. Le point faible récurrent sur toute la série reste le mobilier urbain — feux et panneaux stop — auquel s'ajoutent des arrêts roulants et une accélération hésitante ; une des versions fait l'objet d'une erreur signalée exigeant une reprise en main environ une minute après l'activation. Le nombre de votes sur ces fils reste à un chiffre : considérez les scores comme provisoires.",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
-      "recommendation": "I Desire est le meilleur choix pour l'instant — le sondage le plus solide de la série et le seul résultat longitudinal unanime. Gardez un modèle standard sous la main pour les trajets riches en panneaux stop, et vérifiez dans le fil de la version si votre matériel convient, car les fils ne détaillent pas les prérequis."
+      "recommendation": "BMRLNAP obtient les meilleurs sondages — unanime partout — mais sur deux votes ; I Desire reste la lecture la plus fiable avec quatre. Les deux partagent la même faiblesse : gardez un modèle standard pour les trajets riches en panneaux stop, et vérifiez dans le fil de la version si votre matériel convient, car les fils ne détaillent pas les prérequis."
     }
   },
   "categories": [
@@ -290,15 +290,40 @@
           "badge": "NEW",
           "tags": [
             "Big Model",
-            "Chestnut"
+            "Chestnut",
+            "Smooth",
+            "Early Feedback"
           ],
-          "consensus": "Big model drop released one day after Tee Time. Feedback thread is open; no settled community verdict yet.",
-          "note": "Publié sous le tag big_model du forum. Les prérequis matériels ne sont pas détaillés dans les fils de version.",
-          "bestFor": "Testeurs de big models",
+          "consensus": "Version la mieux accueillie de la série big model, mais sur deux votants seulement : sondage principal unanime en « 5 - Excellent », latéral unanime en « doux et stable » et accélération et freinage doux à l'unanimité. Un développeur sunnypilot l'a qualifié de « literally definition of end to end ». Le longitudinal est le point fort : il tient bien la vitesse même à 60 mph, réaccélère vite quand un feu rouge repasse au vert et réagit bien aux feux orange qu'il ne peut pas franchir. Les panneaux stop sont la réserve : il arrive un peu trop vite pour s'arrêter au panneau ou avant, et lors d'un trajet au crépuscule il en a franchi nettement plus, nécessitant une intervention.",
+          "note": "Publié sous le tag big_model du forum. Le score provient d'un sondage unanime mais à deux votes : il est provisoire et non comparable aux entrées à plus grand échantillon ; les sondages détaillés comptent les deux mêmes votants. Le rapport le plus complet porte sur une Camry de 2023, dont le conducteur comptait l'utiliser au quotidien malgré les stops franchis au crépuscule.",
+          "bestFor": "All-Around",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-august-20-2026-big-model/6828",
-          "testedOn": [],
-          "positives": [],
-          "negatives": []
+          "testedOn": [
+            "2023 Camry"
+          ],
+          "positives": [
+            "Sondage principal unanime « 5 - Excellent » et latéral unanime doux et stable",
+            "Accélération et freinage doux à l'unanimité dans le sondage longitudinal",
+            "Tient bien la vitesse même à 60 mph",
+            "Très rapide à réaccélérer quand un feu rouge repasse au vert",
+            "Très bonne réponse aux feux orange qu'il ne peut pas franchir"
+          ],
+          "negatives": [
+            "Aborde les panneaux stop depuis 60 mph un peu trop vite pour s'arrêter au panneau ou avant",
+            "A franchi nettement plus de stops lors d'un trajet au crépuscule, nécessitant une intervention",
+            "Position d'arrêt de nuit un peu trop avancée aux panneaux et aux feux",
+            "Réaction tardive aux cônes dirigeant la circulation vers une nouvelle voie",
+            "Un peu de flottement, avec un léger collage à gauche sur les routes étroites"
+          ],
+          "communityScore": 100,
+          "totalVotes": 2,
+          "sentiment": {
+            "great": 100,
+            "good": 0,
+            "ok": 0,
+            "bad": 0
+          },
+          "steeringFeel": "Smooth"
         },
         {
           "name": "Tee Time Model",

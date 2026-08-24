@@ -58,7 +58,7 @@
       "includes": "I Desire, BMRLNAP, Tee Time, TTTTFBRLM, Lebowski",
       "vibe": "Das sind die „Big Models“ – größere Fahrmodelle, die unter dem Forum-Tag big_model erscheinen, während eines Laufs eher täglich als wöchentlich, parallel zu commas Chestnut- und eGPU-Rollout. Die größere Netzgröße zeigt sich in starker Spurhaltung und ruhigem Cruisen: Das bestbewertete Modell wird als satt statt schwammig beschrieben, ohne die langen Oszillationen, von denen einem übel wird. Der wiederkehrende Schwachpunkt über den gesamten Lauf ist die Stadtinfrastruktur – Ampeln und Stoppschilder – dazu rollende Stopps und zögerliches Beschleunigen; bei einem Drop wird zudem ein Fehler gemeldet, der etwa eine Minute nach dem Einschalten die sofortige Übernahme verlangt. Die Stimmenzahlen in diesen Threads liegen noch im einstelligen Bereich, die Bewertungen sind also vorläufig.",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
-      "recommendation": "I Desire ist bislang die beste Wahl – die stärkste Umfrage des Laufs und das einzige einstimmige Längsführungsergebnis. Halte für Strecken mit vielen Stoppschildern ein Standardmodell bereit und prüfe im Drop-Thread, ob deine Hardware passt, da die Threads die Anforderungen nicht ausbuchstabieren."
+      "recommendation": "BMRLNAP schneidet in den Umfragen am besten ab – einstimmig in allen Umfragen – allerdings bei zwei Stimmen; I Desire ist mit vier Stimmen die belastbarere Einschätzung. Beide teilen dieselbe Schwäche: Halte für Strecken mit vielen Stoppschildern ein Standardmodell bereit und prüfe im Drop-Thread, ob deine Hardware passt, da die Threads die Anforderungen nicht ausbuchstabieren."
     }
   },
   "categories": [
@@ -290,15 +290,40 @@
           "badge": "NEW",
           "tags": [
             "Big Model",
-            "Chestnut"
+            "Chestnut",
+            "Smooth",
+            "Early Feedback"
           ],
-          "consensus": "Big model drop released one day after Tee Time. Feedback thread is open; no settled community verdict yet.",
-          "note": "Erscheint unter dem Forum-Tag big_model. Die Hardware-Anforderungen werden in den Drop-Threads nicht ausbuchstabiert.",
-          "bestFor": "Big-Model-Tester",
+          "consensus": "Bestbewerteter Drop des Big-Model-Laufs, allerdings bei nur zwei Stimmen: einstimmig „5 – Großartig“ in der Hauptumfrage, einstimmig „ruhig und stetig“ in der Querführung und einstimmig sanftes Beschleunigen und Bremsen. Ein sunnypilot-Entwickler nannte es „literally definition of end to end“. Die Längsführung ist das Highlight – hält das Tempo auch bei 60 mph gut, geht schnell wieder aufs Gas, wenn eine rote Ampel auf Grün springt, und reagiert gut auf gelbe Ampeln, die es nicht mehr schafft. Der Vorbehalt sind Stoppschilder: Es kommt etwas zu schnell an, um am oder vor dem Schild zu halten, und bei einer Fahrt in der Dämmerung wurden deutlich mehr Stoppschilder überrollt, was Eingriffe nötig machte.",
+          "note": "Erscheint unter dem Forum-Tag big_model. Die Bewertung stammt aus einer einstimmigen, aber nur zweistimmigen Umfrage – sie ist vorläufig und nicht mit den Einträgen mit größerer Stichprobe vergleichbar; die Detailumfragen haben dieselben zwei Teilnehmer. Der ausführlichste Bericht stammt von einem Camry von 2023, dessen Fahrer es trotz der überrollten Stoppschilder in der Dämmerung täglich fahren wollte.",
+          "bestFor": "All-Around",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-august-20-2026-big-model/6828",
-          "testedOn": [],
-          "positives": [],
-          "negatives": []
+          "testedOn": [
+            "2023 Camry"
+          ],
+          "positives": [
+            "Einstimmig „5 – Großartig“ in der Hauptumfrage und einstimmig ruhige, stetige Querführung",
+            "Einstimmig sanftes Beschleunigen und Bremsen in der Längsführungsumfrage",
+            "Hält das Tempo auch bei 60 mph gut",
+            "Sehr schnell wieder aufs Gas, wenn eine rote Ampel auf Grün springt",
+            "Sehr gute Reaktion auf gelbe Ampeln, die es nicht mehr schafft"
+          ],
+          "negatives": [
+            "Nähert sich Stoppschildern aus 60 mph etwas zu schnell, um am oder vor dem Schild zu halten",
+            "Überrollte bei einer Fahrt in der Dämmerung deutlich mehr Stoppschilder und erforderte Eingriffe",
+            "Halteposition bei Nacht etwas zu weit vorn an Schildern und Ampeln",
+            "Späte Reaktion auf Leitkegel, die den Verkehr in eine neue Spur führen",
+            "Etwas Wandern, mit leichtem Linkskleben auf schmaleren Straßen"
+          ],
+          "communityScore": 100,
+          "totalVotes": 2,
+          "sentiment": {
+            "great": 100,
+            "good": 0,
+            "ok": 0,
+            "bad": 0
+          },
+          "steeringFeel": "Smooth"
         },
         {
           "name": "Tee Time Model",

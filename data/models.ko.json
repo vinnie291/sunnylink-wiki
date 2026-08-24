@@ -58,7 +58,7 @@
       "includes": "I Desire, BMRLNAP, Tee Time, TTTTFBRLM, Lebowski",
       "vibe": "이른바 '빅 모델'입니다. 포럼의 big_model 태그로 배포되는 대형 주행 모델로, comma의 Chestnut 및 eGPU 도입과 함께 한 차례 배포 기간에는 주 단위가 아니라 거의 매일 올라옵니다. 커진 네트워크는 차선 유지와 정속 주행에서 드러납니다. 가장 좋은 평가를 받은 모델은 붕 뜨지 않고 안정적으로 눌러 앉은 느낌이라는 평과 함께, 멀미를 유발하는 긴 진동이 없다는 점이 언급됩니다. 배포 전반에서 반복되는 약점은 신호등과 정지 표지판 같은 도심 요소이며, 구름 정지와 머뭇거리는 가속도 함께 지적됩니다. 한 배포판에서는 인게이지 약 1분 후 즉시 인수를 요구하는 오류가 보고되었습니다. 이 스레드들의 투표 수는 아직 한 자릿수이므로 점수는 잠정치로 보아야 합니다.",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
-      "recommendation": "현재로서는 I Desire가 가장 낫습니다. 이번 배포 중 가장 좋은 투표 결과이자 유일하게 만장일치가 나온 종방향 평가입니다. 정지 표지판이 많은 구간을 위해 표준 모델을 함께 준비하고, 스레드에 요구 사항이 명시되어 있지 않으므로 배포 스레드에서 자신의 하드웨어 관련 언급을 확인하세요."
+      "recommendation": "BMRLNAP가 모든 투표에서 만장일치로 가장 좋은 결과를 냈지만 표가 2표뿐이라, 4표인 I Desire 쪽이 더 신뢰할 만한 지표입니다. 두 모델 모두 같은 약점을 공유하므로, 정지 표지판이 많은 구간에는 표준 모델을 함께 준비하고, 스레드에 요구 사항이 명시되어 있지 않으므로 배포 스레드에서 하드웨어 관련 언급을 확인하세요."
     }
   },
   "categories": [
@@ -290,15 +290,40 @@
           "badge": "NEW",
           "tags": [
             "Big Model",
-            "Chestnut"
+            "Chestnut",
+            "Smooth",
+            "Early Feedback"
           ],
-          "consensus": "Big model drop released one day after Tee Time. Feedback thread is open; no settled community verdict yet.",
-          "note": "포럼의 big_model 태그로 배포되었습니다. 하드웨어 요구 사항은 배포 스레드에 명시되어 있지 않습니다.",
-          "bestFor": "빅 모델 테스터",
+          "consensus": "빅 모델 배포 중 가장 좋은 평가를 받았지만 투표자는 단 두 명입니다. 대표 투표는 만장일치 '5 - 훌륭함', 횡방향은 만장일치 '부드럽고 안정적', 종방향도 만장일치로 '부드러운 가속과 제동'이었습니다. 한 sunnypilot 개발자는 이 모델을 'literally definition of end to end'라고 표현했습니다. 종방향 제어가 백미로, 60mph에서도 속도를 잘 유지하고, 빨간불이 초록불로 바뀔 때 신속하게 가속하며, 통과하기 어려운 노란불에도 잘 대응합니다. 다만 정지 표지판이 아쉬운 점으로, 표지판 앞이나 그 지점에서 멈추기에는 다소 빠르게 접근하며, 해질녘 주행에서는 정지 표지판을 훨씬 더 많이 그냥 지나쳐 개입이 필요했습니다.",
+          "note": "포럼의 big_model 태그로 배포되었습니다. 점수는 만장일치이지만 단 2표짜리 투표에서 나온 것이라 잠정치이며, 표본이 큰 항목들과 직접 비교할 수 없습니다. 세부 투표 역시 동일한 두 명이 참여했습니다. 가장 자세한 보고는 2023년형 캠리 사례로, 해당 운전자는 해질녘의 정지 표지판 문제에도 불구하고 이 모델을 매일 사용할 계획이라고 밝혔습니다.",
+          "bestFor": "All-Around",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-august-20-2026-big-model/6828",
-          "testedOn": [],
-          "positives": [],
-          "negatives": []
+          "testedOn": [
+            "2023 Camry"
+          ],
+          "positives": [
+            "대표 투표 만장일치 '5 - 훌륭함', 횡방향도 만장일치로 부드럽고 안정적",
+            "종방향 투표에서 만장일치로 부드러운 가속과 제동",
+            "60mph에서도 속도를 잘 유지",
+            "빨간불이 초록불로 바뀔 때 매우 빠르게 재가속",
+            "통과하기 어려운 노란불에 매우 잘 대응"
+          ],
+          "negatives": [
+            "60mph에서 정지 표지판에 접근할 때 표지판 앞이나 그 지점에서 멈추기에는 다소 빠름",
+            "해질녘 주행에서 정지 표지판을 훨씬 더 많이 지나쳐 개입이 필요했음",
+            "야간에는 표지판과 신호등에서 정지 위치가 다소 앞으로 치우침",
+            "차량을 새 차선으로 유도하는 라바콘에 대한 반응이 늦음",
+            "약간의 흔들림과 좁은 도로에서의 미세한 좌측 쏠림"
+          ],
+          "communityScore": 100,
+          "totalVotes": 2,
+          "sentiment": {
+            "great": 100,
+            "good": 0,
+            "ok": 0,
+            "bad": 0
+          },
+          "steeringFeel": "Smooth"
         },
         {
           "name": "Tee Time Model",
