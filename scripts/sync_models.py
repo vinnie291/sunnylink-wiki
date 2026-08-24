@@ -56,16 +56,25 @@ def sync_files():
                     synced_models.append(base_model)
                     continue
 
-                # Merge structural fields but keep translations
-                structural_fields = [
-                    'date', 'badge', 'tags', 'communityScore', 'totalVotes', 
-                    'sentiment', 'testedOn', 'forumUrl', 'positives', 'negatives',
-                    'bestFor', 'steeringFeel'
+                # Merge structural fields but keep translations.
+                # Hard data carries no prose, so it always tracks the base file.
+                data_fields = [
+                    'badge', 'tags', 'communityScore', 'totalVotes',
+                    'sentiment', 'testedOn', 'forumUrl'
+                ]
+                # These read as prose once localized (dates are written in the
+                # locale's own format), so only fill them in when the locale has
+                # nothing yet -- overwriting would clobber existing translations.
+                localized_fields = [
+                    'date', 'bestFor', 'steeringFeel', 'positives', 'negatives'
                 ]
 
                 updated_model = existing_model.copy()
-                for field in structural_fields:
+                for field in data_fields:
                     if field in base_model:
+                        updated_model[field] = base_model[field]
+                for field in localized_fields:
+                    if field in base_model and field not in updated_model:
                         updated_model[field] = base_model[field]
 
                 synced_models.append(updated_model)

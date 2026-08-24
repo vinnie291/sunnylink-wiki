@@ -56,17 +56,27 @@ function syncFiles() {
                     return { ...baseModel };
                 }
 
-                // If model exists, merge structural fields but keep translations
-                // Fields to overwrite from base (structural/external data)
-                const structuralFields = [
-                    'date', 'badge', 'tags', 'communityScore', 'totalVotes', 
-                    'sentiment', 'testedOn', 'forumUrl', 'positives', 'negatives',
-                    'bestFor', 'steeringFeel'
+                // If model exists, merge structural fields but keep translations.
+                // Hard data carries no prose, so it always tracks the base file.
+                const dataFields = [
+                    'badge', 'tags', 'communityScore', 'totalVotes',
+                    'sentiment', 'testedOn', 'forumUrl'
+                ];
+                // These read as prose once localized (dates are written in the
+                // locale's own format), so only fill them in when the locale has
+                // nothing yet — overwriting would clobber existing translations.
+                const localizedFields = [
+                    'date', 'bestFor', 'steeringFeel', 'positives', 'negatives'
                 ];
 
                 const updatedModel = { ...existingModel };
-                for (const field of structuralFields) {
+                for (const field of dataFields) {
                     if (baseModel[field] !== undefined) {
+                        updatedModel[field] = baseModel[field];
+                    }
+                }
+                for (const field of localizedFields) {
+                    if (baseModel[field] !== undefined && updatedModel[field] === undefined) {
                         updatedModel[field] = baseModel[field];
                     }
                 }

@@ -246,7 +246,7 @@
       "models": [
         {
           "name": "I Desire Model",
-          "date": "August 21, 2026",
+          "date": "2026年8月21日",
           "badge": "NEW",
           "tags": [
             "Big Model",
@@ -255,7 +255,7 @@
           ],
           "consensus": "Newest entry in the GPU-only big model run. Announced in Model Discussions with the standard drop poll; community feedback is still being collected.",
           "note": "Requires a comma Chestnut with an external GPU (eGPU). Will not run on C3/C3X hardware.",
-          "bestFor": "Chestnut eGPU testers",
+          "bestFor": "Chestnut eGPU 测试者",
           "forumUrl": "https://community.sunnypilot.ai/t/i-desire-model-august-21-2026-big-model/6831",
           "testedOn": [],
           "positives": [],
@@ -263,7 +263,7 @@
         },
         {
           "name": "BMRLNAP Model",
-          "date": "August 20, 2026",
+          "date": "2026年8月20日",
           "badge": "NEW",
           "tags": [
             "Big Model",
@@ -272,7 +272,7 @@
           ],
           "consensus": "Big model drop released one day after Tee Time. Feedback thread is open; no settled community verdict yet.",
           "note": "Requires a comma Chestnut with an external GPU (eGPU).",
-          "bestFor": "Chestnut eGPU testers",
+          "bestFor": "Chestnut eGPU 测试者",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-august-20-2026-big-model/6828",
           "testedOn": [],
           "positives": [],
@@ -280,7 +280,7 @@
         },
         {
           "name": "Tee Time Model",
-          "date": "August 19, 2026",
+          "date": "2026年8月19日",
           "badge": "NEW",
           "tags": [
             "Big Model",
@@ -289,7 +289,7 @@
           ],
           "consensus": "Part of the mid-August big model cadence following TTTTFBRLM. Drop poll is live and gathering per-vehicle reports.",
           "note": "Requires a comma Chestnut with an external GPU (eGPU).",
-          "bestFor": "Chestnut eGPU testers",
+          "bestFor": "Chestnut eGPU 测试者",
           "forumUrl": "https://community.sunnypilot.ai/t/tee-time-model-august-19-2026-big-model/6814",
           "testedOn": [],
           "positives": [],
@@ -297,7 +297,7 @@
         },
         {
           "name": "TTTTFBRLM",
-          "date": "August 18, 2026",
+          "date": "2026年8月18日",
           "badge": "NEW",
           "tags": [
             "Big Model",
@@ -307,17 +307,17 @@
           ],
           "consensus": "First of the mid-August big model run. Notable for a reported 'Big Model Error' that forces an immediate takeover roughly one minute after engagement on some Chestnut setups.",
           "note": "Requires a comma Chestnut with an external GPU (eGPU). A separate Driving Issues thread tracks a 'Big Model Error' takeover prompt on sunnypilot 2026.003.000: https://community.sunnypilot.ai/t/chestnut-model-big-model-error-take-over-immediately-after-1-minute-of-engagement/6845",
-          "bestFor": "Chestnut eGPU testers",
+          "bestFor": "Chestnut eGPU 测试者",
           "forumUrl": "https://community.sunnypilot.ai/t/ttttfbrlm-august-18-2026-big-model/6813",
           "testedOn": [],
           "positives": [],
           "negatives": [
-            "Reported 'Big Model Error' takeover about one minute into engagement"
+            "有报告称启用约一分钟后出现“Big Model Error”并要求接管"
           ]
         },
         {
           "name": "Lebowski Model",
-          "date": "July 01, 2026",
+          "date": "2026年7月1日",
           "tags": [
             "Big Model",
             "GPU Required",
@@ -325,7 +325,7 @@
           ],
           "consensus": "Earliest of the archived big model drops carried over into Model Discussions. Establishes the GPU-only tier ahead of the August cadence.",
           "note": "Requires a comma Chestnut with an external GPU (eGPU).",
-          "bestFor": "Chestnut eGPU testers",
+          "bestFor": "Chestnut eGPU 测试者",
           "forumUrl": "https://community.sunnypilot.ai/t/lebowski-model-july-01-2026-big-model/6812",
           "testedOn": [],
           "positives": [],
@@ -870,7 +870,7 @@
         },
         {
           "name": "OP Model 16 Deep",
-          "date": "June 03, 2026",
+          "date": "2026年6月3日",
           "badge": "NEW",
           "tags": [
             "Deep Network",
@@ -887,8 +887,8 @@
           },
           "consensus": "OP 系列升级的大规模神经网络模型。在复杂城市路况和多车道交叉口表现出卓越的空间感知能力，推荐配合 Comma 4 硬件以获得最佳算力延迟表现。",
           "note": "专为 Comma 4 优化。适合拥堵复杂的城市及城郊路况。",
-          "bestFor": "Urban / Mixed Driving",
-          "steeringFeel": "Confident",
+          "bestFor": "城市 / 混合路况",
+          "steeringFeel": "自信 (Confident)",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-16-deep-june-03-2026/6557",
           "testedOn": [
             "2025 Kia K4",
@@ -897,18 +897,18 @@
             "comma 4"
           ],
           "positives": [
-            "Significantly improved multi-lane awareness and intersection tracking",
-            "Handles complex road markings and construction barrels well",
-            "Confident steering torque on mid-speed turns"
+            "多车道与路口感知能力大幅进化",
+            "施工路障及复杂地面标线应对自如",
+            "中速弯道转向扭矩反馈自信充分"
           ],
           "negatives": [
-            "Higher compute overhead on older comma 3X hardware",
-            "Can brake abruptly for pedestrians close to the curb"
+            "老款 comma 3X 硬件上算力开销较高",
+            "对靠近路缘的行人刹车可能偏急促"
           ]
         },
         {
           "name": "Michael RL V2",
-          "date": "July 18, 2026",
+          "date": "2026年7月18日",
           "badge": "openpilot only",
           "tags": [
             "Reinforcement Learning",
@@ -933,20 +933,20 @@
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/michael-rl-v2-july-18-2026/6558",
           "positives": [
-            "Human-like lane positioning with intuitive inside-corner apexing",
-            "Progressive and smooth longitudinal braking anticipation",
-            "Fluid steering corrections without mechanical micro-adjustments"
+            "过弯时自然切内弯顶点的拟人化寻迹",
+            "纵向减速预判渐进而平顺",
+            "转向微调流畅无机械生硬感"
           ],
           "negatives": [
-            "Can cut corners slightly closer than rule-based models",
-            "Occasional hesitation when lane markings split or end abruptly"
+            "相比规则模型弯道切线稍显贴近内侧",
+            "在标线突然中断或分岔处偶尔有轻微犹豫"
           ],
-          "bestFor": "Natural Human-Like Driving",
-          "steeringFeel": "Natural"
+          "bestFor": "自然拟人化驾驶",
+          "steeringFeel": "自然 (Natural)"
         },
         {
           "name": "Rebel Legion Model",
-          "date": "July 22, 2026",
+          "date": "2026年7月22日",
           "badge": "NEW",
           "tags": [
             "Highway",
@@ -963,8 +963,8 @@
           },
           "consensus": "Rebel 系列的高速专注版本。舍弃部分激进过弯扭矩，换取极为沉稳的高速直线居中与平稳变道。",
           "note": "推荐给需要比早期 WMI 模型更平稳巡航的高速通勤车主。",
-          "bestFor": "Highway Commutes",
-          "steeringFeel": "Balanced",
+          "bestFor": "高速通勤",
+          "steeringFeel": "均衡 (Balanced)",
           "forumUrl": "https://community.sunnypilot.ai/t/rebel-legion-model-july-22-2026/6559",
           "testedOn": [
             "Hyundai Ioniq 5",
@@ -974,13 +974,13 @@
             "comma 4"
           ],
           "positives": [
-            "Locked-in highway centering with minimal wandering",
-            "Smooth lane transitions during openpilot lane changes",
-            "Conservative lead vehicle follow distance"
+            "高速直线车道居中稳如泰山无漂移",
+            "openpilot 变道动作细腻平顺",
+            "跟车车距控制稳重安全"
           ],
           "negatives": [
-            "Less aggressive on sharp urban turns than Rebellious Hope",
-            "Relatively conservative acceleration from complete stops"
+            "城市急弯转向力度不及 Rebellious Hope",
+            "静止起步加速相对保守"
           ]
         },
         {
@@ -1019,7 +1019,7 @@
         },
         {
           "name": "Rebellious Hope Model",
-          "date": "July 27, 2026",
+          "date": "2026年7月27日",
           "badge": "NEW",
           "tags": [
             "Experimental",
@@ -1036,8 +1036,8 @@
           },
           "consensus": "专为克服转向扭矩极限设计的过弯辅助模型，在急弯中相比 CD210 能更好守住车道线。在连续弯道表现优异，但部分车型低速时偶有画龙晃动。",
           "note": "非常适合弯道较多的路线。若遇到低速画龙，可开启低速暂停横向控制。",
-          "bestFor": "Curved Roads / Assisted Cornering",
-          "steeringFeel": "Firm",
+          "bestFor": "多弯路段 / 辅助过弯",
+          "steeringFeel": "紧实沉稳 (Firm)",
           "forumUrl": "https://community.sunnypilot.ai/t/rebellious-hope-model-july-27-2026/6560",
           "testedOn": [
             "2023 Lexus RC 350",
@@ -1046,18 +1046,18 @@
             "comma 4"
           ],
           "positives": [
-            "Maintains lane line integrity during high-torque assisted cornering better than CD210",
-            "Firm on-center feel when taking aggressive bends",
-            "Predictable deceleration profile into turns"
+            "高扭矩辅助过弯时车道保持明显优于 CD210",
+            "切入急弯时居中感紧实沉稳",
+            "进弯减速曲线线性易预测"
           ],
           "negatives": [
-            "Low-speed lateral ping-pong / oscillations reported on Lexus and some Toyota platforms",
-            "Slightly jerky transition when driver intervenes on torque-limited turns"
+            "雷克萨斯及部分丰田车型在低速时有横向震荡反馈",
+            "在扭矩超限需人工接管时过渡略显生硬"
           ]
         },
         {
           "name": "Terrible Super Fantastic Do Over Model",
-          "date": "August 15, 2026",
+          "date": "2026年8月15日",
           "badge": "NEW",
           "tags": [
             "Experimental"
@@ -1070,7 +1070,7 @@
         },
         {
           "name": "Terrible Super Fantastic Model",
-          "date": "August 12, 2026",
+          "date": "2026年8月12日",
           "badge": "NEW",
           "tags": [
             "Experimental"
@@ -1083,7 +1083,7 @@
         },
         {
           "name": "RDF Model v2",
-          "date": "August 11, 2026",
+          "date": "2026年8月11日",
           "badge": "NEW",
           "tags": [
             "Experimental"
@@ -1096,7 +1096,7 @@
         },
         {
           "name": "RDF Model",
-          "date": "August 05, 2026",
+          "date": "2026年8月5日",
           "badge": "NEW",
           "tags": [
             "Recommended",
@@ -1114,8 +1114,8 @@
           },
           "consensus": "由 Yassine/MVL 调优，纵向表现较 POP 和 CD210 有显著提升。在高速跟车及大曲率弯道上提供平稳顺畅的加减速与果断转向。",
           "note": "建议本田/现代平台搭配最新 MVL 调优使用。实验模式下纵向表现极其扎实。",
-          "bestFor": "Highway / Stop & Go",
-          "steeringFeel": "Assertive",
+          "bestFor": "高速 / 走走停停路况",
+          "steeringFeel": "果断自信 (Assertive)",
           "forumUrl": "https://community.sunnypilot.ai/t/rdf-model-august-5-2026/6569",
           "testedOn": [
             "2022 Honda Civic",
@@ -1125,15 +1125,15 @@
             "comma 4"
           ],
           "positives": [
-            "Substantial acceleration and stopping improvements over POP and CD210",
-            "Smooth highway stop & go and speed matching",
-            "Assertive steering power and curve handling on long sweeping curves",
-            "Strong longitudinal lead detection"
+            "加减速与跟车平顺性大幅优于 POP 与 CD210",
+            "高速走走停停与速度匹配极为平顺",
+            "大弯道转向力矩充沛果断",
+            "前车识别精准可靠"
           ],
           "negatives": [
-            "Gives up on sharp high-angle curves on some heavy/angle vehicles (Rivian R1T)",
-            "Minor low-speed lateral oscillation/wiggle while vehicle self-tunes",
-            "Perpendicular traffic cutting across path can cause abrupt deceleration"
+            "在部分重型/角度转向车辆上大角度急弯可能放弃转向",
+            "自学习校准期间低速横向有轻微微晃",
+            "横穿前方的车辆可能引起突兀减速"
           ]
         }
       ]
