@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
-  "version": "8.2",
-  "totalModels": 121,
-  "lastUpdated": "2026-08-24",
+  "version": "8.3",
+  "totalModels": 123,
+  "lastUpdated": "2026-08-25",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -55,7 +55,7 @@
     "chestnut_gpu": {
       "title": "The Chestnut GPU Series (Big Models)",
       "subtitle": "eGPU-Only Heavyweights",
-      "includes": "I Desire, BMRLNAP, Tee Time, TTTTFBRLM, Lebowski",
+      "includes": "Happy Birthday, BMRLNAP v2/v1, I Desire, Tee Time, TTTTFBRLM, Lebowski",
       "vibe": "Estos son los «big models»: redes de clase Chestnut, mayores que cualquiera de las líneas WMI u OP, ligadas al nuevo complemento de GPU de comma, que solo empezó a llegar a los propietarios en agosto de 2026. Se publican bajo la etiqueta big_model del foro, con una cadencia casi diaria durante una tanda. El mayor tamaño de la red se nota primero en el lateral: un desarrollador de sunnypilot calificó de «outstanding» el primer lanzamiento en los giros, que toma los de más de 90 grados en ciudad con la amplitud adecuada en lugar de recortarlos, y los mejor valorados se describen como asentados en lugar de flotantes. La debilidad recurrente es el mobiliario urbano: señales de stop saltadas al estilo «California stop», semáforos y, en algunas versiones, frenada dura o tardía y un efecto de acelerón-frenazo a velocidad fijada. Los votos siguen siendo de un solo dígito, así que considera provisional cualquier puntuación de esta sección.",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
       "recommendation": "BMRLNAP es el mejor en las encuestas —unánime en todas— pero con dos votos; I Desire es la lectura más fiable con cuatro. Lebowski merece atención si te importan los giros: el mejor lateral de la tanda y el peor longitudinal. Tee Time conviene saltárselo salvo que estés probando: su encuesta lateral no recibió ni un voto positivo. Ten a mano un modelo estándar para rutas con muchas señales de stop."
@@ -244,6 +244,77 @@
       "description": "Modelos de conducción «grandes» de clase Chestnut: redes mayores ligadas al nuevo complemento de GPU de comma, que empezó a llegar a los propietarios en agosto de 2026. Se publican bajo la etiqueta big_model del foro, con una cadencia casi diaria durante una tanda.",
       "icon": "🌰",
       "models": [
+        {
+          "name": "BMRLNAP Model v2",
+          "date": "August 24, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Experimental",
+            "Mixed Sentiment"
+          ],
+          "communityScore": 68,
+          "totalVotes": 6,
+          "sentiment": {
+            "great": 33,
+            "good": 33,
+            "ok": 17,
+            "bad": 17
+          },
+          "consensus": "Second iteration of the BMRLNAP big model line. Early testing feedback indicates mixed results compared to v1: open highway lanekeeping and longitudinal response remain solid, but testers noted regressions in intersection stop consistency, particularly failing to stop reliably at the white line for traffic lights.",
+          "note": "Chestnut-class big model, tied to comma's new GPU add-on. Developer and community testing in Discord showed less consistent stop-line braking at traffic lights than the unanimous v1 drop.",
+          "bestFor": "Testing / Big Model Comparison",
+          "steeringFeel": "Smooth",
+          "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v2-august-24-2026-big-model/6878",
+          "testedOn": [
+            "Toyota Camry"
+          ],
+          "positives": [
+            "Smooth, stable lateral control in open highway driving",
+            "Quick acceleration response off the line"
+          ],
+          "negatives": [
+            "Inconsistent stopping at traffic light white lines",
+            "Noticeable regression in city stop consistency compared to v1"
+          ]
+        },
+        {
+          "name": "Happy Birthday Model",
+          "date": "August 24, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "City",
+            "Smooth"
+          ],
+          "communityScore": 78,
+          "totalVotes": 8,
+          "sentiment": {
+            "great": 50,
+            "good": 38,
+            "ok": 12,
+            "bad": 0
+          },
+          "consensus": "Special release drop commemorating sunnyhaibin's birthday. Discord testers praised its gentle stop-and-go behavior in heavy traffic and natural cruising feel, though high-speed braking into sudden red lights remains somewhat late.",
+          "note": "Dedicated to sunnypilot founder sunnyhaibin on his birthday (August 24). Community testers report pleasant stop-and-go cruising on Chestnut hardware.",
+          "bestFor": "Stop-and-Go / City Driving",
+          "steeringFeel": "Smooth",
+          "forumUrl": "https://community.sunnypilot.ai/t/happy-birthday-model-august-24-2026-big-model/6871",
+          "testedOn": [
+            "Honda Accord",
+            "Toyota Camry"
+          ],
+          "positives": [
+            "Smooth, natural feel in stop-and-go traffic",
+            "Strong low-speed lead car following and light detection",
+            "Pleasant, non-robotic steering feel"
+          ],
+          "negatives": [
+            "Brakes somewhat late and fast into sudden reds at high speeds"
+          ]
+        },
         {
           "name": "I Desire Model",
           "date": "21 de agosto de 2026",
@@ -1156,7 +1227,12 @@
           ],
           "consensus": "Recepción dividida en una encuesta de 12 votos: el 58 % lo sitúa en «Bueno» o mejor, pero una cuarta parte lo califica de «Malo» u «Horrible». El control longitudinal es la mitad fuerte: descrito como «realmente impresionante» en tráfico denso. El lateral es la mitad débil, con informes de que se pega al interior de las curvas, de que no llega a tomar los giros en intersecciones y de curvas amplias que se abren hasta trazar fuera de la calzada.",
           "forumUrl": "https://community.sunnypilot.ai/t/terrible-super-fantastic-do-over-model-august-15-2026/6765",
-          "testedOn": [],
+          "testedOn": [
+            "2023 Ioniq 6",
+            "Chevy Bolt EUV",
+            "Kia Niro PHEV",
+            "VW Golf R"
+          ],
           "positives": [
             "Control longitudinal impresionante en tráfico denso",
             "La mitad de la encuesta lo valora como «Bueno» o «Genial»"

@@ -1,13 +1,13 @@
 {
   "appName": "Sunnylink Model Database",
-  "version": "8.2",
-  "totalModels": 121,
-  "lastUpdated": "2026-08-24",
+  "version": "8.3",
+  "totalModels": 123,
+  "lastUpdated": "2026-08-25",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "The Chestnut GPU Series (Big Models)",
       "subtitle": "eGPU-Only Heavyweights",
-      "includes": "I Desire, BMRLNAP, Tee Time, TTTTFBRLM, Lebowski",
+      "includes": "Happy Birthday, BMRLNAP v2/v1, I Desire, Tee Time, TTTTFBRLM, Lebowski",
       "vibe": "These are the \"big models\" — chestnut-class networks larger than anything in the WMI or OP lines, tied to comma's new GPU add-on, which only began reaching owners in August 2026. They drop under the forum's big_model tag on a near-daily cadence during a run. The extra network size shows up first in lateral: the opening drop was called 'outstanding' on turns by a sunnypilot developer, taking in-town 90-degree turns appropriately wide instead of cutting them, and the best received drops are described as planted rather than floaty. The recurring weakness is city furniture — stop signs rolled as California stops, traffic lights, and on some drops hard or late braking and gas-brake surging at set speed. Vote counts are still in the single digits, so treat every score here as provisional.",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
       "recommendation": "BMRLNAP polls best — unanimous across every poll — but on two votes, so I Desire is the safer read at four. Lebowski is the one to study if you care about turning: strongest lateral of the run, weakest longitudinal. Tee Time is the one to skip unless you are testing — its lateral poll drew no positive votes at all. Keep a standard model for stop-sign-heavy routes."
@@ -244,6 +244,77 @@
       "description": "Chestnut-class \"big\" driving models — larger networks tied to comma's new GPU add-on, which began shipping to owners in August 2026. Released under the forum's big_model tag on a near-daily cadence during a run.",
       "icon": "🌰",
       "models": [
+        {
+          "name": "BMRLNAP Model v2",
+          "date": "August 24, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Experimental",
+            "Mixed Sentiment"
+          ],
+          "communityScore": 68,
+          "totalVotes": 6,
+          "sentiment": {
+            "great": 33,
+            "good": 33,
+            "ok": 17,
+            "bad": 17
+          },
+          "consensus": "Second iteration of the BMRLNAP big model line. Early testing feedback indicates mixed results compared to v1: open highway lanekeeping and longitudinal response remain solid, but testers noted regressions in intersection stop consistency, particularly failing to stop reliably at the white line for traffic lights.",
+          "note": "Chestnut-class big model, tied to comma's new GPU add-on. Developer and community testing in Discord showed less consistent stop-line braking at traffic lights than the unanimous v1 drop.",
+          "bestFor": "Testing / Big Model Comparison",
+          "steeringFeel": "Smooth",
+          "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v2-august-24-2026-big-model/6878",
+          "testedOn": [
+            "Toyota Camry"
+          ],
+          "positives": [
+            "Smooth, stable lateral control in open highway driving",
+            "Quick acceleration response off the line"
+          ],
+          "negatives": [
+            "Inconsistent stopping at traffic light white lines",
+            "Noticeable regression in city stop consistency compared to v1"
+          ]
+        },
+        {
+          "name": "Happy Birthday Model",
+          "date": "August 24, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "City",
+            "Smooth"
+          ],
+          "communityScore": 78,
+          "totalVotes": 8,
+          "sentiment": {
+            "great": 50,
+            "good": 38,
+            "ok": 12,
+            "bad": 0
+          },
+          "consensus": "Special release drop commemorating sunnyhaibin's birthday. Discord testers praised its gentle stop-and-go behavior in heavy traffic and natural cruising feel, though high-speed braking into sudden red lights remains somewhat late.",
+          "note": "Dedicated to sunnypilot founder sunnyhaibin on his birthday (August 24). Community testers report pleasant stop-and-go cruising on Chestnut hardware.",
+          "bestFor": "Stop-and-Go / City Driving",
+          "steeringFeel": "Smooth",
+          "forumUrl": "https://community.sunnypilot.ai/t/happy-birthday-model-august-24-2026-big-model/6871",
+          "testedOn": [
+            "Honda Accord",
+            "Toyota Camry"
+          ],
+          "positives": [
+            "Smooth, natural feel in stop-and-go traffic",
+            "Strong low-speed lead car following and light detection",
+            "Pleasant, non-robotic steering feel"
+          ],
+          "negatives": [
+            "Brakes somewhat late and fast into sudden reds at high speeds"
+          ]
+        },
         {
           "name": "I Desire Model",
           "date": "August 21, 2026",
@@ -1167,15 +1238,20 @@
           "bestFor": "Highway / Stop & Go",
           "steeringFeel": "Light",
           "forumUrl": "https://community.sunnypilot.ai/t/terrible-super-fantastic-do-over-model-august-15-2026/6765",
-          "testedOn": [],
+          "testedOn": [
+            "2023 Ioniq 6",
+            "Chevy Bolt EUV",
+            "Kia Niro PHEV",
+            "VW Golf R"
+          ],
           "positives": [
-            "Impressive longitudinal control in stop-and-go traffic",
-            "Half the poll rates it Good or Great"
+            "Longitudinal praised as one of the smoothest yet; sees stopped leads and lights far ahead with no harsh brake stabbing",
+            "Impressive smooth stop-and-go cruising in heavy traffic",
+            "58% community poll rating of Good or Great"
           ],
           "negatives": [
-            "Will not take intersection turns",
-            "Weak on sweeping turns, drifting wide enough to path off-road",
-            "Hugs the inside of corners"
+            "Hugs left on several vehicles, wandering close to the lane line below 6 mph",
+            "Sloppy on sharper curves and intersection turns, requiring occasional driver takeover"
           ]
         },
         {

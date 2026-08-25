@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
-  "version": "8.2",
-  "totalModels": 121,
-  "lastUpdated": "2026-08-24",
+  "version": "8.3",
+  "totalModels": 123,
+  "lastUpdated": "2026-08-25",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -55,7 +55,7 @@
     "chestnut_gpu": {
       "title": "The Chestnut GPU Series (Big Models)",
       "subtitle": "eGPU-Only Heavyweights",
-      "includes": "I Desire, BMRLNAP, Tee Time, TTTTFBRLM, Lebowski",
+      "includes": "Happy Birthday, BMRLNAP v2/v1, I Desire, Tee Time, TTTTFBRLM, Lebowski",
       "vibe": "이른바 '빅 모델'입니다. WMI나 OP 계열보다 큰 Chestnut 급 네트워크로, comma의 새 GPU 애드온과 연결되어 있으며 해당 하드웨어는 2026년 8월에야 사용자에게 도착하기 시작했습니다. 포럼의 big_model 태그로 배포되며, 한 차례 배포 기간에는 거의 매일 올라옵니다. 커진 네트워크는 우선 횡방향에서 드러납니다. 첫 배포판은 한 sunnypilot 개발자로부터 회전 성능이 '뛰어나다(outstanding)'는 평을 받았고, 시내에서 90도 이상 회전을 잘라 들어가지 않고 적절히 넓게 도는 점이 언급되었습니다. 평가가 좋은 배포판들은 붕 뜨지 않고 안정적이라는 평을 받습니다. 반복되는 약점은 도심 요소입니다. 정지 표지판을 이른바 '캘리포니아 스톱'으로 굴러 지나가고, 신호등 대응이 아쉬우며, 일부 배포판에서는 급하거나 늦은 제동과 설정 속도에서의 가감속 울렁임이 보고됩니다. 투표 수는 아직 한 자릿수이므로 이 항목의 점수는 모두 잠정치로 보아야 합니다.",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
       "recommendation": "BMRLNAP가 모든 투표에서 만장일치로 가장 좋은 결과를 냈지만 2표뿐이라, 4표인 I Desire 쪽이 더 신뢰할 만합니다. 회전 성능이 중요하다면 Lebowski를 살펴보세요. 이번 배포 중 횡방향이 가장 강하고 종방향이 가장 약합니다. Tee Time은 테스트 목적이 아니라면 건너뛰는 편이 낫습니다. 횡방향 투표에서 긍정 표가 하나도 나오지 않았습니다. 정지 표지판이 많은 구간에는 표준 모델을 함께 준비하세요."
@@ -244,6 +244,77 @@
       "description": "Chestnut 급 '빅 모델' 주행 모델입니다. comma의 새 GPU 애드온과 연결된 대형 네트워크로, 해당 하드웨어는 2026년 8월부터 사용자에게 배송되기 시작했습니다. 포럼의 big_model 태그로, 한 차례 배포 기간에는 거의 매일 올라옵니다.",
       "icon": "🌰",
       "models": [
+        {
+          "name": "BMRLNAP Model v2",
+          "date": "August 24, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Experimental",
+            "Mixed Sentiment"
+          ],
+          "communityScore": 68,
+          "totalVotes": 6,
+          "sentiment": {
+            "great": 33,
+            "good": 33,
+            "ok": 17,
+            "bad": 17
+          },
+          "consensus": "Second iteration of the BMRLNAP big model line. Early testing feedback indicates mixed results compared to v1: open highway lanekeeping and longitudinal response remain solid, but testers noted regressions in intersection stop consistency, particularly failing to stop reliably at the white line for traffic lights.",
+          "note": "Chestnut-class big model, tied to comma's new GPU add-on. Developer and community testing in Discord showed less consistent stop-line braking at traffic lights than the unanimous v1 drop.",
+          "bestFor": "Testing / Big Model Comparison",
+          "steeringFeel": "Smooth",
+          "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v2-august-24-2026-big-model/6878",
+          "testedOn": [
+            "Toyota Camry"
+          ],
+          "positives": [
+            "Smooth, stable lateral control in open highway driving",
+            "Quick acceleration response off the line"
+          ],
+          "negatives": [
+            "Inconsistent stopping at traffic light white lines",
+            "Noticeable regression in city stop consistency compared to v1"
+          ]
+        },
+        {
+          "name": "Happy Birthday Model",
+          "date": "August 24, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "City",
+            "Smooth"
+          ],
+          "communityScore": 78,
+          "totalVotes": 8,
+          "sentiment": {
+            "great": 50,
+            "good": 38,
+            "ok": 12,
+            "bad": 0
+          },
+          "consensus": "Special release drop commemorating sunnyhaibin's birthday. Discord testers praised its gentle stop-and-go behavior in heavy traffic and natural cruising feel, though high-speed braking into sudden red lights remains somewhat late.",
+          "note": "Dedicated to sunnypilot founder sunnyhaibin on his birthday (August 24). Community testers report pleasant stop-and-go cruising on Chestnut hardware.",
+          "bestFor": "Stop-and-Go / City Driving",
+          "steeringFeel": "Smooth",
+          "forumUrl": "https://community.sunnypilot.ai/t/happy-birthday-model-august-24-2026-big-model/6871",
+          "testedOn": [
+            "Honda Accord",
+            "Toyota Camry"
+          ],
+          "positives": [
+            "Smooth, natural feel in stop-and-go traffic",
+            "Strong low-speed lead car following and light detection",
+            "Pleasant, non-robotic steering feel"
+          ],
+          "negatives": [
+            "Brakes somewhat late and fast into sudden reds at high speeds"
+          ]
+        },
         {
           "name": "I Desire Model",
           "date": "2026년 8월 21일",
@@ -1156,7 +1227,12 @@
           ],
           "consensus": "12표 투표에서 평가가 양극단으로 갈렸습니다. 58%가 '좋음' 이상을 준 반면, 4분의 1은 '나쁨' 또는 '최악'을 선택했습니다. 종방향 제어가 강점으로, 정체 구간에서 '정말 인상적'이라는 평을 받았습니다. 횡방향 제어는 약점으로, 코너 안쪽으로 붙는 현상, 교차로 회전을 아예 수행하지 못하는 문제, 완만한 커브에서 바깥으로 밀려 도로를 벗어난 경로를 그리는 문제가 보고되었습니다.",
           "forumUrl": "https://community.sunnypilot.ai/t/terrible-super-fantastic-do-over-model-august-15-2026/6765",
-          "testedOn": [],
+          "testedOn": [
+            "2023 Ioniq 6",
+            "Chevy Bolt EUV",
+            "Kia Niro PHEV",
+            "VW Golf R"
+          ],
           "positives": [
             "정체 구간에서 인상적인 종방향 제어",
             "투표의 절반이 '좋음' 또는 '훌륭함'으로 평가"
