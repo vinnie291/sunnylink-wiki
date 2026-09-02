@@ -8,7 +8,7 @@ export default function Header() {
     const { t } = useLanguage();
 
     return (
-        <header className="text-center mb-8">
+        <header className="text-center mb-8 pt-2 sm:pt-4">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight animate-gradient-text">
                 {t('header.title')}
             </h1>

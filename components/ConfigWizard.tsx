@@ -9,6 +9,7 @@ import './ConfigWizard.css';
 import togglesData from '../data/toggles.json';
 import carsData from '../data/cars.json';
 import modelsData from '../data/models.json';
+import { getBrandFleetStat, formatDeviceCount } from '../lib/fleetStats';
 
 // ─── Types ───
 
@@ -431,8 +432,34 @@ function CarStep({ config, onChange, onNext, onBack }: { config: ConfigValues; o
                         className="cw-select w-full bg-slate-800/40 border border-slate-700/50 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/30 outline-none transition-all hover:bg-slate-800/60"
                     >
                         <option value="">Select make...</option>
-                        {makes.map(m => <option key={m} value={m}>{m}</option>)}
+                        {makes.map(m => {
+                            const bStat = getBrandFleetStat(m);
+                            return (
+                                <option key={m} value={m}>
+                                    {m} {bStat ? `(${formatDeviceCount(bStat.totalDevices, true)} active devices)` : ''}
+                                </option>
+                            );
+                        })}
                     </select>
+
+                    {/* Brand Fleet Insight */}
+                    {(() => {
+                        const bStat = getBrandFleetStat(config.make as string);
+                        if (!bStat) return null;
+                        const topBranch = Object.entries(bStat.branches).sort((a, b) => b[1] - a[1])[0];
+                        return (
+                            <div className="p-2.5 rounded-lg bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-between text-xs text-slate-300 mt-2">
+                                <span className="flex items-center gap-1.5 font-medium">
+                                    <span>⚡</span> {formatDeviceCount(bStat.totalDevices)} active {bStat.brand} devices in fleet
+                                </span>
+                                {topBranch && (
+                                    <span className="text-[11px] text-cyan-300 font-mono">
+                                        Popular branch: <strong>{topBranch[0]}</strong>
+                                    </span>
+                                )}
+                            </div>
+                        );
+                    })()}
                 </div>
 
                 {/* Model */}

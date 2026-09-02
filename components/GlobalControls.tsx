@@ -54,29 +54,46 @@ export default function GlobalControls() {
                 {isWizard && <ExitWizardButton />}
             </div>
 
-            {/* Top-Right: Dashboard Button */}
+            {/* Top-Right: Dashboard Button & Referral Link */}
             {/* Below lg: always visible alongside the left controls; on lg+ it
                 hides once scrolled past the header. */}
             <div className={`
-                absolute top-4 right-4 sm:top-8 sm:right-8 flex items-center gap-4 pointer-events-auto
+                absolute top-4 right-4 sm:top-8 sm:right-8 flex flex-col items-end pointer-events-auto
                 transition-opacity duration-200 ease-out
                 ${scrolledPastHeader ? 'lg:opacity-0 lg:pointer-events-none' : ''}
             `}>
-                <a
-                    href="https://www.sunnylink.ai/dashboard"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="
-                        flex items-center gap-2 px-4 py-2 sm:px-6 sm:py-3
-                        bg-indigo-600 hover:bg-indigo-500 text-white
-                        rounded-xl font-semibold text-sm sm:text-base
-                        shadow-lg shadow-indigo-600/30
-                        transition-all duration-200 hover:scale-105 active:scale-95
-                    "
-                >
-                    <span>{t('dashboard.button')}</span>
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                </a>
+                <div className="flex flex-col gap-2 w-52 sm:w-60">
+                    <a
+                        href="https://www.sunnylink.ai/dashboard"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="
+                            flex items-center justify-center gap-2 w-full px-4 py-2 sm:py-2.5
+                            bg-indigo-600 hover:bg-indigo-500 text-white
+                            rounded-xl font-semibold text-xs sm:text-sm
+                            shadow-lg shadow-indigo-600/30
+                            transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]
+                        "
+                    >
+                        <span>{t('dashboard.button')}</span>
+                        <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    </a>
+                    <a
+                        href="https://refer.comma.ai/DQHAMJM"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="
+                            flex items-center justify-center gap-2 w-full px-4 py-2 sm:py-2.5
+                            bg-emerald-600 hover:bg-emerald-500 text-white
+                            rounded-xl font-semibold text-xs sm:text-sm
+                            shadow-md shadow-emerald-600/30
+                            transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]
+                        "
+                    >
+                        <span>Save $50 on comma four</span>
+                        <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    </a>
+                </div>
             </div>
         </div>
     );

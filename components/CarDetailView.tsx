@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../lib/i18n';
+import { getModelFleetStat, formatRouteCount, getBrandFleetStat, formatDeviceCount } from '../lib/fleetStats';
 
 interface CarConfig {
     name: string;
@@ -231,8 +233,42 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                     )}
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {/* Driving Model - Enhanced with Telemetry */}
+                                    {(() => {
+                                        const modelName = currentConfig.settings.drivingModel;
+                                        const stat = getModelFleetStat(modelName);
+                                        return (
+                                            <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-800/80 to-cyan-950/30 border border-cyan-500/40 flex flex-col justify-between gap-3 shadow-md">
+                                                <div className="flex items-start justify-between">
+                                                    <div>
+                                                        <div className="text-xs text-cyan-400 font-semibold mb-0.5">{t('cars.setting.model') || 'Driving Model'}</div>
+                                                        <div className="font-bold text-slate-100 text-lg leading-tight">{modelName}</div>
+                                                    </div>
+                                                    <span className="text-2xl">🧠</span>
+                                                </div>
+                                                <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-700/60">
+                                                    {stat ? (
+                                                        <div className="flex items-center gap-1.5 text-xs text-cyan-300 font-medium">
+                                                            <span>{stat.rank <= 5 ? '🔥' : '⚡'}</span>
+                                                            <span>{formatRouteCount(stat.routes)} {t('cars.fleetStats.routesLogged') || 'routes logged'}</span>
+                                                            <span className="text-[10px] text-slate-400">({t('cars.fleetStats.fleetRank') || 'Rank'} #{stat.rank})</span>
+                                                        </div>
+                                                    ) : (
+                                                        <span className="text-xs text-slate-400">Community Verified</span>
+                                                    )}
+                                                    <Link
+                                                        href={`/models?search=${encodeURIComponent(modelName)}`}
+                                                        className="text-[11px] text-cyan-400 hover:text-cyan-300 font-semibold inline-flex items-center gap-1 transition-colors"
+                                                    >
+                                                        <span>{t('cars.fleetStats.viewModel') || 'Specs'}</span>
+                                                        <span>↗</span>
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        );
+                                    })()}
+
                                     {[
-                                        { label: t('cars.setting.model') || 'Driving Model', value: currentConfig.settings.drivingModel, icon: '🧠' },
                                         { label: t('cars.setting.torque') || 'Torque Tuning', value: currentConfig.settings.torqueTuning, icon: '🔒' },
                                         { label: t('cars.setting.lateral') || 'Lateral Control', value: currentConfig.settings.lateralControl, icon: '🔄' },
                                         { label: t('cars.setting.longitudinal') || 'Longitudinal', value: currentConfig.settings.longitudinalControl, icon: '🚀' },
@@ -247,6 +283,62 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                             <span className="text-2xl">{s.icon}</span>
                                         </div>
                                     ))}
+                                </div>
+                            </section>
+
+                            {/* Community Fleet Adoption Section */}
+                            <section className="p-6 rounded-2xl bg-slate-800/40 border border-slate-700/60">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                                    <div>
+                                        <h3 className="text-xs font-bold uppercase tracking-widest text-slate-300 flex items-center gap-2">
+                                            <span>📊</span> {t('cars.fleetStats.communityAdoption') || 'Community Fleet Adoption'}
+                                        </h3>
+                                        <p className="text-xs text-slate-400 mt-0.5">
+                                            {t('cars.fleetStats.communityAdoptionDesc') || 'Real-world route volume from the Sunnypilot live stats telemetry.'}
+                                        </p>
+                                    </div>
+                                    <Link 
+                                        href="/stats" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1 font-medium shrink-0"
+                                    >
+                                        <span>{t('stats.title') || 'Live Stats'}</span>
+                                        <span>↗</span>
+                                    </Link>
+                                </div>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    {configs.map((cfg, idx) => {
+                                        const stat = getModelFleetStat(cfg.settings.drivingModel);
+                                        const isCurrent = idx === selectedConfigIdx;
+                                        return (
+                                            <div 
+                                                key={idx}
+                                                onClick={() => setSelectedConfigIdx(idx)}
+                                                className={`p-3.5 rounded-xl border transition-all cursor-pointer ${
+                                                    isCurrent 
+                                                        ? 'bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.15)]' 
+                                                        : 'bg-slate-900/40 border-slate-700/40 hover:border-slate-600'
+                                                }`}
+                                            >
+                                                <div className="flex items-center justify-between text-xs mb-1.5">
+                                                    <span className={`font-bold truncate ${isCurrent ? 'text-cyan-300' : 'text-slate-200'}`}>
+                                                        {cfg.name}
+                                                    </span>
+                                                    {stat && (
+                                                        <span className="font-mono text-cyan-400 font-semibold text-xs shrink-0">
+                                                            {formatRouteCount(stat.routes)} routes
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <div className="flex items-center justify-between text-[11px] text-slate-400">
+                                                    <span>Model: <strong className="text-slate-300">{cfg.settings.drivingModel}</strong></span>
+                                                    {stat && <span>Rank #{stat.rank} in fleet</span>}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </section>
 
@@ -301,6 +393,58 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                     </div>
                                 </div>
                             </section>
+
+                            {/* Brand & Platform Fleet Telemetry */}
+                            {(() => {
+                                const brandStat = getBrandFleetStat(currentVehicle.make);
+                                if (!brandStat) return null;
+                                return (
+                                    <section className="p-5 rounded-2xl bg-gradient-to-br from-slate-800/60 to-slate-900/80 border border-slate-700/60">
+                                        <div className="flex items-center justify-between mb-2">
+                                            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+                                                <span>⚡</span> Platform Fleet Scale
+                                            </h4>
+                                            <span className="text-[11px] font-mono text-cyan-400 font-bold px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
+                                                Rank #{brandStat.rank}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-baseline justify-between mb-3">
+                                            <span className="text-2xl font-bold text-slate-100">
+                                                {formatDeviceCount(brandStat.totalDevices)}
+                                            </span>
+                                            <span className="text-xs text-slate-400">
+                                                active {brandStat.brand} dongles ({brandStat.sharePercent}% of fleet)
+                                            </span>
+                                        </div>
+
+                                        <div className="space-y-2 pt-3 border-t border-slate-700/50">
+                                            <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
+                                                Community Branch Distribution:
+                                            </div>
+                                            {Object.entries(brandStat.branches)
+                                                .sort((a, b) => b[1] - a[1])
+                                                .slice(0, 3)
+                                                .map(([branch, count]) => {
+                                                    const pct = Math.round((count / brandStat.totalDevices) * 100);
+                                                    return (
+                                                        <div key={branch} className="text-xs">
+                                                            <div className="flex justify-between text-[11px] mb-1">
+                                                                <span className="font-mono text-slate-300 font-medium">{branch}</span>
+                                                                <span className="text-slate-400 font-mono">{count} ({pct}%)</span>
+                                                            </div>
+                                                            <div className="w-full bg-slate-700/40 rounded-full h-1.5 overflow-hidden">
+                                                                <div 
+                                                                    className="bg-gradient-to-r from-cyan-500 to-blue-500 h-1.5 rounded-full transition-all duration-500" 
+                                                                    style={{ width: `${pct}%` }} 
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                        </div>
+                                    </section>
+                                );
+                            })()}
 
                             {currentVehicle.sunnyTuneUrl && (
                                 <section>

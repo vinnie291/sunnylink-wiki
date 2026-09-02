@@ -1,7 +1,7 @@
 {
     "appName": "Sunnylink Car Database",
     "version": "1.0",
-    "lastUpdated": "2026-03-26",
+    "lastUpdated": "2026-09-02",
     "vehicles": [
         {
             "id": "hyundai-ioniq-5-2022",
@@ -34,9 +34,9 @@
                     }
                 },
                 {
-                    "name": "Aggressive City (E2E)",
+                    "name": "Balanced Daily (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Aggressive TR",
+                        "drivingModel": "Pop Model v2",
                         "torqueTuning": "v0.0",
                         "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock / OP Long",
@@ -80,7 +80,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "North Dakota",
+                "drivingModel": "WD40",
                 "torqueTuning": "Default",
                 "lateralControl": "Torque Control",
                 "longitudinalControl": "Stock ACC",
@@ -98,25 +98,36 @@
             ],
             "configs": [
                 {
-                    "name": "North Dakota (Recommended)",
+                    "name": "Highway Stability (WD40)",
                     "settings": {
-                        "drivingModel": "North Dakota",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Default",
-                        "experimentalMode": "Off"
+                        "drivingModel": "WD40",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "OFF"
                     }
                 },
                 {
-                    "name": "DTRv6 (Alternative)",
+                    "name": "Comfort Touring (Down to Ride v6)",
                     "settings": {
-                        "drivingModel": "DTRv6",
-                        "torqueTuning": "v0",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Default",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
+                    }
+                },
+                {
+                    "name": "Modern E2E (WMI V12)",
+                    "settings": {
+                        "drivingModel": "WMI V12",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -132,7 +143,7 @@
                 "radar": "Stock (Bosch)"
             },
             "bestSettings": {
-                "drivingModel": "Pop Model",
+                "drivingModel": "Pop Model v2",
                 "torqueTuning": "Default",
                 "lateralControl": "NNLC (On)",
                 "longitudinalControl": "OP Long (Alpha)",
@@ -151,25 +162,25 @@
             "isRecommended": true,
             "configs": [
                 {
-                    "name": "Pop Model (Recommended)",
+                    "name": "Daily Commute (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Pop Model",
-                        "torqueTuning": "Default",
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "Stock (EPS Mod)",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "OP Long (Alpha)",
+                        "longitudinalControl": "Stock Long",
                         "mads": "Remain Active",
-                        "experimentalMode": "Always On"
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Lateral Smoothness (TCPmV3)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
+                        "drivingModel": "The Cool Peoples Model v3",
+                        "torqueTuning": "Stock (EPS Mod)",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "OP Long (Alpha)",
+                        "longitudinalControl": "Stock Long",
                         "mads": "Remain Active",
-                        "experimentalMode": "Off"
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -185,7 +196,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Pop Model (v1)",
+                "drivingModel": "The Cool Peoples Model v3",
                 "torqueTuning": "Default",
                 "lateralControl": "NNLC (On)",
                 "longitudinalControl": "Stock / OP Long",
@@ -204,25 +215,25 @@
             "isRecommended": true,
             "configs": [
                 {
-                    "name": "Pop Model (v1) (Recommended)",
+                    "name": "Community Choice (TCPmV3)",
                     "settings": {
-                        "drivingModel": "Pop Model (v1)",
-                        "torqueTuning": "Default",
+                        "drivingModel": "The Cool Peoples Model v3",
+                        "torqueTuning": "v0.0",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Stock / OP Long",
-                        "mads": "Enabled (Always On)",
-                        "experimentalMode": "Enabled"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Fleet Favorite (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "v0.0",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Stock / OP Long",
-                        "mads": "Enabled (Always On)",
-                        "experimentalMode": "Off"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -238,7 +249,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Pop Model (v1)",
+                "drivingModel": "WMI V12",
                 "torqueTuning": "Auto",
                 "lateralControl": "Default HKG",
                 "longitudinalControl": "Stock",
@@ -257,25 +268,25 @@
             "isRecommended": true,
             "configs": [
                 {
-                    "name": "Pop Model (v1) (Recommended)",
+                    "name": "Luxury Highway (WMI V12)",
                     "settings": {
-                        "drivingModel": "Pop Model (v1)",
-                        "torqueTuning": "Auto",
-                        "lateralControl": "Default HKG",
+                        "drivingModel": "WMI V12",
+                        "torqueTuning": "v0.0",
+                        "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Fleet Daily (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Default HKG",
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "v0.0",
+                        "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -291,7 +302,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Default",
+                "drivingModel": "Dark Souls Model v2",
                 "torqueTuning": "Default",
                 "lateralControl": "NNLC (On)",
                 "longitudinalControl": "Stock Radar",
@@ -310,25 +321,25 @@
             "isRecommended": true,
             "configs": [
                 {
-                    "name": "BluePilot 5.0 (Recommended)",
+                    "name": "Authoritative Control (Dark Souls Model v2)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
+                        "drivingModel": "Dark Souls Model v2",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Stock Radar",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Highway Glider (Down to Ride v6)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Stock Radar",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -344,7 +355,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Pop Model (v1)",
+                "drivingModel": "Pop Model v2",
                 "torqueTuning": "Default GM",
                 "lateralControl": "Torque Control",
                 "longitudinalControl": "Stock",
@@ -363,25 +374,25 @@
             "isRecommended": true,
             "configs": [
                 {
-                    "name": "Pop Model (v1) (Recommended)",
+                    "name": "Daily Commute (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Pop Model (v1)",
-                        "torqueTuning": "Default GM",
-                        "lateralControl": "Torque Control",
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Recommended"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Centering Precision (CD210 Model)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
+                        "drivingModel": "CD210 Model",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "OFF"
                     }
                 }
             ]
@@ -397,7 +408,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Pop Model (v1)",
+                "drivingModel": "Down to Ride v6",
                 "torqueTuning": "Default",
                 "lateralControl": "MADS",
                 "longitudinalControl": "Stock ACC",
@@ -415,25 +426,25 @@
             ],
             "configs": [
                 {
-                    "name": "Pop Model (v1) (Recommended)",
+                    "name": "Family Tour (Down to Ride v6)",
                     "settings": {
-                        "drivingModel": "Pop Model (v1)",
-                        "torqueTuning": "Default",
-                        "lateralControl": "MADS",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled (Essential)",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "MADS (Alternative)",
+                    "name": "Balanced Highway (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "v0",
-                        "lateralControl": "MADS",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled (Essential)",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -449,7 +460,7 @@
                 "radar": "Stock (Spoofed as Expedition)"
             },
             "bestSettings": {
-                "drivingModel": "Default",
+                "drivingModel": "Dark Souls Model v2",
                 "torqueTuning": "Default",
                 "lateralControl": "NNLC (On)",
                 "longitudinalControl": "Alpha Longitudinal",
@@ -467,25 +478,25 @@
             ],
             "configs": [
                 {
-                    "name": "BluePilot (Recommended)",
+                    "name": "Heavyweight Authority (Dark Souls Model v2)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
+                        "drivingModel": "Dark Souls Model v2",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Alpha Longitudinal",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Alpha Longitudinal (Alternative)",
+                    "name": "Luxury Highway (Down to Ride v6)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "v0",
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Alpha Longitudinal",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -501,7 +512,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Dark Souls v2",
+                "drivingModel": "Dark Souls Model v2",
                 "torqueTuning": "v1",
                 "lateralControl": "Torque Control",
                 "longitudinalControl": "Stock",
@@ -519,25 +530,25 @@
             ],
             "configs": [
                 {
-                    "name": "Dark Souls v2 (Recommended)",
+                    "name": "Truck Authority (Dark Souls Model v2)",
                     "settings": {
-                        "drivingModel": "Dark Souls v2",
-                        "torqueTuning": "v1",
-                        "lateralControl": "Torque Control",
+                        "drivingModel": "Dark Souls Model v2",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Highway Hauler (Down to Ride v6)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -553,7 +564,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Pop Model",
+                "drivingModel": "Pop Model v2",
                 "torqueTuning": "Default",
                 "lateralControl": "NNLC (On)",
                 "longitudinalControl": "Stock",
@@ -571,25 +582,25 @@
             ],
             "configs": [
                 {
-                    "name": "Pop Model (Recommended)",
+                    "name": "Balanced Daily (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Pop Model",
-                        "torqueTuning": "Default",
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "E2E Intelligent (WMI V12)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
+                        "drivingModel": "WMI V12",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -605,7 +616,7 @@
                 "radar": "Stock (Bosch)"
             },
             "bestSettings": {
-                "drivingModel": "Pop Model",
+                "drivingModel": "Pop Model v2",
                 "torqueTuning": "Default",
                 "lateralControl": "NNLC (On)",
                 "longitudinalControl": "Stock Longitudinal (Nidec)",
@@ -623,25 +634,25 @@
             ],
             "configs": [
                 {
-                    "name": "Pop Model (Recommended)",
+                    "name": "Balanced Commute (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Pop Model",
-                        "torqueTuning": "Default",
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Stock Longitudinal (Nidec)",
+                        "longitudinalControl": "Stock",
                         "mads": "Remain Active",
-                        "experimentalMode": "Smart Cruise Vision"
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "SC Model (Alternative)",
+                    "name": "Firm Control (Dark Souls Model v2)",
                     "settings": {
-                        "drivingModel": "SC Model",
-                        "torqueTuning": "v0",
+                        "drivingModel": "Dark Souls Model v2",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Stock Longitudinal (Nidec)",
+                        "longitudinalControl": "Stock",
                         "mads": "Remain Active",
-                        "experimentalMode": "Off"
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -675,25 +686,25 @@
             ],
             "configs": [
                 {
-                    "name": "WMI V12 (Recommended)",
+                    "name": "Smart Navigation (WMI V12)",
                     "settings": {
                         "drivingModel": "WMI V12",
-                        "torqueTuning": "v0",
+                        "torqueTuning": "v0.0",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "WMIv12 (Alternative)",
+                    "name": "Fleet Daily (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "WMIv12",
-                        "torqueTuning": "v0",
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "v0.0",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "longitudinalControl": "Stock / OP Long",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -709,7 +720,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Pop Model",
+                "drivingModel": "Pop Model v2",
                 "torqueTuning": "v0",
                 "lateralControl": "NNLC (On)",
                 "longitudinalControl": "Stock / OP Long",
@@ -727,25 +738,25 @@
             ],
             "configs": [
                 {
-                    "name": "Pop Model (Recommended)",
+                    "name": "Agile Commute (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Pop Model",
-                        "torqueTuning": "v0",
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "v0.0",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Stock / OP Long",
-                        "mads": "Enabled",
-                        "experimentalMode": "Enabled"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "WMIv12 (Alternative)",
+                    "name": "E2E Urban (WMI V12)",
                     "settings": {
-                        "drivingModel": "WMIv12",
-                        "torqueTuning": "v0",
+                        "drivingModel": "WMI V12",
+                        "torqueTuning": "v0.0",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Stock / OP Long",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -761,7 +772,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Off-Policy Model v5",
+                "drivingModel": "OP Model 10 V3",
                 "torqueTuning": "Default",
                 "lateralControl": "Torque Control",
                 "longitudinalControl": "Stock",
@@ -779,25 +790,25 @@
             ],
             "configs": [
                 {
-                    "name": "Off-Policy Model v5 (Recommended)",
+                    "name": "High Performance Lateral (OP Model 10 V3)",
                     "settings": {
-                        "drivingModel": "Off-Policy Model v5",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
+                        "drivingModel": "OP Model 10 V3",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Off-Policy Tested (Off-Policy Model v5)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
+                        "drivingModel": "Off-Policy Model v5",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -813,7 +824,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Firehose Model",
+                "drivingModel": "Pop Model v2",
                 "torqueTuning": "v0.0",
                 "lateralControl": "Torque Control",
                 "longitudinalControl": "Stock",
@@ -822,25 +833,25 @@
             },
             "configs": [
                 {
-                    "name": "Firehose (Recommended)",
+                    "name": "Proven Commute (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Firehose Model",
-                        "torqueTuning": "v0.0",
-                        "lateralControl": "Torque Control",
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Off-Policy v5 (Highway)",
+                    "name": "Bleeding Edge (Firehose Model)",
                     "settings": {
-                        "drivingModel": "Off-Policy Model v5",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
+                        "drivingModel": "Firehose Model",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ],
@@ -879,7 +890,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Firehose Model",
+                "drivingModel": "Down to Ride v6",
                 "torqueTuning": "v0.0",
                 "lateralControl": "Torque Control",
                 "longitudinalControl": "Stock",
@@ -904,25 +915,25 @@
             ],
             "configs": [
                 {
-                    "name": "Firehose Model (Recommended)",
+                    "name": "Luxury Highway (Down to Ride v6)",
                     "settings": {
-                        "drivingModel": "Firehose Model",
-                        "torqueTuning": "v0.0",
-                        "lateralControl": "Torque Control",
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "North Dakota (Alternative)",
+                    "name": "Centering Stiff (WD40)",
                     "settings": {
-                        "drivingModel": "North Dakota",
-                        "torqueTuning": "v0",
-                        "lateralControl": "Torque Control",
+                        "drivingModel": "WD40",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "OFF"
                     }
                 }
             ],
@@ -939,7 +950,7 @@
                 "radar": "Stock (Bosch)"
             },
             "bestSettings": {
-                "drivingModel": "Pop Model",
+                "drivingModel": "Pop Model v2",
                 "torqueTuning": "Default",
                 "lateralControl": "NNLC (On)",
                 "longitudinalControl": "OP Long (Alpha)",
@@ -964,25 +975,25 @@
             ],
             "configs": [
                 {
-                    "name": "Pop Model (Recommended)",
+                    "name": "Proven Daily (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Pop Model",
-                        "torqueTuning": "Default",
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "OP Long (Alpha)",
+                        "longitudinalControl": "Stock",
                         "mads": "Remain Active",
-                        "experimentalMode": "Always On"
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "The Cool Peoples Model v3 (Alternative)",
+                    "name": "Urban E2E (WMI V12)",
                     "settings": {
-                        "drivingModel": "The Cool Peoples Model v3",
-                        "torqueTuning": "v0",
+                        "drivingModel": "WMI V12",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "OP Long (Alpha)",
+                        "longitudinalControl": "Stock",
                         "mads": "Remain Active",
-                        "experimentalMode": "Off"
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -998,7 +1009,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Off-Policy Model v5 (Angle)",
+                "drivingModel": "OP Model 10 V3",
                 "torqueTuning": "v0",
                 "lateralControl": "NNLC (On)",
                 "longitudinalControl": "Stock",
@@ -1016,25 +1027,25 @@
             ],
             "configs": [
                 {
-                    "name": "Off-Policy Model v5 (Angle) (Recommended)",
+                    "name": "Advanced E2E Lateral (OP Model 10 V3)",
                     "settings": {
-                        "drivingModel": "Off-Policy Model v5 (Angle)",
-                        "torqueTuning": "v0",
+                        "drivingModel": "OP Model 10 V3",
+                        "torqueTuning": "v0.0",
                         "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Flagship World Model (WMI V12)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
+                        "drivingModel": "WMI V12",
+                        "torqueTuning": "v0.0",
                         "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ],
@@ -1051,7 +1062,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Kumar's Vibe",
+                "drivingModel": "Kumars Vibe",
                 "torqueTuning": "Default",
                 "lateralControl": "Nevada (Curves)",
                 "longitudinalControl": "Stock Hyundai Longitudinal",
@@ -1076,25 +1087,25 @@
             ],
             "configs": [
                 {
-                    "name": "Kumar's Vibe (Recommended)",
+                    "name": "Community Favorite (Kumars Vibe)",
                     "settings": {
-                        "drivingModel": "Kumar's Vibe",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Nevada (Curves)",
-                        "longitudinalControl": "Stock Hyundai Longitudinal",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Kumars Vibe",
+                        "torqueTuning": "v0.0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Nevada (Alternative)",
+                    "name": "Firm Centering (Nevada Model)",
                     "settings": {
-                        "drivingModel": "Nevada",
-                        "torqueTuning": "v0",
-                        "lateralControl": "Nevada (Curves)",
-                        "longitudinalControl": "Stock Hyundai Longitudinal",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Nevada Model",
+                        "torqueTuning": "v0.0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ],
@@ -1111,7 +1122,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "DTRv6",
+                "drivingModel": "Down to Ride v6",
                 "torqueTuning": "Default",
                 "lateralControl": "NNLC (On)",
                 "longitudinalControl": "Stock",
@@ -1129,25 +1140,25 @@
             ],
             "configs": [
                 {
-                    "name": "DTRv6 (Recommended)",
+                    "name": "Smooth Autobahn (Down to Ride v6)",
                     "settings": {
-                        "drivingModel": "DTRv6",
-                        "torqueTuning": "Default",
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "WMIv12 (Alternative)",
+                    "name": "Modern Intelligent (WMI V12)",
                     "settings": {
-                        "drivingModel": "WMIv12",
-                        "torqueTuning": "v0",
+                        "drivingModel": "WMI V12",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -1163,7 +1174,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "CD210",
+                "drivingModel": "CD210 Model",
                 "torqueTuning": "v0.0 (Manual)",
                 "lateralControl": "NNLC (On)",
                 "longitudinalControl": "Stock",
@@ -1172,25 +1183,25 @@
             },
             "configs": [
                 {
-                    "name": "CD210 (Stable Highway)",
+                    "name": "Subaru Centering (CD210 Model)",
                     "settings": {
-                        "drivingModel": "CD210",
-                        "torqueTuning": "v0.0 (Manual)",
+                        "drivingModel": "CD210 Model",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default Settings",
+                    "name": "Highway Stiff (WD40)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Default",
+                        "drivingModel": "WD40",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "OFF"
                     }
                 }
             ],
@@ -1215,7 +1226,7 @@
                 "radar": "Stock (Bosch)"
             },
             "bestSettings": {
-                "drivingModel": "Default",
+                "drivingModel": "Down to Ride v6",
                 "torqueTuning": "Stronger Steering",
                 "lateralControl": "NNLC (On)",
                 "longitudinalControl": "OP Long (Alpha)",
@@ -1233,25 +1244,25 @@
             ],
             "configs": [
                 {
-                    "name": "sunnypilot (MVL Fork) (Recommended)",
+                    "name": "Road Trip Comfort (Down to Ride v6)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Stronger Steering",
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "OP Long (Alpha)",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Daily Commute (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "OP Long (Alpha)",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -1267,7 +1278,7 @@
                 "radar": "Factory SCC"
             },
             "bestSettings": {
-                "drivingModel": "Default",
+                "drivingModel": "WMI V12",
                 "torqueTuning": "Default",
                 "lateralControl": "NNLC (On)",
                 "longitudinalControl": "OP Long (Alpha)",
@@ -1285,25 +1296,25 @@
             ],
             "configs": [
                 {
-                    "name": "Alpha Longitudinal (Recommended)",
+                    "name": "Smart Navigation (WMI V12)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
+                        "drivingModel": "WMI V12",
+                        "torqueTuning": "v0.0",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "OP Long (Alpha)",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Agile Commute (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "v0.0",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "OP Long (Alpha)",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -1319,7 +1330,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Default",
+                "drivingModel": "Down to Ride v6",
                 "torqueTuning": "Default",
                 "lateralControl": "Torque Control",
                 "longitudinalControl": "Stock / OP Long",
@@ -1345,25 +1356,25 @@
             "isRecommended": true,
             "configs": [
                 {
-                    "name": "sunnypilot on comma 3X (Recommended)",
+                    "name": "Family Tour (Down to Ride v6)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock / OP Long",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Solid Center (WD40)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock / OP Long",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "drivingModel": "WD40",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "OFF"
                     }
                 }
             ]
@@ -1379,7 +1390,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Pop Model",
+                "drivingModel": "WMI V12",
                 "torqueTuning": "v0.0",
                 "lateralControl": "NNLC (On)",
                 "longitudinalControl": "Stock / OP Long",
@@ -1397,25 +1408,25 @@
             ],
             "configs": [
                 {
-                    "name": "Pop Model (Recommended)",
+                    "name": "Flagship Smart (WMI V12)",
                     "settings": {
-                        "drivingModel": "Pop Model",
+                        "drivingModel": "WMI V12",
                         "torqueTuning": "v0.0",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Stock / OP Long",
-                        "mads": "Enabled",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
                         "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "MADS (Alternative)",
+                    "name": "Balanced Daily (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "v0",
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "v0.0",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Stock / OP Long",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -1431,7 +1442,7 @@
                 "radar": "Factory SCC"
             },
             "bestSettings": {
-                "drivingModel": "North Dakota",
+                "drivingModel": "Down to Ride v6",
                 "torqueTuning": "Default",
                 "lateralControl": "Torque Control",
                 "longitudinalControl": "Stock ACC",
@@ -1449,25 +1460,25 @@
             ],
             "configs": [
                 {
-                    "name": "North Dakota (Recommended)",
+                    "name": "Passenger Favorite (Down to Ride v6)",
                     "settings": {
-                        "drivingModel": "North Dakota",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Essential",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "MADS (Alternative)",
+                    "name": "Maximum Stiffness (WD40)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "v0",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Essential",
-                        "experimentalMode": "Off"
+                        "drivingModel": "WD40",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "OFF"
                     }
                 }
             ]
@@ -1483,7 +1494,7 @@
                 "radar": "Factory SCC"
             },
             "bestSettings": {
-                "drivingModel": "North Dakota",
+                "drivingModel": "Down to Ride v6",
                 "torqueTuning": "v1",
                 "lateralControl": "Torque Control",
                 "longitudinalControl": "Stock ACC",
@@ -1501,25 +1512,25 @@
             ],
             "configs": [
                 {
-                    "name": "North Dakota (Recommended)",
+                    "name": "Passenger Favorite (Down to Ride v6)",
                     "settings": {
-                        "drivingModel": "North Dakota",
-                        "torqueTuning": "v1",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Lateral Smooth (TCPmV3)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "drivingModel": "The Cool Peoples Model v3",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -1535,7 +1546,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Pop Model",
+                "drivingModel": "Pop Model v2",
                 "torqueTuning": "v0.0",
                 "lateralControl": "NNLC (On)",
                 "longitudinalControl": "Stock / OP Long",
@@ -1553,25 +1564,25 @@
             ],
             "configs": [
                 {
-                    "name": "Pop Model (Recommended)",
+                    "name": "Sporty Daily (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Pop Model",
+                        "drivingModel": "Pop Model v2",
                         "torqueTuning": "v0.0",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Stock / OP Long",
-                        "mads": "Enabled",
-                        "experimentalMode": "Always On"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "E2E World Model (WMI V12)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
+                        "drivingModel": "WMI V12",
+                        "torqueTuning": "v0.0",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Stock / OP Long",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -1605,25 +1616,25 @@
             ],
             "configs": [
                 {
-                    "name": "WMI V12 (Recommended)",
+                    "name": "City & Highway (WMI V12)",
                     "settings": {
                         "drivingModel": "WMI V12",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "torqueTuning": "v0.0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Commute Proven (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "v0.0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -1657,25 +1668,25 @@
             ],
             "configs": [
                 {
-                    "name": "WMI V12 (Recommended)",
+                    "name": "Smooth Modern (WMI V12)",
                     "settings": {
                         "drivingModel": "WMI V12",
-                        "torqueTuning": "Self-Tune",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "MADS (Alternative)",
+                    "name": "Large Truck Authority (Dark Souls Model v2)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "v0",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Dark Souls Model v2",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -1709,25 +1720,25 @@
             ],
             "configs": [
                 {
-                    "name": "Down to Ride v6 (Recommended)",
+                    "name": "Refined Comfort (Down to Ride v6)",
                     "settings": {
                         "drivingModel": "Down to Ride v6",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Pop Model (Alternative)",
+                    "name": "Active Daily (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Pop Model",
-                        "torqueTuning": "v0",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -1761,25 +1772,25 @@
             ],
             "configs": [
                 {
-                    "name": "CD210 Model (Recommended)",
+                    "name": "Subaru AWD Centering (CD210 Model)",
                     "settings": {
                         "drivingModel": "CD210 Model",
-                        "torqueTuning": "v1.2",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock / OP Long",
-                        "mads": "Optional",
-                        "experimentalMode": "Off"
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Passenger Glider (Down to Ride v6)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock / OP Long",
-                        "mads": "Optional",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -1795,7 +1806,7 @@
                 "radar": "Bosch Factory"
             },
             "bestSettings": {
-                "drivingModel": "Pop Model",
+                "drivingModel": "Down to Ride v6",
                 "torqueTuning": "v0",
                 "lateralControl": "NNLC",
                 "longitudinalControl": "Stock ACC",
@@ -1813,25 +1824,25 @@
             ],
             "configs": [
                 {
-                    "name": "Pop Model (Recommended)",
+                    "name": "Family Highway (Down to Ride v6)",
                     "settings": {
-                        "drivingModel": "Pop Model",
-                        "torqueTuning": "v0",
-                        "lateralControl": "NNLC",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Standard Daily (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "NNLC",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -1847,7 +1858,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Off-Policy v3",
+                "drivingModel": "OP Model 10 V3",
                 "torqueTuning": "Experimental",
                 "lateralControl": "Torque Control",
                 "longitudinalControl": "Stock ACC",
@@ -1865,25 +1876,25 @@
             ],
             "configs": [
                 {
-                    "name": "Off-Policy v3 (Recommended)",
+                    "name": "Off-Policy Precision (OP Model 10 V3)",
                     "settings": {
-                        "drivingModel": "Off-Policy v3",
-                        "torqueTuning": "Experimental",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Recommended",
-                        "experimentalMode": "Always On"
+                        "drivingModel": "OP Model 10 V3",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Heavyweight Authority (Dark Souls Model v2)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Recommended",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Dark Souls Model v2",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -1899,7 +1910,7 @@
                 "radar": "Stock / Vision"
             },
             "bestSettings": {
-                "drivingModel": "Pop Model",
+                "drivingModel": "Pop Model v2",
                 "torqueTuning": "Tesla Custom",
                 "lateralControl": "EPAS Control",
                 "longitudinalControl": "Stock / OP Long",
@@ -1917,25 +1928,25 @@
             ],
             "configs": [
                 {
-                    "name": "Pop Model (Recommended)",
+                    "name": "Smooth Daily (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Pop Model",
-                        "torqueTuning": "Tesla Custom",
-                        "lateralControl": "EPAS Control",
-                        "longitudinalControl": "Stock / OP Long",
-                        "mads": "Always On",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "E2E Intelligent (WMI V12)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "EPAS Control",
-                        "longitudinalControl": "Stock / OP Long",
-                        "mads": "Always On",
-                        "experimentalMode": "Off"
+                        "drivingModel": "WMI V12",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ],
@@ -1970,25 +1981,25 @@
             ],
             "configs": [
                 {
-                    "name": "CD210 Model (Recommended)",
+                    "name": "Smooth Stability (CD210 Model)",
                     "settings": {
                         "drivingModel": "CD210 Model",
-                        "torqueTuning": "Self-Tune",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Road Trip Comfort (Down to Ride v6)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -2004,7 +2015,7 @@
                 "radar": "BlueCruise Hardware"
             },
             "bestSettings": {
-                "drivingModel": "Dark Souls v2",
+                "drivingModel": "Dark Souls Model v2",
                 "torqueTuning": "v1.2 Stiff",
                 "lateralControl": "Torque Control",
                 "longitudinalControl": "Stock / OP Long",
@@ -2022,25 +2033,25 @@
             ],
             "configs": [
                 {
-                    "name": "Dark Souls v2 (Recommended)",
+                    "name": "Heavy EV Authority (Dark Souls Model v2)",
                     "settings": {
-                        "drivingModel": "Dark Souls v2",
-                        "torqueTuning": "v1.2 Stiff",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock / OP Long",
-                        "mads": "Always On",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Dark Souls Model v2",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Smooth Cruise (Down to Ride v6)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock / OP Long",
-                        "mads": "Always On",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -2056,7 +2067,7 @@
                 "radar": "TSS 3.0"
             },
             "bestSettings": {
-                "drivingModel": "Pop Model",
+                "drivingModel": "WD40",
                 "torqueTuning": "v0",
                 "lateralControl": "Torque Control",
                 "longitudinalControl": "Stock ACC",
@@ -2074,25 +2085,25 @@
             ],
             "configs": [
                 {
-                    "name": "Pop Model (Recommended)",
+                    "name": "Rock Solid Highway (WD40)",
                     "settings": {
-                        "drivingModel": "Pop Model",
-                        "torqueTuning": "v0",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "drivingModel": "WD40",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "OFF"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "All-Around Commuter (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ]
@@ -2126,25 +2137,25 @@
             ],
             "configs": [
                 {
-                    "name": "Down to Ride v6 (Recommended)",
+                    "name": "Luxury Smooth (Down to Ride v6)",
                     "settings": {
                         "drivingModel": "Down to Ride v6",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Dynamic Daily (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
-                        "longitudinalControl": "Stock ACC",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "Stock",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ],
@@ -2161,7 +2172,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Default",
+                "drivingModel": "WMI V12",
                 "torqueTuning": "Default",
                 "lateralControl": "Torque Control",
                 "longitudinalControl": "Stock",
@@ -2173,14 +2184,25 @@
             "reviews": [],
             "configs": [
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Modern E2E (WMI V12)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
-                        "lateralControl": "Torque Control",
+                        "drivingModel": "WMI V12",
+                        "torqueTuning": "v0.0",
+                        "lateralControl": "NNLC (On)",
                         "longitudinalControl": "Stock",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
+                    }
+                },
+                {
+                    "name": "Passenger Glider (Down to Ride v6)",
+                    "settings": {
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "v0.0",
+                        "lateralControl": "NNLC (On)",
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ],
@@ -2197,7 +2219,7 @@
                 "radar": "Stock"
             },
             "bestSettings": {
-                "drivingModel": "Default",
+                "drivingModel": "Down to Ride v6",
                 "torqueTuning": "Default",
                 "lateralControl": "NNLC (On)",
                 "longitudinalControl": "Stock Radar",
@@ -2216,25 +2238,25 @@
             "isSunnyTune": true,
             "configs": [
                 {
-                    "name": "BluePilot 5.0 (Recommended)",
+                    "name": "Balanced Touring (Down to Ride v6)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
+                        "drivingModel": "Down to Ride v6",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Stock Radar",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 },
                 {
-                    "name": "Default / Stock Settings",
+                    "name": "Commuter Choice (Pop Model v2)",
                     "settings": {
-                        "drivingModel": "Default",
-                        "torqueTuning": "Default",
+                        "drivingModel": "Pop Model v2",
+                        "torqueTuning": "Stock",
                         "lateralControl": "NNLC (On)",
-                        "longitudinalControl": "Stock Radar",
-                        "mads": "Enabled",
-                        "experimentalMode": "Off"
+                        "longitudinalControl": "Stock",
+                        "mads": "Remain Active",
+                        "experimentalMode": "Dynamic"
                     }
                 }
             ],

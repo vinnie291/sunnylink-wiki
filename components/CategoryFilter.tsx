@@ -9,6 +9,7 @@ interface Category {
     name: string;
     icon: ReactNode;
     count: number;
+    deviceCount?: number;
 }
 
 interface CategoryFilterProps {
@@ -148,9 +149,19 @@ export default function CategoryFilter({
                         >
                             <span className="shrink-0">{category.icon}</span>
                             <span className="flex-1 break-words">{category.name}</span>
-                            <span className={getFilterBadgeClasses(isActive)}>
-                                {category.count}
-                            </span>
+                            <div className="flex items-center gap-1.5 shrink-0">
+                                {category.deviceCount !== undefined && category.deviceCount > 0 && (
+                                    <span 
+                                        className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20"
+                                        title={`${category.deviceCount.toLocaleString()} active Sunnylink devices in fleet`}
+                                    >
+                                        ⚡{category.deviceCount >= 1000 ? `${(category.deviceCount / 1000).toFixed(1)}k` : category.deviceCount}
+                                    </span>
+                                )}
+                                <span className={getFilterBadgeClasses(isActive)}>
+                                    {category.count}
+                                </span>
+                            </div>
                         </button>
                     );
                 })}

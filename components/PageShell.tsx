@@ -32,7 +32,7 @@ export default function PageShell({ children, showFooter = true, showHeader = tr
                 </div>
             )}
 
-            <div className="relative z-10 max-w-7xl mx-auto px-4 pt-20 pb-8 sm:py-12">
+            <div className="relative z-10 max-w-7xl mx-auto px-4 pt-32 pb-8 sm:pt-40 sm:pb-12">
                 {showHeader && <Header />}
                 {children}
 

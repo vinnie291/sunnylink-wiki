@@ -10,6 +10,7 @@ const LS_KEY = 'sunnylink:donate-modal-dismissed';
 const TRIGGER_MS = 5 * 60 * 1000;
 const COOLDOWN_MS = 30 * 24 * 60 * 60 * 1000;
 const BMC_URL = 'https://buymeacoffee.com/vinhle.co';
+const COMMA_REFERRAL_URL = 'https://refer.comma.ai/DQHAMJM';
 
 const trackEvent = (action: string, params: Record<string, unknown> = {}) => {
     if (typeof window === 'undefined') return;
@@ -30,6 +31,12 @@ export default function SessionDonateModal() {
     useEffect(() => {
         if (typeof window === 'undefined') return;
         try {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('modal') === 'donate' || window.location.hash === '#donate-modal') {
+                setOpen(true);
+                return;
+            }
+
             const raw = window.localStorage.getItem(LS_KEY);
             if (raw) {
                 const ts = Number(raw);
@@ -94,26 +101,45 @@ export default function SessionDonateModal() {
                     Has this site helped you setup your sunnypilot?
                 </h2>
                 <p className="text-sm text-slate-400 text-center mb-6">
-                    If the wiki saved you some time, consider buying me a coffee — it keeps this thing alive.
+                    If the wiki saved you some time, consider buying me a coffee or using my comma referral link — it keeps this site alive!
                 </p>
 
-                <a
-                    href={BMC_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => {
-                        trackEvent('donate_modal_clicked', { destination: BMC_URL });
-                        dismiss('cta');
-                    }}
-                    className="block w-full text-center font-bold py-3 px-5 rounded-xl bg-[#FFDD00] hover:bg-[#ffe84d] active:bg-[#e6c700] text-black transition-colors shadow-md"
-                >
-                    ☕ Buy me a coffee
-                </a>
+                <div className="flex flex-col gap-3">
+                    <a
+                        href={BMC_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => {
+                            trackEvent('donate_modal_clicked', { destination: BMC_URL, option: 'coffee' });
+                            dismiss('cta');
+                        }}
+                        className="flex items-center justify-center gap-2 w-full text-center font-bold py-3 px-5 rounded-xl bg-[#FFDD00] hover:bg-[#ffe84d] active:bg-[#e6c700] text-black transition-all shadow-md hover:scale-[1.01] active:scale-[0.99]"
+                    >
+                        <span>☕</span>
+                        <span>Buy me a coffee</span>
+                    </a>
+
+                    <a
+                        href={COMMA_REFERRAL_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => {
+                            trackEvent('donate_modal_clicked', { destination: COMMA_REFERRAL_URL, option: 'comma_referral' });
+                            dismiss('cta');
+                        }}
+                        className="flex items-center justify-center gap-2 w-full text-center font-bold py-3 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white transition-all shadow-md shadow-emerald-950/30 hover:scale-[1.01] active:scale-[0.99]"
+                    >
+                        <svg className="w-5 h-5 text-emerald-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Save $50 on a comma four</span>
+                    </a>
+                </div>
 
                 <button
                     type="button"
                     onClick={() => dismiss('no_thanks')}
-                    className="block mx-auto mt-4 text-xs text-slate-500 hover:text-slate-300 transition-colors"
+                    className="block mx-auto mt-5 text-xs text-slate-500 hover:text-slate-300 transition-colors"
                 >
                     No thanks
                 </button>

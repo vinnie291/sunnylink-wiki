@@ -19,6 +19,7 @@ import MobileCategorySidebar from './MobileCategorySidebar';
 import SidebarInlineControls from './SidebarInlineControls';
 import ScrollToTop from './ScrollToTop';
 import { BRAND_ICONS, DefaultCarIcon } from './icons/BrandIcons';
+import { getModelFleetStat, formatRouteCount, getTopDrivenModels, getBrandFleetStat, formatDeviceCount } from '../lib/fleetStats';
 
 const CategorySidebarButton = dynamic(() => import('./CategorySidebarButton'), { ssr: false });
 
@@ -83,8 +84,11 @@ export default function CarDatabase() {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedMake, setSelectedMake] = useState<string>('');
+    const [selectedModelFilter, setSelectedModelFilter] = useState<string>('');
     const [showRecommended, setShowRecommended] = useState<boolean>(false);
     const [showSunnyTune, setShowSunnyTune] = useState<boolean>(false);
+
+    const topFleetModels = useMemo(() => getTopDrivenModels(10), []);
 
     const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
     const { viewMode, setViewMode } = useViewMode('cars_page', 'grid');
@@ -106,6 +110,7 @@ export default function CarDatabase() {
             .filter(make => counts[make] > 0)
             .map(make => {
                 const IconComponent = BRAND_ICONS[make.toLowerCase()];
+                const brandStat = getBrandFleetStat(make);
                 return {
                     id: make.toLowerCase(),
                     name: make,
@@ -114,7 +119,8 @@ export default function CarDatabase() {
                     ) : (
                         <DefaultCarIcon className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
                     ),
-                    count: counts[make]
+                    count: counts[make],
+                    deviceCount: brandStat?.totalDevices
                 };
             });
     }, [vehicles]);
@@ -225,6 +231,27 @@ export default function CarDatabase() {
 
 
 
+        if (selectedModelFilter) {
+            results = results.filter(v => {
+                const mainModel = v.bestSettings?.drivingModel || '';
+                const mainStat = getModelFleetStat(mainModel);
+                const filterStat = getModelFleetStat(selectedModelFilter);
+                if (mainStat && filterStat && mainStat.cleanName === filterStat.cleanName) {
+                    return true;
+                }
+                if (mainModel.toLowerCase().includes(selectedModelFilter.toLowerCase())) {
+                    return true;
+                }
+                return v.configs?.some(c => {
+                    const cStat = getModelFleetStat(c.settings?.drivingModel);
+                    if (cStat && filterStat && cStat.cleanName === filterStat.cleanName) {
+                        return true;
+                    }
+                    return (c.settings?.drivingModel || '').toLowerCase().includes(selectedModelFilter.toLowerCase());
+                });
+            });
+        }
+
         if (searchQuery) {
             const fuse = new Fuse(results, {
                 keys: ['make', 'model', 'displayYears'],
@@ -247,6 +274,11 @@ export default function CarDatabase() {
                     if (a.isRecommended && !b.isRecommended) return -1;
                     if (!a.isRecommended && b.isRecommended) return 1;
                     return ratingB - ratingA;
+                case 'fleet-desc': {
+                    const routesA = getModelFleetStat(a.bestSettings?.drivingModel)?.routes || 0;
+                    const routesB = getModelFleetStat(b.bestSettings?.drivingModel)?.routes || 0;
+                    return routesB - routesA;
+                }
                 case 'brand-asc':
                     return `${a.make} ${a.model}`.localeCompare(`${b.make} ${b.model}`);
                 case 'brand-desc':
@@ -265,7 +297,7 @@ export default function CarDatabase() {
         });
 
         return results;
-    }, [groupedVehicles, searchQuery, selectedMake, sortBy, showRecommended, showSunnyTune]);
+    }, [groupedVehicles, searchQuery, selectedMake, selectedModelFilter, sortBy, showRecommended, showSunnyTune]);
 
     const [isSearchActive, setIsSearchActive] = useState(false);
 
@@ -353,6 +385,52 @@ export default function CarDatabase() {
                             recommendedCount={recommendedCount}
                             sunnyTuneCount={sunnyTuneCount}
                         />
+                    </div>
+
+                    {/* Fleet Model Adoption (Live Stats) */}
+                    <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-4">
+                        <div className="flex items-center justify-between mb-3">
+                            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+                                <span>📊</span> {t('cars.fleetStats.title') || 'Fleet Adoption'}
+                            </h3>
+                            <Link href="/stats" className="text-[11px] text-cyan-400 hover:text-cyan-300 font-medium">
+                                {t('stats.live') || 'Live'} ↗
+                            </Link>
+                        </div>
+                        <p className="text-[11px] text-slate-400 mb-3 leading-relaxed">
+                            {t('cars.fleetStats.subtitle') || 'Real-world routes recorded across the Sunnypilot fleet'}
+                        </p>
+                        <div className="space-y-2.5">
+                            {topFleetModels.slice(0, 5).map((m, idx) => {
+                                const isSelected = selectedModelFilter.toLowerCase() === m.cleanName.toLowerCase();
+                                return (
+                                    <div 
+                                        key={m.slug}
+                                        onClick={() => setSelectedModelFilter(isSelected ? '' : m.cleanName)}
+                                        className={`cursor-pointer group p-1.5 rounded-xl transition-all ${
+                                            isSelected ? 'bg-cyan-500/10 border border-cyan-500/30' : 'hover:bg-slate-700/30'
+                                        }`}
+                                    >
+                                        <div className="flex items-center justify-between text-xs mb-1">
+                                            <span className={`font-medium truncate max-w-[140px] transition-colors ${
+                                                isSelected ? 'text-cyan-300 font-bold' : 'text-slate-300 group-hover:text-cyan-400'
+                                            }`}>
+                                                #{idx + 1} {m.cleanName}
+                                            </span>
+                                            <span className="text-[11px] font-mono text-cyan-400 font-semibold">
+                                                {formatRouteCount(m.routes, true)}
+                                            </span>
+                                        </div>
+                                        <div className="w-full bg-slate-700/40 rounded-full h-1.5 overflow-hidden">
+                                            <div 
+                                                className="bg-gradient-to-r from-cyan-500 to-blue-500 h-1.5 rounded-full transition-all duration-500"
+                                                style={{ width: `${Math.round((m.routes / topFleetModels[0].routes) * 100)}%` }}
+                                            />
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
 
                     {/* Quick Tip */}
@@ -454,6 +532,7 @@ export default function CarDatabase() {
                                 className="appearance-none outline-none bg-transparent w-full pl-2 pr-10 py-2.5 text-sm font-medium text-slate-100 cursor-pointer"
                             >
                                 <option value="recommended-first" className="bg-slate-800">{t('cars.sort.recommended') || 'Recommended First'}</option>
+                                <option value="fleet-desc" className="bg-slate-800">{t('cars.sort.fleetPopularity') || 'Fleet Popularity (Most Driven)'}</option>
                                 <option value="rating-desc" className="bg-slate-800">{t('cars.sort.ratingHighLow') || 'Rating (High-Low)'}</option>
                                 <option value="rating-asc" className="bg-slate-800">{t('cars.sort.ratingLowHigh') || 'Rating (Low-High)'}</option>
                                 <option value="brand-asc" className="bg-slate-800">{t('cars.sort.brandAZ') || 'Brand (A-Z)'}</option>
@@ -467,6 +546,79 @@ export default function CarDatabase() {
                                 </svg>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                {/* Fleet Telemetry Pill Bar */}
+                <div className="mb-6 p-4 rounded-2xl bg-gradient-to-r from-slate-900/90 via-slate-800/60 to-slate-900/90 border border-slate-700/60 shadow-lg backdrop-blur-md">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                        <div className="flex items-center gap-2">
+                            <span className="flex h-2.5 w-2.5 relative">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
+                            </span>
+                            <h3 className="text-xs sm:text-sm font-bold text-slate-100 uppercase tracking-wider flex items-center gap-1.5">
+                                <span>📊</span> {t('cars.fleetStats.title') || 'Fleet Model Telemetry'}
+                            </h3>
+                            <span className="text-[11px] text-slate-400 hidden md:inline">
+                                • {t('cars.fleetStats.subtitle') || 'Real-world routes recorded across the Sunnypilot fleet'}
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Link 
+                                href="/stats" 
+                                className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1 font-medium"
+                            >
+                                <span>{t('stats.live') || 'Live'} {t('stats.title') || 'Stats'}</span>
+                                <span>↗</span>
+                            </Link>
+                            {selectedModelFilter && (
+                                <button
+                                    onClick={() => setSelectedModelFilter('')}
+                                    className="text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded-md border border-slate-700 transition-colors"
+                                >
+                                    Clear ×
+                                </button>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Scrollable Model Chips */}
+                    <div className="flex items-center gap-2 overflow-x-auto pb-1 custom-scrollbar">
+                        <button
+                            onClick={() => setSelectedModelFilter('')}
+                            className={`text-xs px-3 py-1.5 rounded-xl font-medium shrink-0 transition-all border ${
+                                selectedModelFilter === ''
+                                    ? 'bg-cyan-500 text-slate-950 font-bold border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.4)]'
+                                    : 'bg-slate-800/60 hover:bg-slate-800 text-slate-300 border-slate-700/60'
+                            }`}
+                        >
+                            {t('cars.fleetStats.allModels') || 'All Models'}
+                        </button>
+
+                        {topFleetModels.map(model => {
+                            const isSelected = selectedModelFilter.toLowerCase() === model.cleanName.toLowerCase();
+                            return (
+                                <button
+                                    key={model.slug}
+                                    onClick={() => setSelectedModelFilter(isSelected ? '' : model.cleanName)}
+                                    className={`group text-xs px-3 py-1.5 rounded-xl shrink-0 transition-all border flex items-center gap-2 ${
+                                        isSelected
+                                            ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.4)]'
+                                            : 'bg-slate-800/50 hover:bg-slate-800 text-slate-300 border-slate-700/50 hover:border-slate-600'
+                                    }`}
+                                >
+                                    <span className="font-semibold">{model.cleanName}</span>
+                                    <span className={`text-[10px] px-1.5 py-0.5 rounded-md font-mono ${
+                                        isSelected 
+                                            ? 'bg-black/30 text-cyan-200' 
+                                            : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 group-hover:bg-cyan-500/20'
+                                    }`}>
+                                        {formatRouteCount(model.routes, true)}
+                                    </span>
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
 
@@ -514,8 +666,21 @@ export default function CarDatabase() {
                                     <div className={`relative ${viewMode === 'list' ? 'flex-1 min-w-0' : ''}`}>
                                         <div className={viewMode === 'list' ? 'flex flex-col md:flex-row md:items-center gap-4 md:gap-8' : ''}>
                                             <div>
-                                                <div className="flex items-center gap-2 mb-1">
+                                                <div className="flex items-center flex-wrap gap-2 mb-1">
                                                     <div className="text-xs font-bold text-cyan-500 uppercase tracking-widest">{vehicle.make}</div>
+                                                    {(() => {
+                                                        const brandStat = getBrandFleetStat(vehicle.make);
+                                                        if (!brandStat) return null;
+                                                        return (
+                                                            <span
+                                                                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 text-[10px] font-mono border border-slate-700/60"
+                                                                title={`${brandStat.totalDevices.toLocaleString()} active ${brandStat.brand} devices recorded in Sunnylink fleet`}
+                                                            >
+                                                                <span className="text-cyan-400">⚡</span>
+                                                                {formatDeviceCount(brandStat.totalDevices, true)} fleet
+                                                            </span>
+                                                        );
+                                                    })()}
                                                     {vehicle.isRecommended && (
                                                         <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase tracking-wider">
                                                             <span>★</span> {t('cars.recommended') || 'Recommended'}
@@ -528,10 +693,28 @@ export default function CarDatabase() {
 
                                             {viewMode === 'list' && (
                                                 <div className="flex-1 flex flex-wrap gap-x-8 gap-y-4">
-                                                    <div className="flex items-center gap-2 text-sm text-slate-300">
-                                                        <span className="text-slate-500 shrink-0">🧠</span>
-                                                        <span className="truncate max-w-[150px]">{vehicle.bestSettings.drivingModel}</span>
-                                                    </div>
+                                                    {(() => {
+                                                        const stat = getModelFleetStat(vehicle.bestSettings.drivingModel);
+                                                        return (
+                                                            <div className="flex items-center gap-2 text-sm text-slate-300">
+                                                                <span className="text-slate-500 shrink-0">🧠</span>
+                                                                <span className="truncate max-w-[150px] font-medium">{vehicle.bestSettings.drivingModel}</span>
+                                                                {stat && (
+                                                                    <span 
+                                                                        className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 border ${
+                                                                            stat.rank <= 5
+                                                                                ? 'bg-amber-500/10 text-amber-300 border-amber-500/30'
+                                                                                : 'bg-cyan-500/10 text-cyan-300 border-cyan-500/30'
+                                                                        }`}
+                                                                        title={`${formatRouteCount(stat.routes)} routes recorded across Sunnypilot fleet (Rank #${stat.rank})`}
+                                                                    >
+                                                                        <span>{stat.rank <= 5 ? '🔥' : '⚡'}</span>
+                                                                        <span>{formatRouteCount(stat.routes, true)} {t('cars.fleetStats.routes') || 'routes'}</span>
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                        );
+                                                    })()}
                                                     <div className="flex items-center gap-2 text-sm text-slate-300">
                                                         <span className="text-slate-500 shrink-0">🛠️</span>
                                                         <span className="truncate max-w-[150px]">{vehicle.hardware.harness}</span>
@@ -543,10 +726,30 @@ export default function CarDatabase() {
 
                                     {viewMode === 'grid' && (
                                         <div className="space-y-3 mb-6 mt-4 relative">
-                                            <div className="flex items-center gap-2 text-sm text-slate-300">
-                                                <span className="text-slate-500 shrink-0">🧠</span>
-                                                <span className="truncate">{vehicle.bestSettings.drivingModel}</span>
-                                            </div>
+                                            {(() => {
+                                                const stat = getModelFleetStat(vehicle.bestSettings.drivingModel);
+                                                return (
+                                                    <div className="flex items-center justify-between gap-2 text-sm text-slate-300">
+                                                        <div className="flex items-center gap-2 min-w-0">
+                                                            <span className="text-slate-500 shrink-0">🧠</span>
+                                                            <span className="truncate font-medium">{vehicle.bestSettings.drivingModel}</span>
+                                                        </div>
+                                                        {stat && (
+                                                            <span 
+                                                                className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 border ${
+                                                                    stat.rank <= 5
+                                                                        ? 'bg-amber-500/10 text-amber-300 border-amber-500/30'
+                                                                        : 'bg-cyan-500/10 text-cyan-300 border-cyan-500/30'
+                                                                }`}
+                                                                title={`${formatRouteCount(stat.routes)} routes recorded across Sunnypilot fleet (Rank #${stat.rank})`}
+                                                            >
+                                                                <span>{stat.rank <= 5 ? '🔥' : '⚡'}</span>
+                                                                <span>{formatRouteCount(stat.routes, true)} {t('cars.fleetStats.routes') || 'routes'}</span>
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                );
+                                            })()}
                                             <div className="flex items-center gap-2 text-sm text-slate-300">
                                                 <span className="text-slate-500 shrink-0">🛠️</span>
                                                 <span className="truncate">{vehicle.hardware.harness}</span>
@@ -585,6 +788,7 @@ export default function CarDatabase() {
                             onClick={() => {
                                 setSearchQuery('');
                                 setSelectedMake('');
+                                setSelectedModelFilter('');
                                 setShowRecommended(false);
                                 setShowSunnyTune(false);
                             }}
