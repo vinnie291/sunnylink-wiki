@@ -5,7 +5,9 @@ Deploy sunnylink-wiki to Cloud Run via Cloud Build (source upload).
 Usage:
     python3 scripts/deploy.py
 
-Credentials: /home/user/.config/gcp/sunnylink-wiki-key.json
+Credentials: Application Default Credentials (run `gcloud auth application-default login` first)
+Optional service account key override: set GCP_KEY_FILE env var or place key at
+~/.config/gcp/sunnylink-wiki-key.json
 """
 
 import json
@@ -18,9 +20,11 @@ import time
 
 import requests
 from google.auth.transport.requests import Request
-from google.oauth2 import service_account
 
-KEY_FILE = "/home/user/.config/gcp/sunnylink-wiki-key.json"
+KEY_FILE = os.environ.get(
+    "GCP_KEY_FILE",
+    os.path.expanduser("~/.config/gcp/sunnylink-wiki-key.json")
+)
 PROJECT_ID = "sunnylink-wiki"
 REGION = os.environ.get("GCP_REGION", "us-central1")
 GOOGLE_SCRIPT_URL = os.environ.get("NEXT_PUBLIC_GOOGLE_SCRIPT_URL", "")
@@ -34,9 +38,16 @@ EXCLUDE = {
 
 
 def _get_token():
-    creds = service_account.Credentials.from_service_account_file(
-        KEY_FILE, scopes=["https://www.googleapis.com/auth/cloud-platform"]
-    )
+    if os.path.exists(KEY_FILE):
+        from google.oauth2 import service_account
+        creds = service_account.Credentials.from_service_account_file(
+            KEY_FILE, scopes=["https://www.googleapis.com/auth/cloud-platform"]
+        )
+    else:
+        import google.auth
+        creds, _ = google.auth.default(
+            scopes=["https://www.googleapis.com/auth/cloud-platform"]
+        )
     creds.refresh(Request())
     return creds.token
 

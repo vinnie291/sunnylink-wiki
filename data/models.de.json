@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
-  "version": "8.3",
-  "totalModels": 123,
-  "lastUpdated": "2026-08-25",
+  "version": "8.4",
+  "totalModels": 127,
+  "lastUpdated": "2026-09-02",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -55,7 +55,7 @@
     "chestnut_gpu": {
       "title": "The Chestnut GPU Series (Big Models)",
       "subtitle": "eGPU-Only Heavyweights",
-      "includes": "Happy Birthday, BMRLNAP v2/v1, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+      "includes": "BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
       "vibe": "Das sind die „Big Models“ – Netze der Chestnut-Klasse, größer als alles aus der WMI- oder OP-Reihe, gebunden an commas neues GPU-Add-on, das erst ab August 2026 bei den Besitzern ankam. Sie erscheinen unter dem Forum-Tag big_model, während eines Laufs nahezu täglich. Die größere Netzgröße zeigt sich zuerst in der Querführung: Den Auftaktdrop nannte ein sunnypilot-Entwickler in Kurven „outstanding“ – er nimmt innerorts 90-Grad-Abbiegungen angemessen weit statt sie zu schneiden – und die bestbewerteten Drops gelten als satt statt schwammig. Wiederkehrende Schwäche ist die Stadtinfrastruktur: Stoppschilder, die als „California Stop“ überrollt werden, Ampeln und bei manchen Drops hartes oder spätes Bremsen sowie ein Gas-Brems-Effekt bei Setzgeschwindigkeit. Die Stimmenzahlen liegen noch im einstelligen Bereich – alle Bewertungen hier sind vorläufig.",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
       "recommendation": "BMRLNAP schneidet in den Umfragen am besten ab – einstimmig in allen – allerdings bei zwei Stimmen; I Desire ist mit vier die belastbarere Einschätzung. Lebowski lohnt den Blick, wenn es dir ums Abbiegen geht: stärkste Querführung des Laufs, schwächste Längsführung. Tee Time solltest du überspringen, sofern du nicht testest – seine Querführungsumfrage erhielt keine einzige positive Stimme. Halte für Strecken mit vielen Stoppschildern ein Standardmodell bereit."
@@ -245,6 +245,162 @@
       "icon": "🌰",
       "models": [
         {
+          "name": "BMRLNAP Model v6",
+          "date": "September 01, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Experimental",
+            "Stop Line Tuning"
+          ],
+          "communityScore": 70,
+          "totalVotes": 3,
+          "sentiment": {
+            "great": 33,
+            "good": 67,
+            "ok": 0,
+            "bad": 0
+          },
+          "consensus": "Direct successor to BMRLNAP Model v4 (v5 was skipped). Early community feedback reports that longitudinal deceleration and stopping behavior at traffic lights have improved slightly compared to v4, though vehicles can still creep slightly over the line. Lateral stability retains the planted highway cruising feel of v4.",
+          "note": "Chestnut-class big model, built from 9d683c0 in commaai/openpilot. Built in-house by sunnypilot. Compares directly against BMRLNAP v4 to evaluate stop-line precision and deceleration tuning.",
+          "bestFor": "Testing / Big Model Comparison",
+          "steeringFeel": "Smooth",
+          "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v6-september-01-2026-big-model/7004",
+          "testedOn": [
+            "Toyota",
+            "Honda Civic"
+          ],
+          "positives": [
+            "Improved traffic light deceleration and stopping behavior over v4",
+            "Retains smooth and planted high-speed highway cruising",
+            "Active developer responsiveness and in-house tuning"
+          ],
+          "negatives": [
+            "Still tends to creep slightly across the stop line at traffic lights",
+            "Lateral control requires fine-tuning on select Honda builds"
+          ]
+        },
+        {
+          "name": "BMRLNAP Model v4",
+          "date": "August 30, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Highway",
+            "Cut-in Handling"
+          ],
+          "communityScore": 61,
+          "totalVotes": 7,
+          "sentiment": {
+            "great": 43,
+            "good": 14,
+            "ok": 14,
+            "bad": 29
+          },
+          "consensus": "Major evolution in the BMRLNAP series that completely cures the severe low-speed steering oscillations of v3. Outstanding in highway cruising, lead-car following, and handling sudden cut-ins with calm, gradual deceleration rather than harsh brake stabbing. Testers note that curve handling performs better when disabling legacy SCC-V curvature deceleration, though sharp intersection 90-degree turns can still understeer due to steering torque limits, and acceleration from a standstill at green lights remains slow.",
+          "note": "Chestnut-class big model, built from f877d7a in commaai/openpilot. High engagement across Discord and Discourse. Community reports highlight significant vehicle controller sensitivity on Toyotas (Torque v0 vs v1).",
+          "bestFor": "Highway Cruising / Cut-in Handling",
+          "steeringFeel": "Smooth",
+          "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v4-august-30-2026-big-model/6971",
+          "testedOn": [
+            "Kia EV6",
+            "2023 Hyundai Elantra HEV",
+            "2022 Rivian R1T",
+            "Toyota Corolla Hatchback"
+          ],
+          "positives": [
+            "Completely resolves the low-speed see-saw steering oscillations from v3",
+            "Exceptional, calm, confidence-inspiring handling of sudden highway cut-ins",
+            "Smooth longitudinal deceleration without abrupt brake stabbing",
+            "Capable of maneuvering around illegally parked obstacles in E2E mode"
+          ],
+          "negatives": [
+            "Understeers or gives up halfway through sharp 90-degree intersection turns",
+            "Sluggish acceleration off the line when a red light turns green",
+            "Severe controller sensitivity reported on Toyota with Torque controller v1"
+          ]
+        },
+        {
+          "name": "Sad Model",
+          "date": "August 28, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Natural Steering",
+            "Smooth Long"
+          ],
+          "communityScore": 75,
+          "totalVotes": 5,
+          "sentiment": {
+            "great": 20,
+            "good": 60,
+            "ok": 20,
+            "bad": 0
+          },
+          "consensus": "Dedicated farewell drop for comma researcher Toby that earned zero negative ratings from community testers (80% Good or Great). Praised for unanimously smooth acceleration and deceleration with no jerky surging or stop line overshoots. Steering feels natural, humanlike, and stable with no ping-pong, though drivers note a slight tendency to cut corners tight on certain curves.",
+          "note": "Chestnut-class big model, built from 30de303 in commaai/openpilot. Released to commemorate comma research engineer Toby's final driving model contribution.",
+          "bestFor": "Natural Steering Feel / Gentle Long Cruising",
+          "steeringFeel": "Natural",
+          "forumUrl": "https://community.sunnypilot.ai/t/sad-model-august-28-2026-big-model/6945",
+          "testedOn": [
+            "Hyundai",
+            "Kia",
+            "Toyota"
+          ],
+          "positives": [
+            "Unanimously smooth acceleration and braking across all poll voters",
+            "Natural, humanlike steering without wander or low-speed oscillation",
+            "Zero Bad or Poor ratings from community testers",
+            "Smooth and reliable stop sign and light deceleration"
+          ],
+          "negatives": [
+            "Tends to cut corners slightly tight on inside curves",
+            "Minor lane hugging to one side noted by select drivers"
+          ]
+        },
+        {
+          "name": "BMRLNAP Model v3",
+          "date": "August 26, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Experimental",
+            "Oscillating"
+          ],
+          "communityScore": 60,
+          "totalVotes": 8,
+          "sentiment": {
+            "great": 38,
+            "good": 12,
+            "ok": 25,
+            "bad": 25
+          },
+          "consensus": "Severely plagued by low-speed steering oscillations and see-sawing that testers humorously compared to actors fake-steering in old movies. While open-highway cruising and longitudinal braking are smooth, the low-speed wheel oscillation was pronounced across Prius, Civic, Accord, and Rivian test vehicles, prompting testers to recommend skipping forward to v4.",
+          "note": "Chestnut-class big model, built from 47377ac in commaai/openpilot. High-speed highway cruising is acceptable, but low-speed oscillation makes it unsuitable as a daily driver.",
+          "bestFor": "Testing / High-Speed Comparison Only",
+          "steeringFeel": "Oscillating",
+          "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v3-august-26-2026-big-model/6917",
+          "testedOn": [
+            "2021 Toyota Prius Prime",
+            "2025 Honda Accord Hybrid",
+            "2026 Honda Civic Hybrid",
+            "2022 Rivian R1T"
+          ],
+          "positives": [
+            "Smooth longitudinal acceleration and braking once up to cruising speeds",
+            "Stable lead-car following on open multi-lane highway"
+          ],
+          "negatives": [
+            "Aggressive low-speed steering wheel oscillations ('see-sawing')",
+            "Understeers and gives up in the second half of sharp intersection turns",
+            "Tends to roll stop signs as California stops"
+          ]
+        },
+        {
           "name": "BMRLNAP Model v2",
           "date": "August 24, 2026",
           "badge": "NEW",
@@ -254,13 +410,13 @@
             "Experimental",
             "Mixed Sentiment"
           ],
-          "communityScore": 68,
-          "totalVotes": 6,
+          "communityScore": 69,
+          "totalVotes": 9,
           "sentiment": {
-            "great": 33,
-            "good": 33,
-            "ok": 17,
-            "bad": 17
+            "great": 44,
+            "good": 11,
+            "ok": 33,
+            "bad": 11
           },
           "consensus": "Second iteration of the BMRLNAP big model line. Early testing feedback indicates mixed results compared to v1: open highway lanekeeping and longitudinal response remain solid, but testers noted regressions in intersection stop consistency, particularly failing to stop reliably at the white line for traffic lights.",
           "note": "Chestnut-class big model, tied to comma's new GPU add-on. Developer and community testing in Discord showed less consistent stop-line braking at traffic lights than the unanimous v1 drop.",
@@ -268,7 +424,9 @@
           "steeringFeel": "Smooth",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v2-august-24-2026-big-model/6878",
           "testedOn": [
-            "Toyota Camry"
+            "2023 Camry XSE",
+            "Kia EV6",
+            "2022 Hyundai Elantra"
           ],
           "positives": [
             "Smooth, stable lateral control in open highway driving",
@@ -345,12 +503,12 @@
             "Verzögert an Querstraßen ohne Stopp- oder Vorfahrtsschild",
             "Übliche Oszillation bei niedrigem Tempo, auf manchen Straßen wanderndes Ping-Pong"
           ],
-          "communityScore": 81,
-          "totalVotes": 4,
+          "communityScore": 75,
+          "totalVotes": 5,
           "sentiment": {
-            "great": 50,
-            "good": 25,
-            "ok": 25,
+            "great": 40,
+            "good": 20,
+            "ok": 40,
             "bad": 0
           },
           "steeringFeel": "Varies"
@@ -425,13 +583,13 @@
             "Verliert auf einer 55-mph-Straße an Tempo und pendelt sich bei etwa 48 ein",
             "Oberhalb von 50 mph erkennt es Stoppschilder nicht rechtzeitig, was Eingriffe erzwingt"
           ],
-          "communityScore": 38,
-          "totalVotes": 4,
+          "communityScore": 50,
+          "totalVotes": 8,
           "sentiment": {
-            "great": 0,
+            "great": 12,
             "good": 50,
             "ok": 0,
-            "bad": 50
+            "bad": 38
           },
           "steeringFeel": "Twitchy"
         },
@@ -483,12 +641,12 @@
             "Übersieht weiterhin einzelne Stoppschilder und rollt erkannte als „California Stop“",
             "Spurkleben von allen Teilnehmern der Querführungsumfrage gemeldet"
           ],
-          "communityScore": 69,
-          "totalVotes": 4,
+          "communityScore": 67,
+          "totalVotes": 6,
           "sentiment": {
             "great": 0,
-            "good": 75,
-            "ok": 25,
+            "good": 67,
+            "ok": 33,
             "bad": 0
           },
           "steeringFeel": "Confident"
