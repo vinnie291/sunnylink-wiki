@@ -6,9 +6,7 @@ import { buildSunnylinkExport } from '../lib/wizardExport';
 import { GitFork, RefreshCw, X, CheckCircle2, Download } from 'lucide-react';
 import './ConfigWizard.css';
 
-import togglesData from '../data/toggles.json';
-import carsData from '../data/cars.json';
-import modelsData from '../data/models.json';
+import { useTranslatedToggles, useTranslatedCars, useTranslatedModels } from '../lib/useTranslatedData';
 import { getBrandFleetStat, formatDeviceCount } from '../lib/fleetStats';
 
 // ─── Types ───
@@ -152,13 +150,14 @@ const STEPS: { id: WizardStepId; icon: string; label: string }[] = [
 ];
 
 // ─── Resolve settings metadata from toggles.json ───
-function getSettingMeta(key: string): SettingMeta | null {
+function getSettingMeta(togglesData: any, modelsData: any, key: string): SettingMeta | null {
+    if (!togglesData?.categories) return null;
     for (const cat of togglesData.categories) {
         for (const s of cat.settings) {
             if (s.key === key) {
                 const meta = { ...s } as SettingMeta;
                 if (key === 'DrivingModel' && !meta.options) {
-                    const allModels = (modelsData.categories as Array<{ models: Array<{ name: string }> }>).flatMap(c => c.models.map((m) => m.name));
+                    const allModels = (modelsData?.categories as Array<{ models: Array<{ name: string }> }> || []).flatMap(c => c.models.map((m) => m.name));
                     meta.options = ['Default', ...allModels];
                 }
                 return meta;
@@ -169,8 +168,8 @@ function getSettingMeta(key: string): SettingMeta | null {
 }
 
 // ─── Find car match from cars.json ───
-function findCarMatch(make: string, model: string): CarMatch | null {
-    if (!make || !model) return null;
+function findCarMatch(carsData: any, make: string, model: string): CarMatch | null {
+    if (!make || !model || !carsData?.vehicles) return null;
     const vehicles = (carsData as { vehicles: CarMatch[] }).vehicles;
     return vehicles.find(v =>
         v.make.toLowerCase() === make.toLowerCase() &&
@@ -179,13 +178,15 @@ function findCarMatch(make: string, model: string): CarMatch | null {
 }
 
 // ─── Get unique car makes from cars.json ───
-function getUniqueMakes(): string[] {
+function getUniqueMakes(carsData: any): string[] {
+    if (!carsData?.vehicles) return [];
     const vehicles = (carsData as { vehicles: CarMatch[] }).vehicles;
     const makes = [...new Set(vehicles.map(v => v.make))];
     return makes.sort();
 }
 
-function getModelsForMake(make: string): string[] {
+function getModelsForMake(carsData: any, make: string): string[] {
+    if (!carsData?.vehicles) return [];
     const vehicles = (carsData as { vehicles: CarMatch[] }).vehicles;
     return vehicles
         .filter(v => v.make.toLowerCase() === make.toLowerCase())
@@ -243,6 +244,7 @@ function SettingCard({ settingKey, meta, value, onChange, config, isCommunityDef
     isCommunityDefault?: boolean;
     isAdvanced?: boolean;
 }) {
+    const { t } = useLanguage();
     const [expanded, setExpanded] = useState(false);
     if (!meta) return null;
 
@@ -274,13 +276,13 @@ function SettingCard({ settingKey, meta, value, onChange, config, isCommunityDef
                     <div className="flex items-center gap-2 flex-wrap">
                         <h4 className="text-sm font-semibold text-slate-100">{label}</h4>
                         {isCommunityDefault && (
-                            <span className="cw-badge-community text-[10px] px-1.5 py-0.5 rounded-full font-medium">★ Community</span>
+                            <span className="cw-badge-community text-[10px] px-1.5 py-0.5 rounded-full font-medium">★ {t('cw.badge.community') || 'Community'}</span>
                         )}
                         {isAdvanced && (
-                            <span className="cw-badge-advanced text-[10px] px-1.5 py-0.5 rounded-full font-medium">Expert</span>
+                            <span className="cw-badge-advanced text-[10px] px-1.5 py-0.5 rounded-full font-medium">{t('cw.badge.advanced') || 'Expert'}</span>
                         )}
                         {meta.warning && (
-                            <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium bg-red-500/20 border border-red-500/30 text-red-400">⚠ Warning</span>
+                            <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium bg-red-500/20 border border-red-500/30 text-red-400">⚠ {t('toggles.warning') || 'Warning'}</span>
                         )}
                     </div>
                     <p className="text-xs text-slate-400 mt-1 leading-relaxed line-clamp-2">{desc}</p>
@@ -307,7 +309,7 @@ function SettingCard({ settingKey, meta, value, onChange, config, isCommunityDef
                     )}
 
                     <button onClick={() => setExpanded(!expanded)} className="text-[11px] text-cyan-500 hover:text-cyan-400 mt-1.5 transition-colors">
-                        {expanded ? '▲ Less info' : '▼ More info'}
+                        {expanded ? (t('cw.lessInfo') || '▲ Less info') : (t('cw.moreInfo') || '▼ More info')}
                     </button>
                 </div>
 
@@ -409,29 +411,42 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
     );
 }
 
-function CarStep({ config, onChange, onNext, onBack }: { config: ConfigValues; onChange: (key: string, value: string | number) => void; onNext: () => void; onBack: () => void }) {
-    const makes = useMemo(() => [...getUniqueMakes(), 'Other'], []);
-    const models = useMemo(() => config.make ? getModelsForMake(config.make as string) : [], [config.make]);
-    const carMatch = useMemo(() => findCarMatch(config.make as string, config.model as string), [config.make, config.model]);
+function CarStep({ 
+    config, 
+    onChange, 
+    onNext, 
+    onBack,
+    carsData,
+}: { 
+    config: ConfigValues; 
+    onChange: (key: string, value: string | number) => void; 
+    onNext: () => void; 
+    onBack: () => void;
+    carsData: any;
+}) {
+    const { t } = useLanguage();
+    const makes = useMemo(() => [...getUniqueMakes(carsData), 'Other'], [carsData]);
+    const models = useMemo(() => config.make ? getModelsForMake(carsData, config.make as string) : [], [config.make, carsData]);
+    const carMatch = useMemo(() => findCarMatch(carsData, config.make as string, config.model as string), [carsData, config.make, config.model]);
 
     return (
         <div className="cw-step-enter space-y-6">
             <div className="text-center space-y-2">
                 <div className="text-4xl">🚗</div>
-                <h2 className="text-xl md:text-2xl font-bold text-slate-100">Your Vehicle</h2>
-                <p className="text-sm text-slate-400">Select your vehicle to load community-recommended settings</p>
+                <h2 className="text-xl md:text-2xl font-bold text-slate-100">{t('cw.step.car.yourVehicle') || 'Your Vehicle'}</h2>
+                <p className="text-sm text-slate-400">{t('cw.step.car.selectToLoad') || 'Select your vehicle to load community-recommended settings'}</p>
             </div>
 
             <div className="max-w-xl mx-auto space-y-4">
                 {/* Make */}
                 <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-slate-300">Car Make</label>
+                    <label className="text-sm font-medium text-slate-300">{t('cw.step.car.makeLabel') || 'Car Make'}</label>
                     <select
                         value={config.make}
                         onChange={e => { onChange('make', e.target.value); onChange('model', ''); }}
                         className="cw-select w-full bg-slate-800/40 border border-slate-700/50 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/30 outline-none transition-all hover:bg-slate-800/60"
                     >
-                        <option value="">Select make...</option>
+                        <option value="">{t('cw.step.car.selectMakePlaceholder') || 'Select make...'}</option>
                         {makes.map(m => {
                             const bStat = getBrandFleetStat(m);
                             return (
@@ -450,11 +465,11 @@ function CarStep({ config, onChange, onNext, onBack }: { config: ConfigValues; o
                         return (
                             <div className="p-2.5 rounded-lg bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-between text-xs text-slate-300 mt-2">
                                 <span className="flex items-center gap-1.5 font-medium">
-                                    <span>⚡</span> {formatDeviceCount(bStat.totalDevices)} active {bStat.brand} devices in fleet
+                                    <span>⚡</span> {t('cw.step.car.activeDevicesInFleet', { count: formatDeviceCount(bStat.totalDevices), brand: bStat.brand }) || `${formatDeviceCount(bStat.totalDevices)} active ${bStat.brand} devices in fleet`}
                                 </span>
                                 {topBranch && (
                                     <span className="text-[11px] text-cyan-300 font-mono">
-                                        Popular branch: <strong>{topBranch[0]}</strong>
+                                        {t('cw.step.car.popularBranch') || 'Popular branch:'} <strong>{topBranch[0]}</strong>
                                     </span>
                                 )}
                             </div>
@@ -465,13 +480,13 @@ function CarStep({ config, onChange, onNext, onBack }: { config: ConfigValues; o
                 {/* Model */}
                 {config.make && config.make !== 'Other' && models.length > 0 && (
                     <div className="space-y-1.5 animate-fade-in">
-                        <label className="text-sm font-medium text-slate-300">Model</label>
+                        <label className="text-sm font-medium text-slate-300">{t('cw.car.model') || 'Model'}</label>
                         <select
                             value={config.model}
                             onChange={e => onChange('model', e.target.value)}
                             className="cw-select w-full bg-slate-800/40 border border-slate-700/50 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:border-cyan-500 outline-none transition-all hover:bg-slate-800/60"
                         >
-                            <option value="">Select model...</option>
+                            <option value="">{t('cw.step.car.selectModelPlaceholder') || 'Select model...'}</option>
                             {models.map(m => <option key={m} value={m}>{m}</option>)}
                         </select>
                     </div>
@@ -480,7 +495,7 @@ function CarStep({ config, onChange, onNext, onBack }: { config: ConfigValues; o
                 {/* Manual model input for Other or custom */}
                 {(config.make === 'Other' || (config.make && models.length === 0)) && (
                     <div className="space-y-1.5 animate-fade-in">
-                        <label className="text-sm font-medium text-slate-300">Model (manual)</label>
+                        <label className="text-sm font-medium text-slate-300">{t('cw.step.car.modelManual') || 'Model (manual)'}</label>
                         <input
                             type="text"
                             value={config.model}
@@ -493,7 +508,7 @@ function CarStep({ config, onChange, onNext, onBack }: { config: ConfigValues; o
 
                 {/* Year */}
                 <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-slate-300">Year</label>
+                    <label className="text-sm font-medium text-slate-300">{t('cw.car.year') || 'Year'}</label>
                     <input
                         type="number"
                         value={config.year}
@@ -505,7 +520,7 @@ function CarStep({ config, onChange, onNext, onBack }: { config: ConfigValues; o
 
                 {/* Device */}
                 <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-slate-300">Comma Device</label>
+                    <label className="text-sm font-medium text-slate-300">{t('cw.step.car.deviceLabel') || 'Comma Device'}</label>
                     <div className="cw-segmented">
                         <div className="cw-segmented-indicator" data-index={['comma 3', 'comma 3X', 'comma 4'].indexOf(config.device as string)} />
                         {[
@@ -531,14 +546,14 @@ function CarStep({ config, onChange, onNext, onBack }: { config: ConfigValues; o
                     <div className="animate-fade-in rounded-xl border border-green-500/30 bg-green-500/5 p-4 space-y-2">
                         <div className="flex items-center gap-2">
                             <span className="text-lg">✅</span>
-                            <span className="text-sm font-semibold text-green-400">Vehicle found in community database!</span>
+                            <span className="text-sm font-semibold text-green-400">{t('cw.car.found') || 'Vehicle found in community database!'}</span>
                         </div>
                         <p className="text-xs text-slate-400 leading-relaxed">{carMatch.communityConsensus}</p>
-                        <p className="text-xs text-cyan-400">Community settings have been pre-loaded into your config.</p>
+                        <p className="text-xs text-cyan-400">{t('cw.step.car.preloaded') || 'Community settings have been pre-loaded into your config.'}</p>
                         {carMatch.sunnyTuneUrl && (
                             <a href={carMatch.sunnyTuneUrl} target="_blank" rel="noopener noreferrer"
                                 className="inline-flex items-center gap-1 text-xs text-amber-400 hover:text-amber-300 transition-colors mt-1">
-                                🎵 View community SunnyTune config →
+                                {t('cw.step.car.viewSunnyTuneConfig') || '🎵 View community SunnyTune config →'}
                             </a>
                         )}
                     </div>
@@ -547,7 +562,7 @@ function CarStep({ config, onChange, onNext, onBack }: { config: ConfigValues; o
 
             <div className="flex justify-between max-w-xl mx-auto">
                 <button onClick={onBack} className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-100 border border-slate-700 hover:border-slate-500 transition-all">
-                    ← Back
+                    {t('cw.nav.back') || '← Back'}
                 </button>
                 <button 
                     onClick={onNext}
@@ -558,14 +573,27 @@ function CarStep({ config, onChange, onNext, onBack }: { config: ConfigValues; o
                         : 'bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:from-cyan-400 hover:to-cyan-500 shadow-lg shadow-cyan-500/20'
                     }`}
                 >
-                    Next →
+                    {t('cw.nav.next') || 'Next →'}
                 </button>
             </div>
         </div>
     );
 }
 
-function SettingsStep({ title, icon, description, settingKeys, config, onChange, onNext, onBack, isAdvancedMode, communityKeys }: {
+function SettingsStep({ 
+    title, 
+    icon, 
+    description, 
+    settingKeys, 
+    config, 
+    onChange, 
+    onNext, 
+    onBack, 
+    isAdvancedMode, 
+    communityKeys,
+    togglesData,
+    modelsData,
+}: {
     title: string; icon: string; description: string;
     settingKeys: string[];
     config: ConfigValues;
@@ -573,7 +601,10 @@ function SettingsStep({ title, icon, description, settingKeys, config, onChange,
     onNext: () => void; onBack: () => void;
     isAdvancedMode: boolean;
     communityKeys: Set<string>;
+    togglesData: any;
+    modelsData: any;
 }) {
+    const { t } = useLanguage();
     // Split settings into beginner/advanced
     const advancedSettingKeys = useMemo(() => new Set([
         'NNLCEnabled', 'SelfTune', 'LiveTorqueParamsToggle', 'CameraOffset',
@@ -605,7 +636,7 @@ function SettingsStep({ title, icon, description, settingKeys, config, onChange,
 
             <div className="max-w-2xl mx-auto space-y-3">
                 {visibleSettings.map(key => {
-                    const meta = getSettingMeta(key);
+                    const meta = getSettingMeta(togglesData, modelsData, key);
                     return (
                         <SettingCard
                             key={key}
@@ -626,11 +657,11 @@ function SettingsStep({ title, icon, description, settingKeys, config, onChange,
 
             <div className="flex justify-between max-w-2xl mx-auto">
                 <button onClick={onBack} className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-100 border border-slate-700 hover:border-slate-500 transition-all">
-                    ← Back
+                    {t('cw.nav.back') || '← Back'}
                 </button>
                 <button onClick={onNext}
                     className="px-8 py-2.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:from-cyan-400 hover:to-cyan-500 shadow-lg shadow-cyan-500/20 transition-all">
-                    Next →
+                    {t('cw.nav.next') || 'Next →'}
                 </button>
             </div>
         </div>
@@ -641,26 +672,33 @@ function ReviewStep({
     config,
     onBack,
     onNext,
-    onChange
+    onChange,
+    togglesData,
+    modelsData,
 }: {
     config: ConfigValues;
     onBack: () => void;
     onNext: () => void;
     onChange: (key: string, value: string | number) => void;
+    togglesData: any;
+    modelsData: any;
 }) {
+    const { t } = useLanguage();
     const groupedSettings: { name: string; settings: { key: string; val: string | number | boolean | undefined; meta: SettingMeta | null }[] }[] = [];
     const excludeKeys = new Set(['make', 'model', 'year', 'device']);
     
-    for (const cat of togglesData.categories) {
-        const catSettings = [];
-        for (const rawMeta of cat.settings) {
-            const meta = getSettingMeta(rawMeta.key);
-            if (meta && meta.key in config && !excludeKeys.has(meta.key)) {
-                catSettings.push({ key: meta.key, val: config[meta.key as keyof ConfigValues], meta });
+    if (togglesData?.categories) {
+        for (const cat of togglesData.categories) {
+            const catSettings = [];
+            for (const rawMeta of cat.settings) {
+                const meta = getSettingMeta(togglesData, modelsData, rawMeta.key);
+                if (meta && meta.key in config && !excludeKeys.has(meta.key)) {
+                    catSettings.push({ key: meta.key, val: config[meta.key as keyof ConfigValues], meta });
+                }
             }
-        }
-        if (catSettings.length > 0) {
-            groupedSettings.push({ name: cat.name, settings: catSettings });
+            if (catSettings.length > 0) {
+                groupedSettings.push({ name: cat.name, settings: catSettings });
+            }
         }
     }
     
@@ -733,8 +771,8 @@ function ReviewStep({
         <div className="cw-step-enter space-y-6">
             <div className="text-center space-y-2">
                 <div className="text-4xl px-2">📋</div>
-                <h2 className="text-xl md:text-2xl font-bold text-slate-100">Review Settings</h2>
-                <p className="text-sm text-slate-400">Review and adjust your {totalExported} settings before exporting</p>
+                <h2 className="text-xl md:text-2xl font-bold text-slate-100">{t('cw.review.title') || 'Review Settings'}</h2>
+                <p className="text-sm text-slate-400">{t('cw.review.desc') || `Review and adjust your ${totalExported} settings before exporting`}</p>
             </div>
 
             <div className="max-w-2xl mx-auto space-y-6">
@@ -759,11 +797,11 @@ function ReviewStep({
 
             <div className="flex justify-between max-w-2xl mx-auto pt-4">
                 <button onClick={onBack} className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-100 border border-slate-700 hover:border-slate-500 transition-all">
-                    ← Back
+                    {t('cw.nav.back') || '← Back'}
                 </button>
                 <button onClick={onNext}
                     className="px-8 py-2.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:from-cyan-400 hover:to-cyan-500 shadow-lg shadow-cyan-500/20 transition-all">
-                    Next: Export →
+                    {t('cw.nav.next') || 'Next: Export →'}
                 </button>
             </div>
         </div>
@@ -771,6 +809,7 @@ function ReviewStep({
 }
 
 function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBack: () => void; onRestart: () => void }) {
+    const { t } = useLanguage();
     const [copied, setCopied] = useState(false);
     const [showJson, setShowJson] = useState(false);
     const previewRef = useRef<HTMLPreElement>(null);
@@ -827,7 +866,7 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
         <div className="cw-step-enter space-y-6">
             <div className="text-center space-y-2">
                 <div className="text-4xl">📦</div>
-                <h2 className="text-xl md:text-2xl font-bold text-slate-100">Your Config is Ready!</h2>
+                <h2 className="text-xl md:text-2xl font-bold text-slate-100">{t('cw.step.export.title') || 'Your Config is Ready!'}</h2>
                 <p className="text-sm text-slate-400">
                     {config.make && config.model
                         ? `${config.year} ${config.make} ${config.model} — ${changedCount} customized settings`
@@ -838,9 +877,9 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
             {/* Summary cards */}
             <div className="max-w-2xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3">
                 {[
-                    { label: 'Vehicle', value: config.make && config.model ? `${config.make} ${config.model}` : 'Custom' },
-                    { label: 'Device', value: config.device },
-                    { label: 'Model', value: config.DrivingModel },
+                    { label: t('cw.car.make') || 'Vehicle', value: config.make && config.model ? `${config.make} ${config.model}` : 'Custom' },
+                    { label: t('cw.car.device') || 'Device', value: config.device },
+                    { label: t('cw.car.model') || 'Model', value: config.DrivingModel },
                     { label: 'MADS', value: config.Mads === 'True' ? 'On' : 'Off' },
                 ].map((s, i) => (
                     <div key={i} className="rounded-xl border border-slate-700/50 bg-slate-800/40 p-3 text-center">
@@ -854,12 +893,12 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
             <div className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-3 flex-wrap justify-center">
                 <button onClick={handleDownload}
                     className="px-8 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:from-cyan-400 hover:to-cyan-500 shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2">
-                    ⬇️ Download JSON Config
+                    ⬇️ {t('cw.export.download') || 'Download JSON Config'}
                 </button>
                 <a href="https://sunny-tune.vercel.app/configure" target="_blank" rel="noopener noreferrer"
                     className="px-6 py-3 rounded-xl font-semibold text-sm text-white hover:opacity-90 shadow-lg shadow-[#2663eb]/20 transition-all flex items-center justify-center gap-2 bg-[#2663eb]">
                     <GitFork className="w-4 h-4" />
-                    Upload to SunnyTune
+                    {t('cars.sunnytune.config') || 'Upload to SunnyTune'}
                 </a>
             </div>
 
@@ -867,14 +906,14 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
             <div className="max-w-2xl mx-auto">
                 <button onClick={() => setShowJson(!showJson)}
                     className="text-sm text-cyan-500 hover:text-cyan-400 transition-colors flex items-center gap-1 mx-auto">
-                    {showJson ? '▲ Hide' : '▼ Show'} JSON Preview
+                    {showJson ? (t('cw.export.hideJson') || '▲ Hide') : (t('cw.export.showJson') || '▼ Show')} JSON Preview
                 </button>
                 {showJson && (
                     <div className="mt-3 animate-fade-in relative">
                         <div className="absolute top-3 right-3 z-10">
                             <button onClick={handleCopy}
                                 className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800/90 backdrop-blur-sm text-slate-300 hover:text-slate-100 hover:bg-slate-700 border border-slate-600 transition-all flex items-center justify-center gap-1.5 shadow-lg">
-                                {copied ? '✅ Copied!' : '📋 Copy JSON'}
+                                {copied ? (t('cw.export.copied') || '✅ Copied!') : (t('cw.export.copy') || '📋 Copy JSON')}
                             </button>
                         </div>
                         <pre ref={previewRef}
@@ -887,7 +926,7 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
 
             {/* How to use */}
             <div className="max-w-2xl mx-auto rounded-xl border border-slate-700/50 bg-slate-800/30 p-4 space-y-2">
-                <h3 className="text-sm font-semibold text-slate-200">How to use this file</h3>
+                <h3 className="text-sm font-semibold text-slate-200">{t('cw.export.howTo.title') || 'How to use this file'}</h3>
                 <ol className="text-xs text-slate-400 space-y-1.5 list-decimal list-inside">
                     <li>Sign in at <a href="https://sunnylink.ai" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300">sunnylink.ai</a></li>
                     <li>On the Overview page, click <span className="text-slate-200 font-medium">Open Migration Wizard</span></li>
@@ -899,11 +938,11 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
             {/* Navigation */}
             <div className="flex justify-between max-w-2xl mx-auto">
                 <button onClick={onBack} className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-100 border border-slate-700 hover:border-slate-500 transition-all">
-                    ← Back
+                    {t('cw.nav.back') || '← Back'}
                 </button>
                 <button onClick={onRestart}
                     className="px-6 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-100 border border-slate-700 hover:border-slate-500 transition-all">
-                    🔄 Start Over
+                    🔄 {t('cw.nav.startOver') || 'Start Over'}
                 </button>
             </div>
 
@@ -913,7 +952,8 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
 }
 
 // ─── Progress Bar ───
-function ProgressBar({ currentStep, steps }: { currentStep: number; steps: typeof STEPS }) {
+function ProgressBar({ currentStep, steps }: { currentStep: number; steps: Array<{ id: string; icon: string; label: string }> }) {
+    const { t } = useLanguage();
     return (
         <div className="w-full pt-2 pb-6">
             {/* Desktop Progress Bar (hidden on mobile) */}
@@ -971,7 +1011,7 @@ function ProgressBar({ currentStep, steps }: { currentStep: number; steps: typeo
                     </span>
                     <span className="text-slate-200 text-sm font-semibold">{steps[currentStep].icon} {steps[currentStep].label}</span>
                 </div>
-                <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Step {currentStep + 1} of {steps.length}</div>
+                <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">{t('cw.stepOf', { current: currentStep + 1, total: steps.length }) || `Step ${currentStep + 1} of ${steps.length}`}</div>
             </div>
         </div>
     );
@@ -979,16 +1019,38 @@ function ProgressBar({ currentStep, steps }: { currentStep: number; steps: typeo
 
 // ─── Main Orchestrator ───
 export default function ConfigWizard() {
+    const { t } = useLanguage();
+    const togglesData = useTranslatedToggles();
+    const carsData = useTranslatedCars();
+    const modelsData = useTranslatedModels();
+
     const [currentStepId, setCurrentStepId] = useState<WizardStepId>('welcome');
     const [isAdvancedMode, setIsAdvancedMode] = useState(false);
     const [config, setConfig] = useState<ConfigValues>({ ...DEFAULT_CONFIG });
     const [communityKeys, setCommunityKeys] = useState<Set<string>>(new Set());
     const containerRef = useRef<HTMLDivElement>(null);
 
+    const stepsLabels: Record<string, string> = {
+        welcome: t('cw.welcome.title') || 'Welcome',
+        car: t('cw.car.make') || 'Car',
+        expert: t('cw.mode.advanced') || 'Expert Mode',
+        driving: t('cw.step.driving.title') || 'Core Driving',
+        steering: t('cw.step.steering.title') || 'Steering & MADS',
+        speed: t('cw.step.speed.title') || 'Speed & Cruise',
+        visuals: t('cw.step.visuals.title') || 'Visuals & HUD',
+        review: t('cw.review.title') || 'Review',
+        export: t('cw.step.export.title') || 'Export Config',
+    };
+
     // Dynamic steps list
     const activeSteps = useMemo(() => {
-        return STEPS.filter(s => s.id !== 'expert' || isAdvancedMode);
-    }, [isAdvancedMode]);
+        return STEPS
+            .filter(s => s.id !== 'expert' || isAdvancedMode)
+            .map(s => ({
+                ...s,
+                label: stepsLabels[s.id] || s.label,
+            }));
+    }, [isAdvancedMode, stepsLabels]);
 
     const stepIndex = useMemo(() => {
         const idx = activeSteps.findIndex(s => s.id === currentStepId);
@@ -1006,23 +1068,25 @@ export default function ConfigWizard() {
         };
 
         // 1. Process toggles.json dependencies
-        for (const cat of togglesData.categories) {
-            for (const s of cat.settings) {
-                const sMeta = s as SettingMeta;
-                if (sMeta.dependencies) {
-                    const normTarget = getNormalizedKey(sMeta.key);
-                    if (normTarget in newConfig) {
-                        const depsMet = sMeta.dependencies.every((dep: { key: string }) => {
-                            const normDep = getNormalizedKey(dep.key);
-                            const val = newConfig[normDep];
-                            return val !== undefined && val !== 'False' && val !== 'Off';
-                        });
+        if (togglesData?.categories) {
+            for (const cat of togglesData.categories) {
+                for (const s of cat.settings) {
+                    const sMeta = s as SettingMeta;
+                    if (sMeta.dependencies) {
+                        const normTarget = getNormalizedKey(sMeta.key);
+                        if (normTarget in newConfig) {
+                            const depsMet = sMeta.dependencies.every((dep: { key: string }) => {
+                                const normDep = getNormalizedKey(dep.key);
+                                const val = newConfig[normDep];
+                                return val !== undefined && val !== 'False' && val !== 'Off';
+                            });
 
-                        if (!depsMet) {
-                            const defVal = DEFAULT_CONFIG[normTarget] !== undefined ? DEFAULT_CONFIG[normTarget] : 'False';
-                            if (newConfig[normTarget] !== defVal && newConfig[normTarget] !== 'False') {
-                                newConfig[normTarget] = defVal;
-                                changed = true;
+                            if (!depsMet) {
+                                const defVal = DEFAULT_CONFIG[normTarget] !== undefined ? DEFAULT_CONFIG[normTarget] : 'False';
+                                if (newConfig[normTarget] !== defVal && newConfig[normTarget] !== 'False') {
+                                    newConfig[normTarget] = defVal;
+                                    changed = true;
+                                }
                             }
                         }
                     }
@@ -1040,11 +1104,11 @@ export default function ConfigWizard() {
 
         // Return the modified config if changes were made, otherwise return null indicating stable
         return changed ? newConfig : null;
-    }, []);
+    }, [togglesData]);
 
     // Apply car match defaults when car changes
     useEffect(() => {
-        const match = findCarMatch(config.make as string, config.model as string);
+        const match = findCarMatch(carsData, config.make as string, config.model as string);
         if (match && match.bestSettings) {
             const newConfig = { ...config };
             const newCommunityKeys = new Set<string>();
@@ -1082,7 +1146,7 @@ export default function ConfigWizard() {
             setCommunityKeys(newCommunityKeys);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [config.make, config.model, enforceDependencies]);
+    }, [config.make, config.model, carsData, enforceDependencies]);
 
     const handleChange = useCallback((key: string, value: string | number) => {
         setConfig(prev => {
@@ -1139,7 +1203,7 @@ export default function ConfigWizard() {
             {/* Header + Advanced toggle */}
             {currentStepId !== 'welcome' && (
                 <div className="w-full max-w-2xl mx-auto px-4 md:px-0">
-                    <ProgressBar currentStep={stepIndex} steps={activeSteps as typeof STEPS} />
+                    <ProgressBar currentStep={stepIndex} steps={activeSteps} />
                 </div>
             )}
 
@@ -1148,10 +1212,10 @@ export default function ConfigWizard() {
                 <div className="flex justify-between items-center max-w-2xl mx-auto px-4 md:px-0">
                     <button onClick={restart} className="text-xs font-semibold text-red-500 hover:text-red-400 transition-colors flex items-center gap-1.5 py-1">
                         <RefreshCw className="w-3.5 h-3.5" />
-                        Reset Config
+                        {t('cw.reset') || 'Reset Config'}
                     </button>
                     <label className="flex items-center gap-2 cursor-pointer">
-                        <span className="text-xs text-slate-400">Expert Mode</span>
+                        <span className="text-xs text-slate-400">{t('cw.mode.advanced') || 'Expert Mode'}</span>
                         <WizardToggle value={isAdvancedMode} onChange={setIsAdvancedMode} />
                     </label>
                 </div>
@@ -1159,33 +1223,38 @@ export default function ConfigWizard() {
 
             {/* Steps */}
             {currentStepId === 'welcome' && <WelcomeStep onNext={goNext} />}
-            {currentStepId === 'car' && <CarStep config={config} onChange={handleChange} onNext={goNext} onBack={goBack} />}
+            {currentStepId === 'car' && <CarStep config={config} onChange={handleChange} onNext={goNext} onBack={goBack} carsData={carsData} />}
             {currentStepId === 'expert' && (
-                <SettingsStep title="Expert & System" icon="⚙️" description="Configure device-level system settings and power user features"
+                <SettingsStep title={t('cw.step.expert.title') || "Expert & System"} icon="⚙️" description={t('cw.step.expert.desc') || "Configure device-level system settings and power user features"}
                     settingKeys={expertKeys} config={config} onChange={handleChange}
-                    onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys} />
+                    onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys}
+                    togglesData={togglesData} modelsData={modelsData} />
             )}
             {currentStepId === 'driving' && (
-                <SettingsStep title="Core Driving" icon="🛞" description="Choose your driving model, personality, and core behavior"
+                <SettingsStep title={t('cw.step.driving.title') || "Core Driving"} icon="🛞" description={t('cw.step.driving.desc') || "Choose your driving model, personality, and core behavior"}
                     settingKeys={drivingKeys} config={config} onChange={handleChange}
-                    onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys} />
+                    onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys}
+                    togglesData={togglesData} modelsData={modelsData} />
             )}
             {currentStepId === 'steering' && (
-                <SettingsStep title="Steering & MADS" icon="🎯" description="Configure MADS, lane changes, and steering assist behavior"
+                <SettingsStep title={t('cw.step.steering.title') || "Steering & MADS"} icon="🎯" description={t('cw.step.steering.desc') || "Configure MADS, lane changes, and steering assist behavior"}
                     settingKeys={steeringKeys} config={config} onChange={handleChange}
-                    onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys} />
+                    onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys}
+                    togglesData={togglesData} modelsData={modelsData} />
             )}
             {currentStepId === 'speed' && (
-                <SettingsStep title="Speed & Cruise" icon="⚡" description="Speed limits, turn speed control, and ACC customization"
+                <SettingsStep title={t('cw.step.speed.title') || "Speed & Cruise"} icon="⚡" description={t('cw.step.speed.desc') || "Speed limits, turn speed control, and ACC customization"}
                     settingKeys={speedKeys} config={config} onChange={handleChange}
-                    onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys} />
+                    onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys}
+                    togglesData={togglesData} modelsData={modelsData} />
             )}
             {currentStepId === 'visuals' && (
-                <SettingsStep title="Visuals & HUD" icon="🎨" description="Customize your on-screen display, alerts, and visual feedback"
+                <SettingsStep title={t('cw.step.visuals.title') || "Visuals & HUD"} icon="🎨" description={t('cw.step.visuals.desc') || "Customize your on-screen display, alerts, and visual feedback"}
                     settingKeys={visualKeys} config={config} onChange={handleChange}
-                    onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys} />
+                    onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys}
+                    togglesData={togglesData} modelsData={modelsData} />
             )}
-            {currentStepId === 'review' && <ReviewStep config={config} onBack={goBack} onNext={goNext} onChange={handleChange} />}
+            {currentStepId === 'review' && <ReviewStep config={config} onBack={goBack} onNext={goNext} onChange={handleChange} togglesData={togglesData} modelsData={modelsData} />}
             {currentStepId === 'export' && <ExportStep config={config} onBack={goBack} onRestart={restart} />}
         </div>
     );

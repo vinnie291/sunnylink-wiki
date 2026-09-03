@@ -58,13 +58,13 @@ export default function StatsClient() {
                     <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-sm relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-4 text-4xl opacity-10 font-mono select-none">⚡</div>
                         <div className="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-1">
-                            Sunnylink Connected Devices
+                            {t('stats.connectedDevices') || 'Sunnylink Connected Devices'}
                         </div>
                         <div className="text-3xl font-extrabold text-slate-100 mb-2">
                             {formatDeviceCount(FLEET_BRAND_STATS.totalDevices)}
                         </div>
                         <p className="text-xs text-slate-400 leading-relaxed">
-                            Distinct hardware dongles logged across supported automotive platforms.
+                            {t('stats.connectedDevicesDesc') || 'Distinct hardware dongles logged across supported automotive platforms.'}
                         </p>
                     </div>
 
@@ -72,10 +72,10 @@ export default function StatsClient() {
                     <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-sm md:col-span-2">
                         <div className="flex items-center justify-between mb-3">
                             <div className="text-xs font-bold uppercase tracking-wider text-slate-300">
-                                Top Platform Share
+                                {t('stats.topPlatformShare') || 'Top Platform Share'}
                             </div>
                             <Link href="/cars" className="text-[11px] text-cyan-400 hover:text-cyan-300 font-semibold">
-                                View Supported Cars ↗
+                                {t('stats.viewSupportedCars') || 'View Supported Cars ↗'}
                             </Link>
                         </div>
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
@@ -94,7 +94,7 @@ export default function StatsClient() {
                                         </span>
                                     </div>
                                     <div className="text-xs font-mono text-cyan-400 font-bold">
-                                        {formatDeviceCount(b.totalDevices, true)} dongles
+                                        {formatDeviceCount(b.totalDevices, true)} {t('stats.dongles') || 'dongles'}
                                     </div>
                                 </Link>
                             ))}

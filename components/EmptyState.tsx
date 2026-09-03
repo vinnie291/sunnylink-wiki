@@ -71,7 +71,7 @@ export default function EmptyState({ searchQuery, onClearSearch }: EmptyStatePro
           transform hover:scale-105
         "
             >
-                Clear Search & Show All
+                {t('search.clearSearchAndShowAll') || 'Clear Search & Show All'}
             </button>
         </div>
     );

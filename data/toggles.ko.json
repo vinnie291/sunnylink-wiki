@@ -49,7 +49,7 @@
           "max": 50,
           "unit": "mph",
           "helpText": "Default: 19 mph. Sets the maximum speed at which lane turn desires are active.",
-          "description": "Sets the maximum speed at which lane turn desires are active. Use the - and + buttons to adjust.",
+          "description": "차선 회전 욕구가 활성화되는 최대 속도를 설정합니다. - 및 + 버튼을 사용하여 조정합니다.",
           "dependencies": [
             {
               "key": "LaneTurnDesire",
@@ -60,7 +60,7 @@
               "label": "Show Advanced Controls"
             }
           ],
-          "userNote": "Only appears when Use Lane Turn Desires and Show Advanced Controls are enabled."
+          "userNote": "차선 회전 욕구 사용 및 고급 제어 표시가 활성화된 경우에만 나타납니다."
         },
         {
           "key": "DrivingModel",
@@ -82,15 +82,15 @@
           "key": "RefreshModelList",
           "label": "Refresh Model List",
           "type": "action",
-          "description": "Forces a refresh of the available model list from the server. Use this if you expect a new model to be available but do not see it in the selection dialog.",
-          "userNote": "Use when a new model should be available but isn't shown."
+          "description": "서버에서 사용 가능한 모델 목록을 강제로 새로 고칩니다. 새 모델을 사용할 수 있을 것으로 예상하지만 선택 대화 상자에 표시되지 않는 경우 이 기능을 사용하세요.",
+          "userNote": "새 모델을 사용할 수 있어야 하지만 표시되지 않을 때 사용합니다."
         },
         {
           "key": "ClearModelCache",
           "label": "Clear Model Cache",
           "type": "action",
-          "description": "Deletes all downloaded models except the currently active one. The current cache size in MB is displayed. Useful for freeing storage space.",
-          "userNote": "Frees up storage space by removing old model files."
+          "description": "현재 활성화된 모델을 제외하고 다운로드된 모든 모델을 삭제합니다. 현재 캐시 크기(MB)가 표시됩니다. 저장 공간을 확보하는 데 유용합니다.",
+          "userNote": "오래된 모델 파일을 제거하여 저장 공간을 확보합니다."
         },
         {
           "key": "LiveLearningSteerDelay",
@@ -116,7 +116,7 @@
             }
           ],
           "warning": "만지지 마세요. 개발자의 지시가 없는 한 '0.00'으로 둡니다.",
-          "userNote": "Only modify if Live Learning Steer Delay is disabled."
+          "userNote": "실시간 학습 조정 지연이 비활성화된 경우에만 수정하십시오."
         }
       ]
     },
@@ -1216,10 +1216,10 @@
           "key": "SshKeys",
           "label": "SSH Keys",
           "type": "action",
-          "description": "Fetches SSH public keys from a GitHub username and installs them on the device. This allows SSH login using your GitHub-associated key pair.",
+          "description": "GitHub 사용자 이름에서 SSH 공개 키를 가져와 장치에 설치합니다. 이를 통해 GitHub 관련 키 쌍을 사용하여 SSH 로그인이 가능해집니다.",
           "warning": "Only add SSH keys from users you trust. Anyone with an installed key has full access to the device.",
           "useCase": "Install SSH keys for remote access.",
-          "userNote": "Only add keys from trusted users."
+          "userNote": "신뢰할 수 있는 사용자의 키만 추가하세요."
         },
         {
           "key": "JoystickDebugMode",

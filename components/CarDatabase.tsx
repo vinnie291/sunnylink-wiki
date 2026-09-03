@@ -510,7 +510,7 @@ export default function CarDatabase() {
                             {searchQuery
                                 ? t('cars.searchFound', { count: filteredVehicles.length, query: searchQuery })
                                 : selectedMake
-                                    ? `Browse all community-verified ${selectedMake} configurations.`
+                                    ? t('cars.browseBrandDesc', { make: selectedMake }) || `Browse all community-verified ${selectedMake} configurations.`
                                     : t('cars.description') || 'Explore verified hardware and tuning settings for your vehicle.'
                             }
                         </p>
@@ -577,7 +577,7 @@ export default function CarDatabase() {
                                     onClick={() => setSelectedModelFilter('')}
                                     className="text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded-md border border-slate-700 transition-colors"
                                 >
-                                    Clear ×
+                                    {t('search.clear') || 'Clear ×'}
                                 </button>
                             )}
                         </div>
@@ -782,8 +782,8 @@ export default function CarDatabase() {
                 {filteredVehicles.length === 0 && (
                     <div className="text-center py-20 bg-slate-800/30 rounded-2xl border border-slate-700/50 mt-6 md:mt-0">
                         <div className="text-5xl mb-4">🔍</div>
-                        <h3 className="text-xl font-medium text-slate-100 mb-2">No vehicles found</h3>
-                        <p className="text-slate-400 mb-6">Try adjusting your filters or search terms.</p>
+                        <h3 className="text-xl font-medium text-slate-100 mb-2">{t('cars.noVehiclesFound') || 'No vehicles found'}</h3>
+                        <p className="text-slate-400 mb-6">{t('cars.noVehiclesFoundDesc') || 'Try adjusting your filters or search terms.'}</p>
                         <button
                             onClick={() => {
                                 setSearchQuery('');
@@ -794,7 +794,7 @@ export default function CarDatabase() {
                             }}
                             className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-slate-100 rounded-xl transition-colors"
                         >
-                            Clear All
+                            {t('filter.clearAll') || 'Clear All'}
                         </button>
                     </div>
                 )}

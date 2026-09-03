@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../lib/i18n';
 import { getModelFleetStat, formatRouteCount, getBrandFleetStat, formatDeviceCount } from '../lib/fleetStats';
+import { getVehicleForumUrl } from '../lib/carForum';
 
 interface CarConfig {
     name: string;
@@ -148,16 +149,19 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                             <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-sm font-bold uppercase tracking-wider">
                                 {t('cars.status') || 'Tested'}
                             </span>
-                            {vehicle.forumUrl && (
-                                <a
-                                    href={vehicle.forumUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold transition-colors flex items-center gap-2"
-                                >
-                                    <span>💬</span> {t('cars.forum') || 'Join Discussion'}
-                                </a>
-                            )}
+                            {(() => {
+                                const forumUrl = getVehicleForumUrl(vehicle.make, vehicle.forumUrl);
+                                return (
+                                    <a
+                                        href={forumUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold transition-colors flex items-center gap-2"
+                                    >
+                                        <span>💬</span> {t('cars.forum') || 'Join Discussion'}
+                                    </a>
+                                );
+                            })()}
                         </div>
                     </div>
                 </div>
@@ -254,7 +258,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                                             <span className="text-[10px] text-slate-400">({t('cars.fleetStats.fleetRank') || 'Rank'} #{stat.rank})</span>
                                                         </div>
                                                     ) : (
-                                                        <span className="text-xs text-slate-400">Community Verified</span>
+                                                        <span className="text-xs text-slate-400">{t('cars.fleetStats.communityVerified') || 'Community Verified'}</span>
                                                     )}
                                                     <Link
                                                         href={`/models?search=${encodeURIComponent(modelName)}`}
@@ -334,7 +338,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                                 </div>
                                                 <div className="flex items-center justify-between text-[11px] text-slate-400">
                                                     <span>Model: <strong className="text-slate-300">{cfg.settings.drivingModel}</strong></span>
-                                                    {stat && <span>Rank #{stat.rank} in fleet</span>}
+                                                    {stat && <span>{t('cars.fleetStats.fleetRankInFleet', { rank: stat.rank }) || `Rank #${stat.rank} in fleet`}</span>}
                                                 </div>
                                             </div>
                                         );
@@ -400,26 +404,26 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                 if (!brandStat) return null;
                                 return (
                                     <section className="p-5 rounded-2xl bg-gradient-to-br from-slate-800/60 to-slate-900/80 border border-slate-700/60">
-                                        <div className="flex items-center justify-between mb-2">
+                                        <div className="flex items-center justify-between gap-2 mb-2.5">
                                             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                                                <span>⚡</span> Platform Fleet Scale
+                                                <span>⚡</span> {t('cars.fleetStats.platformScale') || 'Platform Fleet Scale'}
                                             </h4>
-                                            <span className="text-[11px] font-mono text-cyan-400 font-bold px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
+                                            <span className="text-[11px] font-mono text-cyan-400 font-bold px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 shrink-0">
                                                 Rank #{brandStat.rank}
                                             </span>
                                         </div>
-                                        <div className="flex items-baseline justify-between mb-3">
-                                            <span className="text-2xl font-bold text-slate-100">
+                                        <div className="flex items-baseline gap-2.5 mb-3 flex-wrap">
+                                            <span className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
                                                 {formatDeviceCount(brandStat.totalDevices)}
                                             </span>
-                                            <span className="text-xs text-slate-400">
-                                                active {brandStat.brand} dongles ({brandStat.sharePercent}% of fleet)
+                                            <span className="text-xs text-slate-400 leading-snug">
+                                                {t('cars.fleetStats.activeDongles', { brand: brandStat.brand, pct: brandStat.sharePercent }) || `active ${brandStat.brand} dongles (${brandStat.sharePercent}% of fleet)`}
                                             </span>
                                         </div>
 
                                         <div className="space-y-2 pt-3 border-t border-slate-700/50">
                                             <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
-                                                Community Branch Distribution:
+                                                {t('cars.fleetStats.branchDistribution') || 'Community Branch Distribution:'}
                                             </div>
                                             {Object.entries(brandStat.branches)
                                                 .sort((a, b) => b[1] - a[1])
@@ -472,7 +476,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                           <path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"></path>
                                           <path d="M12 12v3"></path>
                                         </svg>
-                                        SunnyTune Config
+                                        {t('cars.sunnytune.config') || 'SunnyTune Config'}
                                     </a>
                                     <div className="mt-4 p-4 rounded-xl bg-blue-500/5 border border-blue-500/20">
                                         <h4 className="text-blue-400 font-bold text-[10px] uppercase tracking-wider mb-2">

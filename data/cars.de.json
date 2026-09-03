@@ -1,0 +1,2266 @@
+{
+  "appName": "Sunnylink Car Database",
+  "version": "1.0",
+  "lastUpdated": "2026-09-02",
+  "vehicles": [
+    {
+      "id": "hyundai-ioniq-5-2022",
+      "make": "Hyundai",
+      "model": "Ioniq 5",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG Canvas",
+        "radar": "Internal (Stock SCC)"
+      },
+      "bestSettings": {
+        "drivingModel": "WMI V12",
+        "torqueTuning": "v0.0",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Remain Active",
+        "experimentalMode": "Dynamic"
+      },
+      "configs": [
+        {
+          "name": "Glatte Autobahn (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock / OP Long",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Täglich ausgewogen (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock / OP Long",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ],
+      "communityConsensus": "Für eine reibungslose Zentrierung wird dringend empfohlen, WMI V12 mit Drehmoment v0,0 zu verwenden. NNLC ist entscheidend, um Ping-Ponging bei Autobahngeschwindigkeiten zu verhindern. Verwenden Sie in den Einstellungen „Kameraversatz“ (Pos=Links, Neg=Rechts), wenn das Auto zu nah an einer Seite fährt.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "SPUser88",
+          "rating": 5,
+          "comment": "Habe meinen Pendelweg geändert. WMI V12 ist dem serienmäßigen HDA meilenweit voraus."
+        },
+        {
+          "user": "EVDriver",
+          "rating": 4,
+          "comment": "Drehmoment v0,0 ist ein Muss für die Ioniq 5-Zahnstange. Der Kameraversatz hat endlich meine Probleme mit der Brückenspur behoben."
+        }
+      ],
+      "forumQuotes": [
+        {
+          "text": "Aggressives TR: DAS BESTE. SOLIDE SPURENZENTRIERUNG. SEHR REAKTIONSFÄHIG. Aber nicht glatt.",
+          "user": "warren.2",
+          "context": "Testen von E2E-Modellen auf Spurzentrierungsfähigkeit"
+        }
+      ],
+      "isRecommended": true,
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/g7r5ubsco9412ha2"
+    },
+    {
+      "id": "toyota-rav4-2019",
+      "make": "Toyota",
+      "model": "RAV4",
+      "years": "2019-2021",
+      "hardware": {
+        "device": "comma 3 / 3X",
+        "harness": "Toyota Security Key / TSS2",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "WD40",
+        "torqueTuning": "Default",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Default",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "TSS2 RAV4 profitieren vom „North Dakota“-Modell für ein besseres Drehmomenthandling in Autobahnkurven. Standard-ACC ist zuverlässig, OP Long wird jedoch bevorzugt, wenn die Hardware dies zulässt.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
+      "reviews": [
+        {
+          "user": "ToyotaTech",
+          "rating": 5,
+          "comment": "North Dakota ist das einzige Modell, das die örtlichen Schnellstraßenkurven perfekt übernimmt."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Autobahnstabilität (WD40)",
+          "settings": {
+            "drivingModel": "WD40",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "OFF"
+          }
+        },
+        {
+          "name": "Komfort-Touren (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Modernes E2E (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "honda-civic-2022",
+      "make": "Honda",
+      "model": "Civic",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 4",
+        "harness": "Honda Bosch",
+        "radar": "Stock (Bosch)"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "OP Long (Alpha)",
+        "mads": "Remain Active",
+        "experimentalMode": "Always On"
+      },
+      "communityConsensus": "Der Civic 2022+ mit Komma 4 ist ein Kraftpaket. Die Verwendung des „Pop-Modells“ ermöglicht im Experimentalmodus ein hervorragendes Fahren im „Ein-Pedal“-Stil im Stadtverkehr.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/honda-acura/81",
+      "reviews": [
+        {
+          "user": "CivicSi",
+          "rating": 4.5,
+          "comment": "Der Experimentalmodus ist auf dieser Plattform endlich in der Stadt nutzbar."
+        }
+      ],
+      "isRecommended": true,
+      "configs": [
+        {
+          "name": "Täglicher Pendelverkehr (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock (EPS Mod)",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock Long",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Seitliche Glätte (TCPmV3)",
+          "settings": {
+            "drivingModel": "The Cool Peoples Model v3",
+            "torqueTuning": "Stock (EPS Mod)",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock Long",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "kia-niro-2023",
+      "make": "Kia",
+      "model": "Niro",
+      "years": "2023-2025",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "The Cool Peoples Model v3",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Enabled (Always On)",
+        "experimentalMode": "Enabled"
+      },
+      "communityConsensus": "Von Benutzern mit 11/10 für die Zentrierung bewertet. Außergewöhnliche Stabilität und Spurhalteleistung auf Autobahnen, die den serienmäßigen HDA bei weitem übertrifft.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "NiroFan",
+          "rating": 5,
+          "comment": "11/10 zum Zentrieren. Riesige Verbesserung gegenüber Standard-HDA."
+        }
+      ],
+      "isRecommended": true,
+      "configs": [
+        {
+          "name": "Gemeinschaftswahl (TCPmV3)",
+          "settings": {
+            "drivingModel": "The Cool Peoples Model v3",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Flottenfavorit (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "genesis-gv60-2022",
+      "make": "Genesis",
+      "model": "GV60",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "WMI V12",
+        "torqueTuning": "Auto",
+        "lateralControl": "Default HKG",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Experte für städtisches Manövrieren. Bewältigt scharfe Kurven in der Stadt und schnelle Neuzentrierung mit viel größerer Sicherheit als das Seriensystem.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "GenesisDriver",
+          "rating": 5,
+          "comment": "Perfekt für den Stadtverkehr. Die Kurven sind jetzt so glatt."
+        }
+      ],
+      "isRecommended": true,
+      "configs": [
+        {
+          "name": "Luxusautobahn (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Flotte täglich (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ford-f150-2021",
+      "make": "Ford",
+      "model": "F-150",
+      "years": "2021-2023",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Ford Q",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Dark Souls Model v2",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock Radar",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Reibungsloses Fahrerlebnis auf der Autobahn. Benutzer bevorzugen es gegenüber dem serienmäßigen BlueCruise von Ford, da es sich besser in Kurven zentrieren lässt.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
+      "reviews": [
+        {
+          "user": "F150Owner",
+          "rating": 4.5,
+          "comment": "Besser als BlueCruise. Bleibt auch in engen Kurven zentriert."
+        }
+      ],
+      "isRecommended": true,
+      "configs": [
+        {
+          "name": "Maßgebliche Kontrolle (Dark Souls Model v2)",
+          "settings": {
+            "drivingModel": "Dark Souls Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Autobahnsegelflugzeug (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "chevy-bolt-2017",
+      "make": "Chevrolet",
+      "model": "Bolt EV/EUV",
+      "years": "2017-2023",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "GM (L or A)",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "Default GM",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Recommended"
+      },
+      "communityConsensus": "Solide Einstiegserfahrung. Äußerst zuverlässig für den täglichen Pendelverkehr und reibungslose Spurwechsel auf der Autobahn.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/general-motors/80",
+      "reviews": [
+        {
+          "user": "BoltCommuter",
+          "rating": 5,
+          "comment": "Zuverlässig und reibungslos. Perfekt für meine tägliche 50-Meilen-Fahrt."
+        }
+      ],
+      "isRecommended": true,
+      "configs": [
+        {
+          "name": "Täglicher Pendelverkehr (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Zentrierpräzision (CD210 Model)",
+          "settings": {
+            "drivingModel": "CD210 Model",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "OFF"
+          }
+        }
+      ]
+    },
+    {
+      "id": "chrysler-pacifica-2017",
+      "make": "Chrysler",
+      "model": "Pacifica",
+      "years": "2017-2024",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Chrysler",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "Default",
+        "lateralControl": "MADS",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled (Essential)",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Familien-Roadtrip unerlässlich. MADS sorgt dafür, dass die Lenkung auch unter 60 km/h aktiviert bleibt, was die Ermüdung des Fahrers auf langen Fahrten verringert.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/chrysler-jeep-ram/78",
+      "reviews": [
+        {
+          "user": "FamilyVan",
+          "rating": 4.8,
+          "comment": "MADS ist ein Game-Changer für den Verkehr. Keine Lenkabschaltung mehr bei niedrigen Geschwindigkeiten."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Familientour (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Ausgewogene Autobahn (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lincoln-navigator-2022",
+      "make": "Lincoln",
+      "model": "Navigator",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 4",
+        "harness": "Ford Q",
+        "radar": "Stock (Spoofed as Expedition)"
+      },
+      "bestSettings": {
+        "drivingModel": "Dark Souls Model v2",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Alpha Longitudinal",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Das Fahrzeug funktioniert erfolgreich, wenn es mithilfe von BluePilot als Ford Expedition gefälscht wird. Verwenden Sie Alpha Longitudinal für eine verfeinerte Gas-/Bremsleistung.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
+      "reviews": [
+        {
+          "user": "LincolnLuxe",
+          "rating": 5,
+          "comment": "Spoofing als Expedition hat perfekt funktioniert. So viel glatter als das Original."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Schwergewichtige Autorität (Dark Souls Model v2)",
+          "settings": {
+            "drivingModel": "Dark Souls Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Luxusautobahn (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ram-1500-2019",
+      "make": "RAM",
+      "model": "1500",
+      "years": "2019-2024",
+      "hardware": {
+        "device": "comma 3 / 3X",
+        "harness": "RAM",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Dark Souls Model v2",
+        "torqueTuning": "v1",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Schalten Sie zwischen Torque Lateral Control v0 und v1 um, um das Ping-Ponging auf der Autobahn zu reduzieren. Einige 10,4-Benutzer berichten, dass der Support vorübergehend nicht verfügbar ist. Tuning-Schalter sind die erste Lösung.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/chrysler-jeep-ram/78",
+      "reviews": [
+        {
+          "user": "TruckerJoe",
+          "rating": 4,
+          "comment": "Tuning v1 hat meine Ping-Pong-Probleme auf der Autobahn behoben."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Lkw-Behörde (Dark Souls Model v2)",
+          "settings": {
+            "drivingModel": "Dark Souls Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Autobahntransporter (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "byd-frigate-07-2023",
+      "make": "BYD",
+      "model": "Frigate 07",
+      "years": "2023-2025",
+      "hardware": {
+        "device": "comma 3X",
+        "harness": "CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Massive Verbesserung der fabrikmäßigen Spurhaltung auf Autobahnen. Die Längssteuerung ist noch ausgereift und kann bei starkem Verkehr leicht ruckeln.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/byd/77",
+      "reviews": [
+        {
+          "user": "EcoDriver",
+          "rating": 4.5,
+          "comment": "Ich habe meinen Pendlerweg auf der Autobahn geändert. Die seitliche Kontrolle ist ein Biest."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Täglich ausgewogen (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "E2E Intelligent (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "honda-ridgeline-2022",
+      "make": "Honda",
+      "model": "Ridgeline",
+      "years": "2021-2023",
+      "hardware": {
+        "device": "comma 4",
+        "harness": "Honda Bosch",
+        "radar": "Stock (Bosch)"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock Longitudinal (Nidec)",
+        "mads": "Remain Active",
+        "experimentalMode": "Smart Cruise Vision"
+      },
+      "communityConsensus": "Unverzichtbar für die Aktivierung der „Stock Longitudinal Control“ für Honda Nidec-Plattformen, um hörbare ABS-Schleifgeräusche beim Bremsen zu vermeiden. Das SC-Modell eignet sich hervorragend für Kurven, behält die Mitte, ohne zu schwingen, und überschneidet sich nicht mit der Linie.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/honda-acura/81",
+      "reviews": [
+        {
+          "user": "RidgePilot",
+          "rating": 4,
+          "comment": "Stock hat das gruselige Schleifgeräusch schon lange behoben. Seitlich ist mit dem SC-Modell perfekt."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Ausgewogener Pendelverkehr (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Feste Kontrolle (Dark Souls Model v2)",
+          "settings": {
+            "drivingModel": "Dark Souls Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hyundai-tucson-hybrid-2022",
+      "make": "Hyundai",
+      "model": "Tucson (Hybrid)",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 3X",
+        "harness": "Torque control CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "WMI V12",
+        "torqueTuning": "v0",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Verbesserte Stabilität bei Autobahngeschwindigkeiten durch Optimierungen der steer_max- und kp-Werte. WMIv12 zeichnet sich ähnlich wie die Version 9 durch eine Schnell-/Drehmomentsteuerung aus.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "TucsonTech",
+          "rating": 4.5,
+          "comment": "Deutliche Stabilitätsverbesserung bei hohen Geschwindigkeiten mit Torque v0."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Intelligente Navigation (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock / OP Long",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Flotte täglich (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock / OP Long",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hyundai-elantra-2021",
+      "make": "Hyundai",
+      "model": "Elantra",
+      "years": "2021-2023",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "v0",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Enabled",
+        "experimentalMode": "Enabled"
+      },
+      "communityConsensus": "Zuverlässiges Fahren mit Pop Model, WMIv9, WMIv12 und DARKSOULS. Hinweis: Erhebliches Bremsverzögerungsverhalten bei Stop-and-go-Fahrten, bei denen das Fahrzeug häufig vorwärtskriecht, anstatt vollständig zum Stillstand zu kommen.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "ElantraDriver",
+          "rating": 4,
+          "comment": "Seitlich ist großartig, aber achten Sie auf den schleichenden Verkehr!"
+        }
+      ],
+      "configs": [
+        {
+          "name": "Agiles Pendeln (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "E2E Urban (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lexus-rc-2023",
+      "make": "Lexus",
+      "model": "RC",
+      "years": "2023-2025",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Toyota Security Key / TSS2",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "OP Model 10 V3",
+        "torqueTuning": "Default",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Zögerlich an Kreuzungen in der Nachbarschaft; neigt dazu, langsamer zu werden oder unerwartet anzuhalten. Off-Policy v5 bietet eine bessere Autobahnzentrierung.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
+      "reviews": [
+        {
+          "user": "LexusOwner",
+          "rating": 4,
+          "comment": "Mit OPM v5 ist die Autobahnzentrierung endlich behoben."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Hochleistungs-Seitenteil (OP Model 10 V3)",
+          "settings": {
+            "drivingModel": "OP Model 10 V3",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Nicht richtlinienkonform getestet (Off-Policy Model v5)",
+          "settings": {
+            "drivingModel": "Off-Policy Model v5",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lexus-is-2017",
+      "make": "Lexus",
+      "model": "IS",
+      "years": "2017-2020",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Toyota Security Key / TSS2",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "v0.0",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "configs": [
+        {
+          "name": "Bewährtes Pendeln (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Bleeding Edge (Firehose Model)",
+          "settings": {
+            "drivingModel": "Firehose Model",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ],
+      "communityConsensus": "Das Feuerwehrschlauchmodell wird für eine stabile Spurzentrierung und eine reibungslose Bewältigung von Autobahnkurven dringend empfohlen. Die Verwendung von Drehmoment v0,0 und positiven Kamera-Offset-Werten trägt dazu bei, die Überlagerung der linken Spur zu korrigieren. Setzen Sie die Kalibrierung zurück, bevor Sie zu Firehose wechseln, um optimales Lernen zu gewährleisten.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
+      "reviews": [
+        {
+          "user": "Adrian_Abedon",
+          "rating": 5,
+          "comment": "Das Firehose-Modell hat mein IS verändert. Die Spurzentrierung funktioniert jetzt auf der Autobahn einwandfrei."
+        },
+        {
+          "user": "Lexus_Driver_99",
+          "rating": 4.5,
+          "comment": "Drehmoment v0.0 ist viel besser als die Standardeinstellung. Kann die Einrichtung wärmstens empfehlen."
+        }
+      ],
+      "forumQuotes": [
+        {
+          "text": "Bleiben Sie bei Feuerwehrschlauch, Drehmoment-Seitensteuerung, Live-Lernen + Beta-Lernen und der Version mit Drehmomentsteuerung v0. Ich habe festgestellt, dass diese Einstellungen optimal sind.",
+          "user": "Adrian_Abedon",
+          "context": "Lexus IS 2017 mit Comma 3X/4"
+        }
+      ],
+      "isRecommended": true,
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/rjutlzzns78hmkxx"
+    },
+    {
+      "id": "lexus-rx350-2017",
+      "make": "Lexus",
+      "model": "RX 350",
+      "years": "2016-2022",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Toyota Security Key / TSS2",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "v0.0",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Das Anpassen des „Kamera-Offsets“ ist der Schlüssel zur Behebung von Problemen mit der Spurüberschreitung auf RX 350-Plattformen. Das Firehose-Modell bietet für diese Zahnstange eine bessere Autobahnzentrierung als das North Dakota-Modell.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
+      "reviews": [
+        {
+          "user": "peterclampton",
+          "rating": 4.8,
+          "comment": "Das Hinzufügen eines positiven Kameraversatzes hat meine Probleme mit der Linkshänderung behoben. Feuerwehrschlauch ist großartig."
+        }
+      ],
+      "forumQuotes": [
+        {
+          "text": "Ich passe einfach die Spurzentrierung (Kameraversatz) an, sodass sie sich leicht nach oben verschiebt, dann habe ich nicht das Problem, dass ich die linke Linie übernachte.",
+          "user": "peterclampton",
+          "context": "2017 RX350 mit Standard- und Firehose-Modellen"
+        }
+      ],
+      "configs": [
+        {
+          "name": "Luxusautobahn (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Zentrierung steif (WD40)",
+          "settings": {
+            "drivingModel": "WD40",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "OFF"
+          }
+        }
+      ],
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/rjutlzzns78hmkxx"
+    },
+    {
+      "id": "honda-accord-2018",
+      "make": "Honda",
+      "model": "Accord",
+      "years": "2018-2022",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Honda Bosch",
+        "radar": "Stock (Bosch)"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "OP Long (Alpha)",
+        "mads": "Remain Active",
+        "experimentalMode": "Always On"
+      },
+      "communityConsensus": "Das Abkommen der 10. Generation ist eine solide Plattform. Die Verwendung des „Pop-Modells“ ermöglicht im Experimentalmodus ein hervorragendes Fahren im „Ein-Pedal“-Stil im Stadtverkehr.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/honda-acura/81",
+      "reviews": [
+        {
+          "user": "AccordDriver",
+          "rating": 4.5,
+          "comment": "Der Experimentalmodus ist auf dieser Plattform endlich in der Stadt nutzbar."
+        }
+      ],
+      "forumQuotes": [
+        {
+          "text": "Ich verwende TCPV3 seit Monaten und bin mit der Leistung zufrieden.",
+          "user": "captainsmith06",
+          "context": "Langfristige Zuverlässigkeit des Accord der 10. Generation"
+        }
+      ],
+      "configs": [
+        {
+          "name": "Täglich bewährt (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Urban E2E (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hyundai-ioniq-5-2026",
+      "make": "Hyundai",
+      "model": "Ioniq 5 (Early Access)",
+      "years": "2025-2026",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "OP Model 10 V3",
+        "torqueTuning": "v0",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Hervorragendes Kurvenverhalten bei hoher Geschwindigkeit (> 30 Meilen pro Stunde), aber bei niedrigen Geschwindigkeiten Probleme mit Spurtreue und Kurvensperren. Empfehlung zur Verwendung von Torque v0.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "IoniqPilot",
+          "rating": 4.2,
+          "comment": "Hochgeschwindigkeitskurven werden wie ein Traum gemeistert. Kurven mit niedriger Geschwindigkeit erfordern noch Arbeit."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Erweitertes E2E-Lateral (OP Model 10 V3)",
+          "settings": {
+            "drivingModel": "OP Model 10 V3",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Flaggschiff-Weltmodell (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ],
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/bsczhv7oh70qpy3c"
+    },
+    {
+      "id": "kia-sportage-phev-2024",
+      "make": "Kia",
+      "model": "Sportage PHEV",
+      "years": "2023-2025",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Kumars Vibe",
+        "torqueTuning": "Default",
+        "lateralControl": "Nevada (Curves)",
+        "longitudinalControl": "Stock Hyundai Longitudinal",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Das Modell Nevada ist der aktuelle Champion für die Kurvenzentrierung auf Autobahnen. Die Modelle Kumar und Herbalist sorgen für ein sanfteres Lenkgefühl.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "PHEV_User",
+          "rating": 5,
+          "comment": "Nevada nimmt Kurven mit hoher Geschwindigkeit wie ein Profi. Sanfte Übergänge."
+        }
+      ],
+      "forumQuotes": [
+        {
+          "text": "Die Fahrt fühlt sich mit der Zeit „ruhiger“ und sicherer an ... Kurvenfahrten werden immer präziser.",
+          "user": "Tony.Wu",
+          "context": "Einjährige Community-Überprüfung der HKG CAN-FD-Plattform"
+        }
+      ],
+      "configs": [
+        {
+          "name": "Community-Favorit (Kumars Vibe)",
+          "settings": {
+            "drivingModel": "Kumars Vibe",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Feste Zentrierung (Nevada Model)",
+          "settings": {
+            "drivingModel": "Nevada Model",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ],
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/3adhm8z0xtwtsccv"
+    },
+    {
+      "id": "audi-a3-mqb-evo-2022",
+      "make": "Audi",
+      "model": "A3 (MQB Evo)",
+      "years": "2022-2025",
+      "hardware": {
+        "device": "comma 4",
+        "harness": "VW/Audi MQB",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "DTRv6 eignet sich hervorragend für die Glätte von Autobahnkurven. WMIv12 wird für Stadtinformationen bevorzugt, erfordert jedoch hohe Aufmerksamkeit.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/volkswagen-audi-skoda/88",
+      "reviews": [
+        {
+          "user": "EuroTuner",
+          "rating": 4.5,
+          "comment": "DTRv6 ist endlich für den A3 freigegeben. Viel sanfter als der serienmäßige Reiseassistent."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Glatte Autobahn (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Modern intelligent (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "subaru-crosstrek-2020",
+      "make": "Subaru",
+      "model": "Crosstrek",
+      "years": "2018-2023",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Subaru",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "CD210 Model",
+        "torqueTuning": "v0.0 (Manual)",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "configs": [
+        {
+          "name": "Subaru-Zentrierung (CD210 Model)",
+          "settings": {
+            "drivingModel": "CD210 Model",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Autobahnsteif (WD40)",
+          "settings": {
+            "drivingModel": "WD40",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "OFF"
+          }
+        }
+      ],
+      "communityConsensus": "Die Verwendung von CD210 verhindert die bei älteren Modellen übliche Überlagerung der Innenlinienkurve. Wenn Sie das manuelle Drehmomentmodell auf 0,0 einstellen, fühlt sich das Auto extrem stabil und „auf Schienen“ an. Es wurde bestätigt, dass das Fortsetzen aus dem Stopp und Workarounds mit der manuellen Feststellbremse unterstützt werden.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/subaru/85",
+      "reviews": [
+        {
+          "user": "CrossPilot",
+          "rating": 5,
+          "comment": "CD210 + Drehmoment 0,0 ist perfekt für den Crosstrek. Kein Kampf mehr mit dem Lenkrad in Kurven."
+        }
+      ]
+    },
+    {
+      "id": "honda-odyssey-2018",
+      "make": "Honda",
+      "model": "Odyssey",
+      "years": "2018-2024",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Honda Bosch",
+        "radar": "Stock (Bosch)"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "Stronger Steering",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "OP Long (Alpha)",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Die MVL-Gabel sorgt für deutlich stärkere Lenkkraft und Gaspedal-Live-Tuning für Bosch-Modelle. Hervorragend geeignet für lange Autobahnfahrten mit voller Familienladung.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/honda-acura/81",
+      "reviews": [
+        {
+          "user": "VanPilot",
+          "rating": 5,
+          "comment": "Die stärkere Lenkung des Odyssey ist eine enorme Verbesserung. Fühlt sich viel sicherer an."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Roadtrip-Komfort (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Täglicher Pendelverkehr (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hyundai-sonata-2021",
+      "make": "Hyundai",
+      "model": "Sonata",
+      "years": "2020-2023",
+      "hardware": {
+        "device": "comma 3 / 3X",
+        "harness": "Hyundai",
+        "radar": "Factory SCC"
+      },
+      "bestSettings": {
+        "drivingModel": "WMI V12",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "OP Long (Alpha)",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Alpha Longitudinal ist unerlässlich, um die werkseitige SCC-Mindestgeschwindigkeit von 20 MPH zu umgehen und eine reibungslose Stop-and-Go-Funktionalität bei starkem Verkehr zu ermöglichen.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "Sonata_OP",
+          "rating": 5,
+          "comment": "Das Umgehen der Mindestgeschwindigkeit von 20 Meilen pro Stunde änderte alles. Das Stop-and-Go klappt endlich reibungslos."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Intelligente Navigation (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Agiles Pendeln (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "toyota-sienna-2021",
+      "make": "Toyota",
+      "model": "Sienna",
+      "years": "2021-2023",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Toyota Security Key / TSS2",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "Default",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Es wurde bestätigt, dass Comma 3X sowohl beim Fahren auf der Autobahn als auch im dichten Stadtverkehr gut funktioniert.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
+      "reviews": [
+        {
+          "user": "Sienna_Fan",
+          "rating": 5,
+          "comment": "Wunderbar sowohl für Autobahn- als auch für Stadtfahrten. Der C3X-Modus ist ein Lebensretter im Verkehr."
+        }
+      ],
+      "forumQuotes": [
+        {
+          "text": "Es scheint wunderbar zu funktionieren ... beim Fahren auf der Autobahn mit meinem C3X ... es scheint bei der Vernunft im New Yorker Verkehr zu helfen.",
+          "user": "Y_S",
+          "context": "Wirksam sowohl für die Autobahn- als auch für die Stadtdichte"
+        }
+      ],
+      "isRecommended": true,
+      "configs": [
+        {
+          "name": "Familientour (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Solides Zentrum (WD40)",
+          "settings": {
+            "drivingModel": "WD40",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "OFF"
+          }
+        }
+      ]
+    },
+    {
+      "id": "kia-ev6-2022",
+      "make": "Kia",
+      "model": "EV6",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "WMI V12",
+        "torqueTuning": "v0.0",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Enabled",
+        "experimentalMode": "Dynamic"
+      },
+      "communityConsensus": "EV6-Benutzer heben mit NNLC ihr hervorragendes Verhalten auf der Autobahn hervor. Für einen reibungslosen Spurwechsel stellen Sie sicher, dass „Spurwechsel ohne Spurwechsel“ in den Einstellungen aktiviert ist. MADS wird für Stadtfahrten empfohlen, um die Lenkunterstützung aufrechtzuerhalten und gleichzeitig Stop-and-Go-Fahrten manuell zu steuern.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "EV6_Pilot",
+          "rating": 5,
+          "comment": "Durch NNLC fühlt sich der EV6 so an, als ob er über echtes HDA3 verfügt. Grundsolide auf der I-5."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Flaggschiff Smart (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Täglich ausgewogen (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "kia-telluride-2020",
+      "make": "Kia",
+      "model": "Telluride",
+      "years": "2020-2022",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG Canvas",
+        "radar": "Factory SCC"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "Default",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Essential",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Ein Roadtrip-Champion. MADS ist für diese Modelljahre unerlässlich, um die Lenkung unter 30 MPH zu halten. Benutzer berichten, dass „North Dakota“ das beste Modell ist, um das Gewicht des Telluride in langen Kurven zu bewältigen.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "TellyOwner",
+          "rating": 4.8,
+          "comment": "Das Modell North Dakota ist die richtige Wahl für den Telluride. So viel selbstbewusster als das Original."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Passagierfavorit (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Maximale Steifigkeit (WD40)",
+          "settings": {
+            "drivingModel": "WD40",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "OFF"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hyundai-palisade-2020",
+      "make": "Hyundai",
+      "model": "Palisade",
+      "years": "2020-2022",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG Canvas",
+        "radar": "Factory SCC"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "v1",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Ähnlich wie der Telluride profitiert auch der Palisade von der v1-Drehmomentabstimmung, um dem „Ping-Ponging“ auf der Autobahn entgegenzuwirken. Stellen Sie sicher, dass der „Ruhemodus“ für ruhige Familienfahrten ohne ständige Warnungen aktiviert ist.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "PaliDad",
+          "rating": 4.5,
+          "comment": "Perfekt für Familien-Roadtrips. Torque v1 hat die kleineren Zentrierabweichungen behoben."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Passagierfavorit (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Seitlich glatt (TCPmV3)",
+          "settings": {
+            "drivingModel": "The Cool Peoples Model v3",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "kia-k5-2021",
+      "make": "Kia",
+      "model": "K5",
+      "years": "2021-2024",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "v0.0",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Enabled",
+        "experimentalMode": "Always On"
+      },
+      "communityConsensus": "Leistung einer Sportlimousine. Die K5-Plattform verfügt über eine große Lenkkompetenz; Torque v0.0 und NNLC sorgen für eine scharfe und präzise Positionierung selbst in relativ engen Autobahnkurven.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "K5_Turbo",
+          "rating": 5,
+          "comment": "Der K5 mit NNLC ist unglaublich. Es beherrscht die Kurven wie ein Profi."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Sportlich täglich (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "E2E-Weltmodell (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hyundai-kona-ev-2019",
+      "make": "Hyundai",
+      "model": "Kona EV",
+      "years": "2019-2023",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG Canvas",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "WMI V12",
+        "torqueTuning": "Default",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Zuverlässig und stabil. WMI V12 in Kombination mit der standardmäßigen Drehmomentregelung ist das „Set-and-Forget“-Erlebnis für die Kona EV-Plattform. Solide energieeffiziente Pendler.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "KonaElectric",
+          "rating": 4.5,
+          "comment": "Solide für den täglichen Pendelverkehr. Die Spurzentrierung ist um Welten besser als beim Original."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Stadt & Autobahn (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Pendeln bewährt (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "toyota-tundra-2022",
+      "make": "Toyota",
+      "model": "Tundra",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Toyota TSK",
+        "radar": "Factory TSK"
+      },
+      "bestSettings": {
+        "drivingModel": "WMI V12",
+        "torqueTuning": "Self-Tune",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Für die Tundra ab 2022 sind ein TSK-kompatibler Kabelbaum und Abzweig erforderlich. Benutzer berichten von einer hervorragenden Stabilität mit „WMI V12“, allerdings muss „Self-Tune“ aktiviert sein, um die einzigartigen Zahnstangeneigenschaften des Lkw zu bewältigen. MADS wird für Abschleppszenarien dringend empfohlen.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
+      "reviews": [
+        {
+          "user": "TundraTough",
+          "rating": 4.9,
+          "comment": "Die TSK-Unterstützung ist für die Tundra von entscheidender Bedeutung. Der WMI V12 ist auf der Autobahn auch mit Anhänger absolut stabil."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Glatt modern (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Große Lkw-Behörde (Dark Souls Model v2)",
+          "settings": {
+            "drivingModel": "Dark Souls Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mazda-cx5-2021",
+      "make": "Mazda",
+      "model": "CX-5",
+      "years": "2021-2024",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Mazda Gen 2",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "Default",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Der CX-5 ist aufgrund seines natürlichen Lenkgefühls ein „Legacy“-Favorit. „Down to Ride v6“ ist hier der Goldstandard für den Fahrgastkomfort. Vermeiden Sie „Pop Model“, wenn bei starkem Wind Schwankungen auftreten.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/mazda/83",
+      "reviews": [
+        {
+          "user": "MazdaMinded",
+          "rating": 4.7,
+          "comment": "Durch DTR v6 fühlt sich der CX-5 wie ein Luxuskreuzer an. Sehr fließende Übergänge."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Raffinierter Komfort (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Täglich aktiv (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "subaru-ascent-2019",
+      "make": "Subaru",
+      "model": "Ascent",
+      "years": "2019-2022",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Subaru Giraffe",
+        "radar": "EyeSight"
+      },
+      "bestSettings": {
+        "drivingModel": "CD210 Model",
+        "torqueTuning": "v1.2",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Optional",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Die EyeSight-Integration von Subaru ist solide. „CD210“ bietet ein besseres Kurvenhandling für den größeren Ascent-Rahmen als die Standardarchitektur. V1.2 Drehmomentabstimmung wird empfohlen, um kleinere Mikrovibrationen zu mildern.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/subaru/85",
+      "reviews": [
+        {
+          "user": "AscentLife",
+          "rating": 4.6,
+          "comment": "CD210 hilft sehr bei Autobahnkurven. Fühlt sich viel sicherer an als EyeSight allein."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Subaru AWD-Zentrierung (CD210 Model)",
+          "settings": {
+            "drivingModel": "CD210 Model",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Passagiersegelflugzeug (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "honda-pilot-2019",
+      "make": "Honda",
+      "model": "Pilot",
+      "years": "2019-2022",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Honda Bosch",
+        "radar": "Bosch Factory"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "v0",
+        "lateralControl": "NNLC",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Der Bosch Pilot reagiert außergewöhnlich gut auf „Pop Model“ und NNLC. Es eliminiert das „schwebende“ Gefühl, das beim werkseitigen Honda-Sensing-System üblich ist. Verwenden Sie das Drehmoment „v0“, um eine Überkorrektur auf langen Geraden zu verhindern.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/honda-acura/81",
+      "reviews": [
+        {
+          "user": "PilotCaptain",
+          "rating": 4.8,
+          "comment": "NNLC ist ein Muss für den Piloten. Die Spur verläuft jetzt pfeilgerade."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Familienautobahn (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Standard täglich (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "rivian-r1t-2022",
+      "make": "Rivian",
+      "model": "R1T",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Custom Rivian CAN",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "OP Model 10 V3",
+        "torqueTuning": "Experimental",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Recommended",
+        "experimentalMode": "Always On"
+      },
+      "communityConsensus": "Für viele noch im Early Access. Die komplexe CAN-FD-Architektur des Rivian erfordert „Off-Policy v3“ für zuverlässige Spurwechsel. Der Experimentalmodus wird häufig beibehalten, um die hohe Regenerationsbremsung von Rivian zu nutzen.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/rivian/90",
+      "reviews": [
+        {
+          "user": "RivianRich",
+          "rating": 4.4,
+          "comment": "Am Anfang, aber vielversprechend. Off-Policy v3 bewältigt den schweren R1T überraschend gut."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Präzision außerhalb der Richtlinien (OP Model 10 V3)",
+          "settings": {
+            "drivingModel": "OP Model 10 V3",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Schwergewichtige Autorität (Dark Souls Model v2)",
+          "settings": {
+            "drivingModel": "Dark Souls Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tesla-model3-2017",
+      "make": "Tesla",
+      "model": "Model 3 / Y",
+      "years": "2017-2023",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Tesla Harness",
+        "radar": "Stock / Vision"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "Tesla Custom",
+        "lateralControl": "EPAS Control",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Always On",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Legendäre Unterstützung für Teslas vor HW4. „Pop Model“ ist der Publikumsliebling für den Einsatz auf der Autobahn, da es das „eingesperrte“ Gefühl von FSD nachahmt, jedoch mit der Anpassung von sunnypilot. Die EPAS-Steuerung ermöglicht eine sehr hohe Lenkautorität.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/tesla/86",
+      "reviews": [
+        {
+          "user": "Model3Modder",
+          "rating": 5,
+          "comment": "So viel besser als der Standard-Autopilot. Mit den richtigen Einstellungen gibt es keine Probleme mit der Phantombremsung."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Täglich glatt (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "E2E Intelligent (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ],
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/w3tifv46da7ifoyd"
+    },
+    {
+      "id": "volvo-xc90-2016",
+      "make": "Volvo",
+      "model": "XC90",
+      "years": "2016-2022",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Volvo Harness",
+        "radar": "Factory"
+      },
+      "bestSettings": {
+        "drivingModel": "CD210 Model",
+        "torqueTuning": "Self-Tune",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Die SPA-Plattform-Volvos profitieren erheblich von der Seitenführung des sunnypilot. „CD210“ wird häufig als die komfortabelste Variante der Luftfederung des XC90 genannt. Für eine gleichmäßige Spurzentrierung bei Autobahngeschwindigkeiten ist eine Selbstabstimmung erforderlich.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/volvo/89",
+      "reviews": [
+        {
+          "user": "VolvoViking",
+          "rating": 4.7,
+          "comment": "Viel sanfter als der serienmäßige Pilot Assist. Der CD210 bewältigt den schweren XC90 wunderbar."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Reibungslose Stabilität (CD210 Model)",
+          "settings": {
+            "drivingModel": "CD210 Model",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Roadtrip-Komfort (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ford-f150-lightning-2022",
+      "make": "Ford",
+      "model": "F-150 Lightning",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Ford Q4",
+        "radar": "BlueCruise Hardware"
+      },
+      "bestSettings": {
+        "drivingModel": "Dark Souls Model v2",
+        "torqueTuning": "v1.2 Stiff",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Always On",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Für den Lightning sorgt „Dark Souls v2“ für die nötige Autorität, um den Truck auch bei Seitenwind zentriert zu halten. Benutzer, die Anhänger ziehen, empfanden die Drehmomentabstimmung „v1.2 Stiff“ als die einzig zuverlässige Möglichkeit, Heckpendelkorrekturen zu verhindern.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
+      "reviews": [
+        {
+          "user": "LightningStrike",
+          "rating": 4.8,
+          "comment": "Das beste Freisprecherlebnis für den F-150. Dark Souls v2 ist sehr zuversichtlich."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Autorität für schwere Elektrofahrzeuge (Dark Souls Model v2)",
+          "settings": {
+            "drivingModel": "Dark Souls Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Reibungslose Kreuzfahrt (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "toyota-corolla-2023",
+      "make": "Toyota",
+      "model": "Corolla",
+      "years": "2023-2024",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Toyota TSK",
+        "radar": "TSS 3.0"
+      },
+      "bestSettings": {
+        "drivingModel": "WD40",
+        "torqueTuning": "v0",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "TSS 3.0 Corollas reagieren sehr schnell. „Pop-Modell“ mit „v0“-Drehmoment ist das bevorzugte Autobahn-Setup, um Effizienz und zentrale Positionierung beizubehalten. TSK-Unterstützung ist für dieses Modelljahr obligatorisch.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
+      "reviews": [
+        {
+          "user": "CorollaClassic",
+          "rating": 4.9,
+          "comment": "Perfekte Spurzentrierung auf meinem 2024 Corolla. Pop Model ist sehr bissig."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Grundsolide Autobahn (WD40)",
+          "settings": {
+            "drivingModel": "WD40",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "OFF"
+          }
+        },
+        {
+          "name": "Allround-Pendler (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lincoln-corsair-2020",
+      "make": "Lincoln",
+      "model": "Corsair",
+      "years": "2020-2023",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Ford Q3",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "Default",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Der Fokus des Corsair auf Luxus passt am besten zu „Down to Ride v6“. Es ahmt den sanften, entspannten Fahrstil des serienmäßigen Co-Pilot360 nach, bietet jedoch eine deutlich bessere Kurvenausdauer.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
+      "reviews": [
+        {
+          "user": "LincolnLuxury",
+          "rating": 4.6,
+          "comment": "Der DTR v6 ist genau das, was dieses Auto brauchte. Glatt wie Seide."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Luxus glatt (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Dynamisch täglich (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ],
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/8a9kbl9l98d0qus0"
+    },
+    {
+      "id": "hyundai-custin-2025",
+      "make": "Hyundai",
+      "model": "Custin",
+      "years": "2024-2025",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "WMI V12",
+        "torqueTuning": "Default",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Von der Community bereitgestellte SunnyTune-Konfiguration verfügbar. Der Custin ist eine Hyundai-Minivan-Plattform mit CAN-FD-Unterstützung.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [],
+      "configs": [
+        {
+          "name": "Modernes E2E (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Passagiersegelflugzeug (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ],
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/4kwvmgqr15ab8uga"
+    },
+    {
+      "id": "ford-escape-2020",
+      "make": "Ford",
+      "model": "Escape",
+      "years": "2020-2024",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Ford Q3 / Q4",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock Radar",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Erfordert das Co-Pilot360 Assist+-Paket. Verwendet die gleiche Ford Q-Kabelbaumfamilie wie der F-150. BluePilot 5.0 sorgt für eine reibungslose Autobahnzentrierung. Benutzer berichten von einer verbesserten Spurhaltung im Vergleich zum serienmäßigen Co-Pilot360.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
+      "reviews": [
+        {
+          "user": "EscapeDriver",
+          "rating": 4.5,
+          "comment": "BluePilot ist ein großartiges Upgrade gegenüber dem serienmäßigen Co-Pilot360. Reibungslose Zentrierung auf Autobahnen."
+        }
+      ],
+      "isSunnyTune": true,
+      "configs": [
+        {
+          "name": "Ausgewogenes Touren (Down to Ride v6)",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Wahl für Pendler (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ],
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/ford-escape"
+    }
+  ]
+}

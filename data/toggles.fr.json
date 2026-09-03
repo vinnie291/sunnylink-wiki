@@ -49,7 +49,7 @@
           "max": 50,
           "unit": "mph",
           "helpText": "Default: 19 mph. Sets the maximum speed at which lane turn desires are active.",
-          "description": "Sets the maximum speed at which lane turn desires are active. Use the - and + buttons to adjust.",
+          "description": "Définit la vitesse maximale à laquelle les désirs de changement de voie sont actifs. Utilisez les boutons - et + pour régler.",
           "dependencies": [
             {
               "key": "LaneTurnDesire",
@@ -60,7 +60,7 @@
               "label": "Show Advanced Controls"
             }
           ],
-          "userNote": "Only appears when Use Lane Turn Desires and Show Advanced Controls are enabled."
+          "userNote": "Apparaît uniquement lorsque Utiliser les désirs de changement de voie et Afficher les commandes avancées sont activés."
         },
         {
           "key": "DrivingModel",
@@ -82,15 +82,15 @@
           "key": "RefreshModelList",
           "label": "Refresh Model List",
           "type": "action",
-          "description": "Forces a refresh of the available model list from the server. Use this if you expect a new model to be available but do not see it in the selection dialog.",
-          "userNote": "Use when a new model should be available but isn't shown."
+          "description": "Force un rafraîchissement de la liste des modèles disponibles depuis le serveur. Utilisez ceci si vous attendez qu'un nouveau modèle soit disponible mais que vous ne le voyez pas dans la boîte de dialogue de sélection.",
+          "userNote": "À utiliser lorsqu'un nouveau modèle devrait être disponible mais n'est pas affiché."
         },
         {
           "key": "ClearModelCache",
           "label": "Clear Model Cache",
           "type": "action",
-          "description": "Deletes all downloaded models except the currently active one. The current cache size in MB is displayed. Useful for freeing storage space.",
-          "userNote": "Frees up storage space by removing old model files."
+          "description": "Supprime tous les modèles téléchargés à l'exception de celui actuellement actif. La taille actuelle du cache en Mo s'affiche. Utile pour libérer de l'espace de stockage.",
+          "userNote": "Libère de l'espace de stockage en supprimant les anciens fichiers de modèle."
         },
         {
           "key": "LiveLearningSteerDelay",
@@ -116,7 +116,7 @@
             }
           ],
           "warning": "Ne touchez pas. Laissez sur « 0,00 », sauf indication contraire des développeurs.",
-          "userNote": "Only modify if Live Learning Steer Delay is disabled."
+          "userNote": "Modifiez-le uniquement si le délai de pilotage en direct est désactivé."
         }
       ]
     },
@@ -1216,10 +1216,10 @@
           "key": "SshKeys",
           "label": "SSH Keys",
           "type": "action",
-          "description": "Fetches SSH public keys from a GitHub username and installs them on the device. This allows SSH login using your GitHub-associated key pair.",
+          "description": "Récupère les clés publiques SSH à partir d'un nom d'utilisateur GitHub et les installe sur l'appareil. Cela permet la connexion SSH à l'aide de votre paire de clés associée à GitHub.",
           "warning": "Only add SSH keys from users you trust. Anyone with an installed key has full access to the device.",
           "useCase": "Install SSH keys for remote access.",
-          "userNote": "Only add keys from trusted users."
+          "userNote": "Ajoutez uniquement les clés d'utilisateurs de confiance."
         },
         {
           "key": "JoystickDebugMode",

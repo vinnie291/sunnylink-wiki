@@ -284,6 +284,7 @@ function ModelCard({
     onExpand?: (modelName: string) => void;
     forumActivity?: ForumActivity;
 }) {
+    const { t } = useLanguage();
     const [copied, setCopied] = useState(false);
 
     const handleCopyLink = async (e: React.MouseEvent) => {
@@ -446,10 +447,10 @@ function ModelCard({
                 <div className="mb-4">
                     <SentimentBar sentiment={model.sentiment} />
                     <div className="grid grid-cols-4 text-[9px] text-slate-600 mt-1">
-                        <span>Great {model.sentiment.great}%</span>
-                        <span className="text-center">Good {model.sentiment.good}%</span>
-                        <span className="text-center">OK {model.sentiment.ok}%</span>
-                        <span className="text-right">Bad {model.sentiment.bad}%</span>
+                        <span>{t('models.sentimentGreat') || 'Great'} {model.sentiment.great}%</span>
+                        <span className="text-center">{t('models.sentimentGood') || 'Good'} {model.sentiment.good}%</span>
+                        <span className="text-center">{t('models.sentimentOk') || 'OK'} {model.sentiment.ok}%</span>
+                        <span className="text-right">{t('models.sentimentBad') || 'Bad'} {model.sentiment.bad}%</span>
                     </div>
                 </div>
             )}
@@ -493,7 +494,7 @@ function ModelCard({
             {/* Tested On — always visible */}
             {model.testedOn && model.testedOn.length > 0 && (
                 <div className="mt-3 pt-3 border-t border-slate-700/50">
-                    <p className="text-xs text-slate-500 mb-1">🚗 Tested on:</p>
+                    <p className="text-xs text-slate-500 mb-1">{t('models.testedOn') || '🚗 Tested on:'}</p>
                     <div className="flex flex-wrap gap-1">
                         {model.testedOn.map((car, i) => (
                             <span key={`${car}-${i}`} className="px-2 py-0.5 text-[10px] rounded bg-slate-800 text-slate-400">
@@ -1083,10 +1084,10 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                     <table className="w-full text-left border-collapse">
                                         <thead>
                                             <tr className="bg-slate-800/80 text-slate-400 text-sm uppercase tracking-wider">
-                                                <th className="p-3 md:p-4 font-medium cursor-pointer hover:text-slate-100" onClick={() => handleSort('name')}>Name</th>
-                                                <th className="p-3 md:p-4 font-medium cursor-pointer hover:text-slate-100 whitespace-nowrap" onClick={() => handleSort('date')}>Date</th>
-                                                <th className="p-3 md:p-4 font-medium cursor-pointer hover:text-slate-100 whitespace-nowrap" onClick={() => handleSort('score')}>Score</th>
-                                                <th className="hidden md:table-cell p-4 font-medium">Badges</th>
+                                                <th className="p-3 md:p-4 font-medium cursor-pointer hover:text-slate-100" onClick={() => handleSort('name')}>{t('models.thName') || 'Name'}</th>
+                                                <th className="p-3 md:p-4 font-medium cursor-pointer hover:text-slate-100 whitespace-nowrap" onClick={() => handleSort('date')}>{t('models.thDate') || 'Date'}</th>
+                                                <th className="p-3 md:p-4 font-medium cursor-pointer hover:text-slate-100 whitespace-nowrap" onClick={() => handleSort('score')}>{t('models.thScore') || 'Score'}</th>
+                                                <th className="hidden md:table-cell p-4 font-medium">{t('models.thBadges') || 'Badges'}</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-800">
@@ -1149,8 +1150,8 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                 ) : (
                     <div className="text-center py-20 bg-slate-800/30 rounded-2xl border border-slate-700/50">
                         <span className="text-4xl mb-4 block">🔍</span>
-                        <h3 className="text-xl font-medium text-slate-100 mb-2">No models found</h3>
-                        <p className="text-slate-400">Try adjusting your search terms</p>
+                        <h3 className="text-xl font-medium text-slate-100 mb-2">{t('models.noModelsFound') || 'No models found'}</h3>
+                        <p className="text-slate-400">{t('models.tryAdjustingSearch') || 'Try adjusting your search terms'}</p>
                     </div>
                 )}
                 </div>

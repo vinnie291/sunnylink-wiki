@@ -49,7 +49,7 @@
           "max": 50,
           "unit": "mph",
           "helpText": "Default: 19 mph. Sets the maximum speed at which lane turn desires are active.",
-          "description": "Sets the maximum speed at which lane turn desires are active. Use the - and + buttons to adjust.",
+          "description": "設定車道轉彎期望處於活動狀態的最大速度。使用 - 和 + 按鈕進行調整。",
           "dependencies": [
             {
               "key": "LaneTurnDesire",
@@ -60,7 +60,7 @@
               "label": "Show Advanced Controls"
             }
           ],
-          "userNote": "Only appears when Use Lane Turn Desires and Show Advanced Controls are enabled."
+          "userNote": "僅當啟用「使用車道轉彎需求」和「顯示進階控制」時才會出現。"
         },
         {
           "key": "DrivingModel",
@@ -82,15 +82,15 @@
           "key": "RefreshModelList",
           "label": "Refresh Model List",
           "type": "action",
-          "description": "Forces a refresh of the available model list from the server. Use this if you expect a new model to be available but do not see it in the selection dialog.",
-          "userNote": "Use when a new model should be available but isn't shown."
+          "description": "強制從伺服器刷新可用模型清單。如果您希望有新模型可用但在選擇對話方塊中沒有看到它，請使用此選項。",
+          "userNote": "當新模型應該可用但未顯示時使用。"
         },
         {
           "key": "ClearModelCache",
           "label": "Clear Model Cache",
           "type": "action",
-          "description": "Deletes all downloaded models except the currently active one. The current cache size in MB is displayed. Useful for freeing storage space.",
-          "userNote": "Frees up storage space by removing old model files."
+          "description": "刪除除目前活動模型之外的所有下載模型。顯示目前快取大小（以 MB 為單位）。對於釋放儲存空間很有用。",
+          "userNote": "透過刪除舊模型檔案來釋放儲存空間。"
         },
         {
           "key": "LiveLearningSteerDelay",
@@ -116,7 +116,7 @@
             }
           ],
           "warning": "别碰。 除非开发人员指示，否则保留“0.00”。",
-          "userNote": "Only modify if Live Learning Steer Delay is disabled."
+          "userNote": "僅在停用即時學習轉向延遲時才進行修改。"
         }
       ]
     },
@@ -1215,10 +1215,10 @@
           "key": "SshKeys",
           "label": "SSH Keys",
           "type": "action",
-          "description": "Fetches SSH public keys from a GitHub username and installs them on the device. This allows SSH login using your GitHub-associated key pair.",
+          "description": "從 GitHub 使用者名稱取得 SSH 公鑰並將其安裝在裝置上。這允許使用 GitHub 關聯的金鑰對進行 SSH 登入。",
           "warning": "Only add SSH keys from users you trust. Anyone with an installed key has full access to the device.",
           "useCase": "Install SSH keys for remote access.",
-          "userNote": "Only add keys from trusted users."
+          "userNote": "僅新增來自受信任用戶的金鑰。"
         },
         {
           "key": "JoystickDebugMode",

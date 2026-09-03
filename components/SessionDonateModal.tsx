@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useLanguage } from '../lib/i18n';
 
 // Fires once a visitor has spent ~5 minutes on the site (across any
 // number of page navigations within the same tab). Dismissal is sticky
@@ -10,17 +11,11 @@ const LS_KEY = 'sunnylink:donate-modal-dismissed';
 const TRIGGER_MS = 5 * 60 * 1000;
 const COOLDOWN_MS = 30 * 24 * 60 * 60 * 1000;
 const BMC_URL = 'https://buymeacoffee.com/vinhle.co';
-const COMMA_REFERRAL_URL = 'https://refer.comma.ai/DQHAMJM';
+import { COMMA_REFERRAL_URL, trackEvent, trackReferralClick } from '../lib/analytics';
 
-const trackEvent = (action: string, params: Record<string, unknown> = {}) => {
-    if (typeof window === 'undefined') return;
-    const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
-    if (typeof gtag === 'function') {
-        gtag('event', action, params);
-    }
-};
 
 export default function SessionDonateModal() {
+    const { t } = useLanguage();
     const [open, setOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
 
@@ -98,10 +93,10 @@ export default function SessionDonateModal() {
                     id="donate-modal-title"
                     className="text-xl sm:text-2xl font-bold text-slate-100 text-center leading-snug mb-2"
                 >
-                    Has this site helped you setup your sunnypilot?
+                    {t('donate.title') || 'Has this site helped you setup your sunnypilot?'}
                 </h2>
                 <p className="text-sm text-slate-400 text-center mb-6">
-                    If the wiki saved you some time, consider buying me a coffee or using my comma referral link — it keeps this site alive!
+                    {t('donate.desc') || 'If the wiki saved you some time, consider buying me a coffee or using my comma referral link — it keeps this site alive!'}
                 </p>
 
                 <div className="flex flex-col gap-3">
@@ -116,7 +111,7 @@ export default function SessionDonateModal() {
                         className="flex items-center justify-center gap-2 w-full text-center font-bold py-3 px-5 rounded-xl bg-[#FFDD00] hover:bg-[#ffe84d] active:bg-[#e6c700] text-black transition-all shadow-md hover:scale-[1.01] active:scale-[0.99]"
                     >
                         <span>☕</span>
-                        <span>Buy me a coffee</span>
+                        <span>{t('donate.coffee') || 'Buy me a coffee'}</span>
                     </a>
 
                     <a
@@ -125,6 +120,7 @@ export default function SessionDonateModal() {
                         rel="noopener noreferrer"
                         onClick={() => {
                             trackEvent('donate_modal_clicked', { destination: COMMA_REFERRAL_URL, option: 'comma_referral' });
+                            trackReferralClick('popup');
                             dismiss('cta');
                         }}
                         className="flex items-center justify-center gap-2 w-full text-center font-bold py-3 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white transition-all shadow-md shadow-emerald-950/30 hover:scale-[1.01] active:scale-[0.99]"
@@ -132,7 +128,7 @@ export default function SessionDonateModal() {
                         <svg className="w-5 h-5 text-emerald-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span>Save $50 on a comma four</span>
+                        <span>{t('donate.comma') || 'Save $50 on a comma four'}</span>
                     </a>
                 </div>
 
@@ -141,7 +137,7 @@ export default function SessionDonateModal() {
                     onClick={() => dismiss('no_thanks')}
                     className="block mx-auto mt-5 text-xs text-slate-500 hover:text-slate-300 transition-colors"
                 >
-                    No thanks
+                    {t('donate.noThanks') || 'No thanks'}
                 </button>
             </div>
         </div>,

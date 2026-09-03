@@ -1,8 +1,10 @@
 'use client';
 
 import { X } from 'lucide-react';
+import { useLanguage } from '../lib/i18n';
 
 export default function ExitWizardButton() {
+    const { t } = useLanguage();
     return (
         <button 
             onClick={() => window.location.href = '/cars'} 
@@ -18,8 +20,8 @@ export default function ExitWizardButton() {
             "
         >
             <X className="w-4 h-4" />
-            <span className="hidden sm:inline">Exit Wizard</span>
-            <span className="sm:hidden">Exit</span>
+            <span className="hidden sm:inline">{t('cw.exitWizard')}</span>
+            <span className="sm:hidden">{t('cw.exit')}</span>
         </button>
     );
 }

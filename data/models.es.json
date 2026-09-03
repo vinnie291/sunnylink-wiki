@@ -86,9 +86,9 @@
             "bad": 8
           },
           "consensus": "Modelo de la comunidad muy elogiado que devuelve la confianza en la conducción. Conocido por su suavidad excepcional y estabilidad con NNLC. Estabiliza la velocidad de forma fiable en modo E2E.",
-          "note": "Especialmente popular entre los usuarios de Kia e-Niro y Honda Civic. Uno de los mejores modelos personalizados de finales de 2025.",
-          "bestFor": "All-Around / Comfort",
-          "steeringFeel": "Ultra-Smooth",
+          "note": "Particularmente popular entre los usuarios de Kia e-Niro en el Reino Unido. Uno de los mejores modelos laterales personalizados de finales de 2025.",
+          "bestFor": "Todo Terreno / Comodidad",
+          "steeringFeel": "Ultrasuave",
           "forumUrl": "https://community.sunnypilot.ai/t/the-cool-peoples-model-v3-10-october-2025/1151",
           "testedOn": [
             "Kia e-Niro",
@@ -131,8 +131,8 @@
           },
           "consensus": "El buque insignia actual y el conductor diario para la mayoría de los usuarios en 2026. La más alta inteligencia para escenarios complejos como intersecciones, señales de altos y giros urbanos cerrados.",
           "note": "Puede sentirse un poco \"suelto\" en carreteras rectas.",
-          "bestFor": "Mixed Driving",
-          "steeringFeel": "Balanced",
+          "bestFor": "Conducción mixta",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Hyundai Ioniq 5",
             "Kia EV6",
@@ -168,9 +168,9 @@
             "bad": 7
           },
           "consensus": "El modelo 'implacable', refinado. Distancia de seguimiento más estrecha, reacciones más rápidas, giros más cerrados. Excelente para vehículos más grandes que necesitan autoridad.",
-          "note": "Nombrada 'Dark Souls' porque es implacable.",
-          "bestFor": "Heavy Traffic",
-          "steeringFeel": "Stiff",
+          "note": "Llamado 'Dark Souls' porque es implacable.",
+          "bestFor": "Tráfico pesado",
+          "steeringFeel": "rígido",
           "testedOn": [
             "Ford F-150",
             "GMC Sierra",
@@ -202,8 +202,8 @@
             "bad": 8
           },
           "consensus": "El punto de referencia \"neutral\". Si un nuevo modelo te parece extraño, lo comparas con Nevada. Bien equilibrado entre suavidad y capacidad de respuesta.",
-          "bestFor": "All-Around",
-          "steeringFeel": "Balanced",
+          "bestFor": "Todo alrededor",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Most vehicles",
             "Kia Sportage PHEV"
@@ -230,8 +230,8 @@
           },
           "consensus": "El legendario modelo 'Wife Approved'. Sacrifica el perfecto centrado de carril para el confort de los pasajeros. No sacudirá el volante; gira suavemente. Nota: Algunos usuarios de Comma 4 (específicamente Ioniq 5) informan de una tendencia pronunciada a ceñirse al lado derecho.",
           "note": "Perfecto para viajes por carretera. Si se ciñe a la derecha en C4, intente Ajustar Desplazamiento de Cámara (-0.05 a -0.10).",
-          "bestFor": "Passengers",
-          "steeringFeel": "Light",
+          "bestFor": "Pasajeros",
+          "steeringFeel": "Luz",
           "testedOn": [
             "Hyundai Palisade",
             "Kia Telluride",
@@ -272,10 +272,10 @@
             "ok": 0,
             "bad": 0
           },
-          "consensus": "Direct successor to BMRLNAP Model v4 (v5 was skipped). Early community feedback reports that longitudinal deceleration and stopping behavior at traffic lights have improved slightly compared to v4, though vehicles can still creep slightly over the line. Lateral stability retains the planted highway cruising feel of v4.",
-          "note": "Chestnut-class big model, built from 9d683c0 in commaai/openpilot. Built in-house by sunnypilot. Compares directly against BMRLNAP v4 to evaluate stop-line precision and deceleration tuning.",
-          "bestFor": "Testing / Big Model Comparison",
-          "steeringFeel": "Smooth",
+          "consensus": "Sucesor directo del modelo BMRLNAP v4 (se omitió la v5). Los primeros comentarios de la comunidad informan que la desaceleración longitudinal y el comportamiento de frenado en los semáforos han mejorado ligeramente en comparación con la versión 4, aunque los vehículos aún pueden deslizarse ligeramente sobre la línea. La estabilidad lateral conserva la sensación de conducción firme en carretera del v4.",
+          "note": "Modelo grande clase Chestnut, construido a partir de 9d683c0 en commaai/openpilot. Construido internamente por sunnypilot. Se compara directamente con BMRLNAP v4 para evaluar la precisión de la línea de parada y el ajuste de desaceleración.",
+          "bestFor": "Pruebas / Comparación de modelos grandes",
+          "steeringFeel": "Suave",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v6-september-01-2026-big-model/7004",
           "testedOn": [
             "Toyota",
@@ -309,10 +309,10 @@
             "ok": 14,
             "bad": 29
           },
-          "consensus": "Major evolution in the BMRLNAP series that completely cures the severe low-speed steering oscillations of v3. Outstanding in highway cruising, lead-car following, and handling sudden cut-ins with calm, gradual deceleration rather than harsh brake stabbing. Testers note that curve handling performs better when disabling legacy SCC-V curvature deceleration, though sharp intersection 90-degree turns can still understeer due to steering torque limits, and acceleration from a standstill at green lights remains slow.",
-          "note": "Chestnut-class big model, built from f877d7a in commaai/openpilot. High engagement across Discord and Discourse. Community reports highlight significant vehicle controller sensitivity on Toyotas (Torque v0 vs v1).",
-          "bestFor": "Highway Cruising / Cut-in Handling",
-          "steeringFeel": "Smooth",
+          "consensus": "Importante evolución en la serie BMRLNAP que cura por completo las severas oscilaciones de dirección a baja velocidad de la v3. Sobresaliente en conducción en carretera, seguimiento del automóvil líder y manejo de atajos repentinos con desaceleración tranquila y gradual en lugar de frenadas bruscas. Los evaluadores señalan que el manejo de las curvas funciona mejor cuando se desactiva la desaceleración de curvatura del SCC-V heredado, aunque los giros bruscos de 90 grados en las intersecciones aún pueden subvirar debido a los límites de torque de la dirección, y la aceleración desde parado en los semáforos en verde sigue siendo lenta.",
+          "note": "Modelo grande clase Chestnut, construido a partir de f877d7a en commaai/openpilot. Alto compromiso en Discord y Discourse. Los informes de la comunidad destacan una importante sensibilidad del controlador del vehículo en los Toyota (Torque v0 vs v1).",
+          "bestFor": "Crucero por carretera/manejo en cortes",
+          "steeringFeel": "Suave",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v4-august-30-2026-big-model/6971",
           "testedOn": [
             "Kia EV6",
@@ -350,10 +350,10 @@
             "ok": 20,
             "bad": 0
           },
-          "consensus": "Dedicated farewell drop for comma researcher Toby that earned zero negative ratings from community testers (80% Good or Great). Praised for unanimously smooth acceleration and deceleration with no jerky surging or stop line overshoots. Steering feels natural, humanlike, and stable with no ping-pong, though drivers note a slight tendency to cut corners tight on certain curves.",
-          "note": "Chestnut-class big model, built from 30de303 in commaai/openpilot. Released to commemorate comma research engineer Toby's final driving model contribution.",
-          "bestFor": "Natural Steering Feel / Gentle Long Cruising",
-          "steeringFeel": "Natural",
+          "consensus": "Gota de despedida dedicada al investigador de comas Toby que obtuvo cero calificaciones negativas de los evaluadores de la comunidad (80% Bueno o Excelente). Elogiado por su aceleración y desaceleración unánimemente suaves, sin sobrepasos bruscos ni sobrepasos en la línea de parada. La dirección se siente natural, humana y estable, sin ping-pong, aunque los conductores notan una ligera tendencia a tomar curvas cerradas en ciertas curvas.",
+          "note": "Modelo grande clase Chestnut, construido a partir de 30de303 en commaai/openpilot. Publicado para conmemorar la contribución final del modelo de conducción del ingeniero de investigación de comas Toby.",
+          "bestFor": "Sensación de dirección natural/crucero largo y suave",
+          "steeringFeel": "naturales",
           "forumUrl": "https://community.sunnypilot.ai/t/sad-model-august-28-2026-big-model/6945",
           "testedOn": [
             "Hyundai",
@@ -389,10 +389,10 @@
             "ok": 25,
             "bad": 25
           },
-          "consensus": "Severely plagued by low-speed steering oscillations and see-sawing that testers humorously compared to actors fake-steering in old movies. While open-highway cruising and longitudinal braking are smooth, the low-speed wheel oscillation was pronounced across Prius, Civic, Accord, and Rivian test vehicles, prompting testers to recommend skipping forward to v4.",
-          "note": "Chestnut-class big model, built from 47377ac in commaai/openpilot. High-speed highway cruising is acceptable, but low-speed oscillation makes it unsuitable as a daily driver.",
-          "bestFor": "Testing / High-Speed Comparison Only",
-          "steeringFeel": "Oscillating",
+          "consensus": "Gravemente plagado de oscilaciones de dirección a baja velocidad y balanceos que los evaluadores comparan con humor con los actores que simulan conducir en películas antiguas. Si bien la conducción en carretera abierta y el frenado longitudinal son suaves, la oscilación de las ruedas a baja velocidad fue pronunciada en los vehículos de prueba Prius, Civic, Accord y Rivian, lo que llevó a los evaluadores a recomendar pasar a la v4.",
+          "note": "Modelo grande clase Chestnut, construido a partir de 47377ac en commaai/openpilot. La conducción a alta velocidad en autopista es aceptable, pero la oscilación a baja velocidad la hace inadecuada para un conductor diario.",
+          "bestFor": "Prueba/Comparación de alta velocidad únicamente",
+          "steeringFeel": "oscilante",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v3-august-26-2026-big-model/6917",
           "testedOn": [
             "2021 Toyota Prius Prime",
@@ -431,9 +431,9 @@
             "bad": 11
           },
           "consensus": "Second iteration of the BMRLNAP big model line. Early testing feedback indicates mixed results compared to v1: open highway lanekeeping and longitudinal response remain solid, but testers noted regressions in intersection stop consistency, particularly failing to stop reliably at the white line for traffic lights.",
-          "note": "Chestnut-class big model, tied to comma's new GPU add-on. Developer and community testing in Discord showed less consistent stop-line braking at traffic lights than the unanimous v1 drop.",
-          "bestFor": "Testing / Big Model Comparison",
-          "steeringFeel": "Smooth",
+          "note": "Modelo grande de clase Chestnut, vinculado al nuevo complemento de GPU de coma. Probado en Kia EV6, Hyundai Elantra 2022 y Camry XSE 2023.",
+          "bestFor": "Pruebas / Comparación de modelos grandes",
+          "steeringFeel": "Suave",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v2-august-24-2026-big-model/6878",
           "testedOn": [
             "2023 Camry XSE",
@@ -469,10 +469,10 @@
             "ok": 12,
             "bad": 0
           },
-          "consensus": "Special release drop commemorating sunnyhaibin's birthday. Discord testers praised its gentle stop-and-go behavior in heavy traffic and natural cruising feel, though high-speed braking into sudden red lights remains somewhat late.",
-          "note": "Dedicated to sunnypilot founder sunnyhaibin on his birthday (August 24). Community testers report pleasant stop-and-go cruising on Chestnut hardware.",
-          "bestFor": "Stop-and-Go / City Driving",
-          "steeringFeel": "Smooth",
+          "consensus": "Lanzamiento especial que conmemora el cumpleaños de sunnyhaibin. Los evaluadores de Discord elogiaron su suave comportamiento de parada y arranque en tráfico pesado y su sensación de crucero natural, aunque el frenado a alta velocidad ante semáforos en rojo repentinos sigue siendo algo tarde.",
+          "note": "Dedicado al fundador de Sunnypilot, Sunnyhaibin, en su cumpleaños (24 de agosto). Los evaluadores de la comunidad informan un agradable crucero con paradas y arranques en el hardware Chestnut.",
+          "bestFor": "Parar y arrancar/Conducción urbana",
+          "steeringFeel": "Suave",
           "forumUrl": "https://community.sunnypilot.ai/t/happy-birthday-model-august-24-2026-big-model/6871",
           "testedOn": [
             "Honda Accord",
@@ -527,7 +527,7 @@
             "ok": 40,
             "bad": 0
           },
-          "steeringFeel": "Varies",
+          "steeringFeel": "Varía",
           "routesDriven": 20,
           "fleetRank": 62
         },
@@ -543,7 +543,7 @@
           ],
           "consensus": "La versión mejor recibida de la tanda de big models, aunque con solo dos votantes: encuesta principal unánime en «5 - Genial», lateral unánime en «suave y estable» y aceleración y frenada suaves por unanimidad. Un desarrollador de sunnypilot lo describió como «literally definition of end to end». El control longitudinal es lo más destacado: mantiene bien la velocidad incluso a 60 mph, vuelve rápido al acelerador cuando un semáforo en rojo pasa a verde y responde bien a los ámbar que no le da tiempo a pasar. Las señales de stop son la salvedad: llega algo rápido para detenerse en la señal o antes de ella, y en un trayecto al anochecer se saltó bastantes más y necesitó intervención.",
           "note": "Modelo de clase Chestnut, ligado al nuevo complemento de GPU de comma. La puntuación procede de una encuesta unánime pero de solo dos votos, así que es provisional y no comparable con las entradas de muestra mayor; las encuestas de detalle tienen los mismos dos votantes. El informe más completo es el de un Camry de 2023, cuyo conductor pensaba usarlo a diario pese a las señales de stop saltadas al anochecer.",
-          "bestFor": "All-Around",
+          "bestFor": "Todo alrededor",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-august-20-2026-big-model/6828",
           "testedOn": [
             "2023 Camry"
@@ -570,7 +570,7 @@
             "ok": 0,
             "bad": 0
           },
-          "steeringFeel": "Smooth",
+          "steeringFeel": "Suave",
           "routesDriven": 15,
           "fleetRank": 65
         },
@@ -585,7 +585,7 @@
           ],
           "consensus": "La versión más dividida de la tanda: una encuesta de cuatro votos repartida a partes iguales entre «Bueno» y «Malo», y la única entrada cuya encuesta lateral no recibió ningún voto positivo: ping-pong/vagabundeo en dos de tres votantes, pegarse al carril y sobrevirar en curvas en uno cada uno, y nada para «suave y estable» ni «natural». El ping-pong se describe como muy notable a alta velocidad. El longitudinal parece contradictorio hasta que se separa la suavidad del criterio: la encuesta es unánime en aceleración y frenada suaves, mientras que los comentarios escritos hablan de frenar demasiado pronto, perdiendo velocidad en una carretera de 55 mph hasta quedarse en unos 48 y reduciendo en cada cruce o grupo de casas. Lo más destacado son las señales de stop a baja velocidad: por debajo de 50 mph se describe como lo mejor visto en cualquier modelo, deteniéndose con suavidad justo antes de la señal 9 o 10 veces seguidas; por encima de esa velocidad un probador desconecta porque ya no las ve a tiempo.",
           "note": "Modelo de clase Chestnut, ligado al nuevo complemento de GPU de comma. La encuesta principal tiene cuatro votos, repartidos por igual entre «Bueno» y «Malo». Conviene leer las encuestas junto con los comentarios: la encuesta longitudinal es unánimemente positiva mientras el texto se queja de que frena demasiado pronto, así que esa opción mide la suavidad, no si el momento es el adecuado. El informe más detallado es el de un Camry de 2023.",
-          "bestFor": "Testing Only",
+          "bestFor": "Sólo pruebas",
           "forumUrl": "https://community.sunnypilot.ai/t/tee-time-model-august-19-2026-big-model/6814",
           "testedOn": [
             "2023 Camry"
@@ -611,7 +611,7 @@
             "ok": 0,
             "bad": 38
           },
-          "steeringFeel": "Twitchy"
+          "steeringFeel": "nervioso"
         },
         {
           "name": "TTTTFBRLM",
@@ -622,9 +622,9 @@
             "Chestnut",
             "Early Feedback"
           ],
-          "consensus": "First of the mid-August big model run. Notable for a reported 'Big Model Error' that forces an immediate takeover roughly one minute after engagement on some Chestnut setups.",
+          "consensus": "Primero de la gran edición del modelo de mediados de agosto. Destaca por un 'Gran Error de Modelo' reportado que obliga a una toma de control inmediata aproximadamente un minuto después de la participación en algunas configuraciones de Chestnut.",
           "note": "Modelo de clase Chestnut, ligado al nuevo complemento de GPU de comma. El hardware empezó a llegar a los propietarios en agosto de 2026. Un hilo aparte en Driving Issues sigue un aviso de toma de control «Big Model Error» en sunnypilot 2026.003.000.",
-          "bestFor": "Probadores de big models",
+          "bestFor": "Probadores de modelos grandes",
           "forumUrl": "https://community.sunnypilot.ai/t/ttttfbrlm-august-18-2026-big-model/6813",
           "testedOn": [],
           "positives": [],
@@ -645,7 +645,7 @@
           ],
           "consensus": "El primer lanzamiento de la tanda y una separación clara entre ejes: el lateral es la fortaleza, el longitudinal no. Un desarrollador de sunnypilot califica el lateral de «outstanding» y mucho más seguro en giros a derecha e izquierda que los modelos pequeños, y un probador con un Rivian R1T de 2022 indica que los giros urbanos de más de 90 grados se toman con la amplitud adecuada, con mucha menos tendencia a recortar y rozar las llantas con el bordillo. En longitudinal se desmorona: la frenada dura o tardía encabeza la encuesta longitudinal y, una vez a velocidad fijada, los probadores describen un efecto de acelerón-frenazo. Reconoce las señales de stop mejor que los modelos pequeños, pero aún se salta algunas y las que ve las hace al estilo «California stop».",
           "note": "Descrito por un probador como la primera iteración de un modelo de clase Chestnut. La encuesta principal tiene cuatro votos. Este hilo también fija el calendario del hardware: un lector preguntó cómo estaban ejecutando el modelo sin el nuevo complemento de GPU, y el fundador respondió que las unidades comma chestnut se estaban entregando esa misma semana; otro probador dijo que tenía la suya desde la semana anterior. Probado en un Rivian R1T de 2022 con el arnés de dirección angular.",
-          "bestFor": "City Driving",
+          "bestFor": "Conducción urbana",
           "forumUrl": "https://community.sunnypilot.ai/t/lebowski-model-july-01-2026-big-model/6812",
           "testedOn": [
             "2022 Rivian R1T"
@@ -671,7 +671,7 @@
             "ok": 33,
             "bad": 0
           },
-          "steeringFeel": "Confident",
+          "steeringFeel": "confiado",
           "routesDriven": 19,
           "fleetRank": 64
         }
@@ -700,10 +700,10 @@
             "ok": 19,
             "bad": 33
           },
-          "consensus": "Strong rebound for the OP Model 10 line. Acceleration is reported as on par with DEC ('accelerates just as well') — a clear fix for v1/v2's sluggish off-the-line behavior. Early daily-driver impressions describe it as 'great' and the recommended pick across v1/v2/v3.",
-          "note": "Referenced in the OP Model 9 thread as the supersession that received significantly better feedback. Recommended over v1 and v2.",
-          "bestFor": "Daily / Experimental Mode",
-          "steeringFeel": "Confident",
+          "consensus": "Fuerte rebote para la línea OP Model 10. Se informa que la aceleración está a la par con DEC (\"acelera igual de bien\"), una solución clara para el comportamiento lento fuera de línea de v1/v2. Las primeras impresiones diarias de los conductores lo describen como \"excelente\" y la elección recomendada en las versiones v1/v2/v3.",
+          "note": "Mencionado en el hilo del OP Model 9 como la sustitución que recibió comentarios significativamente mejores. Recomendado sobre v1 y v2.",
+          "bestFor": "Modo diario/experimental",
+          "steeringFeel": "confiado",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v3-apr-19-2026/4690",
           "testedOn": [
             "2018 Corolla Sport"
@@ -734,10 +734,10 @@
             "ok": 17,
             "bad": 58
           },
-          "consensus": "Major step up from v1. Longitudinal feel is the highlight — the softest, most consistent braking the reviewer has felt in a while. Lateral still hugs left (fixable with camera offset) and the model remains slow to straighten the wheel after sharp turns.",
-          "note": "Hugs-left can be mitigated with camera offset +0.05 to +0.10. Some lingering hesitation off the line and slow wheel return after corners.",
-          "bestFor": "Comfort / Highway",
-          "steeringFeel": "Smooth",
+          "consensus": "Gran paso adelante desde la v1. La sensación longitudinal es lo más destacado: el frenado más suave y consistente que el crítico haya sentido en mucho tiempo. El lateral todavía abraza a la izquierda (se puede arreglar con el desplazamiento de la cámara) y el modelo tarda en enderezar la rueda después de giros bruscos.",
+          "note": "Los abrazos izquierdos se pueden mitigar con un desplazamiento de la cámara de +0,05 a +0,10. Algunas dudas persistentes al salir de la línea y un retorno lento de las ruedas después de las curvas.",
+          "bestFor": "Confort / Carretera",
+          "steeringFeel": "Suave",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v2-apr-18-2026/4657",
           "testedOn": [],
           "positives": [
@@ -771,10 +771,10 @@
             "ok": 29,
             "bad": 71
           },
-          "consensus": "Initial release of the OP Model 10 line received strongly negative early feedback. Reviewers cite poor lateral control with late corrections that snap dramatically after the car has already left the lane line. No positives reported.",
-          "note": "Quickly superseded by v2 and v3. Skip directly to v3 for the recommended option.",
-          "bestFor": "Testing Only",
-          "steeringFeel": "Twitchy",
+          "consensus": "El lanzamiento inicial de la línea OP Model 10 recibió comentarios iniciales muy negativos. Los revisores citan un control lateral deficiente con correcciones tardías que se disparan dramáticamente después de que el auto ya se ha salido de la línea del carril. No se reportaron positivos.",
+          "note": "Rápidamente reemplazado por v2 y v3. Salte directamente a v3 para ver la opción recomendada.",
+          "bestFor": "Sólo pruebas",
+          "steeringFeel": "nervioso",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-apr-17-2026/4648",
           "testedOn": [],
           "positives": [],
@@ -805,8 +805,8 @@
           },
           "consensus": "Los comentarios de la comunidad son abrumadoramente negativos con 9 votantes. El 44% calificó como 'Malo', el 44% como 'Horrible' y solo el 11% como 'Ok'. Los usuarios informan que el modelo debería ser 'eliminado/revertido' ya que es 'bastante malo'. No se han presentado reseñas positivas.",
           "note": "No recomendado para la conducción diaria. Reemplazado por OP Model 10 v3 que recibió comentarios significativamente mejores.",
-          "bestFor": "Testing Only",
-          "steeringFeel": "Twitchy",
+          "bestFor": "Sólo pruebas",
+          "steeringFeel": "nervioso",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-9-apr-10-2026/4478",
           "testedOn": [],
           "positives": [],
@@ -835,8 +835,8 @@
           },
           "consensus": "Los comentarios tempranos de la comunidad son predominantemente negativos. Los usuarios informan de una dirección temblorosa y oscilatoria a altas velocidades, dificultad para mantener el carril en tráfico stop-and-go y constante adherencia al carril izquierdo. El modelo parece tener problemas con la estabilidad lateral que OP Model 7 había mejorado.",
           "note": "La adherencia al carril izquierdo es un problema constante. Ajuste el desplazamiento de cámara (+0.05 a +0.10). No recomendado para uso diario en esta etapa.",
-          "bestFor": "Testing Only",
-          "steeringFeel": "Twitchy",
+          "bestFor": "Sólo pruebas",
+          "steeringFeel": "nervioso",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-8-apr-7-2026/4380",
           "testedOn": [],
           "positives": [],
@@ -867,8 +867,8 @@
           },
           "consensus": "Gran salto adelante para la serie Off-Policy. Elogiado como el modelo OP más seguro hasta la fecha, con una desaceleración longitudinal más suave para vehículos detenidos y un control lateral mejorado que se autocorrije incluso al sobrepasar curvas cerradas de 90 grados. Sin embargo, persiste una tendencia aleatoria a ceñirse a la izquierda para algunos usuarios.",
           "note": "Mejor control lateral de la serie hasta ahora. Si se ajusta a la izquierda, ajuste el desplazamiento de la cámara (+0.05).",
-          "bestFor": "Highway & Winding Roads",
-          "steeringFeel": "Confident",
+          "bestFor": "Carreteras y caminos sinuosos",
+          "steeringFeel": "confiado",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-7-april-03-2026/4317",
           "testedOn": [
             "Hyundai Ioniq 5",
@@ -907,8 +907,8 @@
           },
           "consensus": "Lanzamiento de modelo muy temprano con retroalimentación limitada de la comunidad hasta ahora. Los votos iniciales son positivos (Bueno) pero el tamaño de muestra es extremadamente pequeño. Necesita más pruebas y evaluación comunitaria antes de sacar conclusiones.",
           "note": "Muy pocos votos hasta ahora — vuelva a consultar para un consenso actualizado cuando más usuarios lo prueben.",
-          "bestFor": "TBD",
-          "steeringFeel": "TBD",
+          "bestFor": "Por determinar",
+          "steeringFeel": "Por determinar",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-april-01-2026/4314",
           "testedOn": [],
           "routesDriven": 75,
@@ -933,8 +933,8 @@
           },
           "consensus": "Lanzamiento altamente polarizante con sentimiento negativo creciente. El control longitudinal es elogiado por algunos (paradas suaves detrás de líderes en GV60), pero múltiples reportes de comportamiento de 'miedo a semáforos verdes' y fallo al mantenerse detenido en semáforos rojos. La recuperación lateral mejorada pero la dirección más rígida causa oscilaciones y mareo en algunos vehículos.",
           "note": "Dependiente del vehículo. Excelente en GV60, tembloroso en F-150 Lightning. Usuarios de Subaru Crosstrek reportan mareo. Se recomienda Torque Tune v0.",
-          "bestFor": "Highway (with supervision)",
-          "steeringFeel": "Varies",
+          "bestFor": "Carretera (con supervisión)",
+          "steeringFeel": "Varía",
           "forumUrl": "https://community.sunnypilot.ai/t/pop-model-v2-24-mar-2026/4019",
           "testedOn": [
             "GV60",
@@ -976,8 +976,8 @@
           },
           "consensus": "El sentimiento de la comunidad ha mejorado significativamente con más pruebas. El control lateral depende del vehículo — los usuarios de Honda Civic reportan la mejor lateral en mucho tiempo sin ping-pong y centrado 'como si le debiera dinero a las líneas del carril', mientras que Hyundai Kona y otros experimentan ping-pong extremo por encima de 80 km/h. Más dispuesto a alcanzar velocidades establecidas que Pop v2. Todavía conocido por avanzar lentamente en semáforos rojos.",
           "note": "Muy dependiente del vehículo. Usuarios de Honda/Kia con tendencia positiva. La versión de torque tune importa — probar primero con v0.",
-          "bestFor": "Highway",
-          "steeringFeel": "Varies",
+          "bestFor": "Carretera",
+          "steeringFeel": "Varía",
           "testedOn": [
             "2025 Honda Civic Hybrid",
             "2026 Civic Hybrid ST",
@@ -1032,8 +1032,8 @@
           },
           "consensus": "Basado en la arquitectura WMI V12 con diferencias sutiles. Muestra un comportamiento mejorado de frenado en semáforos en rojo y menos ping-pong a bajas velocidades. Sin embargo, varios usuarios informan una sobredirección pronunciada en las curvas, especialmente problemática en vehículos Toyota con EPS de bajo torque. También se observan desventajas: las frenadas bruscas a corta distancia y la luz roja progresiva.",
           "note": "Dependiente del vehículo: elogiado por el Hyundai Ioniq 5, pero tiene problemas con el Toyota RAV4 Prime. Considere habilitar la 'pausa lateral al girar' si la sobredirección es un problema.",
-          "bestFor": "Mixed Driving",
-          "steeringFeel": "Balanced",
+          "bestFor": "Conducción mixta",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Hyundai Ioniq 5 (2025)",
             "Toyota RAV4 Prime (2025)",
@@ -1065,8 +1065,8 @@
           },
           "consensus": "Ligeramente más estable que el V12 en rectas. Buen respaldo si V12 se siente demasiado nervioso.",
           "note": "Preferida para la mayoría de los desplazamientos por carretera.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
+          "bestFor": "Carretera",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Hyundai Ioniq 5",
             "Kia EV6",
@@ -1092,8 +1092,8 @@
             "bad": 40
           },
           "consensus": "Modelo de generación media bien probado. Una opción sólida si V11/V12 tiene problemas en su vehículo específico.",
-          "bestFor": "Mixed Driving",
-          "steeringFeel": "Balanced",
+          "bestFor": "Conducción mixta",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Hyundai Palisade",
             "Kia Telluride",
@@ -1121,8 +1121,8 @@
           },
           "consensus": "Probablemente variante 'Space Cat' o 'Stable Control'. Probando nuevos algoritmos de estabilidad.",
           "note": "Vale la pena intentarlo si quieres algo diferente.",
-          "bestFor": "Experimentation",
-          "steeringFeel": "Stiff",
+          "bestFor": "Experimentación",
+          "steeringFeel": "rígido",
           "testedOn": [
             "Hyundai Ioniq 5",
             "Kia EV6",
@@ -1149,8 +1149,8 @@
             "bad": 9
           },
           "consensus": "Opción sólida para las nuevas plataformas 2025+ (ej: Kia K4). Actualmente el modelo preinstalado por defecto en el hardware Comma 4. Favorecido por su estabilidad y comportamiento predictivo en arquitecturas ADAS modernas.",
-          "bestFor": "Mixed Driving",
-          "steeringFeel": "Balanced",
+          "bestFor": "Conducción mixta",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Toyota Camry",
             "Honda CR-V",
@@ -1177,8 +1177,8 @@
             "bad": 6
           },
           "consensus": "Construcción de principios de 2026 que estableció los cimientos. Sigue siendo funcional para usuarios conservadores de E2E.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
+          "bestFor": "Carretera",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various vehicles"
           ],
@@ -1199,8 +1199,8 @@
             "bad": 5
           },
           "consensus": "Lanzamiento de Año Nuevo que inició la serie WMI 2026. Importancia histórica.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
+          "bestFor": "Carretera",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Hyundai",
             "Toyota"
@@ -1225,8 +1225,8 @@
           },
           "consensus": "Modelo mundial sintonizado para una respuesta de dirección MÁS RÍGIDA. Si WMI V12 se siente demasiado \"movible\", esto lo bloquea.",
           "note": "Ideal para vehículos con bastidores de dirección sueltos.",
-          "bestFor": "Highway",
-          "steeringFeel": "Heavy",
+          "bestFor": "Carretera",
+          "steeringFeel": "pesado",
           "testedOn": [
             "Ford",
             "Chevy",
@@ -1254,9 +1254,9 @@
             "bad": 6
           },
           "consensus": "Arquitectura neuronal ampliada en la serie OP. Ofrece una percepción espacial superior en tráfico urbano complejo e intersecciones multilínea.",
-          "note": "Optimizado para hardware Comma 4.",
-          "bestFor": "Entorno urbano y mixto",
-          "steeringFeel": "Confiado",
+          "note": "Optimizado para Comma 4. Recomendado para entornos urbanos y suburbanos densos.",
+          "bestFor": "Conducción Urbana/Mixta",
+          "steeringFeel": "confiado",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-16-deep-june-03-2026/6557",
           "testedOn": [
             "2025 Kia K4",
@@ -1312,7 +1312,7 @@
             "Duda leve si la señalización horizontal desaparece de golpe"
           ],
           "bestFor": "Conducción natural estilo humano",
-          "steeringFeel": "Natural",
+          "steeringFeel": "naturales",
           "routesDriven": 361,
           "fleetRank": 34
         },
@@ -1333,10 +1333,10 @@
             "ok": 15,
             "bad": 5
           },
-          "consensus": "La variante para autopista de la serie Rebel. Cambia par en giros cerrados por un centrado de carril impecable en rectas y cambios de carril suaves.",
-          "note": "Recomendado para conductores de autopista.",
-          "bestFor": "Trayectos por autopista",
-          "steeringFeel": "Equilibrado",
+          "consensus": "El gemelo de la serie Rebel centrado en las carreteras. Intercambia un par de giro agresivo por un seguimiento en línea recta estable y cambios de carril suaves con un desplazamiento mínimo.",
+          "note": "Recomendado para quienes viajan por carretera y buscan una alternativa más compuesta a los primeros modelos WMI.",
+          "bestFor": "Viajes por carretera",
+          "steeringFeel": "equilibrado",
           "forumUrl": "https://community.sunnypilot.ai/t/rebel-legion-model-july-22-2026/6559",
           "testedOn": [
             "Hyundai Ioniq 5",
@@ -1366,7 +1366,7 @@
             "Curves",
             "Deep RL"
           ],
-          "consensus": "Generation 12 model in the 2026 Deep RL Models channel. Part of the July 2026 cluster of Deep RL releases, and paired by name with the Rebellious Hope Model that followed two days later.",
+          "consensus": "Precursor temprano de Rebellious Hope en la serie Rebel. Se exploró el seguimiento de curvas de alto ángulo con entradas laterales sensibles.",
           "note": "Listed in the in-car model selector as \"Get Your Hopes Up Model (July 25, 2026)\". No community feedback collected yet.",
           "communityScore": 65,
           "totalVotes": 18,
@@ -1388,8 +1388,8 @@
           "negatives": [
             "Low-speed wander on some vehicles"
           ],
-          "bestFor": "Curves & Experimentation",
-          "steeringFeel": "Firm",
+          "bestFor": "Curvas y experimentación",
+          "steeringFeel": "firme",
           "routesDriven": 207,
           "fleetRank": 41
         },
@@ -1411,9 +1411,9 @@
             "bad": 10
           },
           "consensus": "Diseñado para curvas exigentes donde se alcanza el límite de par sin salirse del carril como CD210. Gran mantenimiento de carril en curvas.",
-          "note": "Excelente para rutas con curvas pronunciadas.",
+          "note": "Ideal para rutas con curvas desafiantes. Si experimenta deambulación a baja velocidad, active la pausa lateral en velocidades bajas.",
           "bestFor": "Carreteras con curvas / Giros asistidos",
-          "steeringFeel": "Firme",
+          "steeringFeel": "firme",
           "forumUrl": "https://community.sunnypilot.ai/t/rebellious-hope-model-july-27-2026/6560",
           "testedOn": [
             "2023 Lexus RC 350",
@@ -1467,7 +1467,7 @@
             "bad": 25
           },
           "bestFor": "Autopista / Tráfico denso",
-          "steeringFeel": "Light",
+          "steeringFeel": "Luz",
           "note": "Nueva versión del Terrible Super Fantastic Model del 12 de agosto. Las opiniones están polarizadas más que tibias: los votos se agrupan en ambos extremos, así que espera resultados que dependan del vehículo.",
           "routesDriven": 3,
           "fleetRank": 89
@@ -1479,7 +1479,7 @@
           "tags": [
             "Experimental"
           ],
-          "consensus": "Mid-August standard-hardware drop, superseded three days later by the 'Do Over' re-cut.",
+          "consensus": "Caída del hardware estándar a mediados de agosto, reemplazada tres días después por la nueva versión 'Do Over'.",
           "forumUrl": "https://community.sunnypilot.ai/t/terrible-super-fantastic-model-august-12-2026/6764",
           "testedOn": [],
           "positives": [],
@@ -1494,7 +1494,7 @@
           "tags": [
             "Experimental"
           ],
-          "consensus": "Follow-up to the August 5 RDF Model. Second iteration of the same line on standard hardware.",
+          "consensus": "Seguimiento al Modelo RDF del 5 de agosto. Segunda iteración de la misma línea en hardware estándar.",
           "forumUrl": "https://community.sunnypilot.ai/t/rdf-model-v2-august-11-2026/6763",
           "testedOn": [],
           "positives": [],
@@ -1523,7 +1523,7 @@
           "consensus": "Ajustado por Yassine/MVL con notables mejoras longitudinales frente a POP y CD210. Ofrece arranques y frenadas suaves y gran control en curvas de autopista.",
           "note": "Recomendado combinar con los últimos ajustes MVL para plataformas Honda y Hyundai.",
           "bestFor": "Autopista / Tráfico denso",
-          "steeringFeel": "Firme y Asertivo",
+          "steeringFeel": "asertivo",
           "forumUrl": "https://community.sunnypilot.ai/t/rdf-model-august-5-2026/6569",
           "testedOn": [
             "2022 Honda Civic",
@@ -1573,8 +1573,8 @@
           },
           "consensus": "Modelo experimental que utiliza capacitación fuera de las políticas: aprende de las correcciones en lugar de simplemente clonar. Mejor centrado en carretera y rearmado lateral más rápido en comparación con WMI V12. Sin embargo, el modo experimental largo se siente entrecortado y los giros bruscos pueden suponer un paso atrás. Buen potencial para los conductores centrados en las carreteras.",
           "note": "\"Fuera de política\" significa que aprendió de datos en los que el comportamiento del modelo difería de la acción del conductor humano, lo que le permitió aprender de las correcciones de manera más efectiva que la clonación estándar.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
+          "bestFor": "Carretera",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Hyundai Ioniq 5",
             "Honda Civic",
@@ -1603,8 +1603,8 @@
           },
           "consensus": "Segunda iteración de capacitación fuera de políticas. Se elogia el rendimiento lateral: no abraza el lado izquierdo y es menos abrazado en las curvas de carretera a 70+. Sin embargo, el control longitudinal es una regresión notable: se reportan comúnmente frenadas tardías, movimientos elásticos detrás de los autos que van en cabeza y distancias de seguimiento exageradas. Mejor en coma 4; Resultados mixtos en otras plataformas.",
           "note": "Fuertes mejoras laterales con respecto a la v1, pero es necesario mejorar el control prolongado. La opinión de la comunidad está dividida: algunos aman el lat, otros no pueden tolerar el comportamiento prolongado.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
+          "bestFor": "Carretera",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Hyundai Elantra HEV",
             "Mazda CX-5",
@@ -1636,8 +1636,8 @@
           },
           "consensus": "Tercera iteración altamente elogiada del entrenamiento off-policy. La comunidad la describe como una versión 'Mad Max' de CD210/WMI — respuesta longitudinal rápida con mejor control lateral que sus predecesores. Incluye integración PlanPlus para agresividad personalizable de centrado de carril. Calificada con A+ por los primeros probadores.",
           "note": "Inconsistencia menor en el seguimiento de distancia con el vehículo líder y oscilaciones ocasionales a velocidad de autopista. La integración PlanPlus permite ajustar el centrado de carril vs. adhesión a curvas.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
+          "bestFor": "Carretera",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Hyundai Sonata 2022",
             "Rivian R1T (2022-2024)",
@@ -1679,8 +1679,8 @@
           },
           "consensus": "Cuarta iteración del entrenamiento off-policy con mejor manejo del sobreviraje comparado con v2. Excelente centrado de carril y conducción suave en ciudad cuando se combina con SCC-V. Sin embargo, muestra vacilación al seguir un vehículo líder y tiende a conducir más lento que el tráfico circundante sin vehículo líder.",
           "note": "SCC-V fuertemente recomendado para manejo seguro de velocidad en curvas. La aceleración vacilante al seguir vehículos líderes es el principal inconveniente vs WMI/CD210.",
-          "bestFor": "City Driving",
-          "steeringFeel": "Balanced",
+          "bestFor": "Conducción urbana",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "2025 Hyundai Ioniq 5",
             "2023 Toyota RAV4 Prime",
@@ -1719,8 +1719,8 @@
           },
           "consensus": "Quinta iteración del entrenamiento off-policy con significativamente más retroalimentación comunitaria ahora. Mejora en curvas respecto a v4 — toma curvas más amplias y alejadas de los bordillos. Buen rendimiento a velocidades altas (más de 50 km/h). Sin embargo, la mayoría lo califica como 'OK' con regresiones notables: bajo rendimiento a baja velocidad, seguimiento de carril y en intersecciones. Ping-ponging significativo a baja velocidad reportado en Prius Prime.",
           "note": "El consenso de la comunidad ha cambiado — la mayoría lo encuentra mediocre. Torque Tune v0 recomendado.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
+          "bestFor": "Carretera",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "2026 Hyundai Ioniq 5",
             "2023 Lexus RC",
@@ -1769,8 +1769,8 @@
             "bad": 7
           },
           "consensus": "Modelo original 'implacable'. Sigue siendo popular para una conducción asertiva. Menos refinado que el v2 pero con carácter crudo.",
-          "bestFor": "Aggressive Driving",
-          "steeringFeel": "Stiff",
+          "bestFor": "Conducción agresiva",
+          "steeringFeel": "rígido",
           "testedOn": [
             "Ford F-150",
             "Toyota Tacoma",
@@ -1798,8 +1798,8 @@
           },
           "consensus": "El flujo directo de desarrolladores, sin filtrar, procedente del pipeline de entrenamiento SOTA (State-of-the-Art) de comma.ai. Es la vanguardia absoluta de la inteligencia de openpilot, actualizándose casi todos los días con los datos del 'firehose' global. ALTO RIESGO, ALTA RECOMPENSA: a menudo contiene los últimos avances en planificación de trayectoria y visión, pero aún no ha pasado por la validación a largo plazo requerida para una versión estándar.",
           "note": "Nota técnica: Este modelo es el resultado directo del entrenamiento continuo. Espere cambios radicales de comportamiento día a día. Si encuentra una versión 'regresiva', simplemente espere a la próxima actualización diaria o regrese a una serie estable.",
-          "bestFor": "Testing & SOTA Research",
-          "steeringFeel": "Volatile (Varies by Drop)",
+          "bestFor": "Pruebas e investigación SOTA",
+          "steeringFeel": "Volátil (varía según la gota)",
           "testedOn": [
             "Lexus IS",
             "Lexus RX 350",
@@ -1825,8 +1825,8 @@
             "bad": 7
           },
           "consensus": "Probando un nuevo algoritmo de planificador lateral. Muy experimental: para desarrolladores y evaluadores.",
-          "bestFor": "Development",
-          "steeringFeel": "Balanced",
+          "bestFor": "Desarrollo",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Test vehicles"
           ],
@@ -1849,8 +1849,8 @@
             "bad": 12
           },
           "consensus": "Modelo presentado en la conferencia NeurIPS AI. Mostrar tecnología con enfoque académico.",
-          "bestFor": "Research",
-          "steeringFeel": "Balanced",
+          "bestFor": "Investigación",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Research vehicles"
           ],
@@ -1873,8 +1873,8 @@
             "bad": 7
           },
           "consensus": "Modelo de conferencia original. Interesante para fines de investigación.",
-          "bestFor": "Research",
-          "steeringFeel": "Balanced",
+          "bestFor": "Investigación",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Research vehicles"
           ]
@@ -1895,8 +1895,8 @@
             "bad": 6
           },
           "consensus": "Experimental longitudinal (gas/brake) behavior. Unique aceleración and frenado feel.",
-          "bestFor": "Experimentation",
-          "steeringFeel": "Balanced",
+          "bestFor": "Experimentación",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ],
@@ -1927,8 +1927,8 @@
             "bad": 6
           },
           "consensus": "Versión DTR anterior. Sigue siendo suave y cómodo, un poco menos refinado que el v6.",
-          "bestFor": "Passengers",
-          "steeringFeel": "Light",
+          "bestFor": "Pasajeros",
+          "steeringFeel": "Luz",
           "testedOn": [
             "Hyundai Palisade",
             "Toyota Camry"
@@ -1951,8 +1951,8 @@
             "bad": 7
           },
           "consensus": "Modelo liso con temática espacial con transiciones suaves y una sensación relajada.",
-          "bestFor": "Relaxed Driving",
-          "steeringFeel": "Light",
+          "bestFor": "Conducción relajada",
+          "steeringFeel": "Luz",
           "testedOn": [
             "Most sedans"
           ],
@@ -1974,8 +1974,8 @@
             "bad": 5
           },
           "consensus": "Iteración anterior del Laboratorio Espacial. Buen confort básico.",
-          "bestFor": "Relaxed Driving",
-          "steeringFeel": "Light",
+          "bestFor": "Conducción relajada",
+          "steeringFeel": "Luz",
           "testedOn": [
             "Toyota Camry",
             "Honda Accord"
@@ -2001,8 +2001,8 @@
           },
           "consensus": "Melodía personalizada que elimina la sensación 'robótica'. Entradas de dirección muy naturales y parecidas a las humanas.",
           "note": "El favorito de la comunidad por su sensación de conducción natural.",
-          "bestFor": "Natural Feel",
-          "steeringFeel": "Balanced",
+          "bestFor": "Sensación natural",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various Hyundai/Kia",
             "Kia Sportage PHEV"
@@ -2026,8 +2026,8 @@
             "bad": 6
           },
           "consensus": "Fusión de 'Unlimited Vision' y 'Down to Ride'. Combina visibilidad con comodidad.",
-          "bestFor": "Mixed Driving",
-          "steeringFeel": "Light",
+          "bestFor": "Conducción mixta",
+          "steeringFeel": "Luz",
           "testedOn": [
             "Toyota",
             "Honda"
@@ -2051,8 +2051,8 @@
             "bad": 11
           },
           "consensus": "Modelo Legacy Comfort con entradas muy suaves. Centrado en el pasajero.",
-          "bestFor": "Passengers",
-          "steeringFeel": "Light",
+          "bestFor": "Pasajeros",
+          "steeringFeel": "Luz",
           "testedOn": [
             "Toyota",
             "Honda sedans"
@@ -2077,10 +2077,10 @@
             "ok": 85,
             "bad": 6
           },
-          "consensus": "The original Space Lab. Responsive and well-centered at medium and high speeds with good experimental longitudinal, offset by scary low-speed jerkiness, oversteer on left turns, and a general left bias.",
-          "note": "First of the Space Lab series.",
-          "bestFor": "Highway",
-          "steeringFeel": "Twitchy",
+          "consensus": "El laboratorio espacial original. Responsivo y bien centrado a velocidades medias y altas con buena longitudinal experimental, compensado por espantosas sacudidas a baja velocidad, sobreviraje en giros a la izquierda y una inclinación general hacia la izquierda.",
+          "note": "Primero de la serie Space Lab.",
+          "bestFor": "Carretera",
+          "steeringFeel": "nervioso",
           "testedOn": [
             "2025 Ioniq 5",
             "'21 Niro"
@@ -2112,8 +2112,8 @@
           },
           "consensus": "¡CLÁSICO DE CULTO! A menudo llamada \"Carpeta Papelera 16\". El MEJOR manejo en curvas de cualquier modelo 2025.",
           "note": "Conduce sobre raíles por caminos sinuosos.",
-          "bestFor": "Curvy Roads",
-          "steeringFeel": "Balanced",
+          "bestFor": "Carreteras con curvas",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Hyundai",
             "Kia",
@@ -2138,8 +2138,8 @@
             "bad": 9
           },
           "consensus": "Predecesor de TR16. Buen manejo en curvas pero un poco menos refinado.",
-          "bestFor": "Curvy Roads",
-          "steeringFeel": "Balanced",
+          "bestFor": "Carreteras con curvas",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Hyundai",
             "Toyota"
@@ -2160,8 +2160,8 @@
             "bad": 4
           },
           "consensus": "Variante con nombre francés. Un tenedor experimental con características únicas.",
-          "bestFor": "Experimentation",
-          "steeringFeel": "Balanced",
+          "bestFor": "Experimentación",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ]
@@ -2181,8 +2181,8 @@
             "bad": 7
           },
           "consensus": "Iteración estándar TR14. Se sentaron las bases para TR15 y TR16.",
-          "bestFor": "Experimentation",
-          "steeringFeel": "Balanced",
+          "bestFor": "Experimentación",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ]
@@ -2202,8 +2202,8 @@
             "bad": 8
           },
           "consensus": "Serie TR anterior. Base para las características de manejo de curvas.",
-          "bestFor": "Experimentation",
-          "steeringFeel": "Balanced",
+          "bestFor": "Experimentación",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ]
@@ -2224,8 +2224,8 @@
             "bad": 15
           },
           "consensus": "Sintonía agresiva de la serie TR. Combina el manejo de curvas con entradas asertivas.",
-          "bestFor": "Sporty Driving",
-          "steeringFeel": "Stiff",
+          "bestFor": "Conducción deportiva",
+          "steeringFeel": "rígido",
           "testedOn": [
             "Sporty vehicles"
           ],
@@ -2247,8 +2247,8 @@
             "bad": 13
           },
           "consensus": "Primera serie TR. Fundación para versiones posteriores.",
-          "bestFor": "Historical",
-          "steeringFeel": "Balanced",
+          "bestFor": "Histórico",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ]
@@ -2269,8 +2269,8 @@
             "bad": 13
           },
           "consensus": "Perfil de frenado suave optimizado para híbridos. Maximiza el frenado regenerativo.",
-          "bestFor": "Hybrids/EVs",
-          "steeringFeel": "Light",
+          "bestFor": "Híbridos/EV",
+          "steeringFeel": "Luz",
           "testedOn": [
             "Toyota Prius",
             "Hyundai Ioniq"
@@ -2293,8 +2293,8 @@
             "bad": 7
           },
           "consensus": "El nombre de la marca de mantequilla: \"Suave como mantequilla\". Entradas muy suaves.",
-          "bestFor": "Comfort",
-          "steeringFeel": "Light",
+          "bestFor": "Comodidad",
+          "steeringFeel": "Luz",
           "testedOn": [
             "Sedans"
           ],
@@ -2316,8 +2316,8 @@
             "bad": 2
           },
           "consensus": "Experimental TR-era model with unique dirección characteristics.",
-          "bestFor": "Experimentation",
-          "steeringFeel": "Balanced",
+          "bestFor": "Experimentación",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ],
@@ -2340,8 +2340,8 @@
             "bad": 0
           },
           "consensus": "El nombre lo dice todo: ¡una joya escondida! Sorprendentemente buen rendimiento general.",
-          "bestFor": "All-Around",
-          "steeringFeel": "Balanced",
+          "bestFor": "Todo alrededor",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various Hyundai/Kia"
           ],
@@ -2364,8 +2364,8 @@
             "bad": 6
           },
           "consensus": "Modelo de planificación simplificado. Comportamiento confiable y predecible.",
-          "bestFor": "Reliability",
-          "steeringFeel": "Balanced",
+          "bestFor": "Fiabilidad",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Most vehicles"
           ]
@@ -2387,9 +2387,9 @@
             "ok": 73,
             "bad": 12
           },
-          "consensus": "Drives much like SP Vikander laterally with slightly better longitudinal, making it a daily driver for several testers. Great at low-speed curves, but heavy lane-line riding on some cars, notably the 2025 Ioniq 5 and RAV4 Prime.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
+          "consensus": "Se conduce de manera muy similar al SP Vikander lateralmente con una longitudinal ligeramente mejor, lo que lo convierte en un conductor diario para varios probadores. Excelente en curvas de baja velocidad, pero con líneas de carril pesadas en algunos autos, en particular el Ioniq 5 2025 y el RAV4 Prime.",
+          "bestFor": "Carretera",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "2025 Ioniq 5",
             "RAV4 Prime",
@@ -2413,9 +2413,9 @@
             "ok": 71,
             "bad": 15
           },
-          "consensus": "A TR14 variant that sits slightly more centered in lane but feels hesitant, making larger steering inputs on city turns. Outstanding on windy mountain back roads despite an annoying left bias.",
-          "bestFor": "Curvy Roads",
-          "steeringFeel": "Confident",
+          "consensus": "Una variante TR14 que se ubica un poco más centrada en el carril pero se siente vacilante, lo que hace mayores movimientos de dirección en los giros en la ciudad. Excelente en carreteras secundarias de montaña con curvas a pesar de una molesta inclinación hacia la izquierda.",
+          "bestFor": "Carreteras con curvas",
+          "steeringFeel": "confiado",
           "testedOn": [
             "'23 GV60",
             "2021 Lexus NX300",
@@ -2445,8 +2445,8 @@
             "bad": 34
           },
           "consensus": "La iteración de finales de 2025 se une a la serie 2026. Más estable que las primeras versiones de WMI.",
-          "bestFor": "Mixed Driving",
-          "steeringFeel": "Balanced",
+          "bestFor": "Conducción mixta",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ]
@@ -2466,8 +2466,8 @@
             "bad": 0
           },
           "consensus": "Modelo mundial de desarrollo medio. Bien probado por la comunidad.",
-          "bestFor": "Mixed Driving",
-          "steeringFeel": "Balanced",
+          "bestFor": "Conducción mixta",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ]
@@ -2487,8 +2487,8 @@
             "bad": 10
           },
           "consensus": "Modelo mundial estable anterior. Menos inteligente pero confiable.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
+          "bestFor": "Carretera",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ]
@@ -2508,8 +2508,8 @@
             "bad": 8
           },
           "consensus": "Tercera iteración del modelo mundial. Fundación para lanzamientos estables.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
+          "bestFor": "Carretera",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ]
@@ -2529,8 +2529,8 @@
             "bad": 10
           },
           "consensus": "Iteración del modelo del Segundo Mundo. Experimento temprano de E2E que se mostró prometedor.",
-          "bestFor": "Historical",
-          "steeringFeel": "Balanced",
+          "bestFor": "Histórico",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Test vehicles"
           ]
@@ -2550,8 +2550,8 @@
             "bad": 9
           },
           "consensus": "La iteración ORIGINAL del modelo mundial. Comenzó la revolución E2E en Sunnypilot.",
-          "bestFor": "Historical",
-          "steeringFeel": "Balanced",
+          "bestFor": "Histórico",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Test vehicles"
           ]
@@ -2571,8 +2571,8 @@
             "bad": 9
           },
           "consensus": "Experimento del planificador lateral. Predecesor de Planplus v2.",
-          "bestFor": "Development",
-          "steeringFeel": "Balanced",
+          "bestFor": "Desarrollo",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Test vehicles"
           ],
@@ -2594,8 +2594,8 @@
             "bad": 9
           },
           "consensus": "Modelo de planificación a corto plazo. Centrado en decisiones de camino inmediato.",
-          "bestFor": "Experimentation",
-          "steeringFeel": "Balanced",
+          "bestFor": "Experimentación",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ]
@@ -2615,8 +2615,8 @@
             "bad": 9
           },
           "consensus": "Variante genérica del modelo mundial creada por la comunidad.",
-          "bestFor": "All-Around",
-          "steeringFeel": "Balanced",
+          "bestFor": "Todo alrededor",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ],
@@ -2638,8 +2638,8 @@
             "bad": 6
           },
           "consensus": "Modelo Mundial Genérico versión 9. Rendimiento estándar.",
-          "bestFor": "All-Around",
-          "steeringFeel": "Balanced",
+          "bestFor": "Todo alrededor",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ],
@@ -2660,8 +2660,8 @@
             "bad": 8
           },
           "consensus": "Tercera iteración del modelo impulsado por la comunidad. Desarrollo activo.",
-          "bestFor": "All-Around",
-          "steeringFeel": "Balanced",
+          "bestFor": "Todo alrededor",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ],
@@ -2683,8 +2683,8 @@
             "bad": 9
           },
           "consensus": "Segunda versión del modelo comunitario. Mejorado en comentarios.",
-          "bestFor": "All-Around",
-          "steeringFeel": "Balanced",
+          "bestFor": "Todo alrededor",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ],
@@ -2707,8 +2707,8 @@
             "bad": 8
           },
           "consensus": "Modelo original impulsado por la comunidad. 'Por el pueblo, para el pueblo.'",
-          "bestFor": "All-Around",
-          "steeringFeel": "Balanced",
+          "bestFor": "Todo alrededor",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ]
@@ -2729,8 +2729,8 @@
           },
           "consensus": "Ejecución de entrenamiento experimental con nombre de meme. Inconsistente pero divertido.",
           "note": "No lo utilice para la conducción diaria.",
-          "bestFor": "Fun",
-          "steeringFeel": "Varies",
+          "bestFor": "Diversión",
+          "steeringFeel": "Varía",
           "testedOn": [
             "Brave testers"
           ],
@@ -2752,8 +2752,8 @@
             "bad": 9
           },
           "consensus": "Versión actualizada del benchmark estable. Refinado centrado de carril.",
-          "bestFor": "All-Around",
-          "steeringFeel": "Balanced",
+          "bestFor": "Todo alrededor",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Most vehicles"
           ],
@@ -2776,8 +2776,8 @@
             "bad": 7
           },
           "consensus": "Punto de referencia estable temprano. Estableció la línea de base \"neutral\".",
-          "bestFor": "All-Around",
-          "steeringFeel": "Balanced",
+          "bestFor": "Todo alrededor",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Most vehicles"
           ]
@@ -2797,8 +2797,8 @@
             "bad": 5
           },
           "consensus": "Modelo neuronal genérico versión 8. Rendimiento básico sólido.",
-          "bestFor": "All-Around",
-          "steeringFeel": "Balanced",
+          "bestFor": "Todo alrededor",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ],
@@ -2820,8 +2820,8 @@
             "bad": 4
           },
           "consensus": "Modelo neuronal genérico versión 6. Menos refinado que v8.",
-          "bestFor": "Experimentation",
-          "steeringFeel": "Balanced",
+          "bestFor": "Experimentación",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ],
@@ -2843,8 +2843,8 @@
             "bad": 5
           },
           "consensus": "Modelo Neural Genérico versión 5. Desarrollo intermedio.",
-          "bestFor": "Experimentation",
-          "steeringFeel": "Balanced",
+          "bestFor": "Experimentación",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ]
@@ -2865,8 +2865,8 @@
             "bad": 6
           },
           "consensus": "Modelo neuronal genérico temprano. Interés histórico.",
-          "bestFor": "Historical",
-          "steeringFeel": "Balanced",
+          "bestFor": "Histórico",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Test vehicles"
           ]
@@ -2889,8 +2889,8 @@
           },
           "consensus": "Nombrado en honor a los sistemas de control de aviones. Sensación suave y filtrada como volar.",
           "note": "Minimal dirección wheel movement.",
-          "bestFor": "Highway",
-          "steeringFeel": "Light",
+          "bestFor": "Carretera",
+          "steeringFeel": "Luz",
           "testedOn": [
             "Sedans",
             "SUVs"
@@ -2913,8 +2913,8 @@
             "bad": 7
           },
           "consensus": "Experimental merge. Unique dirección some users love.",
-          "bestFor": "Experimentation",
-          "steeringFeel": "Balanced",
+          "bestFor": "Experimentación",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ],
@@ -2936,8 +2936,8 @@
             "bad": 4
           },
           "consensus": "Sintonización específica de Sunnypilot. Optimizado para esta bifurcación.",
-          "bestFor": "All-Around",
-          "steeringFeel": "Balanced",
+          "bestFor": "Todo alrededor",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Sunnypilot vehicles"
           ],
@@ -2960,8 +2960,8 @@
             "bad": 10
           },
           "consensus": "Modelo original 'pez'. Perfil de frenado suave. Importancia histórica.",
-          "bestFor": "Comfort",
-          "steeringFeel": "Light",
+          "bestFor": "Comodidad",
+          "steeringFeel": "Luz",
           "testedOn": [
             "Various sedans"
           ],
@@ -2985,9 +2985,9 @@
             "ok": 50,
             "bad": 0
           },
-          "consensus": "The original Down to Ride, built on the TR7 vision model. An early personal favorite for lateral control, though longitudinal lagged behind and some testers hit a heavy right-of-lane bias.",
-          "bestFor": "Historical",
-          "steeringFeel": "Balanced",
+          "consensus": "El Down to Ride original, construido sobre el modelo de visión TR7. Uno de los primeros favoritos personales para el control lateral, aunque el longitudinal se quedó atrás y algunos evaluadores alcanzaron una fuerte tendencia hacia la derecha del carril.",
+          "bestFor": "Histórico",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "'21 Niro"
           ]
@@ -3009,10 +3009,10 @@
             "ok": 72,
             "bad": 6
           },
-          "consensus": "A smooth daily driver with a slight preference for the left lane line. Comparable to SP Vikander laterally but a touch lazier into turns, sometimes needing help to finish a sharp one.",
-          "note": "Rated by testers around 10/10 lateral and 6/10 longitudinal.",
-          "bestFor": "All-Around",
-          "steeringFeel": "Ultra-Smooth",
+          "consensus": "Un conductor diario tranquilo con una ligera preferencia por la línea del carril izquierdo. Comparable a SP Vikander lateralmente, pero un poco más perezoso en los giros, y a veces necesita ayuda para finalizar uno fuerte.",
+          "note": "Calificado por los evaluadores alrededor de 10/10 lateral y 6/10 longitudinal.",
+          "bestFor": "Todo alrededor",
+          "steeringFeel": "Ultrasuave",
           "testedOn": [
             "'21 Hyundai",
             "Mazda CX-5",
@@ -3036,9 +3036,9 @@
             "ok": 83,
             "bad": 4
           },
-          "consensus": "Lateral so smooth testers double-checked whether NNLC was enabled, and the first model to very nearly come to a complete stop at a red light. Curve handling split opinion — some cars took them wide enough to cross the line.",
-          "bestFor": "Comfort / Stop-and-Go",
-          "steeringFeel": "Ultra-Smooth",
+          "consensus": "Los probadores laterales tan suaves verificaron dos veces si NNLC estaba habilitado y el primer modelo casi se detuvo por completo en un semáforo en rojo. El manejo de las curvas tiene opiniones divididas: algunos autos las ampliaron lo suficiente como para cruzar la línea.",
+          "bestFor": "Comodidad / Parar y arrancar",
+          "steeringFeel": "Ultrasuave",
           "testedOn": [
             "Ioniq 6",
             "2022 Rivian R1T",
@@ -3061,9 +3061,9 @@
             "ok": 63,
             "bad": 9
           },
-          "consensus": "Kerrygold v2. Impressive over long distances and confident on country roads with poor lane markings, but noticeably inconsistent when there is no lead car to follow.",
-          "bestFor": "Curvy Roads",
-          "steeringFeel": "Balanced",
+          "consensus": "Kerrygold v2. Impresionante en distancias largas y seguro en carreteras rurales con malas marcas de carril, pero notablemente inconsistente cuando no hay un coche líder a quien seguir.",
+          "bestFor": "Carreteras con curvas",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "23 Kona EV",
             "'17 Ioniq 28kWh"
@@ -3085,9 +3085,9 @@
             "ok": 87,
             "bad": 1
           },
-          "consensus": "Decisive and solid when it recognizes a turn, and notably willing to stop at stop signs. Highway manners were smooth, but some testers hit road-departure scares reminiscent of Falling Phoenix.",
-          "bestFor": "City Driving",
-          "steeringFeel": "Balanced",
+          "consensus": "Resolutivo y sólido cuando reconoce una curva, y especialmente dispuesto a detenerse ante las señales de alto. Los modales en la carretera fueron fluidos, pero algunos probadores sufrieron sustos al salirse de la carretera que recuerdan a Falling Phoenix.",
+          "bestFor": "Conducción urbana",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "2025 HKG"
           ]
@@ -3109,10 +3109,10 @@
             "ok": 74,
             "bad": 7
           },
-          "consensus": "Very smooth longitudinal in experimental mode and on rails for highway driving, but it does not scooch for semis, and at least one tester had it confidently steer toward a curb mid-turn.",
-          "note": "The start of the long-running gWM series.",
-          "bestFor": "Highway (with supervision)",
-          "steeringFeel": "Twitchy",
+          "consensus": "Longitudinal muy suave en modo experimental y sobre rieles para conducción en carretera, pero no se desliza para semis, y al menos un evaluador lo hizo girar con confianza hacia una acera en mitad de una curva.",
+          "note": "El comienzo de la serie gWM de larga duración.",
+          "bestFor": "Carretera (con supervisión)",
+          "steeringFeel": "nervioso",
           "testedOn": [
             "2025 Ioniq 5",
             "'25 EV6"
@@ -3134,9 +3134,9 @@
             "ok": 79,
             "bad": 3
           },
-          "consensus": "Stays centered nicely with NNLC on and delivers smooth highway longitudinal, though testers found it hard to tell apart from other competent models of the period. Right hug remained a real problem on the 2024 Ioniq 5.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
+          "consensus": "Se mantiene bien centrado con NNLC activado y ofrece una carretera longitudinal suave, aunque a los evaluadores les resultó difícil diferenciarlo de otros modelos competentes de la época. El abrazo derecho siguió siendo un problema real en el Ioniq 5 2024.",
+          "bestFor": "Carretera",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Niro PHEV",
             "2024 Ioniq 5"
@@ -3158,9 +3158,9 @@
             "ok": 83,
             "bad": 2
           },
-          "consensus": "A favorite for windy mountain roads — extremely torquey through turns and stays planted, with a fair left bias. Longitudinal regressed against gWM3, and its cautious braking drew complaints in highway traffic.",
-          "bestFor": "Curvy Roads",
-          "steeringFeel": "Confident",
+          "consensus": "Un favorito para caminos de montaña con curvas: extremadamente dinámico en las curvas y se mantiene firme, con una inclinación justa hacia la izquierda. El Longitudinal retrocedió frente al gWM3 y su frenado cauteloso provocó quejas en el tráfico de las autopistas.",
+          "bestFor": "Carreteras con curvas",
+          "steeringFeel": "confiado",
           "testedOn": [
             "Various"
           ]
@@ -3181,9 +3181,9 @@
             "ok": 75,
             "bad": 10
           },
-          "consensus": "Preferred over Nevada by several testers, with excellent requested torque and dependable highway behavior. No successful stop-sign stops, and it gradually drifts toward riding the left line in city driving.",
-          "bestFor": "City Driving",
-          "steeringFeel": "Balanced",
+          "consensus": "Preferido por varios evaluadores sobre Nevada, con un excelente torque solicitado y un comportamiento confiable en carretera. Ninguna señal de alto se detiene exitosamente y gradualmente se desplaza hacia la línea izquierda en la conducción urbana.",
+          "bestFor": "Conducción urbana",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "'21 Niro",
             "'23 GV60"
@@ -3215,8 +3215,8 @@
           },
           "consensus": "EL modelo heredado más confiable. El 'Toyota Camry' de los modelos: aburrido, predecible y sólido como una roca.",
           "note": "INQUEBRANTABLE en las carreteras. Malo en señal de altos.",
-          "bestFor": "Road Trips",
-          "steeringFeel": "Balanced",
+          "bestFor": "Viajes por carretera",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "All compatible vehicles",
             "Kia Sportage PHEV"
@@ -3242,8 +3242,8 @@
           },
           "consensus": "Conocido por dirección SUPER RÍGIDA. Abraza al carril central y SE NIEGA a moverse. Sobre rieles.",
           "note": "Puede parecer robótico pero increíblemente estable.",
-          "bestFor": "Highway",
-          "steeringFeel": "Heavy",
+          "bestFor": "Carretera",
+          "steeringFeel": "pesado",
           "testedOn": [
             "Most vehicles"
           ],
@@ -3268,8 +3268,8 @@
           },
           "consensus": "Llamado así porque \"lubricaba\" la rigidez de Dakota del Norte. Lo mejor de ambos mundos.",
           "note": "Centrado estable sin sensación robótica.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
+          "bestFor": "Carretera",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Most vehicles"
           ],
@@ -3291,8 +3291,8 @@
             "bad": 1
           },
           "consensus": "Modelo heredado sólido. El nombre de la catedral, construido para durar.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
+          "bestFor": "Carretera",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ],
@@ -3314,8 +3314,8 @@
             "bad": 7
           },
           "consensus": "Predecesor del herbolario recertificado. Sigue siendo bueno pero menos pulido.",
-          "bestFor": "Highway",
-          "steeringFeel": "Balanced",
+          "bestFor": "Carretera",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various"
           ],
@@ -3340,8 +3340,8 @@
           },
           "consensus": "El 'VISION KING' de los modelos más antiguos. EXCELENTE bajo lluvia o malas marcas de carril.",
           "note": "Puede ver carriles que otros modelos pasan por alto.",
-          "bestFor": "Bad Weather",
-          "steeringFeel": "Balanced",
+          "bestFor": "Mal tiempo",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "All compatible vehicles"
           ]
@@ -3360,10 +3360,10 @@
             "ok": 67,
             "bad": 0
           },
-          "consensus": "Modelo muy antigua de 2023. Mayormente en desuso.",
+          "consensus": "Modelo muy antiguo de 2023. Mayormente obsoleto.",
           "note": "Sólo interés histórico. No lo utilice para la conducción diaria.",
-          "bestFor": "Historical",
-          "steeringFeel": "Balanced",
+          "bestFor": "Histórico",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Legacy vehicles"
           ]
@@ -3385,10 +3385,10 @@
             "ok": 93,
             "bad": 0
           },
-          "consensus": "Widely accepted as a huge leap forward in lateral control. Known for moving path planning into the model for the first time, which made it a lasting community favorite of the 2023 era.",
-          "note": "Shipped under the name 'Nightstrike' in some sunnypilot builds, which caused persistent naming confusion.",
-          "bestFor": "Historical",
-          "steeringFeel": "Balanced",
+          "consensus": "Ampliamente aceptado como un gran avance en el control lateral. Conocido por incorporar la planificación de rutas al modelo por primera vez, lo que lo convirtió en un favorito duradero de la comunidad en la era 2023.",
+          "note": "Se envía con el nombre 'Nightstrike' en algunas versiones de Sunnypilot, lo que provocó una confusión persistente en los nombres.",
+          "bestFor": "Histórico",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Various HKG"
           ]
@@ -3409,9 +3409,9 @@
             "ok": 63,
             "bad": 33
           },
-          "consensus": "Experimental model rumored to improve on the FarmVille series' longitudinal control. Testers noted it prepares for yellow lights unusually well and takes a more comfortable line through curves instead of rigidly holding lane center.",
-          "bestFor": "Historical",
-          "steeringFeel": "Smooth",
+          "consensus": "Se rumorea que el modelo experimental mejora el control longitudinal de la serie FarmVille. Los evaluadores notaron que se prepara inusualmente bien para las luces amarillas y toma una línea más cómoda en las curvas en lugar de mantenerse rígidamente en el centro del carril.",
+          "bestFor": "Histórico",
+          "steeringFeel": "Suave",
           "testedOn": [
             "23 Sonata SE",
             "Honda Pilot"
@@ -3433,10 +3433,10 @@
             "ok": 63,
             "bad": 16
           },
-          "consensus": "Handled the basics better than any other model of its era for several testers. Plans its trajectory well when road markings are obscured by snow and picks up stop signs early at night, though it hugs lane lines on curves.",
-          "note": "Polarizing: excellent on Honda Pilot and Kona EV, poor lane changes reported by others.",
-          "bestFor": "Bad Weather",
-          "steeringFeel": "Balanced",
+          "consensus": "Manejó lo básico mejor que cualquier otro modelo de su época para varios evaluadores. Planifica bien su trayectoria cuando las marcas viales están oscurecidas por la nieve y detecta las señales de alto temprano en la noche, aunque se ciñe a las líneas de los carriles en las curvas.",
+          "note": "Polarización: excelente en Honda Pilot y Kona EV, cambios de carril deficientes informados por otros.",
+          "bestFor": "Mal tiempo",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "2020 Honda Pilot",
             "23 Kona EV"
@@ -3459,10 +3459,10 @@
             "ok": 82,
             "bad": 4
           },
-          "consensus": "The first model many testers saw complete a 90-degree turn at a 4-way stop. Solid, regression-free daily driving for its era, occasionally riding the lane line through sharp curves.",
-          "note": "Introduced the action/desiredCurvature interface that later models built on.",
-          "bestFor": "Historical",
-          "steeringFeel": "Balanced",
+          "consensus": "El primer modelo que muchos evaluadores vieron completar un giro de 90 grados en una parada de 4 vías. Conducción diaria sólida y sin regresiones para su época, recorriendo ocasionalmente la línea del carril en curvas cerradas.",
+          "note": "Se introdujo la interfaz action/desiredCurvature en la que se basaron los modelos posteriores.",
+          "bestFor": "Histórico",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "23 F-150",
             "Various"
@@ -3485,9 +3485,9 @@
             "ok": 77,
             "bad": 6
           },
-          "consensus": "Major lateral architecture changes but rough on arrival — several testers reported it riding the center yellow line toward oncoming traffic. Others called it the best of its era once running on dev-c3.",
-          "bestFor": "Historical",
-          "steeringFeel": "Twitchy",
+          "consensus": "Cambios importantes en la arquitectura lateral, pero difíciles al llegar: varios evaluadores informaron que circulaba por la línea amarilla central hacia el tráfico que se aproximaba. Otros lo llamaron el mejor de su época una vez que se ejecutó en dev-c3.",
+          "bestFor": "Histórico",
+          "steeringFeel": "nervioso",
           "testedOn": [
             "Various"
           ]
@@ -3508,10 +3508,10 @@
             "ok": 80,
             "bad": 6
           },
-          "consensus": "Makes better left and right turns than the Los Angeles series with improved object detection, and smoother longitudinal than LA v3 for some testers.",
-          "note": "Reverted from comma master over uncommanded lane changes; superseded by v2.",
-          "bestFor": "Historical",
-          "steeringFeel": "Balanced",
+          "consensus": "Realiza mejores giros a la izquierda y a la derecha que la serie de Los Ángeles con una detección de objetos mejorada y un longitudinal más suave que LA v3 para algunos evaluadores.",
+          "note": "Se revirtió del modo maestro de coma por cambios de carril no ordenados; reemplazado por v2.",
+          "bestFor": "Histórico",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Kia Niro EV"
           ]
@@ -3533,10 +3533,10 @@
             "ok": 75,
             "bad": 2
           },
-          "consensus": "Community merge blending the Down to Ride vision model with the TR10 policy. Comfortable and smooth on the highway with clean lane changes, though less assertive than TR7 on city curves and prone to hugging left.",
-          "note": "Deprecated — superseded by later custom merges.",
-          "bestFor": "Relaxed Driving",
-          "steeringFeel": "Smooth",
+          "consensus": "Fusión de la comunidad combinando el modelo de visión Down to Ride con la política TR10. Cómodo y suave en la carretera con cambios de carril limpios, aunque menos asertivo que el TR7 en las curvas de la ciudad y propenso a girar hacia la izquierda.",
+          "note": "En desuso: reemplazado por fusiones personalizadas posteriores.",
+          "bestFor": "Conducción relajada",
+          "steeringFeel": "Suave",
           "testedOn": [
             "RAV4 Prime",
             "'21 Niro",
@@ -3568,9 +3568,9 @@
             "ok": 15,
             "bad": 5
           },
-          "consensus": "Customized for Ford's BlueCruise hardware logic. Excellent torque management for heavy trucks and SUVs.",
-          "bestFor": "Towing & Highway",
-          "steeringFeel": "Stiff",
+          "consensus": "Personalizado para la lógica de hardware BlueCruise de Ford. Excelente gestión del par para camiones pesados ​​y SUV.",
+          "bestFor": "Remolque y autopista",
+          "steeringFeel": "rígido",
           "testedOn": [
             "Ford F-150",
             "Lincoln Navigator"
@@ -3592,9 +3592,9 @@
             "ok": 15,
             "bad": 5
           },
-          "consensus": "Maintained by MVL. Specifically targets the steering deadzone issues present in the Honda Odyssey platform.",
-          "bestFor": "Mixed Driving",
-          "steeringFeel": "Light",
+          "consensus": "Mantenido por MVL. Se dirige específicamente a los problemas de la zona muerta de dirección presentes en la plataforma Honda Odyssey.",
+          "bestFor": "Conducción mixta",
+          "steeringFeel": "Luz",
           "testedOn": [
             "Honda Odyssey"
           ]
@@ -3618,8 +3618,8 @@
           },
           "consensus": "Modelo de imitación e2e temprano para probar planificadores de trayectoria de aprendizaje profundo. Control lateral estable en tramos rectos de autopista, pero muestra ligeras oscilaciones de centrado en carreteras sinuosas. Adaptación de velocidad muy estable, pero tiene dificultades con el avance lento de arranque y parada y el giro cerrado.",
           "note": "⚠️ Exclusivo para openpilot de fábrica. NO disponible en sunnylink/sunnypilot.",
-          "bestFor": "Highway Centering / Testing",
-          "steeringFeel": "Balanced",
+          "bestFor": "Centrado/pruebas de carreteras",
+          "steeringFeel": "equilibrado",
           "testedOn": [
             "Honda Accord Hybrid 2025"
           ],
@@ -3652,8 +3652,8 @@
           },
           "consensus": "Modelo de planificación e2e refinado centrado en el control de velocidad y transiciones de frenado más suaves. Resuelve el balanceo lateral visto en V1 con entradas de dirección mucho más amortiguadas. Sin embargo, el arranque desde parado en tráfico lento es lento, lo que requiere toques activos en el pedal del acelerador por parte del conductor.",
           "note": "⚠️ Exclusivo para openpilot de fábrica. NO disponible en sunnylink/sunnypilot.",
-          "bestFor": "Comfort / Stop-and-Go",
-          "steeringFeel": "Solid",
+          "bestFor": "Comodidad / Parar y arrancar",
+          "steeringFeel": "Sólido",
           "testedOn": [
             "Honda Accord Hybrid 2025"
           ],
@@ -3686,8 +3686,8 @@
           },
           "consensus": "Iteración avanzada con comprensión mejorada de escenas 3D, probada exhaustivamente por @Eyezenheim en el área de la Bahía de SF. Rendimiento sobresaliente al negociar las empinadas calles de San Francisco y la transición fluida al puente de la Bahía de SF. El agarre lateral en curvas es muy seguro y natural, aunque todavía puede cortar las esquinas urbanas de forma un poco ajustada.",
           "note": "⚠️ Exclusivo para openpilot de fábrica. NO disponible en sunnylink/sunnypilot.",
-          "bestFor": "Highway Curves / Urban Driving",
-          "steeringFeel": "Natural",
+          "bestFor": "Curvas en autopista/Conducción urbana",
+          "steeringFeel": "naturales",
           "testedOn": [
             "Honda Accord Hybrid 2025",
             "Hyundai Ioniq 5"
@@ -3718,10 +3718,10 @@
             "ok": 77,
             "bad": 10
           },
-          "consensus": "A torq_bois experiment that takes the laneless idea to new heights. Longitudinal was among the best of its era and turns felt confident, but lateral was twitchy and wandering, with several testers reporting egregious highway lane departures.",
-          "note": "Experimental — not recommended as a daily driver.",
-          "bestFor": "Testing Only",
-          "steeringFeel": "Volatile (Varies by Drop)",
+          "consensus": "Un experimento de torq_bois que lleva la idea sin carriles a nuevas alturas. El longitudinal estuvo entre los mejores de su época y los giros se sentían seguros, pero el lateral era nervioso y errante, y varios evaluadores informaron desviaciones atroces de carril en la autopista.",
+          "note": "Experimental: no recomendado como conductor diario.",
+          "bestFor": "Sólo pruebas",
+          "steeringFeel": "Volátil (varía según la gota)",
           "testedOn": [
             "2025 Ioniq 5",
             "Toyota Sienna"

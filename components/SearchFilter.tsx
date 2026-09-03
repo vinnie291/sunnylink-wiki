@@ -82,7 +82,7 @@ export default function SearchFilter({
                         onFocus={() => document.documentElement.setAttribute('data-search-active', 'true')}
                         onBlur={() => document.documentElement.removeAttribute('data-search-active')}
                         placeholder={resolvedPlaceholder}
-                        aria-label="Search settings"
+                        aria-label={t('search.label') || "Search"}
                         className="
               w-full py-4 pl-12 pr-12 
               bg-slate-800/80 backdrop-blur-sm
@@ -106,7 +106,7 @@ export default function SearchFilter({
                 hover:bg-slate-600 hover:text-slate-100
                 transition-all duration-200
               "
-                            aria-label="Clear search"
+                            aria-label={t('search.clearSearch') || "Clear search"}
                         >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -120,9 +120,7 @@ export default function SearchFilter({
             <div className="mt-4 sm:mt-2 flex items-center text-[11px] sm:text-sm h-5">
                 <span className="text-slate-500 whitespace-nowrap">
                     {value ? (
-                        <>
-                            Found <span className="text-cyan-400 font-medium">{resultCount}</span> of {totalCount} {itemLabel}
-                        </>
+                        t('search.resultsCount', { resultCount, totalCount, itemLabel })
                     ) : (
                         null
                     )}

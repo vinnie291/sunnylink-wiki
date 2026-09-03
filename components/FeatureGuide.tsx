@@ -109,7 +109,7 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                     📖 {t('features.title')}
                 </h2>
                 <p className="text-slate-400 text-sm">
-                    Official definitions from Sunnypilot documentation • v{featuresData.version}
+                    {t('features.subtitle', { version: featuresData.version }) || `Official definitions from Sunnypilot documentation • v${featuresData.version}`}
                 </p>
             </div>
 
@@ -172,14 +172,14 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                                 {/* User Translation */}
                                 <div className="p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
                                     <p className="text-emerald-400 text-sm">
-                                        <span className="font-semibold">🗣️ In Plain English:</span> {feature.userTranslation}
+                                        <span className="font-semibold">{t('features.inPlainEnglish') || '🗣️ In Plain English:'}</span> {feature.userTranslation}
                                     </p>
                                 </div>
 
                                 {/* Official Definition */}
                                 <div className="p-3 rounded-lg bg-slate-900/50 border border-slate-700/30">
                                     <div className="flex justify-between items-center mb-1">
-                                        <p className="text-xs text-slate-500 uppercase tracking-wide">Official Definition</p>
+                                        <p className="text-xs text-slate-500 uppercase tracking-wide">{t('features.officialDefinition') || 'Official Definition'}</p>
                                         {feature.docUrl && (
                                             <a
                                                 href={feature.docUrl}
@@ -188,7 +188,7 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                                                 className="text-xs font-medium text-cyan-400 hover:text-cyan-300 flex items-center gap-1 transition-colors"
                                                 onClick={(e) => e.stopPropagation()}
                                             >
-                                                <span>Read More</span>
+                                                <span>{t('features.readMore') || 'Read More'}</span>
                                                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                                                 </svg>
@@ -200,7 +200,7 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                                     </p>
                                     {feature.discourseHtml && (
                                         <div className="mt-3 pt-3 border-t border-slate-700/30">
-                                            <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">Official Docs (Full)</p>
+                                            <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">{t('features.officialDocs') || 'Official Docs (Full)'}</p>
                                             <div
                                                 className="discourse-content text-sm text-slate-300 leading-relaxed"
                                                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(feature.discourseHtml) }}
@@ -211,7 +211,7 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
 
                                 {/* Related Settings */}
                                 <div>
-                                    <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">Related Settings</p>
+                                    <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">{t('features.relatedSettings') || 'Related Settings'}</p>
                                     <div className="flex flex-wrap gap-1.5">
                                         {feature.settingsKeys.map((key) => (
                                             <a
@@ -235,7 +235,7 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                 onClick={() => setShowGlossary(!showGlossary)}
                 className="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-slate-800/30 border border-slate-700/50 text-left hover:bg-slate-700/30 transition-colors"
             >
-                <span className="text-slate-100 font-medium">📚 Glossary of Terms</span>
+                <span className="text-slate-100 font-medium">{t('features.glossaryTitle') || '📚 Glossary of Terms'}</span>
                 <svg className={`w-5 h-5 text-slate-500 transition-transform ${showGlossary ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>

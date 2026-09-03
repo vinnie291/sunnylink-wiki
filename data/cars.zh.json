@@ -1,0 +1,2266 @@
+{
+  "appName": "Sunnylink Car Database",
+  "version": "1.0",
+  "lastUpdated": "2026-09-02",
+  "vehicles": [
+    {
+      "id": "hyundai-ioniq-5-2022",
+      "make": "Hyundai",
+      "model": "Ioniq 5",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG Canvas",
+        "radar": "Internal (Stock SCC)"
+      },
+      "bestSettings": {
+        "drivingModel": "WMI V12",
+        "torqueTuning": "v0.0",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Remain Active",
+        "experimentalMode": "Dynamic"
+      },
+      "configs": [
+        {
+          "name": "平滑高速公路 (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock / OP Long",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "每日平衡（流行模型 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock / OP Long",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ],
+      "communityConsensus": "強烈建議使用 WMI V12 和 Torque v0.0 以獲得最平滑的居中效果。 NNLC 對於防止高速公路上的乒乓效應至關重要。如果汽車離一側太近，請在設定中使用「相機偏移」（Pos=左，Neg=右）。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "SPUser88",
+          "rating": 5,
+          "comment": "改變了我的通勤方式。 WMI V12 比普通 HDA 領先數英里。"
+        },
+        {
+          "user": "EVDriver",
+          "rating": 4,
+          "comment": "扭力 v0.0 是 Ioniq 5 轉向架的必備條件。相機偏移終於解決了我的橋道問題。"
+        }
+      ],
+      "forumQuotes": [
+        {
+          "text": "激進的TR：最好的。堅如磐石的車道居中。反應靈敏。但並不順利。",
+          "user": "warren.2",
+          "context": "測試 E2E 模型的車道居中能力"
+        }
+      ],
+      "isRecommended": true,
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/g7r5ubsco9412ha2"
+    },
+    {
+      "id": "toyota-rav4-2019",
+      "make": "Toyota",
+      "model": "RAV4",
+      "years": "2019-2021",
+      "hardware": {
+        "device": "comma 3 / 3X",
+        "harness": "Toyota Security Key / TSS2",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "WD40",
+        "torqueTuning": "Default",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Default",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "TSS2 RAV4 受益於「北達科他州」模型，可在高速公路彎道上實現更好的扭矩處理。庫存 ACC 可靠，但如果硬體允許，首選 OP Long。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
+      "reviews": [
+        {
+          "user": "ToyotaTech",
+          "rating": 5,
+          "comment": "北達科他州是唯一完美採用當地高速公路曲線的模型。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "公路穩定性 (WD40)",
+          "settings": {
+            "drivingModel": "WD40",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "OFF"
+          }
+        },
+        {
+          "name": "舒適旅行（Down to Ride v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "現代 E2E (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "honda-civic-2022",
+      "make": "Honda",
+      "model": "Civic",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 4",
+        "harness": "Honda Bosch",
+        "radar": "Stock (Bosch)"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "OP Long (Alpha)",
+        "mads": "Remain Active",
+        "experimentalMode": "Always On"
+      },
+      "communityConsensus": "帶有逗號 4 的 2022+ Civic 是一款動力強勁的車型。使用「流行模型」可透過實驗模式在城市交通中提供出色的「單踏板」式駕駛。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/honda-acura/81",
+      "reviews": [
+        {
+          "user": "CivicSi",
+          "rating": 4.5,
+          "comment": "這個平台上的實驗模式終於可以在城市裡使用了。"
+        }
+      ],
+      "isRecommended": true,
+      "configs": [
+        {
+          "name": "日常通勤（流行模式 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock (EPS Mod)",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock Long",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "橫向平滑度 (TCPmV3)",
+          "settings": {
+            "drivingModel": "The Cool Peoples Model v3",
+            "torqueTuning": "Stock (EPS Mod)",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock Long",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "kia-niro-2023",
+      "make": "Kia",
+      "model": "Niro",
+      "years": "2023-2025",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "The Cool Peoples Model v3",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Enabled (Always On)",
+        "experimentalMode": "Enabled"
+      },
+      "communityConsensus": "用戶居中評分為 11/10。在高速公路上具有出色的穩定性和車道保持性能，遠遠超過庫存 HDA。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "NiroFan",
+          "rating": 5,
+          "comment": "11/10 用於居中。與庫存 HDA 相比有巨大改進。"
+        }
+      ],
+      "isRecommended": true,
+      "configs": [
+        {
+          "name": "社區選擇 (TCPmV3)",
+          "settings": {
+            "drivingModel": "The Cool Peoples Model v3",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "船隊最愛（流行模型 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "genesis-gv60-2022",
+      "make": "Genesis",
+      "model": "GV60",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "WMI V12",
+        "torqueTuning": "Auto",
+        "lateralControl": "Default HKG",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "城市機動專家。處理城市急轉彎和快速重新定位的能力比庫存系統高得多。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "GenesisDriver",
+          "rating": 5,
+          "comment": "非常適合城市駕駛。現在轉彎是如此順利。"
+        }
+      ],
+      "isRecommended": true,
+      "configs": [
+        {
+          "name": "豪華高速公路（WMI V12）",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "艦隊日報（流行模型 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ford-f150-2021",
+      "make": "Ford",
+      "model": "F-150",
+      "years": "2021-2023",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Ford Q",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Dark Souls Model v2",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock Radar",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "流暢的高速公路巡航體驗。與福特的 BlueCruise 相比，用戶更喜歡它，因為它可以更好地集中在曲線上。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
+      "reviews": [
+        {
+          "user": "F150Owner",
+          "rating": 4.5,
+          "comment": "比藍色郵輪好。即使在急彎上也能保持居中。"
+        }
+      ],
+      "isRecommended": true,
+      "configs": [
+        {
+          "name": "權威控制（黑暗靈魂模型 v2）",
+          "settings": {
+            "drivingModel": "Dark Souls Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "公路滑翔機（向下騎行 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "chevy-bolt-2017",
+      "make": "Chevrolet",
+      "model": "Bolt EV/EUV",
+      "years": "2017-2023",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "GM (L or A)",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "Default GM",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Recommended"
+      },
+      "communityConsensus": "紮實的入門級經驗。對於日常通勤和平穩的高速公路變換車道非常可靠。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/general-motors/80",
+      "reviews": [
+        {
+          "user": "BoltCommuter",
+          "rating": 5,
+          "comment": "可靠、平穩。非常適合我每天 50 英里的駕駛。"
+        }
+      ],
+      "isRecommended": true,
+      "configs": [
+        {
+          "name": "日常通勤（流行模式 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "定心精準度（CD210機型）",
+          "settings": {
+            "drivingModel": "CD210 Model",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "OFF"
+          }
+        }
+      ]
+    },
+    {
+      "id": "chrysler-pacifica-2017",
+      "make": "Chrysler",
+      "model": "Pacifica",
+      "years": "2017-2024",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Chrysler",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "Default",
+        "lateralControl": "MADS",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled (Essential)",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "家庭公路旅行必備。即使車速低於 37 英里/小時，MADS 也能保持轉向，從而減少長途旅行中的駕駛員疲勞。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/chrysler-jeep-ram/78",
+      "reviews": [
+        {
+          "user": "FamilyVan",
+          "rating": 4.8,
+          "comment": "MADS 是流量遊戲規則的改變者。低速時不再有轉向切斷。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "家庭遊（下騎 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "平衡公路（流行模型 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lincoln-navigator-2022",
+      "make": "Lincoln",
+      "model": "Navigator",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 4",
+        "harness": "Ford Q",
+        "radar": "Stock (Spoofed as Expedition)"
+      },
+      "bestSettings": {
+        "drivingModel": "Dark Souls Model v2",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Alpha Longitudinal",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "如果使用 BluePilot 偽裝成福特 Expedition，車輛可以成功運行。使用 Alpha Longitudinal 來提高油門/煞車性能。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
+      "reviews": [
+        {
+          "user": "LincolnLuxe",
+          "rating": 5,
+          "comment": "遠徵隊的欺騙效果非常好。比庫存光滑得多。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "重量級權威（黑暗靈魂模型 v2）",
+          "settings": {
+            "drivingModel": "Dark Souls Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "豪華公路（下騎 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ram-1500-2019",
+      "make": "RAM",
+      "model": "1500",
+      "years": "2019-2024",
+      "hardware": {
+        "device": "comma 3 / 3X",
+        "harness": "RAM",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Dark Souls Model v2",
+        "torqueTuning": "v1",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "在扭矩橫向控制 v0 和 v1 之間切換以減少高速公路上的乒乓效應。部分10.4用戶報告臨時協助不可用；調整切換是第一個修復。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/chrysler-jeep-ram/78",
+      "reviews": [
+        {
+          "user": "TruckerJoe",
+          "rating": 4,
+          "comment": "調整 v1 解決了我在高速公路上的乒乓球問題。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "卡車管理局（黑暗靈魂模型 v2）",
+          "settings": {
+            "drivingModel": "Dark Souls Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "公路運輸車（下騎 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "byd-frigate-07-2023",
+      "make": "BYD",
+      "model": "Frigate 07",
+      "years": "2023-2025",
+      "hardware": {
+        "device": "comma 3X",
+        "harness": "CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "對高速公路上的工廠車道維持進行大規模升級。縱向控制仍處於成熟階段，在交通繁忙時可能會稍微不穩定。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/byd/77",
+      "reviews": [
+        {
+          "user": "EcoDriver",
+          "rating": 4.5,
+          "comment": "改變了我的高速公路通勤方式。橫向控制是一頭野獸。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "每日平衡（流行模型 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "端對端智慧（WMI V12）",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "honda-ridgeline-2022",
+      "make": "Honda",
+      "model": "Ridgeline",
+      "years": "2021-2023",
+      "hardware": {
+        "device": "comma 4",
+        "harness": "Honda Bosch",
+        "radar": "Stock (Bosch)"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock Longitudinal (Nidec)",
+        "mads": "Remain Active",
+        "experimentalMode": "Smart Cruise Vision"
+      },
+      "communityConsensus": "對於本田 Nidec 平台啟用「庫存縱向控制」至關重要，以避免在煞車過程中聽到 ABS 磨擦噪音。 SC 模型在曲線方面仍然表現出色，能夠保持中心位置，不會產生乒乓球效應，也不會抱線。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/honda-acura/81",
+      "reviews": [
+        {
+          "user": "RidgePilot",
+          "rating": 4,
+          "comment": "股票長期以來解決了可怕的磨擦噪音。橫向與 SC 型號完美搭配。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "平衡通勤（流行模式 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "堅定控制（黑暗靈魂模型 v2）",
+          "settings": {
+            "drivingModel": "Dark Souls Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hyundai-tucson-hybrid-2022",
+      "make": "Hyundai",
+      "model": "Tucson (Hybrid)",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 3X",
+        "harness": "Torque control CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "WMI V12",
+        "torqueTuning": "v0",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "透過調整 steer_max 和 kp 值，提高了州際速度下的穩定性。 WMIv12 以與 v9 版本類似的快速/扭力轉向而聞名。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "TucsonTech",
+          "rating": 4.5,
+          "comment": "Torque v0 顯著提高了高速時的穩定性。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "智慧導航 (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock / OP Long",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "艦隊日報（流行模型 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock / OP Long",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hyundai-elantra-2021",
+      "make": "Hyundai",
+      "model": "Elantra",
+      "years": "2021-2023",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "v0",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Enabled",
+        "experimentalMode": "Enabled"
+      },
+      "communityConsensus": "使用 Pop Model、WMIv9、WMIv12 和 DARKSOULS 實現可靠駕駛。注意：走走停停時煞車猶豫明顯，汽車經常向前爬行而不是完全停止。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "ElantraDriver",
+          "rating": 4,
+          "comment": "橫向很棒，但要注意交通堵塞！"
+        }
+      ],
+      "configs": [
+        {
+          "name": "敏捷通勤（流行模型 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "端對端城市（WMI V12）",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lexus-rc-2023",
+      "make": "Lexus",
+      "model": "RC",
+      "years": "2023-2025",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Toyota Security Key / TSS2",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "OP Model 10 V3",
+        "torqueTuning": "Default",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "在附近的十字路口猶豫不決；往往會意外地減慢或停止。 Off-Policy v5 提供更好的高速公路居中功能。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
+      "reviews": [
+        {
+          "user": "LexusOwner",
+          "rating": 4,
+          "comment": "OPM v5 最終修復了高速公路居中問題。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "高效能橫向（OP 型號 10 V3）",
+          "settings": {
+            "drivingModel": "OP Model 10 V3",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "離策略測試（離策略模型 v5）",
+          "settings": {
+            "drivingModel": "Off-Policy Model v5",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lexus-is-2017",
+      "make": "Lexus",
+      "model": "IS",
+      "years": "2017-2020",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Toyota Security Key / TSS2",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "v0.0",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "configs": [
+        {
+          "name": "經過驗證的通勤（流行模型 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "血刃（Firehose 模型）",
+          "settings": {
+            "drivingModel": "Firehose Model",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ],
+      "communityConsensus": "強烈推薦 Firehose 模型，以實現穩定的車道居中和高速公路彎道的平穩處理。使用 Torque v0.0 和正相機偏移值有助於修正左側車道擁塞。在切換到 Firehose 之前重置校準以獲得最佳學習效果。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
+      "reviews": [
+        {
+          "user": "Adrian_Abedon",
+          "rating": 5,
+          "comment": "Firehose 模型改變了我的 IS。車道居中現在在高速公路上堅如磐石。"
+        },
+        {
+          "user": "Lexus_Driver_99",
+          "rating": 4.5,
+          "comment": "Torque v0.0 比預設值好得多。強烈推薦該設定。"
+        }
+      ],
+      "forumQuotes": [
+        {
+          "text": "堅持使用 firehose、扭矩橫向控制、即時學習 + beta 學習和 v0 扭矩控製版本。我發現這些設定是最佳的。",
+          "user": "Adrian_Abedon",
+          "context": "雷克薩斯 IS 2017 附逗號 3X/4"
+        }
+      ],
+      "isRecommended": true,
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/rjutlzzns78hmkxx"
+    },
+    {
+      "id": "lexus-rx350-2017",
+      "make": "Lexus",
+      "model": "RX 350",
+      "years": "2016-2022",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Toyota Security Key / TSS2",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "v0.0",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "調整「相機偏移」是解決 RX 350 平台上的車道擁塞問題的關鍵。 Firehose 模型為此轉向架提供了比北達科他州更好的高速公路居中效果。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
+      "reviews": [
+        {
+          "user": "peterclampton",
+          "rating": 4.8,
+          "comment": "添加正相機偏移解決了我的左擁抱問題。消防水帶很棒。"
+        }
+      ],
+      "forumQuotes": [
+        {
+          "text": "我只是調整車道居中（相機偏移），使其稍微移動，然後我就不會遇到“擁抱左線”問題。",
+          "user": "peterclampton",
+          "context": "2017 RX350 預設型號和 Firehose 型號"
+        }
+      ],
+      "configs": [
+        {
+          "name": "豪華公路（下騎 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "定心剛性 (WD40)",
+          "settings": {
+            "drivingModel": "WD40",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "OFF"
+          }
+        }
+      ],
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/rjutlzzns78hmkxx"
+    },
+    {
+      "id": "honda-accord-2018",
+      "make": "Honda",
+      "model": "Accord",
+      "years": "2018-2022",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Honda Bosch",
+        "radar": "Stock (Bosch)"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "OP Long (Alpha)",
+        "mads": "Remain Active",
+        "experimentalMode": "Always On"
+      },
+      "communityConsensus": "第十代雅閣是一個堅實的平台。使用「流行模型」可透過實驗模式在城市交通中提供出色的「單踏板」式駕駛。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/honda-acura/81",
+      "reviews": [
+        {
+          "user": "AccordDriver",
+          "rating": 4.5,
+          "comment": "這個平台上的實驗模式終於可以在城市裡使用了。"
+        }
+      ],
+      "forumQuotes": [
+        {
+          "text": "使用 TCPV3 已經幾個月了...對效能感到滿意。",
+          "user": "captainsmith06",
+          "context": "第十代雅閣的長期可靠性"
+        }
+      ],
+      "configs": [
+        {
+          "name": "經過驗證的每日（流行模型 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "城市端對端（WMI V12）",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hyundai-ioniq-5-2026",
+      "make": "Hyundai",
+      "model": "Ioniq 5 (Early Access)",
+      "years": "2025-2026",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "OP Model 10 V3",
+        "torqueTuning": "v0",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "出色的高速轉彎（> 30 MPH），但在低速行駛時會因車道承諾和轉彎鎖定而陷入困境。建議使用 Torque v0。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "IoniqPilot",
+          "rating": 4.2,
+          "comment": "高速彎道的操控如夢似幻。低速轉彎仍然需要努力。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "高級端對端橫向（OP Model 10 V3）",
+          "settings": {
+            "drivingModel": "OP Model 10 V3",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "旗艦世界模型（WMI V12）",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ],
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/bsczhv7oh70qpy3c"
+    },
+    {
+      "id": "kia-sportage-phev-2024",
+      "make": "Kia",
+      "model": "Sportage PHEV",
+      "years": "2023-2025",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Kumars Vibe",
+        "torqueTuning": "Default",
+        "lateralControl": "Nevada (Curves)",
+        "longitudinalControl": "Stock Hyundai Longitudinal",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "內華達模型是目前高速公路曲線居中的冠軍。 Kumar 和 Herbalist 型號提供更平穩的轉向感覺。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "PHEV_User",
+          "rating": 5,
+          "comment": "內華達州像專業人士一樣快速轉彎。平滑過渡。"
+        }
+      ],
+      "forumQuotes": [
+        {
+          "text": "隨著時間的推移，駕駛感覺更加「穩定」和自信......轉彎變得越來越精確。",
+          "user": "Tony.Wu",
+          "context": "HKG CAN-FD 平台一年社區審查"
+        }
+      ],
+      "configs": [
+        {
+          "name": "社群最愛 (Kumars Vibe)",
+          "settings": {
+            "drivingModel": "Kumars Vibe",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "牢固定心（內華達模型）",
+          "settings": {
+            "drivingModel": "Nevada Model",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ],
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/3adhm8z0xtwtsccv"
+    },
+    {
+      "id": "audi-a3-mqb-evo-2022",
+      "make": "Audi",
+      "model": "A3 (MQB Evo)",
+      "years": "2022-2025",
+      "hardware": {
+        "device": "comma 4",
+        "harness": "VW/Audi MQB",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "DTRv6 非常適合高速公路曲線平滑度。 WMIv12 是城市智慧的首選，但需要高度關注。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/volkswagen-audi-skoda/88",
+      "reviews": [
+        {
+          "user": "EuroTuner",
+          "rating": 4.5,
+          "comment": "DTRv6 終於獲得妻子批准用於 A3。比普通旅行輔助順暢得多。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "平滑的高速公路（下車 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "現代智能（WMI V12）",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "subaru-crosstrek-2020",
+      "make": "Subaru",
+      "model": "Crosstrek",
+      "years": "2018-2023",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Subaru",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "CD210 Model",
+        "torqueTuning": "v0.0 (Manual)",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "configs": [
+        {
+          "name": "斯巴魯定心（CD210型號）",
+          "settings": {
+            "drivingModel": "CD210 Model",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "公路剛性 (WD40)",
+          "settings": {
+            "drivingModel": "WD40",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "OFF"
+          }
+        }
+      ],
+      "communityConsensus": "使用 CD210 可防止舊型號中常見的內線曲線擁抱現象。將手動扭矩模型設為 0.0 可以使汽車感覺極其穩定並且「在軌道上」。確認支援從停止狀態恢復和手動駐車煞車解決方法。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/subaru/85",
+      "reviews": [
+        {
+          "user": "CrossPilot",
+          "rating": 5,
+          "comment": "CD210 + 扭力 0.0 非常適合 Crosstrek。不再需要在彎道上與方向盤打架。"
+        }
+      ]
+    },
+    {
+      "id": "honda-odyssey-2018",
+      "make": "Honda",
+      "model": "Odyssey",
+      "years": "2018-2024",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Honda Bosch",
+        "radar": "Stock (Bosch)"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "Stronger Steering",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "OP Long (Alpha)",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "MVL 叉為博世車型提供了更強的轉向力和油門踏板即時調整。非常適合全家一起長途公路旅行。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/honda-acura/81",
+      "reviews": [
+        {
+          "user": "VanPilot",
+          "rating": 5,
+          "comment": "奧德賽更強的轉向系統是一個巨大的進步。感覺自信多了。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "公路旅行舒適度（騎乘 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "日常通勤（流行模式 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hyundai-sonata-2021",
+      "make": "Hyundai",
+      "model": "Sonata",
+      "years": "2020-2023",
+      "hardware": {
+        "device": "comma 3 / 3X",
+        "harness": "Hyundai",
+        "radar": "Factory SCC"
+      },
+      "bestSettings": {
+        "drivingModel": "WMI V12",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "OP Long (Alpha)",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Alpha Longitudinal 對於繞過工廠最低 20 MPH SCC 至關重要，從而在交通繁忙時實現平穩的走走停停功能。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "Sonata_OP",
+          "rating": 5,
+          "comment": "繞過 20 英里/小時的最低時速改變了一切。走走停停終於順利了。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "智慧導航 (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "敏捷通勤（流行模型 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "toyota-sienna-2021",
+      "make": "Toyota",
+      "model": "Sienna",
+      "years": "2021-2023",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Toyota Security Key / TSS2",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "Default",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "經證實，comma 3X 在高速公路駕駛以及擁擠的城市駕駛中表現良好。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
+      "reviews": [
+        {
+          "user": "Sienna_Fan",
+          "rating": 5,
+          "comment": "非常適合高速公路和城市駕駛。 C3X 模式是交通中的救星。"
+        }
+      ],
+      "forumQuotes": [
+        {
+          "text": "它似乎工作得非常好......對於我的 C3X 上的高速公路駕駛......它似乎有助於保持紐約市交通的理智。",
+          "user": "Y_S",
+          "context": "對高速公路和城市密度均有效"
+        }
+      ],
+      "isRecommended": true,
+      "configs": [
+        {
+          "name": "家庭遊（下騎 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "實心中心 (WD40)",
+          "settings": {
+            "drivingModel": "WD40",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "OFF"
+          }
+        }
+      ]
+    },
+    {
+      "id": "kia-ev6-2022",
+      "make": "Kia",
+      "model": "EV6",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "WMI V12",
+        "torqueTuning": "v0.0",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Enabled",
+        "experimentalMode": "Dynamic"
+      },
+      "communityConsensus": "EV6 用戶強調 NNLC 具有出色的公路性能。為了實現最順暢的變換車道，請確保在設定中啟用「無推力變換車道」。建議在城市駕駛中使用 MADS，以在手動管理走走停停的同時保持轉向輔助。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "EV6_Pilot",
+          "rating": 5,
+          "comment": "NNLC 讓 EV6 感覺就像擁有真正的 HDA3。在 I-5 公路上堅如磐石。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "旗艦智慧（WMI V12）",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "每日平衡（流行模型 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "kia-telluride-2020",
+      "make": "Kia",
+      "model": "Telluride",
+      "years": "2020-2022",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG Canvas",
+        "radar": "Factory SCC"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "Default",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Essential",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "公路旅行冠軍。對於這些年份的車型來說，MADS 對於保持轉向速度低於 30 英里/小時至關重要。用戶報告說，「北達科他州」是在長彎道上處理特柳賴德重量的最佳型號。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "TellyOwner",
+          "rating": 4.8,
+          "comment": "北達科他州模式是特柳賴德的最佳選擇。比股票自信多了。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "乘客最愛（下車 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "最大剛度 (WD40)",
+          "settings": {
+            "drivingModel": "WD40",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "OFF"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hyundai-palisade-2020",
+      "make": "Hyundai",
+      "model": "Palisade",
+      "years": "2020-2022",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG Canvas",
+        "radar": "Factory SCC"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "v1",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "與 Telluride 類似，Palisade 受益於 v1 扭力調整，可對抗高速公路「乒乓球」。確保啟用“安靜模式”，讓家庭安靜駕駛，無需持續發出警報。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "PaliDad",
+          "rating": 4.5,
+          "comment": "非常適合家庭公路旅行。扭矩 v1 修復了輕微的定心漂移。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "乘客最愛（下車 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "橫向平滑 (TCPmV3)",
+          "settings": {
+            "drivingModel": "The Cool Peoples Model v3",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "kia-k5-2021",
+      "make": "Kia",
+      "model": "K5",
+      "years": "2021-2024",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "v0.0",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Enabled",
+        "experimentalMode": "Always On"
+      },
+      "communityConsensus": "運動轎車性能。 K5平台擁有強大的轉向權威；即使在相對較緊的高速公路彎道上，Torque v0.0 和 NNLC 也能提供銳利、精確的定位。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "K5_Turbo",
+          "rating": 5,
+          "comment": "配備 NNLC 的 K5 令人難以置信。它像專業人士一樣處理曲線。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "運動日報（流行模特兒 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "E2E世界模型（WMI V12）",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hyundai-kona-ev-2019",
+      "make": "Hyundai",
+      "model": "Kona EV",
+      "years": "2019-2023",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG Canvas",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "WMI V12",
+        "torqueTuning": "Default",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "可靠、穩定。 WMI V12 與標準扭力控制相結合，為 Kona EV 平台提供了最「一勞永逸」的體驗。堅固節能的通勤者。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [
+        {
+          "user": "KonaElectric",
+          "rating": 4.5,
+          "comment": "適合日常通勤。車道居中比庫存好得多。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "城市與高速公路 (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "經過驗證的通勤（流行模型 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "toyota-tundra-2022",
+      "make": "Toyota",
+      "model": "Tundra",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Toyota TSK",
+        "radar": "Factory TSK"
+      },
+      "bestSettings": {
+        "drivingModel": "WMI V12",
+        "torqueTuning": "Self-Tune",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "2022+ Tundra 需要與 TSK 相容的線束和分支。使用者報告「WMI V12」具有出色的穩定性，但必須啟用「自我調整」才能處理卡車獨特的轉向齒條特性。強烈建議將 MADS 用於牽引場景。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
+      "reviews": [
+        {
+          "user": "TundraTough",
+          "rating": 4.9,
+          "comment": "TSK 支援改變了 Tundra 的遊戲規則。即使有拖車，WMI V12 在高速公路上也堅如磐石。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "平滑現代 (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "大型卡車管理局（黑暗靈魂模型 v2）",
+          "settings": {
+            "drivingModel": "Dark Souls Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mazda-cx5-2021",
+      "make": "Mazda",
+      "model": "CX-5",
+      "years": "2021-2024",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Mazda Gen 2",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "Default",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "CX-5 因其自然的轉向感而成為「傳統」車型的最愛。 「Down to Ride v6」是乘客舒適度的黃金標準。如果您在強風中遇到振盪，請避免“流行模型”。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/mazda/83",
+      "reviews": [
+        {
+          "user": "MazdaMinded",
+          "rating": 4.7,
+          "comment": "DTR v6 讓 CX-5 感覺像一艘豪華巡洋艦。過渡非常平滑。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "精緻舒適（騎乘 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "每日活躍（流行模型 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "subaru-ascent-2019",
+      "make": "Subaru",
+      "model": "Ascent",
+      "years": "2019-2022",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Subaru Giraffe",
+        "radar": "EyeSight"
+      },
+      "bestSettings": {
+        "drivingModel": "CD210 Model",
+        "torqueTuning": "v1.2",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Optional",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "斯巴魯的 EyeSight 整合非常可靠。 「CD210」為更大的 Ascent 車架提供了比原廠架構更好的曲線處理能力。建議進行 V1.2 扭矩調整以減輕輕微的微振動。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/subaru/85",
+      "reviews": [
+        {
+          "user": "AscentLife",
+          "rating": 4.6,
+          "comment": "CD210 對高速公路彎道有很大幫助。感覺比單獨用 EyeSight 自信多了。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "斯巴魯 AWD 定心（CD210 型號）",
+          "settings": {
+            "drivingModel": "CD210 Model",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "客運滑翔機（下降到搭乘 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "honda-pilot-2019",
+      "make": "Honda",
+      "model": "Pilot",
+      "years": "2019-2022",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Honda Bosch",
+        "radar": "Bosch Factory"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "v0",
+        "lateralControl": "NNLC",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Bosch Pilot 對「Pop Model」和 NNLC 的反應非常好。它消除了工廠本田感測系統中常見的「漂浮」感覺。使用“v0”扭力可防止長直道上的過度校正。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/honda-acura/81",
+      "reviews": [
+        {
+          "user": "PilotCaptain",
+          "rating": 4.8,
+          "comment": "NNLC 是飛行員的必備條件。現在它像箭一樣直線前進。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "家庭公路（下騎 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "標準日報（流行模式 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "rivian-r1t-2022",
+      "make": "Rivian",
+      "model": "R1T",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Custom Rivian CAN",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "OP Model 10 V3",
+        "torqueTuning": "Experimental",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Recommended",
+        "experimentalMode": "Always On"
+      },
+      "communityConsensus": "對許多人來說仍處於搶先體驗階段。 Rivian 複雜的 CAN-FD 架構需要「Off-Policy v3」才能實現可靠的車道變換。實驗模式經常被保留以利用 Rivian 的高再生煞車。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/rivian/90",
+      "reviews": [
+        {
+          "user": "RivianRich",
+          "rating": 4.4,
+          "comment": "早期但充滿希望。 Off-Policy v3 處理重型 R1T 的效果出乎意料地好。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "離策略精確度（OP 模型 10 V3）",
+          "settings": {
+            "drivingModel": "OP Model 10 V3",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "重量級權威（黑暗靈魂模型 v2）",
+          "settings": {
+            "drivingModel": "Dark Souls Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tesla-model3-2017",
+      "make": "Tesla",
+      "model": "Model 3 / Y",
+      "years": "2017-2023",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Tesla Harness",
+        "radar": "Stock / Vision"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "Tesla Custom",
+        "lateralControl": "EPAS Control",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Always On",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "對 HW4 之前的特斯拉的傳奇支持。 「Pop Model」是高速公路使用人群的最愛，因為它複製了 FSD 的「鎖定」感覺，但具有 sunnypilot 的客製化功能。 EPAS 控制允許非常高的轉向權限。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/tesla/86",
+      "reviews": [
+        {
+          "user": "Model3Modder",
+          "rating": 5,
+          "comment": "比標準自動駕駛儀好得多。如果設定正確，不會出現幻象煞車問題。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "流暢日常（流行模型 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "端對端智慧（WMI V12）",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ],
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/w3tifv46da7ifoyd"
+    },
+    {
+      "id": "volvo-xc90-2016",
+      "make": "Volvo",
+      "model": "XC90",
+      "years": "2016-2022",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Volvo Harness",
+        "radar": "Factory"
+      },
+      "bestSettings": {
+        "drivingModel": "CD210 Model",
+        "torqueTuning": "Self-Tune",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "沃爾沃 SPA 平台從 sunnypilot 的橫向控制中受益匪淺。 「CD210」經常被認為是 XC90 空氣懸吊變體中最舒適的。為了在高速公路速度下保持車道居中一致，自調節是必要的。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/volvo/89",
+      "reviews": [
+        {
+          "user": "VolvoViking",
+          "rating": 4.7,
+          "comment": "比原廠 Pilot Assist 平穩得多。 CD210 可以完美地應對沉重的 XC90。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "平穩平穩（CD210機型）",
+          "settings": {
+            "drivingModel": "CD210 Model",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "公路旅行舒適度（騎乘 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ford-f150-lightning-2022",
+      "make": "Ford",
+      "model": "F-150 Lightning",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Ford Q4",
+        "radar": "BlueCruise Hardware"
+      },
+      "bestSettings": {
+        "drivingModel": "Dark Souls Model v2",
+        "torqueTuning": "v1.2 Stiff",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Always On",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "對於閃電來說，「黑暗靈魂 v2」提供了必要的權限，即使在側風中也能保持卡車居中。牽引拖車的使用者發現「v1.2 Stiff」扭力調整是防止尾部搖擺校正的唯一可靠方法。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
+      "reviews": [
+        {
+          "user": "LightningStrike",
+          "rating": 4.8,
+          "comment": "F-150 的最佳免持體驗。 《黑暗靈魂v2》非常有信心。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "重型電動車權威（黑暗靈魂模型 v2）",
+          "settings": {
+            "drivingModel": "Dark Souls Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "平穩巡航（向下騎行 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "toyota-corolla-2023",
+      "make": "Toyota",
+      "model": "Corolla",
+      "years": "2023-2024",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Toyota TSK",
+        "radar": "TSS 3.0"
+      },
+      "bestSettings": {
+        "drivingModel": "WD40",
+        "torqueTuning": "v0",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "TSS 3.0 卡羅拉反應非常靈敏。具有“v0”扭矩的“流行模型”是保持效率和中心定位的首選高速公路設置。此型號年份必須提供 TSK 支援。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
+      "reviews": [
+        {
+          "user": "CorollaClassic",
+          "rating": 4.9,
+          "comment": "以我的 2024 Corolla 為中心的完美車道。 Pop Model 非常活潑。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "堅如磐石的公路 (WD40)",
+          "settings": {
+            "drivingModel": "WD40",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "OFF"
+          }
+        },
+        {
+          "name": "全能通勤者（Pop Model v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lincoln-corsair-2020",
+      "make": "Lincoln",
+      "model": "Corsair",
+      "years": "2020-2023",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Ford Q3",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "Default",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Corsair 對奢華的關注與「Down to Ride v6」最為匹配。它模仿了原廠 Co-Pilot360 溫和、輕鬆的駕駛風格，但具有更好的彎道耐力。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
+      "reviews": [
+        {
+          "user": "LincolnLuxury",
+          "rating": 4.6,
+          "comment": "DTR v6 正是這輛車所需要的。光滑如絲。"
+        }
+      ],
+      "configs": [
+        {
+          "name": "豪華平滑（下騎 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "動態日報（流行模特兒v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ],
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/8a9kbl9l98d0qus0"
+    },
+    {
+      "id": "hyundai-custin-2025",
+      "make": "Hyundai",
+      "model": "Custin",
+      "years": "2024-2025",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "HKG CAN-FD",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "WMI V12",
+        "torqueTuning": "Default",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "社群貢獻的 SunnyTune 配置可用。 Custin 是現代小型貨車平台，支援 CAN-FD。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
+      "reviews": [],
+      "configs": [
+        {
+          "name": "現代 E2E (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "客運滑翔機（下降到搭乘 v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "v0.0",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ],
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/4kwvmgqr15ab8uga"
+    },
+    {
+      "id": "ford-escape-2020",
+      "make": "Ford",
+      "model": "Escape",
+      "years": "2020-2024",
+      "hardware": {
+        "device": "comma 3 / 3X / 4",
+        "harness": "Ford Q3 / Q4",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "Down to Ride v6",
+        "torqueTuning": "Default",
+        "lateralControl": "NNLC (On)",
+        "longitudinalControl": "Stock Radar",
+        "mads": "Enabled",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "需要 Co-Pilot360 Assist+ 套件。使用與 F-150 相同的福特 Q 線束系列。 BluePilot 5.0 提供平穩的高速公路居中功能。使用者報告說，與現有的 Co-Pilot360 相比，車道維持能力得到了改善。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
+      "reviews": [
+        {
+          "user": "EscapeDriver",
+          "rating": 4.5,
+          "comment": "BluePilot 是現有 Co-Pilot360 的重大升級。平穩以高速公路為中心。"
+        }
+      ],
+      "isSunnyTune": true,
+      "configs": [
+        {
+          "name": "平衡旅行（Down to Ride v6）",
+          "settings": {
+            "drivingModel": "Down to Ride v6",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "通勤者選擇（流行模型 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ],
+      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/ford-escape"
+    }
+  ]
+}

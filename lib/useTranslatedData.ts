@@ -25,6 +25,11 @@ import featuresDe from '../data/features.de.json';
 import featuresEs from '../data/features.es.json';
 
 import carsEn from '../data/cars.json';
+import carsKo from '../data/cars.ko.json';
+import carsZh from '../data/cars.zh.json';
+import carsFr from '../data/cars.fr.json';
+import carsDe from '../data/cars.de.json';
+import carsEs from '../data/cars.es.json';
 
 const togglesMap: Record<Locale, typeof togglesEn> = {
     en: togglesEn,
@@ -55,11 +60,11 @@ const featuresMap: Record<Locale, typeof featuresEn> = {
 
 const carsMap: Record<Locale, typeof carsEn> = {
     en: carsEn,
-    ko: carsEn, // Fallback to EN if translations don't exist yet
-    zh: carsEn,
-    fr: carsEn,
-    de: carsEn,
-    es: carsEn,
+    ko: carsKo as unknown as typeof carsEn,
+    zh: carsZh as unknown as typeof carsEn,
+    fr: carsFr as unknown as typeof carsEn,
+    de: carsDe as unknown as typeof carsEn,
+    es: carsEs as unknown as typeof carsEn,
 };
 
 export function useTranslatedToggles() {
