@@ -53,10 +53,16 @@ const CATEGORY_TITLE_MAP: Record<string, string> = {
  */
 const SETTING_TITLE_MAP: Record<string, string> = {
     'blinker pause lateral control': 'blinker pause lateral control',
-    'torque control': 'torque control',
-    'alpha longitudinal': 'alpha longitudinal',
+    'torque control': 'enforce torque control',
+    'alpha longitudinal': 'sunnypilot longitudinal control (alpha)',
     'quiet mode feature': 'quiet mode',
     'speed limit assist': 'speed limit assist mode',
+    'speed limit source': 'speed limit source',
+    'intelligent cruise button management': 'intelligent cruise button management',
+    'dynamic experimental control': 'dynamic experimental control',
+    'auto lane change': 'auto lane change by blinker',
+    'neural network lateral control': 'neural network lateral control',
+    'enable sunnylink': 'enable sunnylink',
 };
 
 /**
@@ -64,9 +70,35 @@ const SETTING_TITLE_MAP: Record<string, string> = {
  */
 const FEATURE_TITLE_MAP: Record<string, string> = {
     'modular assistive driving system': 'm.a.d.s.',
+    'mads': 'm.a.d.s.',
+    'mads settings': 'm.a.d.s.',
+    'neural network lateral control': 'nnlc',
+    'nnlc': 'nnlc',
+    'dynamic experimental control': 'dec',
     'intelligent cruise button management': 'icbm',
+    'smart cruise control - vision': 'scc-v',
+    'smart cruise control vision': 'scc-v',
+    'smart cruise control - map': 'scc-m',
+    'smart cruise control map': 'scc-m',
     'speed limit assist': 'sla',
+    'auto lane change': 'alc',
     'hyundai longitudinal tuning': 'hkg tuning',
+    'custom acc increments': 'custom acc',
+    'blinker pause lateral control': 'blinker pause',
+    'torque control': 'torque control',
+    'torque settings': 'torque control',
+    'quiet mode feature': 'quiet mode',
+    'quiet mode': 'quiet mode',
+    'alpha longitudinal': 'alpha longitudinal',
+    'osm maps': 'osm maps',
+    'osm settings': 'osm maps',
+    'sunnylink': 'sunnylink',
+    'sunnylink settings': 'sunnylink',
+    'sunnylink connected services': 'sunnylink',
+    'hud & visuals': 'hud visuals',
+    'hud visuals': 'hud visuals',
+    'models & ai': 'models & ai',
+    'models settings': 'models & ai',
 };
 
 // ─── Main mapper ─────────────────────────────────────────────

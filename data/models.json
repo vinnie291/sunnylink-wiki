@@ -2,7 +2,7 @@
   "appName": "Sunnylink Model Database",
   "version": "8.4",
   "totalModels": 127,
-  "lastUpdated": "2026-09-02",
+  "lastUpdated": "September 03, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "The Chestnut GPU Series (Big Models)",
@@ -121,13 +121,13 @@
             "City",
             "Highway"
           ],
-          "communityScore": 54,
-          "totalVotes": 65,
+          "communityScore": 68,
+          "totalVotes": 69,
           "sentiment": {
-            "great": 11,
-            "good": 11,
-            "ok": 69,
-            "bad": 9
+            "great": 35,
+            "good": 29,
+            "ok": 22,
+            "bad": 14
           },
           "consensus": "The current flagship and daily driver for most users in 2026. Highest intelligence for complex scenarios like intersections, stop signs, and tight urban turns.",
           "note": "Can feel slightly 'loose' on straight highways.",
@@ -159,13 +159,13 @@
             "Trucks",
             "Highway"
           ],
-          "communityScore": 51,
-          "totalVotes": 120,
+          "communityScore": 50,
+          "totalVotes": 22,
           "sentiment": {
-            "great": 3,
-            "good": 11,
-            "ok": 79,
-            "bad": 7
+            "great": 23,
+            "good": 27,
+            "ok": 14,
+            "bad": 36
           },
           "consensus": "The 'unforgiving' model, refined. Tighter following distance, faster reactions, sharper turns. Excellent for larger vehicles that need authority.",
           "note": "Named 'Dark Souls' because it's unforgiving.",
@@ -264,11 +264,11 @@
             "Experimental",
             "Stop Line Tuning"
           ],
-          "communityScore": 70,
-          "totalVotes": 3,
+          "communityScore": 100,
+          "totalVotes": 2,
           "sentiment": {
-            "great": 33,
-            "good": 67,
+            "great": 100,
+            "good": 0,
             "ok": 0,
             "bad": 0
           },
@@ -385,9 +385,9 @@
           "totalVotes": 8,
           "sentiment": {
             "great": 38,
-            "good": 12,
+            "good": 13,
             "ok": 25,
-            "bad": 25
+            "bad": 24
           },
           "consensus": "Severely plagued by low-speed steering oscillations and see-sawing that testers humorously compared to actors fake-steering in old movies. While open-highway cruising and longitudinal braking are smooth, the low-speed wheel oscillation was pronounced across Prius, Civic, Accord, and Rivian test vehicles, prompting testers to recommend skipping forward to v4.",
           "note": "Chestnut-class big model, built from 47377ac in commaai/openpilot. High-speed highway cruising is acceptable, but low-speed oscillation makes it unsuitable as a daily driver.",
@@ -427,7 +427,7 @@
             "great": 44,
             "good": 11,
             "ok": 33,
-            "bad": 11
+            "bad": 12
           },
           "consensus": "Second iteration of the BMRLNAP big model line. Highway lanekeeping, cut-in reaction, and high-speed cloverleaf centering are solid and natural across Kia EV6, Elantra, and Camry testers. However, city driving shows mixed results, with testers reporting inconsistent stopping distances at traffic lights and a tendency to stop too close behind lead cars.",
           "note": "Chestnut-class big model, tied to comma's new GPU add-on. Tested across Kia EV6, 2022 Hyundai Elantra, and 2023 Camry XSE.",
@@ -462,12 +462,12 @@
             "City",
             "Smooth"
           ],
-          "communityScore": 78,
-          "totalVotes": 8,
+          "communityScore": 63,
+          "totalVotes": 2,
           "sentiment": {
-            "great": 50,
-            "good": 38,
-            "ok": 12,
+            "great": 0,
+            "good": 50,
+            "ok": 50,
             "bad": 0
           },
           "consensus": "Special release drop commemorating sunnyhaibin's birthday. Discord testers praised its gentle stop-and-go behavior in heavy traffic and natural cruising feel, though high-speed braking into sudden red lights remains somewhat late.",
@@ -540,12 +540,12 @@
             "Smooth",
             "Early Feedback"
           ],
-          "communityScore": 100,
-          "totalVotes": 2,
+          "communityScore": 84,
+          "totalVotes": 3,
           "sentiment": {
-            "great": 100,
+            "great": 67,
             "good": 0,
-            "ok": 0,
+            "ok": 33,
             "bad": 0
           },
           "consensus": "Best received drop of the big model run, but on only two voters: a unanimous 5-Great headline poll, unanimous 'smooth & steady' lateral and unanimous smooth acceleration & braking. A sunnypilot developer called it 'literally definition of end to end'. Longitudinal is the standout — holds speed well at 60, gets back on the gas quickly when a red turns green, and responds well to yellows it cannot clear. Stop signs are the caveat: it arrives slightly too fast to stop at or before the sign, and a dusk drive rolled noticeably more of them and needed intervention.",
@@ -581,13 +581,13 @@
             "Chestnut",
             "Mixed Sentiment"
           ],
-          "communityScore": 50,
+          "communityScore": 51,
           "totalVotes": 8,
           "sentiment": {
-            "great": 12,
+            "great": 13,
             "good": 50,
             "ok": 0,
-            "bad": 38
+            "bad": 37
           },
           "consensus": "The most divided drop of the run: a four-vote poll split evenly between Good and Bad, and the only entry whose lateral poll returned no positive votes at all — ping-pong/wanders at two of three voters, lane hugging and over-steering in curves at one each, nothing for smooth & steady or natural. Ping-pong is called very noticeable at high speed. Longitudinal reads contradictory until you separate smoothness from judgement: the poll is unanimous for smooth acceleration and braking, while the written feedback is all about slowing far too early — bleeding a 55 mph road down to about 48 and dipping at every crossroads or cluster of houses. The standout is low-speed stop signs, described as the best seen on any model below 50 mph, stopping smoothly just before the sign 9 or 10 times back to back; above that speed a tester disengages because it no longer sees them in time.",
           "note": "Chestnut-class model, tied to comma's new GPU add-on. Headline poll is four voters, evenly split Good and Bad. Read the polls and the comments together: the longitudinal poll is unanimously positive while the prose complains about over-early slowing, so that poll option is measuring smoothness rather than whether the timing is appropriate. Fullest report is a 2023 Camry.",
@@ -689,13 +689,13 @@
             "Off-Policy",
             "Smooth"
           ],
-          "communityScore": 51,
-          "totalVotes": 21,
+          "communityScore": 50,
+          "totalVotes": 37,
           "sentiment": {
             "great": 14,
-            "good": 34,
+            "good": 35,
             "ok": 19,
-            "bad": 33
+            "bad": 32
           },
           "consensus": "Strong rebound for the OP Model 10 line. Acceleration is reported as on par with DEC ('accelerates just as well') — a clear fix for v1/v2's sluggish off-the-line behavior. Early daily-driver impressions describe it as 'great' and the recommended pick across v1/v2/v3.",
           "note": "Referenced in the OP Model 9 thread as the supersession that received significantly better feedback. Recommended over v1 and v2.",
@@ -723,7 +723,7 @@
             "Off-Policy",
             "Smooth"
           ],
-          "communityScore": 30,
+          "communityScore": 29,
           "totalVotes": 12,
           "sentiment": {
             "great": 8,
@@ -822,13 +822,13 @@
             "Off-Policy",
             "Twitchy"
           ],
-          "communityScore": 38,
-          "totalVotes": 10,
+          "communityScore": 29,
+          "totalVotes": 15,
           "sentiment": {
             "great": 0,
-            "good": 10,
-            "ok": 20,
-            "bad": 70
+            "good": 20,
+            "ok": 27,
+            "bad": 53
           },
           "consensus": "Early community feedback is predominantly negative. Users report twitchy, oscillating steering at high speeds, difficulty maintaining lane in stop-and-go traffic, and consistent left-lane hugging. The model appears to struggle with the lateral stability that OP Model 7 had improved.",
           "note": "Left-hugging is a consistent issue. If trying this model, adjust camera offset (+0.05 to +0.10). Not recommended for daily driving at this stage.",
@@ -854,13 +854,13 @@
             "Self-Correcting",
             "Off-Policy"
           ],
-          "communityScore": 63,
-          "totalVotes": 8,
+          "communityScore": 42,
+          "totalVotes": 21,
           "sentiment": {
-            "great": 25,
-            "good": 25,
-            "ok": 38,
-            "bad": 12
+            "great": 24,
+            "good": 14,
+            "ok": 14,
+            "bad": 48
           },
           "consensus": "Significant leap forward for the Off-Policy series. Praised as the most confident OP model yet, with smoother longitudinal deceleration for stopped leads and improved lateral control that self-corrects even when overshooting sharp 90-degree turns. However, random left-hugging persists for some users.",
           "note": "Best lateral of the series so far. If hugging left, adjust camera offset (+0.05).",
@@ -894,13 +894,13 @@
             "Experimental",
             "Early Feedback"
           ],
-          "communityScore": 49,
-          "totalVotes": 238,
+          "communityScore": 50,
+          "totalVotes": 3,
           "sentiment": {
-            "great": 5,
-            "good": 9,
-            "ok": 75,
-            "bad": 11
+            "great": 0,
+            "good": 67,
+            "ok": 0,
+            "bad": 33
           },
           "consensus": "Very early model drop with limited community feedback so far. Initial votes lean positive (Good) but sample size is extremely small. Needs more testing and community evaluation before drawing conclusions.",
           "note": "Very few votes so far — check back for updated consensus as more users test it.",
@@ -920,13 +920,13 @@
             "Mixed Sentiment",
             "Aggressive Long"
           ],
-          "communityScore": 51,
-          "totalVotes": 124,
+          "communityScore": 52,
+          "totalVotes": 37,
           "sentiment": {
-            "great": 4,
-            "good": 11,
-            "ok": 77,
-            "bad": 8
+            "great": 22,
+            "good": 19,
+            "ok": 32,
+            "bad": 27
           },
           "consensus": "Highly polarizing release with growing negative sentiment. Longitudinal control is praised by some (smooth stops behind leads on GV60), but multiple reports of 'afraid of green lights' behavior and failure to stay stopped at red lights. Lateral unwind is improved but stiffer steering causes oscillations and motion sickness on some vehicles. Very vehicle-dependent — F-150 Lightning reports twitchy low-speed behavior.",
           "note": "Vehicle dependent. Great on GV60, twitchy on F-150 Lightning. Subaru Crosstrek users report motion sickness. Torque Tune v0 recommended.",
@@ -963,13 +963,13 @@
             "Highway",
             "Fast Long"
           ],
-          "communityScore": 49,
-          "totalVotes": 223,
+          "communityScore": 71,
+          "totalVotes": 43,
           "sentiment": {
-            "great": 5,
-            "good": 9,
-            "ok": 75,
-            "bad": 11
+            "great": 44,
+            "good": 16,
+            "ok": 30,
+            "bad": 10
           },
           "consensus": "Community sentiment has warmed significantly with more testing. Lateral control is vehicle-dependent — Honda Civic users report the best lat in a while with no ping-pong and centering 'like it owes the lane lines money,' while Hyundai Kona and others experience extreme line-to-line ping-ponging above 50mph. More willing to reach set speeds than Pop v2. Still known for creeping at red lights.",
           "note": "Very vehicle-dependent. Honda/Kia users trending positive. Torque tune version matters — test with v0 first.",
@@ -1019,13 +1019,13 @@
             "Highway",
             "Vehicle-Dependent"
           ],
-          "communityScore": 51,
-          "totalVotes": 50,
+          "communityScore": 59,
+          "totalVotes": 49,
           "sentiment": {
-            "great": 4,
-            "good": 12,
-            "ok": 76,
-            "bad": 8
+            "great": 16,
+            "good": 41,
+            "ok": 24,
+            "bad": 19
           },
           "consensus": "Based on WMI V12 architecture with subtle differences. Shows improved red light stopping behavior and less ping-pong at low speeds. However, multiple users report pronounced oversteering on turns — especially problematic on Toyota vehicles with low-torque EPS. Hard braking at close range and red light creeping are also noted drawbacks.",
           "note": "Vehicle-dependent: praised on Hyundai Ioniq 5, but struggles with Toyota RAV4 Prime. Consider enabling 'pause lateral while turning' if oversteering is an issue.",
@@ -1052,12 +1052,12 @@
             "Smart",
             "Highway"
           ],
-          "communityScore": 55,
-          "totalVotes": 22,
+          "communityScore": 90,
+          "totalVotes": 10,
           "sentiment": {
-            "great": 5,
-            "good": 9,
-            "ok": 86,
+            "great": 70,
+            "good": 20,
+            "ok": 10,
             "bad": 0
           },
           "consensus": "Slightly more stable than V12 on straightaways. Good fallback if V12 feels too jittery.",
@@ -1080,13 +1080,13 @@
             "Smart",
             "Stable"
           ],
-          "communityScore": 50,
-          "totalVotes": 5,
+          "communityScore": 65,
+          "totalVotes": 13,
           "sentiment": {
-            "great": 40,
-            "good": 0,
-            "ok": 20,
-            "bad": 40
+            "great": 15,
+            "good": 31,
+            "ok": 54,
+            "bad": 0
           },
           "consensus": "Well-tested mid-generation model. A solid choice if V11/V12 have issues on your specific vehicle.",
           "bestFor": "Mixed Driving",
@@ -1108,13 +1108,13 @@
             "Experimental",
             "Stable"
           ],
-          "communityScore": 52,
-          "totalVotes": 28,
+          "communityScore": 73,
+          "totalVotes": 35,
           "sentiment": {
-            "great": 7,
-            "good": 14,
-            "ok": 68,
-            "bad": 11
+            "great": 43,
+            "good": 20,
+            "ok": 29,
+            "bad": 8
           },
           "consensus": "Likely 'Space Cat' or 'Stable Control' variant. Testing new stability algorithms.",
           "note": "Worth trying if you want something different.",
@@ -1138,13 +1138,13 @@
             "C4 Default",
             "2025+"
           ],
-          "communityScore": 48,
-          "totalVotes": 40,
+          "communityScore": 71,
+          "totalVotes": 14,
           "sentiment": {
-            "great": 3,
-            "good": 5,
-            "ok": 83,
-            "bad": 9
+            "great": 21,
+            "good": 57,
+            "ok": 14,
+            "bad": 8
           },
           "consensus": "Rock-solid choice for newer 2025+ platforms (e.g., Kia K4). Currently the default pre-installed model on Comma 4 hardware. Favored for its stability and predictive behavior on modern ADAS architectures.",
           "bestFor": "Mixed Driving",
@@ -1165,13 +1165,13 @@
           "tags": [
             "Smart"
           ],
-          "communityScore": 55,
-          "totalVotes": 42,
+          "communityScore": 92,
+          "totalVotes": 16,
           "sentiment": {
-            "great": 10,
-            "good": 10,
-            "ok": 74,
-            "bad": 6
+            "great": 63,
+            "good": 38,
+            "ok": 0,
+            "bad": 0
           },
           "consensus": "Early 2026 build that established the foundation. Still functional for conservative E2E users.",
           "bestFor": "Highway",
@@ -1187,13 +1187,13 @@
           "tags": [
             "Smart"
           ],
-          "communityScore": 58,
-          "totalVotes": 20,
+          "communityScore": 77,
+          "totalVotes": 13,
           "sentiment": {
-            "great": 15,
-            "good": 10,
-            "ok": 70,
-            "bad": 5
+            "great": 46,
+            "good": 31,
+            "ok": 15,
+            "bad": 8
           },
           "consensus": "New Year's release that kick-started the 2026 WMI series. Historical significance.",
           "bestFor": "Highway",
@@ -1212,13 +1212,13 @@
             "Stiff",
             "Highway"
           ],
-          "communityScore": 56,
-          "totalVotes": 38,
+          "communityScore": 86,
+          "totalVotes": 32,
           "sentiment": {
-            "great": 11,
-            "good": 16,
-            "ok": 66,
-            "bad": 7
+            "great": 66,
+            "good": 22,
+            "ok": 6,
+            "bad": 6
           },
           "consensus": "World Model tuned for STIFFER steering response. If WMI V12 feels too 'wiggly', this locks it down.",
           "note": "Great for vehicles with loose steering racks.",
@@ -1244,13 +1244,13 @@
           ],
           "consensus": "Features an expanded neural network architecture in the OP model lineup. Offers superior spatial perception in messy city driving and multi-lane intersections, though requires modern comma 4 hardware for optimal compute latency.",
           "note": "Optimized for Comma 4. Recommended for dense suburban and urban environments.",
-          "communityScore": 71,
-          "totalVotes": 29,
+          "communityScore": 50,
+          "totalVotes": 1,
           "sentiment": {
-            "great": 38,
-            "good": 38,
-            "ok": 18,
-            "bad": 6
+            "great": 0,
+            "good": 0,
+            "ok": 100,
+            "bad": 0
           },
           "bestFor": "Urban / Mixed Driving",
           "steeringFeel": "Confident",
@@ -1284,13 +1284,13 @@
           ],
           "consensus": "The next evolution in reinforcement learning driving models following Deep_RL V3. Delivers exceptionally natural steering wheel movement and proactive curve anticipation, mimicking human driving dynamics closely.",
           "note": "Best suited for openpilot experimental branches and drivers who prefer fluid, human-like dynamics over rigid centering.",
-          "communityScore": 76,
-          "totalVotes": 25,
+          "communityScore": 50,
+          "totalVotes": 2,
           "sentiment": {
-            "great": 48,
-            "good": 32,
-            "ok": 12,
-            "bad": 8
+            "great": 0,
+            "good": 0,
+            "ok": 100,
+            "bad": 0
           },
           "bestFor": "Natural Human-Like Driving",
           "steeringFeel": "Natural",
@@ -1324,13 +1324,13 @@
           ],
           "consensus": "The highway-focused twin to the Rebel series. Trades aggressive turn torque for rock-steady straight-line tracking and smooth lane changes with minimal wander.",
           "note": "Recommended for highway commuters looking for a more composed alternative to early WMI models.",
-          "communityScore": 72,
-          "totalVotes": 20,
+          "communityScore": 0,
+          "totalVotes": 1,
           "sentiment": {
-            "great": 35,
-            "good": 45,
-            "ok": 15,
-            "bad": 5
+            "great": 0,
+            "good": 0,
+            "ok": 0,
+            "bad": 100
           },
           "bestFor": "Highway Commutes",
           "steeringFeel": "Balanced",
@@ -1401,13 +1401,13 @@
           ],
           "consensus": "Designed to handle aggressive cornering where vehicle torque limits are exceeded without blowing through lane lines like CD210. Delivers strong lane retention through bends, though some vehicles experience low-speed lateral ping-ponging.",
           "note": "Great for routes with challenging curves. If experiencing low-speed wander, toggle pause lateral on low speeds.",
-          "communityScore": 68,
-          "totalVotes": 24,
+          "communityScore": 30,
+          "totalVotes": 9,
           "sentiment": {
-            "great": 30,
-            "good": 40,
-            "ok": 20,
-            "bad": 10
+            "great": 11,
+            "good": 11,
+            "ok": 22,
+            "bad": 56
           },
           "bestFor": "Curved Roads / Assisted Cornering",
           "steeringFeel": "Firm",
@@ -1438,13 +1438,13 @@
             "Experimental",
             "Mixed Sentiment"
           ],
-          "communityScore": 60,
-          "totalVotes": 12,
+          "communityScore": 67,
+          "totalVotes": 17,
           "sentiment": {
-            "great": 33,
-            "good": 25,
-            "ok": 17,
-            "bad": 25
+            "great": 41,
+            "good": 18,
+            "ok": 24,
+            "bad": 17
           },
           "consensus": "Split reception on a 12-vote poll: 58% land at Good or better, but a quarter sit at Bad or Horrible. Longitudinal is the strong half — called 'really impressive' in stop-and-go traffic. Lateral is the weak half, drawing reports of hugging the inside of corners, an inability to take intersection turns at all, and sweeping turns that drift wide enough to path off-road.",
           "note": "Re-cut of the August 12 Terrible Super Fantastic Model. Feedback is polarized rather than lukewarm — the votes cluster at both ends, so expect vehicle-dependent results.",
@@ -1482,7 +1482,15 @@
           "positives": [],
           "negatives": [],
           "routesDriven": 32,
-          "fleetRank": 59
+          "fleetRank": 59,
+          "communityScore": 0,
+          "totalVotes": 2,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 0,
+            "bad": 100
+          }
         },
         {
           "name": "RDF Model v2",
@@ -1497,7 +1505,15 @@
           "positives": [],
           "negatives": [],
           "routesDriven": 788,
-          "fleetRank": 24
+          "fleetRank": 24,
+          "communityScore": 52,
+          "totalVotes": 15,
+          "sentiment": {
+            "great": 27,
+            "good": 33,
+            "ok": 0,
+            "bad": 40
+          }
         },
         {
           "name": "RDF Model",
@@ -1511,13 +1527,13 @@
           ],
           "consensus": "Tuned by Yassine/MVL with noticeable longitudinal gains over POP and CD210. Offers smooth stop-and-go speed matching and assertive curve tracking on sweeping highways. Some users report slight low-speed lateral wiggles and reduced torque on high-angle curves for certain steer setups.",
           "note": "Pair with recent MVL tunings if driving Honda/Hyundai platforms. Very solid longitudinal control in experimental mode.",
-          "communityScore": 78,
-          "totalVotes": 32,
+          "communityScore": 76,
+          "totalVotes": 44,
           "sentiment": {
-            "great": 45,
-            "good": 35,
-            "ok": 15,
-            "bad": 5
+            "great": 32,
+            "good": 43,
+            "ok": 23,
+            "bad": 2
           },
           "bestFor": "Highway / Stop & Go",
           "steeringFeel": "Assertive",
@@ -1560,13 +1576,13 @@
             "Off-Policy",
             "Highway"
           ],
-          "communityScore": 47,
-          "totalVotes": 247,
+          "communityScore": 48,
+          "totalVotes": 17,
           "sentiment": {
-            "great": 6,
-            "good": 7,
-            "ok": 72,
-            "bad": 15
+            "great": 12,
+            "good": 12,
+            "ok": 53,
+            "bad": 23
           },
           "consensus": "Experimental model using off-policy training — learns from corrections rather than just cloning. Better highway centering and quicker lateral recentering vs WMI V12. However, experimental long mode feels jerky, and sharp turns can be a step backward. Good potential for highway-focused drivers.",
           "note": "'Off-policy' means it learned from data where the model's behavior differed from the human driver's action, allowing it to learn from corrections more effectively than standard cloning.",
@@ -1590,13 +1606,13 @@
             "Highway",
             "Experimental"
           ],
-          "communityScore": 51,
-          "totalVotes": 21,
+          "communityScore": 61,
+          "totalVotes": 16,
           "sentiment": {
-            "great": 14,
-            "good": 14,
-            "ok": 52,
-            "bad": 20
+            "great": 31,
+            "good": 19,
+            "ok": 31,
+            "bad": 19
           },
           "consensus": "Second iteration of off-policy training. Lateral performance is praised — doesn't hug the left side and less huggy on highway turns at 70+. However, longitudinal control is a notable regression: late braking, rubberbanding behind lead cars, and exaggerated follow distances are commonly reported. Best on comma 4; mixed results on other platforms.",
           "note": "Strong lateral improvements over v1, but long control needs work. Community opinion is split — some love the lat, others can't tolerate the long behavior.",
@@ -1622,14 +1638,14 @@
             "PlanPlus",
             "Experimental"
           ],
-          "communityScore": 51,
-          "totalVotes": 66,
+          "communityScore": 67,
+          "totalVotes": 9,
           "communityViews": 323,
           "sentiment": {
-            "great": 8,
-            "good": 5,
-            "ok": 79,
-            "bad": 8
+            "great": 56,
+            "good": 0,
+            "ok": 22,
+            "bad": 22
           },
           "consensus": "Highly praised third iteration of off-policy training. Community describes it as a 'mad max' version of CD210/WMI — fast longitudinal response with better lateral control than its predecessors. Includes PlanPlus integration for customizable lane centering aggressiveness. Rated A+ by early testers.",
           "note": "Minor inconsistency in lead gap following and occasional wobbles at highway speed. PlanPlus integration allows tuning of lane centering vs curve hugging.",
@@ -1665,14 +1681,14 @@
             "PlanPlus",
             "Experimental"
           ],
-          "communityScore": 44,
-          "totalVotes": 118,
+          "communityScore": 41,
+          "totalVotes": 28,
           "communityViews": 480,
           "sentiment": {
-            "great": 4,
-            "good": 7,
-            "ok": 69,
-            "bad": 20
+            "great": 11,
+            "good": 21,
+            "ok": 29,
+            "bad": 39
           },
           "consensus": "Fourth iteration of off-policy training with improved oversteer handling compared to v2. Excellent lane centering and smooth city driving when paired with SCC-V. However, shows hesitation when following a lead vehicle and tends to drive slower than surrounding traffic when no lead is present. Mixed results on curves — improved for Hyundai/Toyota but Tesla users report inside-line riding.",
           "note": "SCC-V strongly recommended for safe curve speed handling. Hesitant acceleration when following lead vehicles is the main drawback vs WMI/CD210.",
@@ -1706,13 +1722,13 @@
             "Highway",
             "Experimental"
           ],
-          "communityScore": 51,
-          "totalVotes": 21,
+          "communityScore": 43,
+          "totalVotes": 22,
           "sentiment": {
-            "great": 5,
-            "good": 10,
-            "ok": 76,
-            "bad": 9
+            "great": 0,
+            "good": 18,
+            "ok": 59,
+            "bad": 23
           },
           "consensus": "Fifth iteration of off-policy training with significantly more community feedback now. Improved cornering compared to v4 — takes turns wider and away from curbs. Good performance at higher speeds (above 30mph). However, majority rate it as just 'OK' with notable regressions: low-speed behavior struggles to commit to lanes, hugs or crosses lines, and turns lock out partway through. Significant ping-ponging at low speeds reported on Prius Prime. High-speed wobbles above 65mph persist.",
           "note": "Community consensus has shifted — majority finds it mediocre. Cornering improvement over v4 but low-speed and turn handling are worse. Torque tune v0 recommended.",
@@ -1757,13 +1773,13 @@
           "tags": [
             "Aggressive"
           ],
-          "communityScore": 51,
-          "totalVotes": 134,
+          "communityScore": 76,
+          "totalVotes": 6,
           "sentiment": {
-            "great": 3,
-            "good": 10,
-            "ok": 80,
-            "bad": 7
+            "great": 67,
+            "good": 0,
+            "ok": 17,
+            "bad": 16
           },
           "consensus": "Original 'unforgiving' model. Still popular for assertive driving. Less refined than v2 but raw character.",
           "bestFor": "Aggressive Driving",
@@ -1813,13 +1829,13 @@
             "Dev",
             "Experimental"
           ],
-          "communityScore": 54,
-          "totalVotes": 60,
+          "communityScore": 74,
+          "totalVotes": 9,
           "sentiment": {
-            "great": 8,
-            "good": 13,
-            "ok": 72,
-            "bad": 7
+            "great": 44,
+            "good": 33,
+            "ok": 11,
+            "bad": 12
           },
           "consensus": "Testing a new lateral planner algorithm. Very experimental - for developers and testers.",
           "bestFor": "Development",
@@ -1837,13 +1853,13 @@
           "tags": [
             "Academic"
           ],
-          "communityScore": 70,
-          "totalVotes": 25,
+          "communityScore": 67,
+          "totalVotes": 21,
           "sentiment": {
-            "great": 28,
-            "good": 35,
-            "ok": 25,
-            "bad": 12
+            "great": 43,
+            "good": 19,
+            "ok": 19,
+            "bad": 19
           },
           "consensus": "Model presented at NeurIPS AI conference. Showcase technology with academic focus.",
           "bestFor": "Research",
@@ -2626,13 +2642,13 @@
           "tags": [
             "Community"
           ],
-          "communityScore": 54,
-          "totalVotes": 267,
+          "communityScore": 81,
+          "totalVotes": 28,
           "sentiment": {
-            "great": 9,
-            "good": 9,
-            "ok": 76,
-            "bad": 6
+            "great": 50,
+            "good": 29,
+            "ok": 18,
+            "bad": 3
           },
           "consensus": "Generic World Model version 9. Standard performance.",
           "bestFor": "All-Around",

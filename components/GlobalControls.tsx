@@ -106,7 +106,8 @@ export default function GlobalControls() {
                             transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]
                         "
                     >
-                        <span className="truncate">Save $50 on comma four</span>
+                        <span className="truncate sm:hidden">Save $50 comma 4</span>
+                        <span className="truncate hidden sm:inline">Save $50 on comma four</span>
                         <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                     </a>
                 </div>

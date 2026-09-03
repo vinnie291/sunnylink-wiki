@@ -5,9 +5,9 @@
   "categories": [
     {
       "id": "models",
-      "name": "Paramètres du modèle",
+      "name": "Model Settings",
       "icon": "🧠",
-      "description": "Configuration du modèle d'IA et réglage du comportement de conduite.",
+      "description": "Select and manage driving models, and configure model-related parameters.",
       "settings": [
         {
           "key": "AdjustCameraOffset",
@@ -25,7 +25,8 @@
             "Les valeurs négatives déplacent la voiture vers le côté droit de la voie.",
             "Un décalage trop important peut provoquer des avertissements de sortie de voie."
           ],
-          "userNote": "Valeur par défaut 0,00. Ajustez si vous avez l'impression que la voiture roule trop à gauche ou à droite. Conseil de la communauté : Si vous utilisez des modèles comme Down to Ride v6 sur Comma 4 et que vous rencontrez un 'serrage à droite', essayez un décalage de -0,05 à -0,10."
+          "userNote": "Valeur par défaut 0,00. Ajustez si vous avez l'impression que la voiture roule trop à gauche ou à droite. Conseil de la communauté : Si vous utilisez des modèles comme Down to Ride v6 sur Comma 4 et que vous rencontrez un 'serrage à droite', essayez un décalage de -0,05 à -0,10.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "LaneTurnDesire",
@@ -38,7 +39,8 @@
             "Not primarily for changement de voies.",
             "Peut-être trop agressif dans un trafic serré."
           ],
-          "userNote": "Activer if changement de voies feel sluggish or delayed."
+          "userNote": "Activer if changement de voies feel sluggish or delayed.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "AdjustLaneTurnSpeed",
@@ -60,7 +62,8 @@
               "label": "Show Advanced Controls"
             }
           ],
-          "userNote": "Apparaît uniquement lorsque Utiliser les désirs de changement de voie et Afficher les commandes avancées sont activés."
+          "userNote": "Apparaît uniquement lorsque Utiliser les désirs de changement de voie et Afficher les commandes avancées sont activés.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DrivingModel",
@@ -68,7 +71,8 @@
           "type": "dropdown",
           "description": "Sélectionnez le modèle de conduite AI. Chaque modèle possède des caractéristiques de conduite uniques.",
           "useCase": "Choisissez un modèle qui correspond à votre style de conduite et aux conditions routières.",
-          "userNote": "Consultez la bibliothèque de modèles pour des descriptions détaillées de tous les plus de 66 modèles disponibles."
+          "userNote": "Consultez la bibliothèque de modèles pour des descriptions détaillées de tous les plus de 66 modèles disponibles.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ModelLibrary",
@@ -76,21 +80,24 @@
           "type": "action",
           "description": "Parcourez la bibliothèque complète de plus de 66 modèles de conduite avec des descriptions, des dates de sortie et un consensus communautaire.",
           "useCase": "Trouvez le modèle parfait pour votre style de conduite.",
-          "userNote": "Comprend les modèles WMI Series, Dark Souls, Down to Ride, Tomb Raider et Legacy."
+          "userNote": "Comprend les modèles WMI Series, Dark Souls, Down to Ride, Tomb Raider et Legacy.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RefreshModelList",
           "label": "Refresh Model List",
           "type": "action",
           "description": "Force un rafraîchissement de la liste des modèles disponibles depuis le serveur. Utilisez ceci si vous attendez qu'un nouveau modèle soit disponible mais que vous ne le voyez pas dans la boîte de dialogue de sélection.",
-          "userNote": "À utiliser lorsqu'un nouveau modèle devrait être disponible mais n'est pas affiché."
+          "userNote": "À utiliser lorsqu'un nouveau modèle devrait être disponible mais n'est pas affiché.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ClearModelCache",
           "label": "Clear Model Cache",
           "type": "action",
           "description": "Supprime tous les modèles téléchargés à l'exception de celui actuellement actif. La taille actuelle du cache en Mo s'affiche. Utile pour libérer de l'espace de stockage.",
-          "userNote": "Libère de l'espace de stockage en supprimant les anciens fichiers de modèle."
+          "userNote": "Libère de l'espace de stockage en supprimant les anciens fichiers de modèle.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "LiveLearningSteerDelay",
@@ -101,7 +108,8 @@
           "recommended": true,
           "useCase": "Compense automatiquement la latence de direction spécifique au véhicule.",
           "deepDive": "Mesure le délai entre l'angle de direction commandé et le mouvement réel de la roue, puis ajuste les prévisions pour compenser.",
-          "userNote": "Garder ACTIVÉ for optimal direction response."
+          "userNote": "Garder ACTIVÉ for optimal direction response.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ManualSoftwareDelay",
@@ -116,15 +124,16 @@
             }
           ],
           "warning": "Ne touchez pas. Laissez sur « 0,00 », sauf indication contraire des développeurs.",
-          "userNote": "Modifiez-le uniquement si le délai de pilotage en direct est désactivé."
+          "userNote": "Modifiez-le uniquement si le délai de pilotage en direct est désactivé.",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
     {
       "id": "device",
-      "name": "Paramètres de l'appareil",
+      "name": "Device Settings",
       "icon": "📱",
-      "description": "Hardware management, cellular, and alimentation paramètres.",
+      "description": "View device information, manage calibration, configure power behavior, and access system utilities.",
       "settings": [
         {
           "key": "ForceOffroadMode",
@@ -134,7 +143,8 @@
           "description": "Désactivers active driving features to unlock paramètres restricted en conduisant.",
           "safetyLevel": "safe",
           "useCase": "À utiliser en stationnement pour modifier les paramètres (Offroad) ou pour le mode Valet.",
-          "userNote": "« Tout-terrain » signifie garé/ne conduisant pas. « Onroad » signifie conduire."
+          "userNote": "« Tout-terrain » signifie garé/ne conduisant pas. « Onroad » signifie conduire.",
+          "deviceAvailability": "full"
         },
         {
           "key": "DeviceBootMode",
@@ -147,7 +157,8 @@
           "default": "Default",
           "description": "Démarrage/réveil en mode Offroad ou Normal.",
           "useCase": "Choisissez comment l'appareil démarre après le cycle d'alimentation.",
-          "userNote": "La norme est recommandée pour une utilisation normale."
+          "userNote": "La norme est recommandée pour une utilisation normale.",
+          "deviceAvailability": "full"
         },
         {
           "key": "UseMetricUnits",
@@ -156,7 +167,8 @@
           "default": false,
           "description": "Afficher les mesures métriques (km/h, km) au lieu des mesures impériales (mph, miles).",
           "useCase": "Définir en fonction du système de mesure de votre région.",
-          "userNote": "Activer si vous préférez les unités métriques."
+          "userNote": "Activer si vous préférez les unités métriques.",
+          "deviceAvailability": "full"
         },
         {
           "key": "QuietMode",
@@ -165,7 +177,8 @@
           "default": false,
           "description": "Réduisez les notifications sonores.",
           "useCase": "Réduisez les alertes audio pour une expérience de conduite plus silencieuse.",
-          "userNote": "Activer si vous préférez moins d'alertes audio."
+          "userNote": "Activer si vous préférez moins d'alertes audio.",
+          "deviceAvailability": "full"
         },
         {
           "key": "OnroadUploads",
@@ -174,7 +187,8 @@
           "default": true,
           "description": "Activer Onroad Uploads pour les données de conduite.",
           "useCase": "Téléchargez des données de conduite sur la route.",
-          "userNote": "Utilise les données mobiles lorsque le WiFi n'est pas disponible."
+          "userNote": "Utilise les données mobiles lorsque le WiFi n'est pas disponible.",
+          "deviceAvailability": "full"
         },
         {
           "key": "Language",
@@ -183,7 +197,8 @@
           "default": "en",
           "description": "Sélection de la langue de l'interface utilisateur.",
           "useCase": "Choisissez votre langue d'affichage préférée.",
-          "userNote": "Sélectionnez votre langue préférée pour l'interface."
+          "userNote": "Sélectionnez votre langue préférée pour l'interface.",
+          "deviceAvailability": "full"
         },
         {
           "key": "RecordUploadDriverCamera",
@@ -196,7 +211,8 @@
             "Considération en matière de confidentialité : le conducteur est enregistré.",
             "Uses additional stockage and bande passante."
           ],
-          "userNote": "Activer pour l'enregistrement complet du disque, y compris la vue du conducteur."
+          "userNote": "Activer pour l'enregistrement complet du disque, y compris la vue du conducteur.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RecordUploadMicAudio",
@@ -209,7 +225,8 @@
             "Considération en matière de confidentialité : les conversations sont enregistrées.",
             "Uses additional stockage and bande passante."
           ],
-          "userNote": "Activer pour l'enregistrement audio avec des séquences de lecteur."
+          "userNote": "Activer pour l'enregistrement audio avec des séquences de lecteur.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GsmMetered",
@@ -218,7 +235,8 @@
           "default": true,
           "description": "Active la mesure des données cellulaires pour suivre et limiter l’utilisation des données.",
           "useCase": "Surveillez la consommation de données lors de l'utilisation d'un point d'accès mobile ou d'une connexion cellulaire.",
-          "userNote": "Garder ACTIVÉ pour suivre l'utilisation des données sur les connexions limitées."
+          "userNote": "Garder ACTIVÉ pour suivre l'utilisation des données sur les connexions limitées.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GsmRoaming",
@@ -231,7 +249,8 @@
             "Peut entraîner des frais d'itinérance importants.",
             "Peut avoir des vitesses de connexion plus lentes."
           ],
-          "warning": "Peut entraîner des frais d'itinérance. Garder DÉSACTIVÉ sauf en déplacement."
+          "warning": "Peut entraîner des frais d'itinérance. Garder DÉSACTIVÉ sauf en déplacement.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GsmApn",
@@ -240,7 +259,8 @@
           "default": "",
           "description": "Nom du point d'accès pour la connexion de données cellulaires.",
           "useCase": "Configurez les paramètres APN personnalisés pour votre opérateur de téléphonie mobile.",
-          "userNote": "Only modify if votre voiturerier requires specific APN paramètres."
+          "userNote": "Only modify if votre voiturerier requires specific APN paramètres.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CreateBackup",
@@ -248,7 +268,8 @@
           "type": "action",
           "description": "Backup current paramètres to device stockage.",
           "useCase": "Enregistrez votre configuration actuelle avant les mises à jour ou les modifications.",
-          "userNote": "Recommandé avant les mises à jour majeures ou les réinstallations."
+          "userNote": "Recommandé avant les mises à jour majeures ou les réinstallations.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RestoreVersion",
@@ -256,7 +277,8 @@
           "type": "action",
           "description": "Restaurer les paramètres d'une sauvegarde précédente.",
           "useCase": "Récupérez votre configuration après une réinitialisation ou une nouvelle installation.",
-          "warning": "Cela écrasera les paramètres actuels."
+          "warning": "Cela écrasera les paramètres actuels.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UninstallSunnypilot",
@@ -265,7 +287,8 @@
           "description": "Supprimez complètement sunnypilot de l'appareil.",
           "useCase": "Désinstallation propre avant de passer à un autre fork.",
           "warning": "Cela supprimera toutes les données et paramètres de sunnypilot.",
-          "safetyLevel": "critical"
+          "safetyLevel": "critical",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "MaxTimeOffroad",
@@ -293,7 +316,8 @@
             "Des valeurs plus élevées maintiennent l'appareil prêt plus longtemps mais déchargent la batterie.",
             "Des valeurs inférieures permettent d'économiser la batterie mais peuvent ne pas terminer les téléchargements."
           ],
-          "userNote": "Par défaut 1800 secondes (30 minutes). Augmentez si les téléchargements ne se terminent pas."
+          "userNote": "Par défaut 1800 secondes (30 minutes). Augmentez si les téléchargements ne se terminent pas.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ForcePowerDown",
@@ -302,7 +326,8 @@
           "default": false,
           "description": "Forcer l'arrêt immédiat de l'appareil.",
           "useCase": "Alimentation coupée rapidement lorsque vous quittez le véhicule pendant de longues périodes.",
-          "userNote": "Utilisez-le pour arrêter immédiatement au lieu d'attendre l'expiration du délai."
+          "userNote": "Utilisez-le pour arrêter immédiatement au lieu d'attendre l'expiration du délai.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "Reboot",
@@ -310,7 +335,8 @@
           "type": "action",
           "description": "Restart l'appareil immediately.",
           "useCase": "Appliquez les modifications de paramètres ou corrigez les problèmes logiciels.",
-          "userNote": "À utiliser après avoir apporté des modifications de configuration importantes."
+          "userNote": "À utiliser après avoir apporté des modifications de configuration importantes.",
+          "deviceAvailability": "full"
         },
         {
           "key": "PowerOff",
@@ -318,7 +344,8 @@
           "type": "action",
           "description": "Éteignez immédiatement l'appareil.",
           "useCase": "Arrêtez-le en toute sécurité avant de débrancher l'alimentation.",
-          "userNote": "Utilisez-le au lieu de le débrancher pour un arrêt progressif."
+          "userNote": "Utilisez-le au lieu de le débrancher pour un arrêt progressif.",
+          "deviceAvailability": "full"
         },
         {
           "key": "GithubUsername",
@@ -327,7 +354,8 @@
           "default": "",
           "description": "Compte GitHub connecté pour le développement et les mises à jour.",
           "useCase": "Liez votre compte GitHub pour une gestion personnalisée des fork.",
-          "userNote": "Requis pour pousser des modifications personnalisées ou accéder à des forks privés."
+          "userNote": "Requis pour pousser des modifications personnalisées ou accéder à des forks privés.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RecordFrontLock",
@@ -336,78 +364,88 @@
           "default": false,
           "description": "Empêche l'appareil de supprimer les images de la caméra frontale.",
           "useCase": "Conservez des enregistrements de lecteur spécifiques à des fins de preuve ou d’examen.",
-          "userNote": "Utile si vous devez enregistrer un lecteur spécifique à des fins de preuve."
+          "userNote": "Utile si vous devez enregistrer un lecteur spécifique à des fins de preuve.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DeviceId",
           "label": "ID de l'appareil",
           "type": "readonly",
           "description": "Identifiant unique de l'appareil.",
-          "userNote": "Lecture seule. Utilisé pour l’identification et l’assistance des appareils."
+          "userNote": "Lecture seule. Utilisé pour l’identification et l’assistance des appareils.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GitCommit",
           "label": "Validation Git",
           "type": "readonly",
           "description": "Hachage de la version actuelle du logiciel.",
-          "userNote": "Lecture seule. Utile pour les rapports de bogues."
+          "userNote": "Lecture seule. Utile pour les rapports de bogues.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "OpenpilotVersion",
           "label": "Version openpilot",
           "type": "readonly",
           "description": "Numéro de version du logiciel.",
-          "userNote": "Lecture seule. Affiche la version actuellement installée."
+          "userNote": "Lecture seule. Affiche la version actuellement installée.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GitBranch",
           "label": "Branche Git",
           "type": "readonly",
           "description": "Nom actuel de la branche git.",
-          "userNote": "Lecture seule. Affiche la branche que vous exécutez (par exemple, « dev », « release »)."
+          "userNote": "Lecture seule. Affiche la branche que vous exécutez (par exemple, « dev », « release »).",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UptimeOffroad",
           "label": "Disponibilité hors route",
           "type": "readonly",
           "description": "Temps d'inactivité du système en secondes.",
-          "userNote": "Lecture seule. Indique combien de temps l'appareil est resté allumé lorsqu'il était garé."
+          "userNote": "Lecture seule. Indique combien de temps l'appareil est resté allumé lorsqu'il était garé.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SerialNumber",
           "label": "Numéro de série",
           "type": "readonly",
           "description": "Numéro de série du matériel.",
-          "userNote": "Lecture seule. Utilisé pour l'identification de l'appareil."
+          "userNote": "Lecture seule. Utilisé pour l'identification de l'appareil.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RouteCount",
           "label": "Nombre d'itinéraires",
           "type": "readonly",
           "description": "Nombre total d'itinéraires enregistrés.",
-          "userNote": "Lecture seule. Indique combien de lecteurs ont été enregistrés."
+          "userNote": "Lecture seule. Indique combien de lecteurs ont été enregistrés.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GitCommitDate",
           "label": "Date de validation Git",
           "type": "readonly",
           "description": "Date de la validation en cours.",
-          "userNote": "Lecture seule. Indique quand la version actuelle a été créée."
+          "userNote": "Lecture seule. Indique quand la version actuelle a été créée.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UptimeOnroad",
           "label": "Disponibilité sur route",
           "type": "readonly",
           "description": "Temps de conduite de la session en secondes.",
-          "userNote": "Lecture seule. Affiche le temps de conduite total pour la session en cours."
+          "userNote": "Lecture seule. Affiche le temps de conduite total pour la session en cours.",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
     {
       "id": "toggles",
-      "name": "Bascules",
+      "name": "Toggles",
       "icon": "🔘",
-      "description": "Basculements généraux et configurations diverses.",
+      "description": "Core driving assist toggles that control fundamental sunnypilot behavior, driving personality, driver monitoring, and data recording.",
       "settings": [
         {
           "key": "EnableSunnypilot",
@@ -418,7 +456,8 @@
           "recommended": true,
           "useCase": "Activez/désactivez rapidement toutes les fonctionnalités de sunnypilot.",
           "warning": "La désactivation désactive toutes les fonctionnalités de conduite assistée.",
-          "userNote": "Garder ACTIVÉ for normal operation."
+          "userNote": "Garder ACTIVÉ for normal operation.",
+          "deviceAvailability": "full"
         },
         {
           "key": "ExperimentalMode",
@@ -434,7 +473,8 @@
           ],
           "warning": "Soyez prudent aux feux/panneaux. Nécessite Alpha Longitudinal.",
           "userNote": "Vous devez d'abord activer Alpha Longitudinal.",
-          "deepDive": "Le MPC longitudinal est remplacé par la planification E2E du modèle mondial lorsqu'il est activé."
+          "deepDive": "Le MPC longitudinal est remplacé par la planification E2E du modèle mondial lorsqu'il est activé.",
+          "deviceAvailability": "full"
         },
         {
           "key": "DrivingPersonality",
@@ -453,7 +493,8 @@
             "Le mode agressif peut sembler dangereux dans un trafic à arrêts multiples.",
             "Le mode détendu peut frustrer les conducteurs derrière vous avec de grands écarts."
           ],
-          "userNote": "« Standard » est la valeur par défaut. « Agressif » suit de plus près ; « Détendu » laisse plus de lacunes."
+          "userNote": "« Standard » est la valeur par défaut. « Agressif » suit de plus près ; « Détendu » laisse plus de lacunes.",
+          "deviceAvailability": "full"
         },
         {
           "key": "LaneDepartureWarnings",
@@ -466,7 +507,8 @@
             "Peut être ennuyeux sur les routes avec un mauvais marquage des voies.",
             "May conflict with intentional changement de voies."
           ],
-          "userNote": "Utile pour les longs trajets sur autoroute afin de maintenir la vigilance."
+          "userNote": "Utile pour les longs trajets sur autoroute afin de maintenir la vigilance.",
+          "deviceAvailability": "full"
         },
         {
           "key": "DisengageOnAccelerator",
@@ -479,7 +521,8 @@
             "OFF : Peut aider à l'accélération mais la direction reste active.",
             "ON : Toute action sur la pédale d'accélérateur désengage complètement le système."
           ],
-          "userNote": "Garder DÉSACTIVÉ si vous souhaitez pouvoir aider la voiture à accélérer sans annuler la direction."
+          "userNote": "Garder DÉSACTIVÉ si vous souhaitez pouvoir aider la voiture à accélérer sans annuler la direction.",
+          "deviceAvailability": "full"
         },
         {
           "key": "AlwaysOnDriverMonitor",
@@ -492,7 +535,8 @@
             "Regarder toujours - considération de confidentialité.",
             "Consommation alimentaire plus élevée."
           ],
-          "userNote": "Suit votre attention 24h/24 et 7j/7."
+          "userNote": "Suit votre attention 24h/24 et 7j/7.",
+          "deviceAvailability": "full"
         },
         {
           "key": "DisablePowerDown",
@@ -505,7 +549,8 @@
             "Videra la batterie de la voiture si elle est laissée débranchée.",
             "L'appareil chauffe continuellement."
           ],
-          "warning": "Va vider la batterie de la voiture."
+          "warning": "Va vider la batterie de la voiture.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DisableUpdates",
@@ -518,15 +563,16 @@
             "Manque les corrections de bugs et les nouvelles fonctionnalités.",
             "Peut devenir incompatible avec les services Sunnylink au fil du temps."
           ],
-          "userNote": "À utiliser si vous trouvez une version que vous aimez et que vous ne souhaitez pas qu'elle change."
+          "userNote": "À utiliser si vous trouvez une version que vous aimez et que vous ne souhaitez pas qu'elle change.",
+          "deviceAvailability": "full"
         }
       ]
     },
     {
       "id": "steering",
-      "name": "Paramètres de direction",
+      "name": "Steering Settings",
       "icon": "🎯",
-      "description": "Configuration for lateral control and maintien de voie.",
+      "description": "Configuration for lateral control and lane keeping.",
       "settings": [
         {
           "key": "MadsEnabled",
@@ -541,7 +587,8 @@
             "Vous pouvez avoir l'impression que la voiture vous « combat » si vous changez de voie sans clignotant."
           ],
           "deepDive": "Sépare la machine d'état de contrôle latéral de l'état de croisière longitudinale. MADS reste à l'état 'Active' même lorsque l'état 'Cruise' passe à 'Désactiverd'.",
-          "userNote": "Critique. C'est la fonctionnalité principale de Sunnypilot. Garder ACTIVÉ."
+          "userNote": "Critique. C'est la fonctionnalité principale de Sunnypilot. Garder ACTIVÉ.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "MadsSteeringMode",
@@ -565,7 +612,8 @@
             "Peut surprendre les nouveaux utilisateurs qui s'attendent à ce que la direction s'arrête au freinage.",
             "Nécessite plus d’attention pour contourner la direction lors d’un changement intentionnel de voie."
           ],
-          "userNote": "Réglez sur « Remain Active » pour conserver le centrage de la voie tout en freinant manuellement."
+          "userNote": "Réglez sur « Remain Active » pour conserver le centrage de la voie tout en freinant manuellement.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "MadsMainCruiseAllowed",
@@ -580,7 +628,8 @@
               "label": "MADS Enabled"
             }
           ],
-          "userNote": "Garder ACTIVÉ."
+          "userNote": "Garder ACTIVÉ.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "MadsUnifiedEngagementMode",
@@ -595,7 +644,8 @@
             }
           ],
           "useCase": "Simplifie l'activation : une seule pression sur un bouton permet à la fois le contrôle de la vitesse et la direction.",
-          "userNote": "Pratique pour l'activation à un seul bouton."
+          "userNote": "Pratique pour l'activation à un seul bouton.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "NeuralNetworkLateralControl",
@@ -611,7 +661,8 @@
             "La fonctionnalité pourrait être retirée prochainement car elle ne fonctionne plus avec les modèles modernes."
           ],
           "deepDive": "Utilise une politique de planification latérale de bout en bout (par exemple, le modèle du nord du Nevada) pour prédire la courbure du chemin plutôt que de réagir à la déviation actuelle de la voie.",
-          "userNote": "En raison de l'incompatibilité avec les modèles récents et des instabilités signalées, il est recommandé de laisser NNLC désactivé (OFF), sauf si vous utilisez un système de contrôle hérité spécifique."
+          "userNote": "En raison de l'incompatibilité avec les modèles récents et des instabilités signalées, il est recommandé de laisser NNLC désactivé (OFF), sauf si vous utilisez un système de contrôle hérité spécifique.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DynamicExperimentalControl",
@@ -628,7 +679,8 @@
             "Rend l’évaluation de modèles spécifiques plus difficile en raison du changement de mode."
           ],
           "deepDive": "Surveille le 'throttle_prob' du modèle pour déterminer l'intention. Si l'intention du modèle est faible, il injecte temporairement le plan longitudinal du mode expérimental pour les scénarios complexes.",
-          "userNote": "Idéal pour la conduite mixte, mais passez au mode expérimental complet si vous avez besoin d'un comportement cohérent."
+          "userNote": "Idéal pour la conduite mixte, mais passez au mode expérimental complet si vous avez besoin d'un comportement cohérent.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "EnforceTorqueControl",
@@ -637,7 +689,8 @@
           "default": false,
           "description": "Force la voiture à utiliser un contrôleur basé sur le couple pour la direction.",
           "useCase": "Pour les véhicules qui répondent mieux aux commandes directes de couple qu'aux commandes d'angle.",
-          "userNote": "Généralement maintenu sur OFF si vous utilisez NNLC."
+          "userNote": "Généralement maintenu sur OFF si vous utilisez NNLC.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SelfTune",
@@ -651,7 +704,8 @@
             "Il faut du temps pour apprendre – la direction peut sembler erronée au début.",
             "Les valeurs peuvent dériver si les conditions de conduite sont inhabituelles."
           ],
-          "userNote": "Garder ACTIVÉ pour de meilleures performances à mesure que vous conduisez plus."
+          "userNote": "Garder ACTIVÉ pour de meilleures performances à mesure que vous conduisez plus.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "LessRestrictSettingsForSelfTune",
@@ -669,7 +723,8 @@
             "Apprentissage plus rapide mais valeurs potentiellement instables.",
             "Peut nécessiter une réinitialisation manuelle si les valeurs dérivent trop loin."
           ],
-          "warning": "Utiliser avec prudence ; permet un apprentissage plus rapide mais des valeurs potentiellement plus sauvages."
+          "warning": "Utiliser avec prudence ; permet un apprentissage plus rapide mais des valeurs potentiellement plus sauvages.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "EnableCustomTorqueTuning",
@@ -682,7 +737,8 @@
             "Nécessite une compréhension approfondie de la dynamique du véhicule.",
             "De mauvaises valeurs peuvent rendre la direction dangereuse."
           ],
-          "warning": "Avancé uniquement. Don't touch unless you know votre voiture's specific physics."
+          "warning": "Avancé uniquement. Don't touch unless you know votre voiture's specific physics.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ManualTuneFriction",
@@ -705,7 +761,8 @@
             "Trop élevé : oscillation/ping-pong.",
             "Trop faible : couple insuffisant pour tenir la voie."
           ],
-          "userNote": "Par défaut 0.10. Adjust in small increments (0.01)."
+          "userNote": "Par défaut 0.10. Adjust in small increments (0.01).",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "TorqueControlTuneVersion",
@@ -725,7 +782,8 @@
             "Réinitialisation requise: Changer de version réinitialise la progression de l'apprentissage 'Self-Tune' pour ce contrôleur."
           ],
           "deepDive": "Ce commutateur bascule la logique du contrôleur de couple entre v0.0 et v1.0. La v1.0 est le contrôleur de 'couple' standardisé de l'openpilot moderne, tandis que la v0.0 conserve les modèles mathématiques hérités dont certains firmwares de direction plus anciens ont encore besoin pour la stabilité. La plupart des utilisateurs devraient rester sur Default, sauf s'ils dépannent des problèmes de stabilité latérale.",
-          "userNote": "Conseil de la communauté: Si votre voiture oscille ou semble instable dans les voies, essayez de passer d'abord à la v1.0, puis à la v0.0 si les problèmes persistent. À utiliser de préférence avec 'Self-Tune' activé ; prévoyez plus de 30 km de conduite pour que le système se calibre complètement après un changement."
+          "userNote": "Conseil de la communauté: Si votre voiture oscille ou semble instable dans les voies, essayez de passer d'abord à la v1.0, puis à la v0.0 si les problèmes persistent. À utiliser de préférence avec 'Self-Tune' activé ; prévoyez plus de 30 km de conduite pour que le système se calibre complètement après un changement.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "BlinkerMinLateralControlSpeed",
@@ -735,7 +793,8 @@
           "helpText": "Portée : 0+ mph. Réglez sur 0 pour toujours autoriser la direction avec clignotant.",
           "description": "La vitesse minimale à laquelle la voiture continuera sa direction lorsque le clignotant est allumé.",
           "useCase": "Empêche les conflits de direction lors des virages lents aux intersections.",
-          "userNote": "Empêche la roue de vous combattre lors des virages lents aux intersections."
+          "userNote": "Empêche la roue de vous combattre lors des virages lents aux intersections.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "BlinkerPauseLateralControl",
@@ -748,7 +807,8 @@
             "La direction se relâche immédiatement – ​​cela peut sembler soudain.",
             "No maintien de voie during intentional changement de voies."
           ],
-          "userNote": "Préféré par les conducteurs qui souhaitent un contrôle total lors des changements de voies."
+          "userNote": "Préféré par les conducteurs qui souhaitent un contrôle total lors des changements de voies.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "HyundaiLongitudinalTuning",
@@ -767,7 +827,8 @@
             "La dynamique peut sembler trop agressive pour certains utilisateurs.",
             "Peut affecter le rendement énergétique."
           ],
-          "userNote": "« Dynamique » peut corriger une accélération lente en modes Eco/Normal."
+          "userNote": "« Dynamique » peut corriger une accélération lente en modes Eco/Normal.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "TeslaCoopSteering",
@@ -777,15 +838,36 @@
           "description": "Autoriser la saisie de la direction du conducteur.",
           "helpText": "Par défaut: False",
           "deepDive": "Active le « mélange de couple » où le système se mélange à votre entrée pour une expérience plus intuitive et moins agressive. Permet l'activation de la direction sans régulateur de vitesse (MADS).",
-          "userNote": "Spécifique au véhicule : uniquement pour les véhicules Tesla."
+          "userNote": "Spécifique au véhicule : uniquement pour les véhicules Tesla.",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "LateralAccelerationFactor",
+          "label": "Facteur d'Accélération Latérale",
+          "type": "slider",
+          "default": 2.5,
+          "min": 1.5,
+          "max": 4.0,
+          "unit": "m/s²",
+          "helpText": "Range: 1.5 to 4.0 m/s²",
+          "description": "Facteur d'accélération latérale cible pour le contrôleur de couple. Des valeurs plus basses adoucissent la direction.",
+          "useCase": "Fine-tuning torque steering responsiveness for spirited driving or heavy vehicles.",
+          "tradeoffs": [
+            "Higher values increase steering aggression and corner entry speed.",
+            "Too high values may cause steering ping-pong or sudden jerkiness.",
+            "Too low values can result in understeering on sharp highway curves."
+          ],
+          "userNote": "Official recommended range: 2.3 - 2.7 m/s² for most sedans and crossovers.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
     {
       "id": "cruise",
-      "name": "Régulateur & vitesse",
+      "name": "Cruise & Speed",
       "icon": "🚀",
-      "description": "Configuration pour la gestion de la vitesse et le contrôle longitudinal.",
+      "description": "Configuration for speed management, cruise control, and lane change behavior.",
       "settings": [
         {
           "key": "VisionBasedTurnSpeedControl",
@@ -801,7 +883,8 @@
             "Freinage tardif par rapport à la vision des signes avant-coureurs."
           ],
           "deepDive": "Calcule l'accélération latérale projetée en fonction de la trajectoire du modèle. Réduit la vitesse pour maintenir les forces G latérales inférieures à ~ 0,3 g.",
-          "userNote": "Cette fonctionnalité n'est disponible que lorsque sunnypilot contrôle activement la commande longitudinale du véhicule."
+          "userNote": "Cette fonctionnalité n'est disponible que lorsque sunnypilot contrôle activement la commande longitudinale du véhicule.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SmartCruiseControlMap",
@@ -814,7 +897,8 @@
             "Dépend de la précision de la carte – peut ne pas refléter les conditions routières réelles.",
             "Peut ralentir prématurément dans les courbes redressées."
           ],
-          "userNote": "Bonne sauvegarde, mais Vision est généralement plus rapide/réactive."
+          "userNote": "Bonne sauvegarde, mais Vision est généralement plus rapide/réactive.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SpeedLimitAssistMode",
@@ -834,7 +918,8 @@
             "Peut se déclencher sur des panneaux conditionnels (zones scolaires) lorsqu'ils ne sont pas actifs."
           ],
           "deepDive": "Agrége les données d'OpenStreetMap (OSM), de la caméra de voiture (TSR) et des données de navigation pour déterminer la limite actuelle.",
-          "userNote": "« Information » montre simplement le signe. « Auto » modifie votre vitesse pour vous."
+          "userNote": "« Information » montre simplement le signe. « Auto » modifie votre vitesse pour vous.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SpeedLimitSource",
@@ -854,7 +939,8 @@
             "État de la voiture : en temps réel, mais ne fonctionne que là où la caméra peut lire les panneaux.",
             "Combiné : meilleure couverture mais conflits potentiels."
           ],
-          "userNote": "La « priorité des données cartographiques » est généralement la plus précise aux États-Unis."
+          "userNote": "La « priorité des données cartographiques » est généralement la plus précise aux États-Unis.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SpeedLimitOffsetType",
@@ -867,7 +953,8 @@
           "default": "Fixed",
           "description": "Choisissez entre un nombre fixe (par exemple, +5 mph) ou un pourcentage (par exemple, +10 %).",
           "useCase": "Corrigé pour une vitesse constante ; Pourcentage pour les ajustements proportionnels.",
-          "userNote": "Réglez sur « Fixe » pour un excès de vitesse constant."
+          "userNote": "Réglez sur « Fixe » pour un excès de vitesse constant.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SpeedLimitOffsetValue",
@@ -877,7 +964,8 @@
           "helpText": "Recommandé : 5 à 10 mph au-dessus de la limite pour correspondre au flux de circulation",
           "description": "Le montant réel de la vitesse dépassant la limite.",
           "useCase": "Faites correspondre le flux de trafic local (généralement de 5 à 10 mph dans la plupart des régions des États-Unis).",
-          "userNote": "Réglez-le à votre niveau de confort (par exemple, 5 à 10 mph au-dessus)."
+          "userNote": "Réglez-le à votre niveau de confort (par exemple, 5 à 10 mph au-dessus).",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "AutoLaneChangeTimer",
@@ -900,7 +988,8 @@
             "Nudge : Nécessite une légère action sur la roue - bon équilibre.",
             "Minuterie : ajoute un délai - le plus sûr mais le plus lent."
           ],
-          "userNote": "« Nudge » nécessite une entrée de roue ; « Instantané » est automatique."
+          "userNote": "« Nudge » nécessite une entrée de roue ; « Instantané » est automatique.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "AutoLaneChangeBsmDelay",
@@ -916,7 +1005,8 @@
             }
           ],
           "useCase": "Empêche les tentatives de changement de voie lorsqu'un véhicule se trouve dans votre angle mort.",
-          "userNote": "Sécurité: Garder ACTIVÉ."
+          "userNote": "Sécurité: Garder ACTIVÉ.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "MapAdvisorySpeedLimit",
@@ -926,7 +1016,8 @@
           "description": "Respecte les panneaux de vitesse jaunes « indicatifs » dans les courbes/rampes.",
           "recommended": true,
           "useCase": "Ralentit automatiquement pour les vitesses recommandées en sortie d'autoroute.",
-          "userNote": "Garder ACTIVÉ for safety on off-ramps."
+          "userNote": "Garder ACTIVÉ for safety on off-ramps.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CustomAccIncrements",
@@ -935,7 +1026,8 @@
           "default": false,
           "description": "Modifie l'ampleur de la variation de vitesse lorsque vous appuyez sur +/- sur la roue.",
           "useCase": "Ajustements précis de la vitesse – petits tapotements pour plus de précision.",
-          "userNote": "Personnalisez une pression courte sur ±1 et une pression longue sur ±5."
+          "userNote": "Personnalisez une pression courte sur ±1 et une pression longue sur ±5.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CustomAccShortPressIncrement",
@@ -954,7 +1046,8 @@
           ],
           "description": "Changement de vitesse sur appui court sur les boutons de croisière.",
           "useCase": "Affinez les petits réglages de vitesse.",
-          "userNote": "Réglez le changement de vitesse pour des pressions rapides sur les boutons de croisière."
+          "userNote": "Réglez le changement de vitesse pour des pressions rapides sur les boutons de croisière.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CustomAccLongPressIncrement",
@@ -973,7 +1066,8 @@
           ],
           "description": "Changement de vitesse sur appui long sur les boutons de croisière.",
           "useCase": "Des ajustements de vitesse plus importants avec le bouton maintenu.",
-          "userNote": "Réglez le changement de vitesse pour maintenir les boutons de croisière."
+          "userNote": "Réglez le changement de vitesse pour maintenir les boutons de croisière.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "IntelligentCruiseButtonManagement",
@@ -982,15 +1076,16 @@
           "default": false,
           "description": "Logique améliorée du bouton de croisière pour un contrôle de vitesse plus intelligent.",
           "useCase": "More intuitive régulateur de vitesse button behavior.",
-          "userNote": "Activer pour un comportement plus intelligent du bouton de croisière."
+          "userNote": "Activer pour un comportement plus intelligent du bouton de croisière.",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
     {
       "id": "visuals",
-      "name": "Visuels & interface",
+      "name": "Visuals & UI",
       "icon": "🎨",
-      "description": "Personnalise la disposition de l’écran et les informations affichées.",
+      "description": "Configure what information and visual elements appear on the driving screen.",
       "settings": [
         {
           "key": "RainbowMode",
@@ -1003,7 +1098,8 @@
             "Distracting en conduisant.",
             "Peut provoquer une fatigue oculaire."
           ],
-          "userNote": "Amusant, mais distrayant."
+          "userNote": "Amusant, mais distrayant.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DisplayRoadName",
@@ -1012,7 +1108,8 @@
           "default": true,
           "description": "Affiche le nom actuel de la rue sur l'interface utilisateur.",
           "useCase": "Conscience de la situation lors de la navigation dans des zones inconnues.",
-          "userNote": "Idéal pour la connaissance de la situation."
+          "userNote": "Idéal pour la connaissance de la situation.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "GreenLightAlert",
@@ -1022,7 +1119,8 @@
           "description": "Sonne lorsqu'un feu rouge passe au vert.",
           "recommended": true,
           "useCase": "Alertez les conducteurs distraits pour qu’ils continuent lorsque la lumière change.",
-          "userNote": "Fonctionnalité très utile pour les conducteurs distraits."
+          "userNote": "Fonctionnalité très utile pour les conducteurs distraits.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "LeadDepartAlert",
@@ -1032,7 +1130,8 @@
           "description": "Un carillon et une alerte à l'écran (TIZI/TICI uniquement) retentiront lorsque vous êtes arrêté et le véhicule devant vous commencera à bouger. <br>Remarque : ce carillon est uniquement conçu comme une notification. Il est de la responsabilité du conducteur d'observer son environnement et de prendre des décisions en conséquence.",
           "recommended": true,
           "useCase": "Empêche de se faire klaxonner dans les embouteillages.",
-          "userNote": "Idéal pour le trafic stop-and-go."
+          "userNote": "Idéal pour le trafic stop-and-go.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "ShowTurnSignals",
@@ -1041,7 +1140,8 @@
           "default": false,
           "description": "Lorsqu'ils sont activés, les clignotants visuels sont dessinés sur le HUD.",
           "useCase": "Confirmation visuelle que le clignotant est actif.",
-          "userNote": "Vérification principalement cosmétique."
+          "userNote": "Vérification principalement cosmétique.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "BlindSpotDetection",
@@ -1051,7 +1151,8 @@
           "description": "L'activation de cette option affichera des avertissements lorsqu'un véhicule est détecté dans votre angle mort tant que votre voiture est prise en charge par BSM.",
           "recommended": true,
           "useCase": "Avertissement BSM redondant si vous manquez l'indicateur de miroir.",
-          "userNote": "Couche de sécurité supplémentaire si vous ne regardez pas les miroirs (veuillez regarder les miroirs)."
+          "userNote": "Couche de sécurité supplémentaire si vous ne regardez pas les miroirs (veuillez regarder les miroirs).",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ScreenBrightness",
@@ -1066,7 +1167,8 @@
           "default": "Auto",
           "description": "Définit le niveau de rétroéclairage de l’affichage.",
           "recommended": "Auto",
-          "userNote": "« Auto » fonctionne généralement mieux."
+          "userNote": "« Auto » fonctionne généralement mieux.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "OnroadBrightness",
@@ -1080,7 +1182,8 @@
           ],
           "default": "Auto",
           "description": "Règle la luminosité spécifiquement en conduisant.",
-          "recommended": "Auto"
+          "recommended": "Auto",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "OnroadBrightnessDelay",
@@ -1093,7 +1196,8 @@
           "helpText": "Plage : 0 à 60 secondes (par défaut : 15 s)",
           "description": "Temps avant que la luminosité sur la route ne diminue.",
           "useCase": "Contrôlez la rapidité avec laquelle la luminosité diminue après le début de la conduite.",
-          "userNote": "Ajustez selon vos préférences en matière de délai de gradation de l'écran."
+          "userNote": "Ajustez selon vos préférences en matière de délai de gradation de l'écran.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DeveloperUIInfo",
@@ -1108,7 +1212,8 @@
           "default": "Off",
           "description": "Niveau de données de superposition de l’interface utilisateur du développeur.",
           "useCase": "Afficher les informations techniques de débogage à l’écran.",
-          "userNote": "Pour les développeurs et les utilisateurs avancés uniquement."
+          "userNote": "Pour les développeurs et les utilisateurs avancés uniquement.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "ChevronInfo",
@@ -1124,7 +1229,8 @@
           "default": "Off",
           "description": "Niveau d'affichage des informations sur le véhicule principal.",
           "useCase": "Personnalisez la quantité d'informations affichées sur les véhicules détectés.",
-          "userNote": "Ajustez pour afficher plus ou moins d'informations sur le véhicule à l'écran."
+          "userNote": "Ajustez pour afficher plus ou moins d'informations sur le véhicule à l'écran.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "StandstillTimer",
@@ -1133,7 +1239,8 @@
           "default": false,
           "description": "Afficher le temps passé à l'arrêt.",
           "useCase": "Indique depuis combien de temps vous êtes arrêté à un feu rouge ou dans un embouteillage.",
-          "userNote": "Utile pour suivre les temps d’attente."
+          "userNote": "Utile pour suivre les temps d’attente.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "HideVEgoUI",
@@ -1142,7 +1249,8 @@
           "default": false,
           "description": "Lorsqu'il est activé, le compteur de vitesse sur l'écran route ne s'affiche pas.",
           "useCase": "Minimisez les distractions en masquant l’affichage de la vitesse.",
-          "userNote": "Actif pour une apparence d'écran plus propre."
+          "userNote": "Actif pour une apparence d'écran plus propre.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "TrueVEgoUI",
@@ -1151,7 +1259,8 @@
           "default": false,
           "description": "Pour les véhicules concernés, affichez toujours la vitesse réelle actuelle du véhicule à partir des capteurs de vitesse de roue.",
           "useCase": "Afficher la véritable lecture du compteur de vitesse à partir des capteurs du véhicule.",
-          "userNote": "Affiche la vitesse réelle plutôt que les valeurs lissées."
+          "userNote": "Affiche la vitesse réelle plutôt que les valeurs lissées.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "DisplayRocketFuelBar",
@@ -1160,7 +1269,8 @@
           "default": false,
           "description": "Afficher un indicateur sur le côté gauche de l'écran pour afficher l'accélération et la décélération du véhicule en temps réel. Cela affiche ce que fait actuellement la voiture, et non ce que demande le planificateur.",
           "useCase": "Visualize how hard le système is accelerating or freinage.",
-          "userNote": "Indicateur visuel cool montrant l'intensité de l'accélérateur/frein."
+          "userNote": "Indicateur visuel cool montrant l'intensité de l'accélérateur/frein.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "SteeringArc",
@@ -1169,15 +1279,30 @@
           "default": false,
           "description": "Afficher l'arc de direction sur l'écran de conduite lorsque la commande latérale est activée.",
           "useCase": "Retour visuel du chemin de direction.",
-          "userNote": "Indique où la voiture prévoit de se diriger."
+          "userNote": "Indique où la voiture prévoit de se diriger.",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "InteractivityTimeout",
+          "label": "Délai d'Inactivité de l'Écran",
+          "type": "slider",
+          "default": 10,
+          "min": 3,
+          "max": 30,
+          "unit": "seconds",
+          "helpText": "Range: 3 to 30 seconds",
+          "description": "Secondes d'inactivité tactile avant assombrissement de l'écran de conduite.",
+          "useCase": "Reducing cabin glare at night and managing device thermal dissipation.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
     {
       "id": "developer",
-      "name": "Paramètres développeur",
+      "name": "Developer Settings",
       "icon": "👨‍💻",
-      "description": "Outils avancés pour le débogage et le développement.",
+      "description": "Advanced settings for developers and power users, including debug tools, connectivity options, and alpha features.",
       "settings": [
         {
           "key": "ShowAdvancedControls",
@@ -1187,7 +1312,8 @@
           "description": "Unlocks hidden paramètres menus.",
           "recommended": true,
           "useCase": "Accédez à toutes les options de configuration disponibles.",
-          "userNote": "Garder ACTIVÉ pour tout voir dans cette liste."
+          "userNote": "Garder ACTIVÉ pour tout voir dans cette liste.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "EnableAdb",
@@ -1196,7 +1322,8 @@
           "default": false,
           "description": "Pont de débogage Android. Permet le débogage USB.",
           "useCase": "Accès développeur via câble USB.",
-          "userNote": "Utilisation développeur uniquement."
+          "userNote": "Utilisation développeur uniquement.",
+          "deviceAvailability": "full"
         },
         {
           "key": "EnableSsh",
@@ -1210,7 +1337,8 @@
           "tradeoffs": [
             "Vulnérabilité de sécurité si l'appareil est sur un réseau public.",
             "Peut autoriser un accès non autorisé si le mot de passe est faible."
-          ]
+          ],
+          "deviceAvailability": "full"
         },
         {
           "key": "SshKeys",
@@ -1219,7 +1347,8 @@
           "description": "Récupère les clés publiques SSH à partir d'un nom d'utilisateur GitHub et les installe sur l'appareil. Cela permet la connexion SSH à l'aide de votre paire de clés associée à GitHub.",
           "warning": "Only add SSH keys from users you trust. Anyone with an installed key has full access to the device.",
           "useCase": "Install SSH keys for remote access.",
-          "userNote": "Ajoutez uniquement les clés d'utilisateurs de confiance."
+          "userNote": "Ajoutez uniquement les clés d'utilisateurs de confiance.",
+          "deviceAvailability": "full"
         },
         {
           "key": "JoystickDebugMode",
@@ -1228,7 +1357,8 @@
           "default": false,
           "description": "Débogage actif du joystick.",
           "useCase": "Déboguer les entrées du joystick.",
-          "userNote": "Utilisation développeur uniquement."
+          "userNote": "Utilisation développeur uniquement.",
+          "deviceAvailability": "full"
         },
         {
           "key": "QuickBoot",
@@ -1241,7 +1371,8 @@
             "Peut manquer des étapes d’initialisation importantes.",
             "Peut provoquer une instabilité ou des plantages."
           ],
-          "warning": "Peut provoquer une instabilité. Garder DÉSACTIVÉ sauf si les temps de démarrage sont ennuyeux."
+          "warning": "Peut provoquer une instabilité. Garder DÉSACTIVÉ sauf si les temps de démarrage sont ennuyeux.",
+          "deviceAvailability": "full"
         },
         {
           "key": "CopypartyService",
@@ -1250,7 +1381,8 @@
           "default": false,
           "description": "Runs a local file server on l'appareil.",
           "useCase": "Téléchargez des vidéos de lecteur via WiFi sans SSH.",
-          "userNote": "Un moyen simple de télécharger des vidéos de lecteur via WiFi."
+          "userNote": "Un moyen simple de télécharger des vidéos de lecteur via WiFi.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "EnableSunnylinkUploader",
@@ -1259,7 +1391,8 @@
           "default": false,
           "description": "Téléchargez les lecteurs sur sunnylink.",
           "useCase": "Téléchargement actif des données du lecteur sur les serveurs sunnylink pour le stockage et l'analyse dans le cloud.",
-          "userNote": "Activer pour télécharger vos disques sur sunnylink."
+          "userNote": "Activer pour télécharger vos disques sur sunnylink.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "LongitudinalManeuverMode",
@@ -1268,7 +1401,8 @@
           "default": false,
           "description": "Manipulation spécialisée pour les manœuvres à basse vitesse.",
           "useCase": "Comportement de circulation stop-and-go plus fluide.",
-          "userNote": "Aide à la douceur des arrêts et des départs."
+          "userNote": "Aide à la douceur des arrêts et des départs.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "AlphaLongitudinal",
@@ -1282,7 +1416,8 @@
             "Peut freiner plus fort ou plus doucement que prévu."
           ],
           "warning": "Enabling this disables AEB (Automatic Emergency Braking). A confirmation dialog appears before activation.",
-          "userNote": "Requis pour le mode expérimental. Généralement plus lisse que le stock."
+          "userNote": "Requis pour le mode expérimental. Généralement plus lisse que le stock.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GithubRunnerService",
@@ -1291,7 +1426,8 @@
           "default": false,
           "description": "Coureur CI/CD actif.",
           "useCase": "Runs GitHub Actions runner on l'appareil.",
-          "userNote": "Utilisation développeur uniquement."
+          "userNote": "Utilisation développeur uniquement.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GithubRunnerSufficientVoltage",
@@ -1300,7 +1436,8 @@
           "default": true,
           "description": "Vérifiez la tension pour le coureur GitHub.",
           "useCase": "Garantit une tension suffisante avant d’exécuter des tâches CI.",
-          "userNote": "Empêche la décharge de la batterie pendant les tâches CI."
+          "userNote": "Empêche la décharge de la batterie pendant les tâches CI.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UiDebugMode",
@@ -1309,7 +1446,8 @@
           "default": false,
           "description": "Affiche les informations de débogage de l'interface utilisateur.",
           "useCase": "Afficher les informations de débogage sur l'interface utilisateur.",
-          "userNote": "Utilisation développeur uniquement."
+          "userNote": "Utilisation développeur uniquement.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DisableLogging",
@@ -1322,7 +1460,8 @@
             "Perd toutes les preuves de conduite en cas d'accident.",
             "Impossible de consulter ou de télécharger des lecteurs."
           ],
-          "warning": "Économise de l'espace, mais vous perdez des preuves en cas d'accident."
+          "warning": "Économise de l'espace, mais vous perdez des preuves en cas d'accident.",
+          "deviceAvailability": "full"
         },
         {
           "key": "ManualRealTimeTuning",
@@ -1331,22 +1470,39 @@
           "default": false,
           "description": "Permet de remplacer les valeurs de couple en conduite.",
           "warning": "Débogage uniquement. Dangereux pour une utilisation normale.",
-          "safetyLevel": "critical"
+          "safetyLevel": "critical",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "FirehoseMode",
+          "label": "Mode Firehose",
+          "type": "toggle",
+          "default": true,
+          "description": "Envoie des extraits de conduite via Wi-Fi pour entraîner les modèles IA. sunnypilot est le premier fork officiel supportant Firehose.",
+          "useCase": "Contribute real-world driving data to train next-generation openpilot and sunnypilot driving models.",
+          "tradeoffs": [
+            "Requires connection to unmetered Wi-Fi when vehicle is parked/offroad.",
+            "Helps improve autonomous driving models for all users."
+          ],
+          "userNote": "Official support introduced in sunnypilot 2026. Only uploads while connected to unmetered Wi-Fi.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "full"
         }
       ]
     },
     {
       "id": "other",
-      "name": "Autres paramètres",
+      "name": "Other Settings",
       "icon": "🔧",
-      "description": "Divers paramètres, notamment AGNOS, les commandes de plan et les configurations spécifiques à la voiture.",
+      "description": "Miscellaneous settings including AGNOS, plan controls, and car-specific configurations.",
       "settings": [
         {
           "key": "LastAgnosPowerMonitorShutdown",
           "label": "Dernier arrêt du moniteur d'alimentation AGNOS",
           "type": "readonly",
           "description": "Horodatage du dernier événement d’arrêt du moniteur d’alimentation AGNOS.",
-          "userNote": "Lecture seule. Indique la dernière fois que l'appareil s'est éteint en raison de la surveillance de l'alimentation."
+          "userNote": "Lecture seule. Indique la dernière fois que l'appareil s'est éteint en raison de la surveillance de l'alimentation.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "PlanPlusControls",
@@ -1362,14 +1518,16 @@
             "Des valeurs plus élevées = centrage plus agressif mais potentiel ping-pong.",
             "Valeurs inférieures = plus fluide mais peut dériver du centre."
           ],
-          "userNote": "Par défaut 1.0. Augmentez si la voiture dérive trop, diminuez si vous faites du ping-pong."
+          "userNote": "Par défaut 1.0. Augmentez si la voiture dérive trop, diminuez si vous faites du ping-pong.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "HasAcceptedSunnypilotTerms",
           "label": "A accepté les conditions de sunnypilot",
           "type": "readonly",
           "description": "Indique si l'utilisateur a accepté les conditions de service de sunnypilot.",
-          "userNote": "Lecture seule. Shows acceptance status."
+          "userNote": "Lecture seule. Shows acceptance status.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SupportedCarList",
@@ -1377,14 +1535,16 @@
           "type": "action",
           "description": "Affichez toutes les plates-formes prises en charge dans sunnypilot.",
           "useCase": "Check if votre véhicule is officially supported.",
-          "userNote": "Ouvre la liste JSON de tous les véhicules compatibles."
+          "userNote": "Ouvre la liste JSON de tous les véhicules compatibles.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CompletedSunnylinkConsentVersion",
           "label": "Version de consentement sunnylink complétée",
           "type": "readonly",
           "description": "Version du formulaire de consentement sunnylink qui a été complété.",
-          "userNote": "Lecture seule. Indique la version de consentement que vous avez acceptée."
+          "userNote": "Lecture seule. Indique la version de consentement que vous avez acceptée.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ToyotaEnforceFactoryLongitudinalControl",
@@ -1397,7 +1557,8 @@
             "L'ACC d'usine est peut-être plus fluide mais moins intelligent.",
             "Perd les fonctionnalités avancées d'arrêt et de départ de sunnypilot."
           ],
-          "userNote": "Actif si vous préférez le comportement de croisière adaptatif d'origine de Toyota."
+          "userNote": "Actif si vous préférez le comportement de croisière adaptatif d'origine de Toyota.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SubaruStopAndGo",
@@ -1410,7 +1571,8 @@
             "Apparaît uniquement si car_fingerprint == SUBARU.",
             "Peut se comporter différemment selon l'année modèle Subaru."
           ],
-          "userNote": "Spécifique au véhicule : visible uniquement sur les véhicules Subaru."
+          "userNote": "Spécifique au véhicule : visible uniquement sur les véhicules Subaru.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SubaruStopAndGoManualParkingBrake",
@@ -1423,14 +1585,96 @@
             "Apparaît uniquement si car_fingerprint == SUBARU.",
             "Comportement différent selon le type de frein de stationnement (manuel ou électronique)."
           ],
-          "userNote": "Spécifique au véhicule : uniquement pour les Subaru avec frein de stationnement électronique."
+          "userNote": "Spécifique au véhicule : uniquement pour les Subaru avec frein de stationnement électronique.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SunnylinkDongleId",
           "label": "Identifiant du dongle sunnylink",
           "type": "readonly",
           "description": "Identifiant unique de l'appareil Sunnylink pour la connectivité cloud.",
-          "userNote": "Lecture seule. L'identifiant unique de votre appareil pour les services sunnylink."
+          "userNote": "Lecture seule. L'identifiant unique de votre appareil pour les services sunnylink.",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "EnableSunnylink",
+          "label": "Activer sunnylink",
+          "type": "toggle",
+          "default": false,
+          "description": "Interrupteur principal des services cloud sunnylink, sauvegarde et synchronisation GitHub.",
+          "useCase": "Enables connecting device to sunnylink.ai web portal for fleet management and parameter backups.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ToyotaStopAndGoHack",
+          "label": "Toyota : Stop and Go Hack (Alpha)",
+          "type": "toggle",
+          "default": false,
+          "description": "Active le Stop & Go sur les anciens modèles Toyota désactivant le régulateur sous 30 km/h.",
+          "useCase": "Older Toyota Prius, RAV4, Corolla models without full-speed dynamic radar cruise control.",
+          "safetyLevel": "critical",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ToyotaZSS",
+          "label": "Toyota : Capteur de Direction Zorro (ZSS)",
+          "type": "toggle",
+          "default": false,
+          "description": "Support du capteur d'angle de braquage haute précision ZSS.",
+          "useCase": "Provides precise steering angle feedback on Toyotas with low-resolution stock sensors.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ToyotaSmartDSU",
+          "label": "Toyota : Smart DSU",
+          "type": "toggle",
+          "default": false,
+          "description": "Prise en charge du module Smart DSU pour le contrôle longitudinal sur Toyota.",
+          "useCase": "Toyota models requiring DSU modification for openpilot longitudinal control.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "HondaGasInterceptor",
+          "label": "Honda : Intercepteur d'Accélérateur (comma Pedal)",
+          "type": "toggle",
+          "default": false,
+          "description": "Support du module matériel comma Pedal pour arrêt et redémarrage sur Honda.",
+          "useCase": "Older Honda Civic, CR-V, Accord models requiring pedal interception for stop-and-go.",
+          "safetyLevel": "critical",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "RivianLongitudinalHarness",
+          "label": "Rivian : Câblage Longitudinal Amélioré",
+          "type": "toggle",
+          "default": false,
+          "description": "Configuration pour Rivian R1T/R1S avec faisceau CAN longitudinal auxiliaire.",
+          "useCase": "Rivian owners using custom wiring harness for expanded control.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "GMNonAccSupport",
+          "label": "GM / Chevrolet : Support Véhicules sans ACC",
+          "type": "toggle",
+          "default": false,
+          "description": "Active le maintien de voie et MADS sur les véhicules GM sans régulateur adaptatif.",
+          "useCase": "GM vehicles with camera-only or basic cruise control systems.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ChryslerSteerToZero",
+          "label": "Chrysler / RAM : Direction jusqu'à l'arrêt",
+          "type": "toggle",
+          "default": false,
+          "description": "Permet le guidage MADS jusqu'à 0 km/h sur les véhicules Chrysler/Jeep/RAM.",
+          "useCase": "Enabling continuous steering assist during slow-moving traffic on FCA vehicles.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
         }
       ]
     }

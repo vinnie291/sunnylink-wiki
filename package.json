@@ -12,7 +12,8 @@
     "sentiment:sync": "tsx scripts/analyze_discord_sentiment.ts",
     "schema:capnp": "capnp compile -I lib/openpilotLog/schema --no-standard-import -o node_modules/.bin/capnpc-ts:lib/openpilotLog/generated lib/openpilotLog/schema/log.capnp && mv lib/openpilotLog/generated/lib/openpilotLog/schema/log.ts lib/openpilotLog/generated/log.ts && rm -rf lib/openpilotLog/generated/lib",
     "ratings:audit": "tsx scripts/audit_skill_ratings.ts",
-    "scan:models": "tsx scripts/scan_models.ts"
+    "scan:models": "tsx scripts/scan_models.ts",
+    "polls:sync": "node scripts/sync_discourse_polls.mjs"
   },
   "dependencies": {
     "@cardog-icons/react": "^1.2.0",

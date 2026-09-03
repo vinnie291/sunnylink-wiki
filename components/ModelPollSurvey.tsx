@@ -1,132 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { ModelSurveyAnswers, ModelVoteSummary, QuestionSummary } from '@/lib/modelVotes';
+import { ModelSurveyAnswers, ModelVoteSummary, PollQuestionDef, PollOptionDef } from '@/lib/modelVotes';
 import { useLanguage } from '@/lib/i18n';
-
-interface OptionItem {
-    key: string;
-    labelKey: string;
-}
-
-interface QuestionDef {
-    id: keyof ModelSurveyAnswers;
-    titleKey: string;
-    titleFallback: string;
-    type: 'single' | 'multi';
-    maxChoices?: number;
-    options: OptionItem[];
-    hintKey?: string;
-    hintFallback?: string;
-    skipCondition?: (answers: ModelSurveyAnswers) => boolean;
-}
-
-const QUESTIONS: QuestionDef[] = [
-    {
-        id: 'hasDriven',
-        titleKey: 'models.poll.q1.title',
-        titleFallback: 'Have you driven this model?',
-        type: 'single',
-        options: [
-            { key: "Yes, I've driven it", labelKey: 'models.poll.q1.opt1' },
-            { key: 'Not yet, just viewing', labelKey: 'models.poll.q1.opt2' }
-        ],
-        hintKey: 'models.poll.q1.hint',
-        hintFallback: 'Verified feedback from real-world drivers',
-    },
-    {
-        id: 'hardware',
-        titleKey: 'models.poll.q2.title',
-        titleFallback: 'Hardware / Device used:',
-        type: 'single',
-        options: [
-            { key: 'comma 3 (C3)', labelKey: 'models.poll.q2.opt1' },
-            { key: 'comma 3X (C3X)', labelKey: 'models.poll.q2.opt2' },
-            { key: 'comma 4 (C4)', labelKey: 'models.poll.q2.opt3' },
-            { key: 'Other / Desktop', labelKey: 'models.poll.q2.opt4' }
-        ],
-        hintKey: 'models.poll.q2.hint',
-        hintFallback: 'Vehicle & comma hardware configuration',
-    },
-    {
-        id: 'rating',
-        titleKey: 'models.poll.q3.title',
-        titleFallback: 'How is this model?',
-        type: 'single',
-        options: [
-            { key: '5 - Great', labelKey: 'models.poll.q3.opt5' },
-            { key: '4 - Good', labelKey: 'models.poll.q3.opt4' },
-            { key: '3 - Ok', labelKey: 'models.poll.q3.opt3' },
-            { key: '2 - Bad', labelKey: 'models.poll.q3.opt2' },
-            { key: '1 - Poor', labelKey: 'models.poll.q3.opt1' }
-        ],
-        hintKey: 'models.poll.q3.hint',
-        hintFallback: 'Overall driver rating (affects community score)',
-    },
-    {
-        id: 'lateral',
-        titleKey: 'models.poll.q4.title',
-        titleFallback: 'Lateral (steering):',
-        type: 'multi',
-        maxChoices: 5,
-        options: [
-            { key: 'Smooth and steady', labelKey: 'models.poll.q4.opt1' },
-            { key: 'Felt natural and humanlike', labelKey: 'models.poll.q4.opt2' },
-            { key: 'Lane hugging to one side', labelKey: 'models.poll.q4.opt3' },
-            { key: 'Ping-pong, wanders, or oscillates', labelKey: 'models.poll.q4.opt4' },
-            { key: 'Understeers or gives up mid-turn', labelKey: 'models.poll.q4.opt5' },
-            { key: 'Cuts corners or over-steers', labelKey: 'models.poll.q4.opt6' },
-            { key: 'Drifts toward exits and lane splits', labelKey: 'models.poll.q4.opt7' }
-        ],
-        hintKey: 'models.poll.q4.hint',
-        hintFallback: 'Choose up to 5 options',
-    },
-    {
-        id: 'longitudinalMode',
-        titleKey: 'models.poll.q5.title',
-        titleFallback: 'Longitudinal used:',
-        type: 'single',
-        options: [
-            { key: 'Experimental Mode', labelKey: 'models.poll.q5.opt1' },
-            { key: 'Chill mode', labelKey: 'models.poll.q5.opt2' },
-            { key: 'Stock ACC only', labelKey: 'models.poll.q5.opt3' }
-        ],
-        hintKey: 'models.poll.q5.hint',
-        hintFallback: 'Speed control and braking mode',
-    },
-    {
-        id: 'longitudinalBehaviors',
-        titleKey: 'models.poll.q6.title',
-        titleFallback: 'Longitudinal (acceleration and braking), skip if stock ACC:',
-        type: 'multi',
-        maxChoices: 5,
-        options: [
-            { key: 'Smooth acceleration and braking', labelKey: 'models.poll.q6.opt1' },
-            { key: 'Jerky acceleration', labelKey: 'models.poll.q6.opt2' },
-            { key: 'Hard or late braking', labelKey: 'models.poll.q6.opt3' },
-            { key: 'Overshoots the stop line or rolls through', labelKey: 'models.poll.q6.opt4' },
-            { key: 'Does not hold the set speed', labelKey: 'models.poll.q6.opt5' },
-            { key: 'Bad in stop and go traffic', labelKey: 'models.poll.q6.opt6' }
-        ],
-        hintKey: 'models.poll.q6.hint',
-        hintFallback: 'Skip if using stock car radar ACC',
-        skipCondition: (answers) => answers.longitudinalMode === 'Stock ACC only',
-    },
-    {
-        id: 'steeringControl',
-        titleKey: 'models.poll.q7.title',
-        titleFallback: 'Steering control:',
-        type: 'single',
-        options: [
-            { key: '1 - Torque based', labelKey: 'models.poll.q7.opt1' },
-            { key: '2 - Angle based', labelKey: 'models.poll.q7.opt2' },
-            { key: '3 - Pure PID', labelKey: 'models.poll.q7.opt3' },
-            { key: '4 - Not sure', labelKey: 'models.poll.q7.opt4' }
-        ],
-        hintKey: 'models.poll.q7.hint',
-        hintFallback: 'Steering actuator controller configuration',
-    },
-];
 
 interface ModelPollSurveyProps {
     modelName: string;
@@ -166,12 +42,18 @@ export default function ModelPollSurvey({
                 if (!res.ok) return;
                 const json = await res.json();
                 if (mounted && json.success && json.data?.stats) {
-                    setSummary(json.data.stats);
+                    const stats: ModelVoteSummary = json.data.stats;
+                    setSummary(stats);
                     if (json.data.userVote) {
                         setUserAnswers(json.data.userVote);
+                        // If user has already answered the first question, start in results mode
+                        const firstQ = stats.questions?.[0];
+                        if (firstQ && json.data.userVote[firstQ.id] !== undefined) {
+                            setViewMode('results');
+                        }
                     }
-                    if (json.data.stats.live && onScoreUpdate) {
-                        onScoreUpdate(json.data.stats.live);
+                    if (stats.live && onScoreUpdate) {
+                        onScoreUpdate(stats.live);
                     }
                 }
             } catch (err) {
@@ -185,28 +67,79 @@ export default function ModelPollSurvey({
         };
     }, [modelName, onScoreUpdate]);
 
-    const q = QUESTIONS[currentStep] || QUESTIONS[0];
+    // Build question list dynamically from summary, or graceful default
+    const questions: PollQuestionDef[] = useMemo(() => {
+        if (summary?.questions && summary.questions.length > 0) {
+            return summary.questions;
+        }
+        return [
+            {
+                id: 'overall',
+                title: 'How is this model?',
+                type: 'single',
+                voters: baseVotes || 0,
+                options: [
+                    { key: '5 - Great', label: '5 - Great', votes: 0, percentage: 0 },
+                    { key: '4 - Good', label: '4 - Good', votes: 0, percentage: 0 },
+                    { key: '3 - Ok', label: '3 - Ok', votes: 0, percentage: 0 },
+                    { key: '2 - Bad', label: '2 - Bad', votes: 0, percentage: 0 },
+                    { key: '1 - Poor', label: '1 - Poor', votes: 0, percentage: 0 },
+                ],
+            },
+        ];
+    }, [summary?.questions, baseVotes]);
 
-    // Compute active voter count for current question
-    const activeQuestionStats: QuestionSummary | undefined = useMemo(() => {
-        if (!summary?.questions) return undefined;
-        const qId = q.id;
-        return (summary.questions as Record<string, QuestionSummary>)[qId];
-    }, [summary, q.id]);
+    // Ensure currentStep stays within bounds
+    const safeStep = Math.min(currentStep, Math.max(0, questions.length - 1));
+    const q: PollQuestionDef = questions[safeStep] || questions[0];
 
-    const voterCount = activeQuestionStats?.voters ?? summary?.totalVoters ?? 0;
+    const voterCount = q?.voters ?? summary?.totalVoters ?? baseVotes ?? 0;
+
+    // Check if an option is currently selected by the user
+    const isOptionSelected = useCallback((optKey: string): boolean => {
+        if (!q) return false;
+        const val = userAnswers[q.id];
+        if (val === undefined || val === null) {
+            // Check legacy rating answer key
+            if ((q.id === 'overall' || q.id === 'poll') && userAnswers.rating !== undefined) {
+                const r = userAnswers.rating;
+                if (optKey.startsWith(`${r} -`)) return true;
+                if (r === 5 && optKey.toLowerCase().includes('great')) return true;
+                if (r === 4 && optKey.toLowerCase().includes('good')) return true;
+                if (r === 3 && optKey.toLowerCase().includes('ok')) return true;
+                if (r === 2 && optKey.toLowerCase().includes('bad')) return true;
+                if (r === 1 && (optKey.toLowerCase().includes('poor') || optKey.toLowerCase().includes('horrible'))) return true;
+            }
+            return false;
+        }
+        if (Array.isArray(val)) {
+            return val.includes(optKey);
+        }
+        if (val === optKey) return true;
+        const optLower = optKey.toLowerCase().trim();
+        if (typeof val === 'string' && val.toLowerCase().trim() === optLower) return true;
+        if (typeof val === 'number') {
+            if (optLower.startsWith(`${val} -`)) return true;
+        }
+        return false;
+    }, [q, userAnswers]);
 
     // Check if question answered
     const isQuestionAnswered = useCallback(
         (stepIndex: number): boolean => {
-            const def = QUESTIONS[stepIndex];
+            const def = questions[stepIndex];
             if (!def) return false;
             const val = userAnswers[def.id];
-            if (val === undefined || val === null) return false;
+            if (val === undefined || val === null) {
+                if ((def.id === 'overall' || def.id === 'poll') && userAnswers.rating !== undefined) {
+                    return true;
+                }
+                return false;
+            }
             if (Array.isArray(val)) return val.length > 0;
             return true;
         },
-        [userAnswers]
+        [questions, userAnswers]
     );
 
     // Save vote to backend & trigger live score update
@@ -240,44 +173,33 @@ export default function ModelPollSurvey({
         }
     };
 
+    const goToNextStep = () => {
+        if (safeStep < questions.length - 1) {
+            setCurrentStep(safeStep + 1);
+        } else {
+            // Reached the end -> Show results summary
+            setViewMode('results');
+        }
+    };
+
     // Handle single-choice selection
-    const handleSelectSingle = async (optionKey: string) => {
+    const handleSelectSingle = (optionKey: string) => {
         const qId = q.id;
-        let val: any = optionKey;
-
-        if (qId === 'hasDriven') {
-            const driven = optionKey.startsWith('Yes');
-            val = driven;
-            const updated = { ...userAnswers, hasDriven: driven };
-            setUserAnswers(updated);
-            persistAnswers(updated);
-
-            if (!driven) {
-                // Not yet driven -> immediately reveal results so they can learn from other drivers
-                setViewMode('results');
-                return;
-            }
-            // Auto advance
-            setTimeout(() => {
-                goToNextStep();
-            }, 300);
-            return;
-        }
-
-        if (qId === 'rating') {
-            // "5 - Great" -> 5
-            const num = parseInt(optionKey.charAt(0), 10);
-            val = Number.isFinite(num) ? num : optionKey;
-        }
-
-        const updated = { ...userAnswers, [qId]: val };
+        const updated = { ...userAnswers, [qId]: optionKey };
         setUserAnswers(updated);
         persistAnswers(updated);
 
-        // Advance to next step smoothly
-        setTimeout(() => {
-            goToNextStep();
-        }, 300);
+        // If this is a single question poll (or the final step), switch smoothly to results
+        if (questions.length === 1 || safeStep >= questions.length - 1) {
+            setTimeout(() => {
+                setViewMode('results');
+            }, 300);
+        } else {
+            // Auto advance to next question
+            setTimeout(() => {
+                goToNextStep();
+            }, 300);
+        }
     };
 
     // Handle multi-choice toggle
@@ -306,47 +228,34 @@ export default function ModelPollSurvey({
         goToNextStep();
     };
 
-    const goToNextStep = () => {
-        if (currentStep < QUESTIONS.length - 1) {
-            const nextIdx = currentStep + 1;
-            const nextQ = QUESTIONS[nextIdx];
-            if (nextQ?.skipCondition && nextQ.skipCondition(userAnswers)) {
-                // Auto-skip
-                if (nextIdx < QUESTIONS.length - 1) {
-                    setCurrentStep(nextIdx + 1);
-                } else {
-                    setViewMode('results');
-                }
-            } else {
-                setCurrentStep(nextIdx);
-            }
-        } else {
-            // Reached the end! Show results summary
-            setViewMode('results');
-        }
-    };
-
     const handleSkip = () => {
         goToNextStep();
     };
 
-    // Check if an option is currently selected by the user
-    const isOptionSelected = (optKey: string): boolean => {
-        const qId = q.id;
-        const val = userAnswers[qId];
-        if (qId === 'hasDriven') {
-            if (optKey.startsWith('Yes') && val === true) return true;
-            if (optKey.startsWith('Not yet') && val === false) return true;
-            return false;
-        }
-        if (qId === 'rating') {
-            const num = parseInt(optKey.charAt(0), 10);
-            return val === num;
-        }
-        if (Array.isArray(val)) {
-            return val.includes(optKey);
-        }
-        return val === optKey;
+    // Translate option label if common key exists
+    const formatOptionLabel = (label: string): string => {
+        const lower = label.toLowerCase().trim();
+        if (lower === 'great') return t('models.sentimentGreat') || 'Great';
+        if (lower === 'good') return t('models.sentimentGood') || 'Good';
+        if (lower === 'ok') return t('models.sentimentOk') || 'OK';
+        if (lower === 'bad') return t('models.sentimentBad') || 'Bad';
+        if (lower === '5 - great') return `5 - ${t('models.sentimentGreat') || 'Great'}`;
+        if (lower === '4 - good') return `4 - ${t('models.sentimentGood') || 'Good'}`;
+        if (lower === '3 - ok') return `3 - ${t('models.sentimentOk') || 'OK'}`;
+        if (lower === '2 - bad') return `2 - ${t('models.sentimentBad') || 'Bad'}`;
+        if (lower === '1 - poor') return `1 - ${t('models.poll.q3.opt1') || 'Poor'}`;
+        if (lower === '1 - horrible') return '1 - Horrible';
+        return label;
+    };
+
+    // Format question title
+    const formatQuestionTitle = (title: string): string => {
+        if (title === 'How is this model?') return t('models.poll.q3.title') || 'How is this model?';
+        if (title.startsWith('Lateral (steering)')) return t('models.poll.q4.title') || 'Lateral (steering):';
+        if (title.startsWith('Longitudinal used')) return t('models.poll.q5.title') || 'Longitudinal used:';
+        if (title.startsWith('Longitudinal (acceleration and braking)')) return t('models.poll.q6.title') || 'Longitudinal (acceleration and braking):';
+        if (title.startsWith('Steering control')) return t('models.poll.q7.title') || 'Steering control:';
+        return title;
     };
 
     return (
@@ -368,23 +277,24 @@ export default function ModelPollSurvey({
                     )}
                 </div>
                 <span className="text-[10px] text-slate-500 font-mono">
-                    {currentStep + 1} / {QUESTIONS.length}
+                    {safeStep + 1} / {questions.length}
                 </span>
             </div>
 
-            {/* Split layout matching screenshots */}
+            {/* Split layout matching Discourse forum layout */}
             <div className="flex flex-col md:flex-row gap-3 md:gap-4">
                 {/* Left Column: Questions / Options or Results */}
                 <div className="flex-1 min-w-0">
                     <h4 className="text-sm font-bold text-slate-100 mb-2 leading-snug">
-                        {t(q.titleKey) || q.titleFallback}
+                        {formatQuestionTitle(q.title)}
                     </h4>
 
                     {viewMode === 'vote' ? (
                         <div className="space-y-1.5 min-h-[140px] flex flex-col justify-center">
                             {q.options.map((opt) => {
                                 const selected = isOptionSelected(opt.key);
-                                const label = t(opt.labelKey) || opt.key;
+                                const label = formatOptionLabel(opt.label || opt.key);
+
                                 if (q.type === 'single') {
                                     return (
                                         <button
@@ -455,10 +365,8 @@ export default function ModelPollSurvey({
                         /* Results View */
                         <div className="space-y-2 min-h-[140px] flex flex-col justify-center">
                             {q.options.map((opt) => {
-                                const statKey = q.id === 'rating' ? opt.key.charAt(0) : (q.id === 'hasDriven' ? (opt.key.startsWith('Yes') ? 'yes' : 'no') : opt.key);
-                                const stat = activeQuestionStats?.options[statKey] || { count: 0, percentage: 0 };
                                 const userChose = isOptionSelected(opt.key);
-                                const label = t(opt.labelKey) || opt.key;
+                                const label = formatOptionLabel(opt.label || opt.key);
 
                                 return (
                                     <div
@@ -476,7 +384,7 @@ export default function ModelPollSurvey({
                                                     ? 'bg-cyan-500/25 border-r-2 border-cyan-400'
                                                     : 'bg-slate-700/30 border-r-2 border-slate-600/50'
                                             }`}
-                                            style={{ width: `${stat.percentage}%` }}
+                                            style={{ width: `${opt.percentage}%` }}
                                         />
 
                                         <div className="relative flex items-center justify-between gap-2 z-10">
@@ -487,8 +395,8 @@ export default function ModelPollSurvey({
                                                 {label}
                                             </span>
                                             <span className="shrink-0 font-mono text-[11px] text-slate-400">
-                                                <strong className="text-slate-200">{stat.percentage}%</strong>{' '}
-                                                <span className="text-[10px] text-slate-500">({stat.count})</span>
+                                                <strong className="text-slate-200">{opt.percentage}%</strong>{' '}
+                                                <span className="text-[10px] text-slate-500">({opt.votes})</span>
                                             </span>
                                         </div>
                                     </div>
@@ -569,14 +477,16 @@ export default function ModelPollSurvey({
                                 {t('models.poll.results') || 'Results'}
                             </button>
 
-                            <button
-                                type="button"
-                                onClick={handleSkip}
-                                className="px-2 py-1.5 rounded-lg text-slate-500 hover:text-slate-300 text-xs transition-colors"
-                                title={t('models.poll.skipTitle') || 'Skip to next question'}
-                            >
-                                {t('models.poll.skip') || 'Skip →'}
-                            </button>
+                            {questions.length > 1 && safeStep < questions.length - 1 && (
+                                <button
+                                    type="button"
+                                    onClick={handleSkip}
+                                    className="px-2 py-1.5 rounded-lg text-slate-500 hover:text-slate-300 text-xs transition-colors"
+                                    title={t('models.poll.skipTitle') || 'Skip to next question'}
+                                >
+                                    {t('models.poll.skip') || 'Skip →'}
+                                </button>
+                            )}
                         </>
                     ) : (
                         <button
@@ -587,37 +497,39 @@ export default function ModelPollSurvey({
                             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                             </svg>
-                            {isQuestionAnswered(currentStep) ? (t('models.poll.editVote') || 'Edit Vote') : (t('models.poll.vote') || 'Vote')}
+                            {isQuestionAnswered(safeStep) ? (t('models.poll.editVote') || 'Edit Vote') : (t('models.poll.vote') || 'Vote')}
                         </button>
                     )}
                 </div>
 
-                {/* Dots Progress Stepper */}
-                <div className="flex items-center gap-1.5" aria-label={t('models.poll.progressAria') || 'Survey progress'}>
-                    {QUESTIONS.map((item, idx) => {
-                        const isCurrent = currentStep === idx;
-                        const answered = isQuestionAnswered(idx);
-                        const stepTitle = `${t('models.poll.step', { step: idx + 1 })}: ${t(item.titleKey) || item.titleFallback} ${answered ? `(${t('models.poll.answered') || 'Answered'})` : ''}`;
+                {/* Dots Progress Stepper (Only when multiple questions exist) */}
+                {questions.length > 1 && (
+                    <div className="flex items-center gap-1.5" aria-label={t('models.poll.progressAria') || 'Survey progress'}>
+                        {questions.map((item, idx) => {
+                            const isCurrent = safeStep === idx;
+                            const answered = isQuestionAnswered(idx);
+                            const stepTitle = `${t('models.poll.step', { step: idx + 1 })}: ${formatQuestionTitle(item.title)} ${answered ? `(${t('models.poll.answered') || 'Answered'})` : ''}`;
 
-                        return (
-                            <button
-                                key={item.id}
-                                type="button"
-                                onClick={() => {
-                                    setCurrentStep(idx);
-                                }}
-                                title={stepTitle}
-                                className={`h-2 rounded-full transition-all duration-300 ${
-                                    isCurrent
-                                        ? 'w-5 bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.7)]'
-                                        : answered
-                                        ? 'w-2 bg-emerald-400/90 hover:bg-emerald-300'
-                                        : 'w-2 bg-slate-700 hover:bg-slate-500'
-                                }`}
-                            />
-                        );
-                    })}
-                </div>
+                            return (
+                                <button
+                                    key={item.id}
+                                    type="button"
+                                    onClick={() => {
+                                        setCurrentStep(idx);
+                                    }}
+                                    title={stepTitle}
+                                    className={`h-2 rounded-full transition-all duration-300 ${
+                                        isCurrent
+                                            ? 'w-5 bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.7)]'
+                                            : answered
+                                            ? 'w-2 bg-emerald-400/90 hover:bg-emerald-300'
+                                            : 'w-2 bg-slate-700 hover:bg-slate-500'
+                                    }`}
+                                />
+                            );
+                        })}
+                    </div>
+                )}
             </div>
         </div>
     );

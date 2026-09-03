@@ -6,6 +6,7 @@ import { Search, X, Settings2, Car, Brain, BookOpen } from 'lucide-react';
 import { useLanguage } from '../lib/i18n';
 import { useFuzzySearch } from '../hooks/useFuzzySearch';
 import { useTranslatedToggles, useTranslatedModels, useTranslatedFeatures, useTranslatedCars } from '../lib/useTranslatedData';
+import { modelNameToSlug } from '../lib/modelSlug';
 
 interface SearchItem {
     id: string;
@@ -91,12 +92,13 @@ export default function UniversalSearch({ initialOpen = false }: { initialOpen?:
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             cat.models.forEach((model: any) => {
                 const modelId = model.id || model.name;
+                const slug = modelNameToSlug(model.name);
                 items.push({
                     id: modelId,
                     type: 'model',
                     title: model.name,
                     subtitle: model.consensus || cat.name,
-                    href: `/models#${model.name}`,
+                    href: `/models?model=${slug}#${slug}`,
                 });
             });
         });

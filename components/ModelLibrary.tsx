@@ -281,10 +281,12 @@ function ModelCard({
     model,
     onExpand,
     forumActivity,
+    isHighlighted,
 }: {
     model: Model;
     onExpand?: (modelName: string) => void;
     forumActivity?: ForumActivity;
+    isHighlighted?: boolean;
 }) {
     const { t } = useLanguage();
     const [copied, setCopied] = useState(false);
@@ -314,12 +316,12 @@ function ModelCard({
     const handleCopyLink = async (e: React.MouseEvent) => {
         e.stopPropagation();
         const slug = modelNameToSlug(model.name);
-        const url = `${window.location.origin}/models?model=${slug}`;
+        const url = `${window.location.origin}/models?model=${slug}#${slug}`;
         if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
             try {
                 await navigator.share({
                     title: `${model.name} — openpilot Driving Model`,
-                    text: `Check out the ${model.name} openpilot driving model simulation on Sunnylink Wiki:`,
+                    text: `Check out the ${model.name} openpilot driving model on Sunnylink Wiki:`,
                     url,
                 });
                 return;
@@ -332,6 +334,7 @@ function ModelCard({
             setCopied(true);
             const newUrl = new URL(window.location.href);
             newUrl.searchParams.set('model', slug);
+            newUrl.hash = slug;
             window.history.replaceState(null, '', newUrl.toString());
             setTimeout(() => setCopied(false), 2000);
         } catch (err) {
@@ -383,7 +386,11 @@ function ModelCard({
     return (
         <div
             id={model.name}
-            className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300 group"
+            className={`bg-slate-900/50 backdrop-blur-sm border rounded-xl overflow-hidden transition-all duration-500 group ${
+                isHighlighted
+                    ? 'border-cyan-400 ring-2 ring-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.45)] scale-[1.01]'
+                    : 'border-slate-700/50 hover:border-cyan-500/50'
+            }`}
         >
             {/* Animated drive simulation hero */}
             <div className="relative">
@@ -573,11 +580,15 @@ function ModelCardSkeleton() {
     );
 }
 
-function LazyModelCard({ children }: { children: React.ReactNode }) {
-    const [shown, setShown] = useState(false);
+function LazyModelCard({ children, forceShow }: { children: React.ReactNode; forceShow?: boolean }) {
+    const [shown, setShown] = useState(forceShow ?? false);
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        if (forceShow) {
+            setShown(true);
+            return;
+        }
         if (shown) return;
         const el = ref.current;
         if (!el) return;
@@ -596,7 +607,7 @@ function LazyModelCard({ children }: { children: React.ReactNode }) {
         );
         io.observe(el);
         return () => io.disconnect();
-    }, [shown]);
+    }, [shown, forceShow]);
 
     return (
         <div ref={ref} className="h-full">
@@ -629,10 +640,45 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [activeFilters, setActiveFilters] = useState<string[]>([]);
     const [visualizerModelName, setVisualizerModelName] = useState<string | null>(null);
+    const [highlightedModel, setHighlightedModel] = useState<string | null>(null);
+    const highlightTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const vibeGuideRef = useRef<HTMLDivElement>(null);
     const [vibeGuideHeight, setVibeGuideHeight] = useState(0);
     const { t } = useLanguage();
 
+    const scrollToModel = useCallback((targetNameOrSlug: string) => {
+        let attempts = 0;
+        const maxAttempts = 20;
+
+        const performScroll = () => {
+            attempts++;
+            const slug = modelNameToSlug(targetNameOrSlug);
+            const el = document.getElementById(slug)
+                || document.getElementById(targetNameOrSlug)
+                || document.querySelector(`[data-model-name="${CSS.escape(targetNameOrSlug)}"]`)
+                || document.querySelector(`[data-model-slug="${CSS.escape(slug)}"]`);
+
+            if (el) {
+                const rect = el.getBoundingClientRect();
+                const offsetFromDesired = rect.top - 110;
+
+                if (Math.abs(offsetFromDesired) > 8) {
+                    window.scrollBy({ top: offsetFromDesired, behavior: 'instant' });
+                }
+
+                if (attempts < maxAttempts) {
+                    setTimeout(performScroll, 60);
+                }
+                return;
+            }
+
+            if (attempts < maxAttempts) {
+                setTimeout(performScroll, 60);
+            }
+        };
+
+        performScroll();
+    }, []);
 
     // Keyboard shortcut handled by SearchFilter component
 
@@ -640,7 +686,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
         setVisualizerModelName(modelName);
         if (typeof window !== 'undefined') {
             const url = new URL(window.location.href);
-            url.searchParams.set('model', modelNameToSlug(modelName));
+            url.searchParams.set('sim', modelNameToSlug(modelName));
             window.history.pushState({ visualizerModel: modelName }, '', url.toString());
         }
     };
@@ -693,31 +739,70 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
         return [allCategory, ...rawCategories];
     }, [rawCategories, t]);
 
-    // Deep-link to open visualizer or scroll to model when URL contains ?model=... or #...
+    // Deep-link to open visualizer or scroll to model when URL contains ?model=..., ?sim=..., ?search=..., or #...
     useEffect(() => {
         const checkUrlParams = () => {
             if (typeof window === 'undefined') return;
             const params = new URLSearchParams(window.location.search);
-            const queryModel = params.get('model') || params.get('sim');
+            const simParam = params.get('sim');
+            const queryModel = params.get('model') || params.get('m');
+            const searchParam = params.get('search') || params.get('q');
             const hashModel = window.location.hash && window.location.hash.length > 1
                 ? decodeURIComponent(window.location.hash.slice(1))
                 : null;
-            const target = queryModel || hashModel;
 
-            if (target && categories[0]?.models) {
-                const found = findModelBySlugOrName(categories[0].models, target);
+            // 1. Simulator deep link
+            if (simParam && categories[0]?.models) {
+                const found = findModelBySlugOrName(categories[0].models, simParam);
                 if (found) {
                     setVisualizerModelName(found.name);
                     return;
                 }
             }
 
-            if (hashModel) {
-                const el = document.getElementById(hashModel);
-                if (el) {
-                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    el.classList.add('ring-2', 'ring-cyan-500/70');
-                    setTimeout(() => el.classList.remove('ring-2', 'ring-cyan-500/70'), 3000);
+            // 2. Search query pre-fill
+            if (searchParam && !searchQuery) {
+                setSearchQuery(searchParam);
+            }
+
+            // 3. Anchoring to a model card (via ?model=, #hash, or exact match in search)
+            const target = queryModel || hashModel || searchParam;
+            if (target && categories[0]?.models) {
+                const found = findModelBySlugOrName(categories[0].models, target);
+                if (found) {
+                    // Close visualizer if open so page card is visible
+                    setVisualizerModelName(null);
+
+                    // Ensure target model is visible in the active category:
+                    setActiveCategory(prev => {
+                        const currentCat = categories.find(c => c.id === prev);
+                        if (currentCat && !currentCat.models.some(m => m.name === found.name)) {
+                            return 'all';
+                        }
+                        return prev;
+                    });
+
+                    // Clear any filter that would exclude this model
+                    setActiveFilters(prev => {
+                        if (prev.includes('recommended') && (!found.badge || !RECOMMENDED_BADGES.includes(found.badge))) {
+                            return prev.filter(f => f !== 'recommended');
+                        }
+                        return prev;
+                    });
+
+                    // If search query would filter out the model, reset it
+                    if (searchQuery && !found.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+                        setSearchQuery('');
+                    }
+
+                    // Highlight and scroll
+                    setHighlightedModel(found.name);
+                    if (highlightTimeoutRef.current) clearTimeout(highlightTimeoutRef.current);
+                    highlightTimeoutRef.current = setTimeout(() => {
+                        setHighlightedModel(null);
+                    }, 4000);
+
+                    scrollToModel(found.name);
                 }
             }
         };
@@ -725,22 +810,17 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
         checkUrlParams();
 
         const handlePopState = () => {
-            if (typeof window === 'undefined') return;
-            const params = new URLSearchParams(window.location.search);
-            const modelParam = params.get('model') || params.get('sim');
-            if (modelParam && categories[0]?.models) {
-                const found = findModelBySlugOrName(categories[0].models, modelParam);
-                if (found) {
-                    setVisualizerModelName(found.name);
-                    return;
-                }
-            }
-            setVisualizerModelName(null);
+            checkUrlParams();
         };
 
         window.addEventListener('popstate', handlePopState);
-        return () => window.removeEventListener('popstate', handlePopState);
-    }, [categories]);
+        window.addEventListener('hashchange', checkUrlParams);
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+            window.removeEventListener('hashchange', checkUrlParams);
+            if (highlightTimeoutRef.current) clearTimeout(highlightTimeoutRef.current);
+        };
+    }, [categories, searchQuery, scrollToModel]);
 
     // Filter models based on search
 
@@ -1124,36 +1204,47 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-800">
-                                            {activeModels.map((model) => (
-                                                <motion.tr
-                                                    key={model.name}
-                                                    onClick={() => handleOpenVisualizer(model.name)}
-                                                    className="group hover:bg-slate-800/50 cursor-pointer transition-colors"
-                                                >
-                                                    <td className="p-3 md:p-4 font-medium text-slate-100">
-                                                        <div className="flex items-center gap-2 md:gap-3">
-                                                            <span className="text-lg md:text-2xl">{getVibeIcon(model.consensus)}</span>
-                                                            <span className="text-sm md:text-base">{model.name}</span>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-3 md:p-4 text-slate-400 text-xs md:text-sm whitespace-nowrap">{model.date}</td>
-                                                    <td className="p-3 md:p-4">
-                                                        <div className="flex items-center gap-2">
-                                                            <span className="text-cyan-400 font-bold text-sm">{model.communityScore}</span>
-                                                            <div className="hidden sm:block w-16 h-1.5 bg-slate-700 rounded-full overflow-hidden">
-                                                                <div className="h-full bg-cyan-500" style={{ width: `${(model.communityScore || 0) * 10}%` }} />
+                                            {activeModels.map((model) => {
+                                                const isTargeted = highlightedModel === model.name;
+                                                const slug = modelNameToSlug(model.name);
+                                                return (
+                                                    <motion.tr
+                                                        key={model.name}
+                                                        id={slug}
+                                                        data-model-name={model.name}
+                                                        data-model-slug={slug}
+                                                        onClick={() => handleOpenVisualizer(model.name)}
+                                                        className={`group cursor-pointer transition-all duration-300 scroll-mt-32 ${
+                                                            isTargeted
+                                                                ? 'bg-cyan-950/60 ring-2 ring-cyan-400 ring-inset shadow-[0_0_20px_rgba(6,182,212,0.3)]'
+                                                                : 'hover:bg-slate-800/50'
+                                                        }`}
+                                                    >
+                                                        <td className="p-3 md:p-4 font-medium text-slate-100">
+                                                            <div className="flex items-center gap-2 md:gap-3">
+                                                                <span className="text-lg md:text-2xl">{getVibeIcon(model.consensus)}</span>
+                                                                <span className="text-sm md:text-base">{model.name}</span>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="hidden md:table-cell p-4">
-                                                        {model.badge && (
-                                                            <span className="px-2 py-1 rounded text-xs font-medium bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                                                                {model.badge}
-                                                            </span>
-                                                        )}
-                                                    </td>
-                                                </motion.tr>
-                                            ))}
+                                                        </td>
+                                                        <td className="p-3 md:p-4 text-slate-400 text-xs md:text-sm whitespace-nowrap">{model.date}</td>
+                                                        <td className="p-3 md:p-4">
+                                                            <div className="flex items-center gap-2">
+                                                                <span className="text-cyan-400 font-bold text-sm">{model.communityScore}</span>
+                                                                <div className="hidden sm:block w-16 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                                                    <div className="h-full bg-cyan-500" style={{ width: `${(model.communityScore || 0) * 10}%` }} />
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="hidden md:table-cell p-4">
+                                                            {model.badge && (
+                                                                <span className="px-2 py-1 rounded text-xs font-medium bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                                                                    {model.badge}
+                                                                </span>
+                                                            )}
+                                                        </td>
+                                                    </motion.tr>
+                                                );
+                                            })}
                                         </tbody>
                                     </table>
                                 </div>
@@ -1169,10 +1260,24 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                 {activeModels.map((model) => {
                                     const topicId = model.forumUrl ? extractTopicId(model.forumUrl) : null;
                                     const activity = topicId && forumActivity ? forumActivity[topicId] : undefined;
+                                    const isTargeted = highlightedModel === model.name;
+                                    const slug = modelNameToSlug(model.name);
                                     return (
-                                        <div key={model.name} className="h-full">
-                                            <LazyModelCard>
-                                                <ModelCard model={model} onExpand={handleOpenVisualizer} forumActivity={activity} />
+                                        <div
+                                            key={model.name}
+                                            id={slug}
+                                            data-model-name={model.name}
+                                            data-model-slug={slug}
+                                            className="h-full scroll-mt-32 transition-all duration-300"
+                                        >
+                                            {model.name === 'Pop v2' && <span id="pop-model-v2" className="sr-only" />}
+                                            <LazyModelCard forceShow={isTargeted}>
+                                                <ModelCard
+                                                    model={model}
+                                                    onExpand={handleOpenVisualizer}
+                                                    forumActivity={activity}
+                                                    isHighlighted={isTargeted}
+                                                />
                                             </LazyModelCard>
                                         </div>
                                     );

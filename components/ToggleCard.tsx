@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import DOMPurify from 'dompurify';
 import { useLanguage } from '../lib/i18n';
 
@@ -24,6 +24,7 @@ interface ToggleSetting {
   helpText?: string;
   dependencies?: { key: string; label: string }[];
   discourseHtml?: string;
+  deviceAvailability?: 'full' | 'config-hidden' | 'comma-3x-only' | string;
 }
 
 interface ToggleCardProps {
@@ -245,9 +246,6 @@ export default function ToggleCard({
   const cardRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
 
-  // Scrolling is handled by HomeClient's hash handler with proper timing.
-  // This component only needs to render the highlighted state (CSS classes on the card div).
-
   const handleCopyLink = async () => {
     const url = `${window.location.origin}${window.location.pathname}#${encodeURIComponent(setting.key)}`;
     try {
@@ -425,6 +423,7 @@ export default function ToggleCard({
     <div
       ref={cardRef}
       id={setting.key}
+      data-setting-key={setting.key}
       className={`
         relative group rounded-2xl border backdrop-blur-sm transition-all duration-500 ease-out scroll-mt-32
         ${isHighlighted
@@ -459,6 +458,22 @@ export default function ToggleCard({
               {setting.safetyLevel === 'safe' && (
                 <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
                   ✓ {t('settings.safe')}
+                </span>
+              )}
+              {setting.deviceAvailability === 'comma-3x-only' && (
+                <span
+                  className="px-2 py-0.5 text-xs font-medium rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                  title="Supported on comma 3X/3 only. Not supported on comma four screen or UI."
+                >
+                  comma 3X/3 only
+                </span>
+              )}
+              {setting.deviceAvailability === 'config-hidden' && (
+                <span
+                  className="px-2 py-0.5 text-xs font-medium rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30"
+                  title="Supported on all devices. comma four users configure via sunnylink."
+                >
+                  comma four via sunnylink
                 </span>
               )}
             </div>

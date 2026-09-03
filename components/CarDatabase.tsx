@@ -21,6 +21,7 @@ import ScrollToTop from './ScrollToTop';
 import { BRAND_ICONS, DefaultCarIcon } from './icons/BrandIcons';
 import { getModelFleetStat, formatRouteCount, getTopDrivenModels, getBrandFleetStat, formatDeviceCount } from '../lib/fleetStats';
 import { getCarCutoutImage } from '../lib/carImages';
+import { modelNameToSlug } from '../lib/modelSlug';
 
 const CategorySidebarButton = dynamic(() => import('./CategorySidebarButton'), { ssr: false });
 
@@ -779,7 +780,14 @@ export default function CarDatabase() {
                                                         return (
                                                             <div className="flex items-center gap-2 text-sm text-slate-300">
                                                                 <span className="text-slate-500 shrink-0">🧠</span>
-                                                                <span className="truncate max-w-[150px] font-medium">{vehicle.bestSettings.drivingModel}</span>
+                                                                <Link
+                                                                    href={`/models?model=${modelNameToSlug(vehicle.bestSettings.drivingModel)}#${modelNameToSlug(vehicle.bestSettings.drivingModel)}`}
+                                                                    onClick={(e) => e.stopPropagation()}
+                                                                    className="truncate max-w-[150px] font-medium hover:text-cyan-300 hover:underline transition-colors"
+                                                                    title={`View ${vehicle.bestSettings.drivingModel} specs on models page`}
+                                                                >
+                                                                    {vehicle.bestSettings.drivingModel}
+                                                                </Link>
                                                                 {stat && (
                                                                     <span 
                                                                         className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 border ${
@@ -824,7 +832,14 @@ export default function CarDatabase() {
                                                     <div className="flex items-center justify-between gap-2 text-sm text-slate-300">
                                                         <div className="flex items-center gap-2 min-w-0">
                                                             <span className="text-slate-500 shrink-0">🧠</span>
-                                                            <span className="truncate font-medium">{vehicle.bestSettings.drivingModel}</span>
+                                                            <Link
+                                                                href={`/models?model=${modelNameToSlug(vehicle.bestSettings.drivingModel)}#${modelNameToSlug(vehicle.bestSettings.drivingModel)}`}
+                                                                onClick={(e) => e.stopPropagation()}
+                                                                className="truncate font-medium hover:text-cyan-300 hover:underline transition-colors"
+                                                                title={`View ${vehicle.bestSettings.drivingModel} specs on models page`}
+                                                            >
+                                                                {vehicle.bestSettings.drivingModel}
+                                                            </Link>
                                                         </div>
                                                         {stat && (
                                                             <span 

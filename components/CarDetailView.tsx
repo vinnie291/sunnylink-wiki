@@ -7,6 +7,7 @@ import { useLanguage } from '../lib/i18n';
 import { getModelFleetStat, formatRouteCount, getBrandFleetStat, formatDeviceCount } from '../lib/fleetStats';
 import { getVehicleForumUrl } from '../lib/carForum';
 import { getCarCutoutImage } from '../lib/carImages';
+import { modelNameToSlug } from '../lib/modelSlug';
 
 interface CarConfig {
     name: string;
@@ -248,14 +249,30 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                     {(() => {
                                         const modelName = currentConfig.settings.drivingModel;
                                         const stat = getModelFleetStat(modelName);
+                                        const slug = modelNameToSlug(modelName);
+                                        const modelUrl = `/models?model=${slug}#${slug}`;
+
                                         return (
-                                            <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-800/80 to-cyan-950/30 border border-cyan-500/40 flex flex-col justify-between gap-3 shadow-md">
+                                            <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-800/80 to-cyan-950/30 border border-cyan-500/40 flex flex-col justify-between gap-3 shadow-md group/card hover:border-cyan-500/60 transition-all duration-200">
                                                 <div className="flex items-start justify-between">
-                                                    <div>
+                                                    <Link
+                                                        href={modelUrl}
+                                                        className="block group/link"
+                                                        title={`View ${modelName} specs on models page`}
+                                                    >
                                                         <div className="text-xs text-cyan-400 font-semibold mb-0.5">{t('cars.setting.model') || 'Driving Model'}</div>
-                                                        <div className="font-bold text-slate-100 text-lg leading-tight">{modelName}</div>
-                                                    </div>
-                                                    <span className="text-2xl">🧠</span>
+                                                        <div className="font-bold text-slate-100 text-lg leading-tight group-hover/link:text-cyan-300 transition-colors flex items-center gap-1.5">
+                                                            <span>{modelName}</span>
+                                                            <span className="text-xs text-cyan-400/80 group-hover/link:text-cyan-300 transition-colors">↗</span>
+                                                        </div>
+                                                    </Link>
+                                                    <Link
+                                                        href={modelUrl}
+                                                        className="text-2xl hover:scale-110 transition-transform"
+                                                        title={`View ${modelName} specs on models page`}
+                                                    >
+                                                        🧠
+                                                    </Link>
                                                 </div>
                                                 <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-700/60">
                                                     {stat ? (
@@ -268,8 +285,9 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                                         <span className="text-xs text-slate-400">{t('cars.fleetStats.communityVerified') || 'Community Verified'}</span>
                                                     )}
                                                     <Link
-                                                        href={`/models?search=${encodeURIComponent(modelName)}`}
-                                                        className="text-[11px] text-cyan-400 hover:text-cyan-300 font-semibold inline-flex items-center gap-1 transition-colors"
+                                                        href={modelUrl}
+                                                        className="text-[11px] text-cyan-400 hover:text-cyan-300 font-semibold inline-flex items-center gap-1 transition-colors px-1.5 py-0.5 rounded hover:bg-cyan-500/10"
+                                                        title={`View ${modelName} specs on models page`}
                                                     >
                                                         <span>{t('cars.fleetStats.viewModel') || 'Specs'}</span>
                                                         <span>↗</span>
@@ -344,7 +362,17 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                                     )}
                                                 </div>
                                                 <div className="flex items-center justify-between text-[11px] text-slate-400">
-                                                    <span>Model: <strong className="text-slate-300">{cfg.settings.drivingModel}</strong></span>
+                                                    <span>
+                                                        Model:{' '}
+                                                        <Link
+                                                            href={`/models?model=${modelNameToSlug(cfg.settings.drivingModel)}#${modelNameToSlug(cfg.settings.drivingModel)}`}
+                                                            className="text-slate-300 hover:text-cyan-400 underline decoration-slate-600 hover:decoration-cyan-400 transition-colors font-bold inline-flex items-center gap-1"
+                                                            title={`View ${cfg.settings.drivingModel} specs`}
+                                                        >
+                                                            <span>{cfg.settings.drivingModel}</span>
+                                                            <span className="text-[10px]">↗</span>
+                                                        </Link>
+                                                    </span>
                                                     {stat && <span>{t('cars.fleetStats.fleetRankInFleet', { rank: stat.rank }) || `Rank #${stat.rank} in fleet`}</span>}
                                                 </div>
                                             </div>

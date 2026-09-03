@@ -1,158 +1,307 @@
 {
-  "appName": "Sunnylink Database",
-  "version": "5.0",
-  "dataSource": "Official Sunnypilot Documentation",
-  "lastUpdated": "2026-01-26",
-  "features": [
-    {
-      "id": "mads",
-      "name": "M.A.D.S.",
-      "fullName": "Modular Assistive Driving System",
-      "category": "핵심 제어",
-      "officialDefinition": "Decouples lateral control (조향) from longitudinal control (gas/brake), enabling 차량 to steer itself even when 크루즈 컨트롤 is disengaged.",
-      "userSummary": "브레이크를 밟거나 관성으로 움직여도 스티어링은 계속 켜져 있습니다.",
-      "userTranslation": "\"상시 조향.\" 운전자가 속도를 완전히 제어하더라도 자동차는 운전자를 위해 방향을 조정합니다. 조향을 끄지 않고도 관성, 제동, 가속을 할 수 있습니다.",
-      "settingsKeys": [
-        "mads_enabled",
-        "mads_steering_mode",
-        "mads_main_cruise_allowed",
-        "mads_unified_engagement"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/modular-assistive-driving-system-m-a-d-s-features-and-functionality/245"
-    },
-    {
-      "id": "nnlc",
-      "name": "NNLC",
-      "fullName": "Neural Network Lateral Control",
-      "category": "핵심 제어",
-      "officialDefinition": "기존 PID/Indi 컨트롤러를 과거 곡률을 입력하여 미래 조향 경로를 예측하는 신경망 모델로 대체합니다. 측면 제어를 위한 곡률을 직접 출력합니다.",
-      "userSummary": "AI 기반 조향. '격렬한 진동' 또는 '핑퐁 현상'으로 인해 최신 모델에는 권장되지 않습니다.",
-      "userTranslation": "“AI 조향.” 일반적으로 최신 모델에는 권장되지 않습니다. 사용자들은 '격렬한 진동', '핑퐁 현상' 또는 '흔들림'을 보고하고 있습니다. 레거시 모델(예: North Dakota 0.9.7.1)에서는 성공적인 사례가 있습니다. 측면 제어 문제를 피하려면 최신 모델에서는 꺼짐(OFF)으로 설정하십시오.",
-      "settingsKeys": [
-        "nnlc_enabled"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/neural-network-lateral-control-nnlc/246"
-    },
-    {
-      "id": "dec",
-      "name": "DEC",
-      "fullName": "Dynamic Experimental Control",
-      "category": "핵심 제어",
-      "officialDefinition": "운전 상황(예: 속도, 도로 유형)에 따라 냉각 모드(표준 종방향)와 실험 모드(신호등/정지 신호 처리) 사이를 자동으로 전환합니다.",
-      "userSummary": "운전 모드를 자동으로 전환합니다. 참고: 지각의 원인이 될 수 있습니다.",
-      "userTranslation": "\"도시/고속도로 전환기.\" 상황에 따라 자동으로 모드를 전환합니다. 트레이드오프: 특정 모델 테스트를 더 어렵게 만들 수 있으며 표지판에 늦게 제동을 걸 수 있습니다. 유용하지만 복잡성이 추가됩니다.",
-      "settingsKeys": [
-        "dynamic_experimental_control"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/dynamic-experimental-control/242"
-    },
-    {
-      "id": "icbm",
-      "name": "ICBM",
-      "fullName": "Intelligent Cruise Button Management",
-      "category": "호환성",
-      "officialDefinition": "차량의 기본 크루즈 컨트롤 버튼(RES+/SET-)을 전자적으로 \"눌러\" 차량 속도를 관리하도록 설계된 시스템은 기본적으로 이를 지원하지 않는 자동차의 전체 종방향 제어를 모방합니다.",
-      "userSummary": "버튼 누르기를 시뮬레이션하여 지원되지 않는 자동차에서 '스마트' 속도 제어를 허용합니다.",
-      "userTranslation": "\"Cruise Hacker.\" If 당신의 차량 doesn't support full self-driving gas/brake, this feature \"spams\" your 조향 wheel buttons to force 차량 to slow down for curves or 속도 제한s.",
-      "settingsKeys": [
-        "icbm_enabled"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/intelligent-cruise-button-management-icbm/244"
-    },
-    {
-      "id": "scc_v",
-      "name": "SCC-V",
-      "fullName": "Smart Cruise Control - Vision (SCC-V)",
-      "category": "속도 제어",
-      "officialDefinition": "스마트 크루즈 컨트롤 - 비전(SCC-V)은 카메라 비전 데이터를 활용하여 전방 도로의 곡률을 계산하여 차량의 속도를 사전에 조정합니다.",
-      "userSummary": "카메라로 '보는' 곡선에 대해서는 속도가 느려집니다.",
-      "userTranslation": "\"시선 곡선 감속.\" 자동차는 급커브가 오는 것을 보고 마치 여러분이 원하는 것처럼 속도를 줄입니다.",
-      "settingsKeys": [
-        "VisionBasedTurnSpeedControl"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/smart-cruise-control-using-camera-vision-for-proactive-speed-adjustment/248"
-    },
-    {
-      "id": "scc_m",
-      "name": "SCC-M",
-      "fullName": "Map-Based Turn Speed Control",
-      "category": "속도 제어",
-      "officialDefinition": "OpenStreetMap(OSM) 데이터를 사용하여 다가오는 도로 굴곡을 예측하고 그에 따라 ACC 설정 속도를 낮춥니다.",
-      "userSummary": "지도 데이터를 사용하는 곡선의 경우 속도가 느려집니다.",
-      "userTranslation": "\"지도 기반 곡선 감속.\" 자동차는 지도를 보고, 전방의 곡선을 보고, 운전자가 그것을 보기도 전에 속도를 줄입니다.",
-      "settingsKeys": [
-        "map_turn_control"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/smart-cruise-control-map-scc-m-feature-description/247"
-    },
-    {
-      "id": "sla",
-      "name": "SLA",
-      "fullName": "Speed Limit Assist",
-      "category": "속도 제어",
-      "officialDefinition": "현재 속도 제한에 맞춰 차량의 크루즈 설정 속도를 자동으로 조정합니다. 지도 데이터, 대시보드 카메라(TSR) 또는 둘의 조합에서 소스가 제공됩니다.",
-      "userSummary": "Auto-sets cruise to 속도 제한.",
-      "userTranslation": "\"Auto-Speeding.\" Automatically sets your 크루즈 컨트롤 to the 속도 제한 (plus your custom offset, e.g., +5 mph).",
-      "settingsKeys": [
-        "speed_limit_assist",
-        "speed_limit_source",
-        "speed_limit_offset_type",
-        "speed_limit_offset_value"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/speed-limit-assist/249"
-    },
-    {
-      "id": "alc",
-      "name": "ALC",
-      "fullName": "Automatic Lane Change",
-      "category": "내비게이션",
-      "officialDefinition": "조향 휠에 토크를 \"너지\"할 필요 없이 깜박이 입력 및 구성 가능한 지연 타이머 후에 차선 변경을 시작합니다. 안전을 위해 사각지대 모니터링(BSM)과 통합할 수 있습니다.",
-      "userSummary": "깜박이를 클릭 -> 자동차가 자동으로 움직입니다.",
-      "userTranslation": "\"Hands-Free Lane Change.\" You click the blinker, 차량 checks the 사각지대 (if 활성화됨), waits 1 second, and moves over automatically.",
-      "settingsKeys": [
-        "auto_lane_change_timer",
-        "auto_lane_change_bsm_delay"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/auto-lane-change/240"
-    },
-    {
-      "id": "hkg_tuning",
-      "name": "HKG Tuning",
-      "fullName": "Hyundai Longitudinal Tuning",
-      "category": "차량 별",
-      "officialDefinition": "현대/기아/제네시스(HKG) 차량의 종단적 제어 정책에 특정 튜닝 프로필(\"Stock\" 또는 \"Dynamic\")을 적용합니다. 기본 HDA(고속도로 주행 보조) 상태와 통합됩니다.",
-      "userSummary": "현대/기아차의 가속페달 반응성.",
-      "userTranslation": "\"현대 가스 페달 수정.\" 기아차가 \"에코\" 모드에서 너무 느리게 가속하는 경우, 이를 \"다이내믹\"으로 전환하면 가속 페달의 반응성이 더 좋아집니다.",
-      "settingsKeys": [
-        "hyundai_longitudinal_tuning"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/hyundai-longitudinal-tuning-implementation-in-sunnypilot/243"
-    },
-    {
-      "id": "custom_acc",
-      "name": "Custom ACC",
-      "fullName": "Custom ACC Increments",
-      "category": "차량 별",
-      "officialDefinition": "크루즈 버튼을 짧게 누르기(예: ±1) 및 길게 누르기(예: ±5)에 대한 속도 증가/감소 값을 구성할 수 있습니다.",
-      "userSummary": "크루즈 버튼 속도 변경을 다시 매핑합니다.",
-      "userTranslation": "\"버튼 리매퍼.\" 조향 휠 버튼을 변경하여 한 번의 클릭으로 속도를 1mph 대신 5mph로 변경하세요.",
-      "settingsKeys": [
-        "custom_acc_increments"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/custom-acc-increments/241"
+    "appName": "써니링크 데이터베이스",
+    "version": "2026.002",
+    "dataSource": "Official Sunnypilot Documentation",
+    "lastUpdated": "2026-09-03",
+    "features": [
+        {
+            "id": "mads",
+            "name": "M.A.D.S.",
+            "fullName": "Modular Assistive Driving System",
+            "category": "Core Control",
+            "officialDefinition": "횡방향 제어(조향)와 종방향 제어(가감속)를 분리하여 크루즈 해제 시에도 조향을 유지합니다.",
+            "userSummary": "브레이크를 밟거나 타력 주행 중에도 조향 어시스트가 유지됩니다.",
+            "userTranslation": "\"상시 조향 유지.\" 크루즈가 꺼지거나 브레이크를 밟아도 차선 유지가 풀리지 않고 계속 핸들을 제어합니다.",
+            "settingsKeys": [
+                "MadsEnabled",
+                "MadsSteeringMode",
+                "MadsMainCruiseAllowed",
+                "MadsUnifiedEngagementMode"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/modular-assistive-driving-system-m-a-d-s-features-and-functionality/245"
+        },
+        {
+            "id": "nnlc",
+            "name": "NNLC",
+            "fullName": "Neural Network Lateral Control",
+            "category": "Core Control",
+            "officialDefinition": "기존 PID/Indi 제어기 대신 신경망 모델을 활용하여 과거 곡률 기반 조향 경로를 예측합니다.",
+            "userSummary": "인공지능 신경망 기반 조향 제어기. (Enforce Torque Control과 상호 배타적)",
+            "userTranslation": "\"AI 신경망 조향.\" 전통적 수학 공식 대신 딥러닝 신경망 모델로 조향 경로를 직접 예측합니다. sunnypilot 2026.002+ 버전에서는 토크 제어와 동시에 켤 수 없습니다.",
+            "settingsKeys": [
+                "NeuralNetworkLateralControl"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/neural-network-lateral-control-nnlc/246"
+        },
+        {
+            "id": "blinker_pause",
+            "name": "Blinker Pause",
+            "fullName": "Blinker Pause Lateral Control",
+            "category": "Core Control",
+            "officialDefinition": "방향지시등 작동 시 횡방향 조향 제어를 일시 중단하며, 깜빡이가 꺼지거나 설정 속도 도달 시 자동 재개합니다.",
+            "userSummary": "방향지시등 작동 중 수동 핸들 조작을 일시 허용합니다.",
+            "userTranslation": "\"깜빡이 연동 조향 일시정지.\" 차선 변경이나 회전 시 깜빡이를 켜면 조향 어시스트가 일시 해제되어 핸들을 힘으로 꺾지 않고 편하게 조작할 수 있습니다.",
+            "settingsKeys": [
+                "BlinkerPauseLateralControl",
+                "BlinkerMinLateralControlSpeed"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/blinker-pause-lateral-control/240"
+        },
+        {
+            "id": "torque_control",
+            "name": "Torque Control",
+            "fullName": "Torque Steering Control & Self-Tune",
+            "category": "Core Control",
+            "officialDefinition": "횡가속도와 마찰력을 기반으로 모터 토크를 산출하는 최신 제어기 및 실시간 적응형 자가 튜닝 알고리즘.",
+            "userSummary": "실시간 자가 학습 튜닝을 지원하는 정밀 토크 조향 제어.",
+            "userTranslation": "\"적응형 토크 조향.\" 횡가속도와 마찰력을 계산하여 최적의 모터 힘을 전달합니다. Self-Tune을 켜면 차량에 맞게 자동으로 마찰값과 조향 강도를 학습합니다.",
+            "settingsKeys": [
+                "EnforceTorqueControl",
+                "SelfTune",
+                "LessRestrictSettingsForSelfTune",
+                "EnableCustomTorqueTuning",
+                "ManualTuneFriction",
+                "TorqueControlTuneVersion",
+                "ManualRealTimeTuning"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/torque-settings/3688"
+        },
+        {
+            "id": "dec",
+            "name": "DEC",
+            "fullName": "Dynamic Experimental Control",
+            "category": "Core Control",
+            "officialDefinition": "속도와 도로 환경에 따라 일반 종방향 모드와 신호등 감속 실험 모드를 지능적으로 자동 전환합니다.",
+            "userSummary": "주행 상황에 맞춰 칠 모드와 실험 모드를 자동 전환합니다.",
+            "userTranslation": "\"상황별 주행 모드 전환.\" 고속도로에서는 부드러운 칠 모드로 주행하고, 교차로와 정지선에서는 실험 모드로 자동 전환하여 감속합니다.",
+            "settingsKeys": [
+                "DynamicExperimentalControl"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/dynamic-experimental-control/242"
+        },
+        {
+            "id": "quiet_mode",
+            "name": "Quiet Mode",
+            "fullName": "Quiet Mode Feature",
+            "category": "Core Control",
+            "officialDefinition": "비필수 음성 알림을 음소거하고 즉각적인 운전자 주의가 요구되는 필수 안전 경고음만 출력합니다.",
+            "userSummary": "안전 경고음은 유지하되 불필요한 일상 알림음을 음소거합니다.",
+            "userTranslation": "\"조용한 모드.\" 일상적인 비프음을 차단하여 조용한 실내를 유지하며, 즉각 조작이 필요한 안전 비상 경고음은 정상 출력합니다.",
+            "settingsKeys": [
+                "QuietMode"
+            ],
+            "docUrl": "https://docs.sunnypilot.ai/features/quiet-mode/"
+        },
+        {
+            "id": "icbm",
+            "name": "ICBM",
+            "fullName": "Intelligent Cruise Button Management",
+            "category": "Compatibility",
+            "officialDefinition": "순정 크루즈 버튼 신호를 전자식으로 제어하여 종방향 오픈파일럿 미지원 차량에서 감속을 구현합니다.",
+            "userSummary": "크루즈 버튼 입력을 가로채 속도를 지능적으로 제어합니다.",
+            "userTranslation": "\"크루즈 버튼 가로채기.\" 순정 오픈파일럿 가감속을 직접 지원하지 않는 차량에서 크루즈 버튼 신호를 제어하여 곡선이나 과속카메라 앞에서 속도를 줄입니다.",
+            "settingsKeys": [
+                "IntelligentCruiseButtonManagement"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/intelligent-cruise-button-management-icbm/244"
+        },
+        {
+            "id": "scc_v",
+            "name": "SCC-V",
+            "fullName": "Smart Cruise Control - Vision (SCC-V)",
+            "category": "Speed Control",
+            "officialDefinition": "카메라 비전 데이터를 분석하여 전방 도로 곡률을 예측하고 사전에 안전 속도로 감속합니다.",
+            "userSummary": "전방 카메라로 인식한 급커브에서 사전에 감속합니다.",
+            "userTranslation": "\"카메라 비전 곡선 감속.\" 카메라가 앞쪽 급커브를 감지하면 코너 진입 전에 미리 부드럽게 감속합니다.",
+            "settingsKeys": [
+                "VisionBasedTurnSpeedControl"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/smart-cruise-control-using-camera-vision-for-proactive-speed-adjustment/248"
+        },
+        {
+            "id": "scc_m",
+            "name": "SCC-M",
+            "fullName": "Map-Based Turn Speed Control",
+            "category": "Speed Control",
+            "officialDefinition": "다운로드된 OpenStreetMap 데이터를 바탕으로 도로 곡률을 계산하여 저크 기반 감속을 수행합니다.",
+            "userSummary": "OpenStreetMap 지도 데이터를 활용한 커브길 감속.",
+            "userTranslation": "\"지도 기반 커브 감속.\" 오프라인 지도를 읽어 시야 확보가 어려운 굽은 길도 사전에 알아채고 속도를 줄여줍니다.",
+            "settingsKeys": [
+                "SmartCruiseControlMap"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/smart-cruise-control-map-scc-m-feature-description/247"
+        },
+        {
+            "id": "sla",
+            "name": "SLA",
+            "fullName": "Speed Limit Assist",
+            "category": "Speed Control",
+            "officialDefinition": "지도 및 표지판 인식(TSR) 데이터를 바탕으로 크루즈 설정 속도를 규정 속도로 자동 동기화합니다.",
+            "userSummary": "도로 제한속도에 맞춰 크루즈 설정속도를 자동 조절합니다.",
+            "userTranslation": "\"제한속도 어시스트.\" 카메라 표지판 인식과 지도 데이터를 결합하여 제한속도(및 설정한 마진)에 맞춥니다.",
+            "settingsKeys": [
+                "SpeedLimitAssistMode",
+                "SpeedLimitSource",
+                "SpeedLimitOffsetType",
+                "SpeedLimitOffsetValue"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/speed-limit-assist/249"
+        },
+        {
+            "id": "custom_acc",
+            "name": "Custom ACC",
+            "fullName": "Custom ACC Increments",
+            "category": "Speed Control",
+            "officialDefinition": "크루즈 버튼의 짧은 누름과 긴 누름 시 변경되는 속도 증감 단위를 사용자 기호에 맞게 설정합니다.",
+            "userSummary": "크루즈 버튼 1회 짧게/길게 누를 때의 속도 변경 단위 커스텀.",
+            "userTranslation": "\"크루즈 버튼 단위 설정.\" 짧게 누르면 1km/h, 길게 누르면 10km/h 등 원하는 속도 조절 단위로 변경합니다.",
+            "settingsKeys": [
+                "CustomAccIncrements",
+                "CustomAccShortPressIncrement",
+                "CustomAccLongPressIncrement"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/custom-acc-increments/241"
+        },
+        {
+            "id": "alpha_longitudinal",
+            "name": "Alpha Longitudinal",
+            "fullName": "sunnypilot Longitudinal Control (Alpha)",
+            "category": "Speed Control",
+            "officialDefinition": "지원 차종을 위한 써니파일럿 자체 종방향 가감속 및 정차 후 재출발 제어 기능입니다.",
+            "userSummary": "써니파일럿 자체 가감속 및 정차/출발 제어 알고리즘.",
+            "userTranslation": "\"써니파일럿 자체 가감속.\" 순정 스마트 크루즈 대신 부드러운 제동과 정차 후 출발 성능을 제공하는 커스텀 종방향 제어입니다.",
+            "settingsKeys": [
+                "AlphaLongitudinal",
+                "LongitudinalManeuverMode"
+            ],
+            "docUrl": "https://docs.sunnypilot.ai/features/cruise/alpha-longitudinal/"
+        },
+        {
+            "id": "alc",
+            "name": "ALC",
+            "fullName": "Automatic Lane Change",
+            "category": "Navigation",
+            "officialDefinition": "방향지시등 조작 시 핸들 입력 없이 사각지대 모니터링(BSM) 확인 후 자동으로 차선을 변경합니다.",
+            "userSummary": "방향지시등을 켜면 사각지대 확인 후 자동으로 차선을 변경합니다.",
+            "userTranslation": "\"자동 차선 변경.\" 깜빡이를 켜면 후측방 레이더로 안전을 확인하고 타이머 후 자동으로 차선을 넘어갑니다.",
+            "settingsKeys": [
+                "AutoLaneChangeTimer",
+                "AutoLaneChangeBsmDelay"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/auto-lane-change/240"
+        },
+        {
+            "id": "osm_maps",
+            "name": "OSM Maps",
+            "fullName": "OpenStreetMap Offline Navigation & Geometry",
+            "category": "Navigation",
+            "officialDefinition": "기기 내부에 OpenStreetMap 데이터를 저장하여 통신 없이도 도로 형상 및 제한속도를 제공합니다.",
+            "userSummary": "오프라인 도로 곡률 및 제한속도 안내를 위한 지도 데이터.",
+            "userTranslation": "\"오프라인 지도 내장.\" 기기에 지도를 다운로드하여 데이터가 터지지 않는 음영지역에서도 커브 감속과 속도 제한이 동작합니다.",
+            "settingsKeys": [
+                "SmartCruiseControlMap",
+                "DisplayRoadName",
+                "SpeedLimitSource",
+                "MapAdvisorySpeedLimit"
+            ],
+            "docUrl": "https://docs.sunnypilot.ai/features/connected/osm-maps/"
+        },
+        {
+            "id": "hud_visuals",
+            "name": "HUD & Visuals",
+            "fullName": "Custom Onroad HUD Visuals & Metrics",
+            "category": "Display & Visuals",
+            "officialDefinition": "실시간 가속도 바, 앞차 거리 수치, 정차 타이머 및 계기판 속도 보정 등 온로드 화면을 확장합니다.",
+            "userSummary": "가속 바(Rocket Fuel), 앞차 거리/속도 표시, 신호 대기 타이머 등 고급 HUD.",
+            "userTranslation": "\"프로 HUD 디스플레이.\" 앞차와의 정밀한 거리와 속도, 실시간 G가속도 바, 정차 시간 타이머를 화면에 띄웁니다.",
+            "settingsKeys": [
+                "DisplayRocketFuelBar",
+                "ChevronInfo",
+                "StandstillTimer",
+                "TrueVEgoUI",
+                "HideVEgoUI",
+                "ShowTurnSignals",
+                "BlindSpotDetection",
+                "DeveloperUIInfo",
+                "SteeringArc",
+                "RainbowMode"
+            ],
+            "docUrl": "https://docs.sunnypilot.ai/features/display/hud-visuals/"
+        },
+        {
+            "id": "driving_models",
+            "name": "Models & AI",
+            "fullName": "Driving Model Selector & AI Configuration",
+            "category": "Models & AI",
+            "officialDefinition": "기기 화면에서 다양한 주행 모델을 교체하고 조향 지연 시간 및 회전 성향을 설정합니다.",
+            "userSummary": "차량 안에서 바로 교체하는 AI 주행 모델 및 파라미터 세부 조율.",
+            "userTranslation": "\"주행 모델 선택기.\" 주행 성향에 맞는 인공지능 모델을 직접 고르고 조향 딜레이와 차선 변경 성향을 튜닝합니다.",
+            "settingsKeys": [
+                "DrivingModel",
+                "ModelLibrary",
+                "LaneTurnDesire",
+                "AdjustLaneTurnSpeed",
+                "LiveLearningSteerDelay",
+                "ManualSoftwareDelay",
+                "AdjustCameraOffset"
+            ],
+            "docUrl": "https://docs.sunnypilot.ai/features/models/"
+        },
+        {
+            "id": "sunnylink",
+            "name": "sunnylink",
+            "fullName": "sunnylink Connected Services & Remote Config",
+            "category": "Connected Services",
+            "officialDefinition": "클라우드 백업/복원, 깃허브 후원자 연동 및 원격 설정 변경을 지원하는 백엔드 서비스입니다.",
+            "userSummary": "클라우드 설정 백업, 웹 대시보드 및 원격 파라미터 제어.",
+            "userTranslation": "\"써니링크 클라우드 연동.\" 설정을 클라우드에 백업하고 스마트폰으로 파라미터를 손쉽게 변경할 수 있습니다.",
+            "settingsKeys": [
+                "EnableSunnylinkUploader",
+                "CompletedSunnylinkConsentVersion",
+                "SunnylinkDongleId"
+            ],
+            "docUrl": "https://docs.sunnypilot.ai/features/connected/sunnylink/"
+        },
+        {
+            "id": "hkg_tuning",
+            "name": "HKG Tuning",
+            "fullName": "Hyundai Longitudinal Tuning",
+            "category": "Vehicle Specific",
+            "officialDefinition": "HKG 차종의 정차 후 출발 가속 반응성과 고속도로 주행 보조(HDA) 연동성을 최적화합니다.",
+            "userSummary": "현대/기아/제네시스 차량의 가속 반응성 및 재출발 튜닝.",
+            "userTranslation": "\"현대/기아 가속 반응 튜닝.\" 정차 후 출발 시 굼뜬 가속 반응을 개선하여 답답함 없는 부드러운 가속을 구현합니다.",
+            "settingsKeys": [
+                "HyundaiLongitudinalTuning"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/hyundai-longitudinal-tuning-implementation-in-sunnypilot/243"
+        }
+    ],
+    "glossary": {
+        "ACC": "Adaptive Cruise Control - Maintains set speed and follows traffic",
+        "ALC": "Automatic Lane Centering / Automatic Lane Change - Keeps car centered or changes lanes automatically",
+        "BSM": "Blind Spot Monitoring - Vehicle sensors detecting cars in adjacent lanes",
+        "DEC": "Dynamic Experimental Control - Contextual switching between Chill and Experimental mode",
+        "E2E": "End-to-End - AI neural network that directly predicts vehicle driving path",
+        "ESCC": "Enhanced Smart Cruise Control - Hyundai/Kia cruise management and button integration",
+        "Firehose": "Large-scale automated driving telemetry upload system contributing to driving model training",
+        "HDA": "Highway Driving Assist - Hyundai/Kia native factory highway system",
+        "HKG": "Hyundai/Kia/Genesis - South Korean automotive platform family",
+        "ICBM": "Intelligent Cruise Button Management - Electronically manages steering wheel cruise buttons",
+        "LDW": "Lane Departure Warning - Visual/haptic warnings when drifting out of lane",
+        "MADS": "Modular Assistive Driving System - sunnypilot exclusive decoupled steering and cruise architecture",
+        "MICI": "comma four hardware platform code designation",
+        "NNLC": "Neural Network Lateral Control - Deep learning model predicting steering trajectories",
+        "OSM": "OpenStreetMap - Open-source global map database used for offline curvature and speed limits",
+        "PID": "Proportional-Integral-Derivative - Classic mathematical feedback controller for steering",
+        "SDSU": "Smart DSU - Aftermarket hardware interceptor for older Toyota radar cruise support",
+        "SLA": "Speed Limit Assist - Automatic cruise set-speed adjustment based on legal road limits",
+        "SCC-M": "Smart Cruise Control Map - Curve speed reduction based on OSM map geometry",
+        "SCC-V": "Smart Cruise Control Vision - Curve speed reduction based on front camera perception",
+        "TICI": "comma 3 hardware platform code designation",
+        "TIZI": "comma 3X hardware platform code designation",
+        "TSR": "Traffic Sign Recognition - Camera-based detection of road speed limit signs",
+        "UEM": "Unified Engagement Mode - Single button engagement option for MADS",
+        "WMI": "World Model Iteration - Advanced E2E model architecture",
+        "ZSS": "Zorro Steering Sensor - High-resolution optical steering angle sensor for older Toyotas"
     }
-  ],
-  "glossary": {
-    "ACC": "적응형 크루즈 컨트롤 - 설정 속도를 유지하고 교통 상황을 따라갑니다.",
-    "ALC": "자동 차선 센터링 - 차량을 차선 중앙에 유지합니다.",
-    "BSM": "Blind Spot Monitoring - Detects vehicles in 사각지대s",
-    "E2E": "End-to-End - 모든 운전 결정을 처리하는 AI 모델",
-    "HDA": "고속도로 주행 보조 - 현대차 고유의 ADAS 시스템",
-    "HKG": "현대/기아/제네시스 - 한국 자동차 플랫폼",
-    "LDW": "차선 이탈 경고 - 차선 이탈 시 경고",
-    "OSM": "OpenStreetMap - 오픈 소스 지도 데이터",
-    "PID": "비례-적분-미분 - 기존 제어 알고리즘",
-    "TSR": "교통 표지판 인식 - 카메라 기반 표지판 판독",
-    "WMI": "World Model Iteration - 최신 E2E 모델 아키텍처"
-  }
 }

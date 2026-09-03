@@ -5,9 +5,9 @@
   "categories": [
     {
       "id": "models",
-      "name": "모델 설정",
+      "name": "Model Settings",
       "icon": "🧠",
-      "description": "AI 모델 구성 및 운전 행동 튜닝.",
+      "description": "Select and manage driving models, and configure model-related parameters.",
       "settings": [
         {
           "key": "AdjustCameraOffset",
@@ -25,7 +25,8 @@
             "음수 값은 자동차를 차선 오른쪽으로 이동시킵니다.",
             "오프셋이 너무 많으면 차선 이탈 경고가 발생할 수 있습니다."
           ],
-          "userNote": "기본값 0.00. 차가 너무 왼쪽이나 오른쪽으로 치우친다고 느껴지면 조정하십시오. 커뮤니티 팁: Comma 4에서 Down to Ride v6와 같은 모델을 사용할 때 '오른쪽 쏠림' 현상이 발생하면 오프셋을 -0.05 ~ -0.10으로 설정해 보십시오."
+          "userNote": "기본값 0.00. 차가 너무 왼쪽이나 오른쪽으로 치우친다고 느껴지면 조정하십시오. 커뮤니티 팁: Comma 4에서 Down to Ride v6와 같은 모델을 사용할 때 '오른쪽 쏠림' 현상이 발생하면 오프셋을 -0.05 ~ -0.10으로 설정해 보십시오.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "LaneTurnDesire",
@@ -38,7 +39,8 @@
             "Not primarily for 차선 변경s.",
             "교통량이 많은 곳에서는 너무 공격적일 수 있습니다."
           ],
-          "userNote": "활성화 if 차선 변경s feel sluggish or delayed."
+          "userNote": "활성화 if 차선 변경s feel sluggish or delayed.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "AdjustLaneTurnSpeed",
@@ -60,7 +62,8 @@
               "label": "Show Advanced Controls"
             }
           ],
-          "userNote": "차선 회전 욕구 사용 및 고급 제어 표시가 활성화된 경우에만 나타납니다."
+          "userNote": "차선 회전 욕구 사용 및 고급 제어 표시가 활성화된 경우에만 나타납니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DrivingModel",
@@ -68,7 +71,8 @@
           "type": "dropdown",
           "description": "AI 주행 모델을 선택하세요. 각 모델에는 고유한 주행 특성이 있습니다.",
           "useCase": "귀하의 운전 스타일과 도로 상황에 맞는 모델을 선택하십시오.",
-          "userNote": "66개 이상의 사용 가능한 모든 모델에 대한 자세한 설명은 모델 라이브러리를 참조하세요."
+          "userNote": "66개 이상의 사용 가능한 모든 모델에 대한 자세한 설명은 모델 라이브러리를 참조하세요.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ModelLibrary",
@@ -76,21 +80,24 @@
           "type": "action",
           "description": "설명, 출시 날짜 및 커뮤니티 합의가 포함된 66개 이상의 운전 모델로 구성된 전체 라이브러리를 찾아보세요.",
           "useCase": "귀하의 운전 스타일에 딱 맞는 모델을 찾아보세요.",
-          "userNote": "WMI 시리즈, Dark Souls, Down to Ride, Tomb Raider 및 Legacy 모델이 포함됩니다."
+          "userNote": "WMI 시리즈, Dark Souls, Down to Ride, Tomb Raider 및 Legacy 모델이 포함됩니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RefreshModelList",
           "label": "Refresh Model List",
           "type": "action",
           "description": "서버에서 사용 가능한 모델 목록을 강제로 새로 고칩니다. 새 모델을 사용할 수 있을 것으로 예상하지만 선택 대화 상자에 표시되지 않는 경우 이 기능을 사용하세요.",
-          "userNote": "새 모델을 사용할 수 있어야 하지만 표시되지 않을 때 사용합니다."
+          "userNote": "새 모델을 사용할 수 있어야 하지만 표시되지 않을 때 사용합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ClearModelCache",
           "label": "Clear Model Cache",
           "type": "action",
           "description": "현재 활성화된 모델을 제외하고 다운로드된 모든 모델을 삭제합니다. 현재 캐시 크기(MB)가 표시됩니다. 저장 공간을 확보하는 데 유용합니다.",
-          "userNote": "오래된 모델 파일을 제거하여 저장 공간을 확보합니다."
+          "userNote": "오래된 모델 파일을 제거하여 저장 공간을 확보합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "LiveLearningSteerDelay",
@@ -101,7 +108,8 @@
           "recommended": true,
           "useCase": "차량별 조향 지연을 자동으로 보상합니다.",
           "deepDive": "명령된 조향 각도와 실제 바퀴 움직임 사이의 지연을 측정한 다음 예측을 조정하여 보상합니다.",
-          "userNote": "켜두세요 for optimal 조향 response."
+          "userNote": "켜두세요 for optimal 조향 response.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ManualSoftwareDelay",
@@ -116,15 +124,16 @@
             }
           ],
           "warning": "만지지 마세요. 개발자의 지시가 없는 한 '0.00'으로 둡니다.",
-          "userNote": "실시간 학습 조정 지연이 비활성화된 경우에만 수정하십시오."
+          "userNote": "실시간 학습 조정 지연이 비활성화된 경우에만 수정하십시오.",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
     {
       "id": "device",
-      "name": "디바이스 설정",
+      "name": "Device Settings",
       "icon": "📱",
-      "description": "Hardware management, cellular, and 전원 설정.",
+      "description": "View device information, manage calibration, configure power behavior, and access system utilities.",
       "settings": [
         {
           "key": "ForceOffroadMode",
@@ -134,7 +143,8 @@
           "description": "비활성화s active driving features to unlock 설정 restricted 주행 중.",
           "safetyLevel": "safe",
           "useCase": "주차 시 설정(오프로드)을 변경하거나 발렛 모드에 사용합니다.",
-          "userNote": "'오프로드'는 주차된/운전하지 않는 것을 의미합니다. 온로드(Onroad)는 운전을 뜻한다."
+          "userNote": "'오프로드'는 주차된/운전하지 않는 것을 의미합니다. 온로드(Onroad)는 운전을 뜻한다.",
+          "deviceAvailability": "full"
         },
         {
           "key": "DeviceBootMode",
@@ -147,7 +157,8 @@
           "default": "Default",
           "description": "오프로드 또는 일반 모드에서 부팅/깨우기.",
           "useCase": "Choose how 장치 starts up after 전원 cycle.",
-          "userNote": "일반적인 사용에는 표준을 권장합니다."
+          "userNote": "일반적인 사용에는 표준을 권장합니다.",
+          "deviceAvailability": "full"
         },
         {
           "key": "UseMetricUnits",
@@ -156,7 +167,8 @@
           "default": false,
           "description": "영국식(mph, 마일) 대신 미터법 측정값(km/h, km)을 표시합니다.",
           "useCase": "해당 지역의 측정 시스템에 따라 설정하세요.",
-          "userNote": "활성화 if you prefer metric units."
+          "userNote": "활성화 if you prefer metric units.",
+          "deviceAvailability": "full"
         },
         {
           "key": "QuietMode",
@@ -165,7 +177,8 @@
           "default": false,
           "description": "소리 알림을 최소화하세요.",
           "useCase": "더 조용한 운전 경험을 위해 오디오 경고를 줄입니다.",
-          "userNote": "활성화 if you prefer fewer audio alerts."
+          "userNote": "활성화 if you prefer fewer audio alerts.",
+          "deviceAvailability": "full"
         },
         {
           "key": "OnroadUploads",
@@ -174,7 +187,8 @@
           "default": true,
           "description": "활성화 Onroad Uploads for drive data.",
           "useCase": "이동 중에도 운전 데이터를 업로드하세요.",
-          "userNote": "WiFi를 사용할 수 없을 때 모바일 데이터를 사용합니다."
+          "userNote": "WiFi를 사용할 수 없을 때 모바일 데이터를 사용합니다.",
+          "deviceAvailability": "full"
         },
         {
           "key": "Language",
@@ -183,7 +197,8 @@
           "default": "en",
           "description": "UI 언어 선택.",
           "useCase": "원하는 표시 언어를 선택하세요.",
-          "userNote": "인터페이스에 대해 선호하는 언어를 선택하십시오."
+          "userNote": "인터페이스에 대해 선호하는 언어를 선택하십시오.",
+          "deviceAvailability": "full"
         },
         {
           "key": "RecordUploadDriverCamera",
@@ -196,7 +211,8 @@
             "개인 정보 보호 고려 - 운전자가 기록됩니다.",
             "Uses additional 저장소 and 대역폭."
           ],
-          "userNote": "운전자 보기를 포함한 전체 주행 녹화를 활성화합니다."
+          "userNote": "운전자 보기를 포함한 전체 주행 녹화를 활성화합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RecordUploadMicAudio",
@@ -209,7 +225,8 @@
             "개인 정보 보호 고려 - 대화가 녹음됩니다.",
             "Uses additional 저장소 and 대역폭."
           ],
-          "userNote": "드라이브 장면과 함께 오디오 녹음을 활성화합니다."
+          "userNote": "드라이브 장면과 함께 오디오 녹음을 활성화합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GsmMetered",
@@ -218,7 +235,8 @@
           "default": true,
           "description": "셀룰러 데이터 측정을 활성화하여 데이터 사용량을 추적하고 제한합니다.",
           "useCase": "모바일 핫스팟 또는 셀룰러 연결을 사용할 때 데이터 소비를 모니터링합니다.",
-          "userNote": "데이터 사용량을 측정하는 연결에서 데이터 사용량을 추적하세요."
+          "userNote": "데이터 사용량을 측정하는 연결에서 데이터 사용량을 추적하세요.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GsmRoaming",
@@ -231,7 +249,8 @@
             "상당한 로밍 요금이 발생할 수 있습니다.",
             "연결 속도가 느려질 수 있습니다."
           ],
-          "warning": "로밍 요금이 발생할 수 있습니다. 여행하지 않는 한 잠시 쉬세요."
+          "warning": "로밍 요금이 발생할 수 있습니다. 여행하지 않는 한 잠시 쉬세요.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GsmApn",
@@ -240,7 +259,8 @@
           "default": "",
           "description": "셀룰러 데이터 연결을 위한 액세스 포인트 이름입니다.",
           "useCase": "이동통신사에 대한 사용자 정의 APN 설정을 구성합니다.",
-          "userNote": "Only modify if 당신의 차량rier requires specific APN 설정."
+          "userNote": "Only modify if 당신의 차량rier requires specific APN 설정.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CreateBackup",
@@ -248,7 +268,8 @@
           "type": "action",
           "description": "Backup current 설정 to device 저장소.",
           "useCase": "업데이트 또는 변경 전에 현재 구성을 저장하세요.",
-          "userNote": "주요 업데이트 또는 재설치 전에 권장됩니다."
+          "userNote": "주요 업데이트 또는 재설치 전에 권장됩니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RestoreVersion",
@@ -256,7 +277,8 @@
           "type": "action",
           "description": "이전 백업에서 설정을 복원합니다.",
           "useCase": "재설정 또는 새로 설치한 후 구성을 복구하세요.",
-          "warning": "현재 설정을 덮어쓰게 됩니다."
+          "warning": "현재 설정을 덮어쓰게 됩니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UninstallSunnypilot",
@@ -265,7 +287,8 @@
           "description": "장치에서 Sunnypilot을 완전히 제거합니다.",
           "useCase": "다른 포크로 전환하기 전에 완전히 제거하세요.",
           "warning": "그러면 모든 Sunnypilot 데이터와 설정이 제거됩니다.",
-          "safetyLevel": "critical"
+          "safetyLevel": "critical",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "MaxTimeOffroad",
@@ -293,7 +316,8 @@
             "값이 높을수록 장치를 더 오래 준비 상태로 유지하지만 배터리가 소모됩니다.",
             "값이 낮을수록 배터리가 절약되지만 업로드가 완료되지 않을 수 있습니다."
           ],
-          "userNote": "1800초(30분)입니다. 업로드가 완료되지 않으면 늘리세요."
+          "userNote": "1800초(30분)입니다. 업로드가 완료되지 않으면 늘리세요.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ForcePowerDown",
@@ -302,7 +326,8 @@
           "default": false,
           "description": "Force immediate shutdown of 장치.",
           "useCase": "장기간 차량을 떠나 있을 때 빠르게 전원을 끄세요.",
-          "userNote": "시간 초과를 기다리지 않고 즉시 종료하는 데 사용합니다."
+          "userNote": "시간 초과를 기다리지 않고 즉시 종료하는 데 사용합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "Reboot",
@@ -310,7 +335,8 @@
           "type": "action",
           "description": "Restart 장치 immediately.",
           "useCase": "Apply 설정 changes or fix 소프트웨어 issues.",
-          "userNote": "구성을 크게 변경한 후 사용하세요."
+          "userNote": "구성을 크게 변경한 후 사용하세요.",
+          "deviceAvailability": "full"
         },
         {
           "key": "PowerOff",
@@ -318,7 +344,8 @@
           "type": "action",
           "description": "Power off 장치 immediately.",
           "useCase": "전원을 분리하기 전에 안전하게 종료하세요.",
-          "userNote": "정상적인 종료를 위해 플러그를 뽑는 대신 사용하세요."
+          "userNote": "정상적인 종료를 위해 플러그를 뽑는 대신 사용하세요.",
+          "deviceAvailability": "full"
         },
         {
           "key": "GithubUsername",
@@ -327,7 +354,8 @@
           "default": "",
           "description": "개발 및 업데이트를 위해 연결된 GitHub 계정입니다.",
           "useCase": "맞춤형 포크 관리를 위해 GitHub 계정을 연결하세요.",
-          "userNote": "사용자 정의 변경 사항을 푸시하거나 개인 포크에 액세스하는 데 필요합니다."
+          "userNote": "사용자 정의 변경 사항을 푸시하거나 개인 포크에 액세스하는 데 필요합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RecordFrontLock",
@@ -336,78 +364,88 @@
           "default": false,
           "description": "장치가 전면 카메라 영상을 삭제하는 것을 방지합니다.",
           "useCase": "증거나 검토를 위해 특정 드라이브 기록을 보존합니다.",
-          "userNote": "증거를 위해 특정 드라이브를 저장해야 하는 경우 유용합니다."
+          "userNote": "증거를 위해 특정 드라이브를 저장해야 하는 경우 유용합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DeviceId",
           "label": "장치 ID",
           "type": "readonly",
           "description": "고유한 장치 식별자입니다.",
-          "userNote": "읽기 전용. Used for device identification and support."
+          "userNote": "읽기 전용. Used for device identification and support.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GitCommit",
           "label": "Git 커밋",
           "type": "readonly",
           "description": "Current 소프트웨어 version hash.",
-          "userNote": "읽기 전용. Useful for bug reports."
+          "userNote": "읽기 전용. Useful for bug reports.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "OpenpilotVersion",
           "label": "오픈파일럿 버전",
           "type": "readonly",
           "description": "소프트웨어 버전 번호.",
-          "userNote": "읽기 전용. Shows current installed version."
+          "userNote": "읽기 전용. Shows current installed version.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GitBranch",
           "label": "힘내 지점",
           "type": "readonly",
           "description": "현재 Git 브랜치 이름입니다.",
-          "userNote": "읽기 전용. Shows which branch you're running (e.g., 'dev', 'release')."
+          "userNote": "읽기 전용. Shows which branch you're running (e.g., 'dev', 'release').",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UptimeOffroad",
           "label": "가동 시간 오프로드",
           "type": "readonly",
           "description": "시스템 유휴 시간(초)입니다.",
-          "userNote": "인구가 많습니다. 주차된 동안 장치가 켜져 있는 시간을 표시합니다."
+          "userNote": "인구가 많습니다. 주차된 동안 장치가 켜져 있는 시간을 표시합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SerialNumber",
           "label": "일련번호",
           "type": "readonly",
           "description": "하드웨어 일련번호.",
-          "userNote": "읽기 전용. Used for device identification."
+          "userNote": "읽기 전용. Used for device identification.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RouteCount",
           "label": "경로 수",
           "type": "readonly",
           "description": "기록된 총 경로 수입니다.",
-          "userNote": "읽기 전용. Shows how many drives have been recorded."
+          "userNote": "읽기 전용. Shows how many drives have been recorded.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GitCommitDate",
           "label": "힘내 커밋 날짜",
           "type": "readonly",
           "description": "현재 커밋 날짜입니다.",
-          "userNote": "읽기 전용. Shows when current version was built."
+          "userNote": "읽기 전용. Shows when current version was built.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UptimeOnroad",
           "label": "온로드 가동 시간",
           "type": "readonly",
           "description": "세션 구동 시간(초)입니다.",
-          "userNote": "읽기 전용. Shows total driving time for current session."
+          "userNote": "읽기 전용. Shows total driving time for current session.",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
     {
       "id": "toggles",
-      "name": "토글",
+      "name": "Toggles",
       "icon": "🔘",
-      "description": "일반 토글 및 기타 구성.",
+      "description": "Core driving assist toggles that control fundamental sunnypilot behavior, driving personality, driver monitoring, and data recording.",
       "settings": [
         {
           "key": "EnableSunnypilot",
@@ -418,7 +456,8 @@
           "recommended": true,
           "useCase": "모든 Sunnypilot 기능을 신속하게 활성화/비활성화합니다.",
           "warning": "비활성화하면 모든 보조 운전 기능이 꺼집니다.",
-          "userNote": "켜두세요 for normal operation."
+          "userNote": "켜두세요 for normal operation.",
+          "deviceAvailability": "full"
         },
         {
           "key": "ExperimentalMode",
@@ -434,7 +473,8 @@
           ],
           "warning": "신호등/표지판에 주의하세요. 알파 종방향이 필요합니다.",
           "userNote": "먼저 Alpha Longitudinal을 활성화해야 합니다.",
-          "deepDive": "활성화되면 종방향 MPC가 월드 모델의 E2E 계획으로 대체됩니다."
+          "deepDive": "활성화되면 종방향 MPC가 월드 모델의 E2E 계획으로 대체됩니다.",
+          "deviceAvailability": "full"
         },
         {
           "key": "DrivingPersonality",
@@ -453,7 +493,8 @@
             "공격적 모드는 정지 및 이동 교통 상황에서 불안전하다고 느낄 수 있습니다.",
             "편안한 모드는 큰 간격으로 뒤차 운전자를 좌절시킬 수 있습니다."
           ],
-          "userNote": "'표준'이 기본값입니다. '공격적'이 더 가까워졌습니다. '편안함'은 더 많은 공백을 남깁니다."
+          "userNote": "'표준'이 기본값입니다. '공격적'이 더 가까워졌습니다. '편안함'은 더 많은 공백을 남깁니다.",
+          "deviceAvailability": "full"
         },
         {
           "key": "LaneDepartureWarnings",
@@ -466,7 +507,8 @@
             "차선 표시가 불량한 도로에서는 짜증스러울 수 있습니다.",
             "May conflict with intentional 차선 변경s."
           ],
-          "userNote": "장거리 고속도로 주행 시 주의력을 유지하는 데 유용합니다."
+          "userNote": "장거리 고속도로 주행 시 주의력을 유지하는 데 유용합니다.",
+          "deviceAvailability": "full"
         },
         {
           "key": "DisengageOnAccelerator",
@@ -479,7 +521,8 @@
             "OFF: Can assist with 가속 but 조향 stays active.",
             "ON: 가속 페달을 입력하면 시스템이 완전히 분리됩니다."
           ],
-          "userNote": "꺼두세요 if you want to be able to help 차량 accelerate without canceling 조향."
+          "userNote": "꺼두세요 if you want to be able to help 차량 accelerate without canceling 조향.",
+          "deviceAvailability": "full"
         },
         {
           "key": "AlwaysOnDriverMonitor",
@@ -492,7 +535,8 @@
             "Always watching - 프라이버시 consideration.",
             "Higher 전원 consumption."
           ],
-          "userNote": "연중무휴로 주의를 추적합니다."
+          "userNote": "연중무휴로 주의를 추적합니다.",
+          "deviceAvailability": "full"
         },
         {
           "key": "DisablePowerDown",
@@ -505,7 +549,8 @@
             "플러그를 뽑아 두면 자동차 배터리가 방전됩니다.",
             "장치가 지속적으로 뜨거워집니다."
           ],
-          "warning": "Will drain car 배터리."
+          "warning": "Will drain car 배터리.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DisableUpdates",
@@ -518,15 +563,16 @@
             "버그 수정 및 새로운 기능이 누락되었습니다.",
             "시간이 지남에 따라 Sunnylink 서비스와 호환되지 않을 수 있습니다."
           ],
-          "userNote": "마음에 드는 버전을 찾았지만 변경하고 싶지 않은 경우에 사용하세요."
+          "userNote": "마음에 드는 버전을 찾았지만 변경하고 싶지 않은 경우에 사용하세요.",
+          "deviceAvailability": "full"
         }
       ]
     },
     {
       "id": "steering",
-      "name": "조향 설정",
+      "name": "Steering Settings",
       "icon": "🎯",
-      "description": "Configuration for lateral control and 차선 유지.",
+      "description": "Configuration for lateral control and lane keeping.",
       "settings": [
         {
           "key": "MadsEnabled",
@@ -541,7 +587,8 @@
             "깜빡이 없이 차선을 바꾸면 차량이 '싸우는' 것처럼 느껴질 수 있습니다."
           ],
           "deepDive": "측면 제어 상태 머신을 세로 순항 상태에서 분리합니다. MADS는 'Cruise' 상태가 '비활성화' 되어도 'Active' 상태를 유지합니다.",
-          "userNote": "비판적인. 이것이 Sunnypilot의 핵심 기능입니다. 플레이하세요."
+          "userNote": "비판적인. 이것이 Sunnypilot의 핵심 기능입니다. 플레이하세요.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "MadsSteeringMode",
@@ -565,7 +612,8 @@
             "방해할 때 조향이 멈출 것이라고 기대하는 신규 사용자를 놀라게 할 수 있습니다.",
             "의도적으로 차선을 변경할 때 조향을 무시하려면 더 많은 주의가 필요합니다."
           ],
-          "userNote": "Set to 'Remain Active' to keep 차선 중앙 유지 while manually 제동."
+          "userNote": "Set to 'Remain Active' to keep 차선 중앙 유지 while manually 제동.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "MadsMainCruiseAllowed",
@@ -580,7 +628,8 @@
               "label": "MADS Enabled"
             }
           ],
-          "userNote": "켜두세요."
+          "userNote": "켜두세요.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "MadsUnifiedEngagementMode",
@@ -595,7 +644,8 @@
             }
           ],
           "useCase": "활성화 단순화 - 버튼 하나만 누르면 속도 제어와 조향이 모두 가능합니다.",
-          "userNote": "원버튼 활성화에 편리합니다."
+          "userNote": "원버튼 활성화에 편리합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "NeuralNetworkLateralControl",
@@ -611,7 +661,8 @@
             "최신 모델에서 더 이상 작동하지 않으므로 곧 제거될 수 있는 기능입니다."
           ],
           "deepDive": "현재 차선 이탈에 반응하기보다는 경로 곡률을 예측하기 위해 종단 간 측면 계획 정책(예: North Nevada 모델)을 사용합니다.",
-          "userNote": "최신 모델과의 호환성 문제 및 보고된 불안정성으로 인해, 특정 레거시 제어 시스템을 사용하는 경우가 아니면 NNLC를 비활성화(OFF)하는 것이 권장됩니다."
+          "userNote": "최신 모델과의 호환성 문제 및 보고된 불안정성으로 인해, 특정 레거시 제어 시스템을 사용하는 경우가 아니면 NNLC를 비활성화(OFF)하는 것이 권장됩니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DynamicExperimentalControl",
@@ -628,7 +679,8 @@
             "모드 전환으로 인해 특정 모델을 평가하기가 더 어려워집니다."
           ],
           "deepDive": "모델의 'throttle_prob'를 모니터링하여 의도를 결정합니다. 모델 의도가 낮은 경우 복잡한 시나리오를 위해 실험 모드 종방향 계획을 일시적으로 주입합니다.",
-          "userNote": "혼합 운전에 적합하지만 일관된 행동이 필요한 경우 전체 실험으로 전환하십시오."
+          "userNote": "혼합 운전에 적합하지만 일관된 행동이 필요한 경우 전체 실험으로 전환하십시오.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "EnforceTorqueControl",
@@ -637,7 +689,8 @@
           "default": false,
           "description": "Forces 차량 to use a torque-based controller for 조향.",
           "useCase": "직접적인 토크 명령과 각도 명령에 더 잘 반응하는 차량의 경우.",
-          "userNote": "NNLC를 사용하는 경우 일반적으로 OFF를 유지합니다."
+          "userNote": "NNLC를 사용하는 경우 일반적으로 OFF를 유지합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SelfTune",
@@ -651,7 +704,8 @@
             "배우는 데 시간이 걸립니다. 조향은 처음에는 기분이 좋지 않을 수도 있습니다.",
             "운전 조건이 비정상적인 경우 값이 변동될 수 있습니다."
           ],
-          "userNote": "더 많이 운전할수록 더 나은 성능을 얻을 수 있습니다."
+          "userNote": "더 많이 운전할수록 더 나은 성능을 얻을 수 있습니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "LessRestrictSettingsForSelfTune",
@@ -669,7 +723,8 @@
             "학습 속도는 빨라지지만 값이 불안정할 수 있습니다.",
             "값이 너무 많이 표류하는 경우 수동 재설정이 필요할 수 있습니다."
           ],
-          "warning": "주의해서 사용하세요. 더 빠른 학습을 허용하지만 잠재적으로 더 거친 값을 얻을 수 있습니다."
+          "warning": "주의해서 사용하세요. 더 빠른 학습을 허용하지만 잠재적으로 더 거친 값을 얻을 수 있습니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "EnableCustomTorqueTuning",
@@ -682,7 +737,8 @@
             "차량 역학에 대한 깊은 이해가 필요합니다.",
             "잘못된 값은 조향을 위험하게 만들 수 있습니다."
           ],
-          "warning": "고급 사용자 전용. Don't touch unless you know 당신의 차량's specific physics."
+          "warning": "고급 사용자 전용. Don't touch unless you know 당신의 차량's specific physics.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ManualTuneFriction",
@@ -705,7 +761,8 @@
             "너무 높음: 진동/탁구.",
             "너무 낮음: 차선을 유지하기에는 토크가 부족합니다."
           ],
-          "userNote": "기본값 0.10. Adjust in small increments (0.01)."
+          "userNote": "기본값 0.10. Adjust in small increments (0.01).",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "TorqueControlTuneVersion",
@@ -725,7 +782,8 @@
             "재설정 필요: 버전을 전환하면 해당 컨트롤러의 '자체 조정(Self-Tune)' 학습 진행 상황이 초기화됩니다."
           ],
           "deepDive": "이 토글은 토크 컨트롤러의 로직을 v0.0과 v1.0 사이에서 전환합니다. v1.0은 현대적인 openpilot의 표준 토크 컨트롤러이며, v0.0은 일부 구형 조향 펌웨어에서 안정성을 위해 여전히 필요로 하는 레거시 수학 모델을 유지합니다. 횡방향 안정성 문제를 해결하려는 경우가 아니라면 대부분의 사용자는 'Default'를 유지해야 합니다.",
-          "userNote": "커뮤니티 팁: 차가 차선 내에서 흔들리거나 불안정하게 느껴지면 먼저 v1.0으로 전환해 보고, 문제가 지속되면 v0.0을 시도해 보세요. '자체 조정(Self-Tune)'을 활성화한 상태에서 사용하는 것이 좋으며, 변경 후 시스템이 완전히 보정될 때까지 약 30km 이상 주행하는 것이 권장됩니다."
+          "userNote": "커뮤니티 팁: 차가 차선 내에서 흔들리거나 불안정하게 느껴지면 먼저 v1.0으로 전환해 보고, 문제가 지속되면 v0.0을 시도해 보세요. '자체 조정(Self-Tune)'을 활성화한 상태에서 사용하는 것이 좋으며, 변경 후 시스템이 완전히 보정될 때까지 약 30km 이상 주행하는 것이 권장됩니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "BlinkerMinLateralControlSpeed",
@@ -735,7 +793,8 @@
           "helpText": "범위: 0+mph. 깜박이와 함께 항상 조향을 허용하려면 0으로 설정하세요.",
           "description": "깜빡이가 켜져 있는 동안 차량이 조향을 계속 유지하는 최소 속도입니다.",
           "useCase": "교차로에서 느린 회전 시 조향 싸움을 방지합니다.",
-          "userNote": "교차로에서 느린 회전 중에 바퀴가 충돌하는 것을 방지합니다."
+          "userNote": "교차로에서 느린 회전 중에 바퀴가 충돌하는 것을 방지합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "BlinkerPauseLateralControl",
@@ -748,7 +807,8 @@
             "조향이 즉시 해제됩니다. 갑자기 느껴질 수 있습니다.",
             "No 차선 유지 during intentional 차선 변경s."
           ],
-          "userNote": "Preferred by drivers who want full control during 차선 변경s."
+          "userNote": "Preferred by drivers who want full control during 차선 변경s.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "HyundaiLongitudinalTuning",
@@ -767,7 +827,8 @@
             "일부 사용자에게는 Dynamic이 너무 공격적으로 느껴질 수 있습니다.",
             "연료 효율에 영향을 미칠 수 있습니다."
           ],
-          "userNote": "'다이내믹'은 에코/노멀 모드에서 가속이 느려지는 문제를 해결할 수 있습니다."
+          "userNote": "'다이내믹'은 에코/노멀 모드에서 가속이 느려지는 문제를 해결할 수 있습니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "TeslaCoopSteering",
@@ -777,15 +838,36 @@
           "description": "Allow driver 조향 input.",
           "helpText": "기본값: False",
           "deepDive": "활성화s 'torque blending' where 시스템 blends with your input for a more intuitive, less aggressive experience. Allows 조향 activation without 크루즈 컨트롤 (MADS).",
-          "userNote": "차량별: Tesla 차량에만 해당됩니다."
+          "userNote": "차량별: Tesla 차량에만 해당됩니다.",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "LateralAccelerationFactor",
+          "label": "횡가속도 팩터 (Lateral Accel Factor)",
+          "type": "slider",
+          "default": 2.5,
+          "min": 1.5,
+          "max": 4.0,
+          "unit": "m/s²",
+          "helpText": "Range: 1.5 to 4.0 m/s²",
+          "description": "토크 제어기의 목표 횡가속도 팩터입니다. 값이 낮으면 부드럽고 완만하게 조향하며, 높으면 커브 진입 시 더 민첩하게 조향합니다.",
+          "useCase": "Fine-tuning torque steering responsiveness for spirited driving or heavy vehicles.",
+          "tradeoffs": [
+            "Higher values increase steering aggression and corner entry speed.",
+            "Too high values may cause steering ping-pong or sudden jerkiness.",
+            "Too low values can result in understeering on sharp highway curves."
+          ],
+          "userNote": "Official recommended range: 2.3 - 2.7 m/s² for most sedans and crossovers.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
     {
       "id": "cruise",
-      "name": "크루즈 & 속도",
+      "name": "Cruise & Speed",
       "icon": "🚀",
-      "description": "속도 관리 및 종단 제어를 위한 구성입니다.",
+      "description": "Configuration for speed management, cruise control, and lane change behavior.",
       "settings": [
         {
           "key": "VisionBasedTurnSpeedControl",
@@ -801,7 +883,8 @@
             "경고 신호를 보는 것보다 늦게 대처하세요."
           ],
           "deepDive": "모델 경로를 기반으로 예상되는 측면 가속도를 계산합니다. 측면 G-포스를 ~0.3g 미만으로 유지하기 위해 속도를 줄입니다.",
-          "userNote": "이 기능은 Sunnypilot이 차량의 종방향 제어를 적극적으로 제어하는 ​​경우에만 사용할 수 있습니다."
+          "userNote": "이 기능은 Sunnypilot이 차량의 종방향 제어를 적극적으로 제어하는 ​​경우에만 사용할 수 있습니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SmartCruiseControlMap",
@@ -814,7 +897,8 @@
             "지도의 정확성에 의존하며 실제 도로 상황이 반영되지 않을 수 있습니다.",
             "곧게 펴진 커브의 경우 조기에 속도를 늦출 수 있습니다."
           ],
-          "userNote": "백업은 좋지만 Vision은 일반적으로 더 빠르고 반응이 좋습니다."
+          "userNote": "백업은 좋지만 Vision은 일반적으로 더 빠르고 반응이 좋습니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SpeedLimitAssistMode",
@@ -834,7 +918,8 @@
             "활성화되지 않은 경우 조건부 표지판(학교 구역)에 대해 트리거될 수 있습니다."
           ],
           "deepDive": "OpenStreetMap(OSM), 자동차 카메라(TSR) 및 내비게이션 데이터의 데이터를 집계하여 현재 제한을 결정합니다.",
-          "userNote": "'정보'에는 표시만 표시됩니다. '자동'은 속도를 자동으로 변경합니다."
+          "userNote": "'정보'에는 표시만 표시됩니다. '자동'은 속도를 자동으로 변경합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SpeedLimitSource",
@@ -854,7 +939,8 @@
             "자동차 상태: 실시간이지만 카메라가 표지판을 읽을 수 있는 경우에만 작동합니다.",
             "결합: 적용 범위는 가장 좋지만 충돌 가능성이 있습니다."
           ],
-          "userNote": "'지도 데이터 우선순위'는 일반적으로 미국에서 가장 정확합니다."
+          "userNote": "'지도 데이터 우선순위'는 일반적으로 미국에서 가장 정확합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SpeedLimitOffsetType",
@@ -867,7 +953,8 @@
           "default": "Fixed",
           "description": "고정된 숫자(예: +5mph) 또는 백분율(예: +10%) 중에서 선택합니다.",
           "useCase": "일관된 과속을 위해 수정되었습니다. 비례 조정을 위한 백분율입니다.",
-          "userNote": "일정한 속도를 유지하려면 '고정'으로 설정하세요."
+          "userNote": "일정한 속도를 유지하려면 '고정'으로 설정하세요.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SpeedLimitOffsetValue",
@@ -877,7 +964,8 @@
           "helpText": "권장: 교통 흐름에 맞게 제한 속도를 5~10mph 초과",
           "description": "제한을 초과하는 실제 속도입니다.",
           "useCase": "지역 교통 흐름을 일치시킵니다(대부분의 미국 지역에서는 일반적으로 5~10mph 이상).",
-          "userNote": "편안한 수준(예: 5~10mph 이상)으로 설정합니다."
+          "userNote": "편안한 수준(예: 5~10mph 이상)으로 설정합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "AutoLaneChangeTimer",
@@ -900,7 +988,8 @@
             "넛지(Nudge): 약간의 휠 입력이 필요합니다(좋은 균형).",
             "타이머: 지연을 추가합니다. 가장 안전하지만 가장 느립니다."
           ],
-          "userNote": "'Nudge'에는 휠 입력이 필요합니다. '인스턴트'는 자동입니다."
+          "userNote": "'Nudge'에는 휠 입력이 필요합니다. '인스턴트'는 자동입니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "AutoLaneChangeBsmDelay",
@@ -916,7 +1005,8 @@
             }
           ],
           "useCase": "Prevents 차선 변경 attempts when a vehicle is in your 사각지대.",
-          "userNote": "안전: 켜두세요."
+          "userNote": "안전: 켜두세요.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "MapAdvisorySpeedLimit",
@@ -926,7 +1016,8 @@
           "description": "곡선/경사로의 노란색 '권고' 속도 표지판을 준수합니다.",
           "recommended": true,
           "useCase": "고속도로 진입로 권고 속도에 따라 자동으로 감속됩니다.",
-          "userNote": "켜두세요 for safety on off-ramps."
+          "userNote": "켜두세요 for safety on off-ramps.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CustomAccIncrements",
@@ -935,7 +1026,8 @@
           "default": false,
           "description": "휠의 +/-를 누를 때 속도가 변경되는 정도를 변경합니다.",
           "useCase": "미세 조정 속도 조정 - 정밀성을 위한 작은 탭.",
-          "userNote": "짧게 누르기를 ±1로, 길게 누르기를 ±5로 사용자 정의합니다."
+          "userNote": "짧게 누르기를 ±1로, 길게 누르기를 ±5로 사용자 정의합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CustomAccShortPressIncrement",
@@ -954,7 +1046,8 @@
           ],
           "description": "크루즈 버튼을 짧게 누르면 속도가 변경됩니다.",
           "useCase": "작은 속도 조정을 미세 조정합니다.",
-          "userNote": "크루즈 버튼을 빠르게 탭할 수 있도록 속도 변경을 설정합니다."
+          "userNote": "크루즈 버튼을 빠르게 탭할 수 있도록 속도 변경을 설정합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CustomAccLongPressIncrement",
@@ -973,7 +1066,8 @@
           ],
           "description": "크루즈 버튼을 길게 누르면 속도가 변경됩니다.",
           "useCase": "버튼을 누르고 있으면 더 큰 속도 조정이 가능합니다.",
-          "userNote": "크루즈 버튼을 누른 상태에서 속도 변경을 설정합니다."
+          "userNote": "크루즈 버튼을 누른 상태에서 속도 변경을 설정합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "IntelligentCruiseButtonManagement",
@@ -982,15 +1076,16 @@
           "default": false,
           "description": "보다 스마트한 속도 제어를 위해 향상된 크루즈 버튼 로직.",
           "useCase": "More intuitive 크루즈 컨트롤 button behavior.",
-          "userNote": "활성화 for smarter cruise button behavior."
+          "userNote": "활성화 for smarter cruise button behavior.",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
     {
       "id": "visuals",
-      "name": "비주얼 & UI",
+      "name": "Visuals & UI",
       "icon": "🎨",
-      "description": "화면 레이아웃과 표시되는 정보를 사용자 정의합니다.",
+      "description": "Configure what information and visual elements appear on the driving screen.",
       "settings": [
         {
           "key": "RainbowMode",
@@ -1003,7 +1098,8 @@
             "Distracting 주행 중.",
             "눈의 피로를 유발할 수 있습니다."
           ],
-          "userNote": "재미있지만 주의가 산만해집니다."
+          "userNote": "재미있지만 주의가 산만해집니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DisplayRoadName",
@@ -1012,7 +1108,8 @@
           "default": true,
           "description": "현재 거리 이름을 UI에 표시합니다.",
           "useCase": "익숙하지 않은 지역을 탐색할 때 상황 인식.",
-          "userNote": "상황 인식에 좋습니다."
+          "userNote": "상황 인식에 좋습니다.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "GreenLightAlert",
@@ -1022,7 +1119,8 @@
           "description": "빨간불이 초록불로 바뀔 때 소리가 납니다.",
           "recommended": true,
           "useCase": "주의가 산만해진 운전자에게 신호가 바뀌면 계속 진행하도록 경고합니다.",
-          "userNote": "주의가 산만한 운전자에게 매우 유용한 기능입니다."
+          "userNote": "주의가 산만한 운전자에게 매우 유용한 기능입니다.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "LeadDepartAlert",
@@ -1032,7 +1130,8 @@
           "description": "정지하면 차임벨과 화면 알림(TIZI/TICI만 해당)이 재생되고 앞 차량이 움직이기 시작합니다. <br>참고: 이 차임벨은 알림용으로만 설계되었습니다. 주변 환경을 관찰하고 그에 따라 결정을 내리는 것은 운전자의 책임입니다.",
           "recommended": true,
           "useCase": "가다 서다를 반복하는 교통 상황에서 경적을 울리는 것을 방지합니다.",
-          "userNote": "정지 및 이동 교통에 적합합니다."
+          "userNote": "정지 및 이동 교통에 적합합니다.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "ShowTurnSignals",
@@ -1041,7 +1140,8 @@
           "default": false,
           "description": "활성화되면 시각적 방향 표시기가 HUD에 그려집니다.",
           "useCase": "깜박이가 활성화되었음을 시각적으로 확인합니다.",
-          "userNote": "주로 화장품 검증."
+          "userNote": "주로 화장품 검증.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "BlindSpotDetection",
@@ -1051,7 +1151,8 @@
           "description": "이 기능을 활성화하면 귀하의 차량에 BSM이 지원되는 한 귀하의 인증지대에서 차량이 감지될 때 경고가 표시됩니다.",
           "recommended": true,
           "useCase": "미러 표시기를 놓친 경우 중복 BSM 경고.",
-          "userNote": "거울을 보지 않는 경우 추가 안전 장치(거울을 보세요)."
+          "userNote": "거울을 보지 않는 경우 추가 안전 장치(거울을 보세요).",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ScreenBrightness",
@@ -1066,7 +1167,8 @@
           "default": "Auto",
           "description": "디스플레이 백라이트 수준을 설정합니다.",
           "recommended": "Auto",
-          "userNote": "일반적으로 '자동'이 가장 잘 작동합니다."
+          "userNote": "일반적으로 '자동'이 가장 잘 작동합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "OnroadBrightness",
@@ -1080,7 +1182,8 @@
           ],
           "default": "Auto",
           "description": "구체적으로 밝기를 설정합니다.",
-          "recommended": "Auto"
+          "recommended": "Auto",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "OnroadBrightnessDelay",
@@ -1093,7 +1196,8 @@
           "helpText": "범위: 0 - 60초(기본값: 15초)",
           "description": "온로드 밝기가 낮아지기 전의 시간입니다.",
           "useCase": "운전이 시작된 후 밝기가 얼마나 빨리 어두워지는지 제어합니다.",
-          "userNote": "화면 어둡게 하기 지연에 대한 기본 설정을 조정합니다."
+          "userNote": "화면 어둡게 하기 지연에 대한 기본 설정을 조정합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DeveloperUIInfo",
@@ -1108,7 +1212,8 @@
           "default": "Off",
           "description": "개발자 UI 오버레이 데이터 수준.",
           "useCase": "기술 디버깅 정보를 화면에 표시합니다.",
-          "userNote": "개발자와 고급 사용자에게만 해당됩니다."
+          "userNote": "개발자와 고급 사용자에게만 해당됩니다.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "ChevronInfo",
@@ -1124,7 +1229,8 @@
           "default": "Off",
           "description": "리드 차량 정보 표시 수준입니다.",
           "useCase": "감지된 차량에 대해 표시되는 정보의 양을 맞춤설정하세요.",
-          "userNote": "화면에 차량 정보를 더 많거나 적게 표시하도록 조정합니다."
+          "userNote": "화면에 차량 정보를 더 많거나 적게 표시하도록 조정합니다.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "StandstillTimer",
@@ -1133,7 +1239,8 @@
           "default": false,
           "description": "정지 상태에서 소요된 시간을 표시합니다.",
           "useCase": "신호등이나 교통 상황에서 정지한 시간을 표시합니다.",
-          "userNote": "대기 시간을 추적하는 데 유용합니다."
+          "userNote": "대기 시간을 추적하는 데 유용합니다.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "HideVEgoUI",
@@ -1142,7 +1249,8 @@
           "default": false,
           "description": "활성화되면 온로드 화면에 속도계가 표시되지 않습니다.",
           "useCase": "속도 표시를 숨겨 방해 요소를 최소화합니다.",
-          "userNote": "활성화 for a cleaner screen appearance."
+          "userNote": "활성화 for a cleaner screen appearance.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "TrueVEgoUI",
@@ -1151,7 +1259,8 @@
           "default": false,
           "description": "해당 차량의 경우 항상 휠 속도 센서를 통해 실제 차량 현재 속도를 표시합니다.",
           "useCase": "차량 센서의 실제 속도계 판독값을 표시합니다.",
-          "userNote": "평활화된 값이 아닌 실제 속도를 표시합니다."
+          "userNote": "평활화된 값이 아닌 실제 속도를 표시합니다.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "DisplayRocketFuelBar",
@@ -1160,7 +1269,8 @@
           "default": false,
           "description": "실시간 차량 가속 및 감속을 표시하려면 화면 왼쪽에 표시기를 표시하십시오. 플래너가 요청한 차량이 아닌 차량이 현재 하고 있는 일을 표시합니다.",
           "useCase": "Visualize how hard 시스템 is accelerating or 제동.",
-          "userNote": "스로틀/브레이크 강도를 보여주는 멋진 시각적 표시기입니다."
+          "userNote": "스로틀/브레이크 강도를 보여주는 멋진 시각적 표시기입니다.",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "SteeringArc",
@@ -1169,15 +1279,30 @@
           "default": false,
           "description": "측면 제어가 활성화되면 주행 화면에 조향호가 표시됩니다.",
           "useCase": "Visual feedback of 조향 path.",
-          "userNote": "차량이 조종할 위치를 표시합니다."
+          "userNote": "차량이 조종할 위치를 표시합니다.",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "InteractivityTimeout",
+          "label": "화면 터치 타임아웃",
+          "type": "slider",
+          "default": 10,
+          "min": 3,
+          "max": 30,
+          "unit": "seconds",
+          "helpText": "Range: 3 to 30 seconds",
+          "description": "주행 중 화면 터치 입력이 없을 때 절전/디밍 모드로 전환되기까지의 대기 시간(초)입니다.",
+          "useCase": "Reducing cabin glare at night and managing device thermal dissipation.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
     {
       "id": "developer",
-      "name": "개발자 설정",
+      "name": "Developer Settings",
       "icon": "👨‍💻",
-      "description": "디버깅 및 개발을 위한 고급 도구입니다.",
+      "description": "Advanced settings for developers and power users, including debug tools, connectivity options, and alpha features.",
       "settings": [
         {
           "key": "ShowAdvancedControls",
@@ -1187,7 +1312,8 @@
           "description": "Unlocks hidden 설정 menus.",
           "recommended": true,
           "useCase": "사용 가능한 모든 구성 옵션에 액세스하세요.",
-          "userNote": "이 목록의 모든 내용을 보려면 켜세요."
+          "userNote": "이 목록의 모든 내용을 보려면 켜세요.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "EnableAdb",
@@ -1196,7 +1322,8 @@
           "default": false,
           "description": "안드로이드 디버그 브리지. USB 디버깅을 허용합니다.",
           "useCase": "USB 케이블을 통한 개발자 액세스.",
-          "userNote": "개발자 전용."
+          "userNote": "개발자 전용.",
+          "deviceAvailability": "full"
         },
         {
           "key": "EnableSsh",
@@ -1210,7 +1337,8 @@
           "tradeoffs": [
             "장치가 공용 네트워크에 있는 경우 보안 취약성.",
             "비밀번호가 취약한 경우 무단 접근을 허용할 수 있습니다."
-          ]
+          ],
+          "deviceAvailability": "full"
         },
         {
           "key": "SshKeys",
@@ -1219,7 +1347,8 @@
           "description": "GitHub 사용자 이름에서 SSH 공개 키를 가져와 장치에 설치합니다. 이를 통해 GitHub 관련 키 쌍을 사용하여 SSH 로그인이 가능해집니다.",
           "warning": "Only add SSH keys from users you trust. Anyone with an installed key has full access to the device.",
           "useCase": "Install SSH keys for remote access.",
-          "userNote": "신뢰할 수 있는 사용자의 키만 추가하세요."
+          "userNote": "신뢰할 수 있는 사용자의 키만 추가하세요.",
+          "deviceAvailability": "full"
         },
         {
           "key": "JoystickDebugMode",
@@ -1228,7 +1357,8 @@
           "default": false,
           "description": "활성화 joystick debugging.",
           "useCase": "조이스틱 입력을 디버그합니다.",
-          "userNote": "개발자 전용."
+          "userNote": "개발자 전용.",
+          "deviceAvailability": "full"
         },
         {
           "key": "QuickBoot",
@@ -1241,7 +1371,8 @@
             "중요한 초기화 단계를 놓칠 수 있습니다.",
             "불안정하거나 충돌이 발생할 수 있습니다."
           ],
-          "warning": "불안정성을 초래할 수 있습니다. 부팅 시간이 짜증나지 않는 한 조용히 하세요."
+          "warning": "불안정성을 초래할 수 있습니다. 부팅 시간이 짜증나지 않는 한 조용히 하세요.",
+          "deviceAvailability": "full"
         },
         {
           "key": "CopypartyService",
@@ -1250,7 +1381,8 @@
           "default": false,
           "description": "Runs a local file server on 장치.",
           "useCase": "SSH 없이 WiFi를 통해 드라이브 비디오를 다운로드하세요.",
-          "userNote": "WiFi를 통해 운전 비디오를 다운로드하는 쉬운 방법입니다."
+          "userNote": "WiFi를 통해 운전 비디오를 다운로드하는 쉬운 방법입니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "EnableSunnylinkUploader",
@@ -1259,7 +1391,8 @@
           "default": false,
           "description": "Sunnylink에 드라이브를 업로드합니다.",
           "useCase": "활성화 uploading drive data to sunnylink servers for cloud 저장소 and analysis.",
-          "userNote": "활성화하여 드라이브를 sunnylink에 업로드하세요."
+          "userNote": "활성화하여 드라이브를 sunnylink에 업로드하세요.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "LongitudinalManeuverMode",
@@ -1268,7 +1401,8 @@
           "default": false,
           "description": "저속 기동을 위한 특수 핸들링.",
           "useCase": "보다 원활한 정지 및 이동 교통 행동.",
-          "userNote": "정지 및 이동의 부드러움에 도움이 됩니다."
+          "userNote": "정지 및 이동의 부드러움에 도움이 됩니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "AlphaLongitudinal",
@@ -1282,7 +1416,8 @@
             "예상보다 브레이크가 더 세게 또는 부드러워질 수 있습니다."
           ],
           "warning": "Enabling this disables AEB (Automatic Emergency Braking). A confirmation dialog appears before activation.",
-          "userNote": "실험 모드에 필요합니다. 일반적으로 재고보다 부드럽습니다."
+          "userNote": "실험 모드에 필요합니다. 일반적으로 재고보다 부드럽습니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GithubRunnerService",
@@ -1291,7 +1426,8 @@
           "default": false,
           "description": "활성화 CI/CD runner.",
           "useCase": "Runs GitHub Actions runner on 장치.",
-          "userNote": "개발자 전용."
+          "userNote": "개발자 전용.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GithubRunnerSufficientVoltage",
@@ -1300,7 +1436,8 @@
           "default": true,
           "description": "GitHub 러너의 전압을 확인하세요.",
           "useCase": "CI 작업을 실행하기 전에 충분한 전압을 보장합니다.",
-          "userNote": "Prevents 배터리 drain during CI tasks."
+          "userNote": "Prevents 배터리 drain during CI tasks.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UiDebugMode",
@@ -1309,7 +1446,8 @@
           "default": false,
           "description": "UI 디버그 정보를 표시합니다.",
           "useCase": "UI에 디버그 정보를 표시합니다.",
-          "userNote": "개발자 전용."
+          "userNote": "개발자 전용.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DisableLogging",
@@ -1322,7 +1460,8 @@
             "사고 발생 시 모든 운전 증거를 잃게 됩니다.",
             "드라이브를 검토하거나 업로드할 수 없습니다."
           ],
-          "warning": "공간은 절약되지만 사고가 발생하면 증거를 잃게 됩니다."
+          "warning": "공간은 절약되지만 사고가 발생하면 증거를 잃게 됩니다.",
+          "deviceAvailability": "full"
         },
         {
           "key": "ManualRealTimeTuning",
@@ -1331,22 +1470,39 @@
           "default": false,
           "description": "토크 값을 무시할 수 있습니다.",
           "warning": "디버그 전용. 정상적인 사용에는 위험합니다.",
-          "safetyLevel": "critical"
+          "safetyLevel": "critical",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "FirehoseMode",
+          "label": "파이어호스 모드 (Firehose Mode)",
+          "type": "toggle",
+          "default": true,
+          "description": "무제한 Wi-Fi 연결 시 주행 세그먼트를 업로드하여 인공지능 주행 모델 학습에 기여합니다. 써니파일럿은 공식 파이어호스를 지원하는 첫 메이저 포크입니다.",
+          "useCase": "Contribute real-world driving data to train next-generation openpilot and sunnypilot driving models.",
+          "tradeoffs": [
+            "Requires connection to unmetered Wi-Fi when vehicle is parked/offroad.",
+            "Helps improve autonomous driving models for all users."
+          ],
+          "userNote": "Official support introduced in sunnypilot 2026. Only uploads while connected to unmetered Wi-Fi.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "full"
         }
       ]
     },
     {
       "id": "other",
-      "name": "기타 설정",
+      "name": "Other Settings",
       "icon": "🔧",
-      "description": "AGNOS, 계획 제어 및 자동차별 구성을 포함한 기타 설정.",
+      "description": "Miscellaneous settings including AGNOS, plan controls, and car-specific configurations.",
       "settings": [
         {
           "key": "LastAgnosPowerMonitorShutdown",
           "label": "마지막 AGNOS 전원 모니터 종료",
           "type": "readonly",
           "description": "마지막 AGNOS 전원 모니터 종료 이벤트의 타임스탬프입니다.",
-          "userNote": "읽기 전용. Shows when device last shut down due to 전원 monitoring."
+          "userNote": "읽기 전용. Shows when device last shut down due to 전원 monitoring.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "PlanPlusControls",
@@ -1362,14 +1518,16 @@
             "값이 높을수록 센터링이 더 공격적이지만 핑퐁이 될 가능성이 있습니다.",
             "값이 낮을수록 더 매끄러워지지만 중심에서 벗어날 수 있습니다."
           ],
-          "userNote": "1.0이군요. 차가 너무 많이 드리프트하면 늘리고, 탁구를 치면 줄입니다."
+          "userNote": "1.0이군요. 차가 너무 많이 드리프트하면 늘리고, 탁구를 치면 줄입니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "HasAcceptedSunnypilotTerms",
           "label": "Sunnypilot 약관에 동의했습니다.",
           "type": "readonly",
           "description": "사용자가 Sunnypilot 서비스 약관에 동의했는지 여부를 나타냅니다.",
-          "userNote": "읽기 전용. Shows acceptance status."
+          "userNote": "읽기 전용. Shows acceptance status.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SupportedCarList",
@@ -1377,14 +1535,16 @@
           "type": "action",
           "description": "Sunnypilot에서 지원되는 모든 플랫폼을 확인하세요.",
           "useCase": "Check if 당신의 차량 is officially supported.",
-          "userNote": "호환되는 모든 차량의 JSON 목록을 엽니다."
+          "userNote": "호환되는 모든 차량의 JSON 목록을 엽니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CompletedSunnylinkConsentVersion",
           "label": "Sunnylink 동의 버전 완료",
           "type": "readonly",
           "description": "작성된 써니링크 동의서 버전입니다.",
-          "userNote": "읽기 전용. Shows which consent version you've agreed to."
+          "userNote": "읽기 전용. Shows which consent version you've agreed to.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ToyotaEnforceFactoryLongitudinalControl",
@@ -1397,7 +1557,8 @@
             "공장 ACC는 더 부드럽지만 덜 지능적일 수 있습니다.",
             "Sunnypilot의 고급 정지 및 이동 기능이 손실됩니다."
           ],
-          "userNote": "Toyota의 재고 적응형 크루즈 동작을 선호하는 경우 활성화합니다."
+          "userNote": "Toyota의 재고 적응형 크루즈 동작을 선호하는 경우 활성화합니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SubaruStopAndGo",
@@ -1410,7 +1571,8 @@
             "car_fingerprint == SUBARU인 경우에만 나타납니다.",
             "Subaru 모델 연식에 따라 다르게 작동할 수 있습니다."
           ],
-          "userNote": "차량별: Subaru 차량에만 표시됩니다."
+          "userNote": "차량별: Subaru 차량에만 표시됩니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SubaruStopAndGoManualParkingBrake",
@@ -1423,14 +1585,96 @@
             "car_fingerprint == SUBARU인 경우에만 나타납니다.",
             "주차 브레이크 유형(수동 vs 전자)에 따라 동작이 다릅니다."
           ],
-          "userNote": "차량별: 전자 주차 브레이크가 장착된 Subarus에만 해당됩니다."
+          "userNote": "차량별: 전자 주차 브레이크가 장착된 Subarus에만 해당됩니다.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SunnylinkDongleId",
           "label": "Sunnylink 동글 ID",
           "type": "readonly",
           "description": "클라우드 연결을 위한 고유한 Sunnylink 장치 식별자입니다.",
-          "userNote": "읽기 전용. Your device's unique ID for sunnylink services."
+          "userNote": "읽기 전용. Your device's unique ID for sunnylink services.",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "EnableSunnylink",
+          "label": "써니링크 활성화",
+          "type": "toggle",
+          "default": false,
+          "description": "원격 파라미터 관리, 설정 백업 및 깃허브 후원자 동기화를 포함한 써니링크 클라우드의 마스터 토글입니다.",
+          "useCase": "Enables connecting device to sunnylink.ai web portal for fleet management and parameter backups.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ToyotaStopAndGoHack",
+          "label": "토요타: 스톱앤고 핵 (알파)",
+          "type": "toggle",
+          "default": false,
+          "description": "30km/h 이하에서 순정 스마트 크루즈가 자동 해제되는 구형 토요타 차량의 완전 정차 및 재출발을 지원합니다.",
+          "useCase": "Older Toyota Prius, RAV4, Corolla models without full-speed dynamic radar cruise control.",
+          "safetyLevel": "critical",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ToyotaZSS",
+          "label": "토요타: 조로 조향각 센서 (ZSS)",
+          "type": "toggle",
+          "default": false,
+          "description": "저해상도 순정 센서를 대체하는 애프터마켓 고해상도 조로 광학 조향각 센서를 지원합니다.",
+          "useCase": "Provides precise steering angle feedback on Toyotas with low-resolution stock sensors.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ToyotaSmartDSU",
+          "label": "토요타: 스마트 DSU (Smart DSU)",
+          "type": "toggle",
+          "default": false,
+          "description": "레이더 크루즈 제약이 있는 토요타 차량에서 오픈파일럿 종방향 제어를 가능하게 하는 스마트 DSU 모듈을 지원합니다.",
+          "useCase": "Toyota models requiring DSU modification for openpilot longitudinal control.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "HondaGasInterceptor",
+          "label": "혼다: 가스 인터셉터 (comma Pedal)",
+          "type": "toggle",
+          "default": false,
+          "description": "구형 혼다/아큐라 차종에서 완전 정차 후 재출발을 가능하게 하는 comma Pedal 하드웨어를 지원합니다.",
+          "useCase": "Older Honda Civic, CR-V, Accord models requiring pedal interception for stop-and-go.",
+          "safetyLevel": "critical",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "RivianLongitudinalHarness",
+          "label": "리비안: 종방향 하네스 업그레이드",
+          "type": "toggle",
+          "default": false,
+          "description": "보조 CAN 종방향 하네스가 장착된 리비안 R1T 및 R1S 차량을 위한 설정입니다.",
+          "useCase": "Rivian owners using custom wiring harness for expanded control.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "GMNonAccSupport",
+          "label": "GM / 쉐보레: 순정 ACC 미적용 차량 지원",
+          "type": "toggle",
+          "default": false,
+          "description": "순정 어댑티브 크루즈(ACC)가 없는 GM 및 쉐보레 차량에서도 조향 보조 및 MADS를 활성화합니다.",
+          "useCase": "GM vehicles with camera-only or basic cruise control systems.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ChryslerSteerToZero",
+          "label": "크라이슬러 / RAM: 정차 시까지 조향 유지 (Steer to Zero)",
+          "type": "toggle",
+          "default": false,
+          "description": "크라이슬러, 지프, RAM 차량에서 시속 0km/h 완전 정차 시까지 MADS 조향 어시스트를 유지합니다.",
+          "useCase": "Enabling continuous steering assist during slow-moving traffic on FCA vehicles.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
         }
       ]
     }

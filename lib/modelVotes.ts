@@ -2,15 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 
-export interface ModelSurveyAnswers {
-    hasDriven?: boolean;
-    hardware?: string; // 'c3' | 'c3x' | 'c4' | 'other'
-    rating?: number; // 1 (Poor), 2 (Bad), 3 (Ok), 4 (Good), 5 (Great)
-    lateral?: string[];
-    longitudinalMode?: string;
-    longitudinalBehaviors?: string[];
-    steeringControl?: string;
-}
+export type ModelSurveyAnswers = Record<string, any>;
 
 export interface ModelVoteRecord {
     voterHash: string;
@@ -19,15 +11,20 @@ export interface ModelVoteRecord {
     updatedAt: string;
 }
 
-export interface ModelOptionStat {
+export interface PollOptionDef {
+    key: string;
     label: string;
-    count: number;
+    votes: number; // Discourse baseline + local wiki votes
     percentage: number;
 }
 
-export interface QuestionSummary {
-    voters: number;
-    options: Record<string, ModelOptionStat>;
+export interface PollQuestionDef {
+    id: string; // Poll name (e.g. 'poll', 'overall', 'vs_default', 'lateral', etc.)
+    title: string;
+    type: 'single' | 'multi';
+    maxChoices?: number;
+    voters: number; // Total voters for this specific question
+    options: PollOptionDef[];
 }
 
 export interface ModelLiveScoreData {
@@ -44,22 +41,14 @@ export interface ModelLiveScoreData {
 export interface ModelVoteSummary {
     modelName: string;
     totalVoters: number;
-    hasDrivenCount: number;
-    questions: {
-        hasDriven: QuestionSummary;
-        hardware: QuestionSummary;
-        rating: QuestionSummary;
-        lateral: QuestionSummary;
-        longitudinalMode: QuestionSummary;
-        longitudinalBehaviors: QuestionSummary;
-        steeringControl: QuestionSummary;
-    };
+    questions: PollQuestionDef[];
     live: ModelLiveScoreData;
     userVote?: ModelSurveyAnswers;
 }
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const VOTES_FILE = path.join(DATA_DIR, 'model_votes.json');
+const DISCOURSE_POLLS_FILE = path.join(DATA_DIR, 'discourse_polls.json');
 const SALT = process.env.VOTE_SALT || 'sunnylink-wiki-voter-secret-salt-2026';
 
 // In-memory rate limiting map: voterHash -> timestamps array
@@ -83,6 +72,7 @@ export function checkRateLimit(voterHash: string, maxVotesPerMinute = 30): boole
 
 // In-memory cache with file persistence
 let cachedVotes: Record<string, ModelVoteRecord> | null = null;
+let cachedDiscoursePolls: Record<string, any> | null = null;
 
 function loadVotes(): Record<string, ModelVoteRecord> {
     if (cachedVotes !== null) {
@@ -117,20 +107,58 @@ function saveVotes(votes: Record<string, ModelVoteRecord>) {
     }
 }
 
-function computeQuestionStats(
-    voterCount: number,
-    counts: Record<string, number>,
-    totalEntries: number
-): QuestionSummary {
-    const options: Record<string, ModelOptionStat> = {};
-    for (const [key, count] of Object.entries(counts)) {
-        const percentage = totalEntries > 0 ? Math.round((count / totalEntries) * 100) : 0;
-        options[key] = { label: key, count, percentage };
+function loadDiscoursePolls(): Record<string, any> {
+    if (cachedDiscoursePolls !== null) {
+        return cachedDiscoursePolls;
     }
-    return {
-        voters: voterCount,
-        options,
-    };
+    try {
+        if (fs.existsSync(DISCOURSE_POLLS_FILE)) {
+            const content = fs.readFileSync(DISCOURSE_POLLS_FILE, 'utf-8');
+            cachedDiscoursePolls = JSON.parse(content) || {};
+            return cachedDiscoursePolls!;
+        }
+    } catch (err) {
+        console.error('[modelVotes] Failed to read discourse polls file:', err);
+    }
+    cachedDiscoursePolls = {};
+    return cachedDiscoursePolls;
+}
+
+function findDiscourseForModel(modelName: string): any | null {
+    const discourseMap = loadDiscoursePolls();
+    if (discourseMap[modelName]) {
+        return discourseMap[modelName];
+    }
+    const target = modelName.toLowerCase();
+    for (const [key, val] of Object.entries(discourseMap)) {
+        if (key.toLowerCase() === target) {
+            return val;
+        }
+    }
+    return null;
+}
+
+function optionMatchesUserChoice(optKey: string, choiceVal: any): boolean {
+    if (choiceVal === undefined || choiceVal === null) return false;
+    const optLower = optKey.toLowerCase().trim();
+    if (typeof choiceVal === 'string') {
+        const choiceLower = choiceVal.toLowerCase().trim();
+        if (optLower === choiceLower) return true;
+        // Check numeric prefix e.g. "5 - Great" matches "5" or "Great"
+        if (optLower.startsWith(`${choiceLower} -`) || optLower.endsWith(`- ${choiceLower}`)) return true;
+        if (choiceLower.startsWith(`${optLower} -`) || choiceLower.endsWith(`- ${optLower}`)) return true;
+    } else if (typeof choiceVal === 'number') {
+        if (optLower.startsWith(`${choiceVal} -`)) return true;
+        if (choiceVal === 5 && optLower.includes('great')) return true;
+        if (choiceVal === 4 && optLower.includes('good')) return true;
+        if (choiceVal === 3 && optLower.includes('ok')) return true;
+        if (choiceVal === 2 && optLower.includes('bad')) return true;
+        if (choiceVal === 1 && (optLower.includes('poor') || optLower.includes('horrible'))) return true;
+    } else if (typeof choiceVal === 'boolean') {
+        if (choiceVal && (optLower.startsWith('yes') || optLower.includes('driven'))) return true;
+        if (!choiceVal && (optLower.startsWith('no') || optLower.startsWith('not yet'))) return true;
+    }
+    return false;
 }
 
 export function calculateBlendedModelStats(
@@ -141,137 +169,224 @@ export function calculateBlendedModelStats(
     currentVoterHash?: string
 ): ModelVoteSummary {
     const allVotes = loadVotes();
-    const modelVotes = Object.values(allVotes).filter(v => v.modelName.toLowerCase() === modelName.toLowerCase());
-
-    const hardwareCounts: Record<string, number> = {};
-    const ratingCounts: Record<string, number> = { '5': 0, '4': 0, '3': 0, '2': 0, '1': 0 };
-    const lateralCounts: Record<string, number> = {};
-    const longModeCounts: Record<string, number> = {};
-    const longBehaviorCounts: Record<string, number> = {};
-    const steeringCounts: Record<string, number> = {};
-    const hasDrivenCounts: Record<string, number> = { yes: 0, no: 0 };
-
-    let hasDrivenVoters = 0;
-    let hardwareVoters = 0;
-    let ratingVoters = 0;
-    let lateralVoters = 0;
-    let lateralTotalEntries = 0;
-    let longModeVoters = 0;
-    let longBehaviorVoters = 0;
-    let longBehaviorTotalEntries = 0;
-    let steeringVoters = 0;
+    const targetName = modelName.toLowerCase();
+    const modelVotes = Object.values(allVotes).filter(v => v.modelName.toLowerCase() === targetName);
 
     let userVote: ModelSurveyAnswers | undefined;
-
-    for (const vote of modelVotes) {
-        if (currentVoterHash && vote.voterHash === currentVoterHash) {
-            userVote = vote.answers;
-        }
-
-        const a = vote.answers;
-
-        if (a.hasDriven !== undefined) {
-            hasDrivenVoters++;
-            const k = a.hasDriven ? 'yes' : 'no';
-            hasDrivenCounts[k] = (hasDrivenCounts[k] || 0) + 1;
-        }
-
-        if (a.hardware) {
-            hardwareVoters++;
-            hardwareCounts[a.hardware] = (hardwareCounts[a.hardware] || 0) + 1;
-        }
-
-        if (a.rating && a.rating >= 1 && a.rating <= 5) {
-            ratingVoters++;
-            const rStr = String(a.rating);
-            ratingCounts[rStr] = (ratingCounts[rStr] || 0) + 1;
-        }
-
-        if (Array.isArray(a.lateral) && a.lateral.length > 0) {
-            lateralVoters++;
-            for (const item of a.lateral) {
-                lateralCounts[item] = (lateralCounts[item] || 0) + 1;
-                lateralTotalEntries++;
-            }
-        }
-
-        if (a.longitudinalMode) {
-            longModeVoters++;
-            longModeCounts[a.longitudinalMode] = (longModeCounts[a.longitudinalMode] || 0) + 1;
-        }
-
-        if (Array.isArray(a.longitudinalBehaviors) && a.longitudinalBehaviors.length > 0) {
-            longBehaviorVoters++;
-            for (const item of a.longitudinalBehaviors) {
-                longBehaviorCounts[item] = (longBehaviorCounts[item] || 0) + 1;
-                longBehaviorTotalEntries++;
-            }
-        }
-
-        if (a.steeringControl) {
-            steeringVoters++;
-            steeringCounts[a.steeringControl] = (steeringCounts[a.steeringControl] || 0) + 1;
+    if (currentVoterHash) {
+        const userRec = modelVotes.find(v => v.voterHash === currentVoterHash);
+        if (userRec) {
+            userVote = userRec.answers;
         }
     }
 
-    // Blend live community ratings with baseline
-    const baseVotes = baseTotalVotes ?? 15;
-    const baseS = baseSentiment ?? { great: 40, good: 35, ok: 20, bad: 5 };
+    const discourseData = findDiscourseForModel(modelName);
+    const questions: PollQuestionDef[] = [];
 
-    const baseGreat = Math.round(baseVotes * (baseS.great / 100));
-    const baseGood = Math.round(baseVotes * (baseS.good / 100));
-    const baseOk = Math.round(baseVotes * (baseS.ok / 100));
-    const baseBad = Math.max(0, baseVotes - (baseGreat + baseGood + baseOk));
+    if (discourseData?.polls && Array.isArray(discourseData.polls) && discourseData.polls.length > 0) {
+        // Build questions based on Discourse polls
+        for (const p of discourseData.polls) {
+            const qId = p.name || 'poll';
+            const isMulti = p.type === 'multiple';
+            const baseVoters = typeof p.voters === 'number' ? p.voters : 0;
+            const optionsList: { key: string; label: string; baseVotes: number }[] = (p.options || []).map((o: any) => ({
+                key: o.html || '',
+                label: o.html || '',
+                baseVotes: typeof o.votes === 'number' ? o.votes : 0,
+            }));
 
-    // Live ratings mapping:
-    // 5 -> great
-    // 4 -> good
-    // 3 -> ok
-    // 2 & 1 -> bad
-    const liveGreat = ratingCounts['5'] || 0;
-    const liveGood = ratingCounts['4'] || 0;
-    const liveOk = ratingCounts['3'] || 0;
-    const liveBad = (ratingCounts['2'] || 0) + (ratingCounts['1'] || 0);
+            // Track local wiki votes for this question
+            const localOptionCounts: Record<string, number> = {};
+            const localVoterHashes = new Set<string>();
 
-    const totalGreat = baseGreat + liveGreat;
-    const totalGood = baseGood + liveGood;
-    const totalOk = baseOk + liveOk;
-    const totalBad = baseBad + liveBad;
-    const totalSentimentCount = Math.max(1, totalGreat + totalGood + totalOk + totalBad);
+            for (const v of modelVotes) {
+                // Check both direct qId answer and legacy rating/etc answer
+                let choice = v.answers?.[qId];
+                if (choice === undefined) {
+                    if ((qId === 'overall' || qId === 'poll') && v.answers?.rating !== undefined) {
+                        choice = v.answers.rating;
+                    } else if ((qId === 'lateral' || qId === 'poll3') && v.answers?.lateral !== undefined) {
+                        choice = v.answers.lateral;
+                    } else if ((qId === 'long_mode' || qId === 'poll4') && v.answers?.longitudinalMode !== undefined) {
+                        choice = v.answers.longitudinalMode;
+                    } else if ((qId === 'longitudinal' || qId === 'poll5') && v.answers?.longitudinalBehaviors !== undefined) {
+                        choice = v.answers.longitudinalBehaviors;
+                    } else if (qId === 'steering' && v.answers?.steeringControl !== undefined) {
+                        choice = v.answers.steeringControl;
+                    }
+                }
 
-    const greatPct = Math.round((totalGreat / totalSentimentCount) * 100);
-    const goodPct = Math.round((totalGood / totalSentimentCount) * 100);
-    const okPct = Math.round((totalOk / totalSentimentCount) * 100);
-    const badPct = Math.max(0, 100 - (greatPct + goodPct + okPct));
+                if (choice !== undefined && choice !== null) {
+                    let hasChosen = false;
+                    if (Array.isArray(choice)) {
+                        for (const item of choice) {
+                            const matchedOpt = optionsList.find(o => optionMatchesUserChoice(o.key, item));
+                            if (matchedOpt) {
+                                localOptionCounts[matchedOpt.key] = (localOptionCounts[matchedOpt.key] || 0) + 1;
+                                hasChosen = true;
+                            }
+                        }
+                    } else {
+                        const matchedOpt = optionsList.find(o => optionMatchesUserChoice(o.key, choice));
+                        if (matchedOpt) {
+                            localOptionCounts[matchedOpt.key] = (localOptionCounts[matchedOpt.key] || 0) + 1;
+                            hasChosen = true;
+                        }
+                    }
+                    if (hasChosen) {
+                        localVoterHashes.add(v.voterHash);
+                    }
+                }
+            }
 
-    const liveScore = Math.min(100, Math.max(0, Math.round(
-        greatPct * 1.0 + goodPct * 0.75 + okPct * 0.50 + badPct * 0.0
-    )));
+            const totalQustionVoters = baseVoters + localVoterHashes.size;
 
-    const liveTotalVotes = baseVotes + modelVotes.length;
+            let totalVoteEntries = 0;
+            for (const opt of optionsList) {
+                totalVoteEntries += opt.baseVotes + (localOptionCounts[opt.key] || 0);
+            }
 
-    return {
-        modelName,
-        totalVoters: modelVotes.length,
-        hasDrivenCount: hasDrivenCounts.yes || 0,
-        questions: {
-            hasDriven: computeQuestionStats(hasDrivenVoters, hasDrivenCounts, hasDrivenVoters),
-            hardware: computeQuestionStats(hardwareVoters, hardwareCounts, hardwareVoters),
-            rating: computeQuestionStats(ratingVoters, ratingCounts, ratingVoters),
-            lateral: computeQuestionStats(lateralVoters, lateralCounts, lateralTotalEntries || lateralVoters),
-            longitudinalMode: computeQuestionStats(longModeVoters, longModeCounts, longModeVoters),
-            longitudinalBehaviors: computeQuestionStats(longBehaviorVoters, longBehaviorCounts, longBehaviorTotalEntries || longBehaviorVoters),
-            steeringControl: computeQuestionStats(steeringVoters, steeringCounts, steeringVoters),
-        },
-        live: {
-            communityScore: liveScore,
-            totalVotes: liveTotalVotes,
-            sentiment: {
+            const finalOptions: PollOptionDef[] = optionsList.map(opt => {
+                const totalOptVotes = opt.baseVotes + (localOptionCounts[opt.key] || 0);
+                const denom = isMulti ? Math.max(1, totalVoteEntries || totalQustionVoters) : Math.max(1, totalQustionVoters);
+                const percentage = denom > 0 ? Math.round((totalOptVotes / denom) * 100) : 0;
+                return {
+                    key: opt.key,
+                    label: opt.label,
+                    votes: totalOptVotes,
+                    percentage,
+                };
+            });
+
+            questions.push({
+                id: qId,
+                title: p.title || 'How is this model?',
+                type: isMulti ? 'multi' : 'single',
+                maxChoices: p.max || 5,
+                voters: totalQustionVoters,
+                options: finalOptions,
+            });
+        }
+    } else {
+        // Fallback for models without Discourse polls: Single rating question
+        const qId = 'overall';
+        const defaultOptions = [
+            '5 - Great',
+            '4 - Good',
+            '3 - Ok',
+            '2 - Bad',
+            '1 - Poor'
+        ];
+
+        const baseVotes = baseTotalVotes ?? 10;
+        const baseS = baseSentiment ?? { great: 45, good: 35, ok: 15, bad: 5 };
+
+        const baseGreat = Math.round(baseVotes * (baseS.great / 100));
+        const baseGood = Math.round(baseVotes * (baseS.good / 100));
+        const baseOk = Math.round(baseVotes * (baseS.ok / 100));
+        const baseBad = Math.max(0, baseVotes - (baseGreat + baseGood + baseOk));
+
+        const baseCounts: Record<string, number> = {
+            '5 - Great': baseGreat,
+            '4 - Good': baseGood,
+            '3 - Ok': baseOk,
+            '2 - Bad': baseBad,
+            '1 - Poor': 0,
+        };
+
+        const localOptionCounts: Record<string, number> = {};
+        const localVoterHashes = new Set<string>();
+
+        for (const v of modelVotes) {
+            const choice = v.answers?.overall ?? v.answers?.poll ?? v.answers?.rating;
+            if (choice !== undefined && choice !== null) {
+                const matchedOpt = defaultOptions.find(o => optionMatchesUserChoice(o, choice));
+                if (matchedOpt) {
+                    localOptionCounts[matchedOpt] = (localOptionCounts[matchedOpt] || 0) + 1;
+                    localVoterHashes.add(v.voterHash);
+                }
+            }
+        }
+
+        const totalQustionVoters = baseVotes + localVoterHashes.size;
+
+        const finalOptions: PollOptionDef[] = defaultOptions.map(opt => {
+            const totalOptVotes = (baseCounts[opt] || 0) + (localOptionCounts[opt] || 0);
+            const percentage = totalQustionVoters > 0 ? Math.round((totalOptVotes / totalQustionVoters) * 100) : 0;
+            return {
+                key: opt,
+                label: opt,
+                votes: totalOptVotes,
+                percentage,
+            };
+        });
+
+        questions.push({
+            id: qId,
+            title: 'How is this model?',
+            type: 'single',
+            voters: totalQustionVoters,
+            options: finalOptions,
+        });
+    }
+
+    // Compute live blended overall community score and sentiment breakdown
+    // Identify rating poll: first poll named 'overall' or 'poll', or questions[0]
+    const ratingQ = questions.find(q => q.id === 'overall' || q.id === 'poll') || questions[0];
+
+    let liveScore = baseCommunityScore ?? 75;
+    let liveSentiment = baseSentiment ?? { great: 40, good: 35, ok: 20, bad: 5 };
+    let liveTotalVotes = baseTotalVotes ?? questions[0]?.voters ?? 0;
+
+    if (ratingQ && ratingQ.options.length > 0) {
+        let greatVotes = 0;
+        let goodVotes = 0;
+        let okVotes = 0;
+        let badVotes = 0;
+
+        for (const opt of ratingQ.options) {
+            const text = opt.key.toLowerCase();
+            if (text.includes('great') || text.startsWith('5')) {
+                greatVotes += opt.votes;
+            } else if (text.includes('good') || text.startsWith('4')) {
+                goodVotes += opt.votes;
+            } else if (text.includes('ok') || text.startsWith('3')) {
+                okVotes += opt.votes;
+            } else if (text.includes('bad') || text.includes('horrible') || text.includes('poor') || text.startsWith('2') || text.startsWith('1')) {
+                badVotes += opt.votes;
+            }
+        }
+
+        const totalSentimentCount = greatVotes + goodVotes + okVotes + badVotes;
+        if (totalSentimentCount > 0) {
+            const greatPct = Math.round((greatVotes / totalSentimentCount) * 100);
+            const goodPct = Math.round((goodVotes / totalSentimentCount) * 100);
+            const okPct = Math.round((okVotes / totalSentimentCount) * 100);
+            const badPct = Math.max(0, 100 - (greatPct + goodPct + okPct));
+
+            liveScore = Math.min(100, Math.max(0, Math.round(
+                greatPct * 1.0 + goodPct * 0.75 + okPct * 0.50 + badPct * 0.0
+            )));
+            liveSentiment = {
                 great: greatPct,
                 good: goodPct,
                 ok: okPct,
                 bad: badPct,
-            },
+            };
+            liveTotalVotes = totalSentimentCount;
+        }
+    }
+
+    const maxVotersAcrossQuestions = Math.max(...questions.map(q => q.voters), liveTotalVotes, 0);
+
+    return {
+        modelName,
+        totalVoters: maxVotersAcrossQuestions,
+        questions,
+        live: {
+            communityScore: liveScore,
+            totalVotes: liveTotalVotes,
+            sentiment: liveSentiment,
         },
         userVote,
     };

@@ -97,6 +97,9 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
             'Speed Control': 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
             'Navigation': 'bg-violet-500/20 text-violet-400 border-violet-500/30',
             'Vehicle Specific': 'bg-rose-500/20 text-rose-400 border-rose-500/30',
+            'Display & Visuals': 'bg-fuchsia-500/20 text-fuchsia-400 border-fuchsia-500/30',
+            'Connected Services': 'bg-sky-500/20 text-sky-400 border-sky-500/30',
+            'Models & AI': 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30',
         };
         return colors[category] || 'bg-slate-500/20 text-slate-400 border-slate-500/30';
     };
@@ -216,7 +219,7 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                                         {feature.settingsKeys.map((key) => (
                                             <a
                                                 key={key}
-                                                href={`#${key}`}
+                                                href={`/#${key}`}
                                                 className="px-2 py-1 text-xs rounded-md bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 hover:bg-cyan-500/20 transition-colors"
                                             >
                                                 {key}

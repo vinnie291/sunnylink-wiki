@@ -5,9 +5,9 @@
   "categories": [
     {
       "id": "models",
-      "name": "模型设置",
+      "name": "Model Settings",
       "icon": "🧠",
-      "description": "AI模型配置和驾驶行为调整。",
+      "description": "Select and manage driving models, and configure model-related parameters.",
       "settings": [
         {
           "key": "AdjustCameraOffset",
@@ -25,7 +25,8 @@
             "负值会将汽车移向车道右侧。",
             "偏移量太大可能会导致车道偏离警告。"
           ],
-          "userNote": "默认值 0.00。如果您觉得车辆太靠左或靠右，请进行调整。社区提示：如果在 Comma 4 上使用像 Down to Ride v6 这样的模型并遇到“右侧靠边”现象，请尝试将偏移量设置为 -0.05 到 -0.10。"
+          "userNote": "默认值 0.00。如果您觉得车辆太靠左或靠右，请进行调整。社区提示：如果在 Comma 4 上使用像 Down to Ride v6 这样的模型并遇到“右侧靠边”现象，请尝试将偏移量设置为 -0.05 到 -0.10。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "LaneTurnDesire",
@@ -38,7 +39,8 @@
             "Not primarily for 变道s.",
             "在交通拥挤的情况下可能过于激进。"
           ],
-          "userNote": "启用 if 变道s feel sluggish or delayed."
+          "userNote": "启用 if 变道s feel sluggish or delayed.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "AdjustLaneTurnSpeed",
@@ -60,7 +62,8 @@
               "label": "Show Advanced Controls"
             }
           ],
-          "userNote": "僅當啟用「使用車道轉彎需求」和「顯示進階控制」時才會出現。"
+          "userNote": "僅當啟用「使用車道轉彎需求」和「顯示進階控制」時才會出現。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DrivingModel",
@@ -68,7 +71,8 @@
           "type": "dropdown",
           "description": "选择AI驾驶模式。 每个模型都有独特的驾驶特性。",
           "useCase": "选择适合您的驾驶风格和路况的车型。",
-          "userNote": "有关所有 66 个以上可用模型的详细说明，请参阅模型库。"
+          "userNote": "有关所有 66 个以上可用模型的详细说明，请参阅模型库。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ModelLibrary",
@@ -76,21 +80,24 @@
           "type": "action",
           "description": "浏览包含 66 多个驾驶模型的完整库，其中包含描述、发布日期和社区共识。",
           "useCase": "找到适合您驾驶风格的完美车型。",
-          "userNote": "包括 WMI 系列、《黑暗之魂》、《Down to Ride》、《古墓丽影》和《Legacy》型号。"
+          "userNote": "包括 WMI 系列、《黑暗之魂》、《Down to Ride》、《古墓丽影》和《Legacy》型号。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RefreshModelList",
           "label": "Refresh Model List",
           "type": "action",
           "description": "強制從伺服器刷新可用模型清單。如果您希望有新模型可用但在選擇對話方塊中沒有看到它，請使用此選項。",
-          "userNote": "當新模型應該可用但未顯示時使用。"
+          "userNote": "當新模型應該可用但未顯示時使用。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ClearModelCache",
           "label": "Clear Model Cache",
           "type": "action",
           "description": "刪除除目前活動模型之外的所有下載模型。顯示目前快取大小（以 MB 為單位）。對於釋放儲存空間很有用。",
-          "userNote": "透過刪除舊模型檔案來釋放儲存空間。"
+          "userNote": "透過刪除舊模型檔案來釋放儲存空間。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "LiveLearningSteerDelay",
@@ -101,7 +108,8 @@
           "recommended": true,
           "useCase": "自动补偿车辆特定的转向延迟。",
           "deepDive": "测量命令的转向角度和实际车轮运动之间的延迟，然后调整预测进行补偿。",
-          "userNote": "保持开启 for optimal 转向 response."
+          "userNote": "保持开启 for optimal 转向 response.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ManualSoftwareDelay",
@@ -116,15 +124,16 @@
             }
           ],
           "warning": "别碰。 除非开发人员指示，否则保留“0.00”。",
-          "userNote": "僅在停用即時學習轉向延遲時才進行修改。"
+          "userNote": "僅在停用即時學習轉向延遲時才進行修改。",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
     {
       "id": "device",
-      "name": "设备设置",
+      "name": "Device Settings",
       "icon": "📱",
-      "description": "Hardware management, cellular, and 电源 设置.",
+      "description": "View device information, manage calibration, configure power behavior, and access system utilities.",
       "settings": [
         {
           "key": "ForceOffroadMode",
@@ -134,7 +143,8 @@
           "description": "禁用s active driving features to unlock 设置 restricted 驾驶时.",
           "safetyLevel": "safe",
           "useCase": "停车时使用以更改设置（越野）或代客泊车模式。",
-          "userNote": "“越野”是指停车/不行驶。 “Onroad”的意思是驾驶。"
+          "userNote": "“越野”是指停车/不行驶。 “Onroad”的意思是驾驶。",
+          "deviceAvailability": "full"
         },
         {
           "key": "DeviceBootMode",
@@ -147,7 +157,8 @@
           "default": "Default",
           "description": "在越野或正常模式下启动/唤醒。",
           "useCase": "Choose how 设备 starts up after 电源 cycle.",
-          "userNote": "标准建议正常使用。"
+          "userNote": "标准建议正常使用。",
+          "deviceAvailability": "full"
         },
         {
           "key": "UseMetricUnits",
@@ -156,7 +167,8 @@
           "default": false,
           "description": "显示公制测量值（公里/小时、公里）而不是英制测量值（英里/小时、英里）。",
           "useCase": "根据您所在地区的测量系统进行设置。",
-          "userNote": "启用 if you prefer metric units."
+          "userNote": "启用 if you prefer metric units.",
+          "deviceAvailability": "full"
         },
         {
           "key": "QuietMode",
@@ -165,7 +177,8 @@
           "default": false,
           "description": "最小化声音通知。",
           "useCase": "减少音频警报以获得更安静的驾驶体验。",
-          "userNote": "启用 if you prefer fewer audio alerts."
+          "userNote": "启用 if you prefer fewer audio alerts.",
+          "deviceAvailability": "full"
         },
         {
           "key": "OnroadUploads",
@@ -174,7 +187,8 @@
           "default": true,
           "description": "启用 Onroad Uploads for drive data.",
           "useCase": "在路上上传驾驶数据。",
-          "userNote": "当 WiFi 不可用时使用移动数据。"
+          "userNote": "当 WiFi 不可用时使用移动数据。",
+          "deviceAvailability": "full"
         },
         {
           "key": "Language",
@@ -183,7 +197,8 @@
           "default": "en",
           "description": "用户界面语言选择。",
           "useCase": "选择您喜欢的显示语言。",
-          "userNote": "选择您喜欢的界面语言。"
+          "userNote": "选择您喜欢的界面语言。",
+          "deviceAvailability": "full"
         },
         {
           "key": "RecordUploadDriverCamera",
@@ -196,7 +211,8 @@
             "隐私考虑 - 驱动程序被记录。",
             "Uses additional 存储 and 带宽."
           ],
-          "userNote": "启用完整的驾驶记录，包括驾驶员视图。"
+          "userNote": "启用完整的驾驶记录，包括驾驶员视图。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RecordUploadMicAudio",
@@ -209,7 +225,8 @@
             "隐私考虑 - 对话被记录。",
             "Uses additional 存储 and 带宽."
           ],
-          "userNote": "允许使用驾驶录像进行音频录制。"
+          "userNote": "允许使用驾驶录像进行音频录制。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GsmMetered",
@@ -218,7 +235,8 @@
           "default": true,
           "description": "实现蜂窝数据计量以跟踪和限制数据使用。",
           "useCase": "使用移动热点或蜂窝连接时监控数据消耗。",
-          "userNote": "保持开启 to track data usage on metered connections."
+          "userNote": "保持开启 to track data usage on metered connections.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GsmRoaming",
@@ -231,7 +249,8 @@
             "可能会产生大量漫游费用。",
             "连接速度可能较慢。"
           ],
-          "warning": "May incur roaming charges. 保持关闭 unless traveling."
+          "warning": "May incur roaming charges. 保持关闭 unless traveling.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GsmApn",
@@ -240,7 +259,8 @@
           "default": "",
           "description": "蜂窝数据连接的接入点名称。",
           "useCase": "为您的移动运营商配置自定义 APN 设置。",
-          "userNote": "Only modify if 您的车辆rier requires specific APN 设置."
+          "userNote": "Only modify if 您的车辆rier requires specific APN 设置.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CreateBackup",
@@ -248,7 +268,8 @@
           "type": "action",
           "description": "Backup current 设置 to device 存储.",
           "useCase": "在更新或更改之前保存当前的配置。",
-          "userNote": "建议在重大更新或重新安装之前使用。"
+          "userNote": "建议在重大更新或重新安装之前使用。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RestoreVersion",
@@ -256,7 +277,8 @@
           "type": "action",
           "description": "Restore 设置 from a previous backup.",
           "useCase": "重置或新安装后恢复您的部署。",
-          "warning": "这将覆盖当前设置。"
+          "warning": "这将覆盖当前设置。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UninstallSunnypilot",
@@ -265,7 +287,8 @@
           "description": "从设备中完全删除 sunnypilot。",
           "useCase": "在切换到不同的分支之前彻底卸载。",
           "warning": "这将删除所有 sunnypilot 数据和设置。",
-          "safetyLevel": "critical"
+          "safetyLevel": "critical",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "MaxTimeOffroad",
@@ -293,7 +316,8 @@
             "值越高，设备的准备时间越长，但会消耗电池电量。",
             "较低的值可以节省电量，但​​可能无法完成上传。"
           ],
-          "userNote": "默认1800秒（30分钟）。 如果上传未完成，则增加。"
+          "userNote": "默认1800秒（30分钟）。 如果上传未完成，则增加。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ForcePowerDown",
@@ -302,7 +326,8 @@
           "default": false,
           "description": "Force immediate shutdown of 设备.",
           "useCase": "Quickly 电源 off when leaving 车辆 for extended periods.",
-          "userNote": "用于立即关闭而不是等待超时。"
+          "userNote": "用于立即关闭而不是等待超时。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "Reboot",
@@ -310,7 +335,8 @@
           "type": "action",
           "description": "Restart 设备 immediately.",
           "useCase": "应用更改或修复软件问题。",
-          "userNote": "在进行重大配置更改后使用。"
+          "userNote": "在进行重大配置更改后使用。",
+          "deviceAvailability": "full"
         },
         {
           "key": "PowerOff",
@@ -318,7 +344,8 @@
           "type": "action",
           "description": "Power off 设备 immediately.",
           "useCase": "断开电源之前请安全关闭。",
-          "userNote": "使用而不是拔掉电源以正常关闭。"
+          "userNote": "使用而不是拔掉电源以正常关闭。",
+          "deviceAvailability": "full"
         },
         {
           "key": "GithubUsername",
@@ -327,7 +354,8 @@
           "default": "",
           "description": "连接 GitHub 帐户以进行开发和更新。",
           "useCase": "链接您的 GitHub 帐户以进行自定义分叉管理。",
-          "userNote": "推送自定义更改或访问私有分叉时需要。"
+          "userNote": "推送自定义更改或访问私有分叉时需要。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RecordFrontLock",
@@ -336,78 +364,88 @@
           "default": false,
           "description": "防止设备删除前置摄像头镜头。",
           "useCase": "保留特定的驾驶记录以供证据或审查。",
-          "userNote": "如果您需要保存特定驱动器作为证据，则非常有用。"
+          "userNote": "如果您需要保存特定驱动器作为证据，则非常有用。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DeviceId",
           "label": "设备ID",
           "type": "readonly",
           "description": "唯一的设备标识符。",
-          "userNote": "用于设备识别和支持。"
+          "userNote": "用于设备识别和支持。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GitCommit",
           "label": "Git 提交",
           "type": "readonly",
           "description": "当前软件版本哈希。",
-          "userNote": "只读。 Useful for bug reports."
+          "userNote": "只读。 Useful for bug reports.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "OpenpilotVersion",
           "label": "开放驾驶版本",
           "type": "readonly",
           "description": "软件版本号。",
-          "userNote": "只读。 Shows current installed version."
+          "userNote": "只读。 Shows current installed version.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GitBranch",
           "label": "git分支",
           "type": "readonly",
           "description": "当前 git 分支名称。",
-          "userNote": "显示您正在运行哪个分支（例如，“dev”、“release”）。"
+          "userNote": "显示您正在运行哪个分支（例如，“dev”、“release”）。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UptimeOffroad",
           "label": "越野正常运行时间",
           "type": "readonly",
           "description": "系统空闲时间（以秒为单位）。",
-          "userNote": "显示设备在停车时已开启的时间。"
+          "userNote": "显示设备在停车时已开启的时间。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SerialNumber",
           "label": "序列号",
           "type": "readonly",
           "description": "硬件序列号。",
-          "userNote": "只读。 Used for device identification."
+          "userNote": "只读。 Used for device identification.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RouteCount",
           "label": "路线数",
           "type": "readonly",
           "description": "记录的路线总数。",
-          "userNote": "备注。显示已记录了多少个驱动器。"
+          "userNote": "备注。显示已记录了多少个驱动器。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GitCommitDate",
           "label": "Git 提交日期",
           "type": "readonly",
           "description": "当前提交的日期。",
-          "userNote": "显示当前版本的构建时间。"
+          "userNote": "显示当前版本的构建时间。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UptimeOnroad",
           "label": "公路正常运行时间",
           "type": "readonly",
           "description": "会话驾驶时间（以秒为单位）。",
-          "userNote": "麻烦。 显示当前会话的总驾驶时间。"
+          "userNote": "麻烦。 显示当前会话的总驾驶时间。",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
     {
       "id": "toggles",
-      "name": "开关",
+      "name": "Toggles",
       "icon": "🔘",
-      "description": "一般切换和杂项放置。",
+      "description": "Core driving assist toggles that control fundamental sunnypilot behavior, driving personality, driver monitoring, and data recording.",
       "settings": [
         {
           "key": "EnableSunnypilot",
@@ -418,7 +456,8 @@
           "recommended": true,
           "useCase": "快速启用/禁用所有 sunnypilot 功能。",
           "warning": "禁用会关闭所有辅助驾驶功能。",
-          "userNote": "保持开启 for normal operation."
+          "userNote": "保持开启 for normal operation.",
+          "deviceAvailability": "full"
         },
         {
           "key": "ExperimentalMode",
@@ -434,7 +473,8 @@
           ],
           "warning": "注意灯光/标志。 需要 Alpha 纵向。",
           "userNote": "必须首先启用 Alpha Longitudinal。",
-          "deepDive": "激活时，纵向MPC将被世界模型的E2E规划所取代。"
+          "deepDive": "激活时，纵向MPC将被世界模型的E2E规划所取代。",
+          "deviceAvailability": "full"
         },
         {
           "key": "DrivingPersonality",
@@ -453,7 +493,8 @@
             "在走走停停的交通中，激进模式可能会让人感到不安全。",
             "放松模式可能会因为车距过大而让后面的司机感到沮丧。"
           ],
-          "userNote": "“标准”是默认值。 “激进”紧随其后； “放松”会留下更多空白。"
+          "userNote": "“标准”是默认值。 “激进”紧随其后； “放松”会留下更多空白。",
+          "deviceAvailability": "full"
         },
         {
           "key": "LaneDepartureWarnings",
@@ -466,7 +507,8 @@
             "在车道标记不佳的道路上可能会很烦人。",
             "May conflict with intentional 变道s."
           ],
-          "userNote": "对于长途高速公路驾驶保持警觉很有用。"
+          "userNote": "对于长途高速公路驾驶保持警觉很有用。",
+          "deviceAvailability": "full"
         },
         {
           "key": "DisengageOnAccelerator",
@@ -479,7 +521,8 @@
             "OFF: Can assist with 加速 but 转向 stays active.",
             "ON：任何油门踏板输入完全脱离系统。"
           ],
-          "userNote": "保持关闭 if you want to be able to help 车辆 accelerate without canceling 转向."
+          "userNote": "保持关闭 if you want to be able to help 车辆 accelerate without canceling 转向.",
+          "deviceAvailability": "full"
         },
         {
           "key": "AlwaysOnDriverMonitor",
@@ -492,7 +535,8 @@
             "始终关注 - 隐私考虑。",
             "Higher 电源 consumption."
           ],
-          "userNote": "24/7 跟踪您的注意力。"
+          "userNote": "24/7 跟踪您的注意力。",
+          "deviceAvailability": "full"
         },
         {
           "key": "DisablePowerDown",
@@ -505,7 +549,8 @@
             "如果不插电，将会耗尽汽车电池。",
             "设备持续发热。"
           ],
-          "warning": "Will drain car 电池."
+          "warning": "Will drain car 电池.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DisableUpdates",
@@ -518,15 +563,16 @@
             "错过了错误修复和新功能。",
             "随着时间的推移，可能会与 Sunnylink 服务不兼容。"
           ],
-          "userNote": "如果您找到自己喜欢的版本并且不想更改它，请使用它。"
+          "userNote": "如果您找到自己喜欢的版本并且不想更改它，请使用它。",
+          "deviceAvailability": "full"
         }
       ]
     },
     {
       "id": "steering",
-      "name": "转向设置",
+      "name": "Steering Settings",
       "icon": "🎯",
-      "description": "Configuration for lateral control and 车道保持.",
+      "description": "Configuration for lateral control and lane keeping.",
       "settings": [
         {
           "key": "MadsEnabled",
@@ -541,7 +587,8 @@
             "如果您在不使用闪光灯的情况下改变车道，会感觉车辆正在与您“战斗”。"
           ],
           "deepDive": "将横向控制状态机与纵向巡航状态分开。 即使“巡航”状态变为“禁用”，MADS 仍保持“活动”状态。",
-          "userNote": "Critical. This is the core feature of Sunnypilot. 保持开启."
+          "userNote": "Critical. This is the core feature of Sunnypilot. 保持开启.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "MadsSteeringMode",
@@ -565,7 +612,8 @@
             "May surprise new users who expect 转向 to stop when 制动.",
             "有意变道时需要更多注意超控转向。"
           ],
-          "userNote": "Set to 'Remain Active' to keep 车道居中 while manually 制动."
+          "userNote": "Set to 'Remain Active' to keep 车道居中 while manually 制动.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "MadsMainCruiseAllowed",
@@ -580,7 +628,8 @@
               "label": "MADS Enabled"
             }
           ],
-          "userNote": "保持开启."
+          "userNote": "保持开启.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "MadsUnifiedEngagementMode",
@@ -595,7 +644,8 @@
             }
           ],
           "useCase": "简化激活 - 一键按下即可实现速度控制和转向。",
-          "userNote": "方便一键激活。"
+          "userNote": "方便一键激活。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "NeuralNetworkLateralControl",
@@ -611,7 +661,8 @@
             "可能会导致某些车辆出现乒乓效应 - 如果发生这种情况，请将其关闭。"
           ],
           "deepDive": "使用端到端横向规划策略（例如北内华达模型）来预测路径曲率，而不是对当前车道偏差做出反应。",
-          "userNote": "仔细测试。 如果它出现乒乓球现象，请将其禁用并坚持使用库存。"
+          "userNote": "仔细测试。 如果它出现乒乓球现象，请将其禁用并坚持使用库存。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DynamicExperimentalControl",
@@ -628,7 +679,8 @@
             "由于模式切换，使得评估特定模型变得更加困难。"
           ],
           "deepDive": "监控模型中的 'throttle_prob' 意图。如果模型意图较低，它会临时注入实验模式的纵向规划，以应对复杂的场景。",
-          "userNote": "适合混合驾驶，但如果您需要一致的行为，请切换到完整实验。"
+          "userNote": "适合混合驾驶，但如果您需要一致的行为，请切换到完整实验。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "EnforceTorqueControl",
@@ -637,7 +689,8 @@
           "default": false,
           "description": "Forces 车辆 to use a torque-based controller for 转向.",
           "useCase": "对于对直接扭矩命令比角度命令响应更好的车辆。",
-          "userNote": "如果使用 NNLC，通常保持关闭状态。"
+          "userNote": "如果使用 NNLC，通常保持关闭状态。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SelfTune",
@@ -651,7 +704,8 @@
             "需要时间学习 - 转向最初可能感觉不太好。",
             "如果驾驶条件异常，数值可能会发生变化。"
           ],
-          "userNote": "保持开启 for better performance as you drive more."
+          "userNote": "保持开启 for better performance as you drive more.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "LessRestrictSettingsForSelfTune",
@@ -669,7 +723,8 @@
             "学习速度更快，但值可能不稳定。",
             "如果值漂移太大，可能需要手动重置。"
           ],
-          "warning": "谨慎使用； 允许更快的学习，但可能有更狂野的价值。"
+          "warning": "谨慎使用； 允许更快的学习，但可能有更狂野的价值。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "EnableCustomTorqueTuning",
@@ -682,7 +737,8 @@
             "需要对车辆动力学有深入的了解。",
             "Wrong values can make 转向 dangerous."
           ],
-          "warning": "仅限高级用户。 Don't touch unless you know 您的车辆's specific physics."
+          "warning": "仅限高级用户。 Don't touch unless you know 您的车辆's specific physics.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ManualTuneFriction",
@@ -705,7 +761,8 @@
             "太高：振荡/乒乓球。",
             "太低：扭矩不足以保持车道。"
           ],
-          "userNote": "默认0.10。 以小增量 (0.01) 进行调整。"
+          "userNote": "默认0.10。 以小增量 (0.01) 进行调整。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "TorqueControlTuneVersion",
@@ -725,7 +782,8 @@
             "需重置：切换版本将重置该控制器的‘自我学习 (Self-Tune)’进度。"
           ],
           "deepDive": "此开关在 v0.0 和 v1.0 之间切换扭矩控制器的逻辑。v1.0 是现代 openpilot 的标准化‘扭矩’控制器，而 v0.0 则保留了某些旧款转向固件仍需的传统数学模型，以保持稳定性。除非正在排查横向稳定性问题，否则大多数用户应保持在 Default。",
-          "userNote": "社区提示：如果您的车辆在车道内摆动或感觉不稳定，请先尝试切换到 v1.0，如果问题仍然存在，再尝试 v0.0。建议在启用‘自我学习 (Self-Tune)’的情况下使用；更改后请行驶 30 公里以上，以使系统完全校准。"
+          "userNote": "社区提示：如果您的车辆在车道内摆动或感觉不稳定，请先尝试切换到 v1.0，如果问题仍然存在，再尝试 v0.0。建议在启用‘自我学习 (Self-Tune)’的情况下使用；更改后请行驶 30 公里以上，以使系统完全校准。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "BlinkerMinLateralControlSpeed",
@@ -735,7 +793,8 @@
           "helpText": "范围：0+ 英里/小时。 设置为 0 始终允许带方向指示灯的转向。",
           "description": "The minimum speed at which 车辆 will continue 转向 while the blinker is on.",
           "useCase": "防止十字路口慢转弯时发生转向打斗。",
-          "userNote": "防止车轮在交叉路口慢速转弯时与您发生冲突。"
+          "userNote": "防止车轮在交叉路口慢速转弯时与您发生冲突。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "BlinkerPauseLateralControl",
@@ -748,7 +807,8 @@
             "转向立即松开 - 可能会感觉很突然。",
             "No 车道保持 during intentional 变道s."
           ],
-          "userNote": "受到想要在变道过程中完全控制的驾驶员的青睐。"
+          "userNote": "受到想要在变道过程中完全控制的驾驶员的青睐。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "HyundaiLongitudinalTuning",
@@ -766,7 +826,8 @@
             "对于某些用户来说，动态可能会让人感觉过于激进。",
             "可能会影响燃油效率。"
           ],
-          "userNote": "“动态”可以修复经济/正常模式下加速缓慢的问题。"
+          "userNote": "“动态”可以修复经济/正常模式下加速缓慢的问题。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "TeslaCoopSteering",
@@ -776,15 +837,36 @@
           "description": "Allow driver 转向 input.",
           "helpText": "默认: False",
           "deepDive": "启用s 'torque blending' where 系统 blends with your input for a more intuitive, less aggressive experience. Allows 转向 activation without 巡航控制 (MADS).",
-          "userNote": "车辆专用：仅适用于 Tesla 车辆。"
+          "userNote": "车辆专用：仅适用于 Tesla 车辆。",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "LateralAccelerationFactor",
+          "label": "横向加速度因子",
+          "type": "slider",
+          "default": 2.5,
+          "min": 1.5,
+          "max": 4.0,
+          "unit": "m/s²",
+          "helpText": "Range: 1.5 to 4.0 m/s²",
+          "description": "扭矩控制器的目标横向加速度比例因子。较低数值产生平缓转向，较高数值让弯道转向响应更敏捷。",
+          "useCase": "Fine-tuning torque steering responsiveness for spirited driving or heavy vehicles.",
+          "tradeoffs": [
+            "Higher values increase steering aggression and corner entry speed.",
+            "Too high values may cause steering ping-pong or sudden jerkiness.",
+            "Too low values can result in understeering on sharp highway curves."
+          ],
+          "userNote": "Official recommended range: 2.3 - 2.7 m/s² for most sedans and crossovers.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
     {
       "id": "cruise",
-      "name": "巡航和速度",
+      "name": "Cruise & Speed",
       "icon": "🚀",
-      "description": "速度管理和纵向控制的配置。",
+      "description": "Configuration for speed management, cruise control, and lane change behavior.",
       "settings": [
         {
           "key": "VisionBasedTurnSpeedControl",
@@ -800,7 +882,8 @@
             "与看到警告信号相比，晚刹车。"
           ],
           "deepDive": "根据模型路径计算预计的横向加速度。 降低速度以将横向 G 力保持在约 0.3g 以下。",
-          "userNote": "此功能仅在 sunnypilot 主动控制车辆的纵向控制时可用。"
+          "userNote": "此功能仅在 sunnypilot 主动控制车辆的纵向控制时可用。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SmartCruiseControlMap",
@@ -813,7 +896,8 @@
             "依赖于地图准确性 - 可能无法反映实际路况。",
             "对于已拉直的弯道可能会过早减速。"
           ],
-          "userNote": "良好的备份，但 Vision 通常更快/反应更快。"
+          "userNote": "良好的备份，但 Vision 通常更快/反应更快。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SpeedLimitAssistMode",
@@ -833,7 +917,8 @@
             "未激活时可能会在条件标志（学校区域）上触发。"
           ],
           "deepDive": "聚合来自 OpenStreetMap (OSM)、车载摄像头 (TSR) 和导航数据的数​​据以确定当前限制。",
-          "userNote": "“信息”只是显示标志。 “自动”会为您改变速度。"
+          "userNote": "“信息”只是显示标志。 “自动”会为您改变速度。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SpeedLimitSource",
@@ -853,7 +938,8 @@
             "汽车状态：实时，但仅适用于摄像头可以读取标志的情况。",
             "综合：覆盖范围最佳，但存在潜在冲突。"
           ],
-          "userNote": "在美国，“地图数据优先”通常是最准确的。"
+          "userNote": "在美国，“地图数据优先”通常是最准确的。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SpeedLimitOffsetType",
@@ -866,7 +952,8 @@
           "default": "Fixed",
           "description": "选择固定数字（例如，+5 英里/小时）或百分比（例如，+10%）。",
           "useCase": "固定超速； 比例调整的百分比。",
-          "userNote": "设置为“固定”以保持一致的超速。"
+          "userNote": "设置为“固定”以保持一致的超速。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SpeedLimitOffsetValue",
@@ -876,7 +963,8 @@
           "helpText": "建议：超过限制 5-10 英里/小时以匹配交通流量",
           "description": "实际超速量。",
           "useCase": "匹配当地交通流量（美国大多数地区通常超过 5-10 英里/小时）。",
-          "userNote": "设置为您的舒适水平（例如，超过 5-10 英里/小时）。"
+          "userNote": "设置为您的舒适水平（例如，超过 5-10 英里/小时）。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "AutoLaneChangeTimer",
@@ -899,7 +987,8 @@
             "轻推：需要轻微的车轮输入 - 良好的平衡性。",
             "计时器：增加延迟 - 最安全但最慢。"
           ],
-          "userNote": "“微移”需要滚轮输入； “即时”是自动的。"
+          "userNote": "“微移”需要滚轮输入； “即时”是自动的。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "AutoLaneChangeBsmDelay",
@@ -915,7 +1004,8 @@
             }
           ],
           "useCase": "Prevents 变道 attempts when a vehicle is in your 盲区.",
-          "userNote": "安全: 保持开启."
+          "userNote": "安全: 保持开启.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "MapAdvisorySpeedLimit",
@@ -925,7 +1015,8 @@
           "description": "遵守弯道/坡道上的黄色“建议”速度标志。",
           "recommended": true,
           "useCase": "自动减慢高速公路出口匝道建议速度。",
-          "userNote": "保持开启 for safety on off-ramps."
+          "userNote": "保持开启 for safety on off-ramps.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CustomAccIncrements",
@@ -934,7 +1025,8 @@
           "default": false,
           "description": "更改按下滚轮上的 +/- 时速度的变化量。",
           "useCase": "微调速度调整 - 小敲击以提高精度。",
-          "userNote": "将短按自定义为 ±1，长按自定义为 ±5。"
+          "userNote": "将短按自定义为 ±1，长按自定义为 ±5。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CustomAccShortPressIncrement",
@@ -953,7 +1045,8 @@
           ],
           "description": "短按巡航按钮即可改变速度。",
           "useCase": "微调小速度调整。",
-          "userNote": "设置快速点击巡航按钮的速度变化。"
+          "userNote": "设置快速点击巡航按钮的速度变化。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CustomAccLongPressIncrement",
@@ -972,7 +1065,8 @@
           ],
           "description": "长按巡航按钮可改变速度。",
           "useCase": "通过按住按钮进行更大的速度调整。",
-          "userNote": "设置按住巡航按钮时的速度变化。"
+          "userNote": "设置按住巡航按钮时的速度变化。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "IntelligentCruiseButtonManagement",
@@ -981,15 +1075,16 @@
           "default": false,
           "description": "增强的巡航按钮逻辑可实现更智能的速度控制。",
           "useCase": "More intuitive 巡航控制 button behavior.",
-          "userNote": "启用 for smarter cruise button behavior."
+          "userNote": "启用 for smarter cruise button behavior.",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
     {
       "id": "visuals",
-      "name": "视觉和界面",
+      "name": "Visuals & UI",
       "icon": "🎨",
-      "description": "自定义屏幕布局和显示的信息。",
+      "description": "Configure what information and visual elements appear on the driving screen.",
       "settings": [
         {
           "key": "RainbowMode",
@@ -1002,7 +1097,8 @@
             "Distracting 驾驶时.",
             "可能会导致眼睛疲劳。"
           ],
-          "userNote": "有趣，但分散注意力。"
+          "userNote": "有趣，但分散注意力。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DisplayRoadName",
@@ -1011,7 +1107,8 @@
           "default": true,
           "description": "在 UI 上显示当前街道名称。",
           "useCase": "在陌生区域导航时的态势感知。",
-          "userNote": "非常适合态势感知。"
+          "userNote": "非常适合态势感知。",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "GreenLightAlert",
@@ -1021,7 +1118,8 @@
           "description": "当红灯变绿时鸣响。",
           "recommended": true,
           "useCase": "当信号灯变化时，提醒分心的驾驶员继续前进。",
-          "userNote": "对于分心的驾驶员来说非常有用的功能。"
+          "userNote": "对于分心的驾驶员来说非常有用的功能。",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "LeadDepartAlert",
@@ -1031,7 +1129,8 @@
           "description": "当您停下来并且您前面的车辆开始移动时，将会发出提示音和屏幕警报（仅限 TIZI/TICI）。 <br>注意：此铃声仅设计为通知。 驾驶员有责任观察周围环境并做出相应决策。",
           "recommended": true,
           "useCase": "防止在走走停停的交通中被按喇叭。",
-          "userNote": "适合走走停停的交通。"
+          "userNote": "适合走走停停的交通。",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "ShowTurnSignals",
@@ -1040,7 +1139,8 @@
           "default": false,
           "description": "当已启用时，视觉转向指示器将绘制在 HUD 上。",
           "useCase": "视觉确认信号灯处于活动状态。",
-          "userNote": "主要是外观验证。"
+          "userNote": "主要是外观验证。",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "BlindSpotDetection",
@@ -1050,7 +1150,8 @@
           "description": "启用此功能后，只要您的车辆支持 BSM，当在您的盲区内检测到车辆时就会显示警告。",
           "recommended": true,
           "useCase": "如果您错过镜子指示器，则会出现冗余 BSM 警告。",
-          "userNote": "如果您不看镜子，则有额外的安全层（请看镜子）。"
+          "userNote": "如果您不看镜子，则有额外的安全层（请看镜子）。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ScreenBrightness",
@@ -1065,7 +1166,8 @@
           "default": "Auto",
           "description": "设置显示屏背光级别。",
           "recommended": "Auto",
-          "userNote": "“自动”通常效果最好。"
+          "userNote": "“自动”通常效果最好。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "OnroadBrightness",
@@ -1079,7 +1181,8 @@
           ],
           "default": "Auto",
           "description": "Sets brightness specifically 驾驶时.",
-          "recommended": "Auto"
+          "recommended": "Auto",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "OnroadBrightnessDelay",
@@ -1092,7 +1195,8 @@
           "helpText": "范围：0 - 60 秒（默认值：15 秒）",
           "description": "道路亮度降低之前的时间。",
           "useCase": "控制驾驶开始后亮度变暗的速度。",
-          "userNote": "根据您对屏幕变暗延迟的偏好进行调整。"
+          "userNote": "根据您对屏幕变暗延迟的偏好进行调整。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DeveloperUIInfo",
@@ -1107,7 +1211,8 @@
           "default": "Off",
           "description": "开发者 UI 覆盖数据级别。",
           "useCase": "在屏幕上显示技术调试信息。",
-          "userNote": "仅适用于开发人员和高级用户。"
+          "userNote": "仅适用于开发人员和高级用户。",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "ChevronInfo",
@@ -1123,7 +1228,8 @@
           "default": "Off",
           "description": "引领车辆信息显示水平。",
           "useCase": "自定义显示有关检测到的车辆的信息量。",
-          "userNote": "调整以在屏幕上显示更多或更少的车辆信息。"
+          "userNote": "调整以在屏幕上显示更多或更少的车辆信息。",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "StandstillTimer",
@@ -1132,7 +1238,8 @@
           "default": false,
           "description": "显示静止状态所花费的时间。",
           "useCase": "显示您在红灯处或交通堵塞中停留的时间。",
-          "userNote": "对于跟踪等待时间很有用。"
+          "userNote": "对于跟踪等待时间很有用。",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "HideVEgoUI",
@@ -1141,7 +1248,8 @@
           "default": false,
           "description": "已启用后，道路屏幕上的车速表不会显示。",
           "useCase": "通过隐藏速度显示来最大程度地减少干扰。",
-          "userNote": "能够获得更干净的屏幕外观。"
+          "userNote": "能够获得更干净的屏幕外观。",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "TrueVEgoUI",
@@ -1150,7 +1258,8 @@
           "default": false,
           "description": "对于适用的车辆，始终显示来自轮速传感器的真实车辆当前速度。",
           "useCase": "显示车辆传感器的真实车速表读数。",
-          "userNote": "显示实际速度而不是平滑值。"
+          "userNote": "显示实际速度而不是平滑值。",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "DisplayRocketFuelBar",
@@ -1159,7 +1268,8 @@
           "default": false,
           "description": "屏幕左侧显示指示器，显示车辆实时加速和减速度。 这显示了车辆当前正在做什么，而不是计划者所要求的。",
           "useCase": "Visualize how hard 系统 is accelerating or 制动.",
-          "userNote": "显示油门/制动强度的炫酷视觉指示器。"
+          "userNote": "显示油门/制动强度的炫酷视觉指示器。",
+          "deviceAvailability": "comma-3x-only"
         },
         {
           "key": "SteeringArc",
@@ -1168,15 +1278,30 @@
           "default": false,
           "description": "Display 转向 arc on the driving screen when lateral control is 已启用.",
           "useCase": "Visual feedback of 转向 path.",
-          "userNote": "显示车辆计划行驶的方向。"
+          "userNote": "显示车辆计划行驶的方向。",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "InteractivityTimeout",
+          "label": "屏幕交互超时",
+          "type": "slider",
+          "default": 10,
+          "min": 3,
+          "max": 30,
+          "unit": "seconds",
+          "helpText": "Range: 3 to 30 seconds",
+          "description": "行车过程中无触控操作时，屏幕变暗或进入省电模式的等待秒数。",
+          "useCase": "Reducing cabin glare at night and managing device thermal dissipation.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
     {
       "id": "developer",
-      "name": "开发者设置",
+      "name": "Developer Settings",
       "icon": "👨‍💻",
-      "description": "用于调试和开发的高级工具。",
+      "description": "Advanced settings for developers and power users, including debug tools, connectivity options, and alpha features.",
       "settings": [
         {
           "key": "ShowAdvancedControls",
@@ -1186,7 +1311,8 @@
           "description": "Unlocks hidden 设置 menus.",
           "recommended": true,
           "useCase": "访问所有可用的配置选项。",
-          "userNote": "保持开启 to see everything in this list."
+          "userNote": "保持开启 to see everything in this list.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "EnableAdb",
@@ -1195,7 +1321,8 @@
           "default": false,
           "description": "Android 调试桥。 允许 USB 调试。",
           "useCase": "开发人员通过 USB 线访问。",
-          "userNote": "仅供开发者使用。"
+          "userNote": "仅供开发者使用。",
+          "deviceAvailability": "full"
         },
         {
           "key": "EnableSsh",
@@ -1209,7 +1336,8 @@
           "tradeoffs": [
             "如果设备位于公共网络上，则存在安全漏洞。",
             "如果密码较弱，可以允许未经授权的访问。"
-          ]
+          ],
+          "deviceAvailability": "full"
         },
         {
           "key": "SshKeys",
@@ -1218,7 +1346,8 @@
           "description": "從 GitHub 使用者名稱取得 SSH 公鑰並將其安裝在裝置上。這允許使用 GitHub 關聯的金鑰對進行 SSH 登入。",
           "warning": "Only add SSH keys from users you trust. Anyone with an installed key has full access to the device.",
           "useCase": "Install SSH keys for remote access.",
-          "userNote": "僅新增來自受信任用戶的金鑰。"
+          "userNote": "僅新增來自受信任用戶的金鑰。",
+          "deviceAvailability": "full"
         },
         {
           "key": "JoystickDebugMode",
@@ -1227,7 +1356,8 @@
           "default": false,
           "description": "启用 joystick debugging.",
           "useCase": "调试操纵杆输入。",
-          "userNote": "仅供开发者使用。"
+          "userNote": "仅供开发者使用。",
+          "deviceAvailability": "full"
         },
         {
           "key": "QuickBoot",
@@ -1240,7 +1370,8 @@
             "可能会错过重要的初始化步骤。",
             "可能导致不稳定或崩溃。"
           ],
-          "warning": "Can cause instability. 保持关闭 unless boot times are annoying."
+          "warning": "Can cause instability. 保持关闭 unless boot times are annoying.",
+          "deviceAvailability": "full"
         },
         {
           "key": "CopypartyService",
@@ -1249,7 +1380,8 @@
           "default": false,
           "description": "Runs a local file server on 设备.",
           "useCase": "通过 WiFi 下载驾驶视频，无需 SSH。",
-          "userNote": "通过 WiFi 下载驾驶视频的简便方法。"
+          "userNote": "通过 WiFi 下载驾驶视频的简便方法。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "EnableSunnylinkUploader",
@@ -1258,7 +1390,8 @@
           "default": false,
           "description": "将驱动器上传到 sunnylink。",
           "useCase": "启用 uploading drive data to sunnylink servers for cloud 存储 and analysis.",
-          "userNote": "启用 to upload your drives to sunnylink."
+          "userNote": "启用 to upload your drives to sunnylink.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "LongitudinalManeuverMode",
@@ -1267,7 +1400,8 @@
           "default": false,
           "description": "低速操纵的专门处理。",
           "useCase": "更顺畅的走走停停的交通行为。",
-          "userNote": "有助于走走停停的平稳性。"
+          "userNote": "有助于走走停停的平稳性。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "AlphaLongitudinal",
@@ -1281,7 +1415,8 @@
             "制动可能比预期更硬或更软。"
           ],
           "warning": "Enabling this disables AEB (Automatic Emergency Braking). A confirmation dialog appears before activation.",
-          "userNote": "实验模式所需。 通常比库存更光滑。"
+          "userNote": "实验模式所需。 通常比库存更光滑。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GithubRunnerService",
@@ -1290,7 +1425,8 @@
           "default": false,
           "description": "启用 CI/CD runner.",
           "useCase": "Runs GitHub Actions runner on 设备.",
-          "userNote": "仅供开发者使用。"
+          "userNote": "仅供开发者使用。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "GithubRunnerSufficientVoltage",
@@ -1299,7 +1435,8 @@
           "default": true,
           "description": "检查 GitHub 运行器的电压。",
           "useCase": "在运行 CI 作业之前确保足够的电压。",
-          "userNote": "Prevents 电池 drain during CI tasks."
+          "userNote": "Prevents 电池 drain during CI tasks.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UiDebugMode",
@@ -1308,7 +1445,8 @@
           "default": false,
           "description": "显示 UI 调试信息。",
           "useCase": "在 UI 上显示调试信息。",
-          "userNote": "仅供开发者使用。"
+          "userNote": "仅供开发者使用。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DisableLogging",
@@ -1321,7 +1459,8 @@
             "发生事故时丢失所有驾驶证据。",
             "无法查看或上传驱动器。"
           ],
-          "warning": "节省空间，但如果发生事故，您就会失去证据。"
+          "warning": "节省空间，但如果发生事故，您就会失去证据。",
+          "deviceAvailability": "full"
         },
         {
           "key": "ManualRealTimeTuning",
@@ -1330,22 +1469,39 @@
           "default": false,
           "description": "Allows you to override torque values 驾驶时.",
           "warning": "仅调试。 正常使用有危险。",
-          "safetyLevel": "critical"
+          "safetyLevel": "critical",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "FirehoseMode",
+          "label": "Firehose 训练数据上传",
+          "type": "toggle",
+          "default": true,
+          "description": "连接非计费 Wi-Fi 时将部分行车片段上传至服务器用于模型训练。sunnypilot 是首个获得官方 Firehose 支持的主要分支。",
+          "useCase": "Contribute real-world driving data to train next-generation openpilot and sunnypilot driving models.",
+          "tradeoffs": [
+            "Requires connection to unmetered Wi-Fi when vehicle is parked/offroad.",
+            "Helps improve autonomous driving models for all users."
+          ],
+          "userNote": "Official support introduced in sunnypilot 2026. Only uploads while connected to unmetered Wi-Fi.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "full"
         }
       ]
     },
     {
       "id": "other",
-      "name": "其他设置",
+      "name": "Other Settings",
       "icon": "🔧",
-      "description": "Miscellaneous 设置 including AGNOS, plan controls, and car-specific 配置s.",
+      "description": "Miscellaneous settings including AGNOS, plan controls, and car-specific configurations.",
       "settings": [
         {
           "key": "LastAgnosPowerMonitorShutdown",
           "label": "最后一次 AGNOS 功率监视器关闭",
           "type": "readonly",
           "description": "上次 AGNOS 电源监视器关闭事件的时间戳。",
-          "userNote": "只读。 Shows when device last shut down due to 电源 monitoring."
+          "userNote": "只读。 Shows when device last shut down due to 电源 monitoring.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "PlanPlusControls",
@@ -1361,14 +1517,16 @@
             "较高的值=更积极的居中，但具有潜在的乒乓效果。",
             "较低的值 = 更平滑，但可能会偏离中心。"
           ],
-          "userNote": "默认1.0。 如果汽车漂移太多则增加，如果乒乓球则减少。"
+          "userNote": "默认1.0。 如果汽车漂移太多则增加，如果乒乓球则减少。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "HasAcceptedSunnypilotTerms",
           "label": "已接受 sunnypilot 条款",
           "type": "readonly",
           "description": "表明用户是否接受sunnypilot服务条款。",
-          "userNote": "只读。 Shows acceptance status."
+          "userNote": "只读。 Shows acceptance status.",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SupportedCarList",
@@ -1376,14 +1534,16 @@
           "type": "action",
           "description": "在 sunnypilot 中查看所有支持的平台。",
           "useCase": "Check if 您的车辆 is officially supported.",
-          "userNote": "打开所有兼容车辆的 JSON 列表。"
+          "userNote": "打开所有兼容车辆的 JSON 列表。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CompletedSunnylinkConsentVersion",
           "label": "完成sunnylink同意版本",
           "type": "readonly",
           "description": "已完成的 sunnylink 同意书版本。",
-          "userNote": "显示您已同意的同意版本。"
+          "userNote": "显示您已同意的同意版本。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "ToyotaEnforceFactoryLongitudinalControl",
@@ -1396,7 +1556,8 @@
             "原厂 ACC 可能更流畅，但智能程度较低。",
             "失去 sunnypilot 的高级走走停停功能。"
           ],
-          "userNote": "如果您更喜欢丰田的自适应巡航行为，请启用。"
+          "userNote": "如果您更喜欢丰田的自适应巡航行为，请启用。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SubaruStopAndGo",
@@ -1409,7 +1570,8 @@
             "仅当 car_fingerprint == SUBARU 时出现。",
             "根据斯巴鲁车型年份的不同，表现可能有所不同。"
           ],
-          "userNote": "车辆专用：仅在斯巴鲁车辆上可见。"
+          "userNote": "车辆专用：仅在斯巴鲁车辆上可见。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SubaruStopAndGoManualParkingBrake",
@@ -1422,14 +1584,96 @@
             "仅当 car_fingerprint == SUBARU 时出现。",
             "不同的行为取决于驻车制动器类型（手动与电子）。"
           ],
-          "userNote": "车辆专用：仅适用于配备电子驻车制动器的斯巴鲁。"
+          "userNote": "车辆专用：仅适用于配备电子驻车制动器的斯巴鲁。",
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "SunnylinkDongleId",
           "label": "sunnylink 加密狗 ID",
           "type": "readonly",
           "description": "用于云连接的唯一 sunnylink 设备标识符。",
-          "userNote": "只读。 Your device's unique ID for sunnylink services."
+          "userNote": "只读。 Your device's unique ID for sunnylink services.",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "EnableSunnylink",
+          "label": "启用 sunnylink",
+          "type": "toggle",
+          "default": false,
+          "description": "sunnylink 云端功能总开关，包含远程参数修改、配置备份与 GitHub 赞助同步。",
+          "useCase": "Enables connecting device to sunnylink.ai web portal for fleet management and parameter backups.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ToyotaStopAndGoHack",
+          "label": "丰田: 启停 Hack (Alpha)",
+          "type": "toggle",
+          "default": false,
+          "description": "为低于 30km/h 自动退出原车巡航的老款丰田车型提供全速域启停跟随支持。",
+          "useCase": "Older Toyota Prius, RAV4, Corolla models without full-speed dynamic radar cruise control.",
+          "safetyLevel": "critical",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ToyotaZSS",
+          "label": "丰田: Zorro 转向角传感器 (ZSS)",
+          "type": "toggle",
+          "default": false,
+          "description": "支持在丰田车型上使用高精度第三方 Zorro 光学转向角传感器。",
+          "useCase": "Provides precise steering angle feedback on Toyotas with low-resolution stock sensors.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ToyotaSmartDSU",
+          "label": "丰田: Smart DSU 模块",
+          "type": "toggle",
+          "default": false,
+          "description": "支持 Smart DSU 硬件拦截模块，解除部分丰田车型的纵向控制限制。",
+          "useCase": "Toyota models requiring DSU modification for openpilot longitudinal control.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "HondaGasInterceptor",
+          "label": "本田: 油门拦截器 (comma Pedal)",
+          "type": "toggle",
+          "default": false,
+          "description": "支持 comma Pedal 硬件踏板拦截器，为本田/讴歌老款车型提供全速域起停控制。",
+          "useCase": "Older Honda Civic, CR-V, Accord models requiring pedal interception for stop-and-go.",
+          "safetyLevel": "critical",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "RivianLongitudinalHarness",
+          "label": "Rivian: 纵向线束升级支持",
+          "type": "toggle",
+          "default": false,
+          "description": "为加装辅助 CAN 纵向控制线束的 Rivian R1T / R1S 车型提供系统配置。",
+          "useCase": "Rivian owners using custom wiring harness for expanded control.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "GMNonAccSupport",
+          "label": "通用/雪佛兰: 无 ACC 车型支持",
+          "type": "toggle",
+          "default": false,
+          "description": "在原厂未配备自适应巡航的 GM/雪佛兰车型上启用车道保持与 MADS 转向辅助。",
+          "useCase": "GM vehicles with camera-only or basic cruise control systems.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ChryslerSteerToZero",
+          "label": "克莱斯勒/道奇/RAM: 0速全域转向保持",
+          "type": "toggle",
+          "default": false,
+          "description": "允许在支持的克莱斯勒、道奇、JEEP 及 RAM 车型上将 MADS 转向维持至 0 km/h 完全刹停。",
+          "useCase": "Enabling continuous steering assist during slow-moving traffic on FCA vehicles.",
+          "safetyLevel": "safe",
+          "deviceAvailability": "config-hidden"
         }
       ]
     }

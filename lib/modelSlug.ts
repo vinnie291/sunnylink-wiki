@@ -20,12 +20,40 @@ export function findModelBySlugOrName<T extends { name: string }>(
     query: string | null | undefined
 ): T | undefined {
     if (!query) return undefined;
-    const cleanQuery = query.trim().toLowerCase();
-    const querySlug = modelNameToSlug(query);
+    let cleanQuery = query.trim().toLowerCase();
+    try {
+        cleanQuery = decodeURIComponent(cleanQuery);
+    } catch {
+        // ignore decode errors
+    }
+    const querySlug = modelNameToSlug(cleanQuery);
 
-    return models.find(m => {
+    // 1. Direct match by slug or exact lowercase name
+    const exact = models.find(m => {
         const mName = m.name.toLowerCase();
         const mSlug = modelNameToSlug(m.name);
         return mSlug === querySlug || mSlug === cleanQuery || mName === cleanQuery;
     });
+    if (exact) return exact;
+
+    // 2. Normalize optional words like "model" (e.g. "Pop Model v2" <-> "Pop v2", "Dark Souls Model v2" <-> "Dark Souls v2")
+    const stripModelWords = (slug: string) => slug.replace(/-model-/g, '-').replace(/-model$/g, '').replace(/^model-/g, '');
+    const normalizedQuerySlug = stripModelWords(querySlug);
+
+    const matchNormalized = models.find(m => {
+        const mSlug = modelNameToSlug(m.name);
+        const mNorm = stripModelWords(mSlug);
+        return mNorm === normalizedQuerySlug || mSlug === normalizedQuerySlug || mNorm === querySlug;
+    });
+    if (matchNormalized) return matchNormalized;
+
+    // 3. Prefix/contains match if unique or high confidence
+    const prefixMatch = models.find(m => {
+        const mSlug = modelNameToSlug(m.name);
+        return mSlug.startsWith(querySlug) || querySlug.startsWith(mSlug);
+    });
+    if (prefixMatch) return prefixMatch;
+
+    return undefined;
 }
+

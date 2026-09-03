@@ -1,158 +1,307 @@
 {
-  "appName": "Sunnylink Database",
-  "version": "5.0",
-  "dataSource": "Official Sunnypilot Documentation",
-  "lastUpdated": "2026-01-26",
-  "features": [
-    {
-      "id": "mads",
-      "name": "M.A.D.S.",
-      "fullName": "Modular Assistive Driving System",
-      "category": "核心控制",
-      "officialDefinition": "Decouples lateral control (转向) from longitudinal control (gas/brake), enabling 车辆 to steer itself even when 巡航控制 is disengaged.",
-      "userSummary": "即使您刹车或滑行，转向也会保持不变。",
-      "userTranslation": "“永远在线的转向。” 即使您完全控制速度，汽车也会为您转向。 您可以在不关闭转向系统的情况下滑行、制动或加速。",
-      "settingsKeys": [
-        "mads_enabled",
-        "mads_steering_mode",
-        "mads_main_cruise_allowed",
-        "mads_unified_engagement"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/modular-assistive-driving-system-m-a-d-s-features-and-functionality/245"
-    },
-    {
-      "id": "nnlc",
-      "name": "NNLC",
-      "fullName": "Neural Network Lateral Control",
-      "category": "核心控制",
-      "officialDefinition": "用神经网络模型取代传统的 PID/Indi 控制器，该模型输入过去的曲率来预测未来的转向路径。 直接输出曲率进行横向控制。",
-      "userSummary": "基于人工智能的转向。由于“剧烈震荡”或“乒乓效应”，不建议用于现代模型。",
-      "userTranslation": "“人工智能转向。” 通常不建议用于现代模型。用户报告了“剧烈震荡”、“乒乓效应”或“晃动”。在旧模型（例如 North Dakota 0.9.7.1）中已取得成功。对于最近的模型，请关闭 (OFF) 以避免横向控制问题。",
-      "settingsKeys": [
-        "nnlc_enabled"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/neural-network-lateral-control-nnlc/246"
-    },
-    {
-      "id": "dec",
-      "name": "DEC",
-      "fullName": "Dynamic Experimental Control",
-      "category": "核心控制",
-      "officialDefinition": "根据驾驶环境（例如速度、道路类型）自动在冷却模式（标准纵向）和实验模式（红绿灯/停车标志处理）之间切换。",
-      "userSummary": "自动切换驾驶模式。 注意：可能导致制动迟缓。",
-      "userTranslation": "“城市/高速公路切换器。” 根据上下文自动切换模式。 权衡：可能会使测试特定模型变得更加困难，并且可能会因迹象而迟到。 有用，但增加了复杂性。",
-      "settingsKeys": [
-        "dynamic_experimental_control"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/dynamic-experimental-control/242"
-    },
-    {
-      "id": "icbm",
-      "name": "ICBM",
-      "fullName": "Intelligent Cruise Button Management",
-      "category": "兼容性",
-      "officialDefinition": "一种旨在通过电子方式“按下”车辆的本机巡航控制按钮 (RES+/SET-) 来管理车辆速度的系统，以模仿本机不支持该功能的车辆的完全纵向控制。",
-      "userSummary": "通过模拟按钮按下，可以对不受支持的车辆进行“智能”速度控制。",
-      "userTranslation": "\"Cruise Hacker.\" If 您的车辆 doesn't support full self-driving gas/brake, this feature \"spams\" your 转向 wheel buttons to force 车辆 to slow down for curves or 限速s.",
-      "settingsKeys": [
-        "icbm_enabled"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/intelligent-cruise-button-management-icbm/244"
-    },
-    {
-      "id": "scc_v",
-      "name": "SCC-V",
-      "fullName": "Smart Cruise Control - Vision (SCC-V)",
-      "category": "速度控制",
-      "officialDefinition": "智能巡航控制 - 视觉 (SCC-V) 利用摄像头视觉数据，通过计算前方道路的曲率来主动调整您的车辆的速度。",
-      "userSummary": "在相机“看到”的曲线处减速。",
-      "userTranslation": "“关注曲线减速。” 汽车看到急转弯就要减速，就像你一样。",
-      "settingsKeys": [
-        "VisionBasedTurnSpeedControl"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/smart-cruise-control-using-camera-vision-for-proactive-speed-adjustment/248"
-    },
-    {
-      "id": "scc_m",
-      "name": "SCC-M",
-      "fullName": "Map-Based Turn Speed Control",
-      "category": "速度控制",
-      "officialDefinition": "使用 OpenStreetMap (OSM) 数据预测即将到来的道路曲率并相应降低 ACC 设定速度。",
-      "userSummary": "使用地图数据减速曲线。",
-      "userTranslation": "“基于地图的曲线减速。” 汽车看了看地图，看到前方有一个弯道，然后在你看清它之前就减速了。",
-      "settingsKeys": [
-        "map_turn_control"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/smart-cruise-control-map-scc-m-feature-description/247"
-    },
-    {
-      "id": "sla",
-      "name": "SLA",
-      "fullName": "Speed Limit Assist",
-      "category": "速度控制",
-      "officialDefinition": "自动调整车辆的巡航设定速度以匹配当前的限速。 源自地图数据、仪表板摄像头 (TSR) 或两者的组合。",
-      "userSummary": "Auto-sets cruise to 限速.",
-      "userTranslation": "\"Auto-Speeding.\" Automatically sets your 巡航控制 to the 限速 (plus your custom offset, e.g., +5 mph).",
-      "settingsKeys": [
-        "speed_limit_assist",
-        "speed_limit_source",
-        "speed_limit_offset_type",
-        "speed_limit_offset_value"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/speed-limit-assist/249"
-    },
-    {
-      "id": "alc",
-      "name": "ALC",
-      "fullName": "Automatic Lane Change",
-      "category": "导航",
-      "officialDefinition": "在闪光灯输入和可配置的延迟计时器之后启动变道，无需在转向轮上进行扭矩“轻推”。 可与盲点监控 (BSM) 集成以确保安全。",
-      "userSummary": "点击方向指示灯->汽车自动移过去。",
-      "userTranslation": "\"Hands-Free Lane Change.\" You click the blinker, 车辆 checks the 盲区 (if 已启用), waits 1 second, and moves over automatically.",
-      "settingsKeys": [
-        "auto_lane_change_timer",
-        "auto_lane_change_bsm_delay"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/auto-lane-change/240"
-    },
-    {
-      "id": "hkg_tuning",
-      "name": "HKG Tuning",
-      "fullName": "Hyundai Longitudinal Tuning",
-      "category": "特定车辆",
-      "officialDefinition": "将特定的调整配置文件（“Stock”或“Dynamic”）应用于现代/起亚/Genesis (HKG) 车辆的纵向控制策略。 与本机高速公路驾驶辅助 (HDA) 状态集成。",
-      "userSummary": "现代/起亚的油门踏板响应能力。",
-      "userTranslation": "“现代油门踏板修复。” 如果您的起亚在“经济”模式下加速太慢，将其切换到“动态”会使油门踏板反应更灵敏。",
-      "settingsKeys": [
-        "hyundai_longitudinal_tuning"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/hyundai-longitudinal-tuning-implementation-in-sunnypilot/243"
-    },
-    {
-      "id": "custom_acc",
-      "name": "Custom ACC",
-      "fullName": "Custom ACC Increments",
-      "category": "特定车辆",
-      "officialDefinition": "允许配置短按（例如±1）和长按（例如±5）巡航按钮的速度增量/减量值。",
-      "userSummary": "重新映射巡航按钮速度变化。",
-      "userTranslation": "“按钮重新映射器。” 更改您的转向轮按钮，只需单击一下即可将速度更改为 5 英里/小时，而不是 1 英里/小时。",
-      "settingsKeys": [
-        "custom_acc_increments"
-      ],
-      "docUrl": "https://community.sunnypilot.ai/t/custom-acc-increments/241"
+    "appName": "Sunnylink 数据库",
+    "version": "2026.002",
+    "dataSource": "Official Sunnypilot Documentation",
+    "lastUpdated": "2026-09-03",
+    "features": [
+        {
+            "id": "mads",
+            "name": "M.A.D.S.",
+            "fullName": "Modular Assistive Driving System",
+            "category": "Core Control",
+            "officialDefinition": "将横向转向控制与纵向加减速控制完全解耦，巡航解除时仍可持续保持车道转向。",
+            "userSummary": "即使在刹车或滑行时，车道保持转向也始终处于激活状态。",
+            "userTranslation": "\"全时转向保持。\" 即使你完全接管油门或踩下刹车，车辆依然会自动保持在车道中央，不会退出转向辅助。",
+            "settingsKeys": [
+                "MadsEnabled",
+                "MadsSteeringMode",
+                "MadsMainCruiseAllowed",
+                "MadsUnifiedEngagementMode"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/modular-assistive-driving-system-m-a-d-s-features-and-functionality/245"
+        },
+        {
+            "id": "nnlc",
+            "name": "NNLC",
+            "fullName": "Neural Network Lateral Control",
+            "category": "Core Control",
+            "officialDefinition": "使用根据历史曲率预测未来行驶路径的神经网络模型，替代传统 PID 控制器。",
+            "userSummary": "基于深度学习神经网络的转向控制器。（与强制扭矩控制互斥）",
+            "userTranslation": "\"AI 神经网络转向。\" 使用神经网络模型直接预测转向曲率。在 2026.002+ 版本中与强制扭矩控制互斥。",
+            "settingsKeys": [
+                "NeuralNetworkLateralControl"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/neural-network-lateral-control-nnlc/246"
+        },
+        {
+            "id": "blinker_pause",
+            "name": "Blinker Pause",
+            "fullName": "Blinker Pause Lateral Control",
+            "category": "Core Control",
+            "officialDefinition": "在打转向灯时暂时暂停横向控制，变道完成或超出预设速度后自动恢复辅助。",
+            "userSummary": "开启转向灯时临时释放转向力，允许轻松手动操作方向盘。",
+            "userTranslation": "\"打灯释放转向。\" 打转向灯变道或转弯时，系统会自动暂停方向盘助力，无需与自动转向较劲即可轻松手动打方向。",
+            "settingsKeys": [
+                "BlinkerPauseLateralControl",
+                "BlinkerMinLateralControlSpeed"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/blinker-pause-lateral-control/240"
+        },
+        {
+            "id": "torque_control",
+            "name": "Torque Control",
+            "fullName": "Torque Steering Control & Self-Tune",
+            "category": "Core Control",
+            "officialDefinition": "根据横向加速度与摩擦力精确计算所需转向扭矩的控制器，配备实时自适应调谐算法。",
+            "userSummary": "高精度扭矩转向控制，支持实时自适应自学习。",
+            "userTranslation": "\"自适应扭矩转向。\" 精确计算电机所需转向扭矩。开启 Self-Tune 可让系统自动学习并适配你的爱车转向阻尼。",
+            "settingsKeys": [
+                "EnforceTorqueControl",
+                "SelfTune",
+                "LessRestrictSettingsForSelfTune",
+                "EnableCustomTorqueTuning",
+                "ManualTuneFriction",
+                "TorqueControlTuneVersion",
+                "ManualRealTimeTuning"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/torque-settings/3688"
+        },
+        {
+            "id": "dec",
+            "name": "DEC",
+            "fullName": "Dynamic Experimental Control",
+            "category": "Core Control",
+            "officialDefinition": "根据车速和道路类型，在标准纵向控制与红绿灯实验模式之间智能自动切换。",
+            "userSummary": "根据路况环境自动切换轻松模式与红绿灯实验模式。",
+            "userTranslation": "\"智能情境模式切换。\" 高速路段使用平顺的 Chill 巡航模式，遇路口或红绿灯时自动切换至实验模式进行减速。",
+            "settingsKeys": [
+                "DynamicExperimentalControl"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/dynamic-experimental-control/242"
+        },
+        {
+            "id": "quiet_mode",
+            "name": "Quiet Mode",
+            "fullName": "Quiet Mode Feature",
+            "category": "Core Control",
+            "officialDefinition": "抑制非紧急提示音，同时确保驾驶员监控与紧急接管警报始终完整发声。",
+            "userSummary": "静音非关键蜂鸣提示音，严格保留所有紧急安全警报。",
+            "userTranslation": "\"静音巡航。\" 屏蔽日常繁琐提示音享受安静车舱环境，但在需要驾驶员立即接管时依然发出高分贝警报。",
+            "settingsKeys": [
+                "QuietMode"
+            ],
+            "docUrl": "https://docs.sunnypilot.ai/features/quiet-mode/"
+        },
+        {
+            "id": "icbm",
+            "name": "ICBM",
+            "fullName": "Intelligent Cruise Button Management",
+            "category": "Compatibility",
+            "officialDefinition": "通过电子方式拦截并发送原车巡航按键信号，为非全控制车型提供弯道与限速降速。",
+            "userSummary": "通过模拟方向盘巡航按键实现智能速度调节。",
+            "userTranslation": "\"巡航按键黑科技。\" 对于不支持全自动油门刹车的车型，系统通过快速模拟按键让原车巡航降速应对弯道与限速。",
+            "settingsKeys": [
+                "IntelligentCruiseButtonManagement"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/intelligent-cruise-button-management-icbm/244"
+        },
+        {
+            "id": "scc_v",
+            "name": "SCC-V",
+            "fullName": "Smart Cruise Control - Vision (SCC-V)",
+            "category": "Speed Control",
+            "officialDefinition": "利用前视摄像头视觉计算前方道路曲率，提前主动下调巡航设定速度。",
+            "userSummary": "利用前方摄像头视觉识别弯道并提前减速。",
+            "userTranslation": "\"视觉曲线减速。\" 摄像头识别前方急弯，在进弯前提前平稳降速，宛如经验丰富的老司机。",
+            "settingsKeys": [
+                "VisionBasedTurnSpeedControl"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/smart-cruise-control-using-camera-vision-for-proactive-speed-adjustment/248"
+        },
+        {
+            "id": "scc_m",
+            "name": "SCC-M",
+            "fullName": "Map-Based Turn Speed Control",
+            "category": "Speed Control",
+            "officialDefinition": "利用离线 OpenStreetMap 几何数据计算距离并在弯道前平顺减速。",
+            "userSummary": "利用 OpenStreetMap 地图数据提前对急弯进行平滑减速。",
+            "userTranslation": "\"地图预判曲线减速。\" 离线地图读取弯道数据，在视线受阻前提前平缓减速。",
+            "settingsKeys": [
+                "SmartCruiseControlMap"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/smart-cruise-control-map-scc-m-feature-description/247"
+        },
+        {
+            "id": "sla",
+            "name": "SLA",
+            "fullName": "Speed Limit Assist",
+            "category": "Speed Control",
+            "officialDefinition": "根据地图数据或路牌识别（TSR）自动调整巡航速度以匹配道路法定限速。",
+            "userSummary": "根据当前道路限速自动同步巡航速度。",
+            "userTranslation": "\"限速辅助。\" 自动将巡航定速同步为路段法定限速（支持自定义偏移量，如 +5 km/h）。",
+            "settingsKeys": [
+                "SpeedLimitAssistMode",
+                "SpeedLimitSource",
+                "SpeedLimitOffsetType",
+                "SpeedLimitOffsetValue"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/speed-limit-assist/249"
+        },
+        {
+            "id": "custom_acc",
+            "name": "Custom ACC",
+            "fullName": "Custom ACC Increments",
+            "category": "Speed Control",
+            "officialDefinition": "配置巡航按键短按和长按时的增减速度幅度。",
+            "userSummary": "自定义方向盘巡航按钮短按与长按的调速步长。",
+            "userTranslation": "\"巡航步长自定义。\" 设置短按增减 1km/h、长按增减 5km/h 等个性化调速偏好。",
+            "settingsKeys": [
+                "CustomAccIncrements",
+                "CustomAccShortPressIncrement",
+                "CustomAccLongPressIncrement"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/custom-acc-increments/241"
+        },
+        {
+            "id": "alpha_longitudinal",
+            "name": "Alpha Longitudinal",
+            "fullName": "sunnypilot Longitudinal Control (Alpha)",
+            "category": "Speed Control",
+            "officialDefinition": "sunnypilot 专为适配车型打造的深度自研纵向控制系统。",
+            "userSummary": "sunnypilot 自研纵向加减速与起步跟随控制算法。",
+            "userTranslation": "\"自研油门与制动。\" 替代原车雷达巡航，提供更柔和的刹车制动与跟车起步体验。",
+            "settingsKeys": [
+                "AlphaLongitudinal",
+                "LongitudinalManeuverMode"
+            ],
+            "docUrl": "https://docs.sunnypilot.ai/features/cruise/alpha-longitudinal/"
+        },
+        {
+            "id": "alc",
+            "name": "ALC",
+            "fullName": "Automatic Lane Change",
+            "category": "Navigation",
+            "officialDefinition": "开启转向灯后与盲点监测（BSM）联动，无需手动转动方向盘即可自动完成变道。",
+            "userSummary": "拨动转向灯 -> 确认盲区安全后自动平稳变道。",
+            "userTranslation": "\"自动变道。\" 打灯后系统检测侧后方盲区雷达，等待设定延迟后自动平滑完成变道。",
+            "settingsKeys": [
+                "AutoLaneChangeTimer",
+                "AutoLaneChangeBsmDelay"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/auto-lane-change/240"
+        },
+        {
+            "id": "osm_maps",
+            "name": "OSM Maps",
+            "fullName": "OpenStreetMap Offline Navigation & Geometry",
+            "category": "Navigation",
+            "officialDefinition": "将 OpenStreetMap 矢量数据内置于设备，离线提供道路几何特征及限速。",
+            "userSummary": "离线地图数据，提供道路弯道几何与法定限速。",
+            "userTranslation": "\"内置离线地图。\" 地图直接下载至设备中，即使在无手机信号的偏远山路也能准确识别弯道与限速。",
+            "settingsKeys": [
+                "SmartCruiseControlMap",
+                "DisplayRoadName",
+                "SpeedLimitSource",
+                "MapAdvisorySpeedLimit"
+            ],
+            "docUrl": "https://docs.sunnypilot.ai/features/connected/osm-maps/"
+        },
+        {
+            "id": "hud_visuals",
+            "name": "HUD & Visuals",
+            "fullName": "Custom Onroad HUD Visuals & Metrics",
+            "category": "Display & Visuals",
+            "officialDefinition": "包含实时加速度条（Rocket Fuel）、前车追踪间距以及红绿灯计时器等行车 HUD 增强。",
+            "userSummary": "高级车载 HUD：重力加速度条、前车精准间距/车速、红绿灯驻车计时器。",
+            "userTranslation": "\"专业 HUD 仪表界面。\" 屏幕清晰显示前车距离与相对速度、实时 G 值加速度条以及驻车等待秒数。",
+            "settingsKeys": [
+                "DisplayRocketFuelBar",
+                "ChevronInfo",
+                "StandstillTimer",
+                "TrueVEgoUI",
+                "HideVEgoUI",
+                "ShowTurnSignals",
+                "BlindSpotDetection",
+                "DeveloperUIInfo",
+                "SteeringArc",
+                "RainbowMode"
+            ],
+            "docUrl": "https://docs.sunnypilot.ai/features/display/hud-visuals/"
+        },
+        {
+            "id": "driving_models",
+            "name": "Models & AI",
+            "fullName": "Driving Model Selector & AI Configuration",
+            "category": "Models & AI",
+            "officialDefinition": "支持在设备界面切换各类视觉神经网络模型并调谐转向延迟等底层参数。",
+            "userSummary": "车机端 AI 驾驶模型即时切换与核心参数微调。",
+            "userTranslation": "\"驾驶大模型切换器。\" 在车机上直接切换不同风格的 AI 模型，自由调谐转向延迟与变道敏锐度。",
+            "settingsKeys": [
+                "DrivingModel",
+                "ModelLibrary",
+                "LaneTurnDesire",
+                "AdjustLaneTurnSpeed",
+                "LiveLearningSteerDelay",
+                "ManualSoftwareDelay",
+                "AdjustCameraOffset"
+            ],
+            "docUrl": "https://docs.sunnypilot.ai/features/models/"
+        },
+        {
+            "id": "sunnylink",
+            "name": "sunnylink",
+            "fullName": "sunnylink Connected Services & Remote Config",
+            "category": "Connected Services",
+            "officialDefinition": "连接 sunnylink.ai 云端，支持参数远程配置、GitHub 赞助认证与车队备份。",
+            "userSummary": "云端参数备份、网页控制面板与手机远程配置。",
+            "userTranslation": "\"云端管家。\" 关联 sunnylink.ai，在手机上轻松备份配置并直接修改参数。",
+            "settingsKeys": [
+                "EnableSunnylinkUploader",
+                "CompletedSunnylinkConsentVersion",
+                "SunnylinkDongleId"
+            ],
+            "docUrl": "https://docs.sunnypilot.ai/features/connected/sunnylink/"
+        },
+        {
+            "id": "hkg_tuning",
+            "name": "HKG Tuning",
+            "fullName": "Hyundai Longitudinal Tuning",
+            "category": "Vehicle Specific",
+            "officialDefinition": "专为现代集团 HKG 平台优化的纵向调谐参数，改善起步油门平顺性。",
+            "userSummary": "优化现代、起亚、捷尼赛思车型的起步油门响应。",
+            "userTranslation": "\"现代/起亚油门调校。\" 解决停步再起步时的动力迟滞，让起步提速更加迅捷平顺。",
+            "settingsKeys": [
+                "HyundaiLongitudinalTuning"
+            ],
+            "docUrl": "https://community.sunnypilot.ai/t/hyundai-longitudinal-tuning-implementation-in-sunnypilot/243"
+        }
+    ],
+    "glossary": {
+        "ACC": "Adaptive Cruise Control - Maintains set speed and follows traffic",
+        "ALC": "Automatic Lane Centering / Automatic Lane Change - Keeps car centered or changes lanes automatically",
+        "BSM": "Blind Spot Monitoring - Vehicle sensors detecting cars in adjacent lanes",
+        "DEC": "Dynamic Experimental Control - Contextual switching between Chill and Experimental mode",
+        "E2E": "End-to-End - AI neural network that directly predicts vehicle driving path",
+        "ESCC": "Enhanced Smart Cruise Control - Hyundai/Kia cruise management and button integration",
+        "Firehose": "Large-scale automated driving telemetry upload system contributing to driving model training",
+        "HDA": "Highway Driving Assist - Hyundai/Kia native factory highway system",
+        "HKG": "Hyundai/Kia/Genesis - South Korean automotive platform family",
+        "ICBM": "Intelligent Cruise Button Management - Electronically manages steering wheel cruise buttons",
+        "LDW": "Lane Departure Warning - Visual/haptic warnings when drifting out of lane",
+        "MADS": "Modular Assistive Driving System - sunnypilot exclusive decoupled steering and cruise architecture",
+        "MICI": "comma four hardware platform code designation",
+        "NNLC": "Neural Network Lateral Control - Deep learning model predicting steering trajectories",
+        "OSM": "OpenStreetMap - Open-source global map database used for offline curvature and speed limits",
+        "PID": "Proportional-Integral-Derivative - Classic mathematical feedback controller for steering",
+        "SDSU": "Smart DSU - Aftermarket hardware interceptor for older Toyota radar cruise support",
+        "SLA": "Speed Limit Assist - Automatic cruise set-speed adjustment based on legal road limits",
+        "SCC-M": "Smart Cruise Control Map - Curve speed reduction based on OSM map geometry",
+        "SCC-V": "Smart Cruise Control Vision - Curve speed reduction based on front camera perception",
+        "TICI": "comma 3 hardware platform code designation",
+        "TIZI": "comma 3X hardware platform code designation",
+        "TSR": "Traffic Sign Recognition - Camera-based detection of road speed limit signs",
+        "UEM": "Unified Engagement Mode - Single button engagement option for MADS",
+        "WMI": "World Model Iteration - Advanced E2E model architecture",
+        "ZSS": "Zorro Steering Sensor - High-resolution optical steering angle sensor for older Toyotas"
     }
-  ],
-  "glossary": {
-    "ACC": "自适应巡航控制 - 保持设定速度并跟随交通",
-    "ALC": "自动车道居中 - 使汽车保持在车道中央",
-    "BSM": "盲点监控 - 检测盲区车辆",
-    "E2E": "端到端 - 处理所有驾驶决策的人工智能模型",
-    "HDA": "高速公路驾驶辅助——现代的原生 ADAS 系统",
-    "HKG": "现代/起亚/创世纪 - 韩国汽车平台",
-    "LDW": "车道偏离警告 - 离开车道时发出警报",
-    "OSM": "OpenStreetMap - 开源地图数据",
-    "PID": "比例-积分-微分 - 传统控制算法",
-    "TSR": "交通标志识别 - 基于摄像头的标志读取",
-    "WMI": "World Model Iteration - 最新的E2E模型架构"
-  }
 }
