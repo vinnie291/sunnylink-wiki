@@ -66,8 +66,7 @@
           "context": "차선 중심 기능에 대한 E2E 모델 테스트"
         }
       ],
-      "isRecommended": true,
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/g7r5ubsco9412ha2"
+      "isRecommended": true
     },
     {
       "id": "toyota-rav4-2019",
@@ -876,8 +875,7 @@
           "context": "Lexus IS 2017(쉼표 3X/4 포함)"
         }
       ],
-      "isRecommended": true,
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/rjutlzzns78hmkxx"
+      "isRecommended": true
     },
     {
       "id": "lexus-rx350-2017",
@@ -936,8 +934,7 @@
             "experimentalMode": "OFF"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/rjutlzzns78hmkxx"
+      ]
     },
     {
       "id": "honda-accord-2018",
@@ -1048,8 +1045,7 @@
             "experimentalMode": "Dynamic"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/bsczhv7oh70qpy3c"
+      ]
     },
     {
       "id": "kia-sportage-phev-2024",
@@ -1108,8 +1104,7 @@
             "experimentalMode": "Dynamic"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/3adhm8z0xtwtsccv"
+      ]
     },
     {
       "id": "audi-a3-mqb-evo-2022",
@@ -1900,9 +1895,61 @@
       ]
     },
     {
-      "id": "tesla-model3-2017",
+       "id": "rivian-r1s-2022",
+       "make": "Rivian",
+       "model": "R1S",
+       "years": "2022-2024",
+       "hardware": {
+         "device": "comma 3X / 4",
+         "harness": "Custom Rivian CAN",
+         "radar": "Stock"
+       },
+       "bestSettings": {
+         "drivingModel": "OP Model 10 V3",
+         "torqueTuning": "Experimental",
+         "lateralControl": "Torque Control",
+         "longitudinalControl": "Stock ACC",
+         "mads": "Recommended",
+         "experimentalMode": "Always On"
+       },
+       "communityConsensus": "R1T와 CAN-FD 플랫폼을 공유합니다. 더 짧은 휠베이스로 인해 저속 흔들림을 방지하기 위해 약간 더 견고한 횡방향 튜닝이 필요합니다. Off-Policy v3는 고속도로에서 우수한 차선 유지를 제공하며, 실험 모드는 Rivian의 원페달 회생 제동과 잘 어울립니다.",
+       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/rivian/90",
+       "reviews": [
+         {
+           "user": "R1S_Explorer",
+           "rating": 4.5,
+           "comment": "R1T보다 휠베이스가 약간 짧아 OP Model 10 V3에서 매우 민첩하게 반응합니다. 장거리 여행에 훌륭한 동반자입니다."
+         }
+       ],
+       "configs": [
+         {
+           "name": "Off-Policy Precision (OP Model 10 V3)",
+           "settings": {
+             "drivingModel": "OP Model 10 V3",
+             "torqueTuning": "Stock",
+             "lateralControl": "NNLC (On)",
+             "longitudinalControl": "Stock",
+             "mads": "Remain Active",
+             "experimentalMode": "Dynamic"
+           }
+         },
+         {
+           "name": "Heavyweight Authority (Dark Souls Model v2)",
+           "settings": {
+             "drivingModel": "Dark Souls Model v2",
+             "torqueTuning": "Stock",
+             "lateralControl": "NNLC (On)",
+             "longitudinalControl": "Stock",
+             "mads": "Remain Active",
+             "experimentalMode": "Dynamic"
+           }
+         }
+       ]
+     },
+     {
+       "id": "tesla-model3-2017",
       "make": "Tesla",
-      "model": "Model 3 / Y",
+      "model": "Model 3",
       "years": "2017-2023",
       "hardware": {
         "device": "comma 3X / 4",
@@ -1917,7 +1964,7 @@
         "mads": "Always On",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "Pre-HW4 Teslas에 대한 전설적인 지원. '팝 모델'은 FSD의 '잠긴' 느낌을 재현하면서도 Sunnypilot의 사용자 정의 기능을 추가하여 고속도로 사용 시 대중이 선호하는 모델입니다. EPAS 제어는 매우 높은 조향 권한을 허용합니다.",
+      "communityConsensus": "HW4 이전 Model 3를 위한 뛰어난 sunnypilot 지원. Pop Model은 FSD의 안정적인 조향감을 재현하면서도 높은 EPAS 조향 권한과 맞춤 설정을 제공합니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/tesla/86",
       "reviews": [
         {
@@ -1949,8 +1996,59 @@
             "experimentalMode": "Dynamic"
           }
         }
+      ]
+    },
+    {
+      "id": "tesla-modely-2020",
+      "make": "Tesla",
+      "model": "Model Y",
+      "years": "2020-2024",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Tesla Harness",
+        "radar": "Stock / Vision"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "Tesla Custom",
+        "lateralControl": "EPAS Control",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Always On",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "HW4 이전 Model Y 크로스오버를 위한 커뮤니티 추천 세팅. 부드러운 종방향 가감속과 신뢰할 수 있는 EPAS 횡방향 제어로 쾌적한 고속도로 장거리 주행이 가능합니다.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/tesla/86",
+      "reviews": [
+        {
+          "user": "ModelYTouring",
+          "rating": 5,
+          "comment": "장거리 주행 시 뛰어난 조향 안정성을 보여줍니다. Sunnypilot 덕분에 핸들 경고 스트레스 없이 고속도로 운전이 매우 편안합니다."
+        }
       ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/w3tifv46da7ifoyd"
+      "configs": [
+        {
+          "name": "Smooth Daily(팝 모델 v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "E2E 지능형(WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
     },
     {
       "id": "volvo-xc90-2016",
@@ -2158,8 +2256,7 @@
             "experimentalMode": "Dynamic"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/8a9kbl9l98d0qus0"
+      ]
     },
     {
       "id": "hyundai-custin-2025",
@@ -2179,7 +2276,7 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "커뮤니티에서 제공하는 SunnyTune 구성을 사용할 수 있습니다. Custin은 CAN-FD를 지원하는 현대 미니밴 플랫폼입니다.",
+      "communityConsensus": "커뮤니티에서 제공하는 구성을 사용할 수 있습니다. Custin은 CAN-FD를 지원하는 현대 미니밴 플랫폼입니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
       "reviews": [],
       "configs": [
@@ -2205,8 +2302,7 @@
             "experimentalMode": "Dynamic"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/4kwvmgqr15ab8uga"
+      ]
     },
     {
       "id": "ford-escape-2020",
@@ -2235,7 +2331,6 @@
           "comment": "BluePilot은 순정 Co-Pilot360에 비해 뛰어난 업그레이드입니다. 고속도로 중심으로 부드럽게 이동합니다."
         }
       ],
-      "isSunnyTune": true,
       "configs": [
         {
           "name": "균형 잡힌 투어링(Down to Ride v6)",
@@ -2259,8 +2354,7 @@
             "experimentalMode": "Dynamic"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/ford-escape"
+      ]
     }
   ]
 }

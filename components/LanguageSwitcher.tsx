@@ -54,21 +54,23 @@ export default function LanguageSwitcher() {
     const currentMeta = localeMeta[locale];
 
     return (
-        <div ref={containerRef} className="relative">
+        <div ref={containerRef} className="relative z-30">
             {/* Trigger Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="
+                className={`
           flex items-center justify-center
           w-10 h-10 sm:w-12 sm:h-12
           rounded-xl
           bg-slate-800/50 backdrop-blur-sm
           border border-slate-700/50
           hover:bg-slate-700/50 hover:border-slate-600/50
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50
           transition-all duration-200
           text-lg sm:text-xl
           cursor-pointer
-        "
+          ${isOpen ? 'border-cyan-500/50 bg-slate-800/80 ring-1 ring-cyan-500/30' : ''}
+        `}
                 aria-label={t('language.switchTo')}
                 title={t('language.switchTo')}
             >
@@ -86,10 +88,10 @@ export default function LanguageSwitcher() {
                         className="
               absolute top-full left-0 mt-2
               w-44
-              bg-slate-800/90 backdrop-blur-xl
-              border border-slate-700/50
+              bg-slate-900/95 backdrop-blur-xl
+              border border-slate-700/70
               rounded-xl
-              shadow-xl shadow-black/30
+              shadow-2xl shadow-black/80
               overflow-hidden
               z-50
             "

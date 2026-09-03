@@ -66,8 +66,7 @@
           "context": "測試 E2E 模型的車道居中能力"
         }
       ],
-      "isRecommended": true,
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/g7r5ubsco9412ha2"
+      "isRecommended": true
     },
     {
       "id": "toyota-rav4-2019",
@@ -876,8 +875,7 @@
           "context": "雷克薩斯 IS 2017 附逗號 3X/4"
         }
       ],
-      "isRecommended": true,
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/rjutlzzns78hmkxx"
+      "isRecommended": true
     },
     {
       "id": "lexus-rx350-2017",
@@ -936,8 +934,7 @@
             "experimentalMode": "OFF"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/rjutlzzns78hmkxx"
+      ]
     },
     {
       "id": "honda-accord-2018",
@@ -1048,8 +1045,7 @@
             "experimentalMode": "Dynamic"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/bsczhv7oh70qpy3c"
+      ]
     },
     {
       "id": "kia-sportage-phev-2024",
@@ -1108,8 +1104,7 @@
             "experimentalMode": "Dynamic"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/3adhm8z0xtwtsccv"
+      ]
     },
     {
       "id": "audi-a3-mqb-evo-2022",
@@ -1900,9 +1895,61 @@
       ]
     },
     {
-      "id": "tesla-model3-2017",
+       "id": "rivian-r1s-2022",
+       "make": "Rivian",
+       "model": "R1S",
+       "years": "2022-2024",
+       "hardware": {
+         "device": "comma 3X / 4",
+         "harness": "Custom Rivian CAN",
+         "radar": "Stock"
+       },
+       "bestSettings": {
+         "drivingModel": "OP Model 10 V3",
+         "torqueTuning": "Experimental",
+         "lateralControl": "Torque Control",
+         "longitudinalControl": "Stock ACC",
+         "mads": "Recommended",
+         "experimentalMode": "Always On"
+       },
+       "communityConsensus": "与 R1T 共享 CAN-FD 平台。较短的轴距需要略微偏硬的横向调校以避免低速摆动。Off-Policy v3 带来极佳的高速车道居中体验，实验模式与 Rivian 的强单踏板能量回收配合良好。",
+       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/rivian/90",
+       "reviews": [
+         {
+           "user": "R1S_Explorer",
+           "rating": 4.5,
+           "comment": "轴距比 R1T 略短，在 OP Model 10 V3 下转向非常敏捷。长途公路旅行的优秀伴侣。"
+         }
+       ],
+       "configs": [
+         {
+           "name": "Off-Policy Precision (OP Model 10 V3)",
+           "settings": {
+             "drivingModel": "OP Model 10 V3",
+             "torqueTuning": "Stock",
+             "lateralControl": "NNLC (On)",
+             "longitudinalControl": "Stock",
+             "mads": "Remain Active",
+             "experimentalMode": "Dynamic"
+           }
+         },
+         {
+           "name": "Heavyweight Authority (Dark Souls Model v2)",
+           "settings": {
+             "drivingModel": "Dark Souls Model v2",
+             "torqueTuning": "Stock",
+             "lateralControl": "NNLC (On)",
+             "longitudinalControl": "Stock",
+             "mads": "Remain Active",
+             "experimentalMode": "Dynamic"
+           }
+         }
+       ]
+     },
+     {
+       "id": "tesla-model3-2017",
       "make": "Tesla",
-      "model": "Model 3 / Y",
+      "model": "Model 3",
       "years": "2017-2023",
       "hardware": {
         "device": "comma 3X / 4",
@@ -1917,7 +1964,7 @@
         "mads": "Always On",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "對 HW4 之前的特斯拉的傳奇支持。 「Pop Model」是高速公路使用人群的最愛，因為它複製了 FSD 的「鎖定」感覺，但具有 sunnypilot 的客製化功能。 EPAS 控制允許非常高的轉向權限。",
+      "communityConsensus": "對 HW4 之前 Model 3 的絕佳支援。Pop Model 完美重現 FSD 的穩定操控感，並提供完整的客製化與強大的 EPAS 轉向權限。",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/tesla/86",
       "reviews": [
         {
@@ -1949,8 +1996,59 @@
             "experimentalMode": "Dynamic"
           }
         }
+      ]
+    },
+    {
+      "id": "tesla-modely-2020",
+      "make": "Tesla",
+      "model": "Model Y",
+      "years": "2020-2024",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Tesla Harness",
+        "radar": "Stock / Vision"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "Tesla Custom",
+        "lateralControl": "EPAS Control",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Always On",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "社群對 HW4 之前 Model Y 跨界休旅的高度共識。平順的縱向跟車與強大的 EPAS 橫向控制，讓長途高速公路駕駛輕鬆無壓力。",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/tesla/86",
+      "reviews": [
+        {
+          "user": "ModelYTouring",
+          "rating": 5,
+          "comment": "長途旅行中的橫向穩定性極佳。Sunnypilot 讓高速公路駕駛變得無比輕鬆，不再有煩人的握輪警報。"
+        }
       ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/w3tifv46da7ifoyd"
+      "configs": [
+        {
+          "name": "流暢日常（流行模型 v2）",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "端對端智慧（WMI V12）",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
     },
     {
       "id": "volvo-xc90-2016",
@@ -2158,8 +2256,7 @@
             "experimentalMode": "Dynamic"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/8a9kbl9l98d0qus0"
+      ]
     },
     {
       "id": "hyundai-custin-2025",
@@ -2179,7 +2276,7 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "社群貢獻的 SunnyTune 配置可用。 Custin 是現代小型貨車平台，支援 CAN-FD。",
+      "communityConsensus": "社群貢獻的配置可用。 Custin 是現代小型貨車平台，支援 CAN-FD。",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
       "reviews": [],
       "configs": [
@@ -2205,8 +2302,7 @@
             "experimentalMode": "Dynamic"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/4kwvmgqr15ab8uga"
+      ]
     },
     {
       "id": "ford-escape-2020",
@@ -2235,7 +2331,6 @@
           "comment": "BluePilot 是現有 Co-Pilot360 的重大升級。平穩以高速公路為中心。"
         }
       ],
-      "isSunnyTune": true,
       "configs": [
         {
           "name": "平衡旅行（Down to Ride v6）",
@@ -2259,8 +2354,7 @@
             "experimentalMode": "Dynamic"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/ford-escape"
+      ]
     }
   ]
 }

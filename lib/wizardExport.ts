@@ -3,7 +3,7 @@ import type { ConfigValues } from '../components/ConfigWizard';
 /**
  * Builds the sunnylink-standard export JSON from the wizard's internal
  * config state. Shape mirrors the files produced by the official
- * sunnylink/SunnyTune export (exportVersion 1): nested camelCase sections
+ * sunnylink export (exportVersion 1): nested camelCase sections
  * with real booleans/numbers, not the wizard's flat PascalCase string map.
  */
 

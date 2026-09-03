@@ -23,11 +23,5 @@ This workflow helps you quickly start the local development environment and veri
    - URL: [http://localhost:3000](http://localhost:3000)
    - Use the `open_browser_url` tool to verify the landing page loads correctly.
 
-4. **Sync SunnyTune Data (Optional)**
-   If you want to pull the latest community configurations manually:
-   ```bash
-   npx tsx scripts/sync-sunnytune.ts
-   ```
-
-5. **Quality Check (Optional)**
+4. **Quality Check (Optional)**
    You can also run `/quality_check` to ensure there are no linting or build errors before testing.

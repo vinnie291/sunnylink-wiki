@@ -36,9 +36,9 @@ export function getFilterButtonClasses({ isActive, variant = 'cyan', wide = fals
 export function getFilterBadgeClasses(isActive: boolean, variant: FilterVariant = 'cyan'): string {
     const base = 'shrink-0 px-1.5 py-0.5 rounded-md text-xs';
     const badgeActive: Record<FilterVariant, string> = {
-        cyan: 'bg-cyan-500/30',
+        cyan: 'bg-cyan-500/30 text-cyan-200',
         emerald: 'bg-emerald-500/30 text-emerald-300',
         amber: 'bg-amber-500/30 text-amber-300',
     };
-    return `${base} ${isActive ? badgeActive[variant] : 'bg-slate-700/50'}`;
+    return `${base} ${isActive ? badgeActive[variant] : 'bg-slate-700/60 text-slate-300'}`;
 }

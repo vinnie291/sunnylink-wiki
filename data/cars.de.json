@@ -66,8 +66,7 @@
           "context": "Testen von E2E-Modellen auf Spurzentrierungsfähigkeit"
         }
       ],
-      "isRecommended": true,
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/g7r5ubsco9412ha2"
+      "isRecommended": true
     },
     {
       "id": "toyota-rav4-2019",
@@ -876,8 +875,7 @@
           "context": "Lexus IS 2017 mit Comma 3X/4"
         }
       ],
-      "isRecommended": true,
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/rjutlzzns78hmkxx"
+      "isRecommended": true
     },
     {
       "id": "lexus-rx350-2017",
@@ -936,8 +934,7 @@
             "experimentalMode": "OFF"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/rjutlzzns78hmkxx"
+      ]
     },
     {
       "id": "honda-accord-2018",
@@ -1048,8 +1045,7 @@
             "experimentalMode": "Dynamic"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/bsczhv7oh70qpy3c"
+      ]
     },
     {
       "id": "kia-sportage-phev-2024",
@@ -1108,8 +1104,7 @@
             "experimentalMode": "Dynamic"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/3adhm8z0xtwtsccv"
+      ]
     },
     {
       "id": "audi-a3-mqb-evo-2022",
@@ -1900,9 +1895,61 @@
       ]
     },
     {
+      "id": "rivian-r1s-2022",
+      "make": "Rivian",
+      "model": "R1S",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Custom Rivian CAN",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "OP Model 10 V3",
+        "torqueTuning": "Experimental",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Recommended",
+        "experimentalMode": "Always On"
+      },
+      "communityConsensus": "Teilt sich die CAN-FD-Plattform mit dem R1T. Der kürzere Radstand erfordert eine etwas straffere Querabstimmung, um Wanken bei niedrigen Geschwindigkeiten zu vermeiden. Off-Policy v3 liefert eine hervorragende Spurzentrierung auf der Autobahn, und der Experimentalmodus nutzt das einpedalige Rekuperationsbremsen optimal aus.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/rivian/90",
+      "reviews": [
+        {
+          "user": "R1S_Explorer",
+          "rating": 4.5,
+          "comment": "Der etwas kürzere Radstand im Vergleich zum R1T macht ihn mit OP Model 10 V3 sehr wendig. Hervorragender Begleiter für Langstreckenfahrten."
+        }
+      ],
+      "configs": [
+        {
+          "name": "Off-Policy Precision (OP Model 10 V3)",
+          "settings": {
+            "drivingModel": "OP Model 10 V3",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "Heavyweight Authority (Dark Souls Model v2)",
+          "settings": {
+            "drivingModel": "Dark Souls Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
       "id": "tesla-model3-2017",
       "make": "Tesla",
-      "model": "Model 3 / Y",
+      "model": "Model 3",
       "years": "2017-2023",
       "hardware": {
         "device": "comma 3X / 4",
@@ -1917,7 +1964,7 @@
         "mads": "Always On",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "Legendäre Unterstützung für Teslas vor HW4. „Pop Model“ ist der Publikumsliebling für den Einsatz auf der Autobahn, da es das „eingesperrte“ Gefühl von FSD nachahmt, jedoch mit der Anpassung von sunnypilot. Die EPAS-Steuerung ermöglicht eine sehr hohe Lenkautorität.",
+      "communityConsensus": "Hervorragende sunnypilot-Unterstützung für Model 3 vor HW4. Pop Model bildet das präzise FSD-Fahrgefühl nach und bietet volle Anpassungsfähigkeit sowie hohe EPAS-Lenkautorität.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/tesla/86",
       "reviews": [
         {
@@ -1949,8 +1996,59 @@
             "experimentalMode": "Dynamic"
           }
         }
+      ]
+    },
+    {
+      "id": "tesla-modely-2020",
+      "make": "Tesla",
+      "model": "Model Y",
+      "years": "2020-2024",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Tesla Harness",
+        "radar": "Stock / Vision"
+      },
+      "bestSettings": {
+        "drivingModel": "Pop Model v2",
+        "torqueTuning": "Tesla Custom",
+        "lateralControl": "EPAS Control",
+        "longitudinalControl": "Stock / OP Long",
+        "mads": "Always On",
+        "experimentalMode": "Off"
+      },
+      "communityConsensus": "Breite Community-Zustimmung für Model Y Crossover vor HW4. Sanfte Längsregelung und präzise EPAS-Seitenführung sorgen für entspannte Autobahnfahrten.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/tesla/86",
+      "reviews": [
+        {
+          "user": "ModelYTouring",
+          "rating": 5,
+          "comment": "Hervorragende Seitenstabilität auf langen Fahrten. Sunnypilot macht Autobahnfahrten ohne ständige Ermahnungen zum Kinderspiel."
+        }
       ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/w3tifv46da7ifoyd"
+      "configs": [
+        {
+          "name": "Täglich glatt (Pop Model v2)",
+          "settings": {
+            "drivingModel": "Pop Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "E2E Intelligent (WMI V12)",
+          "settings": {
+            "drivingModel": "WMI V12",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
     },
     {
       "id": "volvo-xc90-2016",
@@ -2158,8 +2256,7 @@
             "experimentalMode": "Dynamic"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/8a9kbl9l98d0qus0"
+      ]
     },
     {
       "id": "hyundai-custin-2025",
@@ -2179,7 +2276,7 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "Von der Community bereitgestellte SunnyTune-Konfiguration verfügbar. Der Custin ist eine Hyundai-Minivan-Plattform mit CAN-FD-Unterstützung.",
+      "communityConsensus": "Von der Community bereitgestellte Konfiguration verfügbar. Der Custin ist eine Hyundai-Minivan-Plattform mit CAN-FD-Unterstützung.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
       "reviews": [],
       "configs": [
@@ -2205,8 +2302,7 @@
             "experimentalMode": "Dynamic"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/4kwvmgqr15ab8uga"
+      ]
     },
     {
       "id": "ford-escape-2020",
@@ -2235,7 +2331,6 @@
           "comment": "BluePilot ist ein großartiges Upgrade gegenüber dem serienmäßigen Co-Pilot360. Reibungslose Zentrierung auf Autobahnen."
         }
       ],
-      "isSunnyTune": true,
       "configs": [
         {
           "name": "Ausgewogenes Touren (Down to Ride v6)",
@@ -2259,8 +2354,7 @@
             "experimentalMode": "Dynamic"
           }
         }
-      ],
-      "sunnyTuneUrl": "https://sunny-tune.vercel.app/shared/ford-escape"
+      ]
     }
   ]
 }

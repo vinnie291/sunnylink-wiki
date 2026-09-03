@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '../lib/i18n';
 import { getModelFleetStat, formatRouteCount, getBrandFleetStat, formatDeviceCount } from '../lib/fleetStats';
 import { getVehicleForumUrl } from '../lib/carForum';
+import { getCarCutoutImage } from '../lib/carImages';
 
 interface CarConfig {
     name: string;
@@ -50,7 +51,6 @@ interface Vehicle {
         user: string;
         context?: string;
     }[];
-    sunnyTuneUrl?: string;
 }
 
 interface GroupedVehicle extends Vehicle {
@@ -145,7 +145,14 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                 <div className="text-slate-400 font-medium">{currentVehicle.years}</div>
                             )}
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-4">
+                            <div className="hidden sm:flex shrink-0 w-32 h-16 md:w-40 md:h-20 items-center justify-center pointer-events-none">
+                                <img
+                                    src={getCarCutoutImage(vehicle.make, vehicle.model)}
+                                    alt={`${vehicle.make} ${vehicle.model}`}
+                                    className="w-full h-full object-contain filter drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
+                                />
+                            </div>
                             <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-sm font-bold uppercase tracking-wider">
                                 {t('cars.status') || 'Tested'}
                             </span>
@@ -450,44 +457,6 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                 );
                             })()}
 
-                            {currentVehicle.sunnyTuneUrl && (
-                                <section>
-                                    <a
-                                        href={currentVehicle.sunnyTuneUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#3B82F6] hover:to-[#60A5FA] text-slate-100 font-bold transition-all shadow-lg hover:shadow-blue-500/30"
-                                    >
-                                        <svg 
-                                          xmlns="http://www.w3.org/2000/svg" 
-                                          width="18" 
-                                          height="18" 
-                                          viewBox="0 0 24 24" 
-                                          fill="none" 
-                                          stroke="currentColor" 
-                                          strokeWidth="2" 
-                                          strokeLinecap="round" 
-                                          strokeLinejoin="round" 
-                                          className="lucide lucide-git-fork w-4 h-4 text-slate-100"
-                                        >
-                                          <circle cx="12" cy="18" r="3"></circle>
-                                          <circle cx="6" cy="6" r="3"></circle>
-                                          <circle cx="18" cy="6" r="3"></circle>
-                                          <path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"></path>
-                                          <path d="M12 12v3"></path>
-                                        </svg>
-                                        {t('cars.sunnytune.config') || 'SunnyTune Config'}
-                                    </a>
-                                    <div className="mt-4 p-4 rounded-xl bg-blue-500/5 border border-blue-500/20">
-                                        <h4 className="text-blue-400 font-bold text-[10px] uppercase tracking-wider mb-2">
-                                            {t('cars.sunnytune.aboutTitle') || 'About SunnyTune'}
-                                        </h4>
-                                        <p className="text-[11px] text-slate-400 leading-relaxed font-medium">
-                                            {t('cars.sunnytune.aboutDesc') || 'A community platform for sharing and exploring optimized sunnypilot configurations and vehicle-specific tuning parameters.'}
-                                        </p>
-                                    </div>
-                                </section>
-                            )}
 
                             <section className="p-6 rounded-2xl bg-cyan-500/5 border border-cyan-500/20">
                                 <h4 className="text-cyan-400 font-bold text-sm mb-2">{t('cars.tip.title') || 'Pro Tip'}</h4>

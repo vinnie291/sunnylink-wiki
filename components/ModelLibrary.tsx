@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Fuse from 'fuse.js';
@@ -11,6 +11,7 @@ import MobileCategorySidebar from './MobileCategorySidebar';
 import SidebarInlineControls from './SidebarInlineControls';
 import DriveSimulation, { deriveDrivingProfile } from './DriveSimulation';
 import FullScreenDriveVisualizer from './FullScreenDriveVisualizer';
+import ModelPollSurvey from './ModelPollSurvey';
 import { modelNameToSlug, findModelBySlugOrName } from '../lib/modelSlug';
 import { useViewMode } from '../hooks/useViewMode';
 import { useStickySearch } from '../hooks/useStickySearch';
@@ -210,6 +211,7 @@ function relativeTime(iso: string): string {
 }
 
 function ForumActivityPanel({ activity, forumUrl }: { activity?: ForumActivity; forumUrl: string }) {
+    const { t } = useLanguage();
     return (
         <div className="mt-3 pt-3 border-t border-slate-700/50">
             {activity && (
@@ -218,13 +220,13 @@ function ForumActivityPanel({ activity, forumUrl }: { activity?: ForumActivity; 
                         <span className="inline-flex items-center gap-1">
                             <span aria-hidden>💬</span>
                             <span className="text-slate-300 font-medium">{activity.replyCount}</span>
-                            <span>replies</span>
+                            <span>{t('models.replies') || 'replies'}</span>
                         </span>
                         {activity.lastPostedAt && (
-                            <span className="hidden sm:inline">active {relativeTime(activity.lastPostedAt)}</span>
+                            <span className="hidden sm:inline">{t('models.active', { time: relativeTime(activity.lastPostedAt) }) || `active ${relativeTime(activity.lastPostedAt)}`}</span>
                         )}
                     </p>
-                    <span className="text-[10px] text-slate-600 uppercase tracking-wider">synced weekly</span>
+                    <span className="text-[10px] text-slate-600 uppercase tracking-wider">{t('models.syncedWeekly') || 'synced weekly'}</span>
                 </div>
             )}
 
@@ -266,7 +268,7 @@ function ForumActivityPanel({ activity, forumUrl }: { activity?: ForumActivity; 
                         onClick={(e) => e.stopPropagation()}
                         className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/30 transition-colors"
                     >
-                        <span>💬</span> Discuss
+                        <span>💬</span> {t('models.discuss') || 'Discuss'}
                     </a>
                 </div>
             )}
@@ -286,6 +288,28 @@ function ModelCard({
 }) {
     const { t } = useLanguage();
     const [copied, setCopied] = useState(false);
+    const [liveScore, setLiveScore] = useState<number | undefined>(model.communityScore);
+    const [liveVotes, setLiveVotes] = useState<number | undefined>(model.totalVotes);
+    const [liveSentiment, setLiveSentiment] = useState<SentimentData | undefined>(model.sentiment);
+    const [isPulsing, setIsPulsing] = useState(false);
+
+    useEffect(() => {
+        setLiveScore(model.communityScore);
+        setLiveVotes(model.totalVotes);
+        setLiveSentiment(model.sentiment);
+    }, [model.communityScore, model.totalVotes, model.sentiment]);
+
+    const handleScoreUpdate = useCallback((liveData: {
+        communityScore: number;
+        totalVotes: number;
+        sentiment: SentimentData;
+    }) => {
+        setLiveScore(liveData.communityScore);
+        setLiveVotes(liveData.totalVotes);
+        setLiveSentiment(liveData.sentiment);
+        setIsPulsing(true);
+        setTimeout(() => setIsPulsing(false), 1500);
+    }, []);
 
     const handleCopyLink = async (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -430,27 +454,27 @@ function ModelCard({
                         </div>
                         <span className="text-xs text-slate-500">{model.date}</span>
                     </div>
-                    {model.communityScore !== undefined && (
+                    {liveScore !== undefined && (
                         <div className="flex flex-col items-end shrink-0">
-                            <span className={`text-2xl font-bold ${getScoreColor(model.communityScore)}`}>
-                                {model.communityScore}%
+                            <span className={`text-2xl font-bold transition-transform duration-300 ${getScoreColor(liveScore)} ${isPulsing ? 'scale-110 text-cyan-400' : ''}`}>
+                                {liveScore}%
                             </span>
-                            {model.totalVotes && (
-                                <span className="text-[10px] text-slate-500">{model.totalVotes} votes</span>
+                            {liveVotes && (
+                                <span className="text-[10px] text-slate-500">{liveVotes} {t('models.votes') || 'votes'}</span>
                             )}
                         </div>
                     )}
                 </div>
 
                 {/* Sentiment Bar */}
-                {model.sentiment && (
+                {liveSentiment && (
                 <div className="mb-4">
-                    <SentimentBar sentiment={model.sentiment} />
+                    <SentimentBar sentiment={liveSentiment} />
                     <div className="grid grid-cols-4 text-[9px] text-slate-600 mt-1">
-                        <span>{t('models.sentimentGreat') || 'Great'} {model.sentiment.great}%</span>
-                        <span className="text-center">{t('models.sentimentGood') || 'Good'} {model.sentiment.good}%</span>
-                        <span className="text-center">{t('models.sentimentOk') || 'OK'} {model.sentiment.ok}%</span>
-                        <span className="text-right">{t('models.sentimentBad') || 'Bad'} {model.sentiment.bad}%</span>
+                        <span>{t('models.sentimentGreat') || 'Great'} {liveSentiment.great}%</span>
+                        <span className="text-center">{t('models.sentimentGood') || 'Good'} {liveSentiment.good}%</span>
+                        <span className="text-center">{t('models.sentimentOk') || 'OK'} {liveSentiment.ok}%</span>
+                        <span className="text-right">{t('models.sentimentBad') || 'Bad'} {liveSentiment.bad}%</span>
                     </div>
                 </div>
             )}
@@ -469,7 +493,7 @@ function ModelCard({
                     ))}
                     {model.bestFor && (
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">
-                            <span>🎯</span> Best for: {model.bestFor}
+                            <span>🎯</span> {t('models.bestFor') || 'Best for:'} {model.bestFor}
                         </span>
                     )}
                     {model.steeringFeel && (
@@ -490,6 +514,15 @@ function ModelCard({
 
             {/* Skill Attributes Grid */}
             <SkillRatingsGrid detail={deriveSkillRatingsDetail(model)} />
+
+            {/* Interactive Discourse-Style Voting Survey */}
+            <ModelPollSurvey
+                modelName={model.name}
+                baseScore={model.communityScore}
+                baseVotes={model.totalVotes}
+                baseSentiment={model.sentiment}
+                onScoreUpdate={handleScoreUpdate}
+            />
 
             {/* Tested On — always visible */}
             {model.testedOn && model.testedOn.length > 0 && (
@@ -998,7 +1031,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
 
                 {/* Header with Sort */}
                 <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
-                    <div>
+                    <div className="flex-1 min-w-0 pr-2">
                         <h2 className="text-2xl font-bold text-slate-100 mb-2 flex items-center gap-3">
                             {searchQuery ? (
                                 <><span>🔍</span> {t('models.title')}</>
@@ -1018,7 +1051,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                     </div>
 
                     {/* Sort Dropdown & View Toggle */}
-                    <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex items-center gap-3 shrink-0">
                         <ViewToggle viewMode={viewMode} onChange={setViewMode} id="models-view" />
 
                         <div className="relative group flex items-center bg-slate-800/50 border border-slate-700/50 rounded-xl focus-within:border-cyan-500/50 focus-within:ring-1 focus-within:ring-cyan-500/50 transition-all hover:bg-slate-800 cursor-pointer">

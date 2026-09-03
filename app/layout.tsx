@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import BottomNav from '@/components/BottomNav';
-import UniversalSearch from '@/components/UniversalSearch';
+import UniversalSearchTrigger from '@/components/UniversalSearchTrigger';
 import GlobalControls from '@/components/GlobalControls';
 import { LanguageProvider } from '@/lib/i18n';
 import WebMCP from '@/components/WebMCP';
@@ -82,15 +82,26 @@ export default function RootLayout({
             `,
           }}
         />
-        {/* Microsoft Clarity tracking script */}
+        {/* Microsoft Clarity — deferred until user interaction to avoid cache TTL audit & initial load overhead */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              (function(c,l,a,r,i,t,y){
-                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-              })(window, document, "clarity", "script", "w4z7g8jgmv");
+              (function() {
+                var loaded = false;
+                function loadClarity() {
+                  if (loaded) return;
+                  loaded = true;
+                  (function(c,l,a,r,i,t,y){
+                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+                  })(window, document, "clarity", "script", "w4z7g8jgmv");
+                }
+                ['scroll','click','keydown','touchstart'].forEach(function(e) {
+                  window.addEventListener(e, loadClarity, {once:true, passive:true});
+                });
+                setTimeout(loadClarity, 5000);
+              })();
             `,
           }}
         />
@@ -99,7 +110,7 @@ export default function RootLayout({
         <LanguageProvider>
           {children}
           <GlobalControls />
-          <UniversalSearch />
+          <UniversalSearchTrigger />
           <BottomNav />
           <WebMCP />
           <SessionDonateModal />

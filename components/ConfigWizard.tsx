@@ -3,7 +3,7 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { useLanguage } from '../lib/i18n';
 import { buildSunnylinkExport } from '../lib/wizardExport';
-import { GitFork, RefreshCw, X, CheckCircle2, Download } from 'lucide-react';
+import { RefreshCw, X, CheckCircle2, Download } from 'lucide-react';
 import './ConfigWizard.css';
 
 import { useTranslatedToggles, useTranslatedCars, useTranslatedModels } from '../lib/useTranslatedData';
@@ -45,7 +45,6 @@ interface CarMatch {
     years: string;
     bestSettings: Record<string, string>;
     communityConsensus: string;
-    sunnyTuneUrl?: string;
     hardware: { device: string; harness: string; radar: string };
 }
 
@@ -345,21 +344,9 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
         <div className="cw-step-enter space-y-6">
             <div className="text-center space-y-4">
                 <div className="text-5xl mb-2">🛠️</div>
-                <h2 className="text-2xl md:text-3xl font-bold text-slate-100">
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-100 mb-6">
                     {t('cw.welcome.title') === 'cw.welcome.title' ? 'Config Wizard' : t('cw.welcome.title')}
                 </h2>
-                <div className="flex items-center justify-center gap-1.5 -mt-1 mb-8">
-                    <span className="text-slate-400 text-sm">Powered by</span>
-                    <a 
-                        href="https://sunny-tune.vercel.app/" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="flex items-center gap-1.5 text-cyan-500 hover:text-cyan-400 font-medium transition-colors text-sm"
-                    >
-                        <GitFork className="w-4 h-4" />
-                        SunnyTune
-                    </a>
-                </div>
                 <p className="text-slate-400 max-w-lg mx-auto leading-relaxed">
                     Build a complete, device-ready sunnypilot configuration file in minutes.
                     We&apos;ll guide you through every setting with community-tested recommendations for your specific vehicle.
@@ -550,12 +537,6 @@ function CarStep({
                         </div>
                         <p className="text-xs text-slate-400 leading-relaxed">{carMatch.communityConsensus}</p>
                         <p className="text-xs text-cyan-400">{t('cw.step.car.preloaded') || 'Community settings have been pre-loaded into your config.'}</p>
-                        {carMatch.sunnyTuneUrl && (
-                            <a href={carMatch.sunnyTuneUrl} target="_blank" rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 text-xs text-amber-400 hover:text-amber-300 transition-colors mt-1">
-                                {t('cw.step.car.viewSunnyTuneConfig') || '🎵 View community SunnyTune config →'}
-                            </a>
-                        )}
                     </div>
                 )}
             </div>
@@ -895,11 +876,6 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
                     className="px-8 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:from-cyan-400 hover:to-cyan-500 shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2">
                     ⬇️ {t('cw.export.download') || 'Download JSON Config'}
                 </button>
-                <a href="https://sunny-tune.vercel.app/configure" target="_blank" rel="noopener noreferrer"
-                    className="px-6 py-3 rounded-xl font-semibold text-sm text-white hover:opacity-90 shadow-lg shadow-[#2663eb]/20 transition-all flex items-center justify-center gap-2 bg-[#2663eb]">
-                    <GitFork className="w-4 h-4" />
-                    {t('cars.sunnytune.config') || 'Upload to SunnyTune'}
-                </a>
             </div>
 
             {/* JSON preview toggle */}

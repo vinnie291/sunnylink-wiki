@@ -118,7 +118,7 @@ export default function SearchFilter({
 
             {/* Results Counter - Fixed height to prevent layout shift */}
             <div className="mt-4 sm:mt-2 flex items-center text-[11px] sm:text-sm h-5">
-                <span className="text-slate-500 whitespace-nowrap">
+                <span className="text-slate-400 whitespace-nowrap">
                     {value ? (
                         t('search.resultsCount', { resultCount, totalCount, itemLabel })
                     ) : (

@@ -6,7 +6,7 @@ import Header from './Header';
 import SettingsDatabase from './SettingsDatabase';
 import { useFuzzySearch } from '../hooks/useFuzzySearch';
 import { useLanguage } from '../lib/i18n';
-import { useTranslatedToggles } from '../lib/useTranslatedData';
+import { useTranslatedToggles } from '../lib/useTranslatedToggles';
 
 const ScrollToTop = dynamic(() => import('./ScrollToTop'), { ssr: false });
 
@@ -50,7 +50,27 @@ export default function HomeClient({ discourseSettings }: HomeClientProps) {
         const handleHashChange = () => {
             const hash = window.location.hash;
             if (hash) {
-                setHighlightedKey(decodeURIComponent(hash.slice(1)));
+                const key = decodeURIComponent(hash.slice(1));
+                setHighlightedKey(key);
+
+                // Scroll to the anchored setting card.
+                // LazyReveal is disabled when highlightedKey is set, so all cards
+                // render at full height and layout is stable.
+                let attempts = 0;
+                const tryScroll = () => {
+                    const el = document.getElementById(key);
+                    if (el) {
+                        // Wait for progressive rendering to finish, then scroll
+                        requestAnimationFrame(() => {
+                            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        });
+                    } else if (attempts < 10) {
+                        attempts++;
+                        setTimeout(tryScroll, 60);
+                    }
+                };
+                // Wait for hydration + progressive render expansion
+                setTimeout(tryScroll, 150);
             }
         };
         handleHashChange();
@@ -173,7 +193,7 @@ export default function HomeClient({ discourseSettings }: HomeClientProps) {
 
 
                 {/* Footer */}
-                <footer className="mt-16 text-center text-slate-600 text-sm lg:hidden">
+                <footer className="mt-16 text-center text-slate-400 text-sm lg:hidden">
                     <p>
                         {t('footer.builtFor')} •{' '}
                         <a

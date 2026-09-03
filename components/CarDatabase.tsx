@@ -20,6 +20,7 @@ import SidebarInlineControls from './SidebarInlineControls';
 import ScrollToTop from './ScrollToTop';
 import { BRAND_ICONS, DefaultCarIcon } from './icons/BrandIcons';
 import { getModelFleetStat, formatRouteCount, getTopDrivenModels, getBrandFleetStat, formatDeviceCount } from '../lib/fleetStats';
+import { getCarCutoutImage } from '../lib/carImages';
 
 const CategorySidebarButton = dynamic(() => import('./CategorySidebarButton'), { ssr: false });
 
@@ -50,7 +51,6 @@ interface Vehicle {
         comment: string;
     }[];
     isRecommended?: boolean;
-    sunnyTuneUrl?: string;
 }
 
 interface CarConfig {
@@ -86,7 +86,6 @@ export default function CarDatabase() {
     const [selectedMake, setSelectedMake] = useState<string>('');
     const [selectedModelFilter, setSelectedModelFilter] = useState<string>('');
     const [showRecommended, setShowRecommended] = useState<boolean>(false);
-    const [showSunnyTune, setShowSunnyTune] = useState<boolean>(false);
 
     const topFleetModels = useMemo(() => getTopDrivenModels(10), []);
 
@@ -129,27 +128,16 @@ export default function CarDatabase() {
         return vehicles.filter(v => v.isRecommended).length;
     }, [vehicles]);
 
-    const sunnyTuneCount = useMemo(() => {
-        return vehicles.filter(v => v.sunnyTuneUrl).length;
-    }, [vehicles]);
-
-
     const activeCategories = useMemo(() => {
         const active = [];
         if (selectedMake) active.push(selectedMake.toLowerCase());
         if (showRecommended) active.push('recommended');
-        if (showSunnyTune) active.push('sunnytune');
         return active;
-    }, [selectedMake, showRecommended, showSunnyTune]);
+    }, [selectedMake, showRecommended]);
 
     const handleToggleCategory = (id: string) => {
         if (id === 'recommended') {
             setShowRecommended(prev => !prev);
-            setSearchQuery('');
-            return;
-        }
-        if (id === 'sunnytune') {
-            setShowSunnyTune(prev => !prev);
             setSearchQuery('');
             return;
         }
@@ -225,10 +213,6 @@ export default function CarDatabase() {
             results = results.filter(v => v.isRecommended);
         }
 
-        if (showSunnyTune) {
-            results = results.filter(v => v.sunnyTuneUrl);
-        }
-
 
 
         if (selectedModelFilter) {
@@ -252,52 +236,141 @@ export default function CarDatabase() {
             });
         }
 
-        if (searchQuery) {
+        if (searchQuery && searchQuery.trim().length > 0) {
+            const q = searchQuery.trim().toLowerCase();
+            const qClean = q.replace(/[^a-z0-9]/g, '');
+
             const fuse = new Fuse(results, {
                 keys: ['make', 'model', 'displayYears'],
-                threshold: 0.3,
+                threshold: 0.35,
+                includeScore: true,
+                ignoreLocation: true,
+                minMatchCharLength: 1,
             });
-            results = fuse.search(searchQuery).map(result => result.item);
+            const fuseResults = fuse.search(searchQuery);
+            const fuseScoreMap = new Map<string, number>();
+            for (const fr of fuseResults) {
+                fuseScoreMap.set(fr.item.id, fr.score ?? 0.3);
+            }
+
+            const getCarScore = (car: GroupedVehicle) => {
+                const makeLower = (car.make || '').toLowerCase();
+                const modelLower = (car.model || '').toLowerCase();
+                const makeClean = makeLower.replace(/[^a-z0-9]/g, '');
+                const modelClean = modelLower.replace(/[^a-z0-9]/g, '');
+                const titleLower = `${makeLower} ${modelLower}`;
+                const titleClean = titleLower.replace(/[^a-z0-9]/g, '');
+                const modelWords = modelLower.split(/[\s\-_/()]+/).filter(Boolean);
+
+                let score = 0;
+                if (modelLower === q || (qClean.length > 0 && modelClean === qClean)) {
+                    score = Math.max(score, 12000);
+                } else if (titleLower === q || (qClean.length > 0 && titleClean === qClean)) {
+                    score = Math.max(score, 11000);
+                } else if ((qClean.length > 0 && modelClean.startsWith(qClean)) || modelLower.startsWith(q)) {
+                    score = Math.max(score, 10000);
+                } else if (makeLower === q || (qClean.length > 0 && makeClean === qClean)) {
+                    score = Math.max(score, 9200);
+                } else if (titleLower.startsWith(q) || (qClean.length > 0 && titleClean.startsWith(qClean))) {
+                    score = Math.max(score, 8800);
+                } else if (makeLower.startsWith(q) || (qClean.length > 0 && makeClean.startsWith(qClean))) {
+                    score = Math.max(score, 8400);
+                } else if (modelWords.some(w => w.startsWith(q) || (qClean.length > 0 && w.replace(/[^a-z0-9]/g, '').startsWith(qClean)))) {
+                    score = Math.max(score, 7800);
+                } else if ((qClean.length >= 2 && modelClean.includes(qClean)) || modelLower.includes(q)) {
+                    score = Math.max(score, 7200);
+                } else if ((qClean.length >= 2 && titleClean.includes(qClean)) || titleLower.includes(q)) {
+                    score = Math.max(score, 6600);
+                }
+
+                if (fuseScoreMap.has(car.id)) {
+                    const fScore = fuseScoreMap.get(car.id)!;
+                    const fuzzyScore = Math.round((1 - fScore) * 4000);
+                    score = Math.max(score, fuzzyScore);
+                }
+
+                return score;
+            };
+
+            results = results.filter(c => getCarScore(c) > 0);
+
+            results.sort((a, b) => {
+                const scoreDiff = getCarScore(b) - getCarScore(a);
+                if (scoreDiff !== 0) return scoreDiff;
+
+                const ratingA = a.reviews.length > 0 
+                    ? a.reviews.reduce((acc, r) => acc + r.rating, 0) / a.reviews.length 
+                    : 0;
+                const ratingB = b.reviews.length > 0 
+                    ? b.reviews.reduce((acc, r) => acc + r.rating, 0) / b.reviews.length 
+                    : 0;
+
+                switch (sortBy) {
+                    case 'recommended-first':
+                        if (a.isRecommended && !b.isRecommended) return -1;
+                        if (!a.isRecommended && b.isRecommended) return 1;
+                        return ratingB - ratingA;
+                    case 'fleet-desc': {
+                        const routesA = getModelFleetStat(a.bestSettings?.drivingModel)?.routes || 0;
+                        const routesB = getModelFleetStat(b.bestSettings?.drivingModel)?.routes || 0;
+                        return routesB - routesA;
+                    }
+                    case 'brand-asc':
+                        return `${a.make} ${a.model}`.localeCompare(`${b.make} ${b.model}`);
+                    case 'brand-desc':
+                        return `${b.make} ${b.model}`.localeCompare(`${a.make} ${a.model}`);
+                    case 'model-asc':
+                        return a.model.localeCompare(b.model);
+                    case 'model-desc':
+                        return b.model.localeCompare(a.model);
+                    case 'rating-desc':
+                        return ratingB - ratingA;
+                    case 'rating-asc':
+                        return ratingA - ratingB;
+                    default:
+                        return 0;
+                }
+            });
+        } else {
+            // Sorting when no search query
+            results.sort((a, b) => {
+                const ratingA = a.reviews.length > 0 
+                    ? a.reviews.reduce((acc, r) => acc + r.rating, 0) / a.reviews.length 
+                    : 0;
+                const ratingB = b.reviews.length > 0 
+                    ? b.reviews.reduce((acc, r) => acc + r.rating, 0) / b.reviews.length 
+                    : 0;
+
+                switch (sortBy) {
+                    case 'recommended-first':
+                        if (a.isRecommended && !b.isRecommended) return -1;
+                        if (!a.isRecommended && b.isRecommended) return 1;
+                        return ratingB - ratingA;
+                    case 'fleet-desc': {
+                        const routesA = getModelFleetStat(a.bestSettings?.drivingModel)?.routes || 0;
+                        const routesB = getModelFleetStat(b.bestSettings?.drivingModel)?.routes || 0;
+                        return routesB - routesA;
+                    }
+                    case 'brand-asc':
+                        return `${a.make} ${a.model}`.localeCompare(`${b.make} ${b.model}`);
+                    case 'brand-desc':
+                        return `${b.make} ${b.model}`.localeCompare(`${a.make} ${a.model}`);
+                    case 'model-asc':
+                        return a.model.localeCompare(b.model);
+                    case 'model-desc':
+                        return b.model.localeCompare(a.model);
+                    case 'rating-desc':
+                        return ratingB - ratingA;
+                    case 'rating-asc':
+                        return ratingA - ratingB;
+                    default:
+                        return 0;
+                }
+            });
         }
 
-        // Sorting
-        results.sort((a, b) => {
-            const ratingA = a.reviews.length > 0 
-                ? a.reviews.reduce((acc, r) => acc + r.rating, 0) / a.reviews.length 
-                : 0;
-            const ratingB = b.reviews.length > 0 
-                ? b.reviews.reduce((acc, r) => acc + r.rating, 0) / b.reviews.length 
-                : 0;
-
-            switch (sortBy) {
-                case 'recommended-first':
-                    if (a.isRecommended && !b.isRecommended) return -1;
-                    if (!a.isRecommended && b.isRecommended) return 1;
-                    return ratingB - ratingA;
-                case 'fleet-desc': {
-                    const routesA = getModelFleetStat(a.bestSettings?.drivingModel)?.routes || 0;
-                    const routesB = getModelFleetStat(b.bestSettings?.drivingModel)?.routes || 0;
-                    return routesB - routesA;
-                }
-                case 'brand-asc':
-                    return `${a.make} ${a.model}`.localeCompare(`${b.make} ${b.model}`);
-                case 'brand-desc':
-                    return `${b.make} ${b.model}`.localeCompare(`${a.make} ${a.model}`);
-                case 'model-asc':
-                    return a.model.localeCompare(b.model);
-                case 'model-desc':
-                    return b.model.localeCompare(a.model);
-                case 'rating-desc':
-                    return ratingB - ratingA;
-                case 'rating-asc':
-                    return ratingA - ratingB;
-                default:
-                    return 0;
-            }
-        });
-
         return results;
-    }, [groupedVehicles, searchQuery, selectedMake, selectedModelFilter, sortBy, showRecommended, showSunnyTune]);
+    }, [groupedVehicles, searchQuery, selectedMake, selectedModelFilter, sortBy, showRecommended]);
 
     const [isSearchActive, setIsSearchActive] = useState(false);
 
@@ -368,7 +441,7 @@ export default function CarDatabase() {
                                     {t('wizard.title') || 'Setup Wizard'}
                                 </h3>
                                 <p className="text-slate-400 text-xs leading-relaxed max-w-[85%] group-hover:text-slate-300 transition-colors">
-                                    Powered by SunnyTune. {t('cars.description') || 'Find the optimized settings and hardware requirements.'}
+                                    {t('cars.description') || 'Find the optimized settings and hardware requirements.'}
                                 </p>
                             </div>
                         </div>
@@ -380,10 +453,9 @@ export default function CarDatabase() {
                             categories={categoryMeta}
                             activeCategories={activeCategories}
                             onToggleCategory={handleToggleCategory}
-                            onClearAll={() => { setSelectedMake(''); setShowRecommended(false); setShowSunnyTune(false); }}
+                            onClearAll={() => { setSelectedMake(''); setShowRecommended(false); }}
                             vertical={true}
                             recommendedCount={recommendedCount}
-                            sunnyTuneCount={sunnyTuneCount}
                         />
                     </div>
 
@@ -473,18 +545,17 @@ export default function CarDatabase() {
                             categories={categoryMeta}
                             activeCategories={activeCategories}
                             onToggleCategory={handleToggleCategory}
-                            onClearAll={() => { setSelectedMake(''); setShowRecommended(false); setShowSunnyTune(false); }}
+                            onClearAll={() => { setSelectedMake(''); setShowRecommended(false); }}
                             collapsible={true}
                             vertical={true}
                             recommendedCount={recommendedCount}
-                            sunnyTuneCount={sunnyTuneCount}
                         />
                     </div>
                 </div>
 
                 {/* Header Section */}
                 <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
-                    <div>
+                    <div className="flex-1 min-w-0 pr-2">
                         <h2 className="text-2xl font-bold text-slate-100 mb-2 flex items-center gap-3">
                             {searchQuery ? (
                                 <><span>🔍</span> {t('settings.searchResults') || 'Search Results'}</>
@@ -516,10 +587,8 @@ export default function CarDatabase() {
                         </p>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-4">
-                        <div className="hidden md:block">
-                            <ViewToggle viewMode={viewMode} onChange={setViewMode} id="cars-view" />
-                        </div>
+                    <div className="flex items-center gap-3 shrink-0">
+                        <ViewToggle viewMode={viewMode} onChange={setViewMode} id="cars-view" />
 
                         <div className="relative group flex items-center bg-slate-800/50 border border-slate-700/50 rounded-xl focus-within:border-cyan-500/50 focus-within:ring-1 focus-within:ring-cyan-500/50 transition-all hover:bg-slate-800 cursor-pointer">
                             <label htmlFor="cars-sort" className="pl-3 flex items-center pointer-events-none whitespace-nowrap">
@@ -639,7 +708,7 @@ export default function CarDatabase() {
                                         {t('wizard.title') || 'Setup Wizard'}
                                     </h3>
                                     <p className="text-slate-400 text-xs leading-relaxed max-w-[85%] group-hover:text-slate-300 transition-colors">
-                                        Powered by SunnyTune. {t('cars.description') || 'Find the optimized settings and hardware requirements.'}
+                                        {t('cars.description') || 'Find the optimized settings and hardware requirements.'}
                                     </p>
                                 </div>
                             </div>
@@ -663,7 +732,19 @@ export default function CarDatabase() {
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
-                                    <div className={`relative ${viewMode === 'list' ? 'flex-1 min-w-0' : ''}`}>
+                                    {/* Car Cutout in Top Right (White Standard Cutout) */}
+                                    {viewMode === 'grid' && (
+                                        <div className="absolute top-3 right-3 sm:top-4 sm:right-4 w-28 h-16 sm:w-36 sm:h-20 pointer-events-none flex items-center justify-end z-0">
+                                            <img
+                                                src={getCarCutoutImage(vehicle.make, vehicle.model)}
+                                                alt={`${vehicle.make} ${vehicle.model}`}
+                                                className="w-full h-full object-contain filter drop-shadow-[0_4px_14px_rgba(0,0,0,0.65)] opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                                                loading="lazy"
+                                            />
+                                        </div>
+                                    )}
+
+                                    <div className={`relative z-10 ${viewMode === 'list' ? 'flex-1 min-w-0' : 'pr-28 sm:pr-36'}`}>
                                         <div className={viewMode === 'list' ? 'flex flex-col md:flex-row md:items-center gap-4 md:gap-8' : ''}>
                                             <div>
                                                 <div className="flex items-center flex-wrap gap-2 mb-1">
@@ -719,6 +800,17 @@ export default function CarDatabase() {
                                                         <span className="text-slate-500 shrink-0">🛠️</span>
                                                         <span className="truncate max-w-[150px]">{vehicle.hardware.harness}</span>
                                                     </div>
+                                                </div>
+                                            )}
+
+                                            {viewMode === 'list' && (
+                                                <div className="hidden lg:flex shrink-0 w-28 h-16 items-center justify-center pointer-events-none">
+                                                    <img
+                                                        src={getCarCutoutImage(vehicle.make, vehicle.model)}
+                                                        alt={`${vehicle.make} ${vehicle.model}`}
+                                                        className="w-full h-full object-contain filter drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+                                                        loading="lazy"
+                                                    />
                                                 </div>
                                             )}
                                         </div>
@@ -790,7 +882,6 @@ export default function CarDatabase() {
                                 setSelectedMake('');
                                 setSelectedModelFilter('');
                                 setShowRecommended(false);
-                                setShowSunnyTune(false);
                             }}
                             className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-slate-100 rounded-xl transition-colors"
                         >

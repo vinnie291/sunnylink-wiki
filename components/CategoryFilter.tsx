@@ -21,8 +21,6 @@ interface CategoryFilterProps {
     initialOpen?: boolean;
     vertical?: boolean;
     recommendedCount?: number;
-    sunnyTuneCount?: number;
-    hideSunnyTune?: boolean;
 }
 
 export default function CategoryFilter({
@@ -34,8 +32,6 @@ export default function CategoryFilter({
     initialOpen = false,
     vertical = false,
     recommendedCount = 0,
-    sunnyTuneCount = 0,
-    hideSunnyTune = false,
 }: CategoryFilterProps) {
     const [isOpen, setIsOpen] = useState(initialOpen);
     const { t } = useLanguage();
@@ -74,7 +70,7 @@ export default function CategoryFilter({
                             e.stopPropagation();
                             onClearAll();
                         }}
-                        className="text-xs text-slate-500 hover:text-cyan-400 transition-colors whitespace-nowrap shrink-0"
+                        className="text-xs text-slate-400 hover:text-cyan-400 transition-colors whitespace-nowrap shrink-0"
                     >
                         {t('filter.showAll')}
                     </button>
@@ -85,7 +81,7 @@ export default function CategoryFilter({
                             e.stopPropagation();
                             onClearAll();
                         }}
-                        className="text-xs text-slate-500 hover:text-cyan-400 transition-colors whitespace-nowrap shrink-0"
+                        className="text-xs text-slate-400 hover:text-cyan-400 transition-colors whitespace-nowrap shrink-0"
                     >
                         {t('filter.reset')}
                     </button>
@@ -120,21 +116,6 @@ export default function CategoryFilter({
                         </span>
                     )}
                 </button>
-
-                {/* SunnyTune Filter */}
-                {sunnyTuneCount > 0 && !hideSunnyTune && (
-                    <button
-                        onClick={() => onToggleCategory('sunnytune')}
-                        type="button"
-                        className={getFilterButtonClasses({ isActive: activeCategories.includes('sunnytune'), variant: 'amber' })}
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-400 shrink-0"><circle cx="12" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><circle cx="18" cy="6" r="3"></circle><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"></path><path d="M12 12v3"></path></svg>
-                        <span className="flex-1 break-words">{t('filter.sunnytune')}</span>
-                        <span className={getFilterBadgeClasses(activeCategories.includes('sunnytune'), 'amber')}>
-                            {sunnyTuneCount}
-                        </span>
-                    </button>
-                )}
 
 
                 {/* Category Buttons */}

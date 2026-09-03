@@ -75,7 +75,7 @@ function SliderSimulator({
   min,
   max,
   defaultValue,
-  unit,
+  unit: _unit,
   statusText,
   settingLabel,
 }: {
@@ -103,9 +103,9 @@ function SliderSimulator({
     <div className="rounded-2xl bg-slate-900/70 border border-slate-700/50 p-5">
       {/* Top row: min — value — max */}
       <div className="flex items-baseline justify-between mb-4">
-        <span className="text-sm font-bold tracking-[0.15em] text-slate-500 uppercase">{fmt(min)}</span>
+        <span className="text-sm font-bold tracking-[0.15em] text-slate-400 uppercase">{fmt(min)}</span>
         <span className="text-xl font-bold tracking-[0.2em] text-[#5b36f5]">{fmt(value)}</span>
-        <span className="text-sm font-bold tracking-[0.15em] text-slate-500 uppercase">{fmt(max)}</span>
+        <span className="text-sm font-bold tracking-[0.15em] text-slate-400 uppercase">{fmt(max)}</span>
       </div>
 
       {/* Slider row: − [track] + */}
@@ -245,11 +245,8 @@ export default function ToggleCard({
   const cardRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
 
-  useEffect(() => {
-    if (isHighlighted && cardRef.current) {
-      cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }, [isHighlighted]);
+  // Scrolling is handled by HomeClient's hash handler with proper timing.
+  // This component only needs to render the highlighted state (CSS classes on the card div).
 
   const handleCopyLink = async () => {
     const url = `${window.location.origin}${window.location.pathname}#${encodeURIComponent(setting.key)}`;
@@ -509,7 +506,7 @@ export default function ToggleCard({
               href={getSunnylinkUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`View ${setting.label} in sunnylink`}
+              aria-label={`${t('settings.viewInSunnylink')}: ${setting.label}`}
               className="px-4 py-2 rounded-lg text-sm font-medium bg-[#5b36f5] text-white hover:bg-[#4a2bd0] transition-all duration-200 flex items-center gap-1.5 shadow-lg shadow-[#5b36f5]/25 whitespace-nowrap"
             >
               <span>{t('settings.viewInSunnylink')}</span>
@@ -611,7 +608,7 @@ export default function ToggleCard({
             {/* Options for dropdown without option-list simulator */}
             {setting.options && setting.type !== 'dropdown' && (
               <div className="mb-5">
-                <span className="text-xs text-slate-500 uppercase tracking-wide">{t('settings.options')}:</span>
+                <span className="text-xs text-slate-400 uppercase tracking-wide">{t('settings.options')}:</span>
                 <div className="flex flex-wrap gap-1.5 mt-1.5">
                   {setting.options.map((option) => (
                     <span
@@ -638,7 +635,7 @@ export default function ToggleCard({
             {/* Default value (shown for types without simulator) */}
             {setting.type !== 'toggle' && setting.type !== 'slider' && setting.type !== 'dropdown' && setting.type !== 'action' && typeof setting.default !== 'undefined' && (
               <div className="mb-5">
-                <span className="text-xs text-slate-500 uppercase tracking-wide">{t('settings.default')}: </span>
+                <span className="text-xs text-slate-400 uppercase tracking-wide">{t('settings.default')}: </span>
                 <span className={`text-xs font-medium ${setting.default ? 'text-emerald-400' : 'text-slate-400'}`}>
                   {String(setting.default)}
                 </span>

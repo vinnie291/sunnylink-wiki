@@ -13,10 +13,12 @@ interface SearchItem {
     title: string;
     subtitle: string;
     href: string;
+    make?: string;
+    model?: string;
 }
 
-export default function UniversalSearch() {
-    const [isOpen, setIsOpen] = useState(false);
+export default function UniversalSearch({ initialOpen = false }: { initialOpen?: boolean } = {}) {
+    const [isOpen, setIsOpen] = useState(initialOpen);
     const [query, setQuery] = useState('');
     const [activeIndex, setActiveIndex] = useState(0);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -88,8 +90,9 @@ export default function UniversalSearch() {
         modelsData.categories.forEach((cat: any) => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             cat.models.forEach((model: any) => {
+                const modelId = model.id || model.name;
                 items.push({
-                    id: model.id,
+                    id: modelId,
                     type: 'model',
                     title: model.name,
                     subtitle: model.consensus || cat.name,
@@ -119,18 +122,23 @@ export default function UniversalSearch() {
                 title: `${car.make} ${car.model}`,
                 subtitle: car.years || 'All Years',
                 href: `/cars?vehicle=${car.id}&search=${encodeURIComponent(car.model)}`,
+                make: car.make,
+                model: car.model,
             });
         });
 
         return items;
     }, [togglesData, modelsData, featuresData, carsData]);
 
+    const searchKeys = useMemo(() => ['title', 'subtitle', 'make', 'model'], []);
+
     // Fuzzy search
     const results = useFuzzySearch<Record<string, unknown>>({
         items: allItems as unknown as Record<string, unknown>[],
-        keys: ['title', 'subtitle'],
+        keys: searchKeys,
         query: query,
-        threshold: 0.3,
+        threshold: 0.35,
+        acronymKey: 'title',
     }) as unknown as SearchItem[];
 
     const displayResults = query.length > 0 ? results.slice(0, 8) : [];
@@ -190,18 +198,45 @@ export default function UniversalSearch() {
 
     // Highlight helper for title matches
     const HighlightMatch = ({ text }: { text: string }) => {
-        if (!query) return <>{text}</>;
-        
+        const trimmed = query.trim();
+        if (!trimmed) return <>{text}</>;
+
         // Escape regex special characters to prevent injection
-        const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const parts = text.split(new RegExp(`(${escaped})`, 'gi'));
+        const escaped = trimmed.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const tokens = trimmed
+            .split(/\s+/)
+            .filter(Boolean)
+            .map(tok => tok.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+
+        // Handle alphanumeric queries with optional hyphens (e.g. f150 -> f-?150, cx5 -> cx-?5)
+        const flexTokens = tokens.map(tok => {
+            if (/^[a-zA-Z0-9]+$/.test(tok) && tok.length > 2) {
+                return tok.replace(/([a-zA-Z])(?=[0-9])|([0-9])(?=[a-zA-Z])/g, '$&-?');
+            }
+            return tok;
+        });
+
+        const allPatterns = Array.from(new Set([escaped, ...tokens, ...flexTokens]));
+        let pattern: RegExp;
+        try {
+            pattern = new RegExp(`(${allPatterns.join('|')})`, 'gi');
+        } catch {
+            return <>{text}</>;
+        }
+
+        const parts = text.split(pattern);
         return (
             <span>
-                {parts.map((part, i) => 
-                    part.toLowerCase() === query.toLowerCase() 
+                {parts.map((part, i) => {
+                    const partClean = part.toLowerCase().replace(/[^a-z0-9]/g, '');
+                    const isMatch = allPatterns.some(pat => {
+                        const patClean = pat.toLowerCase().replace(/[^a-z0-9]/g, '');
+                        return (patClean.length > 0 && partClean === patClean) || part.toLowerCase() === pat.toLowerCase();
+                    });
+                    return isMatch
                         ? <span key={i} className="bg-cyan-500/30 text-cyan-200 rounded px-0.5">{part}</span>
-                        : part
-                )}
+                        : part;
+                })}
             </span>
         );
     };

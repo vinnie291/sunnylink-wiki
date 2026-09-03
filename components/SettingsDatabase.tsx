@@ -241,13 +241,12 @@ export default function SettingsDatabase({
                             onToggleCategory={onToggleCategory}
                             onClearAll={onClearCategories}
                             collapsible={true}
-                            hideSunnyTune={true}
                         />
                     </div>
                 </div >
                 {/* Header Controls */}
-                < div className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4" >
-                    <div>
+                <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div className="flex-1 min-w-0 pr-2">
                         <h2 className="text-2xl font-bold text-slate-100 mb-2 flex items-center gap-3">
                             {searchQuery ? (
                                 <>
@@ -274,10 +273,8 @@ export default function SettingsDatabase({
                         </p>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-4">
-                        <div className="hidden md:block">
-                            <ViewToggle viewMode={viewMode} onChange={setViewMode} id="settings-view" />
-                        </div>
+                    <div className="flex items-center gap-3 shrink-0">
+                        <ViewToggle viewMode={viewMode} onChange={setViewMode} id="settings-view" />
 
                         <div className="relative group flex items-center bg-slate-800/50 border border-slate-700/50 rounded-xl focus-within:border-cyan-500/50 focus-within:ring-1 focus-within:ring-cyan-500/50 transition-all hover:bg-slate-800 cursor-pointer">
                             <label htmlFor="settings-sort" className="pl-3 flex items-center pointer-events-none whitespace-nowrap">
@@ -353,36 +350,44 @@ export default function SettingsDatabase({
 
                                 {/* Card view fallback - mobile only when list mode is selected */}
                                 <div className="md:hidden grid gap-4">
-                                    {visibleSettings.map((setting) => (
-                                        <div key={setting.key}>
-                                            <LazyReveal>
-                                                <ToggleCard
-                                                    setting={setting}
-                                                    categoryName={setting.categoryName || ''}
-                                                    categoryIcon={setting.categoryIcon || ''}
-                                                    categoryId={setting.categoryId || ''}
-                                                    isHighlighted={setting.key === highlightedKey}
-                                                />
-                                            </LazyReveal>
-                                        </div>
-                                    ))}
-                                </div>
-                            </>
-                        ) : (
-                            <div className="grid gap-4">
-                                {visibleSettings.map((setting) => (
-                                    <div key={setting.key}>
-                                        <LazyReveal>
+                                    {visibleSettings.map((setting) => {
+                                        const isTarget = setting.key === highlightedKey;
+                                        const card = (
                                             <ToggleCard
                                                 setting={setting}
                                                 categoryName={setting.categoryName || ''}
                                                 categoryIcon={setting.categoryIcon || ''}
                                                 categoryId={setting.categoryId || ''}
-                                                isHighlighted={setting.key === highlightedKey}
+                                                isHighlighted={isTarget}
                                             />
-                                        </LazyReveal>
-                                    </div>
-                                ))}
+                                        );
+                                        return (
+                                            <div key={setting.key}>
+                                                {highlightedKey ? card : <LazyReveal>{card}</LazyReveal>}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </>
+                        ) : (
+                            <div className="grid gap-4">
+                                {visibleSettings.map((setting) => {
+                                    const isTarget = setting.key === highlightedKey;
+                                    const card = (
+                                        <ToggleCard
+                                            setting={setting}
+                                            categoryName={setting.categoryName || ''}
+                                            categoryIcon={setting.categoryIcon || ''}
+                                            categoryId={setting.categoryId || ''}
+                                            isHighlighted={isTarget}
+                                        />
+                                    );
+                                    return (
+                                        <div key={setting.key}>
+                                            {highlightedKey ? card : <LazyReveal>{card}</LazyReveal>}
+                                        </div>
+                                    );
+                                })}
                             </div>
                         )
                     ) : (

@@ -47,6 +47,7 @@ export default function ThemeToggle() {
                 bg-slate-800/50 backdrop-blur-sm
                 border border-slate-700/50
                 hover:bg-slate-700/50 hover:border-slate-600/50
+                focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50
                 transition-all duration-200
                 cursor-pointer
                 text-slate-400 hover:text-cyan-400

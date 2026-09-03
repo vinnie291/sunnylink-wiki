@@ -13,11 +13,11 @@ export default function SidebarInlineControls({ visible }: { visible: boolean })
     return (
         <div
             className={`
-                hidden lg:flex items-center gap-3 w-full
-                transition-all duration-200 ease-out overflow-hidden
+                hidden lg:flex items-center gap-3 w-full relative z-30
+                transition-all duration-200 ease-out
                 ${visible
-                    ? 'max-h-16 opacity-100 mb-4'
-                    : 'max-h-0 opacity-0 mb-0 pointer-events-none'
+                    ? 'max-h-16 opacity-100 mb-4 overflow-visible'
+                    : 'max-h-0 opacity-0 mb-0 pointer-events-none overflow-hidden'
                 }
             `}
         >

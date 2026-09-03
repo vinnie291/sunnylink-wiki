@@ -9,13 +9,8 @@ import {
     ReactNode,
 } from 'react';
 
-// Import all locale files statically for bundling
+// Statically import only English as the default locale
 import en from '../locales/en.json';
-import ko from '../locales/ko.json';
-import zh from '../locales/zh.json';
-import fr from '../locales/fr.json';
-import de from '../locales/de.json';
-import es from '../locales/es.json';
 
 export type Locale = 'en' | 'ko' | 'zh' | 'fr' | 'de' | 'es';
 
@@ -32,13 +27,17 @@ export const LOCALE_META: Record<Locale, { flag: string; name: string }> = {
 
 type Messages = Record<string, string>;
 
-const messages: Record<Locale, Messages> = {
+const localeLoaders: Record<Locale, () => Promise<{ default: Messages }>> = {
+    en: () => Promise.resolve({ default: en as Messages }),
+    ko: () => import('../locales/ko.json') as Promise<{ default: Messages }>,
+    zh: () => import('../locales/zh.json') as Promise<{ default: Messages }>,
+    fr: () => import('../locales/fr.json') as Promise<{ default: Messages }>,
+    de: () => import('../locales/de.json') as Promise<{ default: Messages }>,
+    es: () => import('../locales/es.json') as Promise<{ default: Messages }>,
+};
+
+const messagesCache: Partial<Record<Locale, Messages>> = {
     en: en as Messages,
-    ko: ko as Messages,
-    zh: zh as Messages,
-    fr: fr as Messages,
-    de: de as Messages,
-    es: es as Messages,
 };
 
 const STORAGE_KEY = 'sunnylink-wiki-locale';
@@ -89,18 +88,24 @@ const LanguageContext = createContext<LanguageContextType>({
 });
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-    const [locale, setLocaleState] = useState<Locale>('en');
-    const [mounted, setMounted] = useState(false);
-    const [zhFlag, setZhFlag] = useState('🇨🇳');
+    const [locale, setLocaleState] = useState<Locale>(() => getSavedLocale() ?? detectBrowserLocale());
+    const [zhFlag] = useState<string>(() => detectZhFlag());
+    const [, setMessagesVersion] = useState(0);
 
-    // Initialize locale on mount
+    // Load non-English locale messages dynamically when selected
     useEffect(() => {
-        const saved = getSavedLocale();
-        const initial = saved ?? detectBrowserLocale();
-        setLocaleState(initial);
-        setZhFlag(detectZhFlag());
-        setMounted(true);
-    }, []);
+        if (messagesCache[locale]) return;
+        let active = true;
+        localeLoaders[locale]().then((mod) => {
+            messagesCache[locale] = mod.default;
+            if (active) {
+                setMessagesVersion((v) => v + 1);
+            }
+        });
+        return () => {
+            active = false;
+        };
+    }, [locale]);
 
     const setLocale = useCallback((newLocale: Locale) => {
         setLocaleState(newLocale);
@@ -113,16 +118,14 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         document.documentElement.lang = newLocale;
     }, []);
 
-    // Set initial <html lang> on mount
+    // Sync <html lang> on client
     useEffect(() => {
-        if (mounted) {
-            document.documentElement.lang = locale;
-        }
-    }, [mounted, locale]);
+        document.documentElement.lang = locale;
+    }, [locale]);
 
     const t = useCallback(
         (key: string, params?: Record<string, string | number>): string => {
-            let value = messages[locale]?.[key] ?? messages.en[key] ?? key;
+            let value = messagesCache[locale]?.[key] ?? messagesCache.en?.[key] ?? key;
             if (params) {
                 Object.entries(params).forEach(([k, v]) => {
                     value = value.replace(new RegExp(`\\{\\{${k}\\}\\}`, 'g'), String(v));

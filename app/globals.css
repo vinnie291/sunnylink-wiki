@@ -84,6 +84,15 @@ html {
   margin-bottom: -0.15em;
 }
 
+/* On mobile and prefers-reduced-motion, disable non-composited background-position animation
+   to avoid main-thread repaints and improve mobile LCP */
+@media (max-width: 768px), (prefers-reduced-motion: reduce) {
+  .animate-gradient-text {
+    animation: none !important;
+    background-size: 100% auto !important;
+  }
+}
+
 /* Highlight animation for deep-linked cards */
 @keyframes highlight-pulse {
 

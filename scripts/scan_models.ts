@@ -187,7 +187,7 @@ function matchesLocalModel(remoteCleanName: string, localName: string): boolean 
 
 function parseDisplayName(displayName: string): { cleanName: string; extractedDate?: string } {
     const dateMatch = displayName.match(/\(([^)]+ \d{1,2}, \d{4})\)/);
-    let cleanName = displayName.replace(/\s*\([^)]*\)\s*$/, '').trim();
+    const cleanName = displayName.replace(/\s*\([^)]*\)\s*$/, '').trim();
     return {
         cleanName,
         extractedDate: dateMatch ? dateMatch[1] : undefined

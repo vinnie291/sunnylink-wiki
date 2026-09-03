@@ -100,8 +100,8 @@ export default function GlobalControls() {
                         onClick={() => trackReferralClick('dashboard')}
                         className="
                             flex items-center justify-center gap-1.5 sm:gap-2 w-full px-3 py-1.5 sm:px-4 sm:py-2.5
-                            bg-emerald-600 hover:bg-emerald-500 text-white
-                            rounded-xl font-semibold text-[11px] sm:text-sm
+                            bg-emerald-700 hover:bg-emerald-600 text-white
+                            rounded-xl font-bold text-xs sm:text-sm
                             shadow-md shadow-emerald-600/30
                             transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]
                         "
