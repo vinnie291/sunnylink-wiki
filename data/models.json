@@ -1,16 +1,16 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 127,
-  "lastUpdated": "September 03, 2026",
+  "totalModels": 128,
+  "lastUpdated": "September 06, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "The Chestnut GPU Series (Big Models)",
       "subtitle": "eGPU-Only Heavyweights",
-      "includes": "BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
-      "vibe": "These are the \"big models\" — chestnut-class networks larger than anything in the WMI or OP lines, tied to comma's new GPU add-on, which began reaching owners in August 2026. They drop under the forum's big_model tag on a near-daily cadence during a run. The extra network size shows up first in lateral: taking in-town 90-degree turns wide instead of cutting them, and showing planted rather than floaty highway stability. Standout entries like BMRLNAP v4 and Sad Model have significantly improved highway cut-in handling and humanlike steering, while v3 suffered from severe low-speed steering oscillations. Stop signs and traffic light stop lines remain an active area of tuning across the line.",
+      "includes": "Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+      "vibe": "These are the \"big models\" — chestnut-class networks larger than anything in the WMI or OP lines, tied to comma's new GPU add-on, which began reaching owners in August 2026. They drop under the forum's big_model tag on a near-daily cadence during a run. The extra network size shows up first in lateral: taking in-town 90-degree turns wide instead of cutting them, and showing planted rather than floaty highway stability. Standout entries like Cinque Terre and Sad Model have significantly improved lateral stability and natural steering feel, while earlier BMRLNAP runs suffered from low-speed steering oscillations. Stop signs and traffic light stop lines remain an active area of tuning across the line.",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
-      "recommendation": "BMRLNAP v4 is the current community workhorse for highway cut-in response and cruising stability. Sad Model is the top pick for natural steering feel and smooth acceleration/braking. BMRLNAP v6 is the latest drop focusing on stop line deceleration. Avoid BMRLNAP v3 due to low-speed steering oscillations."
+      "recommendation": "Cinque Terre Model (CTM) is the top-rated big model for solid lateral stability and daily experimental driving. BMRLNAP v4 remains a proven community workhorse for highway cut-in response, while Sad Model is great for natural steering. Avoid BMRLNAP v3 due to severe low-speed steering oscillations."
     },
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -254,6 +254,48 @@
       "description": "Chestnut-class \"big\" driving models — larger networks tied to comma's new GPU add-on, which began shipping to owners in August 2026. Released under the forum's big_model tag on a near-daily cadence during a run.",
       "icon": "🌰",
       "models": [
+        {
+          "name": "Cinque Terre Model",
+          "date": "September 04, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "communityScore": 90,
+          "totalVotes": 5,
+          "sentiment": {
+            "great": 60,
+            "good": 40,
+            "ok": 0,
+            "bad": 0
+          },
+          "consensus": "Early community standout hailed on Discord and Discourse as the most usable and stable big model to date ('Best model I've ever used by a mile', 'Would make POP v2 proud'). Testers report that lateral control feels solid and 'on rails' across all speeds (0-65 mph), closely rivaling Firehose, with low-speed oscillation drastically dampened compared to the violent wobbles of the BMRLNAP series. Successfully obeys stop signs and red lights in experimental mode, though some testers note eager acceleration and occasional highway speed deficits without dynamic experimental control.",
+          "note": "Chestnut-class big model (CTM), built from 68b5f8e in commaai/openpilot. Part of the 2026 Deep RL Models. Requires comma four or comma 3X with comma chestnut eGPU. 100% of survey respondents voted 'Better' than default BMRLNAP v4 and recommended merging as default. High network transfer overhead (~700MB model size) prompted sunnypilot developer optimization (PR #1993 / PR #1998) to prevent DMA frame drops.",
+          "bestFor": "Experimental Mode / Daily Driving / Lateral Stability",
+          "steeringFeel": "Solid / On Rails",
+          "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-september-04-2026/7046",
+          "testedOn": [
+            "2023 Hyundai Elantra HEV",
+            "2025 Honda Accord Hybrid",
+            "Comma 3X + Chestnut",
+            "Comma Four"
+          ],
+          "positives": [
+            "Planted lateral steering and centering authority comparable to Firehose across all speeds",
+            "Substantially cures the severe low-speed steering oscillations seen in BMRLNAP v3/v4/v6",
+            "Reliable stop light and stop sign obedience in experimental mode",
+            "Quick, authoritative acceleration off the line praised by aggressive longitudinal drivers"
+          ],
+          "negatives": [
+            "Requires updated dev-chestnut build (PR #1993) to avoid initial model lagging / frame drop warnings during DMA CPU-to-GPU transfer",
+            "Can run a few mph under set speed on highways in pure experimental mode without dynamic experimental control",
+            "Minor low-speed oscillation still slightly perceptible under 12 mph (though greatly reduced)",
+            "Large ~700MB download size can take several minutes on slower comma Wi-Fi links"
+          ]
+        },
         {
           "name": "BMRLNAP Model v6",
           "date": "September 01, 2026",

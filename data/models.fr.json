@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 127,
-  "lastUpdated": "September 03, 2026",
+  "totalModels": 128,
+  "lastUpdated": "September 06, 2026",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -55,7 +55,7 @@
     "chestnut_gpu": {
       "title": "The Chestnut GPU Series (Big Models)",
       "subtitle": "eGPU-Only Heavyweights",
-      "includes": "BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+      "includes": "Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
       "vibe": "Ce sont les « big models » : des réseaux de classe Chestnut, plus volumineux que tout ce qu'offrent les gammes WMI ou OP, liés au nouveau module GPU de comma, qui n'a commencé à parvenir aux propriétaires qu'en août 2026. Ils sortent sous le tag big_model du forum, à un rythme quasi quotidien pendant une série. La taille accrue du réseau se voit d'abord en latéral : un développeur sunnypilot a qualifié la première version d'« outstanding » en virage, prenant les tournants urbains à plus de 90 degrés avec l'amplitude appropriée plutôt qu'en les coupant, et les versions les mieux accueillies sont décrites comme posées plutôt que flottantes. La faiblesse récurrente est le mobilier urbain : panneaux stop franchis en « California stop », feux, et sur certaines versions un freinage dur ou tardif ainsi qu'un effet d'à-coups gaz-frein à la vitesse de consigne. Le nombre de votes reste à un chiffre : considérez tous les scores de cette section comme provisoires.",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
       "recommendation": "BMRLNAP obtient les meilleurs sondages — unanime partout — mais sur deux votes ; I Desire reste la lecture la plus fiable avec quatre. Lebowski mérite le détour si les virages comptent pour vous : le meilleur latéral de la série, le pire longitudinal. Tee Time est à éviter sauf si vous testez : son sondage latéral n'a recueilli aucun vote positif. Gardez un modèle standard pour les trajets riches en panneaux stop."
@@ -254,6 +254,48 @@
       "description": "Modèles de conduite « larges » de classe Chestnut : des réseaux plus volumineux liés au nouveau module GPU de comma, livré aux propriétaires à partir d'août 2026. Publiés sous le tag big_model du forum, à un rythme quasi quotidien pendant une série.",
       "icon": "🌰",
       "models": [
+        {
+          "name": "Cinque Terre Model",
+          "date": "September 04, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "communityScore": 90,
+          "totalVotes": 5,
+          "sentiment": {
+            "great": 60,
+            "good": 40,
+            "ok": 0,
+            "bad": 0
+          },
+          "consensus": "Révélation plébiscitée sur Discord et Discourse comme le modèle 'big' le plus utilisable et stable à ce jour (« Le meilleur modèle testé à ce jour », « Ferait honneur à POP v2 »). Les testeurs rapportent un contrôle latéral solide et 'sur des rails' à toutes les vitesses (0-65 mph), rivalisant avec Firehose, avec des oscillations à basse vitesse grandement réduites par rapport à la série BMRLNAP. Respecte feux et stops avec précision, accélère franchement, mais peut rouler quelques mph en deçà sur autoroute sans contrôle expérimental dynamique.",
+          "note": "Modèle 'big' de classe Chestnut (CTM), compilé à partir de 68b5f8e dans commaai/openpilot. Fait partie des modèles Deep RL 2026. Nécessite un comma four ou comma 3X avec eGPU comma chestnut. 100 % des votants l'ont jugé 'Meilleur' que BMRLNAP v4. La taille (~700 Mo) a entraîné des optimisations de transfert DMA par les développeurs de sunnypilot (PR #1993 / PR #1998).",
+          "bestFor": "Mode expérimental / Conduite quotidienne / Stabilité latérale",
+          "steeringFeel": "Solide / Sur des rails",
+          "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-september-04-2026/7046",
+          "testedOn": [
+            "2023 Hyundai Elantra HEV",
+            "2025 Honda Accord Hybrid",
+            "Comma 3X + Chestnut",
+            "Comma Four"
+          ],
+          "positives": [
+            "Direction latérale bien posée et maintien au centre comparables à Firehose à toutes les vitesses",
+            "Résout largement les fortes oscillations de direction à basse vitesse de BMRLNAP v3/v4/v6",
+            "Respect fiable des feux de signalisation et des panneaux stop en mode expérimental",
+            "Accélération vive et franche au démarrage appréciée par les testeurs"
+          ],
+          "negatives": [
+            "Nécessite une version récente de dev-chestnut (PR #1993) pour éviter les alertes de retard de modèle lors des transferts DMA",
+            "Peut rouler quelques mph sous la vitesse fixée sur autoroute sans contrôle expérimental dynamique",
+            "Légère oscillation toujours perceptible en dessous de 12 mph (bien qu'atténuée)",
+            "Le téléchargement volumineux (~700 Mo) peut nécessiter plusieurs minutes sur connexions Wi-Fi lentes"
+          ]
+        },
         {
           "name": "BMRLNAP Model v6",
           "date": "September 01, 2026",

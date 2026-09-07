@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 127,
-  "lastUpdated": "September 03, 2026",
+  "totalModels": 128,
+  "lastUpdated": "September 06, 2026",
   "vibeGuide": {
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -55,7 +55,7 @@
     "chestnut_gpu": {
       "title": "The Chestnut GPU Series (Big Models)",
       "subtitle": "eGPU-Only Heavyweights",
-      "includes": "BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+      "includes": "Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
       "vibe": "이른바 '빅 모델'입니다. WMI나 OP 계열보다 큰 Chestnut 급 네트워크로, comma의 새 GPU 애드온과 연결되어 있으며 해당 하드웨어는 2026년 8월에야 사용자에게 도착하기 시작했습니다. 포럼의 big_model 태그로 배포되며, 한 차례 배포 기간에는 거의 매일 올라옵니다. 커진 네트워크는 우선 횡방향에서 드러납니다. 첫 배포판은 한 sunnypilot 개발자로부터 회전 성능이 '뛰어나다(outstanding)'는 평을 받았고, 시내에서 90도 이상 회전을 잘라 들어가지 않고 적절히 넓게 도는 점이 언급되었습니다. 평가가 좋은 배포판들은 붕 뜨지 않고 안정적이라는 평을 받습니다. 반복되는 약점은 도심 요소입니다. 정지 표지판을 이른바 '캘리포니아 스톱'으로 굴러 지나가고, 신호등 대응이 아쉬우며, 일부 배포판에서는 급하거나 늦은 제동과 설정 속도에서의 가감속 울렁임이 보고됩니다. 투표 수는 아직 한 자릿수이므로 이 항목의 점수는 모두 잠정치로 보아야 합니다.",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
       "recommendation": "BMRLNAP가 모든 투표에서 만장일치로 가장 좋은 결과를 냈지만 2표뿐이라, 4표인 I Desire 쪽이 더 신뢰할 만합니다. 회전 성능이 중요하다면 Lebowski를 살펴보세요. 이번 배포 중 횡방향이 가장 강하고 종방향이 가장 약합니다. Tee Time은 테스트 목적이 아니라면 건너뛰는 편이 낫습니다. 횡방향 투표에서 긍정 표가 하나도 나오지 않았습니다. 정지 표지판이 많은 구간에는 표준 모델을 함께 준비하세요."
@@ -254,6 +254,48 @@
       "description": "Chestnut 급 '빅 모델' 주행 모델입니다. comma의 새 GPU 애드온과 연결된 대형 네트워크로, 해당 하드웨어는 2026년 8월부터 사용자에게 배송되기 시작했습니다. 포럼의 big_model 태그로, 한 차례 배포 기간에는 거의 매일 올라옵니다.",
       "icon": "🌰",
       "models": [
+        {
+          "name": "Cinque Terre Model",
+          "date": "September 04, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "communityScore": 90,
+          "totalVotes": 5,
+          "sentiment": {
+            "great": 60,
+            "good": 40,
+            "ok": 0,
+            "bad": 0
+          },
+          "consensus": "디스코드와 Discourse 전반에서 현재까지 출시된 빅 모델 중 가장 실용적이고 안정적인 모델로 극찬받고 있습니다('단연코 최고의 모델', 'POP v2가 자랑스러워할 성능'). 테스터들은 Firehose에 필적하는 전 속도(0-65 mph) 레일 위를 달리는 듯한 탄탄한 횡방향 제어력을 보고했으며, BMRLNAP 시리즈의 극심한 저속 떨림이 대폭 해결되었습니다. 정지 표지판과 신호등을 신뢰성 있게 인식하고 출발 가속이 민첩하지만, 다이내믹 실험 제어가 없으면 고속도로에서 설정 속도보다 약간 느릴 수 있습니다.",
+          "note": "Chestnut 클래스 빅 모델 (CTM)로 commaai/openpilot의 68b5f8e에서 빌드되었습니다. 2026 Deep RL 모델의 일부입니다. comma four 또는 comma chestnut eGPU가 장착된 comma 3X가 필요합니다. 투표 참여자 100%가 기본 BMRLNAP v4보다 '더 좋음'으로 평가했습니다. 약 700MB에 달하는 대형 모델 크기로 인해 DMA 전송 최적화(PR #1993 / PR #1998)가 적용되었습니다.",
+          "bestFor": "실험 모드 / 일상 주행 / 횡방향 안정성",
+          "steeringFeel": "단단함 / 레일 위를 달리는 듯함",
+          "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-september-04-2026/7046",
+          "testedOn": [
+            "2023 Hyundai Elantra HEV",
+            "2025 Honda Accord Hybrid",
+            "Comma 3X + Chestnut",
+            "Comma Four"
+          ],
+          "positives": [
+            "Firehose에 필적하는 전 속도 대역의 안정적인 횡방향 조향 및 차로 중앙 유지력",
+            "BMRLNAP v3/v4/v6의 극심한 저속 조향 진동을 대폭 개선",
+            "실험 모드에서 신호등 및 정지 표지판 인식과 정차 신뢰도 우수",
+            "신호 대기 후 출발 시 빠르고 경쾌한 가속 반응"
+          ],
+          "negatives": [
+            "DMA CPU-GPU 전송 중 모델 랙/프레임 드롭 경고를 방지하려면 최신 dev-chestnut 빌드(PR #1993) 필요",
+            "다이내믹 실험 제어 없이 순수 실험 모드 사용 시 고속도로에서 설정 속도보다 약간 느릴 수 있음",
+            "12 mph 미만에서 미세한 저속 떨림이 여전히 일부 감지됨 (기존 대비 대폭 감소)",
+            "약 700MB 용량으로 인해 느린 와이파이 환경에서 다운로드에 수 분이 소요될 수 있음"
+          ]
+        },
         {
           "name": "BMRLNAP Model v6",
           "date": "September 01, 2026",
