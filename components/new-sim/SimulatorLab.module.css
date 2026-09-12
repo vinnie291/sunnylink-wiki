@@ -125,11 +125,11 @@
 .colorSwatchActive { box-shadow: inset 0 -4px 7px rgb(0 0 0 / .22), 0 0 0 2px var(--background), 0 0 0 4px var(--accent); }
 
 @media (max-width: 1100px) { .page { padding-left: 22px; padding-right: 22px; } .workspace { grid-template-columns: minmax(0, 1fr) 280px; } .transport { gap: 22px; } }
-@media (max-width: 800px) { .page { padding-top: 140px; } .workspace { grid-template-columns: 1fr; height: auto; } .stage { height: clamp(460px, 60dvh, 700px); } .controls { border-left: 0; border-top: 1px solid var(--line); height: auto; max-height: 520px; } }
-@media (max-width: 540px) { .dockLeft { left: 12px; bottom: 12px; width: calc(100% - 24px); gap: 7px; } .dockRight { right: 12px; bottom: 66px; width: auto; flex-direction: row; align-items: flex-end; justify-content: flex-end; gap: 8px; } .settingsPanel { max-height: 270px; padding: 11px; gap: 11px; } .readout strong { font-size: 22px; } .chip { height: 30px; } .page { padding: 128px 13px 28px; } .back { margin-bottom: 25px; } .stage { height: clamp(400px, 55dvh, 580px); } .sceneTop { top: 10px; left: 10px; right: 10px; flex-direction: column; align-items: stretch; } .sceneTitle { gap: 6px; height: 34px; flex-shrink: 0; } .modelPill { display: flex; margin-right: 42px; } .envBar { flex-wrap: wrap; gap: 8px; } .envMenuWrap { flex: 1 1 100%; } .iconButton { position: absolute; top: 0; right: 0; } .transport { flex-wrap: wrap; gap: 16px; padding: 14px; } .routeProgress { min-width: 100%; } .footer { align-items: flex-start; flex-direction: column; gap: 13px; } .footer p { line-height: 1.7; font-size: 9px; } }
+@media (max-width: 800px) { .page { padding-top: 140px; } .workspace { grid-template-columns: 1fr; height: auto; } .stage { height: clamp(400px, 52dvh, 640px); } .controls { border-left: 0; border-top: 1px solid var(--line); height: clamp(380px, 52vh, 520px); min-height: 360px; } }
+@media (max-width: 540px) { .dockLeft { left: 12px; bottom: 12px; width: calc(100% - 24px); gap: 7px; } .dockRight { right: 12px; bottom: 66px; width: auto; flex-direction: row; align-items: flex-end; justify-content: flex-end; gap: 8px; } .settingsPanel { max-height: 270px; padding: 11px; gap: 11px; } .readout strong { font-size: 22px; } .chip { height: 30px; } .page { padding: 128px 13px 28px; } .back { margin-bottom: 25px; } .stage { height: clamp(320px, 46dvh, 460px); } .sceneTop { top: 10px; left: 10px; right: 10px; flex-direction: column; align-items: stretch; } .sceneTitle { gap: 6px; height: 34px; flex-shrink: 0; } .modelPill { display: flex; margin-right: 42px; } .envBar { flex-wrap: wrap; gap: 8px; } .envMenuWrap { flex: 1 1 100%; } .iconButton { position: absolute; top: 0; right: 0; } .transport { flex-wrap: wrap; gap: 16px; padding: 14px; } .routeProgress { min-width: 100%; } .footer { align-items: flex-start; flex-direction: column; gap: 13px; } .footer p { line-height: 1.7; font-size: 9px; } }
 @media (prefers-reduced-motion: reduce) { .page button { transition: none; } .settingsPanel { animation: none; } .colorSwatch { transition: none; } }
 
-.modal { position: fixed; inset: 0; width: 100%; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; border: 0; background: var(--background); color: var(--foreground); overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; }
+.modal { position: fixed; inset: 0; width: 100%; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; border: 0; background: var(--background); color: var(--foreground); overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
 .modal::backdrop { background: rgb(0 0 0 / .75); }
 .page.embedded { --viewer-height: clamp(520px, calc(100dvh - 160px), 1800px); padding: 14px 20px; min-height: 100dvh; display: flex; flex-direction: column; }
 .page.embedded .shell { display: flex; flex-direction: column; flex: 1; min-height: 0; width: 100%; }
@@ -141,7 +141,24 @@
 .shareStatus { color: var(--accent-ink); font-size: 12px; }
 .shareStatus:not(:empty) { margin-bottom: 12px; }
 .shareStatus input { display: block; width: 100%; padding: 8px; margin-top: 6px; }
-@media (max-width: 800px) { .labHeader { flex-wrap: wrap; } .page.embedded { padding: 16px 12px; } }
+@media (max-width: 800px) {
+  .labHeader { flex-wrap: wrap; }
+  .page.embedded {
+    padding: 14px 12px 24px;
+    min-height: 100%;
+    height: auto;
+    display: block;
+  }
+  .page.embedded .shell {
+    display: block;
+    min-height: 0;
+  }
+  .page.embedded .workspace {
+    flex: none;
+    height: auto;
+    min-height: 0;
+  }
+}
 
 /* Desktop camera and speed share a single column and identical outer edges. */
 .cameraControls { width: 100%; height: 42px; padding: 6px; border-radius: 10px; }

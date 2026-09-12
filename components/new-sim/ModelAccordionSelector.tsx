@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { Search, X, ChevronDown, Check } from 'lucide-react';
 import { MODEL_CATEGORIES, getModelProfile, type ModelCategoryGroup } from '@/lib/new-sim/modelProfiles';
 import styles from './ModelAccordionSelector.module.css';
@@ -29,6 +29,17 @@ export default function ModelAccordionSelector({ activeModelId, onSelectModel }:
   const [activeFilter, setActiveFilter] = useState('all');
   const listRef = useRef<HTMLDivElement>(null);
   const query = searchQuery.trim().toLowerCase();
+
+  useEffect(() => {
+    if (activeModel?.category) {
+      setOpenCategories(prev => {
+        if (prev.has(activeModel.category)) return prev;
+        const next = new Set(prev);
+        next.add(activeModel.category);
+        return next;
+      });
+    }
+  }, [activeModel?.category]);
 
   const toggleCategory = (categoryId: string) => {
     setOpenCategories(prev => {
