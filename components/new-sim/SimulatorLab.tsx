@@ -7,7 +7,7 @@ import {
   ArrowLeft, ArrowUpRight, Play, Pause, RotateCcw, Route, Navigation, Layers3,
   TrafficCone, Car, CarFront, Camera, SlidersHorizontal, Maximize2,
   Minimize2, Trees, Building2, Eye, MoveUpRight, ScanLine,
-  SignpostBig, ChevronUp, Sun, Moon, SunMoon, SkipBack, SkipForward, X, ChevronLeft, ChevronRight, Share2
+  SignpostBig, ChevronUp, Sun, Moon, SunMoon, SkipBack, SkipForward, ChevronLeft, ChevronRight, Share2
 } from 'lucide-react';
 import {
   DEFAULT_OPTIONS, SCENARIOS, BEHAVIORS, CAR_COLORS, type SimOptions, type Scenario,
@@ -269,7 +269,6 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
               <button type="button" onClick={() => adjacentModel(1)} aria-label="Next model" title="Next model"><ChevronRight size={16} /></button>
             </div>
             <button type="button" onClick={shareSimulation}><Share2 size={14} /> Share simulation</button>
-            {embedded && <button type="button" onClick={onClose} aria-label="Close simulator"><X size={18} /></button>}
           </div>
         </header>
         <div role="status" className={styles.shareStatus}>{shareStatus}

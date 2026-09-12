@@ -12,8 +12,9 @@
   --accent: var(--color-cyan-400);
   --accent-soft: color-mix(in srgb, var(--color-cyan-500) 22%, transparent);
   --accent-ink: var(--color-cyan-300);
-  min-height: 100vh; background: var(--background); color: var(--ink);
-  padding: 168px 32px 36px; font-family: var(--font-sans, system-ui, sans-serif);
+  --viewer-height: clamp(560px, calc(100dvh - 270px), 1600px);
+  min-height: 100vh; min-height: 100dvh; background: var(--background); color: var(--ink);
+  padding: 140px 32px 32px; font-family: var(--font-sans, system-ui, sans-serif);
 }
 .page * { box-sizing: border-box; }
 .page button, .page select, .page input { font: inherit; }
@@ -24,8 +25,8 @@
 .shell { max-width: 1512px; margin: 0 auto; }
 .back { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); text-decoration: none; font-size: 12px; margin-bottom: 16px; }
 .back:hover { color: var(--accent); }
-.workspace { display: grid; grid-template-columns: minmax(0, 1fr) 380px; border: 1px solid var(--line); border-radius: 13px 13px 0 0; overflow: hidden; background: var(--panel); }
-.stage { container-type: inline-size; position: relative; min-width: 0; height: 660px; overflow: hidden; }
+.workspace { display: grid; grid-template-columns: minmax(0, 1fr) 380px; border: 1px solid var(--line); border-radius: 13px 13px 0 0; overflow: hidden; background: var(--panel); height: var(--viewer-height); min-height: 0; }
+.stage { container-type: inline-size; position: relative; min-width: 0; height: 100%; min-height: 0; overflow: hidden; }
 .sceneTop { position: absolute; top: 16px; left: 16px; right: 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
 /* Environment strip: road, traffic and lighting, all one click. */
 .envBar { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; min-width: 0; }
@@ -102,8 +103,8 @@
 .cruiseStepper b { font: 11px/1 monospace; font-weight: 700; color: var(--ink); margin-left: 3px; }
 .cruiseStepper button { width: 22px; height: 22px; display: grid; place-items: center; border: 0; border-radius: 4px; background: var(--raised-hover); color: var(--ink); font-size: 13px; line-height: 1; }
 .cruiseStepper button:hover:not(:disabled) { background: var(--accent-soft); color: var(--accent-ink); }
-.controls { background: var(--panel); border-left: 1px solid var(--line); color: var(--ink); display: flex; flex-direction: column; height: 660px; overflow: hidden; }
-.transport { display: flex; align-items: center; gap: 30px; padding: 14px 20px; border: 1px solid var(--line); border-top: 0; background: var(--panel); border-radius: 0 0 12px 12px; }
+.controls { background: var(--panel); border-left: 1px solid var(--line); color: var(--ink); display: flex; flex-direction: column; height: 100%; min-height: 0; overflow: hidden; }
+.transport { display: flex; align-items: center; gap: 30px; padding: 11px 20px; border: 1px solid var(--line); border-top: 0; background: var(--panel); border-radius: 0 0 12px 12px; flex-shrink: 0; }
 .routeProgress { flex: 1; }
 .keyboard { color: var(--faint); font-size: 9px; margin-left: auto; }
 .routeProgress > div { display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px; }
@@ -112,7 +113,7 @@
 .routeProgress progress { display: block; width: 100%; height: 3px; border: 0; border-radius: 3px; overflow: hidden; accent-color: var(--accent); }
 .routeProgress progress::-webkit-progress-bar { background: var(--raised); }
 .routeProgress progress::-webkit-progress-value { background: var(--accent); }
-.footer { margin-top: 18px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 12px; }
+.footer { margin-top: 12px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 8px; flex-shrink: 0; }
 .footer p { display: flex; gap: 8px; align-items: center; margin: 0; font-size: 9px; color: var(--faint); }
 .footer p svg { flex-shrink: 0; }
 .footer a { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--accent); text-decoration: none; white-space: nowrap; }
@@ -123,17 +124,17 @@
 .colorSwatch:hover { transform: translateY(-1px); }
 .colorSwatchActive { box-shadow: inset 0 -4px 7px rgb(0 0 0 / .22), 0 0 0 2px var(--background), 0 0 0 4px var(--accent); }
 
-@media (min-width: 1600px) { .stage { height: 720px; } }
-
 @media (max-width: 1100px) { .page { padding-left: 22px; padding-right: 22px; } .workspace { grid-template-columns: minmax(0, 1fr) 280px; } .transport { gap: 22px; } }
-@media (max-width: 800px) { .page { padding-top: 168px; } .workspace { grid-template-columns: 1fr; } .stage { height: 610px; } .controls { border-left: 0; border-top: 1px solid var(--line); height: auto; max-height: 520px; } }
-@media (max-width: 540px) { .dockLeft { left: 12px; bottom: 12px; width: calc(100% - 24px); gap: 7px; } .dockRight { right: 12px; bottom: 66px; width: auto; flex-direction: row; align-items: flex-end; justify-content: flex-end; gap: 8px; } .settingsPanel { max-height: 270px; padding: 11px; gap: 11px; } .readout strong { font-size: 22px; } .chip { height: 30px; } .page { padding: 128px 13px 28px; } .back { margin-bottom: 25px; } .stage { height: 565px; } .sceneTop { top: 10px; left: 10px; right: 10px; flex-direction: column; align-items: stretch; } .sceneTitle { gap: 6px; height: 34px; flex-shrink: 0; } .modelPill { display: flex; margin-right: 42px; } .envBar { flex-wrap: wrap; gap: 8px; } .envMenuWrap { flex: 1 1 100%; } .iconButton { position: absolute; top: 0; right: 0; } .transport { flex-wrap: wrap; gap: 16px; padding: 14px; } .routeProgress { min-width: 100%; } .footer { align-items: flex-start; flex-direction: column; gap: 13px; } .footer p { line-height: 1.7; font-size: 9px; } }
+@media (max-width: 800px) { .page { padding-top: 140px; } .workspace { grid-template-columns: 1fr; height: auto; } .stage { height: clamp(460px, 60dvh, 700px); } .controls { border-left: 0; border-top: 1px solid var(--line); height: auto; max-height: 520px; } }
+@media (max-width: 540px) { .dockLeft { left: 12px; bottom: 12px; width: calc(100% - 24px); gap: 7px; } .dockRight { right: 12px; bottom: 66px; width: auto; flex-direction: row; align-items: flex-end; justify-content: flex-end; gap: 8px; } .settingsPanel { max-height: 270px; padding: 11px; gap: 11px; } .readout strong { font-size: 22px; } .chip { height: 30px; } .page { padding: 128px 13px 28px; } .back { margin-bottom: 25px; } .stage { height: clamp(400px, 55dvh, 580px); } .sceneTop { top: 10px; left: 10px; right: 10px; flex-direction: column; align-items: stretch; } .sceneTitle { gap: 6px; height: 34px; flex-shrink: 0; } .modelPill { display: flex; margin-right: 42px; } .envBar { flex-wrap: wrap; gap: 8px; } .envMenuWrap { flex: 1 1 100%; } .iconButton { position: absolute; top: 0; right: 0; } .transport { flex-wrap: wrap; gap: 16px; padding: 14px; } .routeProgress { min-width: 100%; } .footer { align-items: flex-start; flex-direction: column; gap: 13px; } .footer p { line-height: 1.7; font-size: 9px; } }
 @media (prefers-reduced-motion: reduce) { .page button { transition: none; } .settingsPanel { animation: none; } .colorSwatch { transition: none; } }
 
-.modal { position: fixed; inset: 0; width: 100%; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; border: 0; background: var(--background); color: var(--foreground); overflow: auto; overscroll-behavior: contain; }
+.modal { position: fixed; inset: 0; width: 100%; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; border: 0; background: var(--background); color: var(--foreground); overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; }
 .modal::backdrop { background: rgb(0 0 0 / .75); }
-.page.embedded { padding: 22px; min-height: 100dvh; }
-.labHeader { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.page.embedded { --viewer-height: clamp(520px, calc(100dvh - 160px), 1800px); padding: 14px 20px; min-height: 100dvh; display: flex; flex-direction: column; }
+.page.embedded .shell { display: flex; flex-direction: column; flex: 1; min-height: 0; width: 100%; }
+.page.embedded .workspace { flex: 1 1 auto; height: var(--viewer-height); min-height: 500px; }
+.labHeader { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 12px; flex-shrink: 0; }
 .labActions { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .labActions button, .labActions a { flex-shrink: 0; min-height: 36px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 8px 10px; background: var(--raised); border: 1px solid var(--line); border-radius: 7px; color: var(--ink); font-size: 11px; text-decoration: none; }
 .labActions button:hover, .labActions a:hover { background: var(--raised-hover); }
