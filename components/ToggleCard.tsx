@@ -37,7 +37,7 @@ interface ToggleCardProps {
 
 /* ─────────────────────── Simulators ─────────────────────── */
 
-function ToggleSimulator({ defaultValue, statusText }: { defaultValue: boolean; statusText?: string }) {
+function ToggleSimulator({ defaultValue, statusText, settingLabel }: { defaultValue: boolean; statusText?: string; settingLabel?: string }) {
   const [enabled, setEnabled] = useState(defaultValue);
   const { t } = useLanguage();
   return (
@@ -51,7 +51,10 @@ function ToggleSimulator({ defaultValue, statusText }: { defaultValue: boolean; 
           relative inline-flex h-9 w-[68px] items-center rounded-full transition-colors duration-300 cursor-pointer
           ${enabled ? 'bg-[#5b36f5]' : 'bg-slate-600'}
         `}
-        aria-label={enabled ? 'Disable' : 'Enable'}
+        role="switch"
+        aria-checked={enabled}
+        type="button"
+        aria-label={settingLabel || 'Preview toggle'}
       >
         <span
           className={`
@@ -113,9 +116,10 @@ function SliderSimulator({
       <div className="flex items-center gap-3">
         {/* Minus button */}
         <button
+          type="button"
           onClick={() => nudge(-1)}
           className="flex-shrink-0 text-xl font-bold text-slate-400 hover:text-slate-100 transition-colors w-6 text-center select-none cursor-pointer"
-          aria-label="Decrease"
+          aria-label={settingLabel ? `Decrease ${settingLabel}` : 'Decrease value'}
         >
           −
         </button>
@@ -135,7 +139,7 @@ function SliderSimulator({
             step={step}
             value={value}
             onChange={(e) => setValue(parseFloat(e.target.value))}
-            aria-label={settingLabel ? `Adjust ${settingLabel}` : 'Adjust value'}
+            aria-label={settingLabel || 'Value'}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           />
           {/* Default Value Marker */}
@@ -152,9 +156,10 @@ function SliderSimulator({
 
         {/* Plus button */}
         <button
+          type="button"
           onClick={() => nudge(1)}
           className="flex-shrink-0 text-xl font-bold text-slate-400 hover:text-slate-100 transition-colors w-6 text-center select-none cursor-pointer"
-          aria-label="Increase"
+          aria-label={settingLabel ? `Increase ${settingLabel}` : 'Increase value'}
         >
           +
         </button>
@@ -389,7 +394,7 @@ export default function ToggleCard({
   const renderSimulator = () => {
     switch (setting.type) {
       case 'toggle':
-        return <ToggleSimulator defaultValue={setting.default === true} statusText={getSimulatorStatusText()} />;
+        return <ToggleSimulator defaultValue={setting.default === true} statusText={getSimulatorStatusText()} settingLabel={setting.label} />;
       case 'slider':
         return (
           <SliderSimulator

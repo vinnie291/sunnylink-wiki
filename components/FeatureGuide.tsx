@@ -124,54 +124,62 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                         id={feature.id}
                         className="relative rounded-xl bg-slate-800/50 border border-slate-700/50 overflow-hidden scroll-mt-32"
                     >
-                        {/* Header - Always visible */}
-                        <div
-                            role="button"
-                            onClick={() => setExpandedFeature(expandedFeature === feature.id ? null : feature.id)}
-                            className="w-full p-4 text-left flex items-start gap-4 hover:bg-slate-700/30 transition-colors cursor-pointer"
-                        >
-                            <div className="flex-1">
-                                <div className="flex items-center gap-2 flex-wrap mb-1">
-                                    <span className="text-lg font-bold text-slate-100">{feature.name}</span>
-                                    <span className={`px-2 py-0.5 text-[10px] font-medium rounded-full border ${getCategoryColor(feature.category)}`}>
-                                        {feature.category}
-                                    </span>
+                        {/* Header - Always visible. The disclosure and the flag action are
+                            siblings: one interactive element may not contain another, and the
+                            old wrapper div was pointer-only. */}
+                        <div className="w-full flex items-start gap-2 p-4 hover:bg-slate-700/30 transition-colors">
+                            <button
+                                type="button"
+                                onClick={() => setExpandedFeature(expandedFeature === feature.id ? null : feature.id)}
+                                aria-expanded={expandedFeature === feature.id}
+                                aria-controls={`feature-panel-${feature.id}`}
+                                className="flex-1 flex items-start gap-4 text-left cursor-pointer rounded-lg"
+                            >
+                                <div className="flex-1">
+                                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                                        <span className="text-lg font-bold text-slate-100">{feature.name}</span>
+                                        <span className={`px-2 py-0.5 text-[10px] font-medium rounded-full border ${getCategoryColor(feature.category)}`}>
+                                            {feature.category}
+                                        </span>
+                                    </div>
+                                    <p className="text-sm text-slate-500 mb-2">{feature.fullName}</p>
+                                    <p className="text-sm text-slate-300">{feature.userSummary}</p>
                                 </div>
-                                <p className="text-sm text-slate-500 mb-2">{feature.fullName}</p>
-                                <p className="text-sm text-slate-300">{feature.userSummary}</p>
-                            </div>
+
+                                <svg
+                                    className={`w-5 h-5 text-slate-500 transition-transform shrink-0 mt-1 ${expandedFeature === feature.id ? 'rotate-180' : ''}`}
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
 
                             {/* Flag Button */}
                             <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
+                                type="button"
+                                onClick={() => {
                                     const title = encodeURIComponent(`Issue with Feature: ${feature.name}`);
                                     const body = encodeURIComponent(`describe the issue with this feature here...`);
                                     window.open(`https://github.com/vinnie291/sunnylink-wiki/issues/new?title=${title}&body=${body}`, '_blank');
                                 }}
-                                className="mt-1 p-1 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
-                                title="Flag this feature"
+                                className="mt-1 p-1 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors shrink-0"
+                                aria-label={`${t('features.flagFeature') || 'Flag this feature'}: ${feature.name}`}
+                                title={t('features.flagFeature') || 'Flag this feature'}
                             >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
                                 </svg>
                             </button>
-
-                            <svg
-                                className={`w-5 h-5 text-slate-500 transition-transform shrink-0 mt-1 ${expandedFeature === feature.id ? 'rotate-180' : ''}`}
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
                         </div>
 
 
 
                         {/* Expanded Content */}
                         {expandedFeature === feature.id && (
-                            <div className="px-4 pb-4 space-y-4 border-t border-slate-700/50 pt-4">
+                            <div id={`feature-panel-${feature.id}`} className="px-4 pb-4 space-y-4 border-t border-slate-700/50 pt-4">
                                 {/* User Translation */}
                                 <div className="p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
                                     <p className="text-emerald-400 text-sm">

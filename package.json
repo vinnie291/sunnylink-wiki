@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "i18n:check": "node scripts/check-i18n.mjs",
     "db:push": "drizzle-kit push",
     "db:seed": "tsx scripts/seed.ts",
     "sentiment:sync": "tsx scripts/analyze_discord_sentiment.ts",
@@ -29,7 +30,8 @@
     "next": "16.1.4",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "recharts": "^3.7.0"
+    "recharts": "^3.7.0",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -38,6 +40,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.185.4",
     "drizzle-kit": "^0.20.14",
     "eslint": "^9",
     "eslint-config-next": "16.1.4",

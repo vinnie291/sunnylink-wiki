@@ -1,0 +1,2679 @@
+{
+  "sourceUrl": "https://github.com/commaai/openpilot/blob/master/docs/CARS.md",
+  "updatedAt": "2026-09-08",
+  "marketNote": "US-market vehicles unless otherwise specified. Equipment requirements and source footnotes apply.",
+  "vehicles": [
+    {
+      "id": "Acura|ILX 2016-18|Technology Plus Package or AcuraWatch Plus",
+      "make": "Acura",
+      "model": "ILX",
+      "startYear": 2016,
+      "endYear": 2018,
+      "requiredPackage": "Technology Plus Package or AcuraWatch Plus"
+    },
+    {
+      "id": "Acura|ILX 2019|All",
+      "make": "Acura",
+      "model": "ILX",
+      "startYear": 2019,
+      "endYear": 2019,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Acura|MDX 2022-24|All",
+      "make": "Acura",
+      "model": "MDX",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Acura|MDX 2025-26|All except Type S",
+      "make": "Acura",
+      "model": "MDX",
+      "startYear": 2025,
+      "endYear": 2026,
+      "requiredPackage": "All except Type S"
+    },
+    {
+      "id": "Acura|RDX 2016-18|AcuraWatch Plus or Advance Package",
+      "make": "Acura",
+      "model": "RDX",
+      "startYear": 2016,
+      "endYear": 2018,
+      "requiredPackage": "AcuraWatch Plus or Advance Package"
+    },
+    {
+      "id": "Acura|RDX 2019-21|All",
+      "make": "Acura",
+      "model": "RDX",
+      "startYear": 2019,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Acura|TLX 2021-22|All",
+      "make": "Acura",
+      "model": "TLX",
+      "startYear": 2021,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Acura|TLX 2025|All",
+      "make": "Acura",
+      "model": "TLX",
+      "startYear": 2025,
+      "endYear": 2025,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Audi|A3 2014-19|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Audi",
+      "model": "A3",
+      "startYear": 2014,
+      "endYear": 2019,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Audi|A3 Sportback e-tron 2017-18|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Audi",
+      "model": "A3 Sportback e-tron",
+      "startYear": 2017,
+      "endYear": 2018,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Audi|Q2 2018|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Audi",
+      "model": "Q2",
+      "startYear": 2018,
+      "endYear": 2018,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Audi|Q3 2019-24|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Audi",
+      "model": "Q3",
+      "startYear": 2019,
+      "endYear": 2024,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Audi|RS3 2018|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Audi",
+      "model": "RS3",
+      "startYear": 2018,
+      "endYear": 2018,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Audi|S3 2015-17|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Audi",
+      "model": "S3",
+      "startYear": 2015,
+      "endYear": 2017,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Chevrolet|Bolt EUV 2022-23|Premier or Premier Redline Trim, without Super Cruise Package",
+      "make": "Chevrolet",
+      "model": "Bolt EUV",
+      "startYear": 2022,
+      "endYear": 2023,
+      "requiredPackage": "Premier or Premier Redline Trim, without Super Cruise Package"
+    },
+    {
+      "id": "Chevrolet|Bolt EV 2022-23|2LT Trim with Adaptive Cruise Control Package",
+      "make": "Chevrolet",
+      "model": "Bolt EV",
+      "startYear": 2022,
+      "endYear": 2023,
+      "requiredPackage": "2LT Trim with Adaptive Cruise Control Package"
+    },
+    {
+      "id": "Chevrolet|Equinox 2019-22|Adaptive Cruise Control (ACC)",
+      "make": "Chevrolet",
+      "model": "Equinox",
+      "startYear": 2019,
+      "endYear": 2022,
+      "requiredPackage": "Adaptive Cruise Control (ACC)"
+    },
+    {
+      "id": "Chevrolet|Silverado 1500 2020-21|Safety Package II",
+      "make": "Chevrolet",
+      "model": "Silverado 1500",
+      "startYear": 2020,
+      "endYear": 2021,
+      "requiredPackage": "Safety Package II"
+    },
+    {
+      "id": "Chevrolet|Trailblazer 2021-22|Adaptive Cruise Control (ACC)",
+      "make": "Chevrolet",
+      "model": "Trailblazer",
+      "startYear": 2021,
+      "endYear": 2022,
+      "requiredPackage": "Adaptive Cruise Control (ACC)"
+    },
+    {
+      "id": "Chrysler|Pacifica 2017-18|Adaptive Cruise Control (ACC)",
+      "make": "Chrysler",
+      "model": "Pacifica",
+      "startYear": 2017,
+      "endYear": 2018,
+      "requiredPackage": "Adaptive Cruise Control (ACC)"
+    },
+    {
+      "id": "Chrysler|Pacifica 2019-20|Adaptive Cruise Control (ACC)",
+      "make": "Chrysler",
+      "model": "Pacifica",
+      "startYear": 2019,
+      "endYear": 2020,
+      "requiredPackage": "Adaptive Cruise Control (ACC)"
+    },
+    {
+      "id": "Chrysler|Pacifica 2021-23|All",
+      "make": "Chrysler",
+      "model": "Pacifica",
+      "startYear": 2021,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Chrysler|Pacifica Hybrid 2017-18|Adaptive Cruise Control (ACC)",
+      "make": "Chrysler",
+      "model": "Pacifica Hybrid",
+      "startYear": 2017,
+      "endYear": 2018,
+      "requiredPackage": "Adaptive Cruise Control (ACC)"
+    },
+    {
+      "id": "Chrysler|Pacifica Hybrid 2019-25|Adaptive Cruise Control (ACC)",
+      "make": "Chrysler",
+      "model": "Pacifica Hybrid",
+      "startYear": 2019,
+      "endYear": 2025,
+      "requiredPackage": "Adaptive Cruise Control (ACC)"
+    },
+    {
+      "id": "CUPRA|Ateca 2018-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "CUPRA",
+      "model": "Ateca",
+      "startYear": 2018,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "CUPRA|Born 2021-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "CUPRA",
+      "model": "Born",
+      "startYear": 2021,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Dodge|Durango 2020-21|Adaptive Cruise Control (ACC)",
+      "make": "Dodge",
+      "model": "Durango",
+      "startYear": 2020,
+      "endYear": 2021,
+      "requiredPackage": "Adaptive Cruise Control (ACC)"
+    },
+    {
+      "id": "Ford|Bronco Sport 2021-24|Co-Pilot360 Assist+",
+      "make": "Ford",
+      "model": "Bronco Sport",
+      "startYear": 2021,
+      "endYear": 2024,
+      "requiredPackage": "Co-Pilot360 Assist+"
+    },
+    {
+      "id": "Ford|Escape 2020-22|Co-Pilot360 Assist+",
+      "make": "Ford",
+      "model": "Escape",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "Co-Pilot360 Assist+"
+    },
+    {
+      "id": "Ford|Escape 2023-24|Co-Pilot360 Assist+",
+      "make": "Ford",
+      "model": "Escape",
+      "startYear": 2023,
+      "endYear": 2024,
+      "requiredPackage": "Co-Pilot360 Assist+"
+    },
+    {
+      "id": "Ford|Escape Hybrid 2020-22|Co-Pilot360 Assist+",
+      "make": "Ford",
+      "model": "Escape Hybrid",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "Co-Pilot360 Assist+"
+    },
+    {
+      "id": "Ford|Escape Hybrid 2023-24|Co-Pilot360 Assist+",
+      "make": "Ford",
+      "model": "Escape Hybrid",
+      "startYear": 2023,
+      "endYear": 2024,
+      "requiredPackage": "Co-Pilot360 Assist+"
+    },
+    {
+      "id": "Ford|Escape Plug-in Hybrid 2020-22|Co-Pilot360 Assist+",
+      "make": "Ford",
+      "model": "Escape Plug-in Hybrid",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "Co-Pilot360 Assist+"
+    },
+    {
+      "id": "Ford|Escape Plug-in Hybrid 2023-24|Co-Pilot360 Assist+",
+      "make": "Ford",
+      "model": "Escape Plug-in Hybrid",
+      "startYear": 2023,
+      "endYear": 2024,
+      "requiredPackage": "Co-Pilot360 Assist+"
+    },
+    {
+      "id": "Ford|Expedition 2022-24|Co-Pilot360 Assist 2.0",
+      "make": "Ford",
+      "model": "Expedition",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "Co-Pilot360 Assist 2.0"
+    },
+    {
+      "id": "Ford|Explorer 2020-24|Co-Pilot360 Assist+",
+      "make": "Ford",
+      "model": "Explorer",
+      "startYear": 2020,
+      "endYear": 2024,
+      "requiredPackage": "Co-Pilot360 Assist+"
+    },
+    {
+      "id": "Ford|Explorer Hybrid 2020-24|Co-Pilot360 Assist+",
+      "make": "Ford",
+      "model": "Explorer Hybrid",
+      "startYear": 2020,
+      "endYear": 2024,
+      "requiredPackage": "Co-Pilot360 Assist+"
+    },
+    {
+      "id": "Ford|F-150 2021-23|Co-Pilot360 Assist 2.0",
+      "make": "Ford",
+      "model": "F-150",
+      "startYear": 2021,
+      "endYear": 2023,
+      "requiredPackage": "Co-Pilot360 Assist 2.0"
+    },
+    {
+      "id": "Ford|F-150 Hybrid 2021-23|Co-Pilot360 Assist 2.0",
+      "make": "Ford",
+      "model": "F-150 Hybrid",
+      "startYear": 2021,
+      "endYear": 2023,
+      "requiredPackage": "Co-Pilot360 Assist 2.0"
+    },
+    {
+      "id": "Ford|Focus 2018-22|Adaptive Cruise Control with Lane Centering",
+      "make": "Ford",
+      "model": "Focus",
+      "startYear": 2018,
+      "endYear": 2022,
+      "requiredPackage": "Adaptive Cruise Control with Lane Centering"
+    },
+    {
+      "id": "Ford|Focus Hybrid 2018-22|Adaptive Cruise Control with Lane Centering",
+      "make": "Ford",
+      "model": "Focus Hybrid",
+      "startYear": 2018,
+      "endYear": 2022,
+      "requiredPackage": "Adaptive Cruise Control with Lane Centering"
+    },
+    {
+      "id": "Ford|Kuga 2020-23|Adaptive Cruise Control with Lane Centering",
+      "make": "Ford",
+      "model": "Kuga",
+      "startYear": 2020,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control with Lane Centering"
+    },
+    {
+      "id": "Ford|Kuga Hybrid 2020-23|Adaptive Cruise Control with Lane Centering",
+      "make": "Ford",
+      "model": "Kuga Hybrid",
+      "startYear": 2020,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control with Lane Centering"
+    },
+    {
+      "id": "Ford|Kuga Hybrid 2024|All",
+      "make": "Ford",
+      "model": "Kuga Hybrid",
+      "startYear": 2024,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Ford|Kuga Plug-in Hybrid 2020-23|Adaptive Cruise Control with Lane Centering",
+      "make": "Ford",
+      "model": "Kuga Plug-in Hybrid",
+      "startYear": 2020,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control with Lane Centering"
+    },
+    {
+      "id": "Ford|Kuga Plug-in Hybrid 2024|All",
+      "make": "Ford",
+      "model": "Kuga Plug-in Hybrid",
+      "startYear": 2024,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Ford|Maverick 2022|LARIAT Luxury",
+      "make": "Ford",
+      "model": "Maverick",
+      "startYear": 2022,
+      "endYear": 2022,
+      "requiredPackage": "LARIAT Luxury"
+    },
+    {
+      "id": "Ford|Maverick 2023-24|Co-Pilot360 Assist",
+      "make": "Ford",
+      "model": "Maverick",
+      "startYear": 2023,
+      "endYear": 2024,
+      "requiredPackage": "Co-Pilot360 Assist"
+    },
+    {
+      "id": "Ford|Maverick Hybrid 2022|LARIAT Luxury",
+      "make": "Ford",
+      "model": "Maverick Hybrid",
+      "startYear": 2022,
+      "endYear": 2022,
+      "requiredPackage": "LARIAT Luxury"
+    },
+    {
+      "id": "Ford|Maverick Hybrid 2023-24|Co-Pilot360 Assist",
+      "make": "Ford",
+      "model": "Maverick Hybrid",
+      "startYear": 2023,
+      "endYear": 2024,
+      "requiredPackage": "Co-Pilot360 Assist"
+    },
+    {
+      "id": "Ford|Mustang Mach-E 2021-24|All",
+      "make": "Ford",
+      "model": "Mustang Mach-E",
+      "startYear": 2021,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Ford|Ranger 2024|Adaptive Cruise Control with Lane Centering",
+      "make": "Ford",
+      "model": "Ranger",
+      "startYear": 2024,
+      "endYear": 2024,
+      "requiredPackage": "Adaptive Cruise Control with Lane Centering"
+    },
+    {
+      "id": "Genesis|G70 2018|All",
+      "make": "Genesis",
+      "model": "G70",
+      "startYear": 2018,
+      "endYear": 2018,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Genesis|G70 2019-21|All",
+      "make": "Genesis",
+      "model": "G70",
+      "startYear": 2019,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Genesis|G70 2022-23|All",
+      "make": "Genesis",
+      "model": "G70",
+      "startYear": 2022,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Genesis|G80 2017|All",
+      "make": "Genesis",
+      "model": "G80",
+      "startYear": 2017,
+      "endYear": 2017,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Genesis|G80 2018-19|All",
+      "make": "Genesis",
+      "model": "G80",
+      "startYear": 2018,
+      "endYear": 2019,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Genesis|G80 (2.5T Advanced Trim, with HDA II) 2024|Highway Driving Assist II",
+      "make": "Genesis",
+      "model": "G80 (2.5T Advanced Trim, with HDA II)",
+      "startYear": 2024,
+      "endYear": 2024,
+      "requiredPackage": "Highway Driving Assist II"
+    },
+    {
+      "id": "Genesis|G90 2017-20|All",
+      "make": "Genesis",
+      "model": "G90",
+      "startYear": 2017,
+      "endYear": 2020,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Genesis|GV60 (Advanced Trim) 2023|All",
+      "make": "Genesis",
+      "model": "GV60 (Advanced Trim)",
+      "startYear": 2023,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Genesis|GV60 (Performance Trim) 2022-23|All",
+      "make": "Genesis",
+      "model": "GV60 (Performance Trim)",
+      "startYear": 2022,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Genesis|GV70 (2.5T Trim, without HDA II) 2022-24|All",
+      "make": "Genesis",
+      "model": "GV70 (2.5T Trim, without HDA II)",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Genesis|GV70 (3.5T Trim, without HDA II) 2022-23|All",
+      "make": "Genesis",
+      "model": "GV70 (3.5T Trim, without HDA II)",
+      "startYear": 2022,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Genesis|GV70 Electrified (Australia Only) 2022|All",
+      "make": "Genesis",
+      "model": "GV70 Electrified (Australia Only)",
+      "startYear": 2022,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Genesis|GV70 Electrified (with HDA II) 2023-24|Highway Driving Assist II",
+      "make": "Genesis",
+      "model": "GV70 Electrified (with HDA II)",
+      "startYear": 2023,
+      "endYear": 2024,
+      "requiredPackage": "Highway Driving Assist II"
+    },
+    {
+      "id": "Genesis|GV80 2023|All",
+      "make": "Genesis",
+      "model": "GV80",
+      "startYear": 2023,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "GMC|Sierra 1500 2020-21|Driver Alert Package II",
+      "make": "GMC",
+      "model": "Sierra 1500",
+      "startYear": 2020,
+      "endYear": 2021,
+      "requiredPackage": "Driver Alert Package II"
+    },
+    {
+      "id": "Honda|Accord 2018-22|All",
+      "make": "Honda",
+      "model": "Accord",
+      "startYear": 2018,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Accord 2023-25|All",
+      "make": "Honda",
+      "model": "Accord",
+      "startYear": 2023,
+      "endYear": 2025,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Accord Hybrid 2018-22|All",
+      "make": "Honda",
+      "model": "Accord Hybrid",
+      "startYear": 2018,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Accord Hybrid 2023-26|All",
+      "make": "Honda",
+      "model": "Accord Hybrid",
+      "startYear": 2023,
+      "endYear": 2026,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|City (Brazil only) 2023|All",
+      "make": "Honda",
+      "model": "City (Brazil only)",
+      "startYear": 2023,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Civic 2016-18|Honda Sensing",
+      "make": "Honda",
+      "model": "Civic",
+      "startYear": 2016,
+      "endYear": 2018,
+      "requiredPackage": "Honda Sensing"
+    },
+    {
+      "id": "Honda|Civic 2019-21|All",
+      "make": "Honda",
+      "model": "Civic",
+      "startYear": 2019,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Civic 2022-26|All",
+      "make": "Honda",
+      "model": "Civic",
+      "startYear": 2022,
+      "endYear": 2026,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Civic Hatchback 2017-18|Honda Sensing",
+      "make": "Honda",
+      "model": "Civic Hatchback",
+      "startYear": 2017,
+      "endYear": 2018,
+      "requiredPackage": "Honda Sensing"
+    },
+    {
+      "id": "Honda|Civic Hatchback 2019-21|All",
+      "make": "Honda",
+      "model": "Civic Hatchback",
+      "startYear": 2019,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Civic Hatchback 2022-24|All",
+      "make": "Honda",
+      "model": "Civic Hatchback",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Civic Hatchback Hybrid 2025-26|All",
+      "make": "Honda",
+      "model": "Civic Hatchback Hybrid",
+      "startYear": 2025,
+      "endYear": 2026,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Civic Hatchback Hybrid (Europe only) 2023|All",
+      "make": "Honda",
+      "model": "Civic Hatchback Hybrid (Europe only)",
+      "startYear": 2023,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Civic Hybrid 2025-26|All",
+      "make": "Honda",
+      "model": "Civic Hybrid",
+      "startYear": 2025,
+      "endYear": 2026,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|CR-V 2015-16|Touring Trim",
+      "make": "Honda",
+      "model": "CR-V",
+      "startYear": 2015,
+      "endYear": 2016,
+      "requiredPackage": "Touring Trim"
+    },
+    {
+      "id": "Honda|CR-V 2017-22|Honda Sensing",
+      "make": "Honda",
+      "model": "CR-V",
+      "startYear": 2017,
+      "endYear": 2022,
+      "requiredPackage": "Honda Sensing"
+    },
+    {
+      "id": "Honda|CR-V 2023-26|All",
+      "make": "Honda",
+      "model": "CR-V",
+      "startYear": 2023,
+      "endYear": 2026,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|CR-V Hybrid 2017-22|Honda Sensing",
+      "make": "Honda",
+      "model": "CR-V Hybrid",
+      "startYear": 2017,
+      "endYear": 2022,
+      "requiredPackage": "Honda Sensing"
+    },
+    {
+      "id": "Honda|CR-V Hybrid 2023-26|All",
+      "make": "Honda",
+      "model": "CR-V Hybrid",
+      "startYear": 2023,
+      "endYear": 2026,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|e 2020|All",
+      "make": "Honda",
+      "model": "e",
+      "startYear": 2020,
+      "endYear": 2020,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Fit 2018-20|Honda Sensing",
+      "make": "Honda",
+      "model": "Fit",
+      "startYear": 2018,
+      "endYear": 2020,
+      "requiredPackage": "Honda Sensing"
+    },
+    {
+      "id": "Honda|Freed 2020|Honda Sensing",
+      "make": "Honda",
+      "model": "Freed",
+      "startYear": 2020,
+      "endYear": 2020,
+      "requiredPackage": "Honda Sensing"
+    },
+    {
+      "id": "Honda|HR-V 2019-22|Honda Sensing",
+      "make": "Honda",
+      "model": "HR-V",
+      "startYear": 2019,
+      "endYear": 2022,
+      "requiredPackage": "Honda Sensing"
+    },
+    {
+      "id": "Honda|HR-V 2023-25|All",
+      "make": "Honda",
+      "model": "HR-V",
+      "startYear": 2023,
+      "endYear": 2025,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Insight 2019-22|All",
+      "make": "Honda",
+      "model": "Insight",
+      "startYear": 2019,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Inspire 2018|All",
+      "make": "Honda",
+      "model": "Inspire",
+      "startYear": 2018,
+      "endYear": 2018,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|N-Box 2018|All",
+      "make": "Honda",
+      "model": "N-Box",
+      "startYear": 2018,
+      "endYear": 2018,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Odyssey 2018-20|Honda Sensing",
+      "make": "Honda",
+      "model": "Odyssey",
+      "startYear": 2018,
+      "endYear": 2020,
+      "requiredPackage": "Honda Sensing"
+    },
+    {
+      "id": "Honda|Odyssey 2021-26|All",
+      "make": "Honda",
+      "model": "Odyssey",
+      "startYear": 2021,
+      "endYear": 2026,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Odyssey (Singapore) 2021|Honda Sensing",
+      "make": "Honda",
+      "model": "Odyssey (Singapore)",
+      "startYear": 2021,
+      "endYear": 2021,
+      "requiredPackage": "Honda Sensing"
+    },
+    {
+      "id": "Honda|Odyssey (Taiwan) 2018-19|Honda Sensing",
+      "make": "Honda",
+      "model": "Odyssey (Taiwan)",
+      "startYear": 2018,
+      "endYear": 2019,
+      "requiredPackage": "Honda Sensing"
+    },
+    {
+      "id": "Honda|Passport 2019-25|All",
+      "make": "Honda",
+      "model": "Passport",
+      "startYear": 2019,
+      "endYear": 2025,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Passport 2026|All",
+      "make": "Honda",
+      "model": "Passport",
+      "startYear": 2026,
+      "endYear": 2026,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Pilot 2016-22|Honda Sensing",
+      "make": "Honda",
+      "model": "Pilot",
+      "startYear": 2016,
+      "endYear": 2022,
+      "requiredPackage": "Honda Sensing"
+    },
+    {
+      "id": "Honda|Pilot 2023-25|All",
+      "make": "Honda",
+      "model": "Pilot",
+      "startYear": 2023,
+      "endYear": 2025,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Honda|Ridgeline 2017-25|Honda Sensing",
+      "make": "Honda",
+      "model": "Ridgeline",
+      "startYear": 2017,
+      "endYear": 2025,
+      "requiredPackage": "Honda Sensing"
+    },
+    {
+      "id": "Hyundai|Azera 2022|All",
+      "make": "Hyundai",
+      "model": "Azera",
+      "startYear": 2022,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Azera Hybrid 2019|All",
+      "make": "Hyundai",
+      "model": "Azera Hybrid",
+      "startYear": 2019,
+      "endYear": 2019,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Azera Hybrid 2020|All",
+      "make": "Hyundai",
+      "model": "Azera Hybrid",
+      "startYear": 2020,
+      "endYear": 2020,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Custin 2023|All",
+      "make": "Hyundai",
+      "model": "Custin",
+      "startYear": 2023,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Elantra 2017-18|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Elantra",
+      "startYear": 2017,
+      "endYear": 2018,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Elantra 2019|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Elantra",
+      "startYear": 2019,
+      "endYear": 2019,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Elantra 2021-23|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Elantra",
+      "startYear": 2021,
+      "endYear": 2023,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Elantra GT 2017-20|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Elantra GT",
+      "startYear": 2017,
+      "endYear": 2020,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Elantra Hybrid 2021-23|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Elantra Hybrid",
+      "startYear": 2021,
+      "endYear": 2023,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Genesis 2015-16|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Genesis",
+      "startYear": 2015,
+      "endYear": 2016,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|i30 2017-19|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "i30",
+      "startYear": 2017,
+      "endYear": 2019,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Ioniq 5 (Southeast Asia and Europe only) 2022-24|All",
+      "make": "Hyundai",
+      "model": "Ioniq 5 (Southeast Asia and Europe only)",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Ioniq 5 (with HDA II) 2022-24|Highway Driving Assist II",
+      "make": "Hyundai",
+      "model": "Ioniq 5 (with HDA II)",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "Highway Driving Assist II"
+    },
+    {
+      "id": "Hyundai|Ioniq 5 (without HDA II) 2022-24|Highway Driving Assist",
+      "make": "Hyundai",
+      "model": "Ioniq 5 (without HDA II)",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "Highway Driving Assist"
+    },
+    {
+      "id": "Hyundai|Ioniq 6 (with HDA II) 2023-24|Highway Driving Assist II",
+      "make": "Hyundai",
+      "model": "Ioniq 6 (with HDA II)",
+      "startYear": 2023,
+      "endYear": 2024,
+      "requiredPackage": "Highway Driving Assist II"
+    },
+    {
+      "id": "Hyundai|Ioniq 6 (without HDA II) 2023-24|Highway Driving Assist",
+      "make": "Hyundai",
+      "model": "Ioniq 6 (without HDA II)",
+      "startYear": 2023,
+      "endYear": 2024,
+      "requiredPackage": "Highway Driving Assist"
+    },
+    {
+      "id": "Hyundai|Ioniq Electric 2019|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Ioniq Electric",
+      "startYear": 2019,
+      "endYear": 2019,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Ioniq Electric 2020|All",
+      "make": "Hyundai",
+      "model": "Ioniq Electric",
+      "startYear": 2020,
+      "endYear": 2020,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Ioniq Hybrid 2017-19|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Ioniq Hybrid",
+      "startYear": 2017,
+      "endYear": 2019,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Ioniq Hybrid 2020-22|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Ioniq Hybrid",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Ioniq Plug-in Hybrid 2019|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Ioniq Plug-in Hybrid",
+      "startYear": 2019,
+      "endYear": 2019,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Ioniq Plug-in Hybrid 2020-22|All",
+      "make": "Hyundai",
+      "model": "Ioniq Plug-in Hybrid",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Kona 2020|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Kona",
+      "startYear": 2020,
+      "endYear": 2020,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Kona Electric 2018-21|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Kona Electric",
+      "startYear": 2018,
+      "endYear": 2021,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Kona Electric 2022-23|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Kona Electric",
+      "startYear": 2022,
+      "endYear": 2023,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Kona Electric (with HDA II, Korea only) 2023|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Kona Electric (with HDA II, Korea only)",
+      "startYear": 2023,
+      "endYear": 2023,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Kona Hybrid 2020|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Kona Hybrid",
+      "startYear": 2020,
+      "endYear": 2020,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Nexo 2021|All",
+      "make": "Hyundai",
+      "model": "Nexo",
+      "startYear": 2021,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Palisade 2020-22|All",
+      "make": "Hyundai",
+      "model": "Palisade",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Santa Cruz 2022-24|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Santa Cruz",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Santa Fe 2019-20|All",
+      "make": "Hyundai",
+      "model": "Santa Fe",
+      "startYear": 2019,
+      "endYear": 2020,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Santa Fe 2021-23|All",
+      "make": "Hyundai",
+      "model": "Santa Fe",
+      "startYear": 2021,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Santa Fe Hybrid 2022-23|All",
+      "make": "Hyundai",
+      "model": "Santa Fe Hybrid",
+      "startYear": 2022,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Santa Fe Plug-in Hybrid 2022-23|All",
+      "make": "Hyundai",
+      "model": "Santa Fe Plug-in Hybrid",
+      "startYear": 2022,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Sonata 2018-19|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Sonata",
+      "startYear": 2018,
+      "endYear": 2019,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Sonata 2020-23|All",
+      "make": "Hyundai",
+      "model": "Sonata",
+      "startYear": 2020,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Sonata Hybrid 2020-23|All",
+      "make": "Hyundai",
+      "model": "Sonata Hybrid",
+      "startYear": 2020,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Staria 2023|All",
+      "make": "Hyundai",
+      "model": "Staria",
+      "startYear": 2023,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Tucson 2021|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Tucson",
+      "startYear": 2021,
+      "endYear": 2021,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Tucson 2022|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Tucson",
+      "startYear": 2022,
+      "endYear": 2022,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Tucson 2023-24|All",
+      "make": "Hyundai",
+      "model": "Tucson",
+      "startYear": 2023,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Tucson Diesel 2019|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Tucson Diesel",
+      "startYear": 2019,
+      "endYear": 2019,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Hyundai|Tucson Hybrid 2022-24|All",
+      "make": "Hyundai",
+      "model": "Tucson Hybrid",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Tucson Plug-in Hybrid 2024|All",
+      "make": "Hyundai",
+      "model": "Tucson Plug-in Hybrid",
+      "startYear": 2024,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Hyundai|Veloster 2019-20|Smart Cruise Control (SCC)",
+      "make": "Hyundai",
+      "model": "Veloster",
+      "startYear": 2019,
+      "endYear": 2020,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Jeep|Grand Cherokee 2016-18|Adaptive Cruise Control (ACC)",
+      "make": "Jeep",
+      "model": "Grand Cherokee",
+      "startYear": 2016,
+      "endYear": 2018,
+      "requiredPackage": "Adaptive Cruise Control (ACC)"
+    },
+    {
+      "id": "Jeep|Grand Cherokee 2019-21|Adaptive Cruise Control (ACC)",
+      "make": "Jeep",
+      "model": "Grand Cherokee",
+      "startYear": 2019,
+      "endYear": 2021,
+      "requiredPackage": "Adaptive Cruise Control (ACC)"
+    },
+    {
+      "id": "Kia|Carnival 2022-24|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Carnival",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Carnival (China only) 2023|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Carnival (China only)",
+      "startYear": 2023,
+      "endYear": 2023,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Ceed 2019-21|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Ceed",
+      "startYear": 2019,
+      "endYear": 2021,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|EV6 (Southeast Asia only) 2022-24|All",
+      "make": "Kia",
+      "model": "EV6 (Southeast Asia only)",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Kia|EV6 (with HDA II) 2022-24|Highway Driving Assist II",
+      "make": "Kia",
+      "model": "EV6 (with HDA II)",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "Highway Driving Assist II"
+    },
+    {
+      "id": "Kia|EV6 (without HDA II) 2022-24|Highway Driving Assist",
+      "make": "Kia",
+      "model": "EV6 (without HDA II)",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "Highway Driving Assist"
+    },
+    {
+      "id": "Kia|Forte 2019-21|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Forte",
+      "startYear": 2019,
+      "endYear": 2021,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Forte 2022-23|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Forte",
+      "startYear": 2022,
+      "endYear": 2023,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|K5 2021-24|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "K5",
+      "startYear": 2021,
+      "endYear": 2024,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|K5 Hybrid 2020-22|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "K5 Hybrid",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|K7 2017|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "K7",
+      "startYear": 2017,
+      "endYear": 2017,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|K8 Hybrid (with HDA II) 2023|Highway Driving Assist II",
+      "make": "Kia",
+      "model": "K8 Hybrid (with HDA II)",
+      "startYear": 2023,
+      "endYear": 2023,
+      "requiredPackage": "Highway Driving Assist II"
+    },
+    {
+      "id": "Kia|Niro EV 2019|All",
+      "make": "Kia",
+      "model": "Niro EV",
+      "startYear": 2019,
+      "endYear": 2019,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Kia|Niro EV 2020|All",
+      "make": "Kia",
+      "model": "Niro EV",
+      "startYear": 2020,
+      "endYear": 2020,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Kia|Niro EV 2021|All",
+      "make": "Kia",
+      "model": "Niro EV",
+      "startYear": 2021,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Kia|Niro EV 2022|All",
+      "make": "Kia",
+      "model": "Niro EV",
+      "startYear": 2022,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Kia|Niro EV (with HDA II) 2024-25|Highway Driving Assist II",
+      "make": "Kia",
+      "model": "Niro EV (with HDA II)",
+      "startYear": 2024,
+      "endYear": 2025,
+      "requiredPackage": "Highway Driving Assist II"
+    },
+    {
+      "id": "Kia|Niro EV (without HDA II) 2023-25|All",
+      "make": "Kia",
+      "model": "Niro EV (without HDA II)",
+      "startYear": 2023,
+      "endYear": 2025,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Kia|Niro Hybrid 2018|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Niro Hybrid",
+      "startYear": 2018,
+      "endYear": 2018,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Niro Hybrid 2021|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Niro Hybrid",
+      "startYear": 2021,
+      "endYear": 2021,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Niro Hybrid 2022|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Niro Hybrid",
+      "startYear": 2022,
+      "endYear": 2022,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Niro Hybrid 2023-24|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Niro Hybrid",
+      "startYear": 2023,
+      "endYear": 2024,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Niro Plug-in Hybrid 2018-19|All",
+      "make": "Kia",
+      "model": "Niro Plug-in Hybrid",
+      "startYear": 2018,
+      "endYear": 2019,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Kia|Niro Plug-in Hybrid 2020|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Niro Plug-in Hybrid",
+      "startYear": 2020,
+      "endYear": 2020,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Niro Plug-in Hybrid 2021|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Niro Plug-in Hybrid",
+      "startYear": 2021,
+      "endYear": 2021,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Niro Plug-in Hybrid 2022|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Niro Plug-in Hybrid",
+      "startYear": 2022,
+      "endYear": 2022,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Optima 2017|Advanced Smart Cruise Control",
+      "make": "Kia",
+      "model": "Optima",
+      "startYear": 2017,
+      "endYear": 2017,
+      "requiredPackage": "Advanced Smart Cruise Control"
+    },
+    {
+      "id": "Kia|Optima 2019-20|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Optima",
+      "startYear": 2019,
+      "endYear": 2020,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Optima Hybrid 2019|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Optima Hybrid",
+      "startYear": 2019,
+      "endYear": 2019,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Seltos 2021|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Seltos",
+      "startYear": 2021,
+      "endYear": 2021,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Sorento 2018|Advanced Smart Cruise Control & LKAS",
+      "make": "Kia",
+      "model": "Sorento",
+      "startYear": 2018,
+      "endYear": 2018,
+      "requiredPackage": "Advanced Smart Cruise Control & LKAS"
+    },
+    {
+      "id": "Kia|Sorento 2019|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Sorento",
+      "startYear": 2019,
+      "endYear": 2019,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Sorento 2021-23|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Sorento",
+      "startYear": 2021,
+      "endYear": 2023,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Sorento Hybrid 2021-23|All",
+      "make": "Kia",
+      "model": "Sorento Hybrid",
+      "startYear": 2021,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Kia|Sorento Plug-in Hybrid 2022-23|All",
+      "make": "Kia",
+      "model": "Sorento Plug-in Hybrid",
+      "startYear": 2022,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Kia|Sportage 2023-24|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Sportage",
+      "startYear": 2023,
+      "endYear": 2024,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Sportage Hybrid 2023|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Sportage Hybrid",
+      "startYear": 2023,
+      "endYear": 2023,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Stinger 2018-20|Smart Cruise Control (SCC)",
+      "make": "Kia",
+      "model": "Stinger",
+      "startYear": 2018,
+      "endYear": 2020,
+      "requiredPackage": "Smart Cruise Control (SCC)"
+    },
+    {
+      "id": "Kia|Stinger 2022-23|All",
+      "make": "Kia",
+      "model": "Stinger",
+      "startYear": 2022,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Kia|Telluride 2020-22|All",
+      "make": "Kia",
+      "model": "Telluride",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|CT Hybrid 2017-18|Lexus Safety System+",
+      "make": "Lexus",
+      "model": "CT Hybrid",
+      "startYear": 2017,
+      "endYear": 2018,
+      "requiredPackage": "Lexus Safety System+"
+    },
+    {
+      "id": "Lexus|ES 2017-18|All",
+      "make": "Lexus",
+      "model": "ES",
+      "startYear": 2017,
+      "endYear": 2018,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|ES 2019-25|All",
+      "make": "Lexus",
+      "model": "ES",
+      "startYear": 2019,
+      "endYear": 2025,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|ES Hybrid 2017-18|All",
+      "make": "Lexus",
+      "model": "ES Hybrid",
+      "startYear": 2017,
+      "endYear": 2018,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|ES Hybrid 2019-25|All",
+      "make": "Lexus",
+      "model": "ES Hybrid",
+      "startYear": 2019,
+      "endYear": 2025,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|GS F 2016|All",
+      "make": "Lexus",
+      "model": "GS F",
+      "startYear": 2016,
+      "endYear": 2016,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|IS 2017-19|All",
+      "make": "Lexus",
+      "model": "IS",
+      "startYear": 2017,
+      "endYear": 2019,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|IS 2022-24|All",
+      "make": "Lexus",
+      "model": "IS",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|LC 2024-25|All",
+      "make": "Lexus",
+      "model": "LC",
+      "startYear": 2024,
+      "endYear": 2025,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|LS 2018|All except Lexus Safety System+ A",
+      "make": "Lexus",
+      "model": "LS",
+      "startYear": 2018,
+      "endYear": 2018,
+      "requiredPackage": "All except Lexus Safety System+ A"
+    },
+    {
+      "id": "Lexus|NX 2018-19|All",
+      "make": "Lexus",
+      "model": "NX",
+      "startYear": 2018,
+      "endYear": 2019,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|NX 2020-21|All",
+      "make": "Lexus",
+      "model": "NX",
+      "startYear": 2020,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|NX Hybrid 2018-19|All",
+      "make": "Lexus",
+      "model": "NX Hybrid",
+      "startYear": 2018,
+      "endYear": 2019,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|NX Hybrid 2020-21|All",
+      "make": "Lexus",
+      "model": "NX Hybrid",
+      "startYear": 2020,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|RC 2018-20|All",
+      "make": "Lexus",
+      "model": "RC",
+      "startYear": 2018,
+      "endYear": 2020,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|RC 2023|All",
+      "make": "Lexus",
+      "model": "RC",
+      "startYear": 2023,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|RX 2016|Lexus Safety System+",
+      "make": "Lexus",
+      "model": "RX",
+      "startYear": 2016,
+      "endYear": 2016,
+      "requiredPackage": "Lexus Safety System+"
+    },
+    {
+      "id": "Lexus|RX 2017-19|All",
+      "make": "Lexus",
+      "model": "RX",
+      "startYear": 2017,
+      "endYear": 2019,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|RX 2020-22|All",
+      "make": "Lexus",
+      "model": "RX",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|RX Hybrid 2016|Lexus Safety System+",
+      "make": "Lexus",
+      "model": "RX Hybrid",
+      "startYear": 2016,
+      "endYear": 2016,
+      "requiredPackage": "Lexus Safety System+"
+    },
+    {
+      "id": "Lexus|RX Hybrid 2017-19|All",
+      "make": "Lexus",
+      "model": "RX Hybrid",
+      "startYear": 2017,
+      "endYear": 2019,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|RX Hybrid 2020-22|All",
+      "make": "Lexus",
+      "model": "RX Hybrid",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lexus|UX Hybrid 2019-24|All",
+      "make": "Lexus",
+      "model": "UX Hybrid",
+      "startYear": 2019,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Lincoln|Aviator 2020-24|Co-Pilot360 Plus",
+      "make": "Lincoln",
+      "model": "Aviator",
+      "startYear": 2020,
+      "endYear": 2024,
+      "requiredPackage": "Co-Pilot360 Plus"
+    },
+    {
+      "id": "Lincoln|Aviator Plug-in Hybrid 2020-24|Co-Pilot360 Plus",
+      "make": "Lincoln",
+      "model": "Aviator Plug-in Hybrid",
+      "startYear": 2020,
+      "endYear": 2024,
+      "requiredPackage": "Co-Pilot360 Plus"
+    },
+    {
+      "id": "MAN|eTGE 2020-24|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "MAN",
+      "model": "eTGE",
+      "startYear": 2020,
+      "endYear": 2024,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "MAN|TGE 2017-24|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "MAN",
+      "model": "TGE",
+      "startYear": 2017,
+      "endYear": 2024,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Mazda|CX-5 2022-25|All",
+      "make": "Mazda",
+      "model": "CX-5",
+      "startYear": 2022,
+      "endYear": 2025,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Mazda|CX-9 2021-23|All",
+      "make": "Mazda",
+      "model": "CX-9",
+      "startYear": 2021,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Nissan|Altima 2019-24|ProPILOT Assist",
+      "make": "Nissan",
+      "model": "Altima",
+      "startYear": 2019,
+      "endYear": 2024,
+      "requiredPackage": "ProPILOT Assist"
+    },
+    {
+      "id": "Nissan|Leaf 2018-23|ProPILOT Assist",
+      "make": "Nissan",
+      "model": "Leaf",
+      "startYear": 2018,
+      "endYear": 2023,
+      "requiredPackage": "ProPILOT Assist"
+    },
+    {
+      "id": "Nissan|Rogue 2018-20|ProPILOT Assist",
+      "make": "Nissan",
+      "model": "Rogue",
+      "startYear": 2018,
+      "endYear": 2020,
+      "requiredPackage": "ProPILOT Assist"
+    },
+    {
+      "id": "Nissan|X-Trail 2017|ProPILOT Assist",
+      "make": "Nissan",
+      "model": "X-Trail",
+      "startYear": 2017,
+      "endYear": 2017,
+      "requiredPackage": "ProPILOT Assist"
+    },
+    {
+      "id": "Ram|1500 2019-24|Adaptive Cruise Control (ACC)",
+      "make": "Ram",
+      "model": "1500",
+      "startYear": 2019,
+      "endYear": 2024,
+      "requiredPackage": "Adaptive Cruise Control (ACC)"
+    },
+    {
+      "id": "Rivian|R1S 2022-24|All",
+      "make": "Rivian",
+      "model": "R1S",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Rivian|R1T 2022-24|All",
+      "make": "Rivian",
+      "model": "R1T",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "SEAT|Ateca 2016-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "SEAT",
+      "model": "Ateca",
+      "startYear": 2016,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "SEAT|Leon 2014-20|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "SEAT",
+      "model": "Leon",
+      "startYear": 2014,
+      "endYear": 2020,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Subaru|Ascent 2019-21|All",
+      "make": "Subaru",
+      "model": "Ascent",
+      "startYear": 2019,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Subaru|Crosstrek 2018-19|EyeSight Driver Assistance",
+      "make": "Subaru",
+      "model": "Crosstrek",
+      "startYear": 2018,
+      "endYear": 2019,
+      "requiredPackage": "EyeSight Driver Assistance"
+    },
+    {
+      "id": "Subaru|Crosstrek 2020-23|EyeSight Driver Assistance",
+      "make": "Subaru",
+      "model": "Crosstrek",
+      "startYear": 2020,
+      "endYear": 2023,
+      "requiredPackage": "EyeSight Driver Assistance"
+    },
+    {
+      "id": "Subaru|Forester 2019-21|All",
+      "make": "Subaru",
+      "model": "Forester",
+      "startYear": 2019,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Subaru|Impreza 2017-19|EyeSight Driver Assistance",
+      "make": "Subaru",
+      "model": "Impreza",
+      "startYear": 2017,
+      "endYear": 2019,
+      "requiredPackage": "EyeSight Driver Assistance"
+    },
+    {
+      "id": "Subaru|Impreza 2020-22|EyeSight Driver Assistance",
+      "make": "Subaru",
+      "model": "Impreza",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "EyeSight Driver Assistance"
+    },
+    {
+      "id": "Subaru|Legacy 2020-22|All",
+      "make": "Subaru",
+      "model": "Legacy",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Subaru|Outback 2020-22|All",
+      "make": "Subaru",
+      "model": "Outback",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Subaru|XV 2018-19|EyeSight Driver Assistance",
+      "make": "Subaru",
+      "model": "XV",
+      "startYear": 2018,
+      "endYear": 2019,
+      "requiredPackage": "EyeSight Driver Assistance"
+    },
+    {
+      "id": "Subaru|XV 2020-21|EyeSight Driver Assistance",
+      "make": "Subaru",
+      "model": "XV",
+      "startYear": 2020,
+      "endYear": 2021,
+      "requiredPackage": "EyeSight Driver Assistance"
+    },
+    {
+      "id": "Škoda|Fabia 2022-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Škoda",
+      "model": "Fabia",
+      "startYear": 2022,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Škoda|Kamiq 2021-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Škoda",
+      "model": "Kamiq",
+      "startYear": 2021,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Škoda|Karoq 2019-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Škoda",
+      "model": "Karoq",
+      "startYear": 2019,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Škoda|Kodiaq 2017-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Škoda",
+      "model": "Kodiaq",
+      "startYear": 2017,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Škoda|Octavia 2015-19|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Škoda",
+      "model": "Octavia",
+      "startYear": 2015,
+      "endYear": 2019,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Škoda|Octavia RS 2016|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Škoda",
+      "model": "Octavia RS",
+      "startYear": 2016,
+      "endYear": 2016,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Škoda|Octavia Scout 2017-19|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Škoda",
+      "model": "Octavia Scout",
+      "startYear": 2017,
+      "endYear": 2019,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Škoda|Scala 2020-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Škoda",
+      "model": "Scala",
+      "startYear": 2020,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Škoda|Superb 2015-22|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Škoda",
+      "model": "Superb",
+      "startYear": 2015,
+      "endYear": 2022,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Tesla|Model 3 (with HW3) 2019-23|All",
+      "make": "Tesla",
+      "model": "Model 3 (with HW3)",
+      "startYear": 2019,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Tesla|Model 3 (with HW4) 2024-25|All",
+      "make": "Tesla",
+      "model": "Model 3 (with HW4)",
+      "startYear": 2024,
+      "endYear": 2025,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Tesla|Model Y (with HW3) 2020-23|All",
+      "make": "Tesla",
+      "model": "Model Y (with HW3)",
+      "startYear": 2020,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Tesla|Model Y (with HW4) 2024-25|All",
+      "make": "Tesla",
+      "model": "Model Y (with HW4)",
+      "startYear": 2024,
+      "endYear": 2025,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Alphard 2019-20|All",
+      "make": "Toyota",
+      "model": "Alphard",
+      "startYear": 2019,
+      "endYear": 2020,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Alphard Hybrid 2021|All",
+      "make": "Toyota",
+      "model": "Alphard Hybrid",
+      "startYear": 2021,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Avalon 2016|Toyota Safety Sense P",
+      "make": "Toyota",
+      "model": "Avalon",
+      "startYear": 2016,
+      "endYear": 2016,
+      "requiredPackage": "Toyota Safety Sense P"
+    },
+    {
+      "id": "Toyota|Avalon 2017-18|All",
+      "make": "Toyota",
+      "model": "Avalon",
+      "startYear": 2017,
+      "endYear": 2018,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Avalon 2019-21|All",
+      "make": "Toyota",
+      "model": "Avalon",
+      "startYear": 2019,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Avalon 2022|All",
+      "make": "Toyota",
+      "model": "Avalon",
+      "startYear": 2022,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Avalon Hybrid 2019-21|All",
+      "make": "Toyota",
+      "model": "Avalon Hybrid",
+      "startYear": 2019,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Avalon Hybrid 2022|All",
+      "make": "Toyota",
+      "model": "Avalon Hybrid",
+      "startYear": 2022,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|C-HR 2017-20|All",
+      "make": "Toyota",
+      "model": "C-HR",
+      "startYear": 2017,
+      "endYear": 2020,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|C-HR 2021|All",
+      "make": "Toyota",
+      "model": "C-HR",
+      "startYear": 2021,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|C-HR Hybrid 2017-20|All",
+      "make": "Toyota",
+      "model": "C-HR Hybrid",
+      "startYear": 2017,
+      "endYear": 2020,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|C-HR Hybrid 2021-22|All",
+      "make": "Toyota",
+      "model": "C-HR Hybrid",
+      "startYear": 2021,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Camry 2018-20|All",
+      "make": "Toyota",
+      "model": "Camry",
+      "startYear": 2018,
+      "endYear": 2020,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Camry 2021-24|All",
+      "make": "Toyota",
+      "model": "Camry",
+      "startYear": 2021,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Camry Hybrid 2018-20|All",
+      "make": "Toyota",
+      "model": "Camry Hybrid",
+      "startYear": 2018,
+      "endYear": 2020,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Camry Hybrid 2021-24|All",
+      "make": "Toyota",
+      "model": "Camry Hybrid",
+      "startYear": 2021,
+      "endYear": 2024,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Corolla 2017-19|All",
+      "make": "Toyota",
+      "model": "Corolla",
+      "startYear": 2017,
+      "endYear": 2019,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Corolla 2020-22|All",
+      "make": "Toyota",
+      "model": "Corolla",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Corolla Cross (Non-US only) 2020-23|All",
+      "make": "Toyota",
+      "model": "Corolla Cross (Non-US only)",
+      "startYear": 2020,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Corolla Cross Hybrid (Non-US only) 2020-22|All",
+      "make": "Toyota",
+      "model": "Corolla Cross Hybrid (Non-US only)",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Corolla Hatchback 2019-22|All",
+      "make": "Toyota",
+      "model": "Corolla Hatchback",
+      "startYear": 2019,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Corolla Hybrid 2020-22|All",
+      "make": "Toyota",
+      "model": "Corolla Hybrid",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Corolla Hybrid (South America only) 2020-23|All",
+      "make": "Toyota",
+      "model": "Corolla Hybrid (South America only)",
+      "startYear": 2020,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Highlander 2017-19|All",
+      "make": "Toyota",
+      "model": "Highlander",
+      "startYear": 2017,
+      "endYear": 2019,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Highlander 2020-23|All",
+      "make": "Toyota",
+      "model": "Highlander",
+      "startYear": 2020,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Highlander Hybrid 2017-19|All",
+      "make": "Toyota",
+      "model": "Highlander Hybrid",
+      "startYear": 2017,
+      "endYear": 2019,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Highlander Hybrid 2020-23|All",
+      "make": "Toyota",
+      "model": "Highlander Hybrid",
+      "startYear": 2020,
+      "endYear": 2023,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Mirai 2021|All",
+      "make": "Toyota",
+      "model": "Mirai",
+      "startYear": 2021,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Prius 2016|Toyota Safety Sense P",
+      "make": "Toyota",
+      "model": "Prius",
+      "startYear": 2016,
+      "endYear": 2016,
+      "requiredPackage": "Toyota Safety Sense P"
+    },
+    {
+      "id": "Toyota|Prius 2017-20|All",
+      "make": "Toyota",
+      "model": "Prius",
+      "startYear": 2017,
+      "endYear": 2020,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Prius 2021-22|All",
+      "make": "Toyota",
+      "model": "Prius",
+      "startYear": 2021,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Prius Prime 2017-20|All",
+      "make": "Toyota",
+      "model": "Prius Prime",
+      "startYear": 2017,
+      "endYear": 2020,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Prius Prime 2021-22|All",
+      "make": "Toyota",
+      "model": "Prius Prime",
+      "startYear": 2021,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Prius v 2017|Toyota Safety Sense P",
+      "make": "Toyota",
+      "model": "Prius v",
+      "startYear": 2017,
+      "endYear": 2017,
+      "requiredPackage": "Toyota Safety Sense P"
+    },
+    {
+      "id": "Toyota|RAV4 2016|Toyota Safety Sense P",
+      "make": "Toyota",
+      "model": "RAV4",
+      "startYear": 2016,
+      "endYear": 2016,
+      "requiredPackage": "Toyota Safety Sense P"
+    },
+    {
+      "id": "Toyota|RAV4 2017-18|All",
+      "make": "Toyota",
+      "model": "RAV4",
+      "startYear": 2017,
+      "endYear": 2018,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|RAV4 2019-21|All",
+      "make": "Toyota",
+      "model": "RAV4",
+      "startYear": 2019,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|RAV4 2022|All",
+      "make": "Toyota",
+      "model": "RAV4",
+      "startYear": 2022,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|RAV4 2023-25|All",
+      "make": "Toyota",
+      "model": "RAV4",
+      "startYear": 2023,
+      "endYear": 2025,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|RAV4 Hybrid 2016|Toyota Safety Sense P",
+      "make": "Toyota",
+      "model": "RAV4 Hybrid",
+      "startYear": 2016,
+      "endYear": 2016,
+      "requiredPackage": "Toyota Safety Sense P"
+    },
+    {
+      "id": "Toyota|RAV4 Hybrid 2017-18|All",
+      "make": "Toyota",
+      "model": "RAV4 Hybrid",
+      "startYear": 2017,
+      "endYear": 2018,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|RAV4 Hybrid 2019-21|All",
+      "make": "Toyota",
+      "model": "RAV4 Hybrid",
+      "startYear": 2019,
+      "endYear": 2021,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|RAV4 Hybrid 2022|All",
+      "make": "Toyota",
+      "model": "RAV4 Hybrid",
+      "startYear": 2022,
+      "endYear": 2022,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|RAV4 Hybrid 2023-25|All",
+      "make": "Toyota",
+      "model": "RAV4 Hybrid",
+      "startYear": 2023,
+      "endYear": 2025,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Toyota|Sienna 2018-20|All",
+      "make": "Toyota",
+      "model": "Sienna",
+      "startYear": 2018,
+      "endYear": 2020,
+      "requiredPackage": "All"
+    },
+    {
+      "id": "Volkswagen|Arteon 2018-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Arteon",
+      "startYear": 2018,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Arteon eHybrid 2020-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Arteon eHybrid",
+      "startYear": 2020,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Arteon R 2020-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Arteon R",
+      "startYear": 2020,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Arteon Shooting Brake 2020-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Arteon Shooting Brake",
+      "startYear": 2020,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Atlas 2018-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Atlas",
+      "startYear": 2018,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Atlas Cross Sport 2020-22|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Atlas Cross Sport",
+      "startYear": 2020,
+      "endYear": 2022,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|California 2021-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "California",
+      "startYear": 2021,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Caravelle 2020|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Caravelle",
+      "startYear": 2020,
+      "endYear": 2020,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|CC 2018-22|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "CC",
+      "startYear": 2018,
+      "endYear": 2022,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Crafter 2017-24|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Crafter",
+      "startYear": 2017,
+      "endYear": 2024,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|e-Crafter 2018-24|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "e-Crafter",
+      "startYear": 2018,
+      "endYear": 2024,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|e-Golf 2014-20|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "e-Golf",
+      "startYear": 2014,
+      "endYear": 2020,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Golf 2015-20|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Golf",
+      "startYear": 2015,
+      "endYear": 2020,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Golf Alltrack 2015-19|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Golf Alltrack",
+      "startYear": 2015,
+      "endYear": 2019,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Golf GTD 2015-20|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Golf GTD",
+      "startYear": 2015,
+      "endYear": 2020,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Golf GTE 2015-20|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Golf GTE",
+      "startYear": 2015,
+      "endYear": 2020,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Golf GTI 2015-21|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Golf GTI",
+      "startYear": 2015,
+      "endYear": 2021,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Golf R 2015-19|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Golf R",
+      "startYear": 2015,
+      "endYear": 2019,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Golf SportsVan 2015-20|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Golf SportsVan",
+      "startYear": 2015,
+      "endYear": 2020,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Grand California 2019-24|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Grand California",
+      "startYear": 2019,
+      "endYear": 2024,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|ID.4 2021-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "ID.4",
+      "startYear": 2021,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|ID.4 2024-25|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "ID.4",
+      "startYear": 2024,
+      "endYear": 2025,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Jetta 2019-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Jetta",
+      "startYear": 2019,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Jetta GLI 2021-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Jetta GLI",
+      "startYear": 2021,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Passat 2015-22|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Passat",
+      "startYear": 2015,
+      "endYear": 2022,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Passat Alltrack 2015-22|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Passat Alltrack",
+      "startYear": 2015,
+      "endYear": 2022,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Passat GTE 2015-22|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Passat GTE",
+      "startYear": 2015,
+      "endYear": 2022,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Polo 2018-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Polo",
+      "startYear": 2018,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Polo GTI 2018-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Polo GTI",
+      "startYear": 2018,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|T-Cross 2021|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "T-Cross",
+      "startYear": 2021,
+      "endYear": 2021,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|T-Roc 2018-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "T-Roc",
+      "startYear": 2018,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Taos 2022-24|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Taos",
+      "startYear": 2022,
+      "endYear": 2024,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Teramont 2018-22|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Teramont",
+      "startYear": 2018,
+      "endYear": 2022,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Teramont Cross Sport 2021-22|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Teramont Cross Sport",
+      "startYear": 2021,
+      "endYear": 2022,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Teramont X 2021-22|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Teramont X",
+      "startYear": 2021,
+      "endYear": 2022,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Tiguan 2018-24|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Tiguan",
+      "startYear": 2018,
+      "endYear": 2024,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Tiguan eHybrid 2021-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Tiguan eHybrid",
+      "startYear": 2021,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    },
+    {
+      "id": "Volkswagen|Touran 2016-23|Adaptive Cruise Control (ACC) & Lane Assist",
+      "make": "Volkswagen",
+      "model": "Touran",
+      "startYear": 2016,
+      "endYear": 2023,
+      "requiredPackage": "Adaptive Cruise Control (ACC) & Lane Assist"
+    }
+  ]
+}

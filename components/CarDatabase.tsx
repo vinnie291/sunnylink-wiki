@@ -19,7 +19,7 @@ import MobileCategorySidebar from './MobileCategorySidebar';
 import SidebarInlineControls from './SidebarInlineControls';
 import ScrollToTop from './ScrollToTop';
 import { BRAND_ICONS, DefaultCarIcon } from './icons/BrandIcons';
-import { getModelFleetStat, formatRouteCount, getTopDrivenModels, getBrandFleetStat, formatDeviceCount } from '../lib/fleetStats';
+import { getModelFleetStat, formatRouteCount, getTopDrivenModels, getFleetAttribution, formatDeviceCount } from '../lib/fleetStats';
 import { getCarCutoutImage } from '../lib/carImages';
 import { modelNameToSlug } from '../lib/modelSlug';
 
@@ -110,7 +110,9 @@ export default function CarDatabase() {
             .filter(make => counts[make] > 0)
             .map(make => {
                 const IconComponent = BRAND_ICONS[make.toLowerCase()];
-                const brandStat = getBrandFleetStat(make);
+                // The fleet feed counts devices per parent company, so Lexus, Kia,
+                // Genesis and friends have no figure of their own to show.
+                const attribution = getFleetAttribution(make);
                 return {
                     id: make.toLowerCase(),
                     name: make,
@@ -120,7 +122,8 @@ export default function CarDatabase() {
                         <DefaultCarIcon className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
                     ),
                     count: counts[make],
-                    deviceCount: brandStat?.totalDevices
+                    deviceCount: attribution && !attribution.isGroupTotal ? attribution.stat.totalDevices : undefined,
+                    deviceGroup: attribution?.isGroupTotal ? attribution.groupName : undefined
                 };
             });
     }, [vehicles]);
@@ -533,14 +536,18 @@ export default function CarDatabase() {
                 <div ref={sentinelRef} className="lg:hidden h-0" />
 
                 {/* Mobile Filters - Sticky */}
-                <div className="lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 sticky top-16 sm:top-24 z-20">
-                    <SearchFilter
-                        value={searchQuery}
-                        onChange={setSearchQuery}
-                        resultCount={filteredVehicles.length}
-                        totalCount={vehicles.length}
-                        itemLabel="vehicles"
-                    />
+                {/* Once it sticks, the bar rises into the row with the language, theme and
+                    search buttons — the space the referral buttons vacate on scroll. */}
+                <div className={`lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 sticky z-20 ${effectiveIsSticky ? 'top-3 sm:top-24' : 'top-16 sm:top-24'}`}>
+                    <div className={effectiveIsSticky ? 'pl-[136px] sm:pl-0 transition-all duration-300' : 'transition-all duration-300'}>
+                        <SearchFilter
+                            value={searchQuery}
+                            onChange={setSearchQuery}
+                            resultCount={filteredVehicles.length}
+                            totalCount={vehicles.length}
+                            itemLabel="vehicles"
+                        />
+                    </div>
                     <div className={`transition-all duration-300 overflow-hidden ${effectiveIsSticky ? 'max-h-0 opacity-0 pointer-events-none' : 'max-h-[500px] opacity-100'}`}>
                         <CategoryFilter
                             categories={categoryMeta}
@@ -726,7 +733,19 @@ export default function CarDatabase() {
                                     animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
                                     whileHover={{ y: -4 }}
+                                    role="button"
+                                    tabIndex={0}
+                                    aria-haspopup="dialog"
+                                    aria-label={`${vehicle.make} ${vehicle.model} — ${t('cars.viewDetails') || 'View Details'}`}
                                     onClick={() => setSelectedVehicle(vehicle)}
+                                    onKeyDown={(e) => {
+                                        // A card is the only way into the detail dialog, so it has to
+                                        // answer Enter and Space like the button it behaves as.
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            setSelectedVehicle(vehicle);
+                                        }
+                                    }}
                                     className={`bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl cursor-pointer hover:border-cyan-500/50 transition-all group relative overflow-hidden ${
                                         viewMode === 'grid' ? 'p-6' : 'p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6'
                                     }`}
@@ -751,15 +770,21 @@ export default function CarDatabase() {
                                                 <div className="flex items-center flex-wrap gap-2 mb-1">
                                                     <div className="text-xs font-bold text-cyan-500 uppercase tracking-widest">{vehicle.make}</div>
                                                     {(() => {
-                                                        const brandStat = getBrandFleetStat(vehicle.make);
-                                                        if (!brandStat) return null;
+                                                        // Counts are reported per parent company. Saying "1.6k fleet"
+                                                        // on a Lexus card would read as Lexus's own number, so a
+                                                        // group figure is labelled as the group it belongs to.
+                                                        const fleet = getFleetAttribution(vehicle.make);
+                                                        if (!fleet) return null;
+                                                        const total = fleet.stat.totalDevices;
                                                         return (
                                                             <span
                                                                 className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 text-[10px] font-mono border border-slate-700/60"
-                                                                title={`${brandStat.totalDevices.toLocaleString()} active ${brandStat.brand} devices recorded in Sunnylink fleet`}
+                                                                title={fleet.isGroupTotal
+                                                                    ? `${total.toLocaleString()} active Sunnylink devices across the ${fleet.groupName} group (${fleet.coveredMakes.join(', ')}). No ${vehicle.make}-only count is reported.`
+                                                                    : `${total.toLocaleString()} active ${vehicle.make} devices recorded in Sunnylink fleet`}
                                                             >
                                                                 <span className="text-cyan-400">⚡</span>
-                                                                {formatDeviceCount(brandStat.totalDevices, true)} fleet
+                                                                {formatDeviceCount(total, true)} {fleet.isGroupTotal ? `${fleet.groupName} group` : 'fleet'}
                                                             </span>
                                                         );
                                                     })()}
@@ -867,15 +892,25 @@ export default function CarDatabase() {
                                     <div className={`relative flex items-center justify-between ${
                                         viewMode === 'grid' ? 'pt-4 border-t border-slate-800/50' : 'sm:border-l sm:border-slate-800/50 sm:pl-8 shrink-0'
                                     }`}>
-                                        <div className="flex items-center gap-1.5">
-                                            <span className="text-yellow-500">⭐</span>
-                                            <span className="text-sm font-bold text-slate-100">
-                                                {vehicle.reviews.length > 0 
-                                                    ? (vehicle.reviews.reduce((acc, r) => acc + r.rating, 0) / vehicle.reviews.length).toFixed(1)
-                                                    : '--'}
-                                            </span>
-                                            <span className="text-xs text-slate-500">({vehicle.reviews.length})</span>
-                                        </div>
+                                        {(() => {
+                                            const average = vehicle.reviews.length > 0
+                                                ? (vehicle.reviews.reduce((acc, r) => acc + r.rating, 0) / vehicle.reviews.length).toFixed(1)
+                                                : null;
+                                            // The star and bare number carry the meaning visually; spell it
+                                            // out once for screen readers and hide the decoration.
+                                            const label = average
+                                                ? `${t('cars.communityRating') || 'Community rating'} ${average} / 5 (${vehicle.reviews.length})`
+                                                : t('cars.noRatingsYet') || 'No community ratings yet';
+                                            return (
+                                                <div className="flex items-center gap-1.5" role="img" aria-label={label}>
+                                                    <span className="text-yellow-500" aria-hidden="true">⭐</span>
+                                                    <span className="text-sm font-bold text-slate-100" aria-hidden="true">
+                                                        {average ?? '--'}
+                                                    </span>
+                                                    <span className="text-xs text-slate-500" aria-hidden="true">({vehicle.reviews.length})</span>
+                                                </div>
+                                            );
+                                        })()}
                                         <span className="text-xs font-medium text-slate-400 group-hover:text-cyan-400 transition-colors">
                                             {t('cars.viewDetails') || 'View Details'}
                                         </span>

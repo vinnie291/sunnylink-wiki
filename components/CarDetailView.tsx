@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useId, useRef } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../lib/i18n';
-import { getModelFleetStat, formatRouteCount, getBrandFleetStat, formatDeviceCount } from '../lib/fleetStats';
+import { getModelFleetStat, formatRouteCount, getFleetAttribution, formatDeviceCount } from '../lib/fleetStats';
 import { getVehicleForumUrl } from '../lib/carForum';
 import { getCarCutoutImage } from '../lib/carImages';
 import { modelNameToSlug } from '../lib/modelSlug';
@@ -69,16 +69,42 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
     const [selectedConfigIdx, setSelectedConfigIdx] = useState(0);
 
     const currentVehicle = vehicle.variants[selectedVariantIdx] || vehicle.variants[0] || vehicle;
+    const panelRef = useRef<HTMLDivElement>(null);
+    const titleId = useId();
 
     useEffect(() => {
+        // Send focus into the dialog, and hand it back to whatever opened it.
+        const opener = document.activeElement as HTMLElement | null;
+        panelRef.current?.focus();
+
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
                 onClose();
+                return;
+            }
+            if (e.key !== 'Tab' || !panelRef.current) return;
+            // Keep Tab inside the dialog: the page behind it is still in the DOM.
+            const focusable = panelRef.current.querySelectorAll<HTMLElement>(
+                'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            );
+            if (!focusable.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            const active = document.activeElement;
+            if (e.shiftKey && (active === first || active === panelRef.current)) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && active === last) {
+                e.preventDefault();
+                first.focus();
             }
         };
 
         window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            opener?.focus?.();
+        };
     }, [onClose]);
 
     // Reset config selection when variant changes
@@ -99,22 +125,30 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={onClose}
+                aria-hidden="true"
                 className="absolute inset-0 bg-slate-950/80 backdrop-blur-md"
             />
 
             {/* Modal Content */}
             <motion.div
+                ref={panelRef}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby={titleId}
+                tabIndex={-1}
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative w-full max-w-4xl max-h-[calc(100dvh-2rem)] sm:max-h-[90vh] overflow-hidden bg-slate-900 border border-slate-700 rounded-2xl sm:rounded-3xl shadow-2xl flex flex-col"
+                className="relative w-full max-w-4xl max-h-[calc(100dvh-2rem)] sm:max-h-[90vh] overflow-hidden bg-slate-900 border border-slate-700 rounded-2xl sm:rounded-3xl shadow-2xl flex flex-col outline-none"
             >
                 {/* Close Button */}
                 <button
+                    type="button"
                     onClick={onClose}
+                    aria-label={t('cars.closeDetails') || 'Close car details'}
                     className="absolute top-6 right-6 p-2 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-100 transition-colors z-10"
                 >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
@@ -124,7 +158,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                     <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
                         <div>
                             <div className="text-sm font-bold text-cyan-500 uppercase tracking-widest mb-1">{vehicle.make}</div>
-                            <h2 className="text-4xl font-bold text-slate-100">{vehicle.model}</h2>
+                            <h2 id={titleId} className="text-4xl font-bold text-slate-100">{vehicle.make} {vehicle.model}</h2>
                             {vehicle.variants.length > 1 ? (
                                 <div className="relative mt-2 inline-block">
                                     <select
@@ -435,8 +469,9 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
 
                             {/* Brand & Platform Fleet Telemetry */}
                             {(() => {
-                                const brandStat = getBrandFleetStat(currentVehicle.make);
-                                if (!brandStat) return null;
+                                const fleet = getFleetAttribution(currentVehicle.make);
+                                if (!fleet) return null;
+                                const brandStat = fleet.stat;
                                 return (
                                     <section className="p-5 rounded-2xl bg-gradient-to-br from-slate-800/60 to-slate-900/80 border border-slate-700/60">
                                         <div className="flex items-center justify-between gap-2 mb-2.5">
@@ -452,9 +487,17 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                                 {formatDeviceCount(brandStat.totalDevices)}
                                             </span>
                                             <span className="text-xs text-slate-400 leading-snug">
-                                                {t('cars.fleetStats.activeDongles', { brand: brandStat.brand, pct: brandStat.sharePercent }) || `active ${brandStat.brand} dongles (${brandStat.sharePercent}% of fleet)`}
+                                                {t('cars.fleetStats.activeDongles', { brand: fleet.groupName, pct: brandStat.sharePercent }) || `active ${fleet.groupName} dongles (${brandStat.sharePercent}% of fleet)`}
                                             </span>
                                         </div>
+                                        {/* The feed counts by parent company, so say so rather than
+                                            letting the number read as this make's own. */}
+                                        {fleet.isGroupTotal && (
+                                            <p className="-mt-1.5 mb-3 text-[11px] text-slate-500 leading-snug">
+                                                {t('cars.fleetStats.groupTotal', { group: fleet.groupName, makes: fleet.coveredMakes.join(', ') })
+                                                    || `Counted across the ${fleet.groupName} group (${fleet.coveredMakes.join(', ')}) — no ${currentVehicle.make}-only figure is reported.`}
+                                            </p>
+                                        )}
 
                                         <div className="space-y-2 pt-3 border-t border-slate-700/50">
                                             <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">

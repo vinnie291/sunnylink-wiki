@@ -3,6 +3,7 @@
 import LanguageSwitcher from './LanguageSwitcher';
 import SearchButton from './SearchButton';
 import ThemeToggle from './ThemeToggle';
+import MyCarSelector from './MyCarSelector';
 
 /**
  * Inline version of GlobalControls that appears at the top of the desktop sidebar
@@ -13,10 +14,10 @@ export default function SidebarInlineControls({ visible }: { visible: boolean })
     return (
         <div
             className={`
-                hidden lg:flex items-center gap-3 w-full relative z-30
+                hidden lg:flex flex-wrap items-center gap-3 w-full relative z-30
                 transition-all duration-200 ease-out
                 ${visible
-                    ? 'max-h-16 opacity-100 mb-4 overflow-visible'
+                    ? 'max-h-32 opacity-100 mb-4 overflow-visible'
                     : 'max-h-0 opacity-0 mb-0 pointer-events-none overflow-hidden'
                 }
             `}
@@ -24,12 +25,13 @@ export default function SidebarInlineControls({ visible }: { visible: boolean })
             <div className="shrink-0">
                 <LanguageSwitcher />
             </div>
-            <div className="flex-1 min-w-0">
-                <SearchButton stretch />
-            </div>
             <div className="shrink-0">
                 <ThemeToggle />
             </div>
+            <div className="flex-1 min-w-0">
+                <SearchButton stretch />
+            </div>
+            <div className="w-full"><MyCarSelector stretch showFirstVisitTip={false} /></div>
         </div>
     );
 }

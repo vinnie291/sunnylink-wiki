@@ -12,12 +12,15 @@ interface PageShellProps {
     showFooter?: boolean;
     showHeader?: boolean;
     extraTopLeftContent?: ReactNode;
+    /** Set when the page supplies its own <h1>, so the site title steps down a level. */
+    pageHasOwnHeading?: boolean;
 }
 
-export default function PageShell({ children, showFooter = true, showHeader = true, extraTopLeftContent }: PageShellProps) {
+export default function PageShell({ children, showFooter = true, showHeader = true, extraTopLeftContent, pageHasOwnHeading = false }: PageShellProps) {
     const { t } = useLanguage();
 
     return (
+        <>
         <main className="relative min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
             {/* Decorative background elements */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -33,23 +36,25 @@ export default function PageShell({ children, showFooter = true, showHeader = tr
             )}
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 pt-32 pb-8 sm:pt-40 sm:pb-12">
-                {showHeader && <Header />}
+                {showHeader && <Header asPrimaryHeading={!pageHasOwnHeading} />}
                 {children}
 
-                {showFooter && (
-                    <footer className="mt-16 text-center text-slate-600 text-sm">
-                        <p>
-                            {t('footer.builtFor')} •{' '}
-                            <a href="https://www.sunnypilot.ai/terms" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 transition-colors">{t('footer.terms')}</a>
-                            {' '}•{' '}
-                            <a href="https://github.com/sunnypilot/sunnypilot" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 transition-colors">{t('footer.github')}</a>
-                            {' '}•{' '}
-                            <a href="https://buymeacoffee.com/vinhle.co" target="_blank" rel="noopener noreferrer" className="link-coffee font-medium">☕ {t('footer.buyMeCoffee')}</a>
-                        </p>
-                    </footer>
-                )}
             </div>
             <ScrollToTop />
         </main>
+            {/* Outside <main> so it is exposed as the page's contentinfo landmark. */}
+            {showFooter && (
+                <footer className="relative z-10 border-t border-slate-800/60 bg-slate-950">
+                    <p className="max-w-7xl mx-auto px-4 py-8 text-center text-slate-500 text-sm">
+                        {t('footer.builtFor')} •{' '}
+                        <a href="https://www.sunnypilot.ai/terms" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 transition-colors">{t('footer.terms')}</a>
+                        {' '}•{' '}
+                        <a href="https://github.com/sunnypilot/sunnypilot" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 transition-colors">{t('footer.github')}</a>
+                        {' '}•{' '}
+                        <a href="https://buymeacoffee.com/vinhle.co" target="_blank" rel="noopener noreferrer" className="link-coffee font-medium">☕ {t('footer.buyMeCoffee')}</a>
+                    </p>
+                </footer>
+            )}
+        </>
     );
 }

@@ -47,6 +47,19 @@ interface SettingsDatabaseProps {
 
 const INITIAL_RENDER_COUNT = 20;
 
+/**
+ * A default of `''` is as absent as `null` — text settings such as GSM APN and
+ * GitHub Username ship empty — so both render as N/A rather than a blank cell.
+ */
+export function hasDefaultValue(value: boolean | string | number | null | undefined): boolean {
+    if (value === undefined || value === null) return false;
+    return typeof value !== 'string' || value.trim() !== '';
+}
+
+export function formatDefaultValue(value: boolean | string | number | null | undefined): string {
+    return hasDefaultValue(value) ? String(value) : 'N/A';
+}
+
 export default function SettingsDatabase({
     allSettings,
     filteredSettings,
@@ -226,14 +239,18 @@ export default function SettingsDatabase({
                 <div ref={sentinelRef} className="lg:hidden h-0" />
 
                 {/* Mobile Filters - Sticky only after scrolling past natural position */}
-                <div className="lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 sticky top-16 sm:top-24 z-20">
-                    <SearchFilter
-                        value={searchQuery}
-                        onChange={setSearchQuery}
-                        resultCount={sortedSettings.length}
-                        totalCount={allSettings.length}
-                        itemLabel="toggles"
-                    />
+                {/* Once it sticks, the bar rises into the row with the language, theme and
+                    search buttons — the space the referral buttons vacate on scroll. */}
+                <div className={`lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 sticky z-20 ${effectiveIsSticky ? 'top-3 sm:top-24' : 'top-16 sm:top-24'}`}>
+                    <div className={effectiveIsSticky ? 'pl-[136px] sm:pl-0 transition-all duration-300' : 'transition-all duration-300'}>
+                        <SearchFilter
+                            value={searchQuery}
+                            onChange={setSearchQuery}
+                            resultCount={sortedSettings.length}
+                            totalCount={allSettings.length}
+                            itemLabel="toggles"
+                        />
+                    </div>
                     <div className={`transition-all duration-300 overflow-hidden ${effectiveIsSticky ? 'max-h-0 opacity-0 pointer-events-none' : 'max-h-[500px] opacity-100'}`}>
                         <CategoryFilter
                             categories={categoryMeta}
@@ -331,8 +348,8 @@ export default function SettingsDatabase({
                                                             <div className="text-xs text-slate-400 font-mono mt-0.5">{setting.key}</div>
                                                         </td>
                                                         <td className="p-4">
-                                                            <span className={`text-sm font-medium ${setting.default !== undefined && setting.default !== null ? 'text-emerald-400' : 'text-slate-400'}`}>
-                                                                {setting.default !== undefined && setting.default !== null ? setting.default.toString() : 'N/A'}
+                                                            <span className={`text-sm font-medium ${hasDefaultValue(setting.default) ? 'text-emerald-400' : 'text-slate-400'}`}>
+                                                                {formatDefaultValue(setting.default)}
                                                             </span>
                                                         </td>
                                                         <td className="p-4">

@@ -10,8 +10,8 @@ import SearchFilter from './SearchFilter';
 import MobileCategorySidebar from './MobileCategorySidebar';
 import SidebarInlineControls from './SidebarInlineControls';
 import DriveSimulation, { deriveDrivingProfile } from './DriveSimulation';
-import FullScreenDriveVisualizer from './FullScreenDriveVisualizer';
 import ModelPollSurvey from './ModelPollSurvey';
+import SimulatorCTA from './new-sim/SimulatorCTA';
 import { modelNameToSlug, findModelBySlugOrName } from '../lib/modelSlug';
 import { useViewMode } from '../hooks/useViewMode';
 import { useStickySearch } from '../hooks/useStickySearch';
@@ -36,6 +36,8 @@ function extractTopicId(forumUrl: string): number | null {
     const id = Number(m[1]);
     return Number.isFinite(id) ? id : null;
 }
+
+const SimulatorModal = dynamic(() => import('./new-sim/SimulatorModal'), { ssr: false });
 
 const CategorySidebarButton = dynamic(() => import('./CategorySidebarButton'), { ssr: false });
 
@@ -402,13 +404,14 @@ function ModelCard({
                             e.stopPropagation();
                             onExpand(model.name);
                         }}
-                        aria-label={`Expand ${model.name} in fullscreen visualizer`}
-                        title="Expand to fullscreen visualizer"
-                        className="absolute top-2 right-2 z-10 h-8 w-8 rounded-lg bg-black/40 hover:bg-black/70 backdrop-blur-sm text-white flex items-center justify-center transition-colors border border-white/10"
+                        aria-label={`Try ${model.name} in simulator`}
+                        title="Try in simulator"
+                        className="absolute bottom-2 right-2 z-10 h-8 px-3 gap-2 text-xs rounded-lg bg-black/40 hover:bg-black/70 backdrop-blur-sm text-white flex items-center justify-center transition-colors border border-white/10"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4h4m8 0h4v4m0 8v4h-4m-8 0H4v-4" />
                         </svg>
+                        Try in simulator
                     </button>
                 )}
             </div>
@@ -760,6 +763,9 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                 }
             }
 
+            // Browser Back must unmount the scene when it leaves a simulation URL.
+            setVisualizerModelName(null);
+
             // 2. Search query pre-fill
             if (searchParam && !searchQuery) {
                 setSearchQuery(searchParam);
@@ -952,6 +958,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                 <div className="sticky top-8 space-y-6">
                     {/* Inline GlobalControls — visible when sidebar is sticky */}
                     <SidebarInlineControls visible={isSidebarSticky} />
+                    <SimulatorCTA onOpen={() => handleOpenVisualizer(categories[0].models[0].name)} />
                     {/* Search */}
                     <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-4">
                         <SearchFilter
@@ -1015,18 +1022,25 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
 
             {/* Main Content Area */}
             <div className="flex-1 min-w-0">
+                <div className="mb-4 lg:hidden">
+                    <SimulatorCTA onOpen={() => handleOpenVisualizer(categories[0].models[0].name)} />
+                </div>
                 {/* Sentinel: marks the search bar's natural position */}
                 <div ref={sentinelRef} className="lg:hidden h-0" />
 
                 {/* Mobile Filters - Sticky only after scrolling past natural position */}
-                <div className="lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 sticky top-16 sm:top-24 z-20">
-                    <SearchFilter
-                        value={searchQuery}
-                        onChange={setSearchQuery}
-                        resultCount={activeModels.length}
-                        totalCount={categories[0].models.length}
-                        itemLabel="models"
-                    />
+                {/* Once it sticks, the bar rises into the row with the language, theme and
+                    search buttons — the space the referral buttons vacate on scroll. */}
+                <div className={`lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 sticky z-20 ${effectiveIsSticky ? 'top-3 sm:top-24' : 'top-16 sm:top-24'}`}>
+                    <div className={effectiveIsSticky ? 'pl-[136px] sm:pl-0 transition-all duration-300' : 'transition-all duration-300'}>
+                        <SearchFilter
+                            value={searchQuery}
+                            onChange={setSearchQuery}
+                            resultCount={activeModels.length}
+                            totalCount={categories[0].models.length}
+                            itemLabel="models"
+                        />
+                    </div>
 
                     <div className={`transition-all duration-300 overflow-hidden ${stickyCollapseActive ? 'max-h-0 opacity-0 pointer-events-none' : 'max-h-[2000px] opacity-100'}`}>
                         <div className="space-y-4 pt-2">
@@ -1213,8 +1227,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                                         id={slug}
                                                         data-model-name={model.name}
                                                         data-model-slug={slug}
-                                                        onClick={() => handleOpenVisualizer(model.name)}
-                                                        className={`group cursor-pointer transition-all duration-300 scroll-mt-32 ${
+                                                        className={`group transition-all duration-300 scroll-mt-32 ${
                                                             isTargeted
                                                                 ? 'bg-cyan-950/60 ring-2 ring-cyan-400 ring-inset shadow-[0_0_20px_rgba(6,182,212,0.3)]'
                                                                 : 'hover:bg-slate-800/50'
@@ -1223,7 +1236,9 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                                         <td className="p-3 md:p-4 font-medium text-slate-100">
                                                             <div className="flex items-center gap-2 md:gap-3">
                                                                 <span className="text-lg md:text-2xl">{getVibeIcon(model.consensus)}</span>
-                                                                <span className="text-sm md:text-base">{model.name}</span>
+                                                                <div><span className="text-sm md:text-base">{model.name}</span>
+                                                                  <button type="button" className="block mt-1 text-xs text-cyan-400 hover:underline" aria-label={`Try ${model.name} in simulator`} onClick={() => handleOpenVisualizer(model.name)}>Try in simulator</button>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td className="p-3 md:p-4 text-slate-400 text-xs md:text-sm whitespace-nowrap">{model.date}</td>
@@ -1296,13 +1311,15 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
 
             </div>
 
-            <FullScreenDriveVisualizer
-                isOpen={visualizerModelName !== null}
+            {visualizerModelName !== null && <SimulatorModal
+                initialModelId={modelNameToSlug(visualizerModelName)}
                 onClose={handleCloseVisualizer}
-                models={categories[0].models}
-                initialModelName={visualizerModelName ?? undefined}
-            />
+                onModelChange={id => {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('sim', id);
+                    window.history.replaceState(window.history.state, '', url.toString());
+                }}
+            />}
         </div>
     );
 }
-

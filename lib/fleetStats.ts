@@ -99,6 +99,7 @@ export function getTopDrivenModels(limit = 10): FleetModelStat[] {
 
 // Brand Fleet Telemetry (Sunnylink Dongle IDs by Brand & Branch)
 import fleetBrandData from '../data/fleet_brand_branch_stats.json';
+import carsData from '../data/cars.json';
 
 export interface BrandFleetStat {
     brand: string;
@@ -131,12 +132,62 @@ FLEET_BRAND_STATS.brands.forEach(b => {
 
 /**
  * Returns brand fleet statistics for a given car make (e.g. "Toyota", "Lexus", "Hyundai", "Kia", "Genesis", "Ford", etc.).
+ *
+ * The upstream feed is aggregated by parent company, so a make such as Lexus or
+ * Kia resolves to its group's record. Use {@link getFleetAttribution} when the
+ * number is shown to a reader: it says whether the figure belongs to that make
+ * alone or to the whole group, which callers must not blur.
  */
 export function getBrandFleetStat(make?: string | null): BrandFleetStat | undefined {
     if (!make) return undefined;
     const cleanMake = make.toLowerCase().trim();
     const mappedBrand = FLEET_BRAND_STATS.makeToBrand[cleanMake] || cleanMake;
     return brandLookup.get(mappedBrand);
+}
+
+export interface FleetAttribution {
+    stat: BrandFleetStat;
+    /** True when the count covers sibling makes as well, not this make alone. */
+    isGroupTotal: boolean;
+    /** Display name of the group the count belongs to, e.g. "Toyota". */
+    groupName: string;
+    /** Every make the group total covers, in title case. */
+    coveredMakes: string[];
+}
+
+// Alias keys are lowercase ("ram", "vw"), so spell group members the way the
+// car database spells them and drop aliases for cars the site does not list.
+const CANONICAL_MAKES = new Map<string, string>(
+    (carsData.vehicles as { make: string }[]).map(vehicle => [vehicle.make.toLowerCase(), vehicle.make])
+);
+const titleCase = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
+
+/**
+ * Fleet numbers with their true owner attached. `fleet_brand_branch_stats.json`
+ * only counts devices per parent company, so attributing 1,468 Hyundai-group
+ * devices to Genesis alone would be wrong. Callers show a per-make figure only
+ * when `isGroupTotal` is false.
+ */
+export function getFleetAttribution(make?: string | null): FleetAttribution | undefined {
+    if (!make) return undefined;
+    const cleanMake = make.toLowerCase().trim();
+    const groupName = FLEET_BRAND_STATS.makeToBrand[cleanMake] || cleanMake;
+    const stat = brandLookup.get(groupName);
+    if (!stat) return undefined;
+
+    const aliases = Object.entries(FLEET_BRAND_STATS.makeToBrand)
+        .filter(([, group]) => group === groupName)
+        .map(([alias]) => alias);
+    const listed = aliases.filter(alias => CANONICAL_MAKES.has(alias));
+    const coveredMakes = (listed.length ? listed : aliases)
+        .map(alias => CANONICAL_MAKES.get(alias) ?? titleCase(alias));
+
+    return {
+        stat,
+        isGroupTotal: groupName !== cleanMake,
+        groupName: CANONICAL_MAKES.get(groupName) ?? titleCase(groupName),
+        coveredMakes,
+    };
 }
 
 /**

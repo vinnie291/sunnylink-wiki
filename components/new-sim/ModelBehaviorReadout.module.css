@@ -1,0 +1,26 @@
+.panel { margin: 18px 0 22px; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--ink); }
+.heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.heading span { font: 9px monospace; letter-spacing: 1.2px; color: var(--muted); }
+.heading h2 { font-size: 15px; font-weight: 600; margin: 5px 0 18px; }
+.heading button { border: 1px solid var(--line); padding: 7px 10px; color: var(--accent-ink); background: var(--raised); border-radius: 7px; font-size: 10px; }
+.metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.metrics > div + div { border-left: 1px solid var(--line); padding-left: 16px; }
+.metrics span { display: block; font-size: 10px; color: var(--muted); }
+.metrics strong { display: block; margin-top: 10px; font-size: 24px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.metrics small { font-size: 10px; color: var(--muted); }
+.metrics p { margin-top: 6px; font-size: 10px; color: var(--muted); }
+.status { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 12px 0; font-size: 11px; color: var(--accent-ink); }
+.status span:last-child { color: var(--muted); font-size: 10px; }
+.evidence { border-top: 1px solid var(--line); padding-top: 12px; font-size: 11px; }
+.evidence summary { cursor: pointer; color: var(--ink); }
+.evidence summary > span { color: var(--muted); margin-left: 10px; font-size: 10px; }
+.evidence > p { color: var(--muted); line-height: 1.6; margin: 12px 0; max-width: 950px; }
+.evidence a { color: var(--accent); text-decoration: underline; }
+.evidenceRows { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; }
+.evidenceRows > div { padding: 12px; border: 1px solid var(--line); border-radius: 7px; }
+.evidenceRows span { display: block; color: var(--accent); font-size: 9px; margin-bottom: 5px; }
+.evidenceRows b { font-size: 11px; font-weight: 500; }
+.evidenceRows blockquote { margin: 7px 0; color: var(--muted); font-size: 10px; line-height: 1.6; }
+.evidenceRows small { font-size: 9px; color: var(--muted); }
+.sentiment { display: flex; flex-wrap: wrap; gap: 14px; color: var(--muted); margin: 14px 0; font-size: 10px; }
+@media(max-width:700px) { .metrics { grid-template-columns: 1fr 1fr; } .metrics > div:nth-child(3) { border-left: 0; padding-left: 0; } .heading { align-items: flex-start; } .heading button { max-width: 120px; } .evidenceRows { grid-template-columns: 1fr; } }

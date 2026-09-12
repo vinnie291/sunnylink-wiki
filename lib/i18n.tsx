@@ -125,7 +125,14 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
     const t = useCallback(
         (key: string, params?: Record<string, string | number>): string => {
-            let value = messagesCache[locale]?.[key] ?? messagesCache.en?.[key] ?? key;
+            const localized = messagesCache[locale]?.[key];
+            const english = messagesCache.en?.[key];
+            if (localized === undefined && english === undefined && process.env.NODE_ENV !== 'production') {
+                // A missing key renders as the key itself, which is how raw
+                // strings like `cars.recommended` reach the page.
+                console.warn(`[i18n] Missing translation for "${key}" (locale: ${locale})`);
+            }
+            let value = localized ?? english ?? key;
             if (params) {
                 Object.entries(params).forEach(([k, v]) => {
                     value = value.replace(new RegExp(`\\{\\{${k}\\}\\}`, 'g'), String(v));

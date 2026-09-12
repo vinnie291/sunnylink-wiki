@@ -7,7 +7,7 @@ import { RefreshCw, X, CheckCircle2, Download } from 'lucide-react';
 import './ConfigWizard.css';
 
 import { useTranslatedToggles, useTranslatedCars, useTranslatedModels } from '../lib/useTranslatedData';
-import { getBrandFleetStat, formatDeviceCount } from '../lib/fleetStats';
+import { getFleetAttribution, formatDeviceCount } from '../lib/fleetStats';
 
 // ─── Types ───
 
@@ -435,10 +435,16 @@ function CarStep({
                     >
                         <option value="">{t('cw.step.car.selectMakePlaceholder') || 'Select make...'}</option>
                         {makes.map(m => {
-                            const bStat = getBrandFleetStat(m);
+                            // Only a make that owns its count gets a device figure; the rest
+                            // would be showing their parent company's number.
+                            const fleet = getFleetAttribution(m);
+                            const suffix = !fleet ? ''
+                                : fleet.isGroupTotal
+                                    ? `(${fleet.groupName} group)`
+                                    : `(${formatDeviceCount(fleet.stat.totalDevices, true)} active devices)`;
                             return (
                                 <option key={m} value={m}>
-                                    {m} {bStat ? `(${formatDeviceCount(bStat.totalDevices, true)} active devices)` : ''}
+                                    {m} {suffix}
                                 </option>
                             );
                         })}
@@ -446,13 +452,14 @@ function CarStep({
 
                     {/* Brand Fleet Insight */}
                     {(() => {
-                        const bStat = getBrandFleetStat(config.make as string);
-                        if (!bStat) return null;
+                        const fleet = getFleetAttribution(config.make as string);
+                        if (!fleet) return null;
+                        const bStat = fleet.stat;
                         const topBranch = Object.entries(bStat.branches).sort((a, b) => b[1] - a[1])[0];
                         return (
                             <div className="p-2.5 rounded-lg bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-between text-xs text-slate-300 mt-2">
                                 <span className="flex items-center gap-1.5 font-medium">
-                                    <span>⚡</span> {t('cw.step.car.activeDevicesInFleet', { count: formatDeviceCount(bStat.totalDevices), brand: bStat.brand }) || `${formatDeviceCount(bStat.totalDevices)} active ${bStat.brand} devices in fleet`}
+                                    <span>⚡</span> {t('cw.step.car.activeDevicesInFleet', { count: formatDeviceCount(bStat.totalDevices), brand: fleet.isGroupTotal ? `${fleet.groupName} group` : fleet.groupName }) || `${formatDeviceCount(bStat.totalDevices)} active ${fleet.groupName}${fleet.isGroupTotal ? ' group' : ''} devices in fleet`}
                                 </span>
                                 {topBranch && (
                                     <span className="text-[11px] text-cyan-300 font-mono">

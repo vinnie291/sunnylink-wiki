@@ -1,0 +1,158 @@
+/* Colours come from the wiki's palette tokens (globals.css), which remap under
+   html.light, so this page follows the site theme instead of pinning its own. */
+.page {
+  --ink: var(--foreground);
+  --muted: var(--color-slate-400);
+  --faint: var(--color-slate-600);
+  --line: color-mix(in srgb, var(--color-slate-700) 55%, transparent);
+  --panel: color-mix(in srgb, var(--color-slate-900) 55%, transparent);
+  --panel-solid: color-mix(in srgb, var(--color-slate-900) 88%, transparent);
+  --raised: color-mix(in srgb, var(--color-slate-800) 60%, transparent);
+  --raised-hover: color-mix(in srgb, var(--color-slate-700) 55%, transparent);
+  --accent: var(--color-cyan-400);
+  --accent-soft: color-mix(in srgb, var(--color-cyan-500) 22%, transparent);
+  --accent-ink: var(--color-cyan-300);
+  min-height: 100vh; background: var(--background); color: var(--ink);
+  padding: 168px 32px 36px; font-family: var(--font-sans, system-ui, sans-serif);
+}
+.page * { box-sizing: border-box; }
+.page button, .page select, .page input { font: inherit; }
+.page button, .page select { cursor: pointer; }
+.page button { transition: background .18s, color .18s, box-shadow .18s, border-color .18s; }
+.page button:focus-visible, .page a:focus-visible, .page select:focus-visible, .page input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.page button:disabled { opacity: .35; cursor: default; }
+.shell { max-width: 1512px; margin: 0 auto; }
+.back { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); text-decoration: none; font-size: 12px; margin-bottom: 16px; }
+.back:hover { color: var(--accent); }
+.workspace { display: grid; grid-template-columns: minmax(0, 1fr) 380px; border: 1px solid var(--line); border-radius: 13px 13px 0 0; overflow: hidden; background: var(--panel); }
+.stage { container-type: inline-size; position: relative; min-width: 0; height: 660px; overflow: hidden; }
+.sceneTop { position: absolute; top: 16px; left: 16px; right: 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+/* Environment strip: road, traffic and lighting, all one click. */
+.envBar { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; min-width: 0; }
+.envGroup { display: flex; align-items: center; gap: 2px; padding: 3px; background: var(--panel-solid); border: 1px solid var(--line); border-radius: 9px; box-shadow: 0 4px 18px rgb(0 0 0 / .18); backdrop-filter: blur(6px); }
+.envLabel { font: 8px monospace; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); padding: 0 7px 0 5px; }
+.envGroup button { display: grid; place-items: center; min-width: 30px; height: 28px; padding: 0 4px; border: 0; border-radius: 6px; background: transparent; color: var(--muted); }
+.envGroup button:hover { background: var(--raised-hover); color: var(--ink); }
+.envCars { display: flex !important; align-items: center; justify-content: center; gap: 1px; padding: 0 7px !important; }
+.envActive { background: var(--accent-soft) !important; color: var(--accent-ink) !important; box-shadow: inset 0 0 0 1px var(--accent); }
+/* Narrow screens: one labelled menu instead of four inline groups. */
+.envMenuWrap { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.envMenuButton { display: flex; align-items: center; gap: 8px; height: 38px; padding: 0 12px; background: var(--panel-solid); border: 1px solid var(--line); border-radius: 9px; color: var(--muted); box-shadow: 0 4px 18px rgb(0 0 0 / .18); backdrop-filter: blur(6px); }
+.envMenuButton b { flex: 1; text-align: left; font-size: 11.5px; font-weight: 600; color: var(--ink); }
+.envMenuButton svg:last-child { color: var(--faint); }
+.envPanel { display: flex; flex-direction: column; gap: 12px; padding: 13px; max-height: 46vh; overflow-y: auto; background: var(--panel-solid); border: 1px solid var(--line); border-radius: 11px; box-shadow: 0 14px 34px rgb(0 0 0 / .28); backdrop-filter: blur(8px); animation: dockIn .14s ease-out; }
+.chipCars { display: inline-flex; align-items: center; gap: 1px; }
+.dockMenu { display: flex; flex-direction: column; gap: 2px; padding: 4px; min-width: 148px; background: var(--panel-solid); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 14px 34px rgb(0 0 0 / .28); backdrop-filter: blur(8px); animation: dockIn .14s ease-out; }
+.dockMenu button { display: flex; align-items: center; gap: 9px; width: 100%; height: 34px; padding: 0 8px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font-size: 11px; text-align: left; }
+.dockMenu button > span { flex: 1; }
+.dockMenu button:hover { background: var(--raised-hover); color: var(--ink); }
+.dockMenuActive { background: var(--accent-soft) !important; color: var(--accent-ink) !important; font-weight: 600; }
+/* Camera sits on the same bottom row as the speed box on narrow screens. */
+.cameraDock { display: flex; flex-direction: column; gap: 5px; flex-shrink: 0; }
+.cameraDock .dockPill { width: auto; padding: 0 10px; gap: 7px; }
+.cameraDock .dockPill b { flex: none; font-size: 11px; font-weight: 600; color: var(--ink); }
+.cameraValue { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; color: var(--muted); }
+.sceneTitle { display: flex; align-items: center; gap: 8px; height: 36px; font-size: 10px; color: var(--ink); background: var(--panel-solid); border: 1px solid var(--line); padding: 0 11px; border-radius: 9px; box-shadow: 0 4px 18px rgb(0 0 0 / .18); backdrop-filter: blur(6px); }
+.sceneTitle b { font: 9px monospace; letter-spacing: 1px; font-weight: 500; }
+.liveDot, .pausedDot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 3px var(--accent-soft); }
+.pausedDot { background: var(--color-amber-400); box-shadow: none; }
+.iconButton { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 8px; background: var(--panel-solid); border: 1px solid var(--line); color: var(--ink); }
+.iconButton:hover { background: var(--raised-hover); }
+/* Bottom docks. One launcher on the left opens every option; the right side
+   only reads out. Same pill shape, radius, border and shadow throughout. */
+.modelPill { display: none; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 0; height: 34px; padding: 0 12px; background: var(--panel-solid); border: 1px solid var(--line); border-radius: 9px; box-shadow: 0 4px 18px rgb(0 0 0 / .18); backdrop-filter: blur(6px); }
+.modelPill b { font-size: 11px; font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dockLeft { position: absolute; z-index: 2; left: 18px; bottom: 16px; display: flex; flex-direction: column; align-items: stretch; gap: 8px; width: 322px; max-width: calc(100% - 36px); }
+.dockRight { position: absolute; z-index: 1; right: 18px; bottom: 16px; display: flex; flex-direction: column; align-items: stretch; gap: 5px; width: 216px; }
+/* The car panel spans the mobile width, so the readouts step aside while it is
+   open. Two classes, declared after .dockRight, so the cascade cannot undo it. */
+.dockRight.dockHidden { display: none; }
+.dockPill { display: flex; align-items: center; gap: 6px; width: 100%; height: 42px; padding: 0 6px; background: var(--panel-solid); border: 1px solid var(--line); border-radius: 10px; color: var(--muted); font-size: 11px; box-shadow: 0 4px 18px rgb(0 0 0 / .18); backdrop-filter: blur(6px); }
+.pillSettings { display: flex; align-items: center; gap: 8px; flex: 1; height: 32px; padding: 0 8px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); }
+.pillSettings:hover { background: var(--raised-hover); }
+.pillSettings b { flex: 1; text-align: left; font-size: 11.5px; font-weight: 600; color: var(--ink); }
+.pillSettings svg:last-child { color: var(--faint); }
+.chevronOpen { transform: rotate(180deg); }
+.pillDivider { width: 1px; height: 22px; background: var(--line); flex-shrink: 0; }
+.pillPrimary, .pillGhost { display: flex; align-items: center; justify-content: center; height: 32px; border: 0; border-radius: 7px; flex-shrink: 0; }
+.pillPrimary { width: 34px; background: var(--accent); color: var(--color-slate-950); }
+.pillPrimary:hover { background: var(--accent-ink); }
+.pillGhost { width: 30px; background: transparent; color: var(--muted); }
+.pillGhost:hover { background: var(--raised-hover); color: var(--ink); }
+.pillRate { min-width: 34px; height: 32px; padding: 0 6px; border: 0; border-radius: 7px; background: var(--raised); color: var(--ink); font-size: 10.5px; font-weight: 600; flex-shrink: 0; }
+.pillRate:hover { background: var(--raised-hover); }
+/* The settings panel: labelled rows of chips, one interaction for all of them. */
+.settingsPanel { display: flex; flex-direction: column; gap: 12px; padding: 13px; max-height: 340px; overflow-y: auto; background: var(--panel-solid); border: 1px solid var(--line); border-radius: 11px; box-shadow: 0 14px 34px rgb(0 0 0 / .28); backdrop-filter: blur(8px); animation: dockIn .14s ease-out; }
+@keyframes dockIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+.settingRow { display: flex; flex-direction: column; gap: 6px; }
+.settingHead { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.settingHead span { font: 8px monospace; letter-spacing: 1.3px; text-transform: uppercase; color: var(--muted); }
+.settingHead b { font-size: 9.5px; font-weight: 600; color: var(--ink); }
+.settingChips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip { display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 9px; border: 1px solid var(--line); border-radius: 7px; background: var(--raised); color: var(--muted); font-size: 10.5px; }
+.chip:hover { background: var(--raised-hover); color: var(--ink); }
+.chipActive { background: var(--accent-soft) !important; border-color: var(--accent) !important; color: var(--accent-ink) !important; font-weight: 600; }
+/* The speed card is the same pill, read-only. */
+.readout { justify-content: flex-start; gap: 7px; padding: 0 11px; }
+.readout strong { font-size: 26px; line-height: 1; font-weight: 500; letter-spacing: -1px; font-variant-numeric: tabular-nums; color: var(--ink); }
+.readout > span { font-size: 10px; color: var(--muted); }
+.cruiseStepper { display: flex; align-items: center; gap: 2px; margin-left: auto; background: var(--raised); border-radius: 6px; padding: 2px; }
+.cruiseStepper span { font: 8px monospace; letter-spacing: .5px; color: var(--muted); padding: 0 2px; }
+.cruiseStepper b { font: 11px/1 monospace; font-weight: 700; color: var(--ink); margin-left: 3px; }
+.cruiseStepper button { width: 22px; height: 22px; display: grid; place-items: center; border: 0; border-radius: 4px; background: var(--raised-hover); color: var(--ink); font-size: 13px; line-height: 1; }
+.cruiseStepper button:hover:not(:disabled) { background: var(--accent-soft); color: var(--accent-ink); }
+.controls { background: var(--panel); border-left: 1px solid var(--line); color: var(--ink); display: flex; flex-direction: column; height: 660px; overflow: hidden; }
+.transport { display: flex; align-items: center; gap: 30px; padding: 14px 20px; border: 1px solid var(--line); border-top: 0; background: var(--panel); border-radius: 0 0 12px 12px; }
+.routeProgress { flex: 1; }
+.keyboard { color: var(--faint); font-size: 9px; margin-left: auto; }
+.routeProgress > div { display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px; }
+.routeProgress span { font: 8px monospace; letter-spacing: 1px; color: var(--muted); }
+.routeProgress b { font-size: 9px; font-weight: 400; color: var(--faint); }
+.routeProgress progress { display: block; width: 100%; height: 3px; border: 0; border-radius: 3px; overflow: hidden; accent-color: var(--accent); }
+.routeProgress progress::-webkit-progress-bar { background: var(--raised); }
+.routeProgress progress::-webkit-progress-value { background: var(--accent); }
+.footer { margin-top: 18px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 12px; }
+.footer p { display: flex; gap: 8px; align-items: center; margin: 0; font-size: 9px; color: var(--faint); }
+.footer p svg { flex-shrink: 0; }
+.footer a { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--accent); text-decoration: none; white-space: nowrap; }
+.expanded { position: fixed; inset: 0; width: 100vw; height: 100dvh; z-index: 100; }
+.loading { display: grid; place-content: center; height: 100%; color: var(--muted); font-size: 13px; }
+/* Car paint swatches */
+.colorSwatch { width: 26px; height: 26px; padding: 0; border-radius: 50%; border: 1px solid rgb(0 0 0 / .25); box-shadow: inset 0 -4px 7px rgb(0 0 0 / .22); transition: transform .16s, box-shadow .16s; }
+.colorSwatch:hover { transform: translateY(-1px); }
+.colorSwatchActive { box-shadow: inset 0 -4px 7px rgb(0 0 0 / .22), 0 0 0 2px var(--background), 0 0 0 4px var(--accent); }
+
+@media (min-width: 1600px) { .stage { height: 720px; } }
+
+@media (max-width: 1100px) { .page { padding-left: 22px; padding-right: 22px; } .workspace { grid-template-columns: minmax(0, 1fr) 280px; } .transport { gap: 22px; } }
+@media (max-width: 800px) { .page { padding-top: 168px; } .workspace { grid-template-columns: 1fr; } .stage { height: 610px; } .controls { border-left: 0; border-top: 1px solid var(--line); height: auto; max-height: 520px; } }
+@media (max-width: 540px) { .dockLeft { left: 12px; bottom: 12px; width: calc(100% - 24px); gap: 7px; } .dockRight { right: 12px; bottom: 66px; width: auto; flex-direction: row; align-items: flex-end; justify-content: flex-end; gap: 8px; } .settingsPanel { max-height: 270px; padding: 11px; gap: 11px; } .readout strong { font-size: 22px; } .chip { height: 30px; } .page { padding: 128px 13px 28px; } .back { margin-bottom: 25px; } .stage { height: 565px; } .sceneTop { top: 10px; left: 10px; right: 10px; flex-direction: column; align-items: stretch; } .sceneTitle { gap: 6px; height: 34px; flex-shrink: 0; } .modelPill { display: flex; margin-right: 42px; } .envBar { flex-wrap: wrap; gap: 8px; } .envMenuWrap { flex: 1 1 100%; } .iconButton { position: absolute; top: 0; right: 0; } .transport { flex-wrap: wrap; gap: 16px; padding: 14px; } .routeProgress { min-width: 100%; } .footer { align-items: flex-start; flex-direction: column; gap: 13px; } .footer p { line-height: 1.7; font-size: 9px; } }
+@media (prefers-reduced-motion: reduce) { .page button { transition: none; } .settingsPanel { animation: none; } .colorSwatch { transition: none; } }
+
+.modal { position: fixed; inset: 0; width: 100%; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; border: 0; background: var(--background); color: var(--foreground); overflow: auto; overscroll-behavior: contain; }
+.modal::backdrop { background: rgb(0 0 0 / .75); }
+.page.embedded { padding: 22px; min-height: 100dvh; }
+.labHeader { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.labActions { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.labActions button, .labActions a { flex-shrink: 0; min-height: 36px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 8px 10px; background: var(--raised); border: 1px solid var(--line); border-radius: 7px; color: var(--ink); font-size: 11px; text-decoration: none; }
+.labActions button:hover, .labActions a:hover { background: var(--raised-hover); }
+.shareStatus { color: var(--accent-ink); font-size: 12px; }
+.shareStatus:not(:empty) { margin-bottom: 12px; }
+.shareStatus input { display: block; width: 100%; padding: 8px; margin-top: 6px; }
+@media (max-width: 800px) { .labHeader { flex-wrap: wrap; } .page.embedded { padding: 16px 12px; } }
+
+/* Desktop camera and speed share a single column and identical outer edges. */
+.cameraControls { width: 100%; height: 42px; padding: 6px; border-radius: 10px; }
+.cameraControls .envLabel { flex: 1; padding-left: 5px; letter-spacing: 1px; }
+.sceneTop > .iconButton { flex-shrink: 0; }
+@media (min-width: 541px) {
+  @container (max-width: 620px) {
+    .dockRight { bottom: 66px; }
+  }
+}
+@media (max-width: 1000px) { .labHeader { flex-wrap: wrap; } }
+
+.modelStepper { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.headerModel { display: flex; align-items: center; gap: 8px; min-width: 0; max-width: 340px; height: 36px; padding: 0 12px; background: var(--panel-solid); border: 1px solid var(--line); border-radius: 7px; }
+.headerModel b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; font-weight: 600; }

@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Local agent worktrees contain separate apps and generated build output.
+    ".claude/**",
   ]),
 ]);
 

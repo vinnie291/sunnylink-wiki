@@ -3,14 +3,23 @@
 import Navigation from './Navigation';
 import { useLanguage } from '../lib/i18n';
 
-export default function Header() {
+interface HeaderProps {
+    /**
+     * Pages that carry their own <h1> render the site title as plain text, so a
+     * document never exposes two primary headings.
+     */
+    asPrimaryHeading?: boolean;
+}
+
+export default function Header({ asPrimaryHeading = true }: HeaderProps) {
     const { t } = useLanguage();
+    const Title = asPrimaryHeading ? 'h1' : 'p';
 
     return (
         <header className="text-center mb-8 pt-2 sm:pt-4">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight animate-gradient-text">
+            <Title className="text-4xl md:text-5xl font-bold mb-4 tracking-tight animate-gradient-text">
                 {t('header.title')}
-            </h1>
+            </Title>
             <p className="text-slate-400 text-lg max-w-2xl mx-auto mb-4">
                 {t('header.subtitle')}
             </p>

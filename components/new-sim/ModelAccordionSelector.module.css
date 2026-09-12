@@ -1,0 +1,67 @@
+/* Same palette tokens as the rest of the wiki, so this panel follows the site's
+   light/dark setting instead of carrying its own colours. */
+.container {
+  --ink: var(--foreground);
+  --muted: var(--color-slate-400);
+  --faint: var(--color-slate-600);
+  --line: color-mix(in srgb, var(--color-slate-700) 55%, transparent);
+  --raised: color-mix(in srgb, var(--color-slate-800) 55%, transparent);
+  --raised-hover: color-mix(in srgb, var(--color-slate-700) 50%, transparent);
+  --accent: var(--color-cyan-400);
+  --accent-soft: color-mix(in srgb, var(--color-cyan-500) 18%, transparent);
+  --accent-ink: var(--color-cyan-300);
+  display: flex; flex-direction: column; height: 100%; min-height: 0;
+  color: var(--ink); font-size: 12px;
+}
+.container button { cursor: pointer; font: inherit; transition: background .16s, color .16s, border-color .16s; }
+.container button:focus-visible, .container input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Currently driving */
+.active { padding: 16px 16px 13px; border-bottom: 1px solid var(--line); }
+.activeTop { display: flex; align-items: center; gap: 8px; }
+.activeTop strong { flex: 1; font-size: 13px; font-weight: 600; letter-spacing: -.2px; }
+.activeTraits { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 7px 0 0; font-size: 10.5px; color: var(--muted); }
+.activeTraits i, .rowTraits i { width: 3px; height: 3px; border-radius: 50%; background: currentColor; opacity: .5; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.score { font: 10px monospace; color: var(--muted); background: var(--raised); padding: 3px 6px; border-radius: 4px; }
+
+/* Search + filters */
+.search { display: flex; align-items: center; gap: 8px; margin: 12px 16px 0; padding: 0 10px; height: 34px; background: var(--raised); border: 1px solid var(--line); border-radius: 8px; color: var(--muted); }
+.search input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--ink); font-size: 11.5px; }
+.search input::placeholder { color: var(--faint); }
+.search button { display: grid; place-items: center; width: 20px; height: 20px; border: 0; border-radius: 4px; background: transparent; color: var(--muted); }
+.search button:hover { background: var(--raised-hover); color: var(--ink); }
+.filters { display: flex; gap: 5px; overflow-x: auto; padding: 10px 16px 12px; scrollbar-width: none; }
+.filters::-webkit-scrollbar { display: none; }
+.filters button { flex-shrink: 0; height: 26px; padding: 0 10px; border: 1px solid var(--line); border-radius: 13px; background: transparent; color: var(--muted); font-size: 10.5px; }
+.filters button:hover { background: var(--raised); color: var(--ink); }
+.filterActive { background: var(--accent-soft) !important; border-color: var(--accent) !important; color: var(--accent-ink) !important; font-weight: 600; }
+
+/* Category accordion */
+.list { flex: 1; min-height: 0; overflow-y: auto; padding: 0 10px 14px; }
+.category + .category { border-top: 1px solid var(--line); }
+.categoryHeader { display: flex; align-items: center; gap: 9px; width: 100%; padding: 11px 6px; border: 0; background: transparent; color: var(--muted); text-align: left; }
+.categoryHeader:hover { color: var(--ink); }
+.categoryIcon { font-size: 13px; line-height: 1; }
+.categoryName { flex: 1; font-size: 11.5px; font-weight: 600; color: var(--ink); }
+.count { font: 9px monospace; color: var(--faint); }
+.chevronOpen { transform: rotate(180deg); }
+
+/* One row per model: name, score, and the traits that change the driving. */
+.rows { display: flex; flex-direction: column; gap: 2px; padding: 0 0 10px; }
+.row { display: flex; align-items: flex-start; gap: 9px; width: 100%; padding: 9px 8px; border: 1px solid transparent; border-radius: 8px; background: transparent; text-align: left; color: var(--muted); }
+.row:hover { background: var(--raised); }
+.row > .dot { margin-top: 4px; }
+.rowActive { background: var(--accent-soft) !important; border-color: var(--accent) !important; }
+.rowBody { flex: 1; min-width: 0; }
+.rowTop { display: flex; align-items: center; gap: 6px; }
+.rowTop b { flex: 1; font-size: 11.5px; font-weight: 600; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rowTop em { font: 8px monospace; font-style: normal; letter-spacing: .6px; text-transform: uppercase; color: var(--accent-ink); border: 1px solid var(--accent); padding: 2px 4px; border-radius: 3px; }
+.rowTraits { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-top: 4px; font-size: 10px; color: var(--muted); }
+.rowNote { display: block; margin-top: 6px; font-size: 10px; line-height: 1.5; color: var(--faint); }
+.rowCheck { flex-shrink: 0; margin-top: 3px; color: var(--accent); }
+
+.empty { padding: 28px 16px; text-align: center; color: var(--muted); font-size: 11px; }
+.empty button { margin-top: 10px; height: 28px; padding: 0 12px; border: 1px solid var(--line); border-radius: 7px; background: transparent; color: var(--ink); font-size: 11px; }
+.empty button:hover { background: var(--raised); }
+@media (prefers-reduced-motion: reduce) { .container button { transition: none; } }

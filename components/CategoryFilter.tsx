@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, ReactNode } from 'react';
+import { useId, useState, ReactNode } from 'react';
 import { useLanguage } from '../lib/i18n';
 import { getFilterButtonClasses, getFilterBadgeClasses } from '../lib/filterStyles';
 
@@ -10,6 +10,8 @@ interface Category {
     icon: ReactNode;
     count: number;
     deviceCount?: number;
+    /** Set when deviceCount is a parent-company total rather than this make's own. */
+    deviceGroup?: string;
 }
 
 interface CategoryFilterProps {
@@ -34,6 +36,7 @@ export default function CategoryFilter({
     recommendedCount = 0,
 }: CategoryFilterProps) {
     const [isOpen, setIsOpen] = useState(initialOpen);
+    const listId = useId();
     const { t } = useLanguage();
     const isAllActive = activeCategories.length === 0;
     const totalCount = categories.reduce((sum, cat) => sum + cat.count, 0);
@@ -46,23 +49,32 @@ export default function CategoryFilter({
 
     return (
         <div className="space-y-3">
-            <div className="flex items-center justify-between" onClick={collapsible ? toggleOpen : undefined}>
-                <button
-                    className={`flex items-center gap-2 text-sm text-slate-400 uppercase tracking-wider font-medium w-full text-left ${collapsible ? 'cursor-pointer hover:text-slate-300' : ''}`}
-                    disabled={!collapsible}
-                >
-                    <span>{t('filter.categories')}</span>
-                    {collapsible && (
+            <div className="flex items-center justify-between">
+                {collapsible ? (
+                    <button
+                        type="button"
+                        onClick={toggleOpen}
+                        aria-expanded={isOpen}
+                        aria-controls={listId}
+                        className="flex items-center gap-2 text-sm text-slate-400 uppercase tracking-wider font-medium w-full text-left cursor-pointer hover:text-slate-300"
+                    >
+                        <span>{t('filter.categories')}</span>
                         <svg
                             className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
+                            aria-hidden="true"
                         >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
-                    )}
-                </button>
+                    </button>
+                ) : (
+                    // Static section label: a heading, not a permanently disabled button.
+                    <h2 className="flex items-center gap-2 text-sm text-slate-400 uppercase tracking-wider font-medium w-full text-left">
+                        {t('filter.categories')}
+                    </h2>
+                )}
 
                 {!isAllActive && !collapsible && (
                     <button
@@ -88,7 +100,7 @@ export default function CategoryFilter({
                 )}
             </div>
 
-            <div className={containerClasses}>
+            <div className={containerClasses} id={listId}>
                 {/* All Button */}
                 <button
                     onClick={onClearAll}
@@ -132,9 +144,11 @@ export default function CategoryFilter({
                             <span className="flex-1 break-words">{category.name}</span>
                             <div className="flex items-center gap-1.5 shrink-0">
                                 {category.deviceCount !== undefined && category.deviceCount > 0 && (
-                                    <span 
+                                    <span
                                         className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20"
-                                        title={`${category.deviceCount.toLocaleString()} active Sunnylink devices in fleet`}
+                                        title={category.deviceGroup
+                                            ? `${category.deviceCount.toLocaleString()} active Sunnylink devices across the ${category.deviceGroup} group`
+                                            : `${category.deviceCount.toLocaleString()} active ${category.name} Sunnylink devices`}
                                     >
                                         ⚡{category.deviceCount >= 1000 ? `${(category.deviceCount / 1000).toFixed(1)}k` : category.deviceCount}
                                     </span>

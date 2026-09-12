@@ -6,6 +6,7 @@ import LanguageSwitcher from './LanguageSwitcher';
 import SearchButton from './SearchButton';
 import ThemeToggle from './ThemeToggle';
 import ExitWizardButton from './ExitWizardButton';
+import MyCarSelector from './MyCarSelector';
 import { useLanguage } from '../lib/i18n';
 import { COMMA_REFERRAL_URL, trackReferralClick } from '../lib/analytics';
 
@@ -13,6 +14,7 @@ export default function GlobalControls() {
     const { t } = useLanguage();
     const pathname = usePathname();
     const isWizard = pathname === '/wizard';
+    const isDrivingLab = pathname === '/new-sim';
     const [sidebarSticky, setSidebarSticky] = useState(false);
     const [scrolledPastHeader, setScrolledPastHeader] = useState(false);
     const [searchActive, setSearchActive] = useState(false);
@@ -50,22 +52,25 @@ export default function GlobalControls() {
     const hideRightControls = scrolledPastHeader || searchActive;
 
     return (
-        <div className="fixed inset-x-0 top-0 z-50 pointer-events-none">
+        // The standalone lab reserves a header area; scroll these controls with it
+        // so they never float over the lab title or its scene controls.
+        <div className={`${isDrivingLab ? 'absolute' : 'fixed'} inset-x-0 top-0 z-50 pointer-events-none`}>
             {/* Top-Left: Language Switcher, Search, and optional Exit Wizard */}
             {/* Below lg: always visible — floats above the sticky filter bar (top-16)
                 so the controls stay reachable while scrolling.
                 On lg+: hide when scrolled past the header or when the sidebar is
                 sticky (inline version takes over). */}
             <div className={`
-                absolute top-3 left-3 sm:top-8 sm:left-8 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 pointer-events-auto
+                absolute top-3 left-3 sm:top-8 sm:left-8 flex flex-col items-start gap-2 sm:gap-3 pointer-events-auto
                 transition-opacity duration-200 ease-out
                 ${scrolledPastHeader || sidebarSticky ? 'lg:opacity-0 lg:pointer-events-none' : ''}
             `}>
                 <div className="flex items-center gap-2 sm:gap-3">
                     <LanguageSwitcher />
-                    <SearchButton />
                     <ThemeToggle />
+                    <SearchButton />
                 </div>
+                <div className={`w-full ${scrolledPastHeader || searchActive ? 'max-lg:hidden' : ''}`}><MyCarSelector stretch /></div>
                 {isWizard && <ExitWizardButton />}
             </div>
 
@@ -77,13 +82,13 @@ export default function GlobalControls() {
                 transition-opacity duration-200 ease-out
                 ${hideRightControls ? 'opacity-0 pointer-events-none' : 'opacity-100'}
             `}>
-                <div className="flex flex-col gap-1.5 sm:gap-2 w-44 sm:w-60">
+                <div className="flex flex-col gap-1.5 sm:gap-2 w-[calc(100vw-172px)] max-w-44 sm:w-60 sm:max-w-none">
                     <a
                         href="https://www.sunnylink.ai/dashboard"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="
-                            flex items-center justify-center gap-1.5 sm:gap-2 w-full px-3 py-1.5 sm:px-4 sm:py-2.5
+                            flex items-center justify-center gap-1.5 sm:gap-2 w-full h-10 sm:h-12 px-3 sm:px-4
                             bg-indigo-600 hover:bg-indigo-500 text-white
                             rounded-xl font-semibold text-[11px] sm:text-sm
                             shadow-lg shadow-indigo-600/30
@@ -99,7 +104,7 @@ export default function GlobalControls() {
                         rel="noopener noreferrer"
                         onClick={() => trackReferralClick('dashboard')}
                         className="
-                            flex items-center justify-center gap-1.5 sm:gap-2 w-full px-3 py-1.5 sm:px-4 sm:py-2.5
+                            flex items-center justify-center gap-1.5 sm:gap-2 w-full h-10 sm:h-12 px-3 sm:px-4
                             bg-emerald-700 hover:bg-emerald-600 text-white
                             rounded-xl font-bold text-xs sm:text-sm
                             shadow-md shadow-emerald-600/30

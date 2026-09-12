@@ -1800,7 +1800,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
 
             {/* Gauntlet route progress strip — event markers along the loop,
                 with a moving dot showing where the car currently is. */}
-            {effectiveScenarioKey === 'gauntlet' && !hideStatus && (
+            {effectiveScenarioKey === 'gauntlet' && !hideStatus && !mini && (
                 <div className="absolute left-1/2 -translate-x-1/2 bottom-[5%] w-[55%] select-none pointer-events-none">
                     <div className="relative h-px rounded-full bg-white/15">
                         {GAUNTLET_CORNERS.map((c) => (

@@ -256,7 +256,7 @@ export default async function ModelsPage() {
     }
 
     return (
-        <PageShell>
+        <PageShell pageHasOwnHeading>
             <div>
                 {/* SEO hero — server-rendered, so the H1 and intro paragraph
                     land in the initial HTML for crawlers. */}
