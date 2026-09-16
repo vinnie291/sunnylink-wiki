@@ -8,7 +8,7 @@ export interface TraitEvidence {
   dimension: 'Lane centering' | 'Lateral control' | 'Longitudinal' | 'Stop & go';
   effect: string;
   quote: string;
-  source: 'positive feedback' | 'negative feedback' | 'community summary' | 'model note' | 'steering feel' | 'model tags';
+  source: 'positive feedback' | 'negative feedback' | 'community summary' | 'model note' | 'steering feel' | 'model tags' | 'trait poll';
 }
 export interface FeedbackPhysics {
   headway: number; accelerationMax: number; comfortDecel: number; lateralPatience: number;
@@ -46,7 +46,7 @@ export function deriveFeedbackPhysics(model: FeedbackModel): FeedbackPhysics {
     ...(model.note ? [{ quote: model.note, source: 'model note' as const }] : []),
   ];
   const record = (dimension: TraitEvidence['dimension'], effect: string, pattern: RegExp, fault = false) => {
-    const found = reports.filter(r => fault ? (r.source !== 'positive feedback' || /\b(?:but|however|still)\b/i.test(r.quote)) && reportsFault(r.quote, pattern) : pattern.test(normalize(r.quote)));
+    const found = reports.filter(r => fault ? !/vehicles with|steering racks|if .{0,40} feels/i.test(r.quote) && (r.source !== 'positive feedback' || /\b(?:but|however|still)\b/i.test(r.quote)) && reportsFault(r.quote, pattern) : pattern.test(normalize(r.quote)));
     for (const report of found.slice(0, 2)) {
       if (!evidence.some(e => e.effect === effect && e.quote === report.quote)) evidence.push({ dimension, effect, ...report });
     }
@@ -74,7 +74,8 @@ export function deriveFeedbackPhysics(model: FeedbackModel): FeedbackPhysics {
   }
   // Sentiment only moderates an explicitly reported fault; it never invents a
   // steering or braking defect from an overall popularity / satisfaction score.
-  const severity = 0.9 + (p.sentiment?.negative ?? 25) / 250;
+  const voteWeight = Math.max(0, model.totalVotes ?? 0) / (Math.max(0, model.totalVotes ?? 0) + 20);
+  const severity = 1 + (((p.sentiment?.negative ?? 25) - 25) / 250) * voteWeight;
   if (/comfort|eco/.test(tags)) {
     Object.assign(p, { headway: 2.2, accelerationMax: 1.35, comfortDecel: -1.8, jerkLimit: 1.3, lateralPatience: 1.65 });
     evidence.push({ dimension: 'Longitudinal', effect: 'Longer gap and gentler acceleration', quote: (model.tags ?? []).join(', '), source: 'model tags' });
@@ -89,12 +90,15 @@ export function deriveFeedbackPhysics(model: FeedbackModel): FeedbackPhysics {
     evidence.push({ dimension: 'Lateral control', effect: 'Damped, consistent steering response', quote: model.steeringFeel ?? tags, source: model.steeringFeel ? 'steering feel' : 'model tags' });
   }
   if (/light|heavy/.test(feel)) { p.centeringGain = 1.55; p.lookaheadTime = 1.05; p.steeringTimeConstant = 0.32; }
+  if (/stiff|firm|planted/.test(`${feel} ${tags}`) || record('Lateral control', 'Firm steering response', /stiffer steering|locks it down|unshakeable|rock solid/)) {
+    Object.assign(p, { laneWobble: .008, centeringGain: 3.1, lateralDamping: 1.5, steeringDelay: .1, steeringTimeConstant: .16, lookaheadTime: 1.12 });
+  }
   if (/twitchy|volatile|oscillating/.test(feel)) {
     Object.assign(p, { laneWobble: 0.14, centeringGain: 2.5, lateralDamping: 1.25, steeringRateLimit: 0.4, steeringDelay: 0.18 });
     evidence.push({ dimension: 'Lateral control', effect: 'More frequent steering corrections', quote: model.steeringFeel!, source: 'steering feel' });
   }
 
-  if (record('Lane centering', 'Calmer lane tracking', /(?:stable|planted|locked-in|excellent|exceptional|great|rock.solid|consistent).{0,35}(?:lane|lateral|steer|highway)|(?:no|without|resolves|resolved).{0,50}(?:wander|weav|steering oscill)|(?:smooth|natural).{0,20}(?:steer|lateral)/)) {
+  if (record('Lane centering', 'Calmer lane tracking', /(?:stable|planted|locked-in|excellent|exceptional|great|rock.solid|consistent).{0,35}(?:lane|lateral|steer|highway)|(?:no|without|resolves|resolved).{0,50}(?:wander|weav|steering oscill)|(?:smooth|natural).{0,20}(?:steer|lateral)|unshakeable on highways|boring, predictable|on rails/)) {
     Object.assign(p, { laneWobble: 0.015, centeringGain: 2.9, lateralDamping: 1.4 });
   }
   if (record('Lane centering', 'Oscillating lane corrections', /ping.pong|see.saw|(?:steer\w*|lateral).{0,30}oscillat|oscillat.{0,30}(?:steer|lane)|lane.weav|wobbl|twitch/, true)) {
@@ -143,6 +147,17 @@ export function deriveFeedbackPhysics(model: FeedbackModel): FeedbackPhysics {
   p.steeringDelay = Math.min(p.steeringDelay, 0.2);
   p.steeringTimeConstant = Math.min(p.steeringTimeConstant, 0.28);
   p.centeringGain = Math.max(p.centeringGain, 2);
+  // Preserve graded descriptions instead of giving every matching model the
+  // same binary parameter value. No name-based randomization or score-only faults.
+  const adverse = reports.filter(r => r.source === 'negative feedback' || r.source === 'community summary');
+  const graded = (pattern: RegExp) => {
+    const relevant = adverse.filter(r => reportsFault(r.quote, pattern));
+    if (!relevant.length) return 1;
+    return relevant.reduce((sum, r) => sum + (/severe|extreme|violent|pronounced/i.test(r.quote) ? 1.18 : /slight|mild|occasional|minor/i.test(r.quote) ? .7 : 1), 0) / relevant.length;
+  };
+  if (p.laneWobble > .05) p.laneWobble = clamp(p.laneWobble * graded(/oscillat|wobbl|wander|loose|ping.pong/), .05, .21);
+  if (p.speedOscillation) p.speedOscillation *= graded(/yoyo|yo-yo|surging|inconsistent gap/);
+  if (p.departureLag > .5) p.departureLag *= graded(/hesitan|sluggish|slow to follow/);
   const dimensions = new Set(evidence.filter(e => !['steering feel', 'model tags'].includes(e.source)).map(e => e.dimension));
   p.evidenceCoverage = dimensions.size >= 3 ? 'Detailed' : dimensions.size >= 1 ? 'Partial' : 'Limited';
   return p;

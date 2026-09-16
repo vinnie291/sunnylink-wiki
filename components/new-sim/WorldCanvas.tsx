@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Simulation, FIXED_STEP, type SimOptions, type Chapter, type Telemetry } from '@/lib/new-sim/simulation';
 import { DrivingScene } from '@/lib/new-sim/scene';
+import { withModelVotes } from '@/lib/new-sim/modelProfiles';
 
 interface Props {
   options: SimOptions;
@@ -28,10 +29,15 @@ export default function WorldCanvas({ options, revision, chapter, theme, skipRef
     if (!canvas) return;
     let view: DrivingScene;
     const sim = new Simulation({ ...optionsRef.current, scenario: options.scenario, density: options.density }, chapter);
+    const voteRequest = new AbortController();
+    fetch(`/api/models/vote?model=${encodeURIComponent(sim.model.name)}`, { signal: voteRequest.signal })
+      .then(response => response.ok ? response.json() : null)
+      .then(json => { if (!voteRequest.signal.aborted && json?.data?.stats) sim.setModelProfile(withModelVotes(sim.model, json.data.stats)); })
+      .catch(() => { /* Catalog evidence remains available when vote service is offline. */ });
     try { view = new DrivingScene(canvas, sim, lighting); }
     // Renderer initialization is an external-system result reflected in the fallback UI.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    catch (error) { console.error('Driving Lab renderer failed', error); setError(true); return; }
+    catch (error) { voteRequest.abort(); console.error('Driving Lab renderer failed', error); setError(true); return; }
     setError(false); setReady(true);
     let frame = 0, last = 0, accumulator = 0, lastUi = 0, visible = true;
     const resize = new ResizeObserver(([entry]) => { view.resize(entry.contentRect.width, entry.contentRect.height); view.update(0, optionsRef.current); });
@@ -62,12 +68,13 @@ export default function WorldCanvas({ options, revision, chapter, theme, skipRef
     if (skipRef) skipRef.current = (metres: number) => { sim.skip(metres); onTelemetryRef.current(sim.telemetry()); };
     frame = requestAnimationFrame(animate);
     return () => {
+      voteRequest.abort();
       cancelAnimationFrame(frame); resize.disconnect(); observer.disconnect();
       canvas.removeEventListener('webglcontextlost', lost); document.removeEventListener('visibilitychange', visibility);
       if (skipRef) skipRef.current = null;
       view.dispose();
     };
-  }, [options.scenario, options.density, revision, chapter, lighting, skipRef]);
+  }, [options.scenario, options.density, options.modelId, revision, chapter, lighting, skipRef]);
 
   return <>
     <canvas ref={canvasRef} aria-label="3D driving simulation showing traffic, road curves, traffic lights and stop signs" style={{ display: 'block', width: '100%', height: '100%' }} />

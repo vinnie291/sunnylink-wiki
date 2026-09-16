@@ -21,6 +21,10 @@ export interface SimOptions {
   carColor: string;
   /** 'auto' follows the site theme; day/night pin the scene's lighting. */
   lighting: 'auto' | 'day' | 'night';
+  /** A reproducible, more eventful traffic field for the compact model previews. */
+  previewTraffic?: boolean;
+  /** Four following-gap levels; level 2 preserves the model baseline. */
+  followDistance?: 1 | 2 | 3 | 4;
 }
 export const CAR_COLORS = [
   { id: 'pearl', name: 'Pearl white', hex: '#f6f8f7' },
@@ -56,6 +60,7 @@ export const mod = (n: number, m: number) => ((n % m) + m) % m;
 export const clamp = (n: number, a: number, b: number) => Math.min(b, Math.max(a, n));
 export const LANE_WIDTH = 3.6;
 export const CAR_LENGTH = 4.7;
+export function vehicleLength(car: Pick<Vehicle, 'kind'>) { return car.kind === 'truck' ? 17 : car.kind === 'motorcycle' ? 2.2 : CAR_LENGTH; }
 export const FIXED_STEP = 1 / 60;
 const CURVATURE_STEP = 2;
 /** Deterministic 0..1 hash, so traffic decisions replay identically. */
@@ -237,7 +242,7 @@ export function signalRemaining(time: number, id: number) {
 }
 export interface Vehicle {
   id: number; s: number; lane: number; direction: number; speed: number; acceleration: number;
-  desired: number; stoppedAt: number; dwell: number; released: number; kind: 'sedan' | 'suv' | 'van';
+  desired: number; stoppedAt: number; dwell: number; released: number; kind: 'sedan' | 'suv' | 'van' | 'truck' | 'motorcycle';
   braking: boolean;
   /** Metres off the lane centre, and its rate. Driven by the model profile. */
   lateral: number; lateralRate: number;
@@ -247,6 +252,7 @@ export interface Vehicle {
   holdUntil: number;
   /** Seconds before this driver will consider another lane change. */
   changeCooldown: number;
+  laneChange?: { from: number; offset: number; elapsed: number; duration: number };
   /** State at the previous fixed step, so rendering can interpolate between them. */
   prevS: number; prevLateral: number;
   headingError: number; prevHeading: number; steeringAngle: number; prevSteering: number;
@@ -268,6 +274,7 @@ export class Simulation {
   road: Road;
   cars: Vehicle[] = [];
   crossCars: CrossVehicle[] = [];
+  cyclists: { id: number; s: number; speed: number; dwell: number; released: number }[] = [];
   time = 0;
   distance = 0;
   stops = 0;
@@ -345,19 +352,40 @@ export class Simulation {
         : set * (0.82 + (i % 5) * 0.045);
       this.cars.push({ id: i, s: mod(s, this.road.length), lane, direction: layout.directions[lane],
         speed: highway ? 22 + (i % 4) : 9 + (i % 4), acceleration: 0, desired,
-        stoppedAt: -1, dwell: 0, released: -1, kind: i % 7 === 0 ? 'van' : i % 3 === 0 ? 'suv' : 'sedan', braking: false,
+        stoppedAt: -1, dwell: 0, released: -1, kind: options.previewTraffic && i % 11 === 8 && highway ? 'truck' : options.previewTraffic && i % 8 === 2 ? 'motorcycle' : i % 7 === 0 ? 'van' : i % 3 === 0 ? 'suv' : 'sedan', braking: false,
         lateral: 0, lateralRate: 0, creep: 0, holdUntil: 0, changeCooldown: 0, prevS: start, prevLateral: 0, headingError: 0, prevHeading: 0, steeringAngle: 0, prevSteering: 0, yawRate: 0, requestedAcceleration: 0, waitingForRelease: false });
+    }
+    if (options.previewTraffic && options.scenario === 'city') {
+      for (let i = 0; i < 8; i++) this.cyclists.push({ id: i, s: mod(start + 18 + i * this.road.length / 8, this.road.length), speed: 3.6 + i % 3 * .4, dwell: 0, released: -1 });
     }
     for (const j of this.road.junctions.filter(j => j.kind === 'signal')) {
       for (let i = 0; i < 4; i++) this.crossCars.push({ id: j.id * 10 + i, junction: j.id, x: -45 - i * 15,
         direction: i % 2 ? -1 : 1, speed: 7, prevX: -45 - i * 15 });
     }
-    for (const car of this.cars) car.prevS = car.s;
+    if (options.previewTraffic && highway) {
+      // Stagger a varied passing field around the viewer. These are initial
+      // conditions only; every subsequent position is integrated by the controller.
+      const counts = new Map<number, number>();
+      for (const car of this.cars.slice(1)) {
+        const row = counts.get(car.lane) ?? 0;
+        counts.set(car.lane, row + 1);
+        const first = [12, 44, 78, 30, -22][car.lane];
+        car.s = mod(start + first + row * 95, this.road.length);
+        car.desired = options.speed * .44704 * (1.14 - car.lane * .055) + (hash(car.id) - .5) * 2;
+        car.speed = Math.min(car.desired, 24 + (hash(car.id + 8) - .5) * 3);
+        car.changeCooldown = car.lane === 3 && row === 0 ? 3 : 7 + hash(car.id * 4) * 9;
+      }
+    }
+    for (const car of this.cars) {
+      car.prevS = car.s;
+      if (car.kind === 'truck') { car.desired *= .88; car.speed = Math.min(car.speed, car.desired); }
+    }
     this.modelReaction = `${this.model.steeringFeel} tracking`;
     this.ego.steeringAngle = Math.atan(2.93 * this.road.curvatureSigned(start));
     this.ego.prevSteering = this.ego.steeringAngle;
   }
   get ego() { return this.cars[0]; }
+  setModelProfile(profile: ModelSimProfile) { this.profileOverride = profile; }
   get model(): ModelSimProfile { return this.profileOverride ?? getModelProfile(this.options.modelId); }
   laneOffset(car: Vehicle) {
     // `lateral` is integrated in step(); positive road offsets are to the left.
@@ -441,8 +469,8 @@ export class Simulation {
   lead(car: Vehicle) {
     let gap = this.road.length, speed = car.desired;
     for (const other of this.cars) {
-      if (other.id === car.id || other.lane !== car.lane) continue;
-      const d = this.road.distance(car.s, other.s, car.direction) - CAR_LENGTH;
+      if (other.id === car.id || (other.lane !== car.lane && other.laneChange?.from !== car.lane)) continue;
+      const d = this.road.distance(car.s, other.s, car.direction) - (vehicleLength(car) + vehicleLength(other)) / 2;
       if (d < gap) { gap = d; speed = other.speed; }
     }
     return { gap, speed };
@@ -464,10 +492,12 @@ export class Simulation {
     const updates = this.cars.map(car => {
       const isEgo = car.id === 0;
       const accelMax = isEgo ? profile.accelerationMax * behaviorMod : 1.6;
-      const headway = isEgo ? Math.max(1.0, profile.headway + headwayMod) : 1.5 + (car.id % 3) * 0.2;
+      const headway = isEgo ? Math.max(1.0, profile.headway + headwayMod + ((this.options.followDistance ?? 2) - 2) * .45) : 1.5 + (car.id % 3) * 0.2;
       const lateral = isEgo ? profile.lateralPatience * (this.options.behavior === 'relaxed' ? 0.85 : this.options.behavior === 'responsive' ? 1.15 : 1.0) : 2;
       let desired = isEgo ? this.options.speed * 0.44704 * profile.cruiseFactor : car.desired;
       if (isEgo && profile.speedOscillation) desired += Math.sin(this.time * 0.8) * profile.speedOscillation;
+      // The selected cruise speed is the upper target; model traits may ask for less.
+      if (isEgo) desired = Math.min(desired, this.options.speed * .44704);
       // Preview curvature, then decelerate before a bend, not after entering it.
       for (let d = 0; d <= 90; d += 10) {
         const curveSpeed = Math.sqrt(lateral / Math.max(0.0001, this.road.curvature(car.s + d * car.direction)));
@@ -491,10 +521,10 @@ export class Simulation {
             if (car.dwell >= (isEgo ? profile.stopDwell : 2)) { car.released = junction.id; mustStop = false; }
           }
         }
-        if (mustStop && junction.distance - CAR_LENGTH / 2 < gap) {
+        if (mustStop && junction.distance - vehicleLength(car) / 2 < gap) {
           // Where this model actually comes to rest: creepers roll past the
           // line, early brakers stop short of it.
-          gap = junction.distance - CAR_LENGTH / 2 + (isEgo ? profile.stopOffset + car.creep : 0);
+          gap = junction.distance - vehicleLength(car) / 2 + (isEgo ? profile.stopOffset + car.creep : 0);
           leadSpeed = 0;
         }
       }
@@ -585,6 +615,22 @@ export class Simulation {
         this.steerEgo(dt, arcDistance);
       }
     }
+    for (const cyclist of this.cyclists) {
+      const next = this.road.junctions.map(j => ({ ...j, distance: this.road.distance(cyclist.s, j.s - 12) }))
+        .sort((a, b) => a.distance - b.distance)[0];
+      let travel = cyclist.speed * dt;
+      if (next && next.distance < 15) {
+        const stop = next.kind === 'signal' ? this.signal(next.id) !== 'green' : cyclist.released !== next.id;
+        if (stop) {
+          travel = Math.min(travel, Math.max(0, next.distance - 1));
+          if (next.distance <= 1.01 && next.kind === 'stop') {
+            cyclist.dwell += dt;
+            if (cyclist.dwell >= 2) { cyclist.released = next.id; cyclist.dwell = 0; }
+          }
+        }
+      }
+      cyclist.s = mod(cyclist.s + travel, this.road.length);
+    }
     // Cross streams get a protected phase; queues stay behind the crossing.
     for (const car of this.crossCars) {
       car.prevX = car.x;
@@ -620,9 +666,9 @@ export class Simulation {
   private roomIn(car: Vehicle, lane: number, urgency = 1) {
     let ahead = Infinity, behind = Infinity, behindSpeed = 0;
     for (const other of this.cars) {
-      if (other.id === car.id || other.lane !== lane || other.direction !== car.direction) continue;
-      const forward = this.road.distance(car.s, other.s, car.direction) - CAR_LENGTH;
-      const back = this.road.distance(other.s, car.s, car.direction) - CAR_LENGTH;
+      if (other.id === car.id || (other.lane !== lane && other.laneChange?.from !== lane) || other.direction !== car.direction) continue;
+      const forward = this.road.distance(car.s, other.s, car.direction) - (vehicleLength(car) + vehicleLength(other)) / 2;
+      const back = this.road.distance(other.s, car.s, car.direction) - (vehicleLength(car) + vehicleLength(other)) / 2;
       if (forward < ahead) ahead = forward;
       if (back < behind) { behind = back; behindSpeed = other.speed; }
     }
@@ -636,6 +682,7 @@ export class Simulation {
     // Both the live and previous offsets shift with the lane, so the rendered
     // position stays continuous while the car slides across.
     const shift = offsets[car.lane] - offsets[lane];
+    car.laneChange = { from: car.lane, offset: car.lateral + shift, elapsed: 0, duration: (car.kind === 'truck' ? 4.5 : 3.2) + hash(car.id) * .8 };
     car.lateral += shift; car.prevLateral += shift;
     car.lane = lane;
     car.changeCooldown = cooldown;
@@ -650,7 +697,14 @@ export class Simulation {
     for (const car of this.cars) {
       if (car.id === 0) continue;
       // Ease whatever lateral error a change left behind back to the lane centre.
-      car.lateral -= car.lateral * Math.min(1, dt * 1.1);
+      if (car.laneChange) {
+        const change = car.laneChange;
+        change.elapsed += dt;
+        const t = Math.min(1, change.elapsed / change.duration);
+        const eased = t * t * t * (10 + t * (-15 + 6 * t));
+        car.lateral = change.offset * (1 - eased);
+        if (t === 1) car.laneChange = undefined;
+      } else car.lateral -= car.lateral * Math.min(1, dt * 1.1);
       if (car.changeCooldown > 0) { car.changeCooldown -= dt; continue; }
       if (car.speed < 4) continue;
       const neighbours = this.neighbourLanes(car);
@@ -660,8 +714,8 @@ export class Simulation {
       const gapToEgo = this.road.distance(this.ego.s, car.s, this.ego.direction);
       if (car.direction === this.ego.direction && neighbours.includes(this.ego.lane)
         && gapToEgo > 9 && gapToEgo < 38 && this.time - this.cutInAt > 5
-        && hash(car.id * 97 + Math.floor(this.time / 3)) < 0.16
-        && this.roomIn(car, this.ego.lane, 0.55)) {
+        && hash(car.id * 97 + Math.floor(this.time / 3)) < (this.options.previewTraffic ? 0.65 : 0.16)
+        && this.roomIn(car, this.ego.lane, this.options.previewTraffic ? 0.85 : 0.55)) {
         this.moveTo(car, this.ego.lane, 14);
         this.cutIns++; this.cutInAt = this.time;
         continue;
@@ -672,7 +726,7 @@ export class Simulation {
       if (held) {
         // Overtake toward the faster side of the carriageway (lower offset index).
         const overtaking = neighbours
-          .filter(lane => offsets[lane] > offsets[car.lane] === (car.direction > 0 ? false : true))
+          .filter(lane => (offsets[lane] - offsets[car.lane]) * car.direction > 0)
           .sort((a, b) => Math.abs(offsets[a]) - Math.abs(offsets[b]));
         for (const lane of overtaking) {
           if (this.roomIn(car, lane)) { this.moveTo(car, lane, 8); break; }
@@ -681,7 +735,7 @@ export class Simulation {
       }
       // Otherwise drift back toward the slow lane, as most drivers eventually do.
       if (hash(car.id * 31 + Math.floor(this.time / 5)) < 0.25) {
-        const keepRight = neighbours.filter(lane => Math.abs(offsets[lane]) > Math.abs(offsets[car.lane]));
+        const keepRight = neighbours.filter(lane => (offsets[lane] - offsets[car.lane]) * car.direction < 0);
         for (const lane of keepRight) {
           if (this.roomIn(car, lane, 1.25)) { this.moveTo(car, lane, 10); break; }
         }
@@ -740,7 +794,7 @@ export class Simulation {
       // Never drop a car onto another one: if the slot is taken (a lane that has
       // drifted or bunched at a light), leave it and retry on a later step.
       const clear = this.cars.every(other => other.id === car.id || other.lane !== car.lane
-        || Math.min(this.road.distance(candidate, other.s), this.road.distance(other.s, candidate)) > 12);
+        || Math.min(this.road.distance(candidate, other.s), this.road.distance(other.s, candidate)) > (vehicleLength(car) + vehicleLength(other)) / 2 + 8);
       if (!clear) continue;
       car.s = candidate;
       car.prevS = candidate;

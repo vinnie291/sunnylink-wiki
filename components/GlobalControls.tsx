@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import LanguageSwitcher from './LanguageSwitcher';
 import SearchButton from './SearchButton';
@@ -18,6 +18,19 @@ export default function GlobalControls() {
     const [sidebarSticky, setSidebarSticky] = useState(false);
     const [scrolledPastHeader, setScrolledPastHeader] = useState(false);
     const [searchActive, setSearchActive] = useState(false);
+    const controlRow = useRef<HTMLDivElement>(null);
+
+    // Let the models filter sit alongside this row, including translated search labels.
+    useEffect(() => {
+        const row = controlRow.current;
+        if (!row) return;
+        const update = () => document.documentElement.style.setProperty('--global-controls-right', `${row.getBoundingClientRect().right}px`);
+        const observer = new ResizeObserver(update);
+        observer.observe(row);
+        window.addEventListener('resize', update);
+        update();
+        return () => { observer.disconnect(); window.removeEventListener('resize', update); document.documentElement.style.removeProperty('--global-controls-right'); };
+    }, []);
 
     // Listen for the sidebar-sticky and data-search-active attributes
     useEffect(() => {
@@ -65,7 +78,7 @@ export default function GlobalControls() {
                 transition-opacity duration-200 ease-out
                 ${scrolledPastHeader || sidebarSticky ? 'lg:opacity-0 lg:pointer-events-none' : ''}
             `}>
-                <div className="flex items-center gap-2 sm:gap-3">
+                <div ref={controlRow} className="flex items-center gap-2 sm:gap-3">
                     <LanguageSwitcher />
                     <ThemeToggle />
                     <SearchButton />

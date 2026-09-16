@@ -1,5 +1,7 @@
 import modelsData from '../../data/models.json';
 import { deriveFeedbackPhysics, type FeedbackPhysics } from './feedback';
+import { applyTraitVotes } from './traitVotes';
+import type { ModelVoteSummary } from '../modelVotes';
 
 export interface ModelSimProfile extends FeedbackPhysics {
   id: string;
@@ -114,6 +116,7 @@ export function deriveModelSimProfile(
 export const ALL_MODEL_PROFILES: ModelSimProfile[] = [];
 export const MODEL_CATEGORIES: ModelCategoryGroup[] = [];
 const PROFILE_MAP = new Map<string, ModelSimProfile>();
+const RAW_PROFILE_MAP = new Map<string, RawModel>();
 
 type RawModel = Parameters<typeof deriveModelSimProfile>[0];
 type RawCategory = { id: string; name: string; icon?: string; description?: string; models?: RawModel[] };
@@ -135,6 +138,7 @@ for (const cat of (modelsData.categories as RawCategory[]) || []) {
       ALL_MODEL_PROFILES.push(profile);
       PROFILE_MAP.set(profile.id, profile);
       PROFILE_MAP.set(profile.name.toLowerCase(), profile);
+      RAW_PROFILE_MAP.set(profile.id, m);
     }
   }
 
@@ -167,4 +171,11 @@ export function getModelProfile(idOrName?: string): ModelSimProfile {
   if (PROFILE_MAP.has(slug)) return PROFILE_MAP.get(slug)!;
   const found = ALL_MODEL_PROFILES.find(p => p.id.includes(slug) || p.name.toLowerCase().includes(query));
   return found || PROFILE_MAP.get(DEFAULT_MODEL_ID) || ALL_MODEL_PROFILES[0];
+}
+
+export function withModelVotes(profile: ModelSimProfile, votes?: ModelVoteSummary): ModelSimProfile {
+  if (!votes || votes.modelName.toLowerCase() !== profile.name.toLowerCase()) return profile;
+  const raw = RAW_PROFILE_MAP.get(profile.id);
+  if (!raw) return profile;
+  return applyTraitVotes({ ...profile, ...deriveFeedbackPhysics({ ...raw, ...votes.live }) }, votes.questions);
 }

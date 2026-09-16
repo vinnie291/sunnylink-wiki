@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import { applyTraitVotes } from '../../lib/new-sim/traitVotes';
+import { deriveModelSimProfile, getModelProfile } from '../../lib/new-sim/modelProfiles';
+import type { PollQuestionDef } from '../../lib/modelVotes';
+
+const base = deriveModelSimProfile({ name: 'Unknown' });
+const poll = (voters: number, label: string, id = 'lateral'): PollQuestionDef => ({ id, title: id, type: 'single', voters, options: [{ key: 'answer', label, votes: voters, percentage: 100 }] });
+assert.equal(applyTraitVotes(base, [poll(100, 'Great', 'overall')]).laneWobble, base.laneWobble);
+const small = applyTraitVotes(base, [poll(1, 'Steering wobble')]);
+const large = applyTraitVotes(base, [poll(100, 'Steering wobble')]);
+assert.ok(small.laneWobble > base.laneWobble && large.laneWobble > small.laneWobble);
+assert.equal(large.headway, base.headway, 'Lateral poll must not change following distance');
+assert.equal(applyTraitVotes(base, [poll(100, 'No wobble')]).laneWobble, base.laneWobble);
+assert.equal(applyTraitVotes(base, [poll(0, 'Steering wobble')]).laneWobble, base.laneWobble);
+assert.ok(large.evidence.some(e => e.source === 'trait poll' && e.quote.includes('100/100')));
+assert.equal(base.evidence.length, 0, 'Applying live votes must not mutate catalog profile');
+const loose = getModelProfile('WMI V12'), firm = getModelProfile('Macrostiff Model');
+assert.ok(loose.laneWobble > firm.laneWobble * 3);
+assert.ok(loose.steeringTimeConstant > firm.steeringTimeConstant);
+assert.ok(getModelProfile('Down to Ride v6').headway > getModelProfile('Dark Souls Model v2').headway);
+console.log('PASS trait-specific votes, sample weighting, negation, no score-only defects, immutable profiles and distinct documented driving characters');

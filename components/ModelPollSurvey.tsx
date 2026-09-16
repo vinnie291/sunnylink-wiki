@@ -10,6 +10,7 @@ interface ModelPollSurveyProps {
     baseVotes?: number;
     baseSentiment?: { great: number; good: number; ok: number; bad: number };
     initialVoteSummary?: ModelVoteSummary;
+    onSummaryUpdate?: (summary: ModelVoteSummary) => void;
     onScoreUpdate?: (liveData: {
         communityScore: number;
         totalVotes: number;
@@ -24,6 +25,7 @@ export default function ModelPollSurvey({
     baseSentiment,
     initialVoteSummary,
     onScoreUpdate,
+    onSummaryUpdate,
 }: ModelPollSurveyProps) {
     const { t } = useLanguage();
     const [currentStep, setCurrentStep] = useState(0);
@@ -44,6 +46,7 @@ export default function ModelPollSurvey({
                 if (mounted && json.success && json.data?.stats) {
                     const stats: ModelVoteSummary = json.data.stats;
                     setSummary(stats);
+                    onSummaryUpdate?.(stats);
                     if (json.data.userVote) {
                         setUserAnswers(json.data.userVote);
                         // If user has already answered the first question, start in results mode
@@ -65,7 +68,7 @@ export default function ModelPollSurvey({
         return () => {
             mounted = false;
         };
-    }, [modelName, onScoreUpdate]);
+    }, [modelName, onScoreUpdate, onSummaryUpdate]);
 
     // Build question list dynamically from summary, or graceful default
     const questions: PollQuestionDef[] = useMemo(() => {
@@ -159,6 +162,7 @@ export default function ModelPollSurvey({
                 const json = await res.json();
                 if (json.success && json.stats) {
                     setSummary(json.stats);
+                    onSummaryUpdate?.(json.stats);
                     setJustVoted(true);
                     setTimeout(() => setJustVoted(false), 2000);
                     if (json.stats.live && onScoreUpdate) {

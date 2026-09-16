@@ -9,7 +9,8 @@ import ViewToggle from './ViewToggle';
 import SearchFilter from './SearchFilter';
 import MobileCategorySidebar from './MobileCategorySidebar';
 import SidebarInlineControls from './SidebarInlineControls';
-import DriveSimulation, { deriveDrivingProfile } from './DriveSimulation';
+import ModelSvgPreview from './ModelSvgPreview';
+import type { ModelVoteSummary } from '@/lib/modelVotes';
 import ModelPollSurvey from './ModelPollSurvey';
 import SimulatorCTA from './new-sim/SimulatorCTA';
 import { modelNameToSlug, findModelBySlugOrName } from '../lib/modelSlug';
@@ -295,6 +296,7 @@ function ModelCard({
     const [liveScore, setLiveScore] = useState<number | undefined>(model.communityScore);
     const [liveVotes, setLiveVotes] = useState<number | undefined>(model.totalVotes);
     const [liveSentiment, setLiveSentiment] = useState<SentimentData | undefined>(model.sentiment);
+    const [simulationVotes, setSimulationVotes] = useState<ModelVoteSummary>();
     const [isPulsing, setIsPulsing] = useState(false);
 
     useEffect(() => {
@@ -383,8 +385,6 @@ function ModelCard({
         return icons[tag] || '•';
     };
 
-    const profile = deriveDrivingProfile(model);
-
     return (
         <div
             id={model.name}
@@ -396,7 +396,7 @@ function ModelCard({
         >
             {/* Animated drive simulation hero */}
             <div className="relative">
-                <DriveSimulation profile={profile} seedKey={model.name} disableRainbow={true} scenarioOverride="gauntlet" mini />
+                <ModelSvgPreview modelName={model.name} votes={simulationVotes} />
                 {onExpand && (
                     <button
                         type="button"
@@ -406,7 +406,7 @@ function ModelCard({
                         }}
                         aria-label={`Try ${model.name} in simulator`}
                         title="Try in simulator"
-                        className="absolute bottom-2 right-2 z-10 h-8 px-3 gap-2 text-xs rounded-lg bg-black/40 hover:bg-black/70 backdrop-blur-sm text-white flex items-center justify-center transition-colors border border-white/10"
+                        className="absolute top-2 right-2 z-10 h-7 px-2 gap-1.5 text-[10px] rounded-lg bg-black/40 hover:bg-black/70 backdrop-blur-sm text-white flex items-center justify-center transition-colors border border-white/10"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4h4m8 0h4v4m0 8v4h-4m-8 0H4v-4" />
@@ -532,6 +532,7 @@ function ModelCard({
                 baseVotes={model.totalVotes}
                 baseSentiment={model.sentiment}
                 onScoreUpdate={handleScoreUpdate}
+                onSummaryUpdate={setSimulationVotes}
             />
 
             {/* Tested On — always visible */}
@@ -560,7 +561,7 @@ function ModelCard({
 
 // Helper for Vibe Icons
 // Skeleton + lazy mount — keeps the model grid cheap while scrolling.
-// Each card mounts (and starts its DriveSimulation) only when it lands
+// Each card mounts (and starts its SVG preview) only when it lands
 // within ~400px of the viewport, then fades in.
 function ModelCardSkeleton() {
     return (
@@ -1031,9 +1032,10 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                 {/* Mobile Filters - Sticky only after scrolling past natural position */}
                 {/* Once it sticks, the bar rises into the row with the language, theme and
                     search buttons — the space the referral buttons vacate on scroll. */}
-                <div className={`lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 sticky z-20 ${effectiveIsSticky ? 'top-3 sm:top-24' : 'top-16 sm:top-24'}`}>
-                    <div className={effectiveIsSticky ? 'pl-[136px] sm:pl-0 transition-all duration-300' : 'transition-all duration-300'}>
+                <div className={`lg:hidden -mx-4 px-4 pb-4 space-y-4 mb-6 transition-all duration-300 sticky z-20 ${effectiveIsSticky ? 'top-3 sm:top-8' : 'top-16 sm:top-24'}`}>
+                    <div className="transition-all duration-300" style={effectiveIsSticky ? { paddingLeft: 'max(0px, calc(var(--global-controls-right, 148px) - 4px))' } : undefined}>
                         <SearchFilter
+                            compact
                             value={searchQuery}
                             onChange={setSearchQuery}
                             resultCount={activeModels.length}

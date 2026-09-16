@@ -10,6 +10,7 @@ interface SearchFilterProps {
     totalCount: number;
     itemLabel?: string;
     placeholder?: string;
+    compact?: boolean;
 }
 
 export default function SearchFilter({
@@ -19,6 +20,7 @@ export default function SearchFilter({
     totalCount,
     itemLabel = "toggles",
     placeholder,
+    compact = false,
 }: SearchFilterProps) {
     const [localValue, setLocalValue] = useState(value);
     const [isMobile, setIsMobile] = useState(false);
@@ -83,8 +85,8 @@ export default function SearchFilter({
                         onBlur={() => document.documentElement.removeAttribute('data-search-active')}
                         placeholder={resolvedPlaceholder}
                         aria-label={t('search.label') || "Search"}
-                        className="
-              w-full py-4 pl-12 pr-12 
+                        className={`
+              w-full ${compact ? 'h-10 sm:h-12 py-0' : 'py-4'} pl-12 pr-12
               bg-slate-800/80 backdrop-blur-sm
               border border-slate-700/50 
               rounded-2xl
@@ -92,7 +94,7 @@ export default function SearchFilter({
               focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20
               transition-all duration-200
               text-base
-            "
+            `}
                     />
 
                     {/* Clear Button */}
@@ -117,7 +119,7 @@ export default function SearchFilter({
             </div>
 
             {/* Results Counter - Fixed height to prevent layout shift */}
-            <div className="mt-4 sm:mt-2 flex items-center text-[11px] sm:text-sm h-5">
+            <div className={compact ? 'sr-only' : 'mt-4 sm:mt-2 flex items-center text-[11px] sm:text-sm h-5'} role="status">
                 <span className="text-slate-400 whitespace-nowrap">
                     {value ? (
                         t('search.resultsCount', { resultCount, totalCount, itemLabel })
