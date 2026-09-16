@@ -173,7 +173,7 @@ export function renderSvgFrame(sim: Simulation): SvgFrame {
   const halfLane = sim.options.scenario === 'curves' ? 1.55 : 1.8;
   const laneCentre = lanes.offsets[sim.ego.lane];
   const laneLines = [-halfLane, halfLane].map(edge =>
-    pathElement(strip(0, 95, laneCentre + edge - .045, laneCentre + edge + .045), '#36ed77', .95)).join('');
+    pathElement(strip(0, 95, laneCentre + edge - .045, laneCentre + edge + .045), '#ffffff', .95)).join('');
   const fadeLength = visibleLead && Math.abs(pathDistance - visibleLead.distance) < .01 ? Math.min(2, pathDistance * .15) : 0;
   const path = strip(0, pathDistance - fadeLength, -0.75, 0.75, d => sim.plannedLaneOffset(d));
   let pathFade = '';

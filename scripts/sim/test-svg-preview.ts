@@ -55,7 +55,7 @@ assert.ok(traffic.laneChanges > traffic.cutIns && traffic.cutIns >= 2, 'Traffic 
 assert.ok(brakingAfterCut, 'Ego must react to the cut-in through actual braking');
 assert.ok(greatestLateralStep < .05, `Traffic jumped sideways: ${greatestLateralStep} metres`);
 assert.deepEqual(traffic.cars, repeat.cars, 'Traffic must be repeatable');
-assert.ok(renderSvgFrame(traffic).laneLines.includes('#36ed77'), 'Green lane guides are missing');
+assert.ok(renderSvgFrame(traffic).laneLines.includes('#ffffff'), 'White lane guides are missing');
 const sample = { ...traffic.cars[1], id: 1 };
 assert.notEqual(trafficCarSvg({ ...sample, kind: 'sedan' }, 0), trafficCarSvg({ ...sample, kind: 'suv' }, 0));
 assert.notEqual(trafficCarSvg({ ...sample, braking: true }, 0), trafficCarSvg({ ...sample, braking: false }, 0));
