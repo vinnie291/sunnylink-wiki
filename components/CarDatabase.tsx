@@ -1,6 +1,11 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import { useTextTranslation } from '@/lib/i18n';
 
-import { useState, useMemo, useEffect } from 'react';
+
+import { usePageSearch } from '../hooks/usePageSearch';
+
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
@@ -22,6 +27,24 @@ import { BRAND_ICONS, DefaultCarIcon } from './icons/BrandIcons';
 import { getModelFleetStat, formatRouteCount, getTopDrivenModels, getFleetAttribution, formatDeviceCount } from '../lib/fleetStats';
 import { getCarCutoutImage } from '../lib/carImages';
 import { modelNameToSlug } from '../lib/modelSlug';
+import ConfidencePill from './ConfidencePill';
+import { calculateConfidenceScore, computeGlobalMean } from '@/lib/ranking';
+import {
+    LATERAL_CONTROLLERS,
+    LONGITUDINAL_MODES,
+    HARDWARE_TIERS,
+    HARDWARE_LABELS,
+    LONGITUDINAL_MODE_LABELS,
+    ControlStackFilters,
+    EMPTY_STACK_FILTERS,
+    hasActiveStackFilter,
+    classifyCarLateral,
+    classifyCarLongitudinal,
+    classifyCarHardware,
+    LateralController,
+    LongitudinalMode,
+    HardwareTier,
+} from '@/lib/controlStack';
 
 const CategorySidebarButton = dynamic(() => import('./CategorySidebarButton'), { ssr: false });
 
@@ -72,13 +95,14 @@ interface GroupedVehicle extends Vehicle {
 }
 
 const CAR_MAKES = [
-    'Acura', 'Audi', 'BMW', 'BYD', 'Chevrolet', 'Chrysler', 'Citroen', 'Ford', 
+    'Acura', 'Audi', 'BMW', 'BYD', 'Chevrolet', 'Chrysler', 'Citroen', 'CUPRA', 'Ford',
     'Genesis', 'Honda', 'Hyundai', 'Jaguar', 'Jeep', 'Kia', 'Land Rover', 
     'Lexus', 'Lincoln', 'Mazda', 'Nissan', 'Opel', 'Peugeot', 'Ram', 
     'Rivian', 'Škoda', 'Subaru', 'Tata', 'Tesla', 'Toyota', 'Volkswagen', 'Volvo'
 ];
 
 export default function CarDatabase() {
+  const tx = useTextTranslation();
     const { t } = useLanguage();
     const carsData = useTranslatedCars();
     const vehicles = carsData.vehicles as Vehicle[];
@@ -92,7 +116,27 @@ export default function CarDatabase() {
 
     const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
     const { viewMode, setViewMode } = useViewMode('cars_page', 'grid');
-    const [sortBy, setSortBy] = useState<string>('rating-desc');
+    const [sortBy, setSortBy] = useState<string>('confidence-desc');
+    const [stackFilters, setStackFilters] = useState<ControlStackFilters>(EMPTY_STACK_FILTERS);
+
+    const globalCarsMean = useMemo(() => {
+        const items = vehicles.map(v => {
+            const rating = v.reviews.length > 0
+                ? v.reviews.reduce((acc, r) => acc + r.rating, 0) / v.reviews.length
+                : 0;
+            return { rating, reviewCount: v.reviews.length };
+        });
+        return computeGlobalMean(items);
+    }, [vehicles]);
+
+    const getCarConfidence = useCallback((vehicle: Vehicle | GroupedVehicle) => {
+        const reviewCount = vehicle.reviews.length;
+        const rating = reviewCount > 0
+            ? vehicle.reviews.reduce((acc, r) => acc + r.rating, 0) / reviewCount
+            : globalCarsMean;
+        const routes = getModelFleetStat(vehicle.bestSettings?.drivingModel)?.routes || 0;
+        return calculateConfidenceScore(rating, reviewCount, routes, globalCarsMean);
+    }, [globalCarsMean]);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     
     const { sentinelRef, isSticky } = useStickySearch();
@@ -184,27 +228,54 @@ export default function CarDatabase() {
         return Object.values(groups);
     }, [vehicles]);
 
-    // Auto-open modal if vehicle ID is in URL
+    const handleOpenVehicle = useCallback((vehicle: Vehicle) => {
+        const normalizedModel = vehicle.model.replace(/\s*\(.*?\)/g, '').trim();
+        const group = groupedVehicles.find(g =>
+            g.make === vehicle.make && g.model === normalizedModel
+        );
+        setSelectedVehicle((group as unknown as Vehicle) || vehicle);
+        if (typeof window !== 'undefined') {
+            const url = new URL(window.location.href);
+            url.searchParams.set('vehicle', vehicle.id);
+            window.history.pushState(null, '', url.pathname + (url.search ? url.search : ''));
+        }
+    }, [groupedVehicles]);
+
+    const handleCloseVehicle = useCallback(() => {
+        setSelectedVehicle(null);
+        if (typeof window !== 'undefined') {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('vehicle');
+            window.history.pushState(null, '', url.pathname + (url.search ? url.search : ''));
+        }
+    }, []);
+
+    // Auto-open modal if vehicle ID is in URL or popstate
     useEffect(() => {
-        const vehicleId = searchParams.get('vehicle');
-        if (vehicleId && vehicles.length > 0) {
-            const vehicle = vehicles.find(v => v.id === vehicleId);
-            if (vehicle) {
-                // Find the grouped version to ensure all variants are available in modal
-                const normalizedModel = vehicle.model.replace(/\s*\(.*?\)/g, '').trim();
-                const group = groupedVehicles.find(g => 
-                    g.make === vehicle.make && g.model === normalizedModel
-                );
-                if (group) {
-                    setSelectedVehicle(group as unknown as Vehicle);
-                } else {
-                    setSelectedVehicle(vehicle);
+        const syncVehicleFromUrl = () => {
+            if (typeof window === 'undefined') return;
+            const params = new URLSearchParams(window.location.search);
+            const vehicleId = params.get('vehicle');
+            if (vehicleId && vehicles.length > 0) {
+                const vehicle = vehicles.find(v => v.id === vehicleId);
+                if (vehicle) {
+                    const normalizedModel = vehicle.model.replace(/\s*\(.*?\)/g, '').trim();
+                    const group = groupedVehicles.find(g =>
+                        g.make === vehicle.make && g.model === normalizedModel
+                    );
+                    setSelectedVehicle((group as unknown as Vehicle) || vehicle);
+                    return;
                 }
             }
-        }
+            setSelectedVehicle(null);
+        };
+
+        syncVehicleFromUrl();
+        window.addEventListener('popstate', syncVehicleFromUrl);
+        return () => window.removeEventListener('popstate', syncVehicleFromUrl);
     }, [searchParams, vehicles, groupedVehicles]);
 
-    const filteredVehicles = useMemo(() => {
+    const eligibleVehicles = useMemo(() => {
         let results = [...groupedVehicles];
 
         if (selectedMake) {
@@ -240,6 +311,23 @@ export default function CarDatabase() {
             });
         }
 
+        if (hasActiveStackFilter(stackFilters)) {
+            if (stackFilters.lateral) {
+                results = results.filter(v => classifyCarLateral(v.bestSettings).includes(stackFilters.lateral!));
+            }
+            if (stackFilters.longitudinal) {
+                results = results.filter(v => classifyCarLongitudinal(v.bestSettings).includes(stackFilters.longitudinal!));
+            }
+            if (stackFilters.hardware) {
+                results = results.filter(v => classifyCarHardware(v.hardware?.device).includes(stackFilters.hardware!));
+            }
+        }
+
+        return results;
+    }, [groupedVehicles, selectedMake, selectedModelFilter, showRecommended, stackFilters]);
+
+    const localVehicles = useMemo(() => {
+        let results = [...eligibleVehicles];
         if (searchQuery && searchQuery.trim().length > 0) {
             const q = searchQuery.trim().toLowerCase();
             const qClean = q.replace(/[^a-z0-9]/g, '');
@@ -310,10 +398,17 @@ export default function CarDatabase() {
                     : 0;
 
                 switch (sortBy) {
-                    case 'recommended-first':
+                    case 'confidence-desc':
+                        return getCarConfidence(b) - getCarConfidence(a);
+                    case 'confidence-asc':
+                        return getCarConfidence(a) - getCarConfidence(b);
+                    case 'recommended-first': {
                         if (a.isRecommended && !b.isRecommended) return -1;
                         if (!a.isRecommended && b.isRecommended) return 1;
+                        const confDiff = getCarConfidence(b) - getCarConfidence(a);
+                        if (confDiff !== 0) return confDiff;
                         return ratingB - ratingA;
+                    }
                     case 'fleet-desc': {
                         const routesA = getModelFleetStat(a.bestSettings?.drivingModel)?.routes || 0;
                         const routesB = getModelFleetStat(b.bestSettings?.drivingModel)?.routes || 0;
@@ -346,10 +441,17 @@ export default function CarDatabase() {
                     : 0;
 
                 switch (sortBy) {
-                    case 'recommended-first':
+                    case 'confidence-desc':
+                        return getCarConfidence(b) - getCarConfidence(a);
+                    case 'confidence-asc':
+                        return getCarConfidence(a) - getCarConfidence(b);
+                    case 'recommended-first': {
                         if (a.isRecommended && !b.isRecommended) return -1;
                         if (!a.isRecommended && b.isRecommended) return 1;
+                        const confDiff = getCarConfidence(b) - getCarConfidence(a);
+                        if (confDiff !== 0) return confDiff;
                         return ratingB - ratingA;
+                    }
                     case 'fleet-desc': {
                         const routesA = getModelFleetStat(a.bestSettings?.drivingModel)?.routes || 0;
                         const routesB = getModelFleetStat(b.bestSettings?.drivingModel)?.routes || 0;
@@ -374,9 +476,13 @@ export default function CarDatabase() {
         }
 
         return results;
-    }, [groupedVehicles, searchQuery, selectedMake, selectedModelFilter, sortBy, showRecommended]);
+    }, [eligibleVehicles, searchQuery, sortBy, getCarConfidence]);
 
     const [isSearchActive, setIsSearchActive] = useState(false);
+
+    const filteredVehicles = usePageSearch(eligibleVehicles, localVehicles, searchQuery, item => ({
+        type: 'car', id: item.id, title: `${item.make} ${item.model}`, make: item.make, model: item.model, aliases: item.variants.map(v => v.id),
+    }));
 
     // Watch for data-search-active attribute to force sticky behavior when typing
     useEffect(() => {
@@ -439,8 +545,7 @@ export default function CarDatabase() {
                             </div>
                             <div className="relative">
                                 <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 text-[10px] font-bold uppercase tracking-wider mb-2 shadow-[0_0_12px_rgba(34,211,238,0.5)] animate-pulse">
-                                    <span>✨</span> NEW
-                                </div>
+                                    <span>✨</span>  <TranslatedText text={"NEW"} /> </div>
                                 <h3 className="text-slate-100 font-bold text-sm mb-1 group-hover:text-cyan-300 transition-colors">
                                     {t('wizard.title') || 'Setup Wizard'}
                                 </h3>
@@ -491,10 +596,10 @@ export default function CarDatabase() {
                                             <span className={`font-medium truncate max-w-[140px] transition-colors ${
                                                 isSelected ? 'text-cyan-300 font-bold' : 'text-slate-300 group-hover:text-cyan-400'
                                             }`}>
-                                                #{idx + 1} {m.cleanName}
+                                                #{idx + 1} <TranslatedText text={m.cleanName} />
                                             </span>
                                             <span className="text-[11px] font-mono text-cyan-400 font-semibold">
-                                                {formatRouteCount(m.routes, true)}
+                                                <TranslatedText text={formatRouteCount(m.routes, true)} />
                                             </span>
                                         </div>
                                         <div className="w-full bg-slate-700/40 rounded-full h-1.5 overflow-hidden">
@@ -538,9 +643,10 @@ export default function CarDatabase() {
                 {/* Mobile Filters - Sticky */}
                 {/* Once it sticks, the bar rises into the row with the language, theme and
                     search buttons — the space the referral buttons vacate on scroll. */}
-                <div className={`lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 sticky z-20 ${effectiveIsSticky ? 'top-3 sm:top-24' : 'top-16 sm:top-24'}`}>
-                    <div className={effectiveIsSticky ? 'pl-[136px] sm:pl-0 transition-all duration-300' : 'transition-all duration-300'}>
+                <div className={`lg:hidden -mx-4 px-4 pb-4 space-y-4 mb-6 transition-all duration-300 sticky z-20 ${effectiveIsSticky ? 'top-3 sm:top-8' : 'top-16 sm:top-24'}`}>
+                    <div className="transition-all duration-300" style={effectiveIsSticky ? { paddingLeft: 'max(0px, calc(var(--global-controls-right, 148px) - 4px))' } : undefined}>
                         <SearchFilter
+                            compact
                             value={searchQuery}
                             onChange={setSearchQuery}
                             resultCount={filteredVehicles.length}
@@ -577,7 +683,7 @@ export default function CarDatabase() {
                                             ) : (
                                                 <DefaultCarIcon className="w-6 h-6 text-slate-100 shrink-0" />
                                             )}
-                                            {selectedMake}
+                                            <TranslatedText text={selectedMake} />
                                         </>
                                     );
                                 })()
@@ -586,12 +692,11 @@ export default function CarDatabase() {
                             )}
                         </h2>
                         <p className="text-sm text-slate-400">
-                            {searchQuery
+                            <TranslatedText text={searchQuery
                                 ? t('cars.searchFound', { count: filteredVehicles.length, query: searchQuery })
                                 : selectedMake
                                     ? t('cars.browseBrandDesc', { make: selectedMake }) || `Browse all community-verified ${selectedMake} configurations.`
-                                    : t('cars.description') || 'Explore verified hardware and tuning settings for your vehicle.'
-                            }
+                                    : t('cars.description') || 'Explore verified hardware and tuning settings for your vehicle.'} />
                         </p>
                     </div>
 
@@ -608,6 +713,7 @@ export default function CarDatabase() {
                                 onChange={(e) => setSortBy(e.target.value)}
                                 className="appearance-none outline-none bg-transparent w-full pl-2 pr-10 py-2.5 text-sm font-medium text-slate-100 cursor-pointer"
                             >
+                                <option value="confidence-desc" className="bg-slate-800">{t('cars.sort.confidence') || 'Top Rated (Confidence-Weighted)'}</option>
                                 <option value="recommended-first" className="bg-slate-800">{t('cars.sort.recommended') || 'Recommended First'}</option>
                                 <option value="fleet-desc" className="bg-slate-800">{t('cars.sort.fleetPopularity') || 'Fleet Popularity (Most Driven)'}</option>
                                 <option value="rating-desc" className="bg-slate-800">{t('cars.sort.ratingHighLow') || 'Rating (High-Low)'}</option>
@@ -685,17 +791,133 @@ export default function CarDatabase() {
                                             : 'bg-slate-800/50 hover:bg-slate-800 text-slate-300 border-slate-700/50 hover:border-slate-600'
                                     }`}
                                 >
-                                    <span className="font-semibold">{model.cleanName}</span>
+                                    <span className="font-semibold"><TranslatedText text={model.cleanName} /></span>
                                     <span className={`text-[10px] px-1.5 py-0.5 rounded-md font-mono ${
                                         isSelected 
                                             ? 'bg-black/30 text-cyan-200' 
                                             : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 group-hover:bg-cyan-500/20'
                                     }`}>
-                                        {formatRouteCount(model.routes, true)}
+                                        <TranslatedText text={formatRouteCount(model.routes, true)} />
                                     </span>
                                 </button>
                             );
                         })}
+                    </div>
+                </div>
+
+                {/* Control Stack & Hardware Filters for Cars */}
+                <div className="mb-6 p-4 rounded-2xl bg-slate-900/60 border border-slate-700/60 backdrop-blur-sm space-y-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
+                        <div className="flex items-center gap-2">
+                            <span className="text-base">🎛️</span>
+                            <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
+                                <TranslatedText text="Control Stack & Hardware Filter" />
+                            </span>
+                        </div>
+                        {hasActiveStackFilter(stackFilters) && (
+                            <button
+                                type="button"
+                                onClick={() => setStackFilters(EMPTY_STACK_FILTERS)}
+                                className="text-xs text-slate-400 hover:text-cyan-300 transition-colors self-start sm:self-auto"
+                            >
+                                <TranslatedText text="Reset Stack Filters ×" />
+                            </button>
+                        )}
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+                        {/* Lateral Controller */}
+                        <div>
+                            <div className="text-[11px] font-semibold text-slate-400 mb-1.5 flex items-center gap-1">
+                                <span>🔄</span> <TranslatedText text="Lateral Controller" />
+                            </div>
+                            <div className="flex flex-wrap gap-1.5">
+                                {LATERAL_CONTROLLERS.map((c: LateralController) => {
+                                    const active = stackFilters.lateral === c;
+                                    return (
+                                        <button
+                                            key={c}
+                                            type="button"
+                                            onClick={() => {
+                                                setStackFilters(prev => ({
+                                                    ...prev,
+                                                    lateral: prev.lateral === c ? null : c,
+                                                }));
+                                            }}
+                                            className={`px-2.5 py-1 text-xs rounded-lg border font-medium transition-all ${
+                                                active
+                                                    ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.3)]'
+                                                    : 'bg-slate-800/60 text-slate-400 border-slate-700/60 hover:text-slate-200 hover:border-slate-600'
+                                            }`}
+                                        >
+                                            <TranslatedText text={c} />
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Longitudinal Mode */}
+                        <div>
+                            <div className="text-[11px] font-semibold text-slate-400 mb-1.5 flex items-center gap-1">
+                                <span>🛑</span> <TranslatedText text="Longitudinal Mode" />
+                            </div>
+                            <div className="flex flex-wrap gap-1.5">
+                                {LONGITUDINAL_MODES.map((m: LongitudinalMode) => {
+                                    const active = stackFilters.longitudinal === m;
+                                    return (
+                                        <button
+                                            key={m}
+                                            type="button"
+                                            onClick={() => {
+                                                setStackFilters(prev => ({
+                                                    ...prev,
+                                                    longitudinal: prev.longitudinal === m ? null : m,
+                                                }));
+                                            }}
+                                            className={`px-2.5 py-1 text-xs rounded-lg border font-medium transition-all ${
+                                                active
+                                                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]'
+                                                    : 'bg-slate-800/60 text-slate-400 border-slate-700/60 hover:text-slate-200 hover:border-slate-600'
+                                            }`}
+                                        >
+                                            <TranslatedText text={LONGITUDINAL_MODE_LABELS[m] || m} />
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Hardware Tier */}
+                        <div>
+                            <div className="text-[11px] font-semibold text-slate-400 mb-1.5 flex items-center gap-1">
+                                <span>📱</span> <TranslatedText text="Hardware" />
+                            </div>
+                            <div className="flex flex-wrap gap-1.5">
+                                {HARDWARE_TIERS.map((h: HardwareTier) => {
+                                    const active = stackFilters.hardware === h;
+                                    return (
+                                        <button
+                                            key={h}
+                                            type="button"
+                                            onClick={() => {
+                                                setStackFilters(prev => ({
+                                                    ...prev,
+                                                    hardware: prev.hardware === h ? null : h,
+                                                }));
+                                            }}
+                                            className={`px-2.5 py-1 text-xs rounded-lg border font-medium transition-all ${
+                                                active
+                                                    ? 'bg-violet-500/20 text-violet-300 border-violet-400 shadow-[0_0_10px_rgba(139,92,246,0.3)]'
+                                                    : 'bg-slate-800/60 text-slate-400 border-slate-700/60 hover:text-slate-200 hover:border-slate-600'
+                                            }`}
+                                        >
+                                            <TranslatedText text={HARDWARE_LABELS[h] || h} />
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -710,8 +932,7 @@ export default function CarDatabase() {
                                 </div>
                                 <div className="relative">
                                     <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 text-[10px] font-bold uppercase tracking-wider mb-2 shadow-[0_0_12px_rgba(34,211,238,0.5)] animate-pulse">
-                                        <span>✨</span> NEW
-                                    </div>
+                                        <span>✨</span>  <TranslatedText text={"NEW"} /> </div>
                                     <h3 className="text-slate-100 font-bold text-sm mb-1 group-hover:text-cyan-300 transition-colors">
                                         {t('wizard.title') || 'Setup Wizard'}
                                     </h3>
@@ -736,14 +957,14 @@ export default function CarDatabase() {
                                     role="button"
                                     tabIndex={0}
                                     aria-haspopup="dialog"
-                                    aria-label={`${vehicle.make} ${vehicle.model} — ${t('cars.viewDetails') || 'View Details'}`}
-                                    onClick={() => setSelectedVehicle(vehicle)}
+                                    aria-label={tx(`${vehicle.make} ${vehicle.model} — ${t('cars.viewDetails') || 'View Details'}`)}
+                                    onClick={() => handleOpenVehicle(vehicle)}
                                     onKeyDown={(e) => {
                                         // A card is the only way into the detail dialog, so it has to
                                         // answer Enter and Space like the button it behaves as.
                                         if (e.key === 'Enter' || e.key === ' ') {
                                             e.preventDefault();
-                                            setSelectedVehicle(vehicle);
+                                            handleOpenVehicle(vehicle);
                                         }
                                     }}
                                     className={`bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl cursor-pointer hover:border-cyan-500/50 transition-all group relative overflow-hidden ${
@@ -757,7 +978,7 @@ export default function CarDatabase() {
                                         <div className="absolute top-3 right-3 sm:top-4 sm:right-4 w-28 h-16 sm:w-36 sm:h-20 pointer-events-none flex items-center justify-end z-0">
                                             <img
                                                 src={getCarCutoutImage(vehicle.make, vehicle.model)}
-                                                alt={`${vehicle.make} ${vehicle.model}`}
+                                                alt={tx(`${vehicle.make} ${vehicle.model}`)}
                                                 className="w-full h-full object-contain filter drop-shadow-[0_4px_14px_rgba(0,0,0,0.65)] opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
                                                 loading="lazy"
                                             />
@@ -779,12 +1000,12 @@ export default function CarDatabase() {
                                                         return (
                                                             <span
                                                                 className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 text-[10px] font-mono border border-slate-700/60"
-                                                                title={fleet.isGroupTotal
+                                                                title={tx(fleet.isGroupTotal
                                                                     ? `${total.toLocaleString()} active Sunnylink devices across the ${fleet.groupName} group (${fleet.coveredMakes.join(', ')}). No ${vehicle.make}-only count is reported.`
-                                                                    : `${total.toLocaleString()} active ${vehicle.make} devices recorded in Sunnylink fleet`}
+                                                                    : `${total.toLocaleString()} active ${vehicle.make} devices recorded in Sunnylink fleet`)}
                                                             >
                                                                 <span className="text-cyan-400">⚡</span>
-                                                                {formatDeviceCount(total, true)} {fleet.isGroupTotal ? `${fleet.groupName} group` : 'fleet'}
+                                                                <TranslatedText text={formatDeviceCount(total, true)} /> <TranslatedText text={fleet.isGroupTotal ? `${fleet.groupName} group` : 'fleet'} />
                                                             </span>
                                                         );
                                                     })()}
@@ -795,7 +1016,7 @@ export default function CarDatabase() {
                                                     )}
                                                 </div>
                                                 <h3 className={`font-bold text-slate-100 ${viewMode === 'grid' ? 'text-xl' : 'text-lg md:text-xl'}`}>{vehicle.model}</h3>
-                                                <div className="text-sm text-slate-500">{vehicle.displayYears}</div>
+                                                <div className="text-sm text-slate-500"><TranslatedText text={vehicle.displayYears} /></div>
                                             </div>
 
                                             {viewMode === 'list' && (
@@ -809,9 +1030,9 @@ export default function CarDatabase() {
                                                                     href={`/models?model=${modelNameToSlug(vehicle.bestSettings.drivingModel)}#${modelNameToSlug(vehicle.bestSettings.drivingModel)}`}
                                                                     onClick={(e) => e.stopPropagation()}
                                                                     className="truncate max-w-[150px] font-medium hover:text-cyan-300 hover:underline transition-colors"
-                                                                    title={`View ${vehicle.bestSettings.drivingModel} specs on models page`}
+                                                                    title={tx(`View ${vehicle.bestSettings.drivingModel} specs on models page`)}
                                                                 >
-                                                                    {vehicle.bestSettings.drivingModel}
+                                                                    <TranslatedText text={vehicle.bestSettings.drivingModel} />
                                                                 </Link>
                                                                 {stat && (
                                                                     <span 
@@ -820,10 +1041,10 @@ export default function CarDatabase() {
                                                                                 ? 'bg-amber-500/10 text-amber-300 border-amber-500/30'
                                                                                 : 'bg-cyan-500/10 text-cyan-300 border-cyan-500/30'
                                                                         }`}
-                                                                        title={`${formatRouteCount(stat.routes)} routes recorded across Sunnypilot fleet (Rank #${stat.rank})`}
+                                                                        title={tx(`${formatRouteCount(stat.routes)} routes recorded across Sunnypilot fleet (Rank #${stat.rank})`)}
                                                                     >
-                                                                        <span>{stat.rank <= 5 ? '🔥' : '⚡'}</span>
-                                                                        <span>{formatRouteCount(stat.routes, true)} {t('cars.fleetStats.routes') || 'routes'}</span>
+                                                                        <span><TranslatedText text={stat.rank <= 5 ? '🔥' : '⚡'} /></span>
+                                                                        <span><TranslatedText text={formatRouteCount(stat.routes, true)} /> {t('cars.fleetStats.routes') || 'routes'}</span>
                                                                     </span>
                                                                 )}
                                                             </div>
@@ -831,7 +1052,7 @@ export default function CarDatabase() {
                                                     })()}
                                                     <div className="flex items-center gap-2 text-sm text-slate-300">
                                                         <span className="text-slate-500 shrink-0">🛠️</span>
-                                                        <span className="truncate max-w-[150px]">{vehicle.hardware.harness}</span>
+                                                        <span className="truncate max-w-[150px]"><TranslatedText text={vehicle.hardware.harness} /></span>
                                                     </div>
                                                 </div>
                                             )}
@@ -840,7 +1061,7 @@ export default function CarDatabase() {
                                                 <div className="hidden lg:flex shrink-0 w-28 h-16 items-center justify-center pointer-events-none">
                                                     <img
                                                         src={getCarCutoutImage(vehicle.make, vehicle.model)}
-                                                        alt={`${vehicle.make} ${vehicle.model}`}
+                                                        alt={tx(`${vehicle.make} ${vehicle.model}`)}
                                                         className="w-full h-full object-contain filter drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
                                                         loading="lazy"
                                                     />
@@ -861,9 +1082,9 @@ export default function CarDatabase() {
                                                                 href={`/models?model=${modelNameToSlug(vehicle.bestSettings.drivingModel)}#${modelNameToSlug(vehicle.bestSettings.drivingModel)}`}
                                                                 onClick={(e) => e.stopPropagation()}
                                                                 className="truncate font-medium hover:text-cyan-300 hover:underline transition-colors"
-                                                                title={`View ${vehicle.bestSettings.drivingModel} specs on models page`}
+                                                                title={tx(`View ${vehicle.bestSettings.drivingModel} specs on models page`)}
                                                             >
-                                                                {vehicle.bestSettings.drivingModel}
+                                                                <TranslatedText text={vehicle.bestSettings.drivingModel} />
                                                             </Link>
                                                         </div>
                                                         {stat && (
@@ -873,10 +1094,10 @@ export default function CarDatabase() {
                                                                         ? 'bg-amber-500/10 text-amber-300 border-amber-500/30'
                                                                         : 'bg-cyan-500/10 text-cyan-300 border-cyan-500/30'
                                                                 }`}
-                                                                title={`${formatRouteCount(stat.routes)} routes recorded across Sunnypilot fleet (Rank #${stat.rank})`}
+                                                                title={tx(`${formatRouteCount(stat.routes)} routes recorded across Sunnypilot fleet (Rank #${stat.rank})`)}
                                                             >
-                                                                <span>{stat.rank <= 5 ? '🔥' : '⚡'}</span>
-                                                                <span>{formatRouteCount(stat.routes, true)} {t('cars.fleetStats.routes') || 'routes'}</span>
+                                                                <span><TranslatedText text={stat.rank <= 5 ? '🔥' : '⚡'} /></span>
+                                                                <span><TranslatedText text={formatRouteCount(stat.routes, true)} /> {t('cars.fleetStats.routes') || 'routes'}</span>
                                                             </span>
                                                         )}
                                                     </div>
@@ -884,7 +1105,7 @@ export default function CarDatabase() {
                                             })()}
                                             <div className="flex items-center gap-2 text-sm text-slate-300">
                                                 <span className="text-slate-500 shrink-0">🛠️</span>
-                                                <span className="truncate">{vehicle.hardware.harness}</span>
+                                                <span className="truncate"><TranslatedText text={vehicle.hardware.harness} /></span>
                                             </div>
                                         </div>
                                     )}
@@ -902,12 +1123,16 @@ export default function CarDatabase() {
                                                 ? `${t('cars.communityRating') || 'Community rating'} ${average} / 5 (${vehicle.reviews.length})`
                                                 : t('cars.noRatingsYet') || 'No community ratings yet';
                                             return (
-                                                <div className="flex items-center gap-1.5" role="img" aria-label={label}>
+                                                <div className="flex items-center gap-1.5" role="img" aria-label={tx(label)}>
                                                     <span className="text-yellow-500" aria-hidden="true">⭐</span>
                                                     <span className="text-sm font-bold text-slate-100" aria-hidden="true">
-                                                        {average ?? '--'}
+                                                        <TranslatedText text={average ?? '--'} />
                                                     </span>
                                                     <span className="text-xs text-slate-500" aria-hidden="true">({vehicle.reviews.length})</span>
+                                                    <ConfidencePill
+                                                        reviewCount={vehicle.reviews.length}
+                                                        routeCount={getModelFleetStat(vehicle.bestSettings?.drivingModel)?.routes || 0}
+                                                    />
                                                 </div>
                                             );
                                         })()}
@@ -950,7 +1175,7 @@ export default function CarDatabase() {
             {selectedVehicle && (
                 <CarDetailView
                     vehicle={selectedVehicle as GroupedVehicle}
-                    onClose={() => setSelectedVehicle(null)}
+                    onClose={handleCloseVehicle}
                 />
             )}
         </div>

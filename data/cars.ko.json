@@ -1,7 +1,7 @@
 {
   "appName": "Sunnylink Car Database",
   "version": "1.0",
-  "lastUpdated": "2026-09-02",
+  "lastUpdated": "2026-10-02",
   "vehicles": [
     {
       "id": "hyundai-ioniq-5-2022",
@@ -11,57 +11,57 @@
       "hardware": {
         "device": "comma 3 / 3X / 4",
         "harness": "HKG Canvas",
-        "radar": "Internal (Stock SCC)"
+        "radar": "Stock SCC; CAN-FD radar fusion proposed in open PR #2024"
       },
       "bestSettings": {
         "drivingModel": "WMI V12",
         "torqueTuning": "v0.0",
-        "lateralControl": "NNLC (On)",
+        "lateralControl": "Torque Control (NNLC Off)",
         "longitudinalControl": "Stock / OP Long",
         "mads": "Remain Active",
         "experimentalMode": "Dynamic"
       },
       "configs": [
         {
-          "name": "부드러운 고속도로(WMI V12)",
+          "name": "매끄러운 고속도로(WMI V12)",
           "settings": {
             "drivingModel": "WMI V12",
             "torqueTuning": "v0.0",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock / OP Long",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
           }
         },
         {
-          "name": "Balanced Daily (팝 모델 v2)",
+          "name": "균형 잡힌 일일 (Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "v0.0",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock / OP Long",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
           }
         }
       ],
-      "communityConsensus": "가장 원활한 센터링을 위해서는 Torque v0.0과 함께 WMI V12를 사용하는 것이 좋습니다. NNLC는 고속도로 속도에서 탁구를 방지하는 데 중요합니다. 자동차가 한쪽에 너무 가깝게 주행하는 경우 설정에서 '카메라 오프셋'(Pos=왼쪽, Neg=오른쪽)을 사용하세요.",
+      "communityConsensus": "가장 부드러운 차선 중앙 유지를 위해 WMI V12와 Torque v0.0 사용을 권장합니다. NNLC를 일괄적으로 권장하는 대신, 토크 제어와 NNLC를 모두 끈 상태에서 시작하세요. 차량이 차선 한쪽에 너무 가깝게 주행하면 설정의 '카메라 오프셋'을 조정하세요(양수=왼쪽, 음수=오른쪽). 프리셋 업데이트(2026-10-02): 토크 제어와 NNLC를 모두 끈 상태에서 시작하세요. 차량별 문제 보고서는 NNLC 기능 안내를 참조하세요. NNLC와 '토크 제어 강제 적용'을 동시에 활성화하면 안 됩니다. 과거 리뷰는 작성자가 당시 사용한 설정을 설명합니다. PR #2024는 opendbc에 의존하는 CAN-FD 레이더 추적과 SCC 대체/비전 매칭을 추가하는 제안입니다. 출시가 확인된 기능이 아니며, 새로운 사용자 설정도 도입하지 않습니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
       "reviews": [
         {
           "user": "SPUser88",
           "rating": 5,
-          "comment": "출퇴근길을 변경했습니다. WMI V12는 기본 HDA보다 훨씬 앞서 있습니다."
+          "comment": "출퇴근 주행이 완전히 달라졌습니다. WMI V12는 순정 HDA보다 훨씬 뛰어납니다."
         },
         {
           "user": "EVDriver",
           "rating": 4,
-          "comment": "Torque v0.0은 아이오닉 5 스티어링 랙의 필수 요소입니다. 카메라 오프셋이 마침내 교량 차선 문제를 해결했습니다."
+          "comment": "Torque v0.0은 Ioniq 5 스티어링 랙의 필수 요소입니다. 카메라 오프셋이 마침내 교량 차선 문제를 해결했습니다."
         }
       ],
       "forumQuotes": [
         {
-          "text": "공격적인 TR: 최고. ROCK 견고한 레인 센터링. 매우 반응이 좋습니다. 하지만 매끄럽지는 않습니다.",
+          "text": "공격적인 TR: 최고입니다. 차선 중앙 유지가 매우 안정적이고 반응도 빠릅니다. 다만 움직임은 부드럽지 않습니다.",
           "user": "warren.2",
           "context": "차선 중심 기능에 대한 E2E 모델 테스트"
         }
@@ -86,13 +86,13 @@
         "mads": "Default",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "TSS2 RAV4는 고속도로 곡선에서 더 나은 토크 핸들링을 위해 'North Dakota' 모델의 이점을 활용합니다. Stock ACC는 신뢰할 수 있지만 하드웨어가 허용하는 경우 OP Long이 선호됩니다.",
+      "communityConsensus": "TSS2 RAV4는 고속도로 곡선에서 더 나은 토크 핸들링을 위해 'North Dakota' 모델의 이점을 얻습니다. 재고 ACC는 신뢰할 수 있지만 하드웨어가 허용하는 경우 OP Long이 선호됩니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
       "reviews": [
         {
           "user": "ToyotaTech",
           "rating": 5,
-          "comment": "노스다코타는 지방 고속도로 곡선을 완벽하게 소화하는 유일한 모델입니다."
+          "comment": "North Dakota는 지방고속도로 곡선을 완벽하게 주행하는 유일한 모델입니다."
         }
       ],
       "configs": [
@@ -108,7 +108,7 @@
           }
         },
         {
-          "name": "컴포트 투어링(Down to Ride v6)",
+          "name": "편안한 장거리 주행 (Down to Ride v6)",
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "Stock",
@@ -119,7 +119,7 @@
           }
         },
         {
-          "name": "최신 E2E(WMI V12)",
+          "name": "모던 E2E (WMI V12)",
           "settings": {
             "drivingModel": "WMI V12",
             "torqueTuning": "Stock",
@@ -144,12 +144,12 @@
       "bestSettings": {
         "drivingModel": "Pop Model v2",
         "torqueTuning": "Default",
-        "lateralControl": "NNLC (On)",
+        "lateralControl": "Torque Control (NNLC Off)",
         "longitudinalControl": "OP Long (Alpha)",
         "mads": "Remain Active",
         "experimentalMode": "Always On"
       },
-      "communityConsensus": "쉼표 4가 있는 2022+ Civic은 강력합니다. '팝 모델'을 사용하면 실험 모드를 통해 도심 교통에서 뛰어난 '원페달' 스타일 주행을 제공합니다.",
+      "communityConsensus": "comma 4가 포함된 2022+ Civic는 강력합니다. 'Pop Model'를 사용하면 실험 모드를 통해 도심 교통에서 탁월한 '원페달' 스타일 주행을 제공합니다. 사전 설정 업데이트(2026-10-02): 토크 제어 및 NNLC 꺼짐으로 시작합니다. 차량별 문제 보고서는 NNLC 기능 권고를 참조하세요. NNLC 및 Enforce Torque Control을 둘 다 활성화하면 안 됩니다. 과거 리뷰는 리뷰어의 원래 설정을 설명합니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/honda-acura/81",
       "reviews": [
         {
@@ -161,11 +161,11 @@
       "isRecommended": true,
       "configs": [
         {
-          "name": "일일 통근(팝 모델 v2)",
+          "name": "일일 통근(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "Stock (EPS Mod)",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock Long",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -176,7 +176,7 @@
           "settings": {
             "drivingModel": "The Cool Peoples Model v3",
             "torqueTuning": "Stock (EPS Mod)",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock Long",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -197,18 +197,18 @@
       "bestSettings": {
         "drivingModel": "The Cool Peoples Model v3",
         "torqueTuning": "Default",
-        "lateralControl": "NNLC (On)",
+        "lateralControl": "Torque Control (NNLC Off)",
         "longitudinalControl": "Stock / OP Long",
         "mads": "Enabled (Always On)",
         "experimentalMode": "Enabled"
       },
-      "communityConsensus": "사용자 중심으로 평가 11/10. 기본 HDA를 훨씬 능가하는 고속도로에서의 뛰어난 안정성과 차선 유지 성능.",
+      "communityConsensus": "사용자 중심으로 평가 11/10. 고속도로에서의 탁월한 안정성과 차선 유지 성능은 순정 HDA를 훨씬 능가합니다. 사전 설정 업데이트(2026-10-02): 토크 제어 및 NNLC 꺼짐으로 시작합니다. 차량별 문제 보고서는 NNLC 기능 권고를 참조하세요. NNLC 및 Enforce Torque Control을 둘 다 활성화하면 안 됩니다. 과거 리뷰는 리뷰어의 원래 설정을 설명합니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
       "reviews": [
         {
           "user": "NiroFan",
           "rating": 5,
-          "comment": "11/10 센터링. 재고 HDA에 비해 크게 개선되었습니다."
+          "comment": "차선 중앙 유지에 11/10점을 주고 싶습니다. 순정 HDA보다 크게 개선되었습니다."
         }
       ],
       "isRecommended": true,
@@ -218,18 +218,18 @@
           "settings": {
             "drivingModel": "The Cool Peoples Model v3",
             "torqueTuning": "v0.0",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
           }
         },
         {
-          "name": "함대 즐겨찾기(팝 모델 v2)",
+          "name": "차량군 인기 모델(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "v0.0",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -278,7 +278,7 @@
           }
         },
         {
-          "name": "Fleet Daily(팝 모델 v2)",
+          "name": "차량군 일상 주행용(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "v0.0",
@@ -303,39 +303,39 @@
       "bestSettings": {
         "drivingModel": "Dark Souls Model v2",
         "torqueTuning": "Default",
-        "lateralControl": "NNLC (On)",
+        "lateralControl": "Torque Control (NNLC Off)",
         "longitudinalControl": "Stock Radar",
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "부드러운 고속도로 순항 경험. 사용자는 곡선 중심을 더 잘 맞추기 위해 Ford의 재고 BlueCruise보다 이를 선호합니다.",
+      "communityConsensus": "부드러운 고속도로 순항 경험. 사용자는 곡선 중심을 더 잘 맞추기 위해 Ford의 스톡 BlueCruise보다 이를 선호합니다. 사전 설정 업데이트(2026-10-02): 토크 제어 및 NNLC 꺼짐으로 시작합니다. 차량별 문제 보고서는 NNLC 기능 권고를 참조하세요. NNLC 및 Enforce Torque Control을 둘 다 활성화하면 안 됩니다. 과거 리뷰는 리뷰어의 원래 설정을 설명합니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
       "reviews": [
         {
           "user": "F150Owner",
           "rating": 4.5,
-          "comment": "블루크루즈보다 낫네요. 급커브에서도 중앙을 유지합니다."
+          "comment": "BlueCruise보다 낫습니다. 급커브에서도 중앙을 유지합니다."
         }
       ],
       "isRecommended": true,
       "configs": [
         {
-          "name": "권위 있는 제어(Dark Souls Model v2)",
+          "name": "권한 있는 제어(Dark Souls Model v2)",
           "settings": {
             "drivingModel": "Dark Souls Model v2",
             "torqueTuning": "Stock",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
           }
         },
         {
-          "name": "고속도로 글라이더(Ride v6까지)",
+          "name": "하이웨이 글라이더 (Down to Ride v6)",
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "Stock",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -373,7 +373,7 @@
       "isRecommended": true,
       "configs": [
         {
-          "name": "일일 통근(팝 모델 v2)",
+          "name": "일일 통근(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "Stock",
@@ -384,7 +384,7 @@
           }
         },
         {
-          "name": "센터링 정밀도(CD210 모델)",
+          "name": "센터링 정밀도(CD210 Model)",
           "settings": {
             "drivingModel": "CD210 Model",
             "torqueTuning": "Stock",
@@ -414,7 +414,7 @@
         "mads": "Enabled (Essential)",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "가족 여행은 필수입니다. MADS는 37mph 이하에서도 스티어링을 계속 작동시켜 장거리 여행 시 운전자의 피로를 줄여줍니다.",
+      "communityConsensus": "가족 여행 필수품. MADS는 37mph 미만에서도 조향을 유지하여 장거리 여행 시 운전자의 피로를 줄여줍니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/chrysler-jeep-ram/78",
       "reviews": [
         {
@@ -425,7 +425,7 @@
       ],
       "configs": [
         {
-          "name": "가족 투어(Down to Ride v6)",
+          "name": "가족여행(Down to Ride v6)",
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "Stock",
@@ -436,7 +436,7 @@
           }
         },
         {
-          "name": "균형 잡힌 고속도로(팝 모델 v2)",
+          "name": "균형 잡힌 고속도로(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "Stock",
@@ -466,7 +466,7 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "BluePilot을 사용하여 Ford Expedition으로 스푸핑된 경우 차량이 성공적으로 작동합니다. 세련된 가스/브레이크 성능을 위해 Alpha Longitudinal을 사용하세요.",
+      "communityConsensus": "BluePilot를 사용하여 Ford 탐험으로 스푸핑되면 차량이 성공적으로 작동합니다. 세련된 가스/브레이크 성능을 위해 Alpha Longitudinal을 사용하세요.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
       "reviews": [
         {
@@ -477,7 +477,7 @@
       ],
       "configs": [
         {
-          "name": "헤비급 권위(Dark Souls Model v2)",
+          "name": "헤비급 권위 (Dark Souls Model v2)",
           "settings": {
             "drivingModel": "Dark Souls Model v2",
             "torqueTuning": "Stock",
@@ -540,7 +540,7 @@
           }
         },
         {
-          "name": "고속도로 운송업체(Down to Ride v6)",
+          "name": "고속도로 화물차 (Down to Ride v6)",
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "Stock",
@@ -581,7 +581,7 @@
       ],
       "configs": [
         {
-          "name": "Balanced Daily (팝 모델 v2)",
+          "name": "균형 잡힌 일일 (Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "Stock",
@@ -592,7 +592,7 @@
           }
         },
         {
-          "name": "E2E 지능형(WMI V12)",
+          "name": "E2E 지능형 (WMI V12)",
           "settings": {
             "drivingModel": "WMI V12",
             "torqueTuning": "Stock",
@@ -622,7 +622,7 @@
         "mads": "Remain Active",
         "experimentalMode": "Smart Cruise Vision"
       },
-      "communityConsensus": "제동 중에 들리는 ABS 연삭 소음을 방지하려면 Honda Nidec 플랫폼에 대한 '재고 세로 제어'를 활성화하는 데 필수적입니다. SC 모델은 커브에서 탁월한 성능을 유지하고 탁구 없이 중앙을 유지하며 라인 허그를 하지 않습니다.",
+      "communityConsensus": "제동 중에 들리는 ABS 갈리는 소음을 방지하려면 Honda Nidec 플랫폼에 대한 '재고 세로 제어'를 활성화하는 데 필수적입니다. SC Model는 커브에서 뛰어난 성능을 유지하고 탁구 없이 중앙을 유지하며 라인 허그를 하지 않습니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/honda-acura/81",
       "reviews": [
         {
@@ -633,7 +633,7 @@
       ],
       "configs": [
         {
-          "name": "균형 잡힌 통근(Pop Model v2)",
+          "name": "균형 잡힌 출퇴근(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "Stock",
@@ -696,7 +696,7 @@
           }
         },
         {
-          "name": "Fleet Daily(팝 모델 v2)",
+          "name": "차량군 일상 주행용(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "v0.0",
@@ -726,7 +726,7 @@
         "mads": "Enabled",
         "experimentalMode": "Enabled"
       },
-      "communityConsensus": "Pop Model, WMIv9, WMIv12 및 DARKSOULS를 통한 안정적인 운전. 참고: 차량이 완전히 정지하는 대신 앞으로 살금살금 기어가는 정지 및 이동 시 상당한 제동 주저가 발생합니다.",
+      "communityConsensus": "Pop Model, WMIv9, WMIv12 및 DARKSOULS를 사용한 안정적인 운전. 참고: 차량이 완전히 정지하는 대신 앞으로 조금씩 앞으로 나아가는 정지 및 이동 시 상당한 제동 주저가 발생합니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
       "reviews": [
         {
@@ -737,7 +737,7 @@
       ],
       "configs": [
         {
-          "name": "민첩한 통근(팝 모델 v2)",
+          "name": "민첩한 출퇴근(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "v0.0",
@@ -748,7 +748,7 @@
           }
         },
         {
-          "name": "E2E 도시(WMI V12)",
+          "name": "E2E 어반(WMI V12)",
           "settings": {
             "drivingModel": "WMI V12",
             "torqueTuning": "v0.0",
@@ -784,12 +784,12 @@
         {
           "user": "LexusOwner",
           "rating": 4,
-          "comment": "고속도로 센터링은 OPM v5에서 마침내 수정되었습니다."
+          "comment": "고속도로 센터링은 마침내 OPM v5로 수정되었습니다."
         }
       ],
       "configs": [
         {
-          "name": "고성능 측면(OP 모델 10 V3)",
+          "name": "고성능 측면(OP Model 10 V3)",
           "settings": {
             "drivingModel": "OP Model 10 V3",
             "torqueTuning": "Stock",
@@ -800,7 +800,7 @@
           }
         },
         {
-          "name": "비정책 테스트됨(비정책 모델 v5)",
+          "name": "정책 외 테스트 완료(Off-Policy Model v5)",
           "settings": {
             "drivingModel": "Off-Policy Model v5",
             "torqueTuning": "Stock",
@@ -832,7 +832,7 @@
       },
       "configs": [
         {
-          "name": "입증된 통근(Pop Model v2)",
+          "name": "검증된 통근(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "Stock",
@@ -843,7 +843,7 @@
           }
         },
         {
-          "name": "Bleeding Edge(Firehose 모델)",
+          "name": "최첨단 실험 (Firehose Model)",
           "settings": {
             "drivingModel": "Firehose Model",
             "torqueTuning": "Stock",
@@ -872,7 +872,7 @@
         {
           "text": "Firehose, 토크 측면 제어, 실시간 학습 + 베타 학습 및 v0 토크 제어 버전을 고수하세요. 나는 이러한 설정이 최적이라는 것을 알았습니다.",
           "user": "Adrian_Abedon",
-          "context": "Lexus IS 2017(쉼표 3X/4 포함)"
+          "context": "Lexus는 comma 3X/4가 있는 2017입니다."
         }
       ],
       "isRecommended": true
@@ -954,7 +954,7 @@
         "mads": "Remain Active",
         "experimentalMode": "Always On"
       },
-      "communityConsensus": "10세대 Accord는 견고한 플랫폼입니다. '팝 모델'을 사용하면 실험 모드를 통해 도심 교통에서 뛰어난 '원페달' 스타일 주행을 제공합니다.",
+      "communityConsensus": "10세대 Accord는 견고한 플랫폼입니다. 'Pop Model'를 사용하면 실험 모드를 통해 도심 교통에서 뛰어난 '원페달' 스타일 주행을 제공합니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/honda-acura/81",
       "reviews": [
         {
@@ -965,14 +965,14 @@
       ],
       "forumQuotes": [
         {
-          "text": "몇 달 동안 TCPV3을 사용해왔는데... 성능에 만족합니다.",
+          "text": "몇 달 동안 TCPV3를 사용해 왔는데... 성능에 만족합니다.",
           "user": "captainsmith06",
-          "context": "10세대 Accord의 장기적인 신뢰성"
+          "context": "10세대 Accord 장기 신뢰성"
         }
       ],
       "configs": [
         {
-          "name": "검증된 데일리(팝 모델 v2)",
+          "name": "검증된 데일리(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "Stock",
@@ -983,7 +983,7 @@
           }
         },
         {
-          "name": "도시 E2E(WMI V12)",
+          "name": "어번 E2E (WMI V12)",
           "settings": {
             "drivingModel": "WMI V12",
             "torqueTuning": "Stock",
@@ -1008,12 +1008,12 @@
       "bestSettings": {
         "drivingModel": "OP Model 10 V3",
         "torqueTuning": "v0",
-        "lateralControl": "NNLC (On)",
+        "lateralControl": "Torque Control (NNLC Off)",
         "longitudinalControl": "Stock",
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "고속 코너링은 훌륭하지만(30MPH 이상) 저속에서는 차선 확보 및 회전 잠금으로 인해 어려움을 겪습니다. Torque v0을 사용하는 것이 좋습니다.",
+      "communityConsensus": "뛰어난 고속 코너링(>30 MPH)이지만 저속에서는 차선 확보 및 회전 잠금으로 인해 어려움을 겪습니다. Torque v0을 사용하는 것이 좋습니다. 사전 설정 업데이트(2026-10-02): 토크 제어 및 NNLC 꺼짐으로 시작합니다. 차량별 문제 보고서는 NNLC 기능 권고를 참조하세요. NNLC 및 Enforce Torque Control을 둘 다 활성화하면 안 됩니다. 과거 리뷰는 리뷰어의 원래 설정을 설명합니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
       "reviews": [
         {
@@ -1024,11 +1024,11 @@
       ],
       "configs": [
         {
-          "name": "고급 E2E 측면(OP 모델 10 V3)",
+          "name": "고급 E2E 측면(OP Model 10 V3)",
           "settings": {
             "drivingModel": "OP Model 10 V3",
             "torqueTuning": "v0.0",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -1039,7 +1039,7 @@
           "settings": {
             "drivingModel": "WMI V12",
             "torqueTuning": "v0.0",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -1076,14 +1076,14 @@
       ],
       "forumQuotes": [
         {
-          "text": "드라이브는 시간이 지날수록 더욱 '정착'되고 자신감 넘치는 느낌을 받습니다. 코너링은 점점 더 정확해졌습니다.",
+          "text": "시간이 지날수록 주행감은 더욱 '안정'되고 자신감이 생기고... 코너링은 점점 더 정확해졌습니다.",
           "user": "Tony.Wu",
           "context": "HKG CAN-FD 플랫폼에 대한 1년간의 커뮤니티 검토"
         }
       ],
       "configs": [
         {
-          "name": "커뮤니티 인기(Kumars Vibe)",
+          "name": "커뮤니티 즐겨찾기(Kumars Vibe)",
           "settings": {
             "drivingModel": "Kumars Vibe",
             "torqueTuning": "v0.0",
@@ -1094,7 +1094,7 @@
           }
         },
         {
-          "name": "견고한 센터링(네바다 모델)",
+          "name": "펌 센터링(Nevada Model)",
           "settings": {
             "drivingModel": "Nevada Model",
             "torqueTuning": "v0.0",
@@ -1124,18 +1124,18 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "DTRv6은 고속도로 곡선의 부드러움에 탁월합니다. WMIv12는 도시 인텔리전스에 선호되지만 높은 주의가 필요합니다.",
+      "communityConsensus": "DTRv6는 고속도로 곡선의 부드러움에 탁월합니다. WMIv12는 도시 지능에 선호되지만 높은 주의가 필요합니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/volkswagen-audi-skoda/88",
       "reviews": [
         {
           "user": "EuroTuner",
           "rating": 4.5,
-          "comment": "DTRv6은 마침내 A3에 대해 아내의 승인을 받았습니다. 재고 여행 지원보다 훨씬 부드럽습니다."
+          "comment": "DTRv6는 마침내 A3에 대해 아내의 승인을 받았습니다. 재고 여행 지원보다 훨씬 부드럽습니다."
         }
       ],
       "configs": [
         {
-          "name": "부드러운 아우토반(Down to Ride v6)",
+          "name": "스무스 아우토반(Down to Ride v6)",
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "Stock",
@@ -1146,7 +1146,7 @@
           }
         },
         {
-          "name": "최신 지능형(WMI V12)",
+          "name": "최신 지능형 주행 (WMI V12)",
           "settings": {
             "drivingModel": "WMI V12",
             "torqueTuning": "Stock",
@@ -1178,7 +1178,7 @@
       },
       "configs": [
         {
-          "name": "스바루 센터링 (CD210 모델)",
+          "name": "Subaru 센터링 (CD210 Model)",
           "settings": {
             "drivingModel": "CD210 Model",
             "torqueTuning": "Stock",
@@ -1206,7 +1206,7 @@
         {
           "user": "CrossPilot",
           "rating": 5,
-          "comment": "CD210 + Torque 0.0은 Crosstrek에 적합합니다. 더 이상 커브길에서 바퀴와 싸울 필요가 없습니다."
+          "comment": "CD210 + 토크 0.0은 Crosstrek에 적합합니다. 더 이상 커브길에서 바퀴와 싸울 필요가 없습니다."
         }
       ]
     },
@@ -1239,7 +1239,7 @@
       ],
       "configs": [
         {
-          "name": "로드 트립 컴포트(Down to Ride v6)",
+          "name": "로드트립 컴포트(Down to Ride v6)",
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "Stock",
@@ -1250,7 +1250,7 @@
           }
         },
         {
-          "name": "일일 통근(팝 모델 v2)",
+          "name": "일일 통근(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "Stock",
@@ -1280,13 +1280,13 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "Alpha Longitudinal은 공장에서 최소 20MPH SCC를 우회하여 교통량이 많은 환경에서 원활한 정지 및 이동 기능을 구현하는 데 필수적입니다.",
+      "communityConsensus": "Alpha Longitudinal은 공장 20 MPH SCC 최소값을 우회하여 교통량이 많은 환경에서 원활한 정지 및 이동 기능을 구현하는 데 필수적입니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
       "reviews": [
         {
           "user": "Sonata_OP",
           "rating": 5,
-          "comment": "최소 20mph를 우회하면 모든 것이 바뀌었습니다. 멈추고 가는 것이 마침내 매끄러워졌습니다."
+          "comment": "20 mph 최소값을 우회하면 모든 것이 바뀌었습니다. 멈추고 가는 것이 마침내 매끄러워졌습니다."
         }
       ],
       "configs": [
@@ -1302,7 +1302,7 @@
           }
         },
         {
-          "name": "민첩한 통근(팝 모델 v2)",
+          "name": "민첩한 출퇴근(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "v0.0",
@@ -1332,7 +1332,7 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "고속도로 주행은 물론 혼잡한 시내 주행에도 쉼표 3X가 잘 작동하는 것으로 확인되었습니다.",
+      "communityConsensus": "고속도로 주행은 물론 혼잡한 시내 주행에도 comma 3X가 잘 작동하는 것으로 확인되었습니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
       "reviews": [
         {
@@ -1343,7 +1343,7 @@
       ],
       "forumQuotes": [
         {
-          "text": "그것은 훌륭하게 작동하는 것 같습니다... 내 C3X로 고속도로를 주행할 때... NYC 교통의 건전한 운전에 도움이 되는 것 같습니다.",
+          "text": "그것은 훌륭하게 작동하는 것 같습니다... C3X로 고속도로를 운전할 때... NYC 교통 상황에서 건전한 운전에 도움이 되는 것 같습니다.",
           "user": "Y_S",
           "context": "고속도로와 도시 밀도 모두에 효과적"
         }
@@ -1351,7 +1351,7 @@
       "isRecommended": true,
       "configs": [
         {
-          "name": "가족 투어(Down to Ride v6)",
+          "name": "가족여행(Down to Ride v6)",
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "Stock",
@@ -1392,13 +1392,13 @@
         "mads": "Enabled",
         "experimentalMode": "Dynamic"
       },
-      "communityConsensus": "EV6 사용자는 NNLC를 통해 뛰어난 고속도로 동작을 강조합니다. 가장 원활한 차선 변경을 위해서는 설정에서 '넛지 없는 차선 변경'이 활성화되어 있는지 확인하세요. MADS는 수동으로 정지 및 이동을 관리하는 동시에 조향 지원을 유지하기 위해 도시 주행에 권장됩니다.",
+      "communityConsensus": "EV6 사용자는 NNLC를 사용하여 뛰어난 고속도로 동작을 강조합니다. 가장 원활한 차선 변경을 위해서는 설정에서 '넛지 없는 차선 변경'이 활성화되어 있는지 확인하세요. MADS는 정지 및 이동을 수동으로 관리하면서 조향 지원을 유지하기 위해 도시 주행에 권장됩니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
       "reviews": [
         {
           "user": "EV6_Pilot",
           "rating": 5,
-          "comment": "NNLC는 EV6에 실제 HDA3가 있는 것처럼 느끼게 해줍니다. I-5의 견고한 바위."
+          "comment": "NNLC는 EV6가 실제 HDA3를 가지고 있는 것처럼 느끼게 해줍니다. I-5의 견고한 바위."
         }
       ],
       "configs": [
@@ -1414,7 +1414,7 @@
           }
         },
         {
-          "name": "Balanced Daily (팝 모델 v2)",
+          "name": "균형 잡힌 일일 (Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "v0.0",
@@ -1444,18 +1444,18 @@
         "mads": "Essential",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "도로 여행 챔피언. MADS는 이러한 모델 연도에 스티어링을 30MPH 미만으로 유지하는 데 필수적입니다. 사용자들은 '노스다코타'가 긴 곡선에서 텔루라이드의 무게를 견디는 데 가장 적합한 모델이라고 보고합니다.",
+      "communityConsensus": "도로 여행 챔피언. MADS는 이 모델 연도에 스티어링을 30 MPH 미만으로 유지하는 데 필수적입니다. 사용자들은 'North Dakota'가 긴 곡선에서 Telluride의 무게를 견디는 데 가장 적합한 모델이라고 보고합니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
       "reviews": [
         {
           "user": "TellyOwner",
           "rating": 4.8,
-          "comment": "노스다코타 모델은 텔루라이드로 가는 길입니다. 주식보다 훨씬 더 자신감이 넘칩니다."
+          "comment": "North Dakota 모델은 Telluride로 가는 길입니다. 공장 기본값보다 훨씬 더 자신감이 있습니다."
         }
       ],
       "configs": [
         {
-          "name": "승객 선호(Down to Ride v6)",
+          "name": "승객 선호도(Down to Ride v6)",
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "Stock",
@@ -1496,7 +1496,7 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "텔루라이드와 마찬가지로 팰리세이드도 고속도로 '핑퐁'에 맞서기 위해 v1 토크 튜닝의 이점을 누리고 있습니다. 지속적인 경고 없이 평화로운 가족 드라이브를 위해 '정숙 모드'가 활성화되어 있는지 확인하세요.",
+      "communityConsensus": "Telluride와 유사하게 Palisade는 v1 토크 튜닝의 이점을 활용하여 고속도로 '탁구'에 맞서 싸우고 있습니다. 지속적인 경고 없이 평화로운 가족 드라이브를 위해 '정숙 모드'가 활성화되어 있는지 확인하세요.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
       "reviews": [
         {
@@ -1507,7 +1507,7 @@
       ],
       "configs": [
         {
-          "name": "승객 선호(Down to Ride v6)",
+          "name": "승객 선호도(Down to Ride v6)",
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "Stock",
@@ -1559,7 +1559,7 @@
       ],
       "configs": [
         {
-          "name": "스포티 데일리 (팝 모델 v2)",
+          "name": "스포티 데일리 (Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "v0.0",
@@ -1570,7 +1570,7 @@
           }
         },
         {
-          "name": "E2E 월드 모델(WMI V12)",
+          "name": "E2E 월드모델(WMI V12)",
           "settings": {
             "drivingModel": "WMI V12",
             "torqueTuning": "v0.0",
@@ -1600,7 +1600,7 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "신뢰할 수 있고 안정적입니다. 표준 토크 컨트롤과 결합된 WMI V12는 Kona EV 플랫폼에 대한 가장 '설정하고 잊어버리는' 경험입니다. 에너지 효율적인 통근자.",
+      "communityConsensus": "신뢰할 수 있고 안정적입니다. 표준 토크 제어와 결합된 WMI V12는 Kona EV 플랫폼에 대한 가장 '설정하고 잊어버리는' 경험입니다. 에너지 효율적인 통근자.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
       "reviews": [
         {
@@ -1622,7 +1622,7 @@
           }
         },
         {
-          "name": "입증된 통근(Pop Model v2)",
+          "name": "검증된 통근(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "v0.0",
@@ -1652,13 +1652,13 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "2022+ Tundra에는 TSK 호환 하네스 및 분기가 필요합니다. 사용자들은 'WMI V12'의 뛰어난 안정성을 보고하지만, 트럭의 고유한 스티어링 랙 특성을 처리하려면 'Self-Tune'을 활성화해야 합니다. MADS는 견인 시나리오에 적극 권장됩니다.",
+      "communityConsensus": "2022+ Tundra에는 TSK 호환 하네스 및 분기가 필요합니다. 사용자들은 'WMI V12'의 뛰어난 안정성을 보고하지만, 트럭의 고유한 스티어링 랙 특성을 처리하려면 'Self-Tune'을 활성화해야 합니다. 견인 시나리오에는 MADS를 적극 권장합니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
       "reviews": [
         {
           "user": "TundraTough",
           "rating": 4.9,
-          "comment": "TSK 지원은 Tundra의 게임 체인저입니다. WMI V12는 트레일러가 있는 경우에도 고속도로에서 견고합니다."
+          "comment": "TSK 지원은 Tundra의 게임 체인저입니다. WMI V12는 트레일러가 있어도 고속도로에서 견고합니다."
         }
       ],
       "configs": [
@@ -1704,18 +1704,18 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "CX-5는 자연스러운 스티어링 느낌으로 '레거시' 선호되는 제품입니다. 'Down to Ride v6'은 승객의 편안함을 위한 표준입니다. 강풍에 진동이 발생하는 경우 '팝 모델'을 피하세요.",
+      "communityConsensus": "CX-5는 자연스러운 조향 느낌으로 '레거시' 선호되는 제품입니다. 'Down to Ride v6'는 승객의 편안함을 위한 표준입니다. 강풍에 진동이 발생하는 경우 'Pop Model'를 피하세요.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/mazda/83",
       "reviews": [
         {
           "user": "MazdaMinded",
           "rating": 4.7,
-          "comment": "DTR v6은 CX-5를 고급 순양함처럼 느끼게 해줍니다. 매우 부드러운 전환."
+          "comment": "DTR v6은 CX-5를 럭셔리 크루저처럼 느끼게 해줍니다. 매우 부드러운 전환."
         }
       ],
       "configs": [
         {
-          "name": "세련된 편안함(Down to Ride v6)",
+          "name": "세련된 편안함 (Down to Ride v6)",
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "Stock",
@@ -1726,7 +1726,7 @@
           }
         },
         {
-          "name": "액티브 데일리(팝 모델 v2)",
+          "name": "활성 일일(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "Stock",
@@ -1762,12 +1762,12 @@
         {
           "user": "AscentLife",
           "rating": 4.6,
-          "comment": "CD210은 고속도로 커브에 많은 도움이 됩니다. EyeSight만 사용하는 것보다 훨씬 더 자신감이 느껴집니다."
+          "comment": "CD210은 고속도로 커브에 많은 도움이 됩니다. EyeSight 단독보다 훨씬 더 자신감이 느껴집니다."
         }
       ],
       "configs": [
         {
-          "name": "스바루 AWD 센터링 (CD210 모델)",
+          "name": "Subaru AWD 센터링 (CD210 Model)",
           "settings": {
             "drivingModel": "CD210 Model",
             "torqueTuning": "Stock",
@@ -1778,7 +1778,7 @@
           }
         },
         {
-          "name": "여객 글라이더(Ride v6까지)",
+          "name": "여객 글라이더 (Down to Ride v6)",
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "Stock",
@@ -1808,13 +1808,13 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "보쉬 파일럿은 '팝모델'과 NNLC에 유난히 좋은 반응을 보이고 있다. 이는 공장 Honda Sensing 시스템에서 흔히 발생하는 '떠다니는' 느낌을 제거합니다. 긴 직선 구간에서 과도한 수정을 방지하려면 'v0' 토크를 사용하십시오.",
+      "communityConsensus": "보쉬 Pilot는 'Pop Model', NNLC에 유난히 잘 반응합니다. 공장 Honda 감지 시스템에서 흔히 발생하는 '떠다니는' 느낌을 제거합니다. 긴 직선 구간에서 과도한 수정을 방지하려면 'v0' 토크를 사용하십시오.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/honda-acura/81",
       "reviews": [
         {
           "user": "PilotCaptain",
           "rating": 4.8,
-          "comment": "NNLC는 파일럿에게 필수입니다. 이제 화살표처럼 직선으로 추적됩니다."
+          "comment": "NNLC는 Pilot의 필수품입니다. 이제 화살표처럼 직선으로 추적됩니다."
         }
       ],
       "configs": [
@@ -1830,7 +1830,7 @@
           }
         },
         {
-          "name": "스탠다드 데일리(팝 모델 v2)",
+          "name": "스탠다드 데일리(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "Stock",
@@ -1860,18 +1860,18 @@
         "mads": "Recommended",
         "experimentalMode": "Always On"
       },
-      "communityConsensus": "아직 많은 사람들이 초기 액세스 단계에 있습니다. Rivian의 복잡한 CAN-FD 아키텍처에는 안정적인 차선 변경을 위해 'Off-Policy v3'가 필요합니다. 실험 모드는 Rivian의 고재생 제동을 활용하기 위해 종종 유지됩니다.",
+      "communityConsensus": "아직 많은 사람들이 초기 액세스 단계에 있습니다. Rivian의 복잡한 CAN-FD 아키텍처에는 안정적인 차선 변경을 위해 'Off-Policy v3'이 필요합니다. 실험 모드는 Rivian의 고재생 제동을 활용하기 위해 종종 유지됩니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/rivian/90",
       "reviews": [
         {
           "user": "RivianRich",
           "rating": 4.4,
-          "comment": "초기이지만 유망합니다. Off-Policy v3은 무거운 R1T를 놀랍도록 잘 처리합니다."
+          "comment": "초기이지만 유망합니다. Off-Policy v3는 무거운 R1T를 놀랍도록 잘 처리합니다."
         }
       ],
       "configs": [
         {
-          "name": "정책 외 정밀도(OP 모델 10 V3)",
+          "name": "정책 외 정밀도(OP Model 10 V3)",
           "settings": {
             "drivingModel": "OP Model 10 V3",
             "torqueTuning": "Stock",
@@ -1882,7 +1882,7 @@
           }
         },
         {
-          "name": "헤비급 권위(Dark Souls Model v2)",
+          "name": "헤비급 권위 (Dark Souls Model v2)",
           "settings": {
             "drivingModel": "Dark Souls Model v2",
             "torqueTuning": "Stock",
@@ -1895,59 +1895,59 @@
       ]
     },
     {
-       "id": "rivian-r1s-2022",
-       "make": "Rivian",
-       "model": "R1S",
-       "years": "2022-2024",
-       "hardware": {
-         "device": "comma 3X / 4",
-         "harness": "Custom Rivian CAN",
-         "radar": "Stock"
-       },
-       "bestSettings": {
-         "drivingModel": "OP Model 10 V3",
-         "torqueTuning": "Experimental",
-         "lateralControl": "Torque Control",
-         "longitudinalControl": "Stock ACC",
-         "mads": "Recommended",
-         "experimentalMode": "Always On"
-       },
-       "communityConsensus": "R1T와 CAN-FD 플랫폼을 공유합니다. 더 짧은 휠베이스로 인해 저속 흔들림을 방지하기 위해 약간 더 견고한 횡방향 튜닝이 필요합니다. Off-Policy v3는 고속도로에서 우수한 차선 유지를 제공하며, 실험 모드는 Rivian의 원페달 회생 제동과 잘 어울립니다.",
-       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/rivian/90",
-       "reviews": [
-         {
-           "user": "R1S_Explorer",
-           "rating": 4.5,
-           "comment": "R1T보다 휠베이스가 약간 짧아 OP Model 10 V3에서 매우 민첩하게 반응합니다. 장거리 여행에 훌륭한 동반자입니다."
-         }
-       ],
-       "configs": [
-         {
-           "name": "Off-Policy Precision (OP Model 10 V3)",
-           "settings": {
-             "drivingModel": "OP Model 10 V3",
-             "torqueTuning": "Stock",
-             "lateralControl": "NNLC (On)",
-             "longitudinalControl": "Stock",
-             "mads": "Remain Active",
-             "experimentalMode": "Dynamic"
-           }
-         },
-         {
-           "name": "Heavyweight Authority (Dark Souls Model v2)",
-           "settings": {
-             "drivingModel": "Dark Souls Model v2",
-             "torqueTuning": "Stock",
-             "lateralControl": "NNLC (On)",
-             "longitudinalControl": "Stock",
-             "mads": "Remain Active",
-             "experimentalMode": "Dynamic"
-           }
-         }
-       ]
-     },
-     {
-       "id": "tesla-model3-2017",
+      "id": "rivian-r1s-2022",
+      "make": "Rivian",
+      "model": "R1S",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "comma 3X / 4",
+        "harness": "Custom Rivian CAN",
+        "radar": "Stock"
+      },
+      "bestSettings": {
+        "drivingModel": "OP Model 10 V3",
+        "torqueTuning": "Experimental",
+        "lateralControl": "Torque Control",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Recommended",
+        "experimentalMode": "Always On"
+      },
+      "communityConsensus": "CAN-FD 플랫폼을 R1T와 공유합니다. 휠베이스가 짧을수록 흔들림을 방지하기 위해 약간 더 견고한 측면 튜닝이 필요합니다. Off-Policy v3는 뛰어난 고속도로 차선 센터링을 제공하며 실험 모드는 Rivian 원페달 재생 기능을 활용합니다.",
+      "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/rivian/90",
+      "reviews": [
+        {
+          "user": "R1S_Explorer",
+          "rating": 4.5,
+          "comment": "R1T보다 휠베이스가 약간 짧아 OP Model 10 V3에서 반응성이 매우 뛰어납니다. 탄탄한 로드트립퍼."
+        }
+      ],
+      "configs": [
+        {
+          "name": "정책 외 정밀도(OP Model 10 V3)",
+          "settings": {
+            "drivingModel": "OP Model 10 V3",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        },
+        {
+          "name": "헤비급 권위 (Dark Souls Model v2)",
+          "settings": {
+            "drivingModel": "Dark Souls Model v2",
+            "torqueTuning": "Stock",
+            "lateralControl": "NNLC (On)",
+            "longitudinalControl": "Stock",
+            "mads": "Remain Active",
+            "experimentalMode": "Dynamic"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tesla-model3-2017",
       "make": "Tesla",
       "model": "Model 3",
       "years": "2017-2023",
@@ -1964,7 +1964,7 @@
         "mads": "Always On",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "HW4 이전 Model 3를 위한 뛰어난 sunnypilot 지원. Pop Model은 FSD의 안정적인 조향감을 재현하면서도 높은 EPAS 조향 권한과 맞춤 설정을 제공합니다.",
+      "communityConsensus": "HW4 이전 Model 3에 대한 뛰어난 sunnypilot 지원. Pop Model는 FSD의 고정된 느낌을 재현하는 동시에 완전한 드라이버 맞춤화와 높은 EPAS 조향 권한을 제공합니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/tesla/86",
       "reviews": [
         {
@@ -1975,7 +1975,7 @@
       ],
       "configs": [
         {
-          "name": "Smooth Daily(팝 모델 v2)",
+          "name": "스무스 데일리(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "Stock",
@@ -1986,7 +1986,7 @@
           }
         },
         {
-          "name": "E2E 지능형(WMI V12)",
+          "name": "E2E 지능형 (WMI V12)",
           "settings": {
             "drivingModel": "WMI V12",
             "torqueTuning": "Stock",
@@ -2016,18 +2016,18 @@
         "mads": "Always On",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "HW4 이전 Model Y 크로스오버를 위한 커뮤니티 추천 세팅. 부드러운 종방향 가감속과 신뢰할 수 있는 EPAS 횡방향 제어로 쾌적한 고속도로 장거리 주행이 가능합니다.",
+      "communityConsensus": "Pre-HW4 Model Y 크로스오버에 대한 강력한 커뮤니티 합의. 부드러운 종방향 크루즈 컨트롤과 강력한 EPAS 측면 제어 기능은 스트레스 없는 고속도로 주행을 제공합니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/tesla/86",
       "reviews": [
         {
           "user": "ModelYTouring",
           "rating": 5,
-          "comment": "장거리 주행 시 뛰어난 조향 안정성을 보여줍니다. Sunnypilot 덕분에 핸들 경고 스트레스 없이 고속도로 운전이 매우 편안합니다."
+          "comment": "장거리 여행 시 측면 안정성이 뛰어납니다. Sunnypilot을 사용하면 고속도로 주행이 잔소리 없이 쉬워집니다."
         }
       ],
       "configs": [
         {
-          "name": "Smooth Daily(팝 모델 v2)",
+          "name": "스무스 데일리(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "Stock",
@@ -2038,7 +2038,7 @@
           }
         },
         {
-          "name": "E2E 지능형(WMI V12)",
+          "name": "E2E 지능형 (WMI V12)",
           "settings": {
             "drivingModel": "WMI V12",
             "torqueTuning": "Stock",
@@ -2068,18 +2068,18 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "SPA 플랫폼 Volvo는 Sunnypilot의 측면 제어 기능을 통해 상당한 이점을 얻습니다. 'CD210'은 XC90의 에어 서스펜션 변형 중 가장 편안한 것으로 자주 인용됩니다. 고속도로 속도에서 일관된 차선 중심을 유지하려면 자체 조정이 필요합니다.",
+      "communityConsensus": "SPA 플랫폼 Volvo는 sunnypilot의 측면 제어로부터 상당한 이점을 얻습니다. 'CD210'은 XC90의 에어 서스펜션 변형 중 가장 편안한 것으로 자주 인용됩니다. 고속도로 속도에서 일관된 차선 중심을 유지하려면 자체 조정이 필요합니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/volvo/89",
       "reviews": [
         {
           "user": "VolvoViking",
           "rating": 4.7,
-          "comment": "순정 파일럿 어시스트(Pilot Assist)보다 훨씬 부드럽습니다. CD210은 무거운 XC90을 아름답게 처리합니다."
+          "comment": "재고 Pilot Assist보다 훨씬 부드럽습니다. CD210은 무거운 XC90를 아름답게 처리합니다."
         }
       ],
       "configs": [
         {
-          "name": "부드러운 안정성(CD210 모델)",
+          "name": "부드러운 안정성(CD210 Model)",
           "settings": {
             "drivingModel": "CD210 Model",
             "torqueTuning": "Stock",
@@ -2090,7 +2090,7 @@
           }
         },
         {
-          "name": "로드 트립 컴포트(Down to Ride v6)",
+          "name": "로드트립 컴포트(Down to Ride v6)",
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "Stock",
@@ -2115,38 +2115,38 @@
       "bestSettings": {
         "drivingModel": "Dark Souls Model v2",
         "torqueTuning": "v1.2 Stiff",
-        "lateralControl": "Torque Control",
+        "lateralControl": "Torque Control (NNLC Off)",
         "longitudinalControl": "Stock / OP Long",
         "mads": "Always On",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "라이트닝의 경우 'Dark Souls v2'는 측풍 속에서도 트럭을 중앙에 유지하는 데 필요한 권한을 제공합니다. 트레일러를 견인하는 사용자는 'v1.2 Stiff' 토크 튜닝이 꼬리 흔들림 수정을 방지할 수 있는 유일하고 신뢰할 수 있는 방법임을 발견했습니다.",
+      "communityConsensus": "라이트닝의 경우 'Dark Souls v2'는 측풍 속에서도 트럭을 중앙에 유지하는 데 필요한 권한을 제공합니다. 트레일러를 견인하는 사용자는 'v1.2 Stiff' 토크 튜닝이 꼬리 흔들림 수정을 방지할 수 있는 유일하고 신뢰할 수 있는 방법임을 발견했습니다. 사전 설정 업데이트(2026-10-02): 토크 제어 및 NNLC 꺼짐으로 시작합니다. 차량별 문제 보고서는 NNLC 기능 권고를 참조하세요. NNLC 및 Enforce Torque Control을 둘 다 활성화하면 안 됩니다. 과거 리뷰는 리뷰어의 원래 설정을 설명합니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
       "reviews": [
         {
           "user": "LightningStrike",
           "rating": 4.8,
-          "comment": "F-150을 위한 최고의 핸즈프리 경험. Dark Souls v2는 매우 자신감이 넘칩니다."
+          "comment": "F-150를 위한 최고의 핸즈프리 경험. Dark Souls v2는 매우 자신감이 넘칩니다."
         }
       ],
       "configs": [
         {
-          "name": "Heavy EV Authority(Dark Souls 모델 v2)",
+          "name": "대형 전기차의 강한 제어 (Dark Souls Model v2)",
           "settings": {
             "drivingModel": "Dark Souls Model v2",
             "torqueTuning": "Stock",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
           }
         },
         {
-          "name": "부드러운 크루즈(Down to Ride v6)",
+          "name": "스무스 크루즈(Down to Ride v6)",
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "Stock",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -2172,13 +2172,13 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "TSS 3.0 Corolla는 반응성이 매우 뛰어납니다. 'v0' 토크를 갖춘 '팝 모델'은 효율성과 중앙 위치 유지를 위해 선호되는 고속도로 설정입니다. 이번 연식에는 TSK 지원이 필수입니다.",
+      "communityConsensus": "TSS 3.0 Corolla는 반응성이 매우 뛰어납니다. 'v0' 토크를 갖춘 'Pop Model'는 효율성과 중앙 위치 유지를 위해 선호되는 고속도로 설정입니다. 이 모델 연도에는 TSK 지원이 필수입니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/toyota-lexus/87",
       "reviews": [
         {
           "user": "CorollaClassic",
           "rating": 4.9,
-          "comment": "내 2024 코롤라를 중심으로 한 완벽한 차선. 팝 모델은 매우 민첩합니다."
+          "comment": "내 2024 Corolla를 중심으로 한 완벽한 차선. Pop Model는 매우 빠릅니다."
         }
       ],
       "configs": [
@@ -2194,7 +2194,7 @@
           }
         },
         {
-          "name": "만능 통근자(팝 모델 v2)",
+          "name": "만능 통근자(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "Stock",
@@ -2224,7 +2224,7 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "Corsair의 럭셔리함에 대한 초점은 'Down to Ride v6'과 가장 잘 어울립니다. 기본 Co-Pilot360의 부드럽고 편안한 주행 스타일을 모방하지만 훨씬 더 나은 커브 내구성을 제공합니다.",
+      "communityConsensus": "Corsair의 럭셔리함을 강조한 디자인은 'Down to Ride v6'와 가장 잘 어울립니다. 순정 Co-Pilot360의 부드럽고 편안한 주행 스타일을 모방하지만 훨씬 더 나은 커브 내구성을 제공합니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
       "reviews": [
         {
@@ -2246,7 +2246,7 @@
           }
         },
         {
-          "name": "다이나믹 데일리(팝 모델 v2)",
+          "name": "다이나믹 데일리(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "Stock",
@@ -2276,12 +2276,12 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "커뮤니티에서 제공하는 구성을 사용할 수 있습니다. Custin은 CAN-FD를 지원하는 현대 미니밴 플랫폼입니다.",
+      "communityConsensus": "커뮤니티 기여 구성을 사용할 수 있습니다. Custin는 CAN-FD를 지원하는 Hyundai 미니밴 플랫폼입니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
       "reviews": [],
       "configs": [
         {
-          "name": "최신 E2E(WMI V12)",
+          "name": "모던 E2E (WMI V12)",
           "settings": {
             "drivingModel": "WMI V12",
             "torqueTuning": "v0.0",
@@ -2292,7 +2292,7 @@
           }
         },
         {
-          "name": "여객 글라이더(Ride v6까지)",
+          "name": "여객 글라이더 (Down to Ride v6)",
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "v0.0",
@@ -2322,18 +2322,18 @@
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "Co-Pilot360 Assist+ 패키지가 필요합니다. F-150과 동일한 Ford Q 하네스 제품군을 사용합니다. BluePilot 5.0은 원활한 고속도로 센터링을 제공합니다. 사용자는 기본 Co-Pilot360에 비해 차선 유지가 향상되었다고 보고합니다.",
+      "communityConsensus": "Co-Pilot360 Assist+ 패키지가 필요합니다. F-150와 동일한 Ford Q 하네스 제품군을 사용합니다. BluePilot 5.0는 원활한 고속도로 센터링을 제공합니다. 사용자는 재고 Co-Pilot360에 비해 차선 유지가 향상되었다고 보고합니다.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
       "reviews": [
         {
           "user": "EscapeDriver",
           "rating": 4.5,
-          "comment": "BluePilot은 순정 Co-Pilot360에 비해 뛰어난 업그레이드입니다. 고속도로 중심으로 부드럽게 이동합니다."
+          "comment": "BluePilot는 재고 Co-Pilot360에 비해 뛰어난 업그레이드입니다. 고속도로 중심으로 부드럽게 이동합니다."
         }
       ],
       "configs": [
         {
-          "name": "균형 잡힌 투어링(Down to Ride v6)",
+          "name": "밸런스드 투어링(Down to Ride v6)",
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "Stock",
@@ -2344,7 +2344,7 @@
           }
         },
         {
-          "name": "통근자 선택(팝 모델 v2)",
+          "name": "통근자 선택(Pop Model v2)",
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "Stock",
@@ -2355,6 +2355,138 @@
           }
         }
       ]
+    },
+    {
+      "id": "rivian-r1s-2025",
+      "make": "Rivian",
+      "model": "R1S",
+      "years": "2025",
+      "hardware": {
+        "device": "Verify device compatibility for the installed branch",
+        "harness": "Vehicle-specific harness; verify exact model-year fitment",
+        "radar": "Factory system; verify platform configuration"
+      },
+      "bestSettings": {
+        "drivingModel": "Branch default",
+        "torqueTuning": "Default",
+        "lateralControl": "Vehicle default (verify controller support)",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Vehicle / branch dependent",
+        "experimentalMode": "OFF"
+      },
+      "communityConsensus": "2025 지원은 sunnypilot 릴리스 노트에 나열되어 있습니다. MADS 전용 측면 작동에는 opendbc PR #465의 ACM 휠 홀드 경고 억제가 포함됩니다. 이는 모든 하네스에 대해 확장된 세로 제어 또는 실험 모드 지원을 설정하지 않습니다.",
+      "forumUrl": "https://github.com/sunnypilot/sunnypilot/releases/tag/v2026.002.000",
+      "reviews": []
+    },
+    {
+      "id": "rivian-r1t-2025",
+      "make": "Rivian",
+      "model": "R1T",
+      "years": "2025",
+      "hardware": {
+        "device": "Verify device compatibility for the installed branch",
+        "harness": "Vehicle-specific harness; verify exact model-year fitment",
+        "radar": "Factory system; verify platform configuration"
+      },
+      "bestSettings": {
+        "drivingModel": "Branch default",
+        "torqueTuning": "Default",
+        "lateralControl": "Vehicle default (verify controller support)",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Vehicle / branch dependent",
+        "experimentalMode": "OFF"
+      },
+      "communityConsensus": "2025 지원은 sunnypilot 릴리스 노트에 나열되어 있습니다. MADS 전용 측면 작동에는 opendbc PR #465의 ACM 휠 홀드 경고 억제가 포함됩니다. 이는 모든 하네스에 대해 확장된 세로 제어 또는 실험 모드 지원을 설정하지 않습니다.",
+      "forumUrl": "https://github.com/sunnypilot/sunnypilot/releases/tag/v2026.002.000",
+      "reviews": []
+    },
+    {
+      "id": "acura-mdx-2022",
+      "make": "Acura",
+      "model": "MDX",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "Verify device compatibility for the installed branch",
+        "harness": "Vehicle-specific harness; verify exact model-year fitment",
+        "radar": "Factory system; verify platform configuration"
+      },
+      "bestSettings": {
+        "drivingModel": "Branch default",
+        "torqueTuning": "Default",
+        "lateralControl": "Vehicle default (verify controller support)",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Vehicle / branch dependent",
+        "experimentalMode": "OFF"
+      },
+      "communityConsensus": "CAN-FD 차량 지원은 v2026.002.000 릴리스 노트 및 업스트림 지원 차량 표에 나열되어 있습니다. 정확한 하네스와 설치된 브랜치를 확인하십시오. 이 프로필에 대해 커뮤니티 모델/조정 등급이 설정되지 않았습니다.",
+      "forumUrl": "https://github.com/sunnypilot/sunnypilot/releases/tag/v2026.002.000",
+      "reviews": []
+    },
+    {
+      "id": "acura-tlx-2025",
+      "make": "Acura",
+      "model": "TLX",
+      "years": "2025",
+      "hardware": {
+        "device": "Verify device compatibility for the installed branch",
+        "harness": "Vehicle-specific harness; verify exact model-year fitment",
+        "radar": "Factory system; verify platform configuration"
+      },
+      "bestSettings": {
+        "drivingModel": "Branch default",
+        "torqueTuning": "Default",
+        "lateralControl": "Vehicle default (verify controller support)",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Vehicle / branch dependent",
+        "experimentalMode": "OFF"
+      },
+      "communityConsensus": "업스트림 지원 차량 표에 나열되어 있습니다. 이 프로필에는 재고 ACC가 유지됩니다. 정확한 차량에 대한 컨트롤러 지원 및 하네스 장착을 확인하십시오.",
+      "forumUrl": "https://github.com/commaai/openpilot/blob/master/docs/CARS.md",
+      "reviews": []
+    },
+    {
+      "id": "volkswagen-id4-2021",
+      "make": "Volkswagen",
+      "model": "ID.4",
+      "years": "2021-2025",
+      "hardware": {
+        "device": "Verify device compatibility for the installed branch",
+        "harness": "Vehicle-specific harness; verify exact model-year fitment",
+        "radar": "Factory system; verify platform configuration"
+      },
+      "bestSettings": {
+        "drivingModel": "Branch default",
+        "torqueTuning": "Default",
+        "lateralControl": "Vehicle default (verify controller support)",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Vehicle / branch dependent",
+        "experimentalMode": "OFF"
+      },
+      "communityConsensus": "업스트림에는 2021~2023 및 2024~2025가 별도로 나열되어 있으며 적응형 크루즈 컨트롤 및 차선 보조 장치가 필요합니다. 모든 연도가 동일한 배선을 공유한다고 가정하기보다는 모델 연도의 플랫폼과 하네스를 확인하십시오.",
+      "forumUrl": "https://github.com/commaai/openpilot/blob/master/docs/CARS.md",
+      "reviews": []
+    },
+    {
+      "id": "cupra-born-2021",
+      "make": "CUPRA",
+      "model": "Born",
+      "years": "2021-2023",
+      "hardware": {
+        "device": "Verify device compatibility for the installed branch",
+        "harness": "Vehicle-specific harness; verify exact model-year fitment",
+        "radar": "Factory system; verify platform configuration"
+      },
+      "bestSettings": {
+        "drivingModel": "Branch default",
+        "torqueTuning": "Default",
+        "lateralControl": "Vehicle default (verify controller support)",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Vehicle / branch dependent",
+        "experimentalMode": "OFF"
+      },
+      "communityConsensus": "업스트림 지원에는 적응형 크루즈 컨트롤 및 차선 보조 장치가 필요합니다. 설치 전 정확한 차량과 하네스를 확인하세요. 호환성만으로는 모델이나 튜닝 권장 사항을 추론할 수 없습니다.",
+      "forumUrl": "https://github.com/commaai/openpilot/blob/master/docs/CARS.md",
+      "reviews": []
     }
   ]
 }

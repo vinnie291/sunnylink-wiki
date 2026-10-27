@@ -1,4 +1,7 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { ModelSurveyAnswers, ModelVoteSummary, PollQuestionDef, PollOptionDef } from '@/lib/modelVotes';
@@ -27,6 +30,7 @@ export default function ModelPollSurvey({
     onScoreUpdate,
     onSummaryUpdate,
 }: ModelPollSurveyProps) {
+  const tx = useTextTranslation();
     const { t } = useLanguage();
     const [currentStep, setCurrentStep] = useState(0);
     const [viewMode, setViewMode] = useState<'vote' | 'results'>('vote');
@@ -248,8 +252,8 @@ export default function ModelPollSurvey({
         if (lower === '3 - ok') return `3 - ${t('models.sentimentOk') || 'OK'}`;
         if (lower === '2 - bad') return `2 - ${t('models.sentimentBad') || 'Bad'}`;
         if (lower === '1 - poor') return `1 - ${t('models.poll.q3.opt1') || 'Poor'}`;
-        if (lower === '1 - horrible') return '1 - Horrible';
-        return label;
+        if (lower === '1 - horrible') return `1 - ${tx('Horrible')}`;
+        return tx(label);
     };
 
     // Format question title
@@ -259,7 +263,7 @@ export default function ModelPollSurvey({
         if (title.startsWith('Longitudinal used')) return t('models.poll.q5.title') || 'Longitudinal used:';
         if (title.startsWith('Longitudinal (acceleration and braking)')) return t('models.poll.q6.title') || 'Longitudinal (acceleration and braking):';
         if (title.startsWith('Steering control')) return t('models.poll.q7.title') || 'Steering control:';
-        return title;
+        return tx(title);
     };
 
     return (
@@ -290,7 +294,7 @@ export default function ModelPollSurvey({
                 {/* Left Column: Questions / Options or Results */}
                 <div className="flex-1 min-w-0">
                     <h4 className="text-sm font-bold text-slate-100 mb-2 leading-snug">
-                        {formatQuestionTitle(q.title)}
+                        <TranslatedText text={formatQuestionTitle(q.title)} />
                     </h4>
 
                     {viewMode === 'vote' ? (
@@ -322,7 +326,7 @@ export default function ModelPollSurvey({
                                                     <span className="w-1.5 h-1.5 rounded-full bg-slate-950" />
                                                 )}
                                             </span>
-                                            <span className="truncate">{label}</span>
+                                            <span className="truncate"><TranslatedText text={label} /></span>
                                         </button>
                                     );
                                 } else {
@@ -359,7 +363,7 @@ export default function ModelPollSurvey({
                                                     </svg>
                                                 )}
                                             </span>
-                                            <span className="truncate">{label}</span>
+                                            <span className="truncate"><TranslatedText text={label} /></span>
                                         </button>
                                     );
                                 }
@@ -396,10 +400,10 @@ export default function ModelPollSurvey({
                                                 {userChose && (
                                                     <span className="text-cyan-400 font-bold" title={t('models.poll.yourVote') || 'Your vote'}>✓</span>
                                                 )}
-                                                {label}
+                                                <TranslatedText text={label} />
                                             </span>
                                             <span className="shrink-0 font-mono text-[11px] text-slate-400">
-                                                <strong className="text-slate-200">{opt.percentage}%</strong>{' '}
+                                                <strong className="text-slate-200">{opt.percentage}%</strong><TranslatedText text={' '} />
                                                 <span className="text-[10px] text-slate-500">({opt.votes})</span>
                                             </span>
                                         </div>
@@ -440,7 +444,7 @@ export default function ModelPollSurvey({
                             </div>
                         )}
 
-                        <div className="flex items-center gap-1.5" title={`${t('models.poll.votesAre') || 'Votes are'} ${t('models.poll.public') || 'public'}.`}>
+                        <div className="flex items-center gap-1.5" title={tx(`${t('models.poll.votesAre') || 'Votes are'} ${t('models.poll.public') || 'public'}.`)}>
                             <svg className="w-3.5 h-3.5 text-slate-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -501,7 +505,7 @@ export default function ModelPollSurvey({
                             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                             </svg>
-                            {isQuestionAnswered(safeStep) ? (t('models.poll.editVote') || 'Edit Vote') : (t('models.poll.vote') || 'Vote')}
+                            <TranslatedText text={isQuestionAnswered(safeStep) ? (t('models.poll.editVote') || 'Edit Vote') : (t('models.poll.vote') || 'Vote')} />
                         </button>
                     )}
                 </div>
@@ -521,7 +525,7 @@ export default function ModelPollSurvey({
                                     onClick={() => {
                                         setCurrentStep(idx);
                                     }}
-                                    title={stepTitle}
+                                    title={tx(stepTitle)}
                                     className={`h-2 rounded-full transition-all duration-300 ${
                                         isCurrent
                                             ? 'w-5 bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.7)]'

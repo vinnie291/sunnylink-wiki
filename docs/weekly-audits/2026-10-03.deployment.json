@@ -1,0 +1,272 @@
+{
+  "status": "deployed_verified",
+  "approvedBy": "User instruction: deploy",
+  "deployedAt": "2026-10-03T19:32:22.918302+00:00",
+  "site": "https://sunnylink.wiki",
+  "project": "sunnylink-wiki",
+  "region": "us-central1",
+  "service": "sunnylink-wiki-service",
+  "revision": "sunnylink-wiki-service-refresh-20261003-ed9f9f",
+  "trafficPercent": 100,
+  "image": "gcr.io/sunnylink-wiki/wiki-app@sha256:f0dae05e8e619506ed9b83024ca812f5d00fd08d431ae57520608ca8e6a8ad57",
+  "buildId": "ed9f9f44-4ed4-486a-afc4-9435c03c3f6c",
+  "previousRevision": "sunnylink-wiki-service-00129-ktr",
+  "baselineBuildId": "2c4b9edf-9088-48a4-96a5-bbcbdf014c37",
+  "isolation": "Applied approved field changes to the exact September 29 deployed source. Unrelated unpublished workspace changes excluded. Added English counterpart required by the five approved fragment translations.",
+  "deploymentPatch": "docs/weekly-audits/2026-10-03.deployment.patch",
+  "checks": {
+    "cloudBuild": "SUCCESS, type check and 21 static pages",
+    "availableReleaseTests": "4 passed",
+    "translations": "All five locales match English; 482 keys each in deployed baseline",
+    "focusedLint": "passed",
+    "slaExportModes": "all four passed",
+    "hostedPreview": {
+      "origin": "https://refresh-20261003---sunnylink-wiki-service-gowsuvx36a-uc.a.run.app",
+      "checkedAt": "2026-10-03T19:29:55.425Z",
+      "results": [
+        {
+          "path": "/api/wiki-data?type=settings&search=NeuralNetworkLateralControl",
+          "status": 200,
+          "bytes": 364
+        },
+        {
+          "path": "/api/wiki-data?type=settings&search=SpeedLimitAssistMode",
+          "status": 200,
+          "bytes": 365
+        },
+        {
+          "path": "/api/markdown?path=/",
+          "status": 200,
+          "bytes": 1807
+        },
+        {
+          "path": "/api/markdown?path=/features",
+          "status": 200,
+          "bytes": 1307
+        },
+        {
+          "path": "/cars",
+          "status": 200,
+          "bytes": 31068
+        },
+        {
+          "path": "/wizard",
+          "status": 200,
+          "bytes": 30125
+        },
+        {
+          "path": "/stats",
+          "status": 200,
+          "bytes": 35785
+        },
+        {
+          "path": "/",
+          "status": 200,
+          "bytes": 473454
+        },
+        {
+          "path": "/models",
+          "status": 200,
+          "bytes": 310282
+        },
+        {
+          "path": "/features",
+          "status": 200,
+          "bytes": 526341
+        }
+      ],
+      "contentChecks": [
+        "NNLC description",
+        "SLA description",
+        "130 model count",
+        "correct MADS name",
+        "four SLA modes",
+        "both new models rendered",
+        "six main pages"
+      ]
+    },
+    "liveSite": {
+      "origin": "https://sunnylink.wiki",
+      "checkedAt": "2026-10-03T19:30:23.720Z",
+      "results": [
+        {
+          "path": "/api/wiki-data?type=settings&search=NeuralNetworkLateralControl",
+          "status": 200,
+          "bytes": 364
+        },
+        {
+          "path": "/api/wiki-data?type=settings&search=SpeedLimitAssistMode",
+          "status": 200,
+          "bytes": 365
+        },
+        {
+          "path": "/api/markdown?path=/",
+          "status": 200,
+          "bytes": 1807
+        },
+        {
+          "path": "/api/markdown?path=/features",
+          "status": 200,
+          "bytes": 1307
+        },
+        {
+          "path": "/cars",
+          "status": 200,
+          "bytes": 31068
+        },
+        {
+          "path": "/",
+          "status": 200,
+          "bytes": 473454
+        },
+        {
+          "path": "/wizard",
+          "status": 200,
+          "bytes": 30125
+        },
+        {
+          "path": "/stats",
+          "status": 200,
+          "bytes": 35785
+        },
+        {
+          "path": "/models",
+          "status": 200,
+          "bytes": 310282
+        },
+        {
+          "path": "/features",
+          "status": 200,
+          "bytes": 526341
+        }
+      ],
+      "contentChecks": [
+        "NNLC description",
+        "SLA description",
+        "130 model count",
+        "correct MADS name",
+        "four SLA modes",
+        "both new models rendered",
+        "six main pages"
+      ]
+    }
+  },
+  "files": [
+    {
+      "path": "data/models.json",
+      "sha256": "4c471d4d49cca27d1fb7817878b1c6bb5bf7a51ebd1248568600ca02d6caa8df"
+    },
+    {
+      "path": "data/features.json",
+      "sha256": "2d7be5e71831c20b6295d0118441fcd819d5f4ff00c41bcd7c3c79ec8f37a637"
+    },
+    {
+      "path": "data/toggles.json",
+      "sha256": "a216da69dc614f0a96ba6ef14995e2d7d490755b73911fe0b700a3d4782f3d6e"
+    },
+    {
+      "path": "locales/en.json",
+      "sha256": "5539677b57b9183350a1b132bb390a81cf63616bbb24882edb4fb33d2e0c1423"
+    },
+    {
+      "path": "data/models.ko.json",
+      "sha256": "a9a49c6cea94e38044272230491bfb8a1983d2106793c0561a1c81e17f36a1f2"
+    },
+    {
+      "path": "data/features.ko.json",
+      "sha256": "af04987d1a531fa8da0e51b86fa85dcb892ac55c99ae84fbfbfbb58e3fe7f524"
+    },
+    {
+      "path": "data/toggles.ko.json",
+      "sha256": "ea0c36cad1f5097cbd5d5ac74428c6b13c2899b23b49253d53993172ca2b7510"
+    },
+    {
+      "path": "locales/ko.json",
+      "sha256": "8ebacb58fa8a398cdb6d84dead1ecc2a9c53d55486c5d93b85a00c3142c7591e"
+    },
+    {
+      "path": "data/models.zh.json",
+      "sha256": "55173923004f0d96e090b266d9794bab77f4ba964cab8b6557b9ee493b45a220"
+    },
+    {
+      "path": "data/features.zh.json",
+      "sha256": "a90bf331dc8a6b00f5aa3952df18e4d5454e535b10cf6f905a13c571c0b286c0"
+    },
+    {
+      "path": "data/toggles.zh.json",
+      "sha256": "3885de3b29dcd493444c17d4e82d844976dbe3434c9285980a1570e7c9998865"
+    },
+    {
+      "path": "locales/zh.json",
+      "sha256": "95c747acaf2f5719676cd34d3c55a5ef82d0e2e12043d15cd1462a688132d214"
+    },
+    {
+      "path": "data/models.fr.json",
+      "sha256": "7737f563066618ad9028ab9a74e0f4a4e422f0114ef3d473b7f9b143c02df299"
+    },
+    {
+      "path": "data/features.fr.json",
+      "sha256": "0d01c181ef1541284cf248f40776ce5c0d2eeec83f8de4a9c1e3594c9dd5905d"
+    },
+    {
+      "path": "data/toggles.fr.json",
+      "sha256": "0cd6f6ad1ab3345284e87720d1b45ff8c3931fb9c956bc1e963c505840e78692"
+    },
+    {
+      "path": "locales/fr.json",
+      "sha256": "ab852f55f2658532b8bfad47eceb7cb601c36d67e646e4325d7bc38e6c09008e"
+    },
+    {
+      "path": "data/models.de.json",
+      "sha256": "4fdea554c3efab1b64780acb5553d17dbf32d717b470457bc62e47907ccf5a7a"
+    },
+    {
+      "path": "data/features.de.json",
+      "sha256": "10d76da99fdff6eb7f956f7994499128c23b40986350406a52e380b47ceca45d"
+    },
+    {
+      "path": "data/toggles.de.json",
+      "sha256": "d1c6f312809d859e56cbc09556906418e6992a20eed99a7f348ede825a4cfc93"
+    },
+    {
+      "path": "locales/de.json",
+      "sha256": "6e7d238a54bae8782a6852e47f62396e135bf96e74ccb09de0b46806ee79aa95"
+    },
+    {
+      "path": "data/models.es.json",
+      "sha256": "4b9044fae20757d8204942db656dc0c1930a99ac2d2cd7ab66a83645639aa79a"
+    },
+    {
+      "path": "data/features.es.json",
+      "sha256": "886f0df2a3fa85ef4ed1a5c3f09bfc624be43d6ec4499759ee54894d2c140926"
+    },
+    {
+      "path": "data/toggles.es.json",
+      "sha256": "a464efd00e889303fc4d0a4a144ca71075d42c23a604548285a0e233e6255db4"
+    },
+    {
+      "path": "locales/es.json",
+      "sha256": "6e90df60cf873bc983e1366154f07a58afdfe1e8a849b2e72896cb4afa9c5a4a"
+    },
+    {
+      "path": "scripts/scan_models.ts",
+      "sha256": "5eb64514acf87430b18c4924516bd58165dbe773c0a06dcadc95e42dd7c03573"
+    },
+    {
+      "path": "lib/wizardExport.ts",
+      "sha256": "c5cfda3632140e5fb5872419dec02ff3829913d48938b8e8b7c6f8b962b8daca"
+    },
+    {
+      "path": "app/api/markdown/route.ts",
+      "sha256": "496c7cf936393f3681f7e573835da5486c2c38f2eb39c6e83d222bb768331eb4"
+    },
+    {
+      "path": "data/supported-cars.json",
+      "sha256": "a9c3133323d83c5ffbaface9e562f23571768dcee85a1b24d3317660348f9b79"
+    },
+    {
+      "path": "data/discourse_polls.json",
+      "sha256": "e80bf881fdffba258224f73e8e1dda515ff5ae89b16673a52251caa2718251ef"
+    }
+  ]
+}

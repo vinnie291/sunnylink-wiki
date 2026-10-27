@@ -1,3 +1,6 @@
+
+import TranslatedText from '@/components/TranslatedText';
+import { Suspense } from 'react';
 import PageShell from '@/components/PageShell';
 import ModelLibrary from '@/components/ModelLibrary';
 import type { Metadata } from 'next';
@@ -261,11 +264,10 @@ export default async function ModelsPage() {
                 {/* SEO hero — server-rendered, so the H1 and intro paragraph
                     land in the initial HTML for crawlers. */}
                 <header className="mb-8">
-                    <h1 className="text-xl md:text-2xl font-bold text-slate-100 mb-2 leading-tight">
-                        openpilot Driving Models — Complete Database &amp; Comparison
-                    </h1>
+                    <h1 id="models-library-heading" className="text-xl md:text-2xl font-bold text-slate-100 mb-2 leading-tight">
+                         <TranslatedText text={"openpilot Driving Models — Complete Database & Comparison"} /> </h1>
                     <p className="text-slate-400 text-sm leading-relaxed mb-4">
-                        Browse the most complete community-maintained list of <strong className="text-slate-200">openpilot driving models</strong> from <strong className="text-slate-200">comma.ai</strong> and <strong className="text-slate-200">sunnypilot</strong>. Compare {MODEL_COUNT}+ models — WMI V12, OP Model 10, Dark Souls, Tomb Raider, Off-Policy, Down to Ride and more — with community ratings, release dates, steering feel, and lane behavior. Visualize each model&rsquo;s driving personality in real time. Updated regularly with the latest end-to-end (E2E) releases.
+                        <TranslatedText text={`Browse the most complete community-maintained list of openpilot driving models from comma.ai and sunnypilot. Compare ${MODEL_COUNT}+ models — WMI V12, OP Model 10, Dark Souls, Tomb Raider, Off-Policy, Down to Ride and more — with community ratings, release dates, steering feel, and lane behavior. Visualize each model’s driving personality in real time. Updated regularly with the latest end-to-end (E2E) releases.`} />
                     </p>
 
                     <div className="flex items-start gap-3.5 p-4 bg-slate-950/40 backdrop-blur-md border border-amber-500/10 border-l-4 border-l-amber-500/50 rounded-xl shadow-lg shadow-amber-950/5">
@@ -274,36 +276,34 @@ export default async function ModelsPage() {
                         </svg>
                         <div>
                             <h4 className="text-xs font-semibold text-amber-400 uppercase tracking-wider mb-1">
-                                Disclaimer &amp; Reference Notice
-                            </h4>
+                                 <TranslatedText text={"Disclaimer & Reference Notice"} /> </h4>
                             <p className="text-slate-300 text-xs leading-relaxed">
-                                User mileage may vary based on your comma device, mounting location, vehicle hardware, openpilot fork, and software version. This page is provided for reference only and does not claim to be a perfectly accurate representation of driving model behavior in real-world scenarios. Always remain alert and ready to resume manual control immediately.
-                            </p>
+                                 <TranslatedText text={"User mileage may vary based on your comma device, mounting location, vehicle hardware, openpilot fork, and software version. This page is provided for reference only and does not claim to be a perfectly accurate representation of driving model behavior in real-world scenarios. Always remain alert and ready to resume manual control immediately."} /> </p>
                         </div>
                     </div>
                 </header>
 
-                <section id="openpilot-models-library" aria-label="openpilot models database">
-                    <ModelLibrary forumActivity={forumActivity} />
+                <section id="openpilot-models-library" aria-labelledby="models-library-heading">
+                    <Suspense fallback={<div className="min-h-96" />}>
+                        <ModelLibrary forumActivity={forumActivity} />
+                    </Suspense>
                 </section>
 
                 {/* Long-form FAQ — visible content, matched 1:1 by the FAQPage
                     JSON-LD below so Google can render rich answer snippets. */}
                 <section className="mt-16 border-t border-slate-800 pt-10 max-w-4xl">
                     <h2 className="text-xl md:text-2xl font-bold text-slate-100 mb-2">
-                        About openpilot driving models
-                    </h2>
+                         <TranslatedText text={"About openpilot driving models"} /> </h2>
                     <p className="text-slate-400 text-xs mb-8">
-                        Common questions about comma.ai openpilot, sunnypilot, and the model picker.
-                    </p>
+                         <TranslatedText text={"Common questions about comma.ai openpilot, sunnypilot, and the model picker."} /> </p>
                     <div className="space-y-6">
                         {FAQ.map((item) => (
                             <article key={item.q}>
                                 <h3 className="text-sm md:text-base font-semibold text-slate-100 mb-1.5">
-                                    {item.q}
+                                    <TranslatedText text={item.q} />
                                 </h3>
                                 <p className="text-slate-400 text-sm leading-relaxed">
-                                    {item.a}
+                                    <TranslatedText text={item.a} />
                                 </p>
                             </article>
                         ))}

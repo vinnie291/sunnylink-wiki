@@ -1,4 +1,6 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -48,7 +50,7 @@ export default function BottomNav() {
                                     }
                 `}
                             >
-                                <span className="text-xl">{item.icon}</span>
+                                <span className="text-xl"><TranslatedText text={item.icon} /></span>
                                 <span className={`text-[9px] font-medium mt-0.5 ${isActive ? 'text-slate-100' : 'text-slate-400'}`}>
                                     {t(item.labelKey)}
                                 </span>
@@ -69,7 +71,7 @@ export default function BottomNav() {
                                 }
               `}
                         >
-                            <span className="text-lg">{item.icon}</span>
+                            <span className="text-lg"><TranslatedText text={item.icon} /></span>
                             <span className={`text-[10px] font-medium mt-0.5 ${isActive ? 'text-cyan-400' : 'text-slate-400'}`}>
                                 {t(item.labelKey)}
                             </span>

@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+import modelsData from '@/data/models.json';
+
+const MODEL_COUNT = modelsData.totalModels;
 
 const PAGE_MARKDOWN: Record<string, string> = {
   '/': `# Sunnylink Wiki
@@ -12,18 +15,18 @@ Sunnypilot is an open-source advanced driver assistance system (ADAS) built on t
 ## Main Sections
 
 - **[Settings Database](/)** — 100+ configurable toggles and parameters with descriptions, defaults, and community tips
-- **[Model Library](/models)** — Browse 82+ driving models, filterable by vibe (comfort, aggressive, WMI 2026, experimental)
+- **[Model Library](/models)** — Browse ${MODEL_COUNT} driving models, filterable by vibe (comfort, aggressive, WMI 2026, experimental)
 - **[Car Database](/cars)** — Vehicle-specific compatibility, recommended settings, and harness information
-- **[Feature Guide](/features)** — Detailed documentation for major Sunnypilot features (MADS, NNLC, Speed Limit Control, etc.)
+- **[Feature Guide](/features)** — Detailed documentation for major Sunnypilot features (MADS, NNLC, Speed Limit Assist, etc.)
 - **[Config Wizard](/wizard)** — Interactive tool to build a personalized Sunnypilot configuration
 - **[Live Stats](/stats)** — Real-time fleet statistics and model usage data
 
 ## Key Features of Sunnypilot
 
-- **MADS (Modified Assistive Driving Safety)** — Decouples lateral and longitudinal control; keep ACC off while steering assist is active
-- **NNLC (Neural Network Lateral Control)** — AI-powered steering that adapts to your car's characteristics
-- **Speed Limit Control** — Automatically adjusts speed to posted limits using maps or vision
-- **Driving Models** — Swap between 82+ community-trained models tuned for different driving styles
+- **MADS (Modular Assistive Driving System)** — Decouples lateral and longitudinal control; keep ACC off while steering assist is active
+- **NNLC (Neural Network Lateral Control)** — Vehicle-trained steering controller; requires a compatible torque-steering vehicle
+- **Speed Limit Assist** — Displays, warns about, or assists with speed limits using map or vehicle-provided data, subject to configuration and confirmation rules
+- **Driving Models** — Explore ${MODEL_COUNT} catalogued models; availability depends on hardware and the installed branch
 
 ## Agent Discovery
 
@@ -33,7 +36,7 @@ Sunnypilot is an open-source advanced driver assistance system (ADAS) built on t
 `,
   '/models': `# Sunnylink Model Library
 
-> Browse 82+ Sunnypilot driving models, each with a unique personality and tuning.
+> Browse ${MODEL_COUNT} Sunnypilot driving models, each with a unique personality and tuning.
 
 ## Model Vibes
 
@@ -68,14 +71,14 @@ Visit [sunnylink.wiki/models](/models) for the full interactive library with fil
 
 ## Major Features
 
-### MADS — Modified Assistive Driving Safety
+### MADS — Modular Assistive Driving System
 Decouples steering assist from adaptive cruise control. Lane keep active even when ACC is off.
 
 ### NNLC — Neural Network Lateral Control
-AI-powered lateral control that learns your vehicle's steering characteristics for smoother, more natural inputs.
+Vehicle-trained neural network that calculates steering commands. Requires a compatible torque-steering vehicle and an available trained model; configure while parked.
 
-### Speed Limit Control (SLC)
-Automatically adjusts vehicle speed to match posted speed limits. Sources: map data or vision-based sign detection.
+### Speed Limit Assist (SLA)
+Off, Information, Warning, and Assist modes use map or vehicle-provided speed limits. Assist requires longitudinal control or ICBM and follows vehicle-specific confirmation rules. The separate Honda City 7G Auto SET mode in [PR #2042](https://github.com/sunnypilot/sunnypilot/pull/2042) remains an open proposal.
 
 ### Dynamic Experimental Mode
 Switches between openpilot's experimental E2E mode and classic mode based on road conditions.

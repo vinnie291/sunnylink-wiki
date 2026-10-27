@@ -1,4 +1,6 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -30,7 +32,7 @@ export default function Navigation() {
                     }
               `}
                 >
-                    <span className="hidden sm:inline">{item.icon} </span>{t(item.labelKey)}
+                    <span className="hidden sm:inline"><TranslatedText text={item.icon} /> </span>{t(item.labelKey)}
                 </Link>
             ))}
         </div>

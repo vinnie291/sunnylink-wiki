@@ -6,7 +6,7 @@
     {
       "id": "models",
       "name": "Model Settings",
-      "icon": "\ud83e\udde0",
+      "icon": "🧠",
       "description": "Select and manage driving models, and configure model-related parameters.",
       "settings": [
         {
@@ -36,7 +36,7 @@
           "description": "When enabled, at speeds of 20 mph (32 km/h) or below with the turn signal on, the model plans a turn in the blinker direction at the nearest drivable path. This helps the model make smoother turns at low speeds.",
           "useCase": "Helps the car commit to sharp turns at lower speeds with the blinker on.",
           "tradeoffs": [
-            "Not for lane changes \u2014 designed for low-speed turns.",
+            "Not for lane changes — designed for low-speed turns.",
             "Only active at 20 mph (32 km/h) or below."
           ],
           "userNote": "Enable for smoother low-speed turns at intersections.",
@@ -71,32 +71,33 @@
           "type": "dropdown",
           "description": "Select the AI driving model. Each model has unique driving characteristics.",
           "useCase": "Choose a model that matches your driving style and road conditions.",
-          "userNote": "See the Model Library for detailed descriptions of all 66+ available models.",
+          "userNote": "The wiki documents 134 models. Device availability depends on hardware, selector version and installed branch.",
           "deviceAvailability": "config-hidden"
         },
         {
           "key": "ModelLibrary",
           "label": "Model Library",
           "type": "action",
-          "description": "Browse the complete library of 66+ driving models with descriptions, release dates, and community consensus.",
+          "description": "Browse 134 documented driving models. A published catalog entry does not establish support on every device or older branch.",
           "useCase": "Find the perfect model for your driving style.",
           "userNote": "Includes WMI Series, Dark Souls, Down to Ride, Tomb Raider, and Legacy models.",
           "deviceAvailability": "config-hidden"
         },
         {
           "key": "RefreshModelList",
-          "label": "Refresh Model List",
+          "label": "Refresh Models / Refresh Model List",
           "type": "action",
-          "description": "Forces a refresh of the available model list from the server. Use this if you expect a new model to be available but do not see it in the selection dialog.",
-          "userNote": "Use when a new model should be available but isn't shown.",
-          "deviceAvailability": "config-hidden"
+          "description": "Fetches the available model catalog from the server. PR #2018, merged into master September 14, adds the action to comma four (MICI) and improves refresh progress in both device UIs.",
+          "userNote": "Available while offroad, with no model download or refresh already running. The button shows fetching progress. Requires a build containing PR #2018; stable-release availability depends on branch.",
+          "deviceAvailability": "config-hidden",
+          "deepDive": "Inspected master/dev/staging now consume selector-21 catalogs: Chestnut v28 and Qualcomm v25. Older selector-20 builds use different catalogs. Check your installed version before refreshing. Source: https://github.com/sunnypilot/sunnypilot/blob/861fd118a1fe4ffec2283208456032b3616da968/openpilot/sunnypilot/models/fetcher.py."
         },
         {
           "key": "ClearModelCache",
-          "label": "Clear Model Cache",
+          "label": "Clear Cache / Clear Model Cache",
           "type": "action",
           "description": "Deletes all downloaded models except the currently active one. The current cache size in MB is displayed. Useful for freeing storage space.",
-          "userNote": "Frees up storage space by removing old model files.",
+          "userNote": "Frees up storage space by removing old model files. Clearing cached models is separate from refreshing the catalog and cannot repair a stale compiled runtime bundled into a software build.",
           "deviceAvailability": "config-hidden"
         },
         {
@@ -132,7 +133,7 @@
     {
       "id": "device",
       "name": "Device Settings",
-      "icon": "\ud83d\udcf1",
+      "icon": "📱",
       "description": "View device information, manage calibration, configure power behavior, and access system utilities.",
       "settings": [
         {
@@ -444,13 +445,31 @@
           "description": "Session driving time in seconds.",
           "userNote": "Read-only. Shows total driving time for current session.",
           "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ChestnutPowerLimit",
+          "label": "Chestnut Power Limit (Open PR)",
+          "type": "readonly",
+          "default": "Development only",
+          "description": "Open PR #2023 proposes the ChestnutPowerLimit parameter for the Chestnut GPU. Parameter value 0 preserves stock behavior; nonzero limits are clamped to 40–100 W.",
+          "userNote": "Proposed sunnylink Device-page advanced control for comma four with Chestnut; no on-device UI. A failed power-limit application aborts big-model loading and falls back to the small model. Not confirmed in a stable release.",
+          "deepDive": "Source: https://github.com/sunnypilot/sunnypilot/pull/2023. Status checked October 2, 2026. This wiki entry describes development work; it is not an exported device parameter."
+        },
+        {
+          "key": "LowBatteryVoltageShutdownDevelopment",
+          "label": "Low Battery Voltage Shutdown (Open PR)",
+          "type": "readonly",
+          "default": "Development only",
+          "description": "Open PR #1741 proposes a configurable offroad shutdown voltage and remains in the 2026.003.000 milestone.",
+          "userNote": "Thresholds and UI are still under review. Milestone assignment does not establish availability in every staging build.",
+          "deepDive": "Source: https://github.com/sunnypilot/sunnypilot/pull/1741. Status checked October 2, 2026. This wiki entry describes development work; it is not an exported device parameter."
         }
       ]
     },
     {
       "id": "toggles",
       "name": "Toggles",
-      "icon": "\ud83d\udd18",
+      "icon": "🔘",
       "description": "Core driving assist toggles that control fundamental sunnypilot behavior, driving personality, driver monitoring, and data recording.",
       "settings": [
         {
@@ -474,7 +493,7 @@
           "useCase": "City driving where you encounter frequent traffic lights and stop signs.",
           "tradeoffs": [
             "Can brake suddenly for false positives (shadows, markings).",
-            "May not stop in time for all lights/signs \u2014 be ready to brake.",
+            "May not stop in time for all lights/signs — be ready to brake.",
             "Smoother braking behind cars, but can be unpredictable."
           ],
           "deepDive": "Longitudinal MPC is replaced by E2E planning from the world model when activated.",
@@ -569,15 +588,16 @@
             "Misses bug fixes and new features.",
             "May become incompatible with Sunnylink services over time."
           ],
-          "userNote": "Use if you find a version you love and don't want it to change.",
-          "deviceAvailability": "full"
+          "userNote": "Use if you find a version you love and don't want it to change. Known issue #2020: starting ignition before tapping Install Now can discard a prepared update. Install while parked and allow the installation/reboot to finish before starting ignition. If the prompt disappears, return offroad on unmetered Wi-Fi and let the updater fetch/prepare again; metered connections may delay recovery.",
+          "deviceAvailability": "full",
+          "deepDive": "Open issue advisory, not a confirmed fix: https://github.com/sunnypilot/sunnypilot/issues/2020."
         }
       ]
     },
     {
       "id": "steering",
       "name": "Steering Settings",
-      "icon": "\ud83c\udfaf",
+      "icon": "🎯",
       "description": "Configuration for lateral control and lane keeping.",
       "settings": [
         {
@@ -592,8 +612,8 @@
             "Requires changing your mental model (Braking does NOT disengage steering).",
             "Can feel like the car is 'fighting' you if you change lanes without a blinker."
           ],
-          "deepDive": "Separates the Lateral Control state machine from the Longitudinal Cruise state. MADS remains in 'Active' state even when 'Cruise' state goes to 'Disabled'.",
-          "userNote": "Critical. This is the core feature of Sunnypilot. Keep ON.",
+          "deepDive": "Separates the Lateral Control state machine from the Longitudinal Cruise state. MADS remains in 'Active' state even when 'Cruise' state goes to 'Disabled'. Open proposals: https://github.com/sunnypilot/sunnypilot/pull/2031 and https://github.com/sunnypilot/sunnypilot/pull/2039.",
+          "userNote": "Critical. This is the core feature of Sunnypilot. Keep ON. Brake-hold behavior is under development: PR #2031 proposes pausing MADS when the brake is already held, and PR #2039 proposes blocking Honda engagement during brake hold. Do not assume either proposal is included in your build.",
           "deviceAvailability": "config-hidden"
         },
         {
@@ -658,16 +678,16 @@
           "label": "Neural Network Lateral Control",
           "type": "toggle",
           "default": false,
-          "description": "Replaces standard control strategies (like Torque or Angle) with a neural network-based lateral planner. (Note: Generally not recommended for modern models).",
+          "description": "Uses a vehicle-trained neural network to calculate steering commands in place of a conventional lateral controller. It does not replace the driving model or predict its path.",
           "recommended": false,
-          "useCase": "Fixes 'ping-pong' (oscillation) on straight roads common in older or specific vehicles.",
+          "useCase": "Use a trained steering controller when one is available for your vehicle.",
           "tradeoffs": [
-            "Violent oscillation, wobbling, and ping-ponging on modern models.",
-            "Potential for upcoming deprecation.",
-            "Recommended only for legacy models (e.g., North Dakota 0.9.7.1 Branch Release-C3)."
+            "Requires vehicle-specific training data and a compatible steering controller.",
+            "Unavailable on angle-steering vehicles; cannot run with Enforce Torque Control.",
+            "Performance depends on the vehicle, firmware, and selected driving model."
           ],
-          "deepDive": "Uses an end-to-end lateral planning policy to predict path curvature. Not configured for newer sunnypilot releases and modern models.",
-          "userNote": "Generally not recommended for modern models. If you experience wobbling or ping-ponging, turn it OFF. Best used with legacy models. In sunnypilot 2026.002+, NNLC and Enforce Torque Control are mutually exclusive.",
+          "deepDive": "Reported setup and data: https://github.com/sunnypilot/sunnypilot/issues/2019. UI guard: https://github.com/sunnypilot/sunnypilot/pull/1863.",
+          "userNote": "Requires a trained model for your vehicle and torque-based steering; angle-steering vehicles are excluded. Configure while parked. NNLC and Enforce Torque Control are mutually exclusive. Issue #2019 reports low-speed oscillation on one Prius Prime/Chestnut setup; that report does not establish a fault on every vehicle.",
           "deviceAvailability": "config-hidden"
         },
         {
@@ -675,17 +695,17 @@
           "label": "Dynamic Experimental Control",
           "type": "toggle",
           "default": false,
-          "description": "Automatically switches between Chill Mode (Highway) and Experimental Mode (City) based on driving context.",
-          "recommended": true,
-          "useCase": "Perfect for mixed commutes involving both freeways and city streets with traffic lights.",
+          "description": "Legacy automatic switching between Chill and Experimental modes; unavailable on inspected current master/dev.",
+          "recommended": false,
+          "useCase": "For legacy builds that still implement DEC; not a recommendation for current master/dev.",
           "tradeoffs": [
             "Can cause phantom braking if it falsely detects a red light or stop sign.",
             "May switch modes unpredictably in complex intersections.",
             "Can cause late braking for lights/signs.",
             "Makes evaluating specific models harder due to mode switching."
           ],
-          "deepDive": "Monitors the 'throttle_prob' from the model to determine intent. If model intent is low, it temporarily injects the Experimental Mode longitudinal plan for complex scenarios.",
-          "userNote": "Good for mixed driving, but switch to full Experimental if you need consistent behavior.",
+          "deepDive": "Removal source: https://github.com/sunnypilot/sunnypilot/pull/2056. Preserve older-build context; do not infer identical behavior across branches.",
+          "userNote": "Removed from master by PR #2056 on October 16. Inspected dev omits DEC; staging retains it. Check branch and release notes before using this legacy setting.",
           "deviceAvailability": "config-hidden"
         },
         {
@@ -751,8 +771,8 @@
           "label": "Manual Tune - Friction",
           "type": "slider",
           "default": 0.1,
-          "min": 0.0,
-          "max": 1.0,
+          "min": 0,
+          "max": 1,
           "unit": "",
           "description": "Adjusts the friction compensation in the steering controller.",
           "helpText": "Range: 0.00 - 1.00",
@@ -767,8 +787,9 @@
             "Too high: oscillation/ping-ponging.",
             "Too low: insufficient torque to hold the lane."
           ],
-          "userNote": "Default 0.10. Adjust in small increments (0.01).",
-          "deviceAvailability": "config-hidden"
+          "userNote": "Default 0.10. Prefer small changes of 0.01. Issue #1847 reports that sunnylink exposes TorqueParamsOverrideFriction in coarse 0.1 steps although finer decimal entry is desired. Check the displayed and saved value after each change; do not assume every UI uses 0.01 increments.",
+          "deviceAvailability": "config-hidden",
+          "deepDive": "Friction stepping issue: https://github.com/sunnypilot/sunnypilot/issues/1847. The report concerns TorqueParamsOverrideFriction; this catalog uses ManualTuneFriction for its existing friction entry."
         },
         {
           "key": "TorqueControlTuneVersion",
@@ -853,9 +874,9 @@
           "type": "slider",
           "default": 2.5,
           "min": 1.5,
-          "max": 4.0,
-          "unit": "m/s\u00b2",
-          "helpText": "Range: 1.5 to 4.0 m/s\u00b2",
+          "max": 4,
+          "unit": "m/s²",
+          "helpText": "Range: 1.5 to 4.0 m/s²",
           "description": "Target lateral acceleration factor for torque controller. Lower values produce gentler steering; higher values make steering more aggressive in corners.",
           "useCase": "Fine-tuning torque steering responsiveness for spirited driving or heavy vehicles.",
           "tradeoffs": [
@@ -863,16 +884,25 @@
             "Too high values may cause steering ping-pong or sudden jerkiness.",
             "Too low values can result in understeering on sharp highway curves."
           ],
-          "userNote": "Official recommended range: 2.3 - 2.7 m/s\u00b2 for most sedans and crossovers.",
+          "userNote": "Official recommended range: 2.3 - 2.7 m/s² for most sedans and crossovers.",
           "safetyLevel": "safe",
           "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "SpeedDependentSteeringDelay",
+          "label": "Speed-Dependent Steering Delay (Open PR)",
+          "type": "readonly",
+          "default": "Development only",
+          "description": "Open PR #2029 proposes a City Delay Boost for fixed steering-delay compensation when Live Learning Steer Delay is OFF. A higher low-speed delay blends back to the configured highway delay as speed rises.",
+          "userNote": "Proposed Models-page control: boost 0.00–0.30 s (default 0.30 s), total city delay capped at 0.50 s, with interpolation from 50 to 80 km/h. Live learning is unchanged. Availability requires the development branch; no released toggle is confirmed.",
+          "deepDive": "Source: https://github.com/sunnypilot/sunnypilot/pull/2029. Status checked October 2, 2026. This wiki entry describes development work; it is not an exported device parameter."
         }
       ]
     },
     {
       "id": "cruise",
       "name": "Cruise & Speed",
-      "icon": "\ud83d\ude80",
+      "icon": "🚀",
       "description": "Configuration for speed management, cruise control, and lane change behavior.",
       "settings": [
         {
@@ -880,7 +910,7 @@
           "label": "Smart Cruise Control - Vision (SCC-V)",
           "type": "toggle",
           "default": true,
-          "description": "Smart Cruise Control - Vision (SCC-V) leverages camera vision data to proactively adjust your vehicle\u2019s speed by calculating curvature in the road ahead.",
+          "description": "Smart Cruise Control - Vision (SCC-V) leverages camera vision data to proactively adjust your vehicle’s speed by calculating curvature in the road ahead.",
           "recommended": true,
           "useCase": "Driving on winding back roads where maintaining a constant 55mph would be dangerous.",
           "tradeoffs": [
@@ -889,7 +919,7 @@
             "Late braking compared to seeing warning signs."
           ],
           "deepDive": "Calculates projected lateral acceleration based on model path. Reduces speed to keep lateral G-forces under ~0.3g.",
-          "userNote": "This feature is only available when sunnypilot is actively controlling the vehicle\u2019s longitudinal control.",
+          "userNote": "This feature is only available when sunnypilot is actively controlling the vehicle’s longitudinal control.",
           "deviceAvailability": "config-hidden"
         },
         {
@@ -911,20 +941,21 @@
           "label": "Speed Limit Assist Mode",
           "type": "dropdown",
           "options": [
+            "Off",
             "Information",
-            "Auto",
-            "User Confirm"
+            "Warning",
+            "Assist"
           ],
           "default": "Information",
-          "description": "Determines if the car automatically adjusts speed to posted limits.",
+          "description": "Off disables speed-limit functions; Information displays the limit; Warning adds overspeed alerts; Assist adjusts cruise speed using the documented engagement and confirmation rules.",
           "useCase": "Long road trips through towns with varying speed traps.",
           "tradeoffs": [
             "Extremely reliant on map data accuracy.",
             "Can cause dangerous rapid braking if it reads an off-ramp speed limit while on the highway.",
             "May trigger on conditional signs (school zones) when not active."
           ],
-          "deepDive": "Aggregates data from OpenStreetMap (OSM), car camera (TSR), and navigation data to determine the current limit.",
-          "userNote": "'Information' just shows the sign. 'Auto' changes your speed for you.",
+          "deepDive": "The current source defines modes 0–3 as Off, Information, Warning, and Assist. The device parameter is SpeedLimitMode; this wiki retains its legacy catalog key. Source: https://github.com/sunnypilot/sunnypilot/blob/master/openpilot/sunnypilot/selfdrive/controls/lib/speed_limit/common.py",
+          "userNote": "Assist is not an unconditional automatic SET mode. Speed-limit changes may require cruise-button confirmation, depending on vehicle configuration and speed. PR #2042 proposes a separate opt-in map-based Auto SET mode limited to Honda City 7G with openpilot longitudinal and non-PCM cruise. It is open and unmerged; physical instrument-cluster validation is pending. Source: https://github.com/sunnypilot/sunnypilot/pull/2042",
           "deviceAvailability": "config-hidden"
         },
         {
@@ -1031,7 +1062,7 @@
           "default": false,
           "description": "Changes how much the speed changes when you press +/- on the wheel.",
           "useCase": "Fine-tune speed adjustments - small taps for precision.",
-          "userNote": "Customize short press to \u00b11 and long press to \u00b15.",
+          "userNote": "Customize short press to ±1 and long press to ±5.",
           "deviceAvailability": "config-hidden"
         },
         {
@@ -1083,13 +1114,22 @@
           "useCase": "More intuitive cruise control button behavior.",
           "userNote": "Enable for smarter cruise button behavior.",
           "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "SmoothFinalStopBraking",
+          "label": "Smooth Final Stop Braking (Draft)",
+          "type": "readonly",
+          "default": "Development only",
+          "description": "Draft PR #2034 refines stopping acceleration to soften the final braking transition under sunnypilot/openpilot longitudinal control.",
+          "userNote": "This is a controller change under development. No separate user-facing toggle or default is documented; stock ACC braking is outside its scope.",
+          "deepDive": "Source: https://github.com/sunnypilot/sunnypilot/pull/2034. Status checked October 2, 2026. This wiki entry describes development work; it is not an exported device parameter."
         }
       ]
     },
     {
       "id": "visuals",
       "name": "Visuals & UI",
-      "icon": "\ud83c\udfa8",
+      "icon": "🎨",
       "description": "Configure what information and visual elements appear on the driving screen.",
       "settings": [
         {
@@ -1306,7 +1346,7 @@
     {
       "id": "developer",
       "name": "Developer Settings",
-      "icon": "\ud83d\udc68\u200d\ud83d\udcbb",
+      "icon": "👨‍💻",
       "description": "Advanced settings for developers and power users, including debug tools, connectivity options, and alpha features.",
       "settings": [
         {
@@ -1476,7 +1516,8 @@
           "description": "Allows you to override torque values while driving.",
           "warning": "Debug Only. Dangerous for normal use.",
           "safetyLevel": "critical",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "config-hidden",
+          "userNote": "For FRICTION, verify the actual saved decimal value: issue #1847 reports 0.1 UI stepping where 0.01 precision is desired. https://github.com/sunnypilot/sunnypilot/issues/1847"
         },
         {
           "key": "FirehoseMode",
@@ -1498,7 +1539,7 @@
     {
       "id": "other",
       "name": "Other Settings",
-      "icon": "\ud83d\udd27",
+      "icon": "🔧",
       "description": "Miscellaneous settings including AGNOS, plan controls, and car-specific configurations.",
       "settings": [
         {
@@ -1683,5 +1724,6 @@
         }
       ]
     }
-  ]
+  ],
+  "lastUpdated": "2026-10-25"
 }

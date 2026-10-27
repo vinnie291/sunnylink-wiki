@@ -1,307 +1,419 @@
 {
-    "appName": "Sunnylink-Datenbank",
-    "version": "2026.002",
-    "dataSource": "Official Sunnypilot Documentation",
-    "lastUpdated": "2026-09-03",
-    "features": [
-        {
-            "id": "mads",
-            "name": "M.A.D.S.",
-            "fullName": "Modular Assistive Driving System",
-            "category": "Core Control",
-            "officialDefinition": "Entkoppelt die laterale Kontrolle (Lenkung) von der longitudinalen Kontrolle (Gas/Bremse), sodass das Fahrzeug lenkt, selbst wenn der Tempomat deaktiviert ist.",
-            "userSummary": "Die Lenkung bleibt aktiv, auch wenn Sie bremsen oder ausrollen.",
-            "userTranslation": "\"Always-On-Lenkung.\" Das Auto lenkt weiter für Sie, selbst wenn Sie die volle Kontrolle über Gas und Bremse haben. Sie können ausrollen, bremsen oder beschleunigen, ohne dass die Spurführung abschaltet.",
-            "settingsKeys": [
-                "MadsEnabled",
-                "MadsSteeringMode",
-                "MadsMainCruiseAllowed",
-                "MadsUnifiedEngagementMode"
-            ],
-            "docUrl": "https://community.sunnypilot.ai/t/modular-assistive-driving-system-m-a-d-s-features-and-functionality/245"
-        },
-        {
-            "id": "nnlc",
-            "name": "NNLC",
-            "fullName": "Neural Network Lateral Control",
-            "category": "Core Control",
-            "officialDefinition": "Ersetzt den klassischen PID/Indi-Regler durch ein neuronales Netzwerkmodell, das aus vergangenen Krümmungen zukünftige Lenkpfade vorhersagt.",
-            "userSummary": "KI-basierte Lenkungssteuerung. Hinweis: Schließt sich mit Enforce Torque Control gegenseitig aus.",
-            "userTranslation": "\"KI-Lenkung.\" Verwendet ein neuronales Netz anstelle herkömmlicher mathematischer Formeln. In sunnypilot 2026.002+ schließen sich NNLC und Enforce Torque Control gegenseitig aus.",
-            "settingsKeys": [
-                "NeuralNetworkLateralControl"
-            ],
-            "docUrl": "https://community.sunnypilot.ai/t/neural-network-lateral-control-nnlc/246"
-        },
-        {
-            "id": "blinker_pause",
-            "name": "Blinker Pause",
-            "fullName": "Blinker Pause Lateral Control",
-            "category": "Core Control",
-            "officialDefinition": "Pausiert vorübergehend die Querführung, wenn der Blinker betätigt wird, und aktiviert sie nach dem Abbiegen oder ab einer Mindestgeschwindigkeit wieder.",
-            "userSummary": "Gibt die manuelle Lenkung frei, während der Blinker aktiv ist.",
-            "userTranslation": "\"Blinker-Freigabe.\" Wenn Sie den Blinker setzen, pausiert sunnypilot die Lenkkraft, sodass Sie mühelos manuell lenken können, ohne gegen das Lenkrad zu kämpfen.",
-            "settingsKeys": [
-                "BlinkerPauseLateralControl",
-                "BlinkerMinLateralControlSpeed"
-            ],
-            "docUrl": "https://community.sunnypilot.ai/t/blinker-pause-lateral-control/240"
-        },
-        {
-            "id": "torque_control",
-            "name": "Torque Control",
-            "fullName": "Torque Steering Control & Self-Tune",
-            "category": "Core Control",
-            "officialDefinition": "Moderner Drehmomentregler, der Lenkkräfte anhand von Querbeschleunigung und Reibung berechnet, inklusive automatischem Selbstlern-Algorithmus.",
-            "userSummary": "Präzise Drehmomentlenkung mit adaptiver Echtzeit-Selbstkalibrierung.",
-            "userTranslation": "\"Adaptive Drehmomentlenkung.\" Berechnet genau das benötigte Lenkmoment. Mit Self-Tune passt sich sunnypilot automatisch an Reibung und Lenkverhalten Ihres Fahrzeugs an.",
-            "settingsKeys": [
-                "EnforceTorqueControl",
-                "SelfTune",
-                "LessRestrictSettingsForSelfTune",
-                "EnableCustomTorqueTuning",
-                "ManualTuneFriction",
-                "TorqueControlTuneVersion",
-                "ManualRealTimeTuning"
-            ],
-            "docUrl": "https://community.sunnypilot.ai/t/torque-settings/3688"
-        },
-        {
-            "id": "dec",
-            "name": "DEC",
-            "fullName": "Dynamic Experimental Control",
-            "category": "Core Control",
-            "officialDefinition": "Schaltet automatisch zwischen Chill-Modus und Experimental-Modus anhand von Geschwindigkeit und Straßenverlauf um.",
-            "userSummary": "Automatischer Wechsel des Fahrmodus je nach Kontext.",
-            "userTranslation": "\"Modus-Wechsler.\" Sanftes Cruisen im Chill-Modus auf der Autobahn und vorausschauendes Abbremsen vor Ampeln und Stoppschildern im Experimental-Modus.",
-            "settingsKeys": [
-                "DynamicExperimentalControl"
-            ],
-            "docUrl": "https://community.sunnypilot.ai/t/dynamic-experimental-control/242"
-        },
-        {
-            "id": "quiet_mode",
-            "name": "Quiet Mode",
-            "fullName": "Quiet Mode Feature",
-            "category": "Core Control",
-            "officialDefinition": "Unterdrückt nicht-kritische Hinweistöne und behält alle sicherheitsrelevanten Übernahme- und Aufmerksamkeitswarnungen bei.",
-            "userSummary": "Schaltet unkritische Töne stumm, behält jedoch Sicherheitsalarme bei.",
-            "userTranslation": "\"Leiser Modus.\" Unterdrückt routinemäßige Pieptöne für eine ruhige Fahrt, warnt jedoch sofort laut bei sicherheitskritischen Eingriffsaufforderungen.",
-            "settingsKeys": [
-                "QuietMode"
-            ],
-            "docUrl": "https://docs.sunnypilot.ai/features/quiet-mode/"
-        },
-        {
-            "id": "icbm",
-            "name": "ICBM",
-            "fullName": "Intelligent Cruise Button Management",
-            "category": "Compatibility",
-            "officialDefinition": "Steuert die Fahrgeschwindigkeit über elektronische Befehle an die werkseitigen Tempomattasten für Fahrzeuge ohne offene Längsführung.",
-            "userSummary": "Ermöglicht Tempomat-Geschwindigkeitsanpassung durch simulierte Tastendrücke.",
-            "userTranslation": "\"Tempomat-Hacker.\" Bei Fahrzeugen ohne native Längssteuerung steuert sunnypilot die Geschwindigkeit über simulierte Lenkradtasten (SET-/RES+).",
-            "settingsKeys": [
-                "IntelligentCruiseButtonManagement"
-            ],
-            "docUrl": "https://community.sunnypilot.ai/t/intelligent-cruise-button-management-icbm/244"
-        },
-        {
-            "id": "scc_v",
-            "name": "SCC-V",
-            "fullName": "Smart Cruise Control - Vision (SCC-V)",
-            "category": "Speed Control",
-            "officialDefinition": "Verwendet Kameradaten zur Berechnung der vorausliegenden Straßenkrümmung und passt die Geschwindigkeit vor Kurven an.",
-            "userSummary": "Verlangsamt vor Kurven basierend auf Kamerabildern.",
-            "userTranslation": "\"Kamera-Kurvenbremse.\" Die Kamera erkennt scharfe Kurven im Voraus und verlangsamt das Auto sanft vor der Kurve.",
-            "settingsKeys": [
-                "VisionBasedTurnSpeedControl"
-            ],
-            "docUrl": "https://community.sunnypilot.ai/t/smart-cruise-control-using-camera-vision-for-proactive-speed-adjustment/248"
-        },
-        {
-            "id": "scc_m",
-            "name": "SCC-M",
-            "fullName": "Map-Based Turn Speed Control",
-            "category": "Speed Control",
-            "officialDefinition": "Nutzt OpenStreetMap-Geometriedaten zur frühzeitigen Geschwindigkeitsanpassung vor Straßenbiegungen.",
-            "userSummary": "Verlangsamt vor Kurven mithilfe von OpenStreetMap-Kartendaten.",
-            "userTranslation": "\"Karten-Kurvenbremse.\" Liest den Straßenverlauf aus Offline-Karten und bremst vorausschauend vor Kurven ab.",
-            "settingsKeys": [
-                "SmartCruiseControlMap"
-            ],
-            "docUrl": "https://community.sunnypilot.ai/t/smart-cruise-control-map-scc-m-feature-description/247"
-        },
-        {
-            "id": "sla",
-            "name": "SLA",
-            "fullName": "Speed Limit Assist",
-            "category": "Speed Control",
-            "officialDefinition": "Passt die Wunschgeschwindigkeit automatisch an erkannte oder kartierte Geschwindigkeitsbegrenzungen an.",
-            "userSummary": "Passt die Tempomat-Geschwindigkeit an Tempolimits an.",
-            "userTranslation": "\"Geschwindigkeitsassistent.\" Setzt die Reisegeschwindigkeit automatisch auf das gültige Tempolimit inklusive gewünschtem Offset.",
-            "settingsKeys": [
-                "SpeedLimitAssistMode",
-                "SpeedLimitSource",
-                "SpeedLimitOffsetType",
-                "SpeedLimitOffsetValue"
-            ],
-            "docUrl": "https://community.sunnypilot.ai/t/speed-limit-assist/249"
-        },
-        {
-            "id": "custom_acc",
-            "name": "Custom ACC",
-            "fullName": "Custom ACC Increments",
-            "category": "Speed Control",
-            "officialDefinition": "Konfiguriert individuelle Geschwindigkeitsschritte für kurzes und langes Drücken der Tempomattasten.",
-            "userSummary": "Benutzerdefinierte Schrittweiten für Tempomat-Tasten.",
-            "userTranslation": "\"Tasten-Schrittweiten.\" Legen Sie fest, wie viel km/h ein kurzer bzw. langer Tastendruck ändert (z. B. 1 km/h kurz, 5 km/h lang).",
-            "settingsKeys": [
-                "CustomAccIncrements",
-                "CustomAccShortPressIncrement",
-                "CustomAccLongPressIncrement"
-            ],
-            "docUrl": "https://community.sunnypilot.ai/t/custom-acc-increments/241"
-        },
-        {
-            "id": "alpha_longitudinal",
-            "name": "Alpha Longitudinal",
-            "fullName": "sunnypilot Longitudinal Control (Alpha)",
-            "category": "Speed Control",
-            "officialDefinition": "Eigene Längsführungssteuerung von sunnypilot für unterstützte Plattformen mit sanfterer Beschleunigung und Stop-and-Go.",
-            "userSummary": "sunnypilots eigener Gas- und Bremssteuerungs-Algorithmus.",
-            "userTranslation": "\"Eigene Längsführung.\" Ersetzt den Serien-Abstandstempomat durch sunnypilots eigene Logik für sanfteres Bremsen und Anfahren.",
-            "settingsKeys": [
-                "AlphaLongitudinal",
-                "LongitudinalManeuverMode"
-            ],
-            "docUrl": "https://docs.sunnypilot.ai/features/cruise/alpha-longitudinal/"
-        },
-        {
-            "id": "alc",
-            "name": "ALC",
-            "fullName": "Automatic Lane Change",
-            "category": "Navigation",
-            "officialDefinition": "Führt nach Blinkerbetätigung und Sicherheitsprüfung über Totwinkelwarner einen automatischen Spurwechsel ohne Lenkimpuls durch.",
-            "userSummary": "Blinker antippen -> Fahrzeug wechselt nach Prüfung automatisch die Spur.",
-            "userTranslation": "\"Automatischer Spurwechsel.\" Blinker setzen, sunnypilot prüft den toten Winkel und wechselt nach kurzer Verzögerung sanft die Spur.",
-            "settingsKeys": [
-                "AutoLaneChangeTimer",
-                "AutoLaneChangeBsmDelay"
-            ],
-            "docUrl": "https://community.sunnypilot.ai/t/auto-lane-change/240"
-        },
-        {
-            "id": "osm_maps",
-            "name": "OSM Maps",
-            "fullName": "OpenStreetMap Offline Navigation & Geometry",
-            "category": "Navigation",
-            "officialDefinition": "Integriert OpenStreetMap-Vektordaten direkt auf dem Gerät für Offline-Streckenführung, Kurven und Straßennamen.",
-            "userSummary": "Offline-Karten für Kurvengeschwindigkeiten und Tempolimits.",
-            "userTranslation": "\"Offline-Kartenwissen.\" Lädt OpenStreetMap-Daten auf das Gerät, sodass Tempolimits und Straßenkurven auch ohne Mobilfunkempfang bekannt sind.",
-            "settingsKeys": [
-                "SmartCruiseControlMap",
-                "DisplayRoadName",
-                "SpeedLimitSource",
-                "MapAdvisorySpeedLimit"
-            ],
-            "docUrl": "https://docs.sunnypilot.ai/features/connected/osm-maps/"
-        },
-        {
-            "id": "hud_visuals",
-            "name": "HUD & Visuals",
-            "fullName": "Custom Onroad HUD Visuals & Metrics",
-            "category": "Display & Visuals",
-            "officialDefinition": "Umfangreiche HUD-Erweiterungen mit G-Kraft-Beschleunigungsanzeige (Rocket Fuel), Abstandsmetriken und Stillstands-Timer.",
-            "userSummary": "Individuelle Fahrdisplay-Telemetrie, Beschleunigungsbalken und Abstandsdaten.",
-            "userTranslation": "\"Profi-HUD-Anzeige.\" Zeigt präzise Distanz und Tempo des vorausfahrenden Autos, Beschleunigungsbalken und Standzeit-Timer an.",
-            "settingsKeys": [
-                "DisplayRocketFuelBar",
-                "ChevronInfo",
-                "StandstillTimer",
-                "TrueVEgoUI",
-                "HideVEgoUI",
-                "ShowTurnSignals",
-                "BlindSpotDetection",
-                "DeveloperUIInfo",
-                "SteeringArc",
-                "RainbowMode"
-            ],
-            "docUrl": "https://docs.sunnypilot.ai/features/display/hud-visuals/"
-        },
-        {
-            "id": "driving_models",
-            "name": "Models & AI",
-            "fullName": "Driving Model Selector & AI Configuration",
-            "category": "Models & AI",
-            "officialDefinition": "Ermöglicht den Wechsel und das Testen verschiedener neuronaler Fahrmodelle sowie die Justierung von Lenk- und Kamerawerten.",
-            "userSummary": "Modell-Auswahl im Fahrzeug mit Feintuning-Parametern.",
-            "userTranslation": "\"KI-Modell-Wähler.\" Wechseln Sie direkt im Auto zwischen verschiedenen KI-Fahrmodellen und passen Sie Lenkverzögerung und Abbiegewunsch an.",
-            "settingsKeys": [
-                "DrivingModel",
-                "ModelLibrary",
-                "LaneTurnDesire",
-                "AdjustLaneTurnSpeed",
-                "LiveLearningSteerDelay",
-                "ManualSoftwareDelay",
-                "AdjustCameraOffset"
-            ],
-            "docUrl": "https://docs.sunnypilot.ai/features/models/"
-        },
-        {
-            "id": "sunnylink",
-            "name": "sunnylink",
-            "fullName": "sunnylink Connected Services & Remote Config",
-            "category": "Connected Services",
-            "officialDefinition": "Cloud-Backend von sunnypilot für Einstellungs-Backups, GitHub-Sponsoring-Kopplung und Flottenverwaltung.",
-            "userSummary": "Cloud-Backup, Web-Dashboard und Fernkonfiguration.",
-            "userTranslation": "\"Cloud-Begleiter.\" Verbindet das Gerät mit sunnylink.ai für automatische Einstellungs-Backups, Sponsorenvorteile und Smartphone-Steuerung.",
-            "settingsKeys": [
-                "EnableSunnylinkUploader",
-                "CompletedSunnylinkConsentVersion",
-                "SunnylinkDongleId"
-            ],
-            "docUrl": "https://docs.sunnypilot.ai/features/connected/sunnylink/"
-        },
-        {
-            "id": "hkg_tuning",
-            "name": "HKG Tuning",
-            "fullName": "Hyundai Longitudinal Tuning",
-            "category": "Vehicle Specific",
-            "officialDefinition": "Spezifische Längsführungsprofile für Fahrzeuge der HKG-Gruppe zur Optimierung von Ansprechverhalten und HDA-Status.",
-            "userSummary": "Optimiertes Ansprechverhalten für Hyundai, Kia und Genesis.",
-            "userTranslation": "\"Hyundai Gaspedal-Tuning.\" Verhindert träge Beschleunigung beim Wiederanfahren für ein dynamischeres Fahrgefühl.",
-            "settingsKeys": [
-                "HyundaiLongitudinalTuning"
-            ],
-            "docUrl": "https://community.sunnypilot.ai/t/hyundai-longitudinal-tuning-implementation-in-sunnypilot/243"
-        }
-    ],
-    "glossary": {
-        "ACC": "Adaptive Cruise Control - Maintains set speed and follows traffic",
-        "ALC": "Automatic Lane Centering / Automatic Lane Change - Keeps car centered or changes lanes automatically",
-        "BSM": "Blind Spot Monitoring - Vehicle sensors detecting cars in adjacent lanes",
-        "DEC": "Dynamic Experimental Control - Contextual switching between Chill and Experimental mode",
-        "E2E": "End-to-End - AI neural network that directly predicts vehicle driving path",
-        "ESCC": "Enhanced Smart Cruise Control - Hyundai/Kia cruise management and button integration",
-        "Firehose": "Large-scale automated driving telemetry upload system contributing to driving model training",
-        "HDA": "Highway Driving Assist - Hyundai/Kia native factory highway system",
-        "HKG": "Hyundai/Kia/Genesis - South Korean automotive platform family",
-        "ICBM": "Intelligent Cruise Button Management - Electronically manages steering wheel cruise buttons",
-        "LDW": "Lane Departure Warning - Visual/haptic warnings when drifting out of lane",
-        "MADS": "Modular Assistive Driving System - sunnypilot exclusive decoupled steering and cruise architecture",
-        "MICI": "comma four hardware platform code designation",
-        "NNLC": "Neural Network Lateral Control - Deep learning model predicting steering trajectories",
-        "OSM": "OpenStreetMap - Open-source global map database used for offline curvature and speed limits",
-        "PID": "Proportional-Integral-Derivative - Classic mathematical feedback controller for steering",
-        "SDSU": "Smart DSU - Aftermarket hardware interceptor for older Toyota radar cruise support",
-        "SLA": "Speed Limit Assist - Automatic cruise set-speed adjustment based on legal road limits",
-        "SCC-M": "Smart Cruise Control Map - Curve speed reduction based on OSM map geometry",
-        "SCC-V": "Smart Cruise Control Vision - Curve speed reduction based on front camera perception",
-        "TICI": "comma 3 hardware platform code designation",
-        "TIZI": "comma 3X hardware platform code designation",
-        "TSR": "Traffic Sign Recognition - Camera-based detection of road speed limit signs",
-        "UEM": "Unified Engagement Mode - Single button engagement option for MADS",
-        "WMI": "World Model Iteration - Advanced E2E model architecture",
-        "ZSS": "Zorro Steering Sensor - High-resolution optical steering angle sensor for older Toyotas"
+  "appName": "Sunnylink Database",
+  "version": "2026.002",
+  "dataSource": "Official Sunnypilot Documentation, release notes, and linked upstream development proposals / issue reports",
+  "lastUpdated": "2026-10-25",
+  "features": [
+    {
+      "id": "mads",
+      "name": "M.A.D.S.",
+      "fullName": "Modulares Fahrassistenzsystem",
+      "category": "Core Control",
+      "officialDefinition": "Entkoppelt die Quersteuerung (Lenkung) von der Längssteuerung (Gas/Bremse), sodass das Fahrzeug auch dann selbst lenken kann, wenn der Tempomat deaktiviert ist.",
+      "userSummary": "Die Lenkung bleibt eingeschaltet, auch wenn Sie bremsen oder im Leerlauf fahren.",
+      "userTranslation": "„Always-On-Lenkung.“ Das Auto lenkt für Sie, auch wenn Sie die Geschwindigkeit vollständig kontrollieren. Sie können rollen, bremsen oder beschleunigen, ohne dass sich die Lenkung ausschaltet. Bremshalten ist eine separate Bedingung: Offene PRs Nr. 2031 und Nr. 2039 bieten Pausen-/Eingriffsschutz. Ein normales Bremspedalverhalten garantiert nicht, dass die Lenkung während des Bremsens aktiv bleibt.",
+      "settingsKeys": [
+        "MadsEnabled",
+        "MadsSteeringMode",
+        "MadsMainCruiseAllowed",
+        "MadsUnifiedEngagementMode"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/modular-assistive-driving-system-m-a-d-s-features-and-functionality/245"
+    },
+    {
+      "id": "nnlc",
+      "name": "NNLC",
+      "fullName": "Laterale Kontrolle eines neuronalen Netzwerks",
+      "category": "Core Control",
+      "officialDefinition": "Ein für das Fahrzeug trainiertes neuronales Netz berechnet Lenkbefehle anstelle eines herkömmlichen Querreglers. Es ersetzt weder das Fahrmodell noch dessen Pfadvorhersage.",
+      "userSummary": "KI-basierte Lenksteuerung. Hinweis: Schließt sich gegenseitig mit Enforce Torque Control aus.",
+      "userTranslation": "Erfordert ein trainiertes Modell für Ihr Fahrzeug und eine drehmomentbasierte Lenkung; Fahrzeuge mit Winkelsteuerung sind ausgeschlossen. Im Stand konfigurieren. NNLC und Enforce Torque Control schließen sich aus. Issue #2019 beschreibt Schwingungen bei niedriger Geschwindigkeit bei einer Prius-Prime/Chestnut-Konfiguration und belegt keinen Fehler bei allen Fahrzeugen.",
+      "settingsKeys": [
+        "NeuralNetworkLateralControl"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/neural-network-lateral-control-nnlc/246"
+    },
+    {
+      "id": "blinker_pause",
+      "name": "Blinkerpause",
+      "fullName": "Blinkerpause, seitliche Steuerung",
+      "category": "Core Control",
+      "officialDefinition": "Pausiert die Lenkassistenz bei aktivem Blinker unterhalb der eingestellten Geschwindigkeitsschwelle. Oberhalb bleibt sie aktiv. Nach dem Ausschalten des Blinkers wird sie nach der eingestellten Verzögerung fortgesetzt.",
+      "userSummary": "Gibt die manuelle Lenkung zurück, während Ihr Blinker blinkt.",
+      "userTranslation": "Geschwindigkeitsschwelle und Wiederaufnahmeverzögerung bestimmen, wann der Blinker Ihnen die Lenkung überlässt. Diese Funktion ist vom automatischen Spurwechsel getrennt.",
+      "settingsKeys": [
+        "BlinkerPauseLateralControl",
+        "BlinkerMinLateralControlSpeed"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/blinker-pause-lateral-control/3676"
+    },
+    {
+      "id": "torque_control",
+      "name": "Drehmomentkontrolle",
+      "fullName": "Drehmomentlenkung und Selbstabstimmung",
+      "category": "Core Control",
+      "officialDefinition": "Ein moderner Querregler, der anhand von Querbeschleunigung, Reibung und Fahrzeugdynamik genau das benötigte Drehmoment des Lenkmotors berechnet. Verfügt über einen adaptiven Selbstoptimierungsalgorithmus, der die Lenkreaktion in Echtzeit kontinuierlich verfeinert.",
+      "userSummary": "Präzise Drehmomentlenkung mit adaptiver Selbstoptimierung in Echtzeit.",
+      "userTranslation": "„Adaptive Drehmomentlenkung.“ Ersetzt ältere Lenkmethoden durch ein hochpräzises Drehmomentmodell. Wenn Ihr Auto in Kurven schwankt oder sich schlampig anfühlt, kann sunnypilot durch Einschalten von Self-Tune automatisch den Lenkwiderstand und die Lenkstärke für Ihr spezifisches Auto einstellen.",
+      "settingsKeys": [
+        "EnforceTorqueControl",
+        "SelfTune",
+        "LessRestrictSettingsForSelfTune",
+        "EnableCustomTorqueTuning",
+        "ManualTuneFriction",
+        "TorqueControlTuneVersion",
+        "ManualRealTimeTuning"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/torque-settings/3688"
+    },
+    {
+      "id": "dec",
+      "name": "DEC",
+      "fullName": "Dynamische experimentelle Kontrolle",
+      "category": "Core Control",
+      "officialDefinition": "Frühere situationsabhängige Umschaltung zwischen den Längsregelungsmodi Chill und Experimental. PR #2056 entfernte DEC am 16. Oktober 2026 aus master; auch der geprüfte dev-Build enthält es nicht mehr, staging dagegen weiterhin.",
+      "userSummary": "Frühere Modusumschaltung; aus aktuellem master und dev entfernt.",
+      "userTranslation": "Prüfen Sie den installierten Branch. DEC fehlt in geprüftem master/dev und bleibt in geprüftem staging erhalten. Daraus folgt keine Entfernung aus älteren getaggten Releases. Der Assistent empfiehlt diese branchabhängige Einstellung nicht mehr automatisch.",
+      "settingsKeys": [
+        "DynamicExperimentalControl"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/dynamic-experimental-control/242"
+    },
+    {
+      "id": "quiet_mode",
+      "name": "Leiser Modus",
+      "fullName": "Funktion „Ruhemodus“.",
+      "category": "Core Control",
+      "officialDefinition": "Unterdrückt unkritische Audiowarnungen und Signaltöne während der Fahrt. Der sunnypilot gibt nur in Situationen Alarme aus, die eine sofortige Aufmerksamkeit des Fahrers erfordern, sodass die visuelle Rückmeldung aktiv bleibt und routinemäßige Signaltöne in der Kabine entfallen.",
+      "userSummary": "Schaltet unkritische Glocken stumm und behält gleichzeitig Sicherheitsalarme bei.",
+      "userTranslation": "„Stilles Cruisen.“ Schaltet routinemäßige Signaltöne und Glockentöne aus, damit Sie leise Musik hören oder sich unterhalten können, ertönt aber trotzdem ein lauter Notfallalarm, wenn Sie sofort übernehmen müssen.",
+      "settingsKeys": [
+        "QuietMode"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/quiet-mode-feature/3744"
+    },
+    {
+      "id": "icbm",
+      "name": "ICBM",
+      "fullName": "Intelligentes Cruise-Button-Management",
+      "category": "Compatibility",
+      "officialDefinition": "Ein System zur Steuerung der Fahrzeuggeschwindigkeit durch elektronisches „Drücken“ der nativen Geschwindigkeitsregelungstasten des Fahrzeugs (RES+/SET-), um die vollständige Längskontrolle bei Fahrzeugen nachzuahmen, die diese Funktion nicht nativ unterstützen.",
+      "userSummary": "Ermöglicht eine intelligente Geschwindigkeitsregelung bei nicht unterstützten Fahrzeugen durch Simulation von Tastendrücken.",
+      "userTranslation": "„Kreuzfahrt-Hacker.“ Wenn Ihr Auto die vollautomatische Gas-/Bremsfunktion nicht unterstützt, simuliert diese Funktion Ihre Lenkradtasten, um das Auto zu zwingen, bei Kurven oder Geschwindigkeitsbegrenzungen langsamer zu fahren. SCC-L ist eine in Ausgabe Nr. 1846 vorgeschlagene Erweiterung, um die Modelllängsausgabe als ICBM-Geschwindigkeitszielquelle zu verwenden. Es handelt sich nicht um eine verfügbare SCC-V/SCC-M-Option.",
+      "settingsKeys": [
+        "IntelligentCruiseButtonManagement"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/intelligent-cruise-button-management-icbm/244"
+    },
+    {
+      "id": "scc_v",
+      "name": "SCC-V",
+      "fullName": "Intelligente Geschwindigkeitsregelung – Vision (SCC-V)",
+      "category": "Speed Control",
+      "officialDefinition": "Smart Cruise Control – Vision (SCC-V) nutzt Kamerasichtdaten, um die Geschwindigkeit Ihres Fahrzeugs proaktiv anzupassen, indem es die Krümmung der Straße vor Ihnen berechnet.",
+      "userSummary": "Verlangsamt sich bei Kurven, die es mit der Kamera erkennt.",
+      "userTranslation": "„Kurvenverlangsamung im Auge.“ Das Auto erkennt eine scharfe Kurve und bremst vor dem Einfahren in die Kurve sanft ab, so wie es ein menschlicher Fahrer tun würde.",
+      "settingsKeys": [
+        "VisionBasedTurnSpeedControl"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/smart-cruise-control-using-camera-vision-for-proactive-speed-adjustment/248"
+    },
+    {
+      "id": "scc_m",
+      "name": "SCC-M",
+      "fullName": "Kartenbasierte Abbiegegeschwindigkeitskontrolle",
+      "category": "Speed Control",
+      "officialDefinition": "Verwendet OpenStreetMap (OSM)-Daten, um bevorstehende Straßenkrümmungen zu antizipieren und die eingestellte ACC-Geschwindigkeit mithilfe einer ruckbasierten Entfernungsplanung entsprechend zu senken.",
+      "userSummary": "Verlangsamt sich bei Kurven mithilfe von Kartendaten.",
+      "userTranslation": "„Kartenbasierte Kurvenverlangsamung.“ Das Auto schaut auf die Karte, sieht eine Kurve vor sich und wird langsamer, bevor man sie überhaupt sehen kann.",
+      "settingsKeys": [
+        "SmartCruiseControlMap"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/smart-cruise-control-map-scc-m-feature-description/247"
+    },
+    {
+      "id": "sla",
+      "name": "SLA",
+      "fullName": "Geschwindigkeitsbegrenzungsassistent",
+      "category": "Speed Control",
+      "officialDefinition": "Liest Geschwindigkeitslimits aus den vom Fahrzeug gelieferten Schilddaten und heruntergeladenen Karten. Off, Information, Warning und Assist bestimmen Anzeige und Nutzung; Geschwindigkeitsanpassungen hängen von Längsregelung oder ICBM und den Bestätigungsregeln ab.",
+      "userSummary": "Zeigt Limits an oder warnt; Assist kann bei kompatibler Konfiguration die Tempomatgeschwindigkeit steuern.",
+      "userTranslation": "Assist ist kein uneingeschränkter automatischer SET-Modus. Je nach Fahrzeugkonfiguration und Geschwindigkeit kann eine Bestätigung über die Tempomattasten erforderlich sein. PR #2042 schlägt einen optionalen kartengestützten Auto-SET-Modus ausschließlich für Honda City 7G mit openpilot-Längsregelung und Nicht-PCM-Tempomat vor. Der PR ist offen und nicht zusammengeführt; die Prüfung der tatsächlichen Instrumentenanzeige steht aus. Quelle: https://github.com/sunnypilot/sunnypilot/pull/2042",
+      "settingsKeys": [
+        "SpeedLimitAssistMode",
+        "SpeedLimitSource",
+        "SpeedLimitOffsetType",
+        "SpeedLimitOffsetValue"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/speed-limit-assist/249"
+    },
+    {
+      "id": "custom_acc",
+      "name": "Benutzerdefinierte ACC",
+      "fullName": "Benutzerdefinierte ACC-Inkremente",
+      "category": "Speed Control",
+      "officialDefinition": "Ermöglicht die Konfiguration der Geschwindigkeitserhöhungs-/-verringerungswerte für kurzes Drücken (z. B. ±1) und langes Drücken (z. B. ±5) der Tempomattasten.",
+      "userSummary": "Ordnen Sie die Geschwindigkeitserhöhungswerte der Cruise-Tasten neu zu.",
+      "userTranslation": "„Button Step Sizer.“ Passen Sie Ihre Lenkradtasten so an, dass sich die Geschwindigkeit durch einmaliges Tippen um 1 mph ändert und durch Gedrückthalten um 5 mph (oder eine beliebige Schrittgröße Ihrer Wahl) springt.",
+      "settingsKeys": [
+        "CustomAccIncrements",
+        "CustomAccShortPressIncrement",
+        "CustomAccLongPressIncrement"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/custom-acc-increments/241"
+    },
+    {
+      "id": "alpha_longitudinal",
+      "name": "Alpha-Längsrichtung",
+      "fullName": "sunnypilot Längssteuerung (Alpha)",
+      "category": "Speed Control",
+      "officialDefinition": "sunnypilots maßgeschneiderte interne Längssteuerungsimplementierung. Bietet eine verfeinerte Glättung der Beschleunigung, Kriechen bei stehendem Fahrzeug und ein verbessertes Stop-and-Go-Verhalten im Vergleich zum serienmäßigen OEM-Cruise.",
+      "userSummary": "Der benutzerdefinierte Gas- und Bremssteuerungsalgorithmus von sunnypilot.",
+      "userTranslation": "„Custom Gas & Brake.“ Ersetzt die werkseitige Radar-Geschwindigkeitsregelung Ihres Autos durch die eigene Gas- und Bremslogik von sunnypilot und ermöglicht so sanftere Verlangsamungen und individuelle Auto-Folgeabstände.",
+      "settingsKeys": [
+        "AlphaLongitudinal",
+        "LongitudinalManeuverMode"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/alpha-longitudinal/1329"
+    },
+    {
+      "id": "alc",
+      "name": "ALC",
+      "fullName": "Automatischer Spurwechsel",
+      "category": "Navigation",
+      "officialDefinition": "Leitet einen Spurwechsel nach einer Blinkereingabe und einem konfigurierbaren Verzögerungstimer ein, ohne dass ein Drehmoment-„Anstoß“ am Lenkrad erforderlich ist. Integriert sich zur Sicherheit in die Überwachung des toten Winkels (BSM).",
+      "userSummary": "Blinker antippen -> Auto fährt nach Sicherheitscheck automatisch um.",
+      "userTranslation": "„Freihändiger Spurwechsel.“ Sie betätigen den Blinker, sunnypilot überprüft, ob der tote Winkel frei ist, wartet auf Ihren bevorzugten Verzögerungstimer und führt automatisch einen sanften Spurwechsel durch.",
+      "settingsKeys": [
+        "AutoLaneChangeTimer",
+        "AutoLaneChangeBsmDelay"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/auto-lane-change/240"
+    },
+    {
+      "id": "osm_maps",
+      "name": "OSM Karten",
+      "fullName": "OpenStreetMap Offline-Navigation und Geometrie",
+      "category": "Navigation",
+      "officialDefinition": "Integriert heruntergeladene OpenStreetMap (OSM) Vektordaten auf dem Gerät. Bietet Offline-Straßengeometrie, Kurvenkrümmung und überprüfte Geschwindigkeitsbegrenzungen, ohne dass während Ihrer Fahrt eine Mobilfunkabdeckung erforderlich ist.",
+      "userSummary": "Offline-Karten für Kurvenverlangsamung und Geschwindigkeitsbegrenzungen.",
+      "userTranslation": "„Offline-Straßenwissen.“ Lädt Karten direkt auf den Speicher Ihres Geräts herunter, sodass sunnypilot Geschwindigkeitsbegrenzungen und scharfe bevorstehende Kurven erkennt, selbst wenn Sie durch abgelegene Gebiete ohne Mobilfunkempfang fahren.",
+      "settingsKeys": [
+        "SmartCruiseControlMap",
+        "DisplayRoadName",
+        "SpeedLimitSource",
+        "MapAdvisorySpeedLimit"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/osm-maps-integration/3708"
+    },
+    {
+      "id": "hud_visuals",
+      "name": "HUD & Visuals",
+      "fullName": "Benutzerdefinierte Onroad-HUD-Visualisierungen und -Metriken",
+      "category": "Display & Visuals",
+      "officialDefinition": "Eine Reihe von HUD-Overlays für den Fahrbildschirm, darunter Echtzeitbeschleunigung (Rocket Fuel Bar), Abstands- und Geschwindigkeitsmetriken des vorausfahrenden Fahrzeugs unterhalb des Chevrons, Stillstandstimer, echte Tachometerwerte und visuelle Warnungen vor toten Winkeln.",
+      "userSummary": "Benutzerdefinierte Fahrbildschirm-Telemetrie, Beschleunigungsbalken und führende Fahrzeugstatistiken.",
+      "userTranslation": "„Pro HUD Dash.“ Verbessert Ihren Bildschirm mit umfassender Telemetrie: Sehen Sie die genaue Entfernung und Geschwindigkeit des vorausfahrenden Fahrzeugs, eine farbcodierte G-Kraft-Beschleunigungsleiste und wie lange Sie an einer roten Ampel angehalten haben.",
+      "settingsKeys": [
+        "DisplayRocketFuelBar",
+        "ChevronInfo",
+        "StandstillTimer",
+        "TrueVEgoUI",
+        "HideVEgoUI",
+        "ShowTurnSignals",
+        "BlindSpotDetection",
+        "DeveloperUIInfo",
+        "SteeringArc",
+        "RainbowMode"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/hud-visuals/3678"
+    },
+    {
+      "id": "driving_models",
+      "name": "Modelle & KI",
+      "fullName": "Fahrmodellauswahl und KI-Konfiguration",
+      "category": "Models & AI",
+      "officialDefinition": "Ermöglicht das Umschalten und Testen verschiedener Fahrmodelle für visuelle neuronale Netze direkt auf dem Gerät. Konfigurieren Sie erweiterte Modellparameter, einschließlich Spurwechselwünsche, Lenkverzögerung beim Live-Lernen und Verzögerung der Kamerasoftware.",
+      "userSummary": "KI-Modellumschalter in der Kabine mit Feinabstimmungsparametern.",
+      "userTranslation": "Geprüfte master-, dev- und staging-Branches nutzen jetzt Selector 21, Chestnut v28 und Qualcomm v25 mit Mountain Dew Model v3 als Standard-Big-Model. Ältere Builds verwenden andere Kataloge. Hardware und Branch prüfen; im Stand ohne laufenden Download aktualisieren. Clear Cache löscht heruntergeladene Modelle.",
+      "settingsKeys": [
+        "DrivingModel",
+        "ModelLibrary",
+        "LaneTurnDesire",
+        "AdjustLaneTurnSpeed",
+        "LiveLearningSteerDelay",
+        "ManualSoftwareDelay",
+        "AdjustCameraOffset",
+        "RefreshModelList",
+        "ClearModelCache"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/models-ai/3679"
+    },
+    {
+      "id": "sunnylink",
+      "name": "sunnylink",
+      "fullName": "sunnylink Verbundene Dienste und Remote-Konfiguration",
+      "category": "Connected Services",
+      "officialDefinition": "Das Cloud-Backend-System von sunnypilot verbindet Ihr Gerät mit dem Web-Management-Dashboard. Ermöglicht automatische Sicherung und Wiederherstellung der Konfiguration, GitHub-Sponsoring-Synchronisierung und Remote-Parameterumschaltung.",
+      "userSummary": "Cloud-Backup, Web-Dashboard und Remote-Parameterverwaltung.",
+      "userTranslation": "„Cloud-Begleiter.“ Verbindet Ihr Gerät mit sunnylink.ai, sodass Sie Ihre Einstellungen sichern, Parameter von Ihrem Telefon aus optimieren und Ihr GitHub-Konto für Sponsorfunktionen verknüpfen können.",
+      "settingsKeys": [
+        "EnableSunnylinkUploader",
+        "CompletedSunnylinkConsentVersion",
+        "SunnylinkDongleId"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/sunnylink-connected-services/3707"
+    },
+    {
+      "id": "hkg_tuning",
+      "name": "HKG Tuning",
+      "fullName": "Hyundai Längsabstimmung",
+      "category": "Vehicle Specific",
+      "officialDefinition": "Wendet spezifische Tuning-Profile („Stock“ oder „Dynamic“) auf die Längssteuerungsrichtlinie für Hyundai/Kia/Genesis (HKG)-Fahrzeuge an. Integriert sich in den Status des nativen Highway Driving Assist (HDA).",
+      "userSummary": "Ansprechverhalten des Gaspedals für Hyundai/Kia/Genesis.",
+      "userTranslation": "„Hyundai Gaspedal-Reparatur.“ Wenn Ihr Kia/Hyundai zu langsam beschleunigt oder sich beim Wiederanfahren aus Stopps träge anfühlt, verbessert die Umstellung auf „Dynamisch“ die Gasannahme.",
+      "settingsKeys": [
+        "HyundaiLongitudinalTuning"
+      ],
+      "docUrl": "https://community.sunnypilot.ai/t/hyundai-longitudinal-tuning-implementation-in-sunnypilot/243"
+    },
+    {
+      "id": "speed_dependent_steering_delay",
+      "name": "Geschwindigkeitsabhängige Lenkverzögerung (Open PR)",
+      "fullName": "Geschwindigkeitsabhängige Lenkverzögerung (Open PR)",
+      "category": "Core Control",
+      "officialDefinition": "PR #2029 schlägt eine geschwindigkeitsabhängige feste Lenkverzögerung vor, wenn das Live-Lernen deaktiviert ist: Ein Stadtschub wird mit der Autobahnverzögerung überblendet.",
+      "userSummary": "Entwicklungsvorschlag: Verbesserung von Kurvenfahrten bei niedriger Geschwindigkeit ohne übermäßige Verzögerung auf der Autobahn.",
+      "userTranslation": "City Delay Boost wird unter „Modelle“ vorgeschlagen. Dies gilt nur, wenn das Lernen der Live-Lenkverzögerung ausgeschaltet ist. Es ist nicht in einer stabilen Version bestätigt.",
+      "settingsKeys": [],
+      "docUrl": "https://github.com/sunnypilot/sunnypilot/pull/2029"
+    },
+    {
+      "id": "smooth_final_stop",
+      "name": "Sanfte Endbremsung (Entwurf)",
+      "fullName": "Sanfte Endbremsung (Entwurf)",
+      "category": "Speed Control",
+      "officialDefinition": "Der PR-Entwurf Nr. 2034 passt den Stoppübergang der Längssteuerung an, um abruptes Bremsen am Endstopp zu reduzieren.",
+      "userSummary": "Verbesserung des Zugreglers für einen weicheren Endstopp.",
+      "userTranslation": "Gilt, wenn sunnypilot Beschleunigung und Bremsen steuert. Es ist kein unabhängiges Umschalten dokumentiert, und der Standard-ACC erhält dieses Verhalten nicht durch eine Wiki-Einstellung.",
+      "settingsKeys": [],
+      "docUrl": "https://github.com/sunnypilot/sunnypilot/pull/2034"
+    },
+    {
+      "id": "chestnut_runtime",
+      "name": "Chestnut Runtime & Power (Entwicklung)",
+      "fullName": "Chestnut Runtime & Power (Entwicklung)",
+      "category": "Models & AI",
+      "officialDefinition": "Chestnut GPU-Modelle sind bereits katalogisiert. Open PR #2035 schlägt vor, die Größe der comma 3X-Frames vor der einheitlichen Übertragung des AMD-Modells auf 1344×760 zu ändern; open PR #2023 schlägt eine GPU-Leistungsbegrenzung vor, die über sunnylink einstellbar ist.",
+      "userSummary": "Entwicklungsaktualisierungen für die Frameübertragung comma 3X und die Energieverwaltung Chestnut.",
+      "userTranslation": "Eine Größenänderung verringert die Übertragungsbandbreite der Kamera. es erfordert den entsprechenden Laufzeitzweig und kompatible Chestnut-Hardware. Die vorgeschlagene Leistungsgrenze liegt bei 0 für die Standardversion oder bei 40–100 W, die über erweiterte sunnylink-Geräteeinstellungen für comma four festgelegt wird.",
+      "settingsKeys": [],
+      "docUrl": "https://github.com/sunnypilot/sunnypilot/pull/2035"
+    },
+    {
+      "id": "model_runtime_startup",
+      "name": "Fehlerbehebung beim Modelllaufzeitstart",
+      "fullName": "Fehlerbehebung beim Modelllaufzeitstart",
+      "category": "Models & AI",
+      "officialDefinition": "PR #1999 schlug Änderungen für eine irreführende Posenet-NaN-Geschwindigkeitswarnung beim Start kompilierter Modelle vor, wurde aber am 16. Oktober 2026 ohne Merge geschlossen.",
+      "userSummary": "Ein Initialisierungsfehler kann als Posenet-Geschwindigkeitsfehler erscheinen.",
+      "userTranslation": "PR #1999 ist keine verfügbare Fehlerbehebung. Anhaltende Warnungen erfordern weiterhin eine Laufzeitdiagnose; das Leeren des Modellcaches allein belegt keine Reparatur.",
+      "settingsKeys": [],
+      "docUrl": "https://github.com/sunnypilot/sunnypilot/pull/1999"
+    },
+    {
+      "id": "sunnylink_oidc",
+      "name": "Authentifizierung durch Dritte (erforderlich)",
+      "fullName": "Authentifizierung durch Dritte (erforderlich)",
+      "category": "Connected Services",
+      "officialDefinition": "Problem Nr. 1857 erfordert eine OIDC-Geräteautorisierungserteilung oder eine Home Assistant-OAuth-Umleitung für vom Benutzer autorisierte sunnylink API-Integrationen.",
+      "userSummary": "Angeforderter Authentifizierungsablauf für Home Assistant und andere Integrationen.",
+      "userTranslation": "Keiner der angeforderten Abläufe ist als aktiviert dokumentiert. Geräteanmeldeinformationen und Benutzer-OAuth-Tokens erfüllen unterschiedliche Rollen. Befolgen Sie die Anweisungen zur unterstützten Autorisierung, bevor Sie versuchen, die Integration einzurichten.",
+      "settingsKeys": [],
+      "docUrl": "https://github.com/sunnypilot/sunnypilot/issues/1857"
+    },
+    {
+      "id": "ota_update_troubleshooting",
+      "name": "Fehlerbehebung bei Software-Updates",
+      "fullName": "Fehlerbehebung bei Software-Updates",
+      "category": "Installation & Troubleshooting",
+      "officialDefinition": "Offenes Problem Nr. 2020 berichtet, dass die Zündung vor dem Tippen auf „Jetzt installieren“ dazu führen kann, dass ein bereits vorbereitetes OTA-Update verworfen wird.",
+      "userSummary": "Installieren Sie vorbereitete Updates im geparkten Zustand, bevor Sie die Zündung starten.",
+      "userTranslation": "Lassen Sie die Installation und den Neustart vor der Zündung abschließen. Wenn „Jetzt installieren“ nicht mehr angezeigt wird, kehren Sie mit nicht gemessenem WLAN ins Gelände zurück und lassen Sie den Aktualisierungsvorgang erneut durchführen und vorbereiten. Dem Bericht zufolge kann sich die gemessene Wiederherstellung um bis zu drei Tage verzögern.",
+      "settingsKeys": [],
+      "docUrl": "https://github.com/sunnypilot/sunnypilot/issues/2020"
+    },
+    {
+      "id": "jetlink",
+      "name": "Jetlink (Geschlossener Vorschlag)",
+      "fullName": "Jetlink (Geschlossener Vorschlag)",
+      "category": "Models & AI",
+      "officialDefinition": "PR #2001 schlug eine externe NVIDIA-Jetson-Beschleunigung gegenüber USB für große Fahrmodelle vor und wurde ohne Zusammenführung geschlossen.",
+      "userSummary": "Experimenteller Jetson-Offload-Vorschlag; keine von Upstreams veröffentlichte Funktion.",
+      "userTranslation": "Der Vorschlag nutzte einen separaten ONNX-Katalog und eine TensorRT-Vorbereitung im geparkten Zustand sowie ein lokales kleines Modell während des Starts oder der Wiederherstellung. Vorhandene QCOM-Modellpakete sind keine TensorRT-Eingaben. Die geschlossene PR stellt keine unterstützte Verfügbarkeit her.",
+      "settingsKeys": [],
+      "docUrl": "https://github.com/sunnypilot/sunnypilot/pull/2001"
+    },
+    {
+      "id": "staging_2026_003",
+      "name": "2026.003.000 Entwicklungsmeilenstein",
+      "fullName": "2026.003.000 Entwicklungsmeilenstein",
+      "category": "Device & Hardware",
+      "officialDefinition": "Meilenstein Nr. 6 umfasst die offene PR Nr. 1741 für einen konfigurierbaren Niederspannungs-Abschaltschwellenwert und die offene PR Nr. 1767 für eine detaillierte Straßenansicht comma four (MICI).",
+      "userSummary": "Geplante Arbeiten an der Stromversorgung und am Display werden noch geprüft.",
+      "userTranslation": "Überprüfen Sie Ihren Build und die einzelnen PRs. Der Meilenstein ist offen und bedeutet nicht, dass diese Änderungen in allen Staging- oder Release-Zweigen ausgeliefert wurden.",
+      "settingsKeys": [],
+      "docUrl": "https://github.com/sunnypilot/sunnypilot/milestone/6"
+    },
+    {
+      "id": "hkg_dynamic_torque",
+      "name": "HKG Dynamisches Lenkmoment (angefragt)",
+      "fullName": "HKG Dynamisches Lenkmoment (angefragt)",
+      "category": "Vehicle Specific",
+      "officialDefinition": "In der offenen Ausgabe Nr. 1052 wird vorgeschlagen, Lenkmomentgrenzen für Hyundai, Kia und Genesis dynamisch abzuleiten, anstatt sich nur auf feste Plattformtabellen zu verlassen.",
+      "userSummary": "Vorgeschlagene adaptive EPS Drehmomentgrenzen; keine verfügbare Einstellung.",
+      "userTranslation": "Dies bleibt eine Funktionsanfrage. Es erlaubt weder das Überschreiben von Fahrzeugsicherheitsgrenzwerten noch die automatische Erkennung von EPS-Grenzwerten in veröffentlichten Builds.",
+      "settingsKeys": [],
+      "docUrl": "https://github.com/sunnypilot/sunnypilot/issues/1052"
+    },
+    {
+      "id": "scc_l",
+      "name": "SCC-L (angefragt)",
+      "fullName": "SCC-L (angefragt)",
+      "category": "Speed Control",
+      "officialDefinition": "In der offenen Ausgabe Nr. 1846 wird vorgeschlagen, die Modelllängsausgabe als ICBM-Zielquelle für die Reisegeschwindigkeit zu verwenden.",
+      "userSummary": "Antrag auf Erweiterung der Interkontinentalrakete um Längsmodell-Hinweise.",
+      "userTranslation": "Die vorhandene Dokumentation zu ICBM und SCC-V/SCC-M gilt weiterhin. Für SCC-L gibt es keine bestätigte Implementierung oder keinen zu aktivierenden Parameter.",
+      "settingsKeys": [],
+      "docUrl": "https://github.com/sunnypilot/sunnypilot/issues/1846"
     }
+  ],
+  "glossary": {
+    "ACC": "Adaptive Geschwindigkeitsregelung – Hält die eingestellte Geschwindigkeit bei und folgt dem Verkehr",
+    "ALC": "Automatische Spurzentrierung/automatischer Spurwechsel – Hält das Fahrzeug in der Mitte oder wechselt automatisch die Spur",
+    "BSM": "Überwachung des toten Winkels – Fahrzeugsensoren erkennen Autos auf Nebenspuren",
+    "DEC": "Dynamic Experimental Control — frühere Modusumschaltung; aus aktuellem master/dev entfernt, in geprüftem staging erhalten.",
+    "E2E": "End-to-End – KI-Neuronales Netzwerk, das den Fahrweg des Fahrzeugs direkt vorhersagt",
+    "ESCC": "Verbesserte intelligente Geschwindigkeitsregelung – Hyundai/Kia Geschwindigkeitsregelung und Tastenintegration",
+    "Firehose": "Groß angelegtes Telemetrie-Upload-System für automatisiertes Fahren, das zum Training von Fahrmodellen beiträgt",
+    "HDA": "Autobahn-Fahrassistent – Hyundai/Kia natives werkseitiges Autobahnsystem",
+    "HKG": "Hyundai/Kia/Genesis – südkoreanische Automobilplattformfamilie",
+    "ICBM": "Intelligente Steuerung der Tempomattasten – Verwaltet die Tempomattasten am Lenkrad elektronisch",
+    "LDW": "Spurverlassenswarnung – Visuelle/haptische Warnungen beim Verlassen der Spur",
+    "MADS": "Modulares Fahrassistenzsystem – sunnypilot exklusive entkoppelte Lenk- und Cruise-Architektur",
+    "MICI": "comma four Codebezeichnung der Hardwareplattform",
+    "NNLC": "Neuronale Netzwerk-Lateralsteuerung – Deep-Learning-Modell zur Vorhersage von Lenktrajektorien",
+    "OSM": "OpenStreetMap – Open-Source-Datenbank für globale Karten, die für Offline-Krümmungs- und Geschwindigkeitsbegrenzungen verwendet wird",
+    "PID": "Proportional-Integral-Derivativ – Klassischer mathematischer Rückkopplungsregler für die Lenkung",
+    "SDSU": "Smart DSU – Aftermarket-Hardware-Abfangjäger für ältere Toyota-Radar-Kreuzfahrtunterstützung",
+    "SLA": "Geschwindigkeitsbegrenzungsassistent – Automatische Anpassung der eingestellten Geschwindigkeit basierend auf gesetzlichen Straßenbegrenzungen",
+    "SCC-M": "Smart Cruise Control Map – Reduzierung der Kurvengeschwindigkeit basierend auf der OSM-Kartengeometrie",
+    "SCC-V": "Smart Cruise Control Vision – Reduzierung der Kurvengeschwindigkeit basierend auf der Wahrnehmung der Frontkamera",
+    "TICI": "comma 3 Codebezeichnung der Hardwareplattform",
+    "TIZI": "comma 3X Codebezeichnung der Hardwareplattform",
+    "TSR": "Verkehrszeichenerkennung – Kamerabasierte Erkennung von Geschwindigkeitsbegrenzungsschildern im Straßenverkehr",
+    "UEM": "Einheitlicher Eingriffsmodus – Einzelknopf-Eingriffsoption für MADS",
+    "WMI": "World Model Iteration – Erweiterte E2E-Modellarchitektur",
+    "ZSS": "Zorro Lenksensor – Hochauflösender optischer Lenkwinkelsensor für ältere Toyotas"
+  }
 }

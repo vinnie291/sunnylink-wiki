@@ -1,4 +1,7 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import { useState, useMemo, useEffect } from 'react';
 import dynamic from 'next/dynamic';
@@ -43,6 +46,7 @@ interface SettingsDatabaseProps {
     onClearCategories: () => void;
     categoryMeta: { id: string; name: string; icon: string; description?: string; count: number }[];
     highlightedKey: string | null;
+    selectedVehicle: string | null;
 }
 
 const INITIAL_RENDER_COUNT = 20;
@@ -69,8 +73,10 @@ export default function SettingsDatabase({
     onToggleCategory,
     onClearCategories,
     categoryMeta,
-    highlightedKey
+    highlightedKey,
+    selectedVehicle
 }: SettingsDatabaseProps) {
+  const tx = useTextTranslation();
     const { viewMode, setViewMode } = useViewMode('settings_page', 'grid');
     const { sentinelRef, isSticky } = useStickySearch();
     const { sidebarSentinelRef, isSidebarSticky } = useDesktopSidebarSticky();
@@ -235,15 +241,20 @@ export default function SettingsDatabase({
 
             {/* Main Content Area */}
             < div className="flex-1 min-w-0" >
+                {selectedVehicle && (
+                    <p role="status" className="mb-4 rounded-xl border border-cyan-500/25 bg-cyan-500/10 px-4 py-3 text-sm text-cyan-100">
+                         <TranslatedText text={"Showing settings relevant to"} /> <TranslatedText text={selectedVehicle} /><TranslatedText text={". Hardware and software availability is confirmed by your connected sunnypilot device."} /> </p>
+                )}
                 {/* Sentinel: marks the search bar's natural position */}
                 <div ref={sentinelRef} className="lg:hidden h-0" />
 
                 {/* Mobile Filters - Sticky only after scrolling past natural position */}
                 {/* Once it sticks, the bar rises into the row with the language, theme and
                     search buttons — the space the referral buttons vacate on scroll. */}
-                <div className={`lg:hidden -mx-4 px-4 pt-2 pb-4 space-y-4 mb-6 transition-all duration-300 sticky z-20 ${effectiveIsSticky ? 'top-3 sm:top-24' : 'top-16 sm:top-24'}`}>
-                    <div className={effectiveIsSticky ? 'pl-[136px] sm:pl-0 transition-all duration-300' : 'transition-all duration-300'}>
+                <div className={`lg:hidden -mx-4 px-4 pb-4 space-y-4 mb-6 transition-all duration-300 sticky z-20 ${effectiveIsSticky ? 'top-3 sm:top-8' : 'top-16 sm:top-24'}`}>
+                    <div className="transition-all duration-300" style={effectiveIsSticky ? { paddingLeft: 'max(0px, calc(var(--global-controls-right, 148px) - 4px))' } : undefined}>
                         <SearchFilter
+                            compact
                             value={searchQuery}
                             onChange={setSearchQuery}
                             resultCount={sortedSettings.length}
@@ -271,8 +282,8 @@ export default function SettingsDatabase({
                                 </>
                             ) : activeCategories.length === 1 ? (
                                 <>
-                                    <span>{categoryMeta.find(c => c.id === activeCategories[0])?.icon}</span>
-                                    {categoryMeta.find(c => c.id === activeCategories[0])?.name}
+                                    <span><TranslatedText text={categoryMeta.find(c => c.id === activeCategories[0])?.icon} /></span>
+                                    <TranslatedText text={categoryMeta.find(c => c.id === activeCategories[0])?.name} />
                                 </>
                             ) : activeCategories.length > 1 ? (
                                 <><span>⚖️</span> {t('settings.multipleCategories')}</>
@@ -281,12 +292,11 @@ export default function SettingsDatabase({
                             )}
                         </h2>
                         <p className="text-slate-400 text-sm">
-                            {searchQuery
+                            <TranslatedText text={searchQuery
                                 ? t('settings.searchFoundSettings', { count: sortedSettings.length, query: searchQuery })
                                 : activeCategories.length === 1
                                     ? categoryMeta.find(c => c.id === activeCategories[0])?.description
-                                    : t('settings.browseSettings')
-                            }
+                                    : t('settings.browseSettings')} />
                         </p>
                     </div>
 
@@ -299,7 +309,7 @@ export default function SettingsDatabase({
                             </label>
                             <select
                                 id="settings-sort"
-                                aria-label="Sort settings by"
+                                aria-label={tx("Sort settings by")}
                                 value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value)}
                                 className="
@@ -332,9 +342,9 @@ export default function SettingsDatabase({
                                         <table className="w-full text-left border-collapse">
                                             <thead>
                                                 <tr className="bg-slate-800/80 text-slate-400 text-sm uppercase tracking-wider">
-                                                    <th className="p-4 font-medium cursor-pointer hover:text-slate-100" onClick={() => handleSort('name')}>Setting Name</th>
-                                                    <th className="p-4 font-medium">Default Value</th>
-                                                    <th className="p-4 font-medium cursor-pointer hover:text-slate-100" onClick={() => handleSort('category')}>Category</th>
+                                                    <th className="p-4 font-medium cursor-pointer hover:text-slate-100" onClick={() => handleSort('name')}><TranslatedText text={"Setting Name"} /></th>
+                                                    <th className="p-4 font-medium"><TranslatedText text={"Default Value"} /></th>
+                                                    <th className="p-4 font-medium cursor-pointer hover:text-slate-100" onClick={() => handleSort('category')}><TranslatedText text={"Category"} /></th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-slate-800">
@@ -344,18 +354,18 @@ export default function SettingsDatabase({
                                                         className={`group hover:bg-slate-800/50 transition-colors ${highlightedKey === setting.key ? 'bg-cyan-500/10' : ''}`}
                                                     >
                                                         <td className="p-4">
-                                                            <div className="font-medium text-slate-100">{setting.label}</div>
-                                                            <div className="text-xs text-slate-400 font-mono mt-0.5">{setting.key}</div>
+                                                            <div className="font-medium text-slate-100"><TranslatedText text={setting.label} /></div>
+                                                            <div className="text-xs text-slate-400 font-mono mt-0.5"><TranslatedText text={setting.key} /></div>
                                                         </td>
                                                         <td className="p-4">
                                                             <span className={`text-sm font-medium ${hasDefaultValue(setting.default) ? 'text-emerald-400' : 'text-slate-400'}`}>
-                                                                {formatDefaultValue(setting.default)}
+                                                                <TranslatedText text={formatDefaultValue(setting.default)} />
                                                             </span>
                                                         </td>
                                                         <td className="p-4">
                                                             <div className="flex items-center gap-1.5 text-sm text-slate-400">
-                                                                <span>{setting.categoryIcon}</span>
-                                                                <span className="hidden sm:inline">{setting.categoryName}</span>
+                                                                <span><TranslatedText text={setting.categoryIcon} /></span>
+                                                                <span className="hidden sm:inline"><TranslatedText text={setting.categoryName} /></span>
                                                             </div>
                                                         </td>
                                                     </tr>

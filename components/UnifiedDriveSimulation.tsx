@@ -1,4 +1,7 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 /**
  * UnifiedDriveSimulation — Canvas2D drive simulator that renders the
@@ -80,6 +83,8 @@ interface Props {
 }
 
 export default function UnifiedDriveSimulation({ profile, seedKey, scenarioOverride, hideHud }: Props) {
+  const tx = useTextTranslation();
+    const translateRef = useRef(tx);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState(false);
@@ -134,6 +139,13 @@ export default function UnifiedDriveSimulation({ profile, seedKey, scenarioOverr
     const statusRef = useRef<HTMLSpanElement>(null);
     const speedValRef = useRef<HTMLSpanElement>(null);
     const labelRef = useRef<HTMLSpanElement>(null);
+    const rawStatusRef = useRef('SYSTEM ACTIVE');
+    const rawLabelRef = useRef(profile.label);
+    useEffect(() => {
+        translateRef.current = tx;
+        if (statusRef.current) statusRef.current.textContent = tx(rawStatusRef.current);
+        if (labelRef.current) labelRef.current.textContent = tx(rawLabelRef.current);
+    }, [tx]);
 
     // ──────────────────────────── Draw a single frame ────────────────────────────
     const drawFrame = useCallback((
@@ -196,11 +208,13 @@ export default function UnifiedDriveSimulation({ profile, seedKey, scenarioOverr
             speedValRef.current.textContent = Math.round(displayVal).toString();
         }
         if (statusRef.current) {
-            statusRef.current.textContent = statusText;
+            rawStatusRef.current = statusText;
+            statusRef.current.textContent = translateRef.current(statusText);
             statusRef.current.style.color = statusColor;
         }
         if (labelRef.current) {
-            labelRef.current.textContent = prof.label;
+            rawLabelRef.current = prof.label;
+            labelRef.current.textContent = translateRef.current(prof.label);
         }
     }, [seed]);
 
@@ -375,7 +389,7 @@ export default function UnifiedDriveSimulation({ profile, seedKey, scenarioOverr
                 width={CANVAS_W}
                 height={CANVAS_H}
                 className="absolute inset-0 w-full h-full"
-                aria-label="Synthetic route rendered through real openpilot model projection"
+                aria-label={tx("Synthetic route rendered through real openpilot model projection")}
             />
 
             {/* Gradient overlay for readability */}
@@ -387,9 +401,10 @@ export default function UnifiedDriveSimulation({ profile, seedKey, scenarioOverr
                     <div className="absolute left-3 top-3 select-none">
                         <span
                             ref={labelRef}
+                            data-testid="unified-drive-label"
                             className="text-[10px] font-medium tracking-[0.2em] uppercase text-cyan-400 [text-shadow:0_1px_2px_rgba(0,0,0,0.6)]"
                         >
-                            {profile.label}
+                            <TranslatedText text={profile.label} />
                         </span>
                     </div>
 
@@ -399,7 +414,7 @@ export default function UnifiedDriveSimulation({ profile, seedKey, scenarioOverr
                             type="button"
                             onClick={() => adjustSpeed(-limits.step)}
                             className="h-12 w-12 rounded-full bg-white/10 hover:bg-white/25 active:bg-white/35 backdrop-blur text-white text-2xl font-bold flex items-center justify-center transition-colors"
-                            aria-label="Decrease speed"
+                            aria-label={tx("Decrease speed")}
                         >
                             −
                         </button>
@@ -411,14 +426,14 @@ export default function UnifiedDriveSimulation({ profile, seedKey, scenarioOverr
                                 {displaySpeed}
                             </span>
                             <div className="text-xs tracking-[0.3em] uppercase text-white/60 mt-0.5">
-                                {unit}
+                                <TranslatedText text={unit} />
                             </div>
                         </div>
                         <button
                             type="button"
                             onClick={() => adjustSpeed(limits.step)}
                             className="h-12 w-12 rounded-full bg-white/10 hover:bg-white/25 active:bg-white/35 backdrop-blur text-white text-2xl font-bold flex items-center justify-center transition-colors"
-                            aria-label="Increase speed"
+                            aria-label={tx("Increase speed")}
                         >
                             +
                         </button>
@@ -428,19 +443,18 @@ export default function UnifiedDriveSimulation({ profile, seedKey, scenarioOverr
                     <div className="absolute top-[58%] left-1/2 -translate-x-1/2 select-none">
                         <span
                             ref={statusRef}
+                            data-testid="unified-drive-status"
                             className="text-[10px] font-semibold tracking-wider uppercase [text-shadow:0_1px_3px_rgba(0,0,0,0.7)]"
                             style={{ color: '#34d399' }}
                         >
-                            SYSTEM ACTIVE
-                        </span>
+                             <TranslatedText text={"SYSTEM ACTIVE"} /> </span>
                     </div>
 
                     {/* Renderer badge */}
                     <div className="pointer-events-none absolute right-3 top-3 select-none">
                         <span className="inline-flex items-center gap-1.5 rounded-md bg-black/40 px-2 py-1 text-[9px] font-mono text-emerald-300/80 backdrop-blur">
                             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                            REAL RENDERER
-                        </span>
+                             <TranslatedText text={"REAL RENDERER"} /> </span>
                     </div>
                 </>
             )}

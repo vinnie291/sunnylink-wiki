@@ -1,4 +1,6 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+
 
 import { ReactNode } from 'react';
 import dynamic from 'next/dynamic';
@@ -46,11 +48,11 @@ export default function PageShell({ children, showFooter = true, showHeader = tr
             {showFooter && (
                 <footer className="relative z-10 border-t border-slate-800/60 bg-slate-950">
                     <p className="max-w-7xl mx-auto px-4 py-8 text-center text-slate-500 text-sm">
-                        {t('footer.builtFor')} •{' '}
+                        {t('footer.builtFor')} •<TranslatedText text={' '} />
                         <a href="https://www.sunnypilot.ai/terms" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 transition-colors">{t('footer.terms')}</a>
-                        {' '}•{' '}
+                        <TranslatedText text={' '} />•<TranslatedText text={' '} />
                         <a href="https://github.com/sunnypilot/sunnypilot" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 transition-colors">{t('footer.github')}</a>
-                        {' '}•{' '}
+                        <TranslatedText text={' '} />•<TranslatedText text={' '} />
                         <a href="https://buymeacoffee.com/vinhle.co" target="_blank" rel="noopener noreferrer" className="link-coffee font-medium">☕ {t('footer.buyMeCoffee')}</a>
                     </p>
                 </footer>

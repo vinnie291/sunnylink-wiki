@@ -1,4 +1,8 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import canonicalModels from '@/data/models.json';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 
@@ -16,7 +20,7 @@ interface ModelLike {
     communityScore?: number;
     sentiment?: SentimentData;
     consensus?: string;
-    badge?: string;
+    badge?: string | null;
     positives?: string[];
     negatives?: string[];
 }
@@ -55,7 +59,11 @@ export interface DrivingProfile {
     slowWobble?: boolean;           // "drunk driver" slow ping-pong character
 }
 
+const canonicalModelLookup = new Map<string, ModelLike>((canonicalModels.categories as { models: ModelLike[] }[]).flatMap(category => category.models).map(model => [model.name, model]));
+
 export function deriveDrivingProfile(model: ModelLike): DrivingProfile {
+    // Behavior must be derived from the same English evidence in every language.
+    model = canonicalModelLookup.get(model.name) ?? model;
     const tags = model.tags || [];
     const feel = model.steeringFeel || '';
     const score = model.communityScore ?? 50;
@@ -448,6 +456,8 @@ interface FrameExtras {
 }
 
 export default function DriveSimulation({ profile, seedKey, disableRainbow, hideStatus, scenarioOverride, mini }: Props) {
+  const tx = useTextTranslation();
+    const translateRef = useRef(tx);
     const containerRef = useRef<HTMLDivElement>(null);
     const leftEdgeRef = useRef<SVGPathElement>(null);
     const rightEdgeRef = useRef<SVGPathElement>(null);
@@ -465,6 +475,11 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
     const progressDotRef = useRef<HTMLDivElement>(null);
     const speedValRef = useRef<HTMLSpanElement>(null);
     const statusTextRef = useRef<HTMLSpanElement>(null);
+    const rawStatusRef = useRef('SYSTEM ACTIVE');
+    useEffect(() => {
+        translateRef.current = tx;
+        if (statusTextRef.current) statusTextRef.current.textContent = tx(rawStatusRef.current);
+    }, [tx]);
 
     const [isVisible, setIsVisible] = useState(false);
     const [reduceMotion, setReduceMotion] = useState(false);
@@ -1579,7 +1594,8 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
 
             // Update dynamic status overlay
             if (statusTextRef.current) {
-                statusTextRef.current.textContent = currentStatus;
+                rawStatusRef.current = currentStatus;
+                statusTextRef.current.textContent = translateRef.current(currentStatus);
                 statusTextRef.current.style.color = statusColor;
 
                 // Add pulsing animation for warnings and critical snaps
@@ -1739,7 +1755,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                     className="text-[clamp(7px,1.4cqw,10px)] font-medium tracking-[0.2em] uppercase opacity-55 whitespace-nowrap truncate [text-shadow:0_1px_2px_rgba(0,0,0,0.6)]"
                     style={{ color: profile.pathColor }}
                 >
-                    {profile.label}
+                    <TranslatedText text={profile.label} />
                 </span>
             </div>
 
@@ -1758,7 +1774,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                         type="button"
                         onClick={(e) => { e.stopPropagation(); adjustSpeed(-limits.step); }}
                         disabled={speed <= limits.min}
-                        aria-label={`Decrease simulation speed (${unit})`}
+                        aria-label={tx(`Decrease simulation speed (${unit})`)}
                         className="pointer-events-auto h-[8cqw] w-[8cqw] min-h-[24px] min-w-[24px] rounded-full bg-white/10 hover:bg-white/25 active:bg-white/35 backdrop-blur-md text-white text-[5cqw] font-bold leading-none flex items-center justify-center transition-all duration-200 disabled:opacity-20 disabled:cursor-not-allowed hover:scale-110 active:scale-95 border border-white/5 shadow-lg"
                     >
                         −
@@ -1772,7 +1788,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                             {speed}
                         </span>
                         <span className="text-[clamp(8px,3.2cqw,16px)] font-semibold text-white/70 tracking-[0.25em] -mt-[0.5cqw]">
-                            {unit.toUpperCase()}
+                            <TranslatedText text={unit.toUpperCase()} />
                         </span>
                     </div>
 
@@ -1780,7 +1796,7 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                         type="button"
                         onClick={(e) => { e.stopPropagation(); adjustSpeed(limits.step); }}
                         disabled={speed >= limits.max}
-                        aria-label={`Increase simulation speed (${unit})`}
+                        aria-label={tx(`Increase simulation speed (${unit})`)}
                         className="pointer-events-auto h-[8cqw] w-[8cqw] min-h-[24px] min-w-[24px] rounded-full bg-white/10 hover:bg-white/25 active:bg-white/35 backdrop-blur-md text-white text-[5cqw] font-bold leading-none flex items-center justify-center transition-all duration-200 disabled:opacity-20 disabled:cursor-not-allowed hover:scale-110 active:scale-95 border border-white/5 shadow-lg"
                     >
                         +
@@ -1791,10 +1807,10 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                 {!hideStatus && (
                     <span
                         ref={statusTextRef}
+                        data-testid="drive-status"
                         className="mt-[1cqw] max-w-[80%] text-center text-[clamp(7px,1.5cqw,11px)] font-semibold tracking-[0.1em] uppercase text-emerald-400 truncate transition-colors duration-300 [text-shadow:0_1px_3px_rgba(0,0,0,0.85)]"
                     >
-                        SYSTEM ACTIVE
-                    </span>
+                         <TranslatedText text={"SYSTEM ACTIVE"} /> </span>
                 )}
             </div>
 
@@ -1811,14 +1827,14 @@ export default function DriveSimulation({ profile, seedKey, disableRainbow, hide
                                     left: `${(c.start / GAUNTLET_LOOP) * 100}%`,
                                     width: `${((c.end - c.start) / GAUNTLET_LOOP) * 100}%`,
                                 }}
-                                title={`Corner S${c.sharpness}`}
+                                title={tx(`Corner S${c.sharpness}`)}
                             />
                         ))}
-                        <div className="absolute -top-[2.5px] h-1.5 w-px bg-red-400/80" style={{ left: `${(GAUNTLET_EVENTS.redLightZ / GAUNTLET_LOOP) * 100}%` }} title="Red light" />
-                        <div className="absolute -top-[2.5px] h-1.5 w-px bg-emerald-400/80" style={{ left: `${(GAUNTLET_EVENTS.greenLightZ / GAUNTLET_LOOP) * 100}%` }} title="Green light" />
-                        <div className="absolute -top-[2.5px] h-1.5 w-px bg-amber-400/80" style={{ left: `${(GAUNTLET_EVENTS.trafficZone.carZ / GAUNTLET_LOOP) * 100}%` }} title="Stopped traffic" />
-                        <div className="absolute -top-[2.5px] h-1.5 w-px bg-fuchsia-400/80" style={{ left: `${(GAUNTLET_EVENTS.cutInZ / GAUNTLET_LOOP) * 100}%` }} title="Cut-in" />
-                        <div className="absolute -top-[2.5px] h-1.5 w-px bg-red-500/80" style={{ left: `${(GAUNTLET_EVENTS.stopSignZ / GAUNTLET_LOOP) * 100}%` }} title="Stop sign" />
+                        <div className="absolute -top-[2.5px] h-1.5 w-px bg-red-400/80" style={{ left: `${(GAUNTLET_EVENTS.redLightZ / GAUNTLET_LOOP) * 100}%` }} title={tx("Red light")} />
+                        <div className="absolute -top-[2.5px] h-1.5 w-px bg-emerald-400/80" style={{ left: `${(GAUNTLET_EVENTS.greenLightZ / GAUNTLET_LOOP) * 100}%` }} title={tx("Green light")} />
+                        <div className="absolute -top-[2.5px] h-1.5 w-px bg-amber-400/80" style={{ left: `${(GAUNTLET_EVENTS.trafficZone.carZ / GAUNTLET_LOOP) * 100}%` }} title={tx("Stopped traffic")} />
+                        <div className="absolute -top-[2.5px] h-1.5 w-px bg-fuchsia-400/80" style={{ left: `${(GAUNTLET_EVENTS.cutInZ / GAUNTLET_LOOP) * 100}%` }} title={tx("Cut-in")} />
+                        <div className="absolute -top-[2.5px] h-1.5 w-px bg-red-500/80" style={{ left: `${(GAUNTLET_EVENTS.stopSignZ / GAUNTLET_LOOP) * 100}%` }} title={tx("Stop sign")} />
                         <div
                             ref={progressDotRef}
                             className="absolute -top-[2px] h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-white shadow-[0_0_4px_rgba(255,255,255,0.7)]"

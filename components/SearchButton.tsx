@@ -1,18 +1,19 @@
 'use client';
 
+import { openSearch } from '../lib/searchDialog';
 import { Search } from 'lucide-react';
 import { useLanguage } from '../lib/i18n';
 
 export default function SearchButton({ stretch = false }: { stretch?: boolean }) {
     const { t } = useLanguage();
 
-    const handleClick = () => {
-        window.dispatchEvent(new CustomEvent('open-universal-search'));
-    };
 
     return (
         <button
-            onClick={handleClick}
+            type="button"
+            aria-label={t('search.label')}
+            aria-haspopup="dialog"
+            onClick={openSearch}
             className={`group flex items-center justify-center gap-2 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 hover:bg-slate-700/50 hover:border-slate-600/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50 rounded-xl transition-all duration-200 shadow-sm ${
                 stretch
                     ? 'w-full h-12 px-4'

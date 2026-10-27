@@ -6,11 +6,12 @@ import {
     useState,
     useEffect,
     useCallback,
+    useRef,
     ReactNode,
 } from 'react';
 
-// Statically import only English as the default locale
-import en from '../locales/en.json';
+import { ENGLISH_CONTENT, loadLocalizedContent, type LocalizedContent } from './localizedContent';
+import { interpolate, translateText } from './textTranslation';
 
 export type Locale = 'en' | 'ko' | 'zh' | 'fr' | 'de' | 'es';
 
@@ -23,21 +24,6 @@ export const LOCALE_META: Record<Locale, { flag: string; name: string }> = {
     fr: { flag: '🇫🇷', name: 'Français' },
     de: { flag: '🇩🇪', name: 'Deutsch' },
     es: { flag: '🇲🇽', name: 'Español' },
-};
-
-type Messages = Record<string, string>;
-
-const localeLoaders: Record<Locale, () => Promise<{ default: Messages }>> = {
-    en: () => Promise.resolve({ default: en as Messages }),
-    ko: () => import('../locales/ko.json') as Promise<{ default: Messages }>,
-    zh: () => import('../locales/zh.json') as Promise<{ default: Messages }>,
-    fr: () => import('../locales/fr.json') as Promise<{ default: Messages }>,
-    de: () => import('../locales/de.json') as Promise<{ default: Messages }>,
-    es: () => import('../locales/es.json') as Promise<{ default: Messages }>,
-};
-
-const messagesCache: Partial<Record<Locale, Messages>> = {
-    en: en as Messages,
 };
 
 const STORAGE_KEY = 'sunnylink-wiki-locale';
@@ -77,71 +63,58 @@ interface LanguageContextType {
     locale: Locale;
     setLocale: (locale: Locale) => void;
     t: (key: string, params?: Record<string, string | number>) => string;
+    content: LocalizedContent;
+    tx: { (text: string): string; (text: string | undefined): string | undefined };
     getLocaleMeta: () => Record<Locale, { flag: string; name: string }>;
 }
 
 const LanguageContext = createContext<LanguageContextType>({
     locale: 'en',
+    content: ENGLISH_CONTENT,
+    tx: ((text: string | undefined) => text) as LanguageContextType['tx'],
     setLocale: () => { },
     t: (key: string) => key,
     getLocaleMeta: () => LOCALE_META,
 });
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-    const [locale, setLocaleState] = useState<Locale>(() => getSavedLocale() ?? detectBrowserLocale());
+    // Match the server's English render, then restore the saved/browser language.
+    const [content, setContent] = useState<LocalizedContent>(ENGLISH_CONTENT);
+    const locale = content.locale;
     const [zhFlag] = useState<string>(() => detectZhFlag());
-    const [, setMessagesVersion] = useState(0);
-
-    // Load non-English locale messages dynamically when selected
-    useEffect(() => {
-        if (messagesCache[locale]) return;
-        let active = true;
-        localeLoaders[locale]().then((mod) => {
-            messagesCache[locale] = mod.default;
-            if (active) {
-                setMessagesVersion((v) => v + 1);
-            }
-        });
-        return () => {
-            active = false;
-        };
-    }, [locale]);
+    const requestVersion = useRef(0);
 
     const setLocale = useCallback((newLocale: Locale) => {
-        setLocaleState(newLocale);
-        try {
-            localStorage.setItem(STORAGE_KEY, newLocale);
-        } catch {
-            // ignore
-        }
-        // Update <html lang> attribute
-        document.documentElement.lang = newLocale;
+        if (!SUPPORTED_LOCALES.includes(newLocale)) return;
+        const version = ++requestVersion.current;
+        void loadLocalizedContent(newLocale).then(next => {
+            if (version !== requestVersion.current) return;
+            setContent(next);
+            try { localStorage.setItem(STORAGE_KEY, newLocale); } catch { /* blocked storage */ }
+        }).catch(error => {
+            // Keep the current complete language; a subsequent selection can retry.
+            console.error(`[i18n] Failed to load ${newLocale}`, error);
+        });
     }, []);
 
-    // Sync <html lang> on client
-    useEffect(() => {
-        document.documentElement.lang = locale;
-    }, [locale]);
+    const cancelPendingLocale = useCallback(() => { requestVersion.current++; }, []);
 
-    const t = useCallback(
-        (key: string, params?: Record<string, string | number>): string => {
-            const localized = messagesCache[locale]?.[key];
-            const english = messagesCache.en?.[key];
-            if (localized === undefined && english === undefined && process.env.NODE_ENV !== 'production') {
-                // A missing key renders as the key itself, which is how raw
-                // strings like `cars.recommended` reach the page.
-                console.warn(`[i18n] Missing translation for "${key}" (locale: ${locale})`);
-            }
-            let value = localized ?? english ?? key;
-            if (params) {
-                Object.entries(params).forEach(([k, v]) => {
-                    value = value.replace(new RegExp(`\\{\\{${k}\\}\\}`, 'g'), String(v));
-                });
-            }
-            return value;
-        },
-        [locale]
-    );
+    useEffect(() => {
+        setLocale(getSavedLocale() ?? detectBrowserLocale());
+        return cancelPendingLocale;
+    }, [setLocale, cancelPendingLocale]);
+
+    useEffect(() => { document.documentElement.lang = locale; }, [locale]);
+
+    const t = useCallback((key: string, params?: Record<string, string | number>): string => {
+        const value = content.messages[key] ?? ENGLISH_CONTENT.messages[key];
+        if (value === undefined && process.env.NODE_ENV !== 'production') {
+            console.warn(`[i18n] Missing translation for "${key}" (locale: ${locale})`);
+        }
+        return interpolate(value ?? key, params);
+    }, [content, locale]);
+
+    const tx = useCallback((text: string | undefined) => text === undefined ? undefined : translateText(text, content.messages, locale), [content, locale]) as LanguageContextType['tx'];
 
     const getLocaleMeta = useCallback(
         (): Record<Locale, { flag: string; name: string }> => ({
@@ -152,7 +125,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     );
 
     return (
-        <LanguageContext.Provider value={{ locale, setLocale, t, getLocaleMeta }}>
+        <LanguageContext.Provider value={{ locale, setLocale, t, tx, content, getLocaleMeta }}>
             {children}
         </LanguageContext.Provider>
     );
@@ -163,3 +136,7 @@ export function useLanguage() {
 }
 
 export const useTranslation = useLanguage;
+
+export function useTextTranslation() {
+    return useLanguage().tx;
+}

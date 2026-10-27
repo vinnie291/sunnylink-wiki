@@ -24,7 +24,10 @@ export function useDesktopSidebarSticky(): {
 
         const observer = new IntersectionObserver(
             ([entry]) => {
-                const isStuck = !entry.isIntersecting;
+                // A sentinel below the viewport has not reached its sticky
+                // position. Keep the global language control reachable until
+                // the inline sidebar controls actually pass the top boundary.
+                const isStuck = !entry.isIntersecting && entry.boundingClientRect.top < 80;
                 setIsSidebarSticky(isStuck);
 
                 if (isStuck) {

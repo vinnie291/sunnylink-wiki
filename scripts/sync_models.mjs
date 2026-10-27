@@ -60,7 +60,8 @@ function syncFiles() {
                 // Hard data carries no prose, so it always tracks the base file.
                 const dataFields = [
                     'badge', 'tags', 'communityScore', 'totalVotes',
-                    'sentiment', 'testedOn', 'forumUrl'
+                    'sentiment', 'testedOn', 'forumUrl',
+                    'manifestUrl', 'modelRef', 'shortName', 'minimumSelectorVersion'
                 ];
                 // These read as prose once localized (dates are written in the
                 // locale's own format), so only fill them in when the locale has

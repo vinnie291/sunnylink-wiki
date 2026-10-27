@@ -1,8 +1,16 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import { useTextTranslation } from '@/lib/i18n';
+
+
+import { useSearchParams } from 'next/navigation';
+import dynamic from 'next/dynamic';
+import ModelDetailModal from './ModelDetailModal';
+
+import { usePageSearch } from '../hooks/usePageSearch';
 
 import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import dynamic from 'next/dynamic';
 import Fuse from 'fuse.js';
 
 import ViewToggle from './ViewToggle';
@@ -12,6 +20,10 @@ import SidebarInlineControls from './SidebarInlineControls';
 import ModelSvgPreview from './ModelSvgPreview';
 import type { ModelVoteSummary } from '@/lib/modelVotes';
 import ModelPollSurvey from './ModelPollSurvey';
+import ModelMetaBadges from './ModelMetaBadges';
+import ConfidencePill from './ConfidencePill';
+import { getModelFleetStat } from '@/lib/fleetStats';
+import { calculateConfidenceScore, computeGlobalMean, scoreToStars } from '@/lib/ranking';
 import SimulatorCTA from './new-sim/SimulatorCTA';
 import { modelNameToSlug, findModelBySlugOrName } from '../lib/modelSlug';
 import { useViewMode } from '../hooks/useViewMode';
@@ -41,6 +53,8 @@ function extractTopicId(forumUrl: string): number | null {
 const SimulatorModal = dynamic(() => import('./new-sim/SimulatorModal'), { ssr: false });
 
 const CategorySidebarButton = dynamic(() => import('./CategorySidebarButton'), { ssr: false });
+
+const RECOMMENDED_BADGES = ['FLAGSHIP', 'POPULAR', 'LEGENDARY', 'COMMUNITY CHOICE'];
 
 interface SentimentData {
     great: number;
@@ -87,8 +101,9 @@ interface VibeGuide {
 
 // Sentiment Bar Component
 function SentimentBar({ sentiment }: { sentiment: SentimentData }) {
+  const tx = useTextTranslation();
     return (
-        <div className="w-full h-1.5 flex rounded-full overflow-hidden" title="Great / Good / OK / Bad">
+        <div className="w-full h-1.5 flex rounded-full overflow-hidden" title={tx("Great / Good / OK / Bad")}>
             <div style={{ width: `${sentiment.great}%` }} className="bg-emerald-500" />
             <div style={{ width: `${sentiment.good}%` }} className="bg-blue-500" />
             <div style={{ width: `${sentiment.ok}%` }} className="bg-yellow-500" />
@@ -107,7 +122,7 @@ const SKILL_LABELS: Record<Locale, Record<keyof SkillRatings, string>> = {
         comfort: 'Passenger Comfort'
     },
     ko: {
-        lat: '측면 제어',
+        lat: '횡방향 제어',
         stability: '고속도로 안정성',
         turns: '곡선 및 회전',
         long: '종방향 제어',
@@ -115,12 +130,12 @@ const SKILL_LABELS: Record<Locale, Record<keyof SkillRatings, string>> = {
         comfort: '승차감 및 편안함'
     },
     zh: {
-        lat: '横向控制',
-        stability: '高速稳定性',
-        turns: '弯道与转向',
-        long: '纵向控制',
-        urban: '城市路况能力',
-        comfort: '乘客舒适度'
+        lat: '橫向控制',
+        stability: '高速穩定性',
+        turns: '彎道與轉向',
+        long: '縱向控制',
+        urban: '城市路況能力',
+        comfort: '乘客舒適度'
     },
     fr: {
         lat: 'Contrôle Latéral',
@@ -134,7 +149,7 @@ const SKILL_LABELS: Record<Locale, Record<keyof SkillRatings, string>> = {
         lat: 'Querlenkung',
         stability: 'Autobahnstabilität',
         turns: 'Kurvenverhalten',
-        long: 'Längslenkung',
+        long: 'Längsregelung',
         urban: 'Stadt-Tauglichkeit',
         comfort: 'Fahrkomfort'
     },
@@ -150,10 +165,11 @@ const SKILL_LABELS: Record<Locale, Record<keyof SkillRatings, string>> = {
 
 // Glowing Skill Bar Component
 function SkillBar({ label, value, colorClass, evidence }: { label: string; value: number; colorClass: string; evidence?: string }) {
+  const tx = useTextTranslation();
     return (
-        <div className="space-y-1" title={evidence ? `${label} — ${value}/99\n${evidence}` : undefined}>
+        <div className="space-y-1" title={tx(evidence ? `${label} — ${value}/99\n${evidence}` : undefined)}>
             <div className="flex justify-between items-center text-[10px]">
-                <span className="text-slate-400 font-medium truncate pr-1">{label}</span>
+                <span className="text-slate-400 font-medium truncate pr-1"><TranslatedText text={label} /></span>
                 <span className="text-slate-300 font-bold font-mono text-[9px] bg-slate-800/40 px-1 py-0.2 rounded border border-slate-700/20 shrink-0">
                     {value}/99
                 </span>
@@ -170,6 +186,7 @@ function SkillBar({ label, value, colorClass, evidence }: { label: string; value
 
 // Grid of 6 Skill Bars
 function SkillRatingsGrid({ detail }: { detail: SkillRatingsDetail }) {
+  const tx = useTextTranslation();
     const { locale } = useLanguage();
     const labels = SKILL_LABELS[locale as Locale] || SKILL_LABELS.en;
     const ratings = detail.ratings;
@@ -188,7 +205,7 @@ function SkillRatingsGrid({ detail }: { detail: SkillRatingsDetail }) {
             {skills.map((skill) => (
                 <SkillBar
                     key={skill.key}
-                    label={labels[skill.key]}
+                    label={tx(labels[skill.key])}
                     value={ratings[skill.key]}
                     colorClass={skill.color}
                     evidence={describeAxisEvidence(detail, skill.key)}
@@ -198,23 +215,23 @@ function SkillRatingsGrid({ detail }: { detail: SkillRatingsDetail }) {
     );
 }
 
-function relativeTime(iso: string): string {
-    const then = new Date(iso).getTime();
-    if (!Number.isFinite(then)) return '';
-    const diff = Date.now() - then;
-    const mins = Math.round(diff / 60000);
-    if (mins < 60) return `${Math.max(1, mins)}m ago`;
-    const hrs = Math.round(mins / 60);
-    if (hrs < 24) return `${hrs}h ago`;
-    const days = Math.round(hrs / 24);
-    if (days < 30) return `${days}d ago`;
+function relativeTime(iso: string, locale: string): string {
+    const timestamp = new Date(iso).getTime();
+    if (!Number.isFinite(timestamp)) return '';
+    const minutes = Math.max(1, Math.round((Date.now() - timestamp) / 60000));
+    const formatter = new Intl.RelativeTimeFormat(locale, { numeric: 'auto', style: 'short' });
+    if (minutes < 60) return formatter.format(-minutes, 'minute');
+    const hours = Math.round(minutes / 60);
+    if (hours < 24) return formatter.format(-hours, 'hour');
+    const days = Math.round(hours / 24);
+    if (days < 30) return formatter.format(-days, 'day');
     const months = Math.round(days / 30);
-    if (months < 12) return `${months}mo ago`;
-    return `${Math.round(months / 12)}y ago`;
+    if (months < 12) return formatter.format(-months, 'month');
+    return formatter.format(-Math.round(months / 12), 'year');
 }
 
 function ForumActivityPanel({ activity, forumUrl }: { activity?: ForumActivity; forumUrl: string }) {
-    const { t } = useLanguage();
+    const { t, locale } = useLanguage();
     return (
         <div className="mt-3 pt-3 border-t border-slate-700/50">
             {activity && (
@@ -226,7 +243,7 @@ function ForumActivityPanel({ activity, forumUrl }: { activity?: ForumActivity; 
                             <span>{t('models.replies') || 'replies'}</span>
                         </span>
                         {activity.lastPostedAt && (
-                            <span className="hidden sm:inline">{t('models.active', { time: relativeTime(activity.lastPostedAt) }) || `active ${relativeTime(activity.lastPostedAt)}`}</span>
+                            <span className="hidden sm:inline">{t('models.active', { time: relativeTime(activity.lastPostedAt, locale) }) || `active ${relativeTime(activity.lastPostedAt, locale)}`}</span>
                         )}
                     </p>
                     <span className="text-[10px] text-slate-600 uppercase tracking-wider">{t('models.syncedWeekly') || 'synced weekly'}</span>
@@ -248,13 +265,13 @@ function ForumActivityPanel({ activity, forumUrl }: { activity?: ForumActivity; 
                                     <span className="text-cyan-300 font-medium truncate">
                                         @{c.username}
                                     </span>
-                                    <span className="text-slate-500">{relativeTime(c.createdAt)}</span>
+                                    <span className="text-slate-500"><TranslatedText text={relativeTime(c.createdAt, locale)} /></span>
                                     {c.likeCount > 0 && (
                                         <span className="ml-auto text-slate-500">❤️ {c.likeCount}</span>
                                     )}
                                 </div>
                                 <p className="text-slate-300 leading-snug line-clamp-2 break-words">
-                                    {c.snippet}
+                                    {locale === 'en' ? c.snippet : <TranslatedText text="Read this reply on the Sunnypilot forum" />}
                                 </p>
                             </a>
                         </li>
@@ -285,34 +302,36 @@ function ModelCard({
     onExpand,
     forumActivity,
     isHighlighted,
+    onDetails,
 }: {
     model: Model;
     onExpand?: (modelName: string) => void;
     forumActivity?: ForumActivity;
     isHighlighted?: boolean;
+    onDetails?: (model: Model) => void;
 }) {
+  const tx = useTextTranslation();
     const { t } = useLanguage();
     const [copied, setCopied] = useState(false);
-    const [liveScore, setLiveScore] = useState<number | undefined>(model.communityScore);
-    const [liveVotes, setLiveVotes] = useState<number | undefined>(model.totalVotes);
-    const [liveSentiment, setLiveSentiment] = useState<SentimentData | undefined>(model.sentiment);
+    const [userVoteData, setUserVoteData] = useState<{
+        communityScore: number;
+        totalVotes: number;
+        sentiment: SentimentData;
+    } | null>(null);
     const [simulationVotes, setSimulationVotes] = useState<ModelVoteSummary>();
     const [isPulsing, setIsPulsing] = useState(false);
 
-    useEffect(() => {
-        setLiveScore(model.communityScore);
-        setLiveVotes(model.totalVotes);
-        setLiveSentiment(model.sentiment);
-    }, [model.communityScore, model.totalVotes, model.sentiment]);
+    const liveVotes = userVoteData?.totalVotes ?? model.totalVotes;
+    const hasRatingVotes = (liveVotes ?? 0) > 0;
+    const liveScore = hasRatingVotes ? userVoteData?.communityScore ?? model.communityScore : undefined;
+    const liveSentiment = hasRatingVotes ? userVoteData?.sentiment ?? model.sentiment : undefined;
 
     const handleScoreUpdate = useCallback((liveData: {
         communityScore: number;
         totalVotes: number;
         sentiment: SentimentData;
     }) => {
-        setLiveScore(liveData.communityScore);
-        setLiveVotes(liveData.totalVotes);
-        setLiveSentiment(liveData.sentiment);
+        setUserVoteData(liveData);
         setIsPulsing(true);
         setTimeout(() => setIsPulsing(false), 1500);
     }, []);
@@ -320,7 +339,7 @@ function ModelCard({
     const handleCopyLink = async (e: React.MouseEvent) => {
         e.stopPropagation();
         const slug = modelNameToSlug(model.name);
-        const url = `${window.location.origin}/models?model=${slug}#${slug}`;
+        const url = `${window.location.origin}/models?model=${slug}`;
         if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
             try {
                 await navigator.share({
@@ -329,17 +348,13 @@ function ModelCard({
                     url,
                 });
                 return;
-            } catch (err: any) {
-                if (err.name === 'AbortError') return;
+            } catch (err: unknown) {
+                if (err instanceof Error && err.name === 'AbortError') return;
             }
         }
         try {
             await navigator.clipboard.writeText(url);
             setCopied(true);
-            const newUrl = new URL(window.location.href);
-            newUrl.searchParams.set('model', slug);
-            newUrl.hash = slug;
-            window.history.replaceState(null, '', newUrl.toString());
             setTimeout(() => setCopied(false), 2000);
         } catch (err) {
             console.error('Failed to copy:', err);
@@ -388,7 +403,8 @@ function ModelCard({
     return (
         <div
             id={model.name}
-            className={`bg-slate-900/50 backdrop-blur-sm border rounded-xl overflow-hidden transition-all duration-500 group ${
+            onClick={() => onDetails?.(model)}
+            className={`bg-slate-900/50 backdrop-blur-sm border rounded-xl overflow-hidden transition-all duration-300 group cursor-pointer ${
                 isHighlighted
                     ? 'border-cyan-400 ring-2 ring-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.45)] scale-[1.01]'
                     : 'border-slate-700/50 hover:border-cyan-500/50'
@@ -404,15 +420,14 @@ function ModelCard({
                             e.stopPropagation();
                             onExpand(model.name);
                         }}
-                        aria-label={`Try ${model.name} in simulator`}
-                        title="Try in simulator"
+                        aria-label={tx(`Try ${model.name} in simulator`)}
+                        title={tx("Try in simulator")}
                         className="absolute top-2 right-2 z-10 h-7 px-2 gap-1.5 text-[10px] rounded-lg bg-black/40 hover:bg-black/70 backdrop-blur-sm text-white flex items-center justify-center transition-colors border border-white/10"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4h4m8 0h4v4m0 8v4h-4m-8 0H4v-4" />
                         </svg>
-                        Try in simulator
-                    </button>
+                         <TranslatedText text={"Try in simulator"} /> </button>
                 )}
             </div>
 
@@ -421,12 +436,19 @@ function ModelCard({
                 <div className="flex justify-between items-start mb-3 gap-2">
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                            <h3 className="text-lg font-bold text-slate-100 truncate">{model.name}</h3>
+                            <h3 className="text-lg font-bold text-slate-100 break-words">
+                                {onDetails ? <button type="button" onClick={() => onDetails(model)} className="text-left hover:text-cyan-400 focus-visible:outline-cyan-400">{model.name}</button> : model.name}
+                            </h3>
+                            <ModelMetaBadges modelName={model.name} />
                             {model.badge && (
                                 <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full border ${getBadgeColor(model.badge)}`}>
-                                    {model.badge}
+                                    <TranslatedText text={model.badge} />
                                 </span>
                             )}
+                            <ConfidencePill
+                                reviewCount={model.totalVotes || 0}
+                                routeCount={getModelFleetStat(model.name)?.routes || 0}
+                            />
 
                             {/* Flag Button */}
                             <button
@@ -437,7 +459,7 @@ function ModelCard({
                                     window.open(`https://github.com/vinnie291/sunnylink-wiki/issues/new?title=${title}&body=${body}`, '_blank');
                                 }}
                                 className="p-1 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
-                                title="Flag this model"
+                                title={tx("Flag this model")}
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
@@ -448,7 +470,7 @@ function ModelCard({
                             <button
                                 onClick={handleCopyLink}
                                 className="p-1 rounded-lg text-slate-500 hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors"
-                                title={copied ? 'Copied!' : 'Share this model'}
+                                title={tx(copied ? 'Copied!' : 'Share this model')}
                             >
                                 {copied ? (
                                     <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -462,7 +484,7 @@ function ModelCard({
                             </button>
 
                         </div>
-                        <span className="text-xs text-slate-500">{model.date}</span>
+                        <span className="text-xs text-slate-500"><TranslatedText text={model.date} /></span>
                     </div>
                     {liveScore !== undefined && (
                         <div className="flex flex-col items-end shrink-0">
@@ -497,18 +519,18 @@ function ModelCard({
                             key={tag}
                             className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-slate-800/60 text-slate-300 border border-slate-700/50"
                         >
-                            <span>{getTagIcon(tag)}</span>
-                            <span>{tag}</span>
+                            <span><TranslatedText text={getTagIcon(tag)} /></span>
+                            <span><TranslatedText text={tag} /></span>
                         </span>
                     ))}
                     {model.bestFor && (
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">
-                            <span>🎯</span> {t('models.bestFor') || 'Best for:'} {model.bestFor}
+                            <span>🎯</span> {t('models.bestFor') || 'Best for:'} <TranslatedText text={model.bestFor} />
                         </span>
                     )}
                     {model.steeringFeel && (
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-slate-700/50 text-slate-300 border border-slate-600/50">
-                            <span>🎮</span> {model.steeringFeel}
+                            <span>🎮</span> <TranslatedText text={model.steeringFeel} />
                         </span>
                     )}
                 </div>
@@ -516,14 +538,15 @@ function ModelCard({
 
             {/* Vibe Check / Consensus */}
             <p className="text-sm text-slate-300 leading-relaxed mb-3 break-words">
-                {model.consensus}
+                <TranslatedText text={model.consensus} />
                 {model.note && (
-                    <span className="text-yellow-300/80 italic"> {model.note}</span>
+                    <span className="text-yellow-300/80 italic"> <TranslatedText text={model.note} /></span>
                 )}
             </p>
 
             {/* Skill Attributes Grid */}
             <SkillRatingsGrid detail={deriveSkillRatingsDetail(model)} />
+
 
             {/* Interactive Discourse-Style Voting Survey */}
             <ModelPollSurvey
@@ -542,7 +565,7 @@ function ModelCard({
                     <div className="flex flex-wrap gap-1">
                         {model.testedOn.map((car, i) => (
                             <span key={`${car}-${i}`} className="px-2 py-0.5 text-[10px] rounded bg-slate-800 text-slate-400">
-                                {car}
+                                <TranslatedText text={car} />
                             </span>
                         ))}
                     </div>
@@ -585,21 +608,14 @@ function ModelCardSkeleton() {
 }
 
 function LazyModelCard({ children, forceShow }: { children: React.ReactNode; forceShow?: boolean }) {
-    const [shown, setShown] = useState(forceShow ?? false);
+    const [shown, setShown] = useState(() => Boolean(forceShow) || (typeof window !== 'undefined' && typeof IntersectionObserver === 'undefined'));
     const ref = useRef<HTMLDivElement>(null);
+    const isVisible = shown || Boolean(forceShow);
 
     useEffect(() => {
-        if (forceShow) {
-            setShown(true);
-            return;
-        }
-        if (shown) return;
+        if (isVisible) return;
         const el = ref.current;
-        if (!el) return;
-        if (typeof IntersectionObserver === 'undefined') {
-            setShown(true);
-            return;
-        }
+        if (!el || typeof IntersectionObserver === 'undefined') return;
         const io = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
@@ -611,11 +627,11 @@ function LazyModelCard({ children, forceShow }: { children: React.ReactNode; for
         );
         io.observe(el);
         return () => io.disconnect();
-    }, [shown, forceShow]);
+    }, [isVisible]);
 
     return (
         <div ref={ref} className="h-full">
-            {shown ? (
+            {isVisible ? (
                 <div className="h-full animate-fade-in">
                     {children}
                 </div>
@@ -637,6 +653,56 @@ const getVibeIcon = (consensus?: string) => {
 };
 
 export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumActivityMap } = {}) {
+  const tx = useTextTranslation();
+    const urlSearchParams = useSearchParams();
+    const { t } = useLanguage();
+    const modelsData = useTranslatedModels();
+    const rawCategories = modelsData.categories as ModelCategory[];
+    const vibeGuide = modelsData.vibeGuide as Record<string, VibeGuide>;
+
+    const categories = useMemo(() => {
+        const uniqueModels = new Map<string, Model>();
+        rawCategories.flatMap(c => c.models).forEach(m => {
+            if (!uniqueModels.has(m.name)) uniqueModels.set(m.name, m);
+        });
+
+        const allCategory: ModelCategory = {
+            id: 'all',
+            name: t('models.allModels'),
+            description: t('models.allModelsDescription'),
+            icon: '📚',
+            models: Array.from(uniqueModels.values())
+        };
+
+        return [allCategory, ...rawCategories];
+    }, [rawCategories, t]);
+
+    const initialQueryModel = urlSearchParams?.get('model') || urlSearchParams?.get('m');
+    const [detailModel, setDetailModel] = useState<Model | null>(() => {
+        if (!initialQueryModel) return null;
+        for (const cat of rawCategories) {
+            const found = findModelBySlugOrName(cat.models, initialQueryModel);
+            if (found) return found;
+        }
+        return null;
+    });
+
+    const openModelDetails = useCallback((model: Model) => {
+        const url = new URL(window.location.href);
+        url.searchParams.set('model', modelNameToSlug(model.name));
+        url.searchParams.delete('sim');
+        url.hash = '';
+        window.history.pushState(window.history.state, '', url);
+        setDetailModel(model);
+    }, []);
+    const closeModelDetails = useCallback(() => {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('model');
+        url.searchParams.delete('m');
+        url.hash = '';
+        window.history.replaceState(window.history.state, '', url);
+        setDetailModel(null);
+    }, []);
     const [activeCategory, setActiveCategory] = useState<string>('all');
     const [showVibeGuide, setShowVibeGuide] = useState(false);
     const [showMobileCategories, setShowMobileCategories] = useState(false);
@@ -648,7 +714,6 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
     const highlightTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const vibeGuideRef = useRef<HTMLDivElement>(null);
     const [vibeGuideHeight, setVibeGuideHeight] = useState(0);
-    const { t } = useLanguage();
 
     const scrollToModel = useCallback((targetNameOrSlug: string) => {
         let attempts = 0;
@@ -687,10 +752,13 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
     // Keyboard shortcut handled by SearchFilter component
 
     const handleOpenVisualizer = (modelName: string) => {
+        setDetailModel(null);
         setVisualizerModelName(modelName);
         if (typeof window !== 'undefined') {
             const url = new URL(window.location.href);
             url.searchParams.set('sim', modelNameToSlug(modelName));
+            url.searchParams.delete('model');
+            url.hash = '';
             window.history.pushState({ visualizerModel: modelName }, '', url.toString());
         }
     };
@@ -706,14 +774,26 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
         }
     };
 
-    const [sortBy, setSortBy] = useState<string>('date-desc');
+    const [sortBy, setSortBy] = useState<string>('confidence-desc');
+
+    const globalModelMean = useMemo(() => {
+        const allModelsList = categories[0]?.models || [];
+        const items = allModelsList.map(m => ({
+            rating: scoreToStars(m.communityScore || 0),
+            reviewCount: m.totalVotes || 0,
+        }));
+        return computeGlobalMean(items);
+    }, [categories]);
+
+    const getModelConfidence = useCallback((m: Model) => {
+        const rating = scoreToStars(m.communityScore || 0);
+        const reviewCount = m.totalVotes || 0;
+        const routeCount = getModelFleetStat(m.name)?.routes || 0;
+        return calculateConfidenceScore(rating, reviewCount, routeCount, globalModelMean);
+    }, [globalModelMean]);
     const { viewMode, setViewMode } = useViewMode('models_page', 'grid');
     const { sentinelRef, isSticky } = useStickySearch();
     const { sidebarSentinelRef, isSidebarSticky } = useDesktopSidebarSticky();
-
-    const modelsData = useTranslatedModels();
-    const rawCategories = modelsData.categories as ModelCategory[];
-    const vibeGuide = modelsData.vibeGuide as Record<string, VibeGuide>;
 
     // Measure vibe guide content height for smooth open/close without sporadic scrolling
     useEffect(() => {
@@ -725,23 +805,6 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
         ro.observe(el);
         return () => ro.disconnect();
     }, [vibeGuide]);
-
-    const categories = useMemo(() => {
-        const uniqueModels = new Map<string, Model>();
-        rawCategories.flatMap(c => c.models).forEach(m => {
-            if (!uniqueModels.has(m.name)) uniqueModels.set(m.name, m);
-        });
-
-        const allCategory: ModelCategory = {
-            id: 'all',
-            name: t('models.allModels'),
-            description: t('models.allModelsDescription'),
-            icon: '📚',
-            models: Array.from(uniqueModels.values())
-        };
-
-        return [allCategory, ...rawCategories];
-    }, [rawCategories, t]);
 
     // Deep-link to open visualizer or scroll to model when URL contains ?model=..., ?sim=..., ?search=..., or #...
     useEffect(() => {
@@ -759,6 +822,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
             if (simParam && categories[0]?.models) {
                 const found = findModelBySlugOrName(categories[0].models, simParam);
                 if (found) {
+                    setDetailModel(null);
                     setVisualizerModelName(found.name);
                     return;
                 }
@@ -766,6 +830,11 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
 
             // Browser Back must unmount the scene when it leaves a simulation URL.
             setVisualizerModelName(null);
+
+            // Model slugs open a detail dialog on navigation, reload, and browser history.
+            const linkedModel = queryModel ? findModelBySlugOrName(categories[0]?.models || [], queryModel) : undefined;
+            setDetailModel(linkedModel || null);
+            if (linkedModel) return;
 
             // 2. Search query pre-fill
             if (searchParam && !searchQuery) {
@@ -827,12 +896,12 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
             window.removeEventListener('hashchange', checkUrlParams);
             if (highlightTimeoutRef.current) clearTimeout(highlightTimeoutRef.current);
         };
-    }, [categories, searchQuery, scrollToModel]);
+    }, [categories, searchQuery, scrollToModel, urlSearchParams]);
 
     // Filter models based on search
 
     // Badges that qualify as "recommended"
-    const RECOMMENDED_BADGES = ['FLAGSHIP', 'POPULAR', 'LEGENDARY', 'COMMUNITY CHOICE'];
+
 
     const handleToggleFilter = (filterId: string) => {
         setActiveFilters(prev =>
@@ -842,18 +911,22 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
         );
     };
 
-    const baseModels = searchQuery
-        ? categories[0].models // search across 'All Models'
-        : categories.find(c => c.id === activeCategory)?.models || [];
+    const baseModels = useMemo(() => {
+        return searchQuery
+            ? categories[0]?.models || [] // search across 'All Models'
+            : categories.find(c => c.id === activeCategory)?.models || [];
+    }, [searchQuery, categories, activeCategory]);
+
+    const eligibleModels = useMemo(() => {
+        if (activeFilters.includes('recommended')) {
+            return baseModels.filter(m => m.badge && RECOMMENDED_BADGES.includes(m.badge));
+        }
+        return baseModels;
+    }, [baseModels, activeFilters]);
 
     // Fuzzy search using Fuse.js for models (searches name, consensus, tags)
-    const modelsToDisplay = useMemo(() => {
-        let result = baseModels;
-
-        // Apply recommended filter
-        if (activeFilters.includes('recommended')) {
-            result = result.filter(m => m.badge && RECOMMENDED_BADGES.includes(m.badge));
-        }
+    const localModels = useMemo(() => {
+        const result = eligibleModels;
 
         if (!searchQuery || searchQuery.trim().length === 0) return result;
 
@@ -866,15 +939,36 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
         });
 
         return fuse.search(searchQuery).map(r => r.item);
-    }, [baseModels, searchQuery, activeFilters]);
+    }, [eligibleModels, searchQuery]);
+
+    const modelsToDisplay = usePageSearch(eligibleModels, localModels, searchQuery, item => ({ type: 'model', id: item.name, title: item.name }));
 
     const activeModels = useMemo(() => {
+        if (searchQuery.trim()) return modelsToDisplay;
         const sorted = [...modelsToDisplay].sort((a, b) => {
             let diff = 0;
             const dateA = new Date(a.date).getTime();
             const dateB = new Date(b.date).getTime();
 
             switch (sortBy) {
+                case 'confidence-desc': {
+                    const scoreA = getModelConfidence(a);
+                    const scoreB = getModelConfidence(b);
+                    diff = scoreB - scoreA;
+                    if (diff === 0) {
+                        diff = (b.communityScore || 0) - (a.communityScore || 0);
+                    }
+                    break;
+                }
+                case 'confidence-asc': {
+                    const scoreA = getModelConfidence(a);
+                    const scoreB = getModelConfidence(b);
+                    diff = scoreA - scoreB;
+                    if (diff === 0) {
+                        diff = (a.communityScore || 0) - (b.communityScore || 0);
+                    }
+                    break;
+                }
                 case 'name-asc':
                     diff = a.name.localeCompare(b.name);
                     break;
@@ -898,14 +992,14 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
             return diff;
         });
         return sorted;
-    }, [modelsToDisplay, sortBy]);
+    }, [modelsToDisplay, sortBy, searchQuery, getModelConfidence]);
 
     const handleSort = (key: 'name' | 'score' | 'date') => {
         // Toggle logic for table headers
         if (key === 'name') {
             setSortBy(prev => prev === 'name-asc' ? 'name-desc' : 'name-asc');
         } else if (key === 'score') {
-            setSortBy(prev => prev === 'score-desc' ? 'score-asc' : 'score-desc');
+            setSortBy(prev => prev === 'confidence-desc' ? 'confidence-asc' : 'confidence-desc');
         } else if (key === 'date') {
             setSortBy(prev => prev === 'date-desc' ? 'date-asc' : 'date-desc');
         }
@@ -956,66 +1050,76 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
             <aside className="hidden lg:block lg:w-72 lg:shrink-0">
                 {/* Sentinel: detects when sidebar becomes sticky */}
                 <div ref={sidebarSentinelRef} className="h-0" />
-                <div className="sticky top-8 space-y-6">
-                    {/* Inline GlobalControls — visible when sidebar is sticky */}
-                    <SidebarInlineControls visible={isSidebarSticky} />
-                    <SimulatorCTA onOpen={() => handleOpenVisualizer(categories[0].models[0].name)} />
-                    {/* Search */}
-                    <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-4">
-                        <SearchFilter
-                            value={searchQuery}
-                            onChange={setSearchQuery}
-                            resultCount={activeModels.length}
-                            totalCount={categories[0].models.length} // All models count
-                            itemLabel="models"
-                        />
+                <div className="sticky top-8 flex max-h-[calc(100dvh-4rem)] flex-col">
+                    {/* Keep dropdown controls outside the scroll region so menus are not clipped. */}
+                    <div className="shrink-0">
+                        <SidebarInlineControls visible={isSidebarSticky} />
                     </div>
-
-                    {/* Vibe Guide Toggle */}
-                    <button
-                        onClick={() => setShowVibeGuide(!showVibeGuide)}
-                        className={`
-                            w-full flex items-center justify-between px-4 py-3 rounded-xl border text-left transition-all
-                            ${showVibeGuide
-                                ? 'bg-gradient-to-r from-cyan-500/20 to-violet-500/20 border-cyan-500/30 text-slate-100'
-                                : 'bg-slate-800/30 border-slate-700/50 text-slate-300 hover:text-slate-100 hover:bg-slate-700/50'
-                            }
-                        `}
+                    {/* A tall category list must remain reachable while the sidebar is pinned. */}
+                    <div
+                        className="min-h-0 overflow-y-auto space-y-6 pb-1 pr-1 [scrollbar-gutter:stable]"
+                        role="region"
+                        aria-label={t('filter.categories')}
+                        tabIndex={0}
                     >
-                        <span className="font-medium text-sm">📖 {t('models.vibeGuide')}</span>
-                        <svg className={`w-4 h-4 transition-transform ${showVibeGuide ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
+                        <SimulatorCTA onOpen={() => handleOpenVisualizer(categories[0].models[0].name)} />
+                        {/* Search */}
+                        <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-4">
+                            <SearchFilter
+                                value={searchQuery}
+                                onChange={setSearchQuery}
+                                resultCount={activeModels.length}
+                                totalCount={categories[0].models.length} // All models count
+                                itemLabel="models"
+                            />
+                        </div>
 
-                    {/* Categories */}
-                    <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-4">
-                        <h2 className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-3">{t('filter.categories')}</h2>
-                        <div className="space-y-2">
-                            {categories.map((cat) => (
-                                <button
-                                    key={cat.id}
-                                    onClick={() => {
-                                        setActiveCategory(cat.id);
-                                        setSearchQuery('');
-                                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                                    }}
-                                    className={`
-                                        w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-left
-                                        transition-all duration-200 border
-                                        ${activeCategory === cat.id && !searchQuery
-                                            ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30'
-                                            : 'bg-slate-700/30 text-slate-400 border-transparent hover:bg-slate-700/50 hover:text-slate-100'
-                                        }
-                                    `}
-                                >
-                                    <span className="shrink-0 text-lg">{cat.icon}</span>
-                                    <span className="flex-1 break-words">{cat.name}</span>
-                                    <span className={`shrink-0 px-2 py-0.5 rounded-md text-xs ${activeCategory === cat.id && !searchQuery ? 'bg-cyan-500/30' : 'bg-slate-700/50'}`}>
-                                        {cat.models.length}
-                                    </span>
-                                </button>
-                            ))}
+                        {/* Vibe Guide Toggle */}
+                        <button
+                            onClick={() => setShowVibeGuide(!showVibeGuide)}
+                            className={`
+                                w-full flex items-center justify-between px-4 py-3 rounded-xl border text-left transition-all
+                                ${showVibeGuide
+                                    ? 'bg-gradient-to-r from-cyan-500/20 to-violet-500/20 border-cyan-500/30 text-slate-100'
+                                    : 'bg-slate-800/30 border-slate-700/50 text-slate-300 hover:text-slate-100 hover:bg-slate-700/50'
+                                }
+                            `}
+                        >
+                            <span className="font-medium text-sm">📖 {t('models.vibeGuide')}</span>
+                            <svg className={`w-4 h-4 transition-transform ${showVibeGuide ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        {/* Categories */}
+                        <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-4">
+                            <h2 className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-3">{t('filter.categories')}</h2>
+                            <div className="space-y-2">
+                                {categories.map((cat) => (
+                                    <button
+                                        key={cat.id}
+                                        onClick={() => {
+                                            setActiveCategory(cat.id);
+                                            setSearchQuery('');
+                                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                                        }}
+                                        className={`
+                                            w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-left
+                                            transition-all duration-200 border
+                                            ${activeCategory === cat.id && !searchQuery
+                                                ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30'
+                                                : 'bg-slate-700/30 text-slate-400 border-transparent hover:bg-slate-700/50 hover:text-slate-100'
+                                            }
+                                        `}
+                                    >
+                                        <span className="shrink-0 text-lg"><TranslatedText text={cat.icon} /></span>
+                                        <span className="flex-1 break-words"><TranslatedText text={cat.name} /></span>
+                                        <span className={`shrink-0 px-2 py-0.5 rounded-md text-xs ${activeCategory === cat.id && !searchQuery ? 'bg-cyan-500/30' : 'bg-slate-700/50'}`}>
+                                            {cat.models.length}
+                                        </span>
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1068,11 +1172,11 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                 <div ref={vibeGuideRef} className="grid gap-2">
                                     {Object.entries(vibeGuide).map(([key, guide]) => (
                                         <div key={key} className="p-3 rounded-lg bg-slate-800/50 border border-slate-700/50">
-                                            <h4 className="text-slate-100 font-semibold text-xs mb-1">{guide.title}</h4>
-                                            <p className="text-[10px] text-slate-500 mb-1">{guide.includes}</p>
-                                            <p className="text-[10px] text-slate-400 mb-1">{guide.vibe}</p>
+                                            <h4 className="text-slate-100 font-semibold text-xs mb-1"><TranslatedText text={guide.title} /></h4>
+                                            <p className="text-[10px] text-slate-500 mb-1"><TranslatedText text={guide.includes} /></p>
+                                            <p className="text-[10px] text-slate-400 mb-1"><TranslatedText text={guide.vibe} /></p>
                                             <p className="text-[10px] text-emerald-400">
-                                                <span className="font-medium">Best:</span> {guide.bestFor}
+                                                <span className="font-medium"><TranslatedText text={"Best:"} /></span> <TranslatedText text={guide.bestFor} />
                                             </p>
                                         </div>
                                     ))}
@@ -1111,8 +1215,8 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                                 }
                                             `}
                                         >
-                                            <span className="shrink-0 mr-2">{cat.icon}</span>
-                                            <span className="flex-1 break-words">{cat.name}</span>
+                                            <span className="shrink-0 mr-2"><TranslatedText text={cat.icon} /></span>
+                                            <span className="flex-1 break-words"><TranslatedText text={cat.name} /></span>
                                             <span className={`shrink-0 ml-2 px-1.5 py-0.5 rounded-md text-xs ${activeCategory === cat.id && !searchQuery ? 'bg-cyan-500/30' : 'bg-slate-700/50'}`}>
                                                 {cat.models.length}
                                             </span>
@@ -1133,16 +1237,15 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                 <><span>🔍</span> {t('models.title')}</>
                             ) : (
                                 <>
-                                    <span>{categories.find(c => c.id === activeCategory)?.icon || '📚'}</span>
-                                    {categories.find(c => c.id === activeCategory)?.name || 'All Models'}
+                                    <span><TranslatedText text={categories.find(c => c.id === activeCategory)?.icon || '📚'} /></span>
+                                    <TranslatedText text={categories.find(c => c.id === activeCategory)?.name || 'All Models'} />
                                 </>
                             )}
                         </h2>
                         <p className="text-slate-400 text-sm">
-                            {searchQuery
+                            <TranslatedText text={searchQuery
                                 ? `Found ${activeModels.length} models matching "${searchQuery}"`
-                                : categories.find(c => c.id === activeCategory)?.description
-                            }
+                                : categories.find(c => c.id === activeCategory)?.description} />
                         </p>
                     </div>
 
@@ -1165,12 +1268,13 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                     cursor-pointer
                                 "
                             >
+                                <option value="confidence-desc">{t('settings.sortConfidence') || 'Top Rated (Confidence-Weighted)'}</option>
+                                <option value="score-desc">{t('settings.sortScoreHighLow')}</option>
+                                <option value="score-asc">{t('settings.sortScoreLowHigh')}</option>
                                 <option value="date-desc">{t('settings.sortDateNewest')}</option>
                                 <option value="date-asc">{t('settings.sortDateOldest')}</option>
                                 <option value="name-asc">{t('settings.sortNameAZ')}</option>
                                 <option value="name-desc">{t('settings.sortNameZA')}</option>
-                                <option value="score-desc">{t('settings.sortScoreHighLow')}</option>
-                                <option value="score-asc">{t('settings.sortScoreLowHigh')}</option>
                             </select>
                             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                 <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1181,16 +1285,18 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                     </div>
                 </div>
 
+
+
                 {/* Vibe Guide Content (Shows above grid if active) */}
                 {showVibeGuide && (
                     <div className="hidden lg:grid mb-8 gap-3 md:grid-cols-2 animate-in fade-in slide-in-from-top-4 duration-300">
                         {Object.entries(vibeGuide).map(([key, guide]) => (
                             <div key={key} className="p-4 rounded-xl bg-slate-800/30 border border-slate-700/50 hover:bg-slate-800/50 transition-colors">
-                                <h4 className="text-slate-100 font-semibold text-sm mb-1">{guide.title}</h4>
-                                <p className="text-xs text-slate-500 mb-2">{guide.includes}</p>
-                                <p className="text-xs text-slate-400 mb-2">{guide.vibe}</p>
+                                <h4 className="text-slate-100 font-semibold text-sm mb-1"><TranslatedText text={guide.title} /></h4>
+                                <p className="text-xs text-slate-500 mb-2"><TranslatedText text={guide.includes} /></p>
+                                <p className="text-xs text-slate-400 mb-2"><TranslatedText text={guide.vibe} /></p>
                                 <p className="text-xs text-emerald-400">
-                                    <span className="font-medium">Best for:</span> {guide.bestFor}
+                                    <span className="font-medium"><TranslatedText text={"Best for:"} /></span> <TranslatedText text={guide.bestFor} />
                                 </p>
                             </div>
                         ))}
@@ -1237,25 +1343,29 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                                     >
                                                         <td className="p-3 md:p-4 font-medium text-slate-100">
                                                             <div className="flex items-center gap-2 md:gap-3">
-                                                                <span className="text-lg md:text-2xl">{getVibeIcon(model.consensus)}</span>
-                                                                <div><span className="text-sm md:text-base">{model.name}</span>
-                                                                  <button type="button" className="block mt-1 text-xs text-cyan-400 hover:underline" aria-label={`Try ${model.name} in simulator`} onClick={() => handleOpenVisualizer(model.name)}>Try in simulator</button>
+                                                                <span className="text-lg md:text-2xl"><TranslatedText text={getVibeIcon(model.consensus)} /></span>
+                                                                <div><button type="button" className="text-left text-sm hover:text-cyan-400 md:text-base" onClick={() => openModelDetails(model)}>{model.name}</button>
+                                                                  <button type="button" className="block mt-1 text-xs text-cyan-400 hover:underline" aria-label={tx(`Try ${model.name} in simulator`)} onClick={() => handleOpenVisualizer(model.name)}><TranslatedText text={"Try in simulator"} /></button>
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td className="p-3 md:p-4 text-slate-400 text-xs md:text-sm whitespace-nowrap">{model.date}</td>
+                                                        <td className="p-3 md:p-4 text-slate-400 text-xs md:text-sm whitespace-nowrap"><TranslatedText text={model.date} /></td>
                                                         <td className="p-3 md:p-4">
                                                             <div className="flex items-center gap-2">
                                                                 <span className="text-cyan-400 font-bold text-sm">{model.communityScore}</span>
                                                                 <div className="hidden sm:block w-16 h-1.5 bg-slate-700 rounded-full overflow-hidden">
                                                                     <div className="h-full bg-cyan-500" style={{ width: `${(model.communityScore || 0) * 10}%` }} />
                                                                 </div>
+                                                                <ConfidencePill
+                                                                    reviewCount={model.totalVotes || 0}
+                                                                    routeCount={getModelFleetStat(model.name)?.routes || 0}
+                                                                />
                                                             </div>
                                                         </td>
                                                         <td className="hidden md:table-cell p-4">
                                                             {model.badge && (
                                                                 <span className="px-2 py-1 rounded text-xs font-medium bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                                                                    {model.badge}
+                                                                    <TranslatedText text={model.badge} />
                                                                 </span>
                                                             )}
                                                         </td>
@@ -1291,6 +1401,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                             <LazyModelCard forceShow={isTargeted}>
                                                 <ModelCard
                                                     model={model}
+                                                    onDetails={openModelDetails}
                                                     onExpand={handleOpenVisualizer}
                                                     forumActivity={activity}
                                                     isHighlighted={isTargeted}
@@ -1313,6 +1424,14 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
 
             </div>
 
+            {detailModel && (
+                <ModelDetailModal
+                    model={rawCategories.flatMap(category => category.models).find(model => model.name === detailModel.name) ?? detailModel}
+                    onClose={closeModelDetails}
+                    onExpandVisualizer={handleOpenVisualizer}
+                    forumActivity={detailModel.forumUrl ? forumActivity?.[extractTopicId(detailModel.forumUrl) || 0] : undefined}
+                />
+            )}
             {visualizerModelName !== null && <SimulatorModal
                 initialModelId={modelNameToSlug(visualizerModelName)}
                 onClose={handleCloseVisualizer}

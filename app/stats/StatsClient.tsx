@@ -1,14 +1,19 @@
 "use client";
+import TranslatedText from '@/components/TranslatedText';
+
 
 import Link from 'next/link';
 import Header from '@/components/Header';
 import ScrollToTop from '@/components/ScrollToTop';
 import { useLanguage } from '@/lib/i18n';
-import { FLEET_BRAND_STATS, formatDeviceCount } from '@/lib/fleetStats';
+import StatsCharts from '@/components/stats/StatsCharts';
+import PublicFleetDashboard from '@/components/stats/PublicFleetDashboard';
+import type { PublicFleetChart } from '@/lib/metabase';
+import { FLEET_STATS, FLEET_BRAND_STATS, formatDeviceCount } from '@/lib/fleetStats';
 
 const METABASE_DASHBOARD_URL = 'https://metabase.sunnypilot.ai/public/dashboard/8d0ca494-6ab3-4d4c-9642-7deb493c4fac';
 
-export default function StatsClient() {
+export default function StatsClient({ charts }: { charts: PublicFleetChart[] | null }) {
     const { t } = useLanguage();
     
     return (
@@ -33,11 +38,11 @@ export default function StatsClient() {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                             </span>
-                            {t('stats.live')}
+                            <TranslatedText text={charts ? 'Public dashboard' : 'Fleet snapshot'} />
                         </span>
                     </div>
                     <p className="text-slate-400 text-sm mb-2 max-w-2xl mx-auto">
-                        {t('stats.subtitle')}
+                        <TranslatedText text="Fleet statistics from the Sunnypilot community" />
                     </p>
                     <a
                         href={METABASE_DASHBOARD_URL}
@@ -61,7 +66,7 @@ export default function StatsClient() {
                             {t('stats.connectedDevices') || 'Sunnylink Connected Devices'}
                         </div>
                         <div className="text-3xl font-extrabold text-slate-100 mb-2">
-                            {formatDeviceCount(FLEET_BRAND_STATS.totalDevices)}
+                            <TranslatedText text={formatDeviceCount(FLEET_BRAND_STATS.totalDevices)} />
                         </div>
                         <p className="text-xs text-slate-400 leading-relaxed">
                             {t('stats.connectedDevicesDesc') || 'Distinct hardware dongles logged across supported automotive platforms.'}
@@ -87,14 +92,14 @@ export default function StatsClient() {
                                 >
                                     <div className="flex items-center justify-between text-xs mb-1">
                                         <span className="font-bold text-slate-200 capitalize group-hover:text-cyan-400 transition-colors">
-                                            #{idx + 1} {b.brand}
+                                            #{idx + 1} <TranslatedText text={b.brand} />
                                         </span>
                                         <span className="text-[10px] text-slate-400 font-mono">
                                             {b.sharePercent}%
                                         </span>
                                     </div>
                                     <div className="text-xs font-mono text-cyan-400 font-bold">
-                                        {formatDeviceCount(b.totalDevices, true)} {t('stats.dongles') || 'dongles'}
+                                        <TranslatedText text={formatDeviceCount(b.totalDevices, true)} /> {t('stats.dongles') || 'dongles'}
                                     </div>
                                 </Link>
                             ))}
@@ -102,23 +107,22 @@ export default function StatsClient() {
                     </div>
                 </div>
 
-                {/* Metabase Dashboard Embed */}
-                <div className="bg-slate-800/30 border border-slate-700/50 rounded-2xl overflow-hidden shadow-2xl">
-                    <iframe
-                        src={`${METABASE_DASHBOARD_URL}#theme=night&titled=false&hide_parameters=date_range,make,model,by_branch,time_grouping,text`}
-                        className="w-full border-0 h-[2400px] md:h-[1200px]"
-                        title={t('stats.embedTitle')}
-                        allowFullScreen
-                    />
-                </div>
+                {charts ? <PublicFleetDashboard charts={charts} /> : <><StatsCharts
+                    branchDistribution={Object.entries(FLEET_BRAND_STATS.branchTotals).map(([name, value]) => ({ name, value }))}
+                    topModels={FLEET_STATS.models.slice(0, 10).map(model => ({ name: model.cleanName, value: model.routes }))}
+                />
+                <p className="mt-4 text-center text-xs text-slate-500">
+                    <TranslatedText text="Fleet snapshot updated" />{' '}
+                    <TranslatedText text={FLEET_BRAND_STATS.lastUpdated} />
+                </p></>}
 
                 <footer className="mt-16 text-center text-slate-600 text-sm">
                     <p>
-                        {t('footer.builtFor')} •{' '}
+                        {t('footer.builtFor')} •<TranslatedText text={' '} />
                         <a href="https://www.sunnypilot.ai/terms" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 transition-colors">{t('footer.terms')}</a>
-                        {' '}•{' '}
+                        <TranslatedText text={' '} />•<TranslatedText text={' '} />
                         <a href="https://github.com/sunnypilot/sunnypilot" target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 transition-colors">{t('footer.github')}</a>
-                        {' '}•{' '}
+                        <TranslatedText text={' '} />•<TranslatedText text={' '} />
                         <a href="https://buymeacoffee.com/vinhle.co" target="_blank" rel="noopener noreferrer" className="link-coffee font-medium">☕ {t('footer.buyMeCoffee')}</a>
                     </p>
                 </footer>

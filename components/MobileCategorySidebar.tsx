@@ -1,4 +1,7 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import { useEffect, useRef, ReactNode } from 'react';
 import { useLanguage } from '../lib/i18n';
@@ -52,7 +55,7 @@ function SidebarButton({
             className={`w-full ${getFilterButtonClasses({ isActive, variant, wide: true })}`}
         >
             <span className={`shrink-0 text-lg ${variant === 'emerald' ? 'text-emerald-400' : ''}`}>{icon}</span>
-            <span className="flex-1">{label}</span>
+            <span className="flex-1"><TranslatedText text={label} /></span>
             {count !== undefined && (
                 <span className={getFilterBadgeClasses(isActive, variant)}>
                     {count}
@@ -79,6 +82,7 @@ export default function MobileCategorySidebar({
     onSelectCategory,
     searchQuery = '',
 }: MobileCategorySidebarProps) {
+  const tx = useTextTranslation();
     const { t } = useLanguage();
     const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -142,7 +146,7 @@ export default function MobileCategorySidebar({
                     <button
                         onClick={onClose}
                         className="p-2 rounded-xl text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-all"
-                        aria-label="Close sidebar"
+                        aria-label={tx("Close sidebar")}
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -182,7 +186,7 @@ export default function MobileCategorySidebar({
                                     key={category.id}
                                     isActive={activeCategories.includes(category.id)}
                                     icon={category.icon}
-                                    label={category.name}
+                                    label={tx(category.name)}
                                     count={getCategoryCount(category)}
                                     onClick={() => onToggleCategory?.(category.id)}
                                 />
@@ -210,7 +214,7 @@ export default function MobileCategorySidebar({
                                     key={cat.id}
                                     isActive={activeCategory === cat.id && !searchQuery}
                                     icon={cat.icon}
-                                    label={cat.name}
+                                    label={tx(cat.name)}
                                     count={getCategoryCount(cat)}
                                     onClick={() => {
                                         onSelectCategory?.(cat.id);

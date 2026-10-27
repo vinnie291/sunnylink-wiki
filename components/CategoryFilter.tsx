@@ -1,4 +1,7 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import { useId, useState, ReactNode } from 'react';
 import { useLanguage } from '../lib/i18n';
@@ -35,6 +38,7 @@ export default function CategoryFilter({
     vertical = false,
     recommendedCount = 0,
 }: CategoryFilterProps) {
+  const tx = useTextTranslation();
     const [isOpen, setIsOpen] = useState(initialOpen);
     const listId = useId();
     const { t } = useLanguage();
@@ -141,14 +145,14 @@ export default function CategoryFilter({
                             className={getFilterButtonClasses({ isActive })}
                         >
                             <span className="shrink-0">{category.icon}</span>
-                            <span className="flex-1 break-words">{category.name}</span>
+                            <span className="flex-1 break-words"><TranslatedText text={category.name} /></span>
                             <div className="flex items-center gap-1.5 shrink-0">
                                 {category.deviceCount !== undefined && category.deviceCount > 0 && (
                                     <span
                                         className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20"
-                                        title={category.deviceGroup
+                                        title={tx(category.deviceGroup
                                             ? `${category.deviceCount.toLocaleString()} active Sunnylink devices across the ${category.deviceGroup} group`
-                                            : `${category.deviceCount.toLocaleString()} active ${category.name} Sunnylink devices`}
+                                            : `${category.deviceCount.toLocaleString()} active ${category.name} Sunnylink devices`)}
                                     >
                                         ⚡{category.deviceCount >= 1000 ? `${(category.deviceCount / 1000).toFixed(1)}k` : category.deviceCount}
                                     </span>

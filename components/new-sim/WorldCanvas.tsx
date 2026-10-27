@@ -1,4 +1,7 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import { useEffect, useRef, useState } from 'react';
 import { Simulation, FIXED_STEP, type SimOptions, type Chapter, type Telemetry } from '@/lib/new-sim/simulation';
@@ -14,6 +17,7 @@ interface Props {
   onTelemetry: (value: Telemetry) => void;
 }
 export default function WorldCanvas({ options, revision, chapter, theme, skipRef, onTelemetry }: Props) {
+  const tx = useTextTranslation();
   // 'auto' follows the wiki's own light/dark setting.
   const lighting: 'dark' | 'light' = options.lighting === 'auto' ? theme : options.lighting === 'night' ? 'dark' : 'light';
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -77,9 +81,9 @@ export default function WorldCanvas({ options, revision, chapter, theme, skipRef
   }, [options.scenario, options.density, options.modelId, revision, chapter, lighting, skipRef]);
 
   return <>
-    <canvas ref={canvasRef} aria-label="3D driving simulation showing traffic, road curves, traffic lights and stop signs" style={{ display: 'block', width: '100%', height: '100%' }} />
+    <canvas ref={canvasRef} aria-label={tx("3D driving simulation showing traffic, road curves, traffic lights and stop signs")} style={{ display: 'block', width: '100%', height: '100%' }} />
     {(!ready || error) && <div style={{ position: 'absolute', inset: 0, display: 'grid', placeContent: 'center', background: 'var(--background)', color: 'var(--foreground)', textAlign: 'center', padding: 30 }} role="status">
-      {error ? <><strong>The 3D view could not start.</strong><p>Enable hardware acceleration or try a browser with WebGL 2 support.</p><button onClick={() => window.location.reload()}>Reload simulator</button></> : <span>Building your surroundings…</span>}
+      {error ? <><strong><TranslatedText text={"The 3D view could not start."} /></strong><p><TranslatedText text={"Enable hardware acceleration or try a browser with WebGL 2 support."} /></p><button onClick={() => window.location.reload()}><TranslatedText text={"Reload simulator"} /></button></> : <span><TranslatedText text={"Building your surroundings…"} /></span>}
     </div>}
   </>;
 }

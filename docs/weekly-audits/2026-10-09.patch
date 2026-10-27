@@ -1,0 +1,1122 @@
+diff --git a/data/models.json b/data/models.json
+index 89070b0..b192b25 100644
+--- a/data/models.json
++++ b/data/models.json
+@@ -2,15 +2,15 @@
+   "appName": "Sunnylink Model Database",
+   "version": "8.4",
+   "totalModels": 130,
+-  "lastUpdated": "October 03, 2026",
++  "lastUpdated": "October 09, 2026",
+   "vibeGuide": {
+     "chestnut_gpu": {
+       "title": "The Chestnut GPU Series (Big Models)",
+       "subtitle": "eGPU-Only Heavyweights",
+       "includes": "Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+-      "vibe": "These are the \"big models\" — chestnut-class networks larger than anything in the WMI or OP lines, tied to comma's new GPU add-on, which began reaching owners in August 2026. They drop under the forum's big_model tag on a near-daily cadence during a run. The extra network size shows up first in lateral: taking in-town 90-degree turns wide instead of cutting them, and showing planted rather than floaty highway stability. Standout entries like Cinque Terre and Sad Model have significantly improved lateral stability and natural steering feel, while earlier BMRLNAP runs suffered from low-speed steering oscillations. Stop signs and traffic light stop lines remain an active area of tuning across the line. Runtime notes (October 2): PR #2035 proposes 1344×760 comma 3X frames before unified AMD transfer. PR #2023 proposes ChestnutPowerLimit (0 = stock; 40–100 W) via advanced sunnylink Device controls on comma four. Both remain open. Model management: selector version 20 whole-file manifests remain proposed in PR #2015. Refresh Models reached master through PR #2018; refresh while parked with no download in progress. Clear Cache removes downloaded models. PR #1999 proposes diagnosing stale compiled-runtime startup failures that can appear as Posenet NaN-speed alerts.",
++      "vibe": "These are the \"big models\" — chestnut-class networks larger than anything in the WMI or OP lines, tied to comma's new GPU add-on, which began reaching owners in August 2026. They drop under the forum's big_model tag on a near-daily cadence during a run. The extra network size shows up first in lateral: taking in-town 90-degree turns wide instead of cutting them, and showing planted rather than floaty highway stability. Standout entries like Cinque Terre and Sad Model have significantly improved lateral stability and natural steering feel, while earlier BMRLNAP runs suffered from low-speed steering oscillations. Stop signs and traffic light stop lines remain an active area of tuning across the line. Runtime notes (October 2): PR #2035 proposes 1344×760 comma 3X frames before unified AMD transfer. PR #2023 proposes ChestnutPowerLimit (0 = stock; 40–100 W) via advanced sunnylink Device controls on comma four. Both remain open. Model management (October 9): the October 6 sync (#2036) moved master to selector 20, Chestnut v27, and Qualcomm v23. Qualcomm v24 is published, but its adoption is proposed in open PR #2044. PR #2015 remains open; selector 20 is already in master through the sync. PR #1999 proposes diagnosing stale compiled-runtime startup failures that can appear as Posenet NaN-speed alerts.",
+       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
+-      "recommendation": "Cinque Terre and Cinque Terre V2 have positive overall polls but mixed vehicle-specific reports. Check stopping, cornering, and low-speed steering on your own setup. V3 is listed in the newer selector-20 catalog; this audit verified no dedicated V3 poll. Hardware and branch compatibility still apply."
++      "recommendation": "Cinque Terre and V2 have positive overall polls but mixed vehicle-specific reports. Check stopping, cornering, and low-speed steering on your setup. Master now includes V3 in Chestnut v27 with selector 20; no dedicated V3 forum poll was verified. Hardware and branch compatibility still apply."
+     },
+     "wmi_2026": {
+       "title": "The WMI & 2026 World Series (The Modern Standard)",
+@@ -273,7 +273,7 @@
+             "bad": 10
+           },
+           "consensus": "The forum overall poll has 10 voters: four Great, four Good, one OK, and one Bad. Drivers report improved stopping, but also low-speed oscillation, understeer, close approaches to lane lines, and slow acceleration. Feedback is mixed and vehicle-specific.",
+-          "note": "CTMV2 was announced September 8, 2026. Requires comma four or comma 3X plus a Chestnut eGPU. It appears in the inspected master branch’s Chestnut v25 catalog for selector 19, as well as the newer v27 catalog for selector 20. Use the catalog compatible with your installed branch.",
++          "note": "CTMV2 was announced September 8, 2026. Requires comma four or comma 3X plus a Chestnut eGPU. The October 6 master sync (#2036) uses selector 20 and Chestnut v27, and names Cinque Terre Model v2 as the default big model. Dev and staging builds based on that sync are development builds; the latest tagged release remains v2026.002.002.",
+           "bestFor": "Community testing with compatible hardware and software.",
+           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-v2-september-08-2026/7096",
+           "testedOn": [
+@@ -292,7 +292,7 @@
+             "Experimental"
+           ],
+           "consensus": "Published in the Chestnut v27 catalog. No dedicated V3 community poll or vehicle-specific performance evidence was verified in this audit.",
+-          "note": "CTV3M is dated September 17, 2026 in the official manifest and requires selector version 20. The inspected sunnypilot master uses selector 19 and the Chestnut v25 catalog. A published artifact alone does not establish availability in your installed branch.",
++          "note": "CTV3M is dated September 17, 2026 and requires selector 20. Master now consumes Chestnut v27, which includes V3, following the October 6 sync (#2036). Check your installed branch and compatible hardware; older selector-19 builds use different catalogs. No dedicated V3 forum poll was verified.",
+           "bestFor": "Community testing with compatible hardware and software."
+         },
+         {
+@@ -1585,13 +1585,13 @@
+           "negatives": [],
+           "routesDriven": 788,
+           "fleetRank": 24,
+-          "communityScore": 52,
+-          "totalVotes": 15,
++          "communityScore": 56,
++          "totalVotes": 19,
+           "sentiment": {
+-            "great": 27,
+-            "good": 33,
+-            "ok": 0,
+-            "bad": 40
++            "great": 26,
++            "good": 37,
++            "ok": 5,
++            "bad": 32
+           }
+         },
+         {
+@@ -1606,12 +1606,12 @@
+           ],
+           "consensus": "Tuned by Yassine/MVL with noticeable longitudinal gains over POP and CD210. Offers smooth stop-and-go speed matching and assertive curve tracking on sweeping highways. Some users report slight low-speed lateral wiggles and reduced torque on high-angle curves for certain steer setups.",
+           "note": "Pair with recent MVL tunings if driving Honda/Hyundai platforms. Very solid longitudinal control in experimental mode.",
+-          "communityScore": 76,
+-          "totalVotes": 44,
++          "communityScore": 75,
++          "totalVotes": 45,
+           "sentiment": {
+-            "great": 32,
+-            "good": 43,
+-            "ok": 23,
++            "great": 31,
++            "good": 42,
++            "ok": 25,
+             "bad": 2
+           },
+           "bestFor": "Highway / Stop & Go",
+diff --git a/data/features.json b/data/features.json
+index 643cbd5..6c3c85c 100644
+--- a/data/features.json
++++ b/data/features.json
+@@ -2,7 +2,7 @@
+     "appName": "Sunnylink Database",
+     "version": "2026.002",
+     "dataSource": "Official Sunnypilot Documentation, release notes, and linked upstream development proposals / issue reports",
+-    "lastUpdated": "2026-10-03",
++    "lastUpdated": "October 09, 2026",
+     "features": [
+         {
+             "id": "mads",
+@@ -235,7 +235,7 @@
+             "category": "Models & AI",
+             "officialDefinition": "Allows switching and testing different vision neural network driving models directly on device. Configure advanced model parameters including lane turn desires, live learning steer delay, and camera software delay.",
+             "userSummary": "In-cab AI model switcher with fine-tuning parameters.",
+-            "userTranslation": "\"Brain Swapper.\" Choose between different AI models trained on various driving styles (smooth highway, sharp curves, aggressive city). Tune steer delay and turn desire speed to suit your preferences. Refresh Models was added to comma four in master by PR #2018; use it while parked when no download/refresh is running. Clear Cache removes downloaded model cache. Selector version 20 whole-file manifests remain an open proposal (#2015).",
++            "userTranslation": "Choose a driving model and tune steer delay or turn desires for your setup. Master now uses selector 20 with Chestnut v27 and Qualcomm v23 after the October 6 sync (#2036). Qualcomm v24 adoption remains proposed in open PR #2044. Refresh Models was added by #2018; refresh while parked with no download in progress. Clear Cache removes downloaded models.",
+             "settingsKeys": [
+                 "DrivingModel",
+                 "ModelLibrary",
+diff --git a/data/toggles.json b/data/toggles.json
+index 3adc491..3aaf928 100644
+--- a/data/toggles.json
++++ b/data/toggles.json
+@@ -71,14 +71,14 @@
+           "type": "dropdown",
+           "description": "Select the AI driving model. Each model has unique driving characteristics.",
+           "useCase": "Choose a model that matches your driving style and road conditions.",
+-          "userNote": "See the Model Library for detailed descriptions of all 66+ available models.",
++          "userNote": "The wiki documents 130 models. The models available on your device depend on its hardware and installed branch.",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+           "key": "ModelLibrary",
+           "label": "Model Library",
+           "type": "action",
+-          "description": "Browse the complete library of 66+ driving models with descriptions, release dates, and community consensus.",
++          "description": "Browse 130 documented driving models with release dates and community evidence. Device availability depends on hardware and the installed branch.",
+           "useCase": "Find the perfect model for your driving style.",
+           "userNote": "Includes WMI Series, Dark Souls, Down to Ride, Tomb Raider, and Legacy models.",
+           "deviceAvailability": "config-hidden"
+@@ -90,7 +90,7 @@
+           "description": "Fetches the available model catalog from the server. PR #2018, merged into master September 14, adds the action to comma four (MICI) and improves refresh progress in both device UIs.",
+           "userNote": "Available while offroad, with no model download or refresh already running. The button shows fetching progress. Requires a build containing PR #2018; stable-release availability depends on branch.",
+           "deviceAvailability": "config-hidden",
+-          "deepDive": "Source: https://github.com/sunnypilot/sunnypilot/pull/2018. Selector version 20 whole-file manifests are separately proposed in open PR #2015: https://github.com/sunnypilot/sunnypilot/pull/2015."
++          "deepDive": "Refresh action: https://github.com/sunnypilot/sunnypilot/pull/2018. Master moved to selector 20, Chestnut v27, and Qualcomm v23 through the October 6 sync: https://github.com/sunnypilot/sunnypilot/pull/2036. PR #2015 is still open, although selector 20 is already in master. Qualcomm v24 adoption is an open proposal: https://github.com/sunnypilot/sunnypilot/pull/2044."
+         },
+         {
+           "key": "ClearModelCache",
+@@ -1725,5 +1725,5 @@
+       ]
+     }
+   ],
+-  "lastUpdated": "2026-10-03"
++  "lastUpdated": "October 09, 2026"
+ }
+diff --git a/data/models.ko.json b/data/models.ko.json
+index 83b8fdd..4d0ca79 100644
+--- a/data/models.ko.json
++++ b/data/models.ko.json
+@@ -2,15 +2,15 @@
+   "appName": "Sunnylink Model Database",
+   "version": "8.4",
+   "totalModels": 130,
+-  "lastUpdated": "October 03, 2026",
++  "lastUpdated": "October 09, 2026",
+   "vibeGuide": {
+     "chestnut_gpu": {
+       "title": "Chestnut GPU 시리즈(대형 모델)",
+       "subtitle": "eGPU 전용 헤비급",
+       "includes": "Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+-      "vibe": "이것은 2026년 8월에 소유자에게 도달하기 시작한 comma의 새로운 GPU 추가 기능과 연결된 WMI 또는 OP 라인의 어떤 것보다 더 큰 Chestnut급 네트워크인 \"빅 모델\"입니다. 실행 중에 거의 매일 케이던스로 포럼의 big_model 태그 아래로 떨어집니다. 추가 네트워크 크기는 측면에서 먼저 나타납니다. 시내를 자르는 대신 90도 회전하고, 고속도로 안정성보다는 심어진 모습을 보여줍니다. Cinque Terre 및 Sad Model와 같은 뛰어난 항목은 측면 안정성과 자연스러운 조향 느낌을 크게 향상시켰으며, 이전 BMRLNAP 실행은 저속 조향 진동으로 어려움을 겪었습니다. 정지 표지판과 신호등 정지선은 선을 가로지르는 활성 튜닝 영역으로 남아 있습니다. 런타임 참고 사항(10월 2일): PR #2035는 통합 AMD 전송 전 1344×760 comma 3X 프레임을 제안합니다. PR #2023에서는 comma four의 고급 sunnylink 장치 제어를 통해 ChestnutPowerLimit(0 = 재고, 40–100W)를 제안합니다. 둘 다 열려 있습니다. 모델 관리: 선택기 버전 20 전체 파일 매니페스트는 PR #2015에서 계속 제안됩니다. Refresh Models는 PR #2018을 통해 마스터에 도달했습니다. 다운로드가 진행되지 않은 상태에서 주차 중에 새로고침하세요. 캐시 지우기는 다운로드한 모델을 제거합니다. PR #1999에서는 Posenet NaN 속도 경고로 나타날 수 있는 오래된 컴파일 런타임 시작 오류 진단을 제안합니다.",
++      "vibe": "이것은 2026년 8월에 소유자에게 도달하기 시작한 comma의 새로운 GPU 추가 기능과 연결된 WMI 또는 OP 라인의 어떤 것보다 더 큰 Chestnut급 네트워크인 \"빅 모델\"입니다. 실행 중에 거의 매일 케이던스로 포럼의 big_model 태그 아래로 떨어집니다. 추가 네트워크 크기는 측면에서 먼저 나타납니다. 시내를 자르는 대신 90도 회전하고, 고속도로 안정성보다는 심어진 모습을 보여줍니다. Cinque Terre 및 Sad Model와 같은 뛰어난 항목은 측면 안정성과 자연스러운 조향 느낌을 크게 향상시켰으며, 이전 BMRLNAP 실행은 저속 조향 진동으로 어려움을 겪었습니다. 정지 표지판과 신호등 정지선은 선을 가로지르는 활성 튜닝 영역으로 남아 있습니다. 런타임 참고 사항(10월 2일): PR #2035는 통합 AMD 전송 전 1344×760 comma 3X 프레임을 제안합니다. PR #2023에서는 comma four의 고급 sunnylink 장치 제어를 통해 ChestnutPowerLimit(0 = 재고, 40–100W)를 제안합니다. 둘 다 열려 있습니다. 모델 관리(10월 9일): 10월 6일 동기화(#2036)로 master가 선택기 20, Chestnut v27, Qualcomm v23을 사용하게 되었습니다. Qualcomm v24는 게시되었지만 도입은 열린 PR #2044에서 제안 중입니다. PR #2015는 아직 열려 있으나 선택기 20은 동기화를 통해 이미 master에 포함되어 있습니다. PR #1999에서는 Posenet NaN 속도 경고로 나타날 수 있는 오래된 컴파일 런타임 시작 오류 진단을 제안합니다.",
+       "bestFor": "가장 큰 사용 가능한 네트워크를 원하고 편안하게 테스트할 수 있는 eGPU를 갖춘 Chestnut 소유자입니다.",
+-      "recommendation": "Cinque Terre와 Cinque Terre V2의 전체 평가는 긍정적이지만 차량별 경험은 엇갈립니다. 자신의 구성에서 정지, 코너링 및 저속 조향을 확인하세요. V3는 최신 선택기 20 카탈로그에 포함되어 있으나 이번 검토에서는 전용 투표를 확인하지 못했습니다. 하드웨어와 브랜치 호환성을 확인해야 합니다."
++      "recommendation": "Cinque Terre와 V2의 종합 투표는 긍정적이지만 차량별 보고는 엇갈립니다. 자신의 구성에서 정지, 코너링, 저속 조향을 확인하세요. master는 이제 선택기 20과 Chestnut v27을 통해 V3를 포함하지만 V3 전용 포럼 투표는 확인되지 않았습니다. 하드웨어와 브랜치 호환성 조건은 여전히 적용됩니다."
+     },
+     "wmi_2026": {
+       "title": "WMI 및 2026 월드 시리즈(모던 스탠다드)",
+@@ -273,7 +273,7 @@
+             "bad": 10
+           },
+           "consensus": "포럼 전체 평가는 10명으로 Great 4명, Good 4명, OK 1명, Bad 1명입니다. 정지 개선과 함께 저속 진동, 언더스티어, 차선 가까이 주행 및 느린 가속도 보고됩니다. 평가는 엇갈리며 차량에 따라 다릅니다.",
+-          "note": "CTMV2는 2026년 9월 8일 발표되었습니다. comma four 또는 comma 3X와 Chestnut eGPU가 필요합니다. 확인한 master 브랜치의 선택기 19용 Chestnut v25 카탈로그와 최신 선택기 20용 v27 카탈로그에 모두 포함되어 있습니다. 설치된 브랜치와 호환되는 카탈로그를 사용하세요.",
++          "note": "CTMV2는 2026년 9월 8일 발표되었습니다. comma four 또는 Chestnut eGPU를 연결한 comma 3X가 필요합니다. 10월 6일 master 동기화(#2036)는 선택기 20과 Chestnut v27을 사용하며 기본 대형 모델을 Cinque Terre Model v2로 지정합니다. 이 동기화를 기반으로 한 dev와 staging은 개발 빌드이며 최신 태그 릴리스는 v2026.002.002입니다.",
+           "bestFor": "호환 하드웨어 및 소프트웨어에서의 커뮤니티 테스트.",
+           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-v2-september-08-2026/7096",
+           "testedOn": [
+@@ -292,7 +292,7 @@
+             "Experimental"
+           ],
+           "consensus": "Chestnut v27 카탈로그에 공개되었습니다. 이번 검토에서는 V3 전용 커뮤니티 투표나 차량별 성능 근거를 확인하지 못했습니다.",
+-          "note": "공식 매니페스트의 CTV3M 날짜는 2026년 9월 17일이며 선택기 버전 20이 필요합니다. 확인한 sunnypilot master는 선택기 19와 Chestnut v25 카탈로그를 사용합니다. 파일 공개만으로 설치된 브랜치의 사용 가능 여부를 판단할 수 없습니다.",
++          "note": "CTV3M의 날짜는 2026년 9월 17일이며 선택기 20이 필요합니다. 10월 6일 동기화(#2036) 이후 master는 V3가 포함된 Chestnut v27을 사용합니다. 설치한 브랜치와 하드웨어 호환성을 확인하세요. 이전 선택기 19 빌드는 다른 카탈로그를 사용합니다. V3 전용 포럼 투표는 확인되지 않았습니다.",
+           "bestFor": "호환 하드웨어 및 소프트웨어에서의 커뮤니티 테스트."
+         },
+         {
+@@ -1585,13 +1585,13 @@
+           "negatives": [],
+           "routesDriven": 788,
+           "fleetRank": 24,
+-          "communityScore": 52,
+-          "totalVotes": 15,
++          "communityScore": 56,
++          "totalVotes": 19,
+           "sentiment": {
+-            "great": 27,
+-            "good": 33,
+-            "ok": 0,
+-            "bad": 40
++            "great": 26,
++            "good": 37,
++            "ok": 5,
++            "bad": 32
+           }
+         },
+         {
+@@ -1606,12 +1606,12 @@
+           ],
+           "consensus": "Yassine/MVL로 튜닝되었으며 POP 및 CD210에 비해 눈에 띄는 세로 방향 이득이 있습니다. 넓은 고속도로에서 부드러운 정지 및 이동 속도 일치와 확실한 곡선 추적을 제공합니다. 일부 사용자는 특정 조향 설정에 대해 고각 곡선에서 약간의 저속 측면 흔들림과 토크 감소를 보고합니다.",
+           "note": "Honda/Hyundai 플랫폼을 구동하는 경우 최신 MVL 튜닝과 페어링하세요. 실험 모드에서 매우 견고한 종방향 제어.",
+-          "communityScore": 76,
+-          "totalVotes": 44,
++          "communityScore": 75,
++          "totalVotes": 45,
+           "sentiment": {
+-            "great": 32,
+-            "good": 43,
+-            "ok": 23,
++            "great": 31,
++            "good": 42,
++            "ok": 25,
+             "bad": 2
+           },
+           "bestFor": "고속도로 / Stop & Go",
+diff --git a/data/features.ko.json b/data/features.ko.json
+index 0fdc975..1c2e560 100644
+--- a/data/features.ko.json
++++ b/data/features.ko.json
+@@ -2,7 +2,7 @@
+   "appName": "Sunnylink Database",
+   "version": "2026.002",
+   "dataSource": "Official Sunnypilot Documentation, release notes, and linked upstream development proposals / issue reports",
+-  "lastUpdated": "2026-10-03",
++  "lastUpdated": "October 09, 2026",
+   "features": [
+     {
+       "id": "mads",
+@@ -235,7 +235,7 @@
+       "category": "Models & AI",
+       "officialDefinition": "장치에서 직접 다양한 비전 신경망 구동 모델을 전환하고 테스트할 수 있습니다. 차선 회전 희망, 실시간 학습 조향 지연, 카메라 소프트웨어 지연을 포함한 고급 모델 매개변수를 구성합니다.",
+       "userSummary": "매개변수를 미세 조정하는 운전실 내 AI 모델 전환기입니다.",
+-      "userTranslation": "\"브레인 스왑퍼.\" 다양한 운전 스타일(부드러운 고속도로, 급커브, 공격적인 도시)에 대해 훈련된 다양한 AI 모델 중에서 선택하세요. 조향 지연을 조정하고 원하는 속도를 원하는 대로 조정하세요. 모델 새로 고침은 PR #2018에 의해 마스터의 comma four에 추가되었습니다. 다운로드/새로 고침이 실행되지 않을 때 주차 중에 사용하십시오. 캐시 지우기는 다운로드한 모델 캐시를 제거합니다. 선택기 버전 20 전체 파일 매니페스트는 공개 제안으로 남아 있습니다(#2015).",
++      "userTranslation": "구성에 맞는 주행 모델을 선택하고 조향 지연 또는 회전 의도를 조정하세요. master는 10월 6일 동기화(#2036) 이후 선택기 20, Chestnut v27, Qualcomm v23을 사용합니다. Qualcomm v24 도입은 열린 PR #2044에서 제안 중입니다. 모델 새로고침은 #2018에서 추가되었습니다. 다운로드 중이 아닐 때 주차 상태에서 새로고침하세요. 캐시 지우기는 다운로드한 모델을 삭제합니다.",
+       "settingsKeys": [
+         "DrivingModel",
+         "ModelLibrary",
+diff --git a/data/toggles.ko.json b/data/toggles.ko.json
+index c69561a..ced5483 100644
+--- a/data/toggles.ko.json
++++ b/data/toggles.ko.json
+@@ -71,14 +71,14 @@
+           "type": "dropdown",
+           "description": "AI 주행 모델을 선택하세요. 각 모델에는 고유한 주행 특성이 있습니다.",
+           "useCase": "귀하의 운전 스타일과 도로 상황에 맞는 모델을 선택하십시오.",
+-          "userNote": "66개 이상의 사용 가능한 모든 모델에 대한 자세한 설명은 모델 라이브러리를 참조하세요.",
++          "userNote": "위키에는 130개 모델이 설명되어 있습니다. 기기에서 사용할 수 있는 모델은 하드웨어와 설치한 브랜치에 따라 달라집니다.",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+           "key": "ModelLibrary",
+           "label": "모델 라이브러리",
+           "type": "action",
+-          "description": "설명, 출시 날짜 및 커뮤니티 합의가 포함된 66개 이상의 운전 모델로 구성된 전체 라이브러리를 찾아보세요.",
++          "description": "출시 날짜와 커뮤니티 근거를 포함한 130개 주행 모델을 살펴보세요. 기기에서의 사용 가능 여부는 하드웨어와 설치한 브랜치에 따라 달라집니다.",
+           "useCase": "귀하의 운전 스타일에 딱 맞는 모델을 찾아보세요.",
+           "userNote": "WMI 시리즈, Dark Souls, Down to Ride, Tomb Raider 및 Legacy 모델이 포함됩니다.",
+           "deviceAvailability": "config-hidden"
+@@ -90,7 +90,7 @@
+           "description": "서버에서 사용 가능한 모델 카탈로그를 가져옵니다. 9월 14일 마스터에 병합된 PR #2018은 comma four(MICI)에 작업을 추가하고 두 장치 UI 모두에서 새로 고침 진행 상황을 개선합니다.",
+           "userNote": "모델 다운로드나 새로 고침이 이미 실행되지 않은 상태에서 정차 모드 중에도 사용할 수 있습니다. 버튼에는 가져오기 진행 상황이 표시됩니다. PR #2018이 포함된 빌드가 필요합니다. 안정 릴리스 가용성은 지점에 따라 다릅니다.",
+           "deviceAvailability": "config-hidden",
+-          "deepDive": "출처: https://github.com/sunnypilot/sunnypilot/pull/2018. 선택기 버전 20 전체 파일 매니페스트는 공개 PR #2015: https://github.com/sunnypilot/sunnypilot/pull/2015.에서 별도로 제안됩니다."
++          "deepDive": "새로고침 기능: https://github.com/sunnypilot/sunnypilot/pull/2018. master는 10월 6일 동기화를 통해 선택기 20, Chestnut v27, Qualcomm v23으로 전환되었습니다: https://github.com/sunnypilot/sunnypilot/pull/2036. PR #2015는 아직 열려 있지만 선택기 20은 이미 master에 포함되어 있습니다. Qualcomm v24 도입은 열린 제안입니다: https://github.com/sunnypilot/sunnypilot/pull/2044."
+         },
+         {
+           "key": "ClearModelCache",
+@@ -1725,5 +1725,5 @@
+       ]
+     }
+   ],
+-  "lastUpdated": "2026-10-03"
++  "lastUpdated": "October 09, 2026"
+ }
+diff --git a/data/models.zh.json b/data/models.zh.json
+index 9e141d1..ce4c8e3 100644
+--- a/data/models.zh.json
++++ b/data/models.zh.json
+@@ -2,15 +2,15 @@
+   "appName": "Sunnylink Model Database",
+   "version": "8.4",
+   "totalModels": 130,
+-  "lastUpdated": "October 03, 2026",
++  "lastUpdated": "October 09, 2026",
+   "vibeGuide": {
+     "chestnut_gpu": {
+       "title": "Chestnut GPU 系列（大型號）",
+       "subtitle": "僅限 eGPU 的重量級產品",
+       "includes": "Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+-      "vibe": "這些是“大模型”——比 WMI 或 OP 系列中的任何產品都大的Chestnut級網絡，與 comma 的新 GPU 附加組件相關，該附加組件於 2026 年 8 月開始向用戶提供。它們在跑步期間幾乎每天都會出現在論壇的 big_model 標籤下。額外的網絡尺寸首先體現在橫向上：將城市內的 90 度轉彎改寬而不是切斷它們，並顯示出穩定的而不是浮動的高速公路穩定性。像五漁村和 Sad Model 這樣的傑出參賽作品顯着改善了橫向穩定性和自然的轉向感覺，而早期的 BMRLNAP 則遭受低速轉向振盪的困擾。停車標誌和交通燈停車線仍然是整線調整的活躍區域。運行時說明（10 月 2 日）：PR #2035 建議在統一 AMD 傳輸之前使用 1344×760 comma 3X 幀。 PR #2023 建議通過 comma four 上的高級 sunnylink 設備控制來實現 ChestnutPowerLimit（0 = 庫存；40–100 W）。兩者均保持開放狀態。模型管理：PR #2015 中仍建議使用選擇器版本 20 全文件清單。刷新模型通過 PR #2018 達到大師級別；停車時刷新，沒有正在進行下載。清除緩存會刪除下載的模型。 PR #1999 建議診斷過時的編譯運行時啓動故障，這些故障可能顯示爲 Posenet NaN 速度警報。",
++      "vibe": "這些是“大模型”——比 WMI 或 OP 系列中的任何產品都大的Chestnut級網絡，與 comma 的新 GPU 附加組件相關，該附加組件於 2026 年 8 月開始向用戶提供。它們在跑步期間幾乎每天都會出現在論壇的 big_model 標籤下。額外的網絡尺寸首先體現在橫向上：將城市內的 90 度轉彎改寬而不是切斷它們，並顯示出穩定的而不是浮動的高速公路穩定性。像五漁村和 Sad Model 這樣的傑出參賽作品顯着改善了橫向穩定性和自然的轉向感覺，而早期的 BMRLNAP 則遭受低速轉向振盪的困擾。停車標誌和交通燈停車線仍然是整線調整的活躍區域。運行時說明（10 月 2 日）：PR #2035 建議在統一 AMD 傳輸之前使用 1344×760 comma 3X 幀。 PR #2023 建議通過 comma four 上的高級 sunnylink 設備控制來實現 ChestnutPowerLimit（0 = 庫存；40–100 W）。兩者均保持開放狀態。模型管理（10 月 9 日）：10 月 6 日同步（#2036）將 master 更新為選擇器 20、Chestnut v27 和 Qualcomm v23。Qualcomm v24 已發布，但採用它仍是尚未合併的 PR #2044 提案。PR #2015 仍未合併；選擇器 20 已透過同步進入 master。 PR #1999 建議診斷過時的編譯運行時啓動故障，這些故障可能顯示爲 Posenet NaN 速度警報。",
+       "bestFor": "擁有 eGPU 的 Chestnut 所有者想要最大的可用網絡並且願意進行測試。",
+-      "recommendation": "Cinque Terre 和 Cinque Terre V2 的總體投票偏正面，但車輛特定反饋不一。請在自己的配置上檢查停車、轉彎和低速轉向。V3 已列入新版選擇器 20 目錄，本次覈查未確認專門的 V3 投票。仍需滿足硬件和分支兼容要求。"
++      "recommendation": "Cinque Terre 和 V2 的整體投票偏正面，但不同車輛的回報並不一致。請在自己的配置上確認停車、轉彎及低速轉向。master 現已透過選擇器 20 與 Chestnut v27 包含 V3，但未核實到 V3 專屬論壇投票。仍須符合硬體與分支相容性條件。"
+     },
+     "wmi_2026": {
+       "title": "WMI 和 2026 年世界大賽（現代標準）",
+@@ -273,7 +273,7 @@
+             "bad": 10
+           },
+           "consensus": "論壇總體評分有 10 人：Great 4、Good 4、OK 1、Bad 1。駕駛者報告停車改善，也提到低速振盪、轉向不足、貼近車道線和加速緩慢。反饋不一，因車輛而異。",
+-          "note": "CTMV2 於 2026 年 9 月 8 日發佈公告。需要 comma four 或 comma 3X 加 Chestnut eGPU。它同時出現在所檢查的 master 分支的選擇器 19 用 Chestnut v25 目錄及新版選擇器 20 用 v27 目錄中。請使用與安裝分支兼容的目錄。",
++          "note": "CTMV2 於 2026 年 9 月 8 日發布。需要 comma four，或連接 Chestnut eGPU 的 comma 3X。10 月 6 日的 master 同步（#2036）採用選擇器 20 與 Chestnut v27，並將 Cinque Terre Model v2 設為預設大型模型。基於此次同步的 dev 和 staging 屬於開發版本；最新標籤版仍為 v2026.002.002。",
+           "bestFor": "使用兼容硬件和軟件進行社羣測試。",
+           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-v2-september-08-2026/7096",
+           "testedOn": [
+@@ -292,7 +292,7 @@
+             "Experimental"
+           ],
+           "consensus": "已列入 Chestnut v27 目錄。本次覈查未確認專門的 V3 社羣投票或車輛特定性能證據。",
+-          "note": "官方清單中 CTV3M 的日期爲 2026 年 9 月 17 日，要求選擇器版本 20。所檢查的 sunnypilot master 使用選擇器 19 和 Chestnut v25 目錄。文件已發佈不代表安裝的分支支持它。",
++          "note": "CTV3M 的日期為 2026 年 9 月 17 日，需要選擇器 20。10 月 6 日同步（#2036）後，master 採用包含 V3 的 Chestnut v27。請確認已安裝的分支及硬體相容性；舊的選擇器 19 版本使用不同目錄。未核實到 V3 專屬論壇投票。",
+           "bestFor": "使用兼容硬件和軟件進行社羣測試。"
+         },
+         {
+@@ -1585,13 +1585,13 @@
+           "negatives": [],
+           "routesDriven": 788,
+           "fleetRank": 24,
+-          "communityScore": 52,
+-          "totalVotes": 15,
++          "communityScore": 56,
++          "totalVotes": 19,
+           "sentiment": {
+-            "great": 27,
+-            "good": 33,
+-            "ok": 0,
+-            "bad": 40
++            "great": 26,
++            "good": 37,
++            "ok": 5,
++            "bad": 32
+           }
+         },
+         {
+@@ -1606,12 +1606,12 @@
+           ],
+           "consensus": "由 Yassine/MVL 調校，與 POP 和 CD210 相比，縱向增益顯着。在寬闊的高速公路上提供平穩的走走停停的速度匹配和自信的曲線跟蹤。一些用戶報告說，在某些轉向設置下，高角度曲線上會出現輕微的低速橫向擺動和扭矩降低。",
+           "note": "如果驅動 Honda/Hyundai 平臺，請與最近的 MVL 調音配對。實驗模式下的縱向控制非常可靠。",
+-          "communityScore": 76,
+-          "totalVotes": 44,
++          "communityScore": 75,
++          "totalVotes": 45,
+           "sentiment": {
+-            "great": 32,
+-            "good": 43,
+-            "ok": 23,
++            "great": 31,
++            "good": 42,
++            "ok": 25,
+             "bad": 2
+           },
+           "bestFor": "高速公路/走走停停",
+diff --git a/data/features.zh.json b/data/features.zh.json
+index 5062a08..3e592a8 100644
+--- a/data/features.zh.json
++++ b/data/features.zh.json
+@@ -2,7 +2,7 @@
+   "appName": "Sunnylink Database",
+   "version": "2026.002",
+   "dataSource": "Official Sunnypilot Documentation, release notes, and linked upstream development proposals / issue reports",
+-  "lastUpdated": "2026-10-03",
++  "lastUpdated": "October 09, 2026",
+   "features": [
+     {
+       "id": "mads",
+@@ -235,7 +235,7 @@
+       "category": "Models & AI",
+       "officialDefinition": "允許直接在設備上切換和測試不同的視覺神經網絡驅動模型。配置高級模型參數，包括車道轉彎期望、實時學習轉向延遲和攝像頭軟件延遲。",
+       "userSummary": "具有微調參數的駕駛室內人工智能模型切換器。",
+-      "userTranslation": "“換腦者。”在針對不同駕駛風格（平滑的高速公路、急轉彎、激進的城市）進行訓練的不同人工智能模型之間進行選擇。調整轉向延遲和轉彎速度以滿足您的喜好。 PR #2018 在 master 中的 comma four 中添加了刷新模型；在沒有下載/刷新運行時停車時使用它。清除緩存會刪除下載的模型緩存。選擇器版本 20 全文件清單仍然是一個開放提案 (#2015)。",
++      "userTranslation": "選擇適合配置的駕駛模型，並調整轉向延遲或轉彎意圖。10 月 6 日同步（#2036）後，master 採用選擇器 20、Chestnut v27 和 Qualcomm v23。Qualcomm v24 的採用仍是尚未合併的 PR #2044 提案。模型重新整理由 #2018 加入；請在停車且未下載時重新整理。清除快取會刪除已下載的模型。",
+       "settingsKeys": [
+         "DrivingModel",
+         "ModelLibrary",
+diff --git a/data/toggles.zh.json b/data/toggles.zh.json
+index ce0d055..0665f0e 100644
+--- a/data/toggles.zh.json
++++ b/data/toggles.zh.json
+@@ -71,14 +71,14 @@
+           "type": "dropdown",
+           "description": "選擇AI駕駛模式。每個模型都有獨特的駕駛特性。",
+           "useCase": "選擇適合您的駕駛風格和路況的車型。",
+-          "userNote": "有關所有 66 個以上可用模型的詳細說明，請參閱模型庫。",
++          "userNote": "本維基記錄了 130 個模型。裝置可使用的模型取決於硬體與已安裝的分支。",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+           "key": "ModelLibrary",
+           "label": "模型庫",
+           "type": "action",
+-          "description": "瀏覽包含 66 多個駕駛模型的完整庫，其中包含描述、發佈日期和社羣共識。",
++          "description": "瀏覽 130 個已記錄的駕駛模型、發布日期與社群證據。裝置可用性取決於硬體與已安裝的分支。",
+           "useCase": "找到適合您駕駛風格的完美車型。",
+           "userNote": "包括 WMI 系列、《黑暗之魂》、《Down to Ride》、《古墓麗影》和《Legacy》型號。",
+           "deviceAvailability": "config-hidden"
+@@ -90,7 +90,7 @@
+           "description": "從服務器獲取可用的模型目錄。 PR #2018 於 9 月 14 日合併到 master，向 comma four (MICI) 添加了操作，並改進了兩個設備 UI 中的刷新進度。",
+           "userNote": "在停車模式時可用，無需運行任何模型下載或刷新。該按鈕顯示獲取進度。需要包含 PR #2018 的構建；穩定版本的可用性取決於分支。",
+           "deviceAvailability": "config-hidden",
+-          "deepDive": "來源：https://github.com/sunnypilot/sunnypilot/pull/2018. 選擇器版本 20 全文件清單在 open PR #2015 中單獨提出：https://github.com/sunnypilot/sunnypilot/pull/2015."
++          "deepDive": "重新整理功能：https://github.com/sunnypilot/sunnypilot/pull/2018。master 透過 10 月 6 日同步更新為選擇器 20、Chestnut v27 和 Qualcomm v23：https://github.com/sunnypilot/sunnypilot/pull/2036。PR #2015 仍未合併，但選擇器 20 已進入 master。Qualcomm v24 的採用仍為提案：https://github.com/sunnypilot/sunnypilot/pull/2044。"
+         },
+         {
+           "key": "ClearModelCache",
+@@ -1725,5 +1725,5 @@
+       ]
+     }
+   ],
+-  "lastUpdated": "2026-10-03"
++  "lastUpdated": "October 09, 2026"
+ }
+diff --git a/data/models.fr.json b/data/models.fr.json
+index 6541108..501e47f 100644
+--- a/data/models.fr.json
++++ b/data/models.fr.json
+@@ -2,15 +2,15 @@
+   "appName": "Sunnylink Model Database",
+   "version": "8.4",
+   "totalModels": 130,
+-  "lastUpdated": "October 03, 2026",
++  "lastUpdated": "October 09, 2026",
+   "vibeGuide": {
+     "chestnut_gpu": {
+       "title": "La série Chestnut GPU (grands modèles)",
+       "subtitle": "Poids lourds eGPU uniquement",
+       "includes": "Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+-      "vibe": "Ce sont les « grands modèles » – des réseaux de classe Chestnut plus grands que tout ce qui existe dans les gammes WMI ou OP, liés au nouveau module complémentaire GPU de Comma, qui a commencé à atteindre les propriétaires en août 2026. Ils tombent sous la balise big_model du forum à une cadence quasi quotidienne pendant une course. La taille supplémentaire du réseau apparaît d'abord sur le plan latéral : en prenant des virages à 90 degrés en ville au lieu de les couper, et en montrant une stabilité d'autoroute plantée plutôt que flottante. Les modèles les plus remarquables comme Cinque Terre et Sad Model ont considérablement amélioré la stabilité latérale et la sensation naturelle de la direction, tandis que les versions précédentes de la BMRLNAP souffraient d'oscillations de direction à basse vitesse. Les panneaux d'arrêt et les lignes d'arrêt aux feux de circulation restent un domaine actif de réglage sur toute la ligne. Notes d'exécution (2 octobre) : PR #2035 propose 1344 × 760 images comma 3X avant le transfert unifié AMD. Le PR #2023 propose le ChestnutPowerLimit (0 = stock ; 40-100 W) via des commandes avancées de périphérique sunnylink sur le comma four. Les deux restent ouverts. Gestion des modèles : le sélecteur version 20 des manifestes de fichiers entiers reste proposé dans le PR #2015. Actualiser les modèles a atteint le niveau maître via PR #2018 ; actualiser en stationnement sans téléchargement en cours. Clear Cache supprime les modèles téléchargés. Le PR #1999 propose de diagnostiquer les échecs de démarrage du runtime compilé obsolètes qui peuvent apparaître sous la forme d'alertes de vitesse Posenet NaN.",
++      "vibe": "Ce sont les « grands modèles » – des réseaux de classe Chestnut plus grands que tout ce qui existe dans les gammes WMI ou OP, liés au nouveau module complémentaire GPU de Comma, qui a commencé à atteindre les propriétaires en août 2026. Ils tombent sous la balise big_model du forum à une cadence quasi quotidienne pendant une course. La taille supplémentaire du réseau apparaît d'abord sur le plan latéral : en prenant des virages à 90 degrés en ville au lieu de les couper, et en montrant une stabilité d'autoroute plantée plutôt que flottante. Les modèles les plus remarquables comme Cinque Terre et Sad Model ont considérablement amélioré la stabilité latérale et la sensation naturelle de la direction, tandis que les versions précédentes de la BMRLNAP souffraient d'oscillations de direction à basse vitesse. Les panneaux d'arrêt et les lignes d'arrêt aux feux de circulation restent un domaine actif de réglage sur toute la ligne. Notes d'exécution (2 octobre) : PR #2035 propose 1344 × 760 images comma 3X avant le transfert unifié AMD. Le PR #2023 propose le ChestnutPowerLimit (0 = stock ; 40-100 W) via des commandes avancées de périphérique sunnylink sur le comma four. Les deux restent ouverts. Gestion des modèles (9 octobre) : la synchronisation du 6 octobre (#2036) a fait passer master au sélecteur 20, à Chestnut v27 et à Qualcomm v23. Qualcomm v24 est publié, mais son adoption est proposée dans le PR #2044 encore ouvert. Le PR #2015 reste ouvert ; le sélecteur 20 est déjà dans master grâce à la synchronisation. PR #1999 propose de diagnostiquer les échecs de démarrage du runtime compilé obsolètes qui peuvent apparaître sous la forme d'alertes de vitesse Posenet NaN.",
+       "bestFor": "Propriétaires de Chestnut dotés d’un eGPU qui souhaitent disposer des plus grands réseaux disponibles et sont à l’aise avec les tests.",
+-      "recommendation": "Les sondages globaux de Cinque Terre et Cinque Terre V2 sont positifs, mais les avis varient selon le véhicule. Vérifiez les arrêts, les virages et la direction à basse vitesse sur votre configuration. V3 figure dans le nouveau catalogue pour sélecteur 20 ; cet audit n’a vérifié aucun sondage propre à V3. La compatibilité du matériel et de la branche reste requise."
++      "recommendation": "Les sondages globaux de Cinque Terre et V2 sont positifs, mais les retours varient selon le véhicule. Vérifiez les arrêts, les virages et la direction à basse vitesse sur votre configuration. Master inclut désormais V3 dans Chestnut v27 avec le sélecteur 20 ; aucun sondage de forum propre à V3 n’a été vérifié. Les conditions de compatibilité du matériel et de la branche restent applicables."
+     },
+     "wmi_2026": {
+       "title": "Les séries mondiales WMI et 2026 (la norme moderne)",
+@@ -273,7 +273,7 @@
+             "bad": 10
+           },
+           "consensus": "Le sondage global compte 10 votants : quatre Great, quatre Good, une OK et une Bad. Les conducteurs rapportent de meilleurs arrêts, mais aussi des oscillations à basse vitesse, du sous-virage, une proximité des lignes et des accélérations lentes. Les avis sont mitigés et propres au véhicule.",
+-          "note": "CTMV2 a été annoncé le 8 septembre 2026. Nécessite comma four ou comma 3X avec un eGPU Chestnut. Il figure dans le catalogue Chestnut v25 du master inspecté pour le sélecteur 19, ainsi que dans le nouveau catalogue v27 pour le sélecteur 20. Utilisez le catalogue compatible avec votre branche installée.",
++          "note": "CTMV2 a été annoncé le 8 septembre 2026. Il nécessite un comma four ou un comma 3X avec un eGPU Chestnut. La synchronisation de master du 6 octobre (#2036) utilise le sélecteur 20 et Chestnut v27, et définit Cinque Terre Model v2 comme grand modèle par défaut. Les versions dev et staging issues de cette synchronisation sont des versions de développement ; la dernière version étiquetée reste v2026.002.002.",
+           "bestFor": "Tests communautaires avec matériel et logiciel compatibles.",
+           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-v2-september-08-2026/7096",
+           "testedOn": [
+@@ -292,7 +292,7 @@
+             "Experimental"
+           ],
+           "consensus": "Publié dans le catalogue Chestnut v27. Cet audit n’a vérifié aucun sondage communautaire propre à V3 ni preuve de performances par véhicule.",
+-          "note": "Le manifeste officiel date CTV3M du 17 septembre 2026 et exige le sélecteur 20. Le master sunnypilot inspecté utilise le sélecteur 19 et le catalogue Chestnut v25. La publication d’un fichier ne garantit pas sa disponibilité dans votre branche installée.",
++          "note": "CTV3M est daté du 17 septembre 2026 et nécessite le sélecteur 20. Après la synchronisation du 6 octobre (#2036), master utilise Chestnut v27, qui inclut V3. Vérifiez votre branche installée et le matériel compatible ; les anciennes versions avec le sélecteur 19 utilisent d’autres catalogues. Aucun sondage de forum propre à V3 n’a été vérifié.",
+           "bestFor": "Tests communautaires avec matériel et logiciel compatibles."
+         },
+         {
+@@ -1585,13 +1585,13 @@
+           "negatives": [],
+           "routesDriven": 788,
+           "fleetRank": 24,
+-          "communityScore": 52,
+-          "totalVotes": 15,
++          "communityScore": 56,
++          "totalVotes": 19,
+           "sentiment": {
+-            "great": 27,
+-            "good": 33,
+-            "ok": 0,
+-            "bad": 40
++            "great": 26,
++            "good": 37,
++            "ok": 5,
++            "bad": 32
+           }
+         },
+         {
+@@ -1606,12 +1606,12 @@
+           ],
+           "consensus": "Ajusté par Yassine/MVL avec des gains longitudinaux notables par rapport au POP et au CD210. Offre une adaptation fluide de la vitesse d'arrêt et de départ et un suivi affirmé des courbes sur les grandes autoroutes. Certains utilisateurs signalent de légères vibrations latérales à basse vitesse et un couple réduit dans les courbes à angle élevé pour certaines configurations de direction.",
+           "note": "Associez-le aux réglages récents du MVL si vous conduisez des plates-formes Honda/Hyundai. Contrôle longitudinal très solide en mode expérimental.",
+-          "communityScore": 76,
+-          "totalVotes": 44,
++          "communityScore": 75,
++          "totalVotes": 45,
+           "sentiment": {
+-            "great": 32,
+-            "good": 43,
+-            "ok": 23,
++            "great": 31,
++            "good": 42,
++            "ok": 25,
+             "bad": 2
+           },
+           "bestFor": "Autoroute/Stop & Go",
+diff --git a/data/features.fr.json b/data/features.fr.json
+index 3cd5bd2..f21e9b5 100644
+--- a/data/features.fr.json
++++ b/data/features.fr.json
+@@ -2,7 +2,7 @@
+   "appName": "Sunnylink Database",
+   "version": "2026.002",
+   "dataSource": "Official Sunnypilot Documentation, release notes, and linked upstream development proposals / issue reports",
+-  "lastUpdated": "2026-10-03",
++  "lastUpdated": "October 09, 2026",
+   "features": [
+     {
+       "id": "mads",
+@@ -235,7 +235,7 @@
+       "category": "Models & AI",
+       "officialDefinition": "Permet de changer et de tester différents modèles de pilotage de réseau neuronal de vision directement sur l'appareil. Configurez les paramètres avancés du modèle, notamment les souhaits de changement de voie, le délai de direction d'apprentissage en direct et le délai du logiciel de la caméra.",
+       "userSummary": "Sélecteur de modèles AI en cabine avec paramètres de réglage précis.",
+-      "userTranslation": "\"Échangeur de cerveau.\" Choisissez entre différents modèles d'IA formés à différents styles de conduite (autoroute douce, virages serrés, ville agressive). Réglez le délai de direction et tournez la vitesse souhaitée en fonction de vos préférences. Actualiser les modèles a été ajouté à comma four dans le maître par PR #2018 ; utilisez-le en stationnement lorsqu'aucun téléchargement/actualisation n'est en cours. Clear Cache supprime le cache du modèle téléchargé. Les manifestes de fichiers entiers du sélecteur version 20 restent une proposition ouverte (#2015).",
++      "userTranslation": "Choisissez un modèle de conduite et ajustez le délai de direction ou les intentions de virage selon votre configuration. Après la synchronisation du 6 octobre (#2036), master utilise le sélecteur 20 avec Chestnut v27 et Qualcomm v23. L’adoption de Qualcomm v24 reste proposée dans le PR #2044 ouvert. L’actualisation des modèles a été ajoutée par #2018 ; actualisez à l’arrêt, sans téléchargement en cours. Vider le cache supprime les modèles téléchargés.",
+       "settingsKeys": [
+         "DrivingModel",
+         "ModelLibrary",
+diff --git a/data/toggles.fr.json b/data/toggles.fr.json
+index 47defdb..bcce51f 100644
+--- a/data/toggles.fr.json
++++ b/data/toggles.fr.json
+@@ -71,14 +71,14 @@
+           "type": "dropdown",
+           "description": "Sélectionnez le modèle de conduite AI. Chaque modèle possède des caractéristiques de conduite uniques.",
+           "useCase": "Choisissez un modèle qui correspond à votre style de conduite et aux conditions routières.",
+-          "userNote": "Consultez la bibliothèque de modèles pour des descriptions détaillées de tous les plus de 66 modèles disponibles.",
++          "userNote": "Le wiki documente 130 modèles. Les modèles disponibles sur votre appareil dépendent du matériel et de la branche installée.",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+           "key": "ModelLibrary",
+           "label": "Bibliothèque de modèles",
+           "type": "action",
+-          "description": "Parcourez la bibliothèque complète de plus de 66 modèles de conduite avec des descriptions, des dates de sortie et un consensus communautaire.",
++          "description": "Parcourez 130 modèles de conduite documentés, avec leurs dates de publication et les données communautaires. La disponibilité sur l’appareil dépend du matériel et de la branche installée.",
+           "useCase": "Trouvez le modèle parfait pour votre style de conduite.",
+           "userNote": "Comprend les modèles WMI Series, Dark Souls, Down to Ride, Tomb Raider et Legacy.",
+           "deviceAvailability": "config-hidden"
+@@ -90,7 +90,7 @@
+           "description": "Récupère le catalogue de modèles disponible sur le serveur. PR #2018, fusionné avec le master le 14 septembre, ajoute l'action à comma four (MICI) et améliore la progression de l'actualisation dans les deux interfaces utilisateur de l'appareil.",
+           "userNote": "Disponible en stationné, sans téléchargement ni actualisation de modèle déjà en cours. Le bouton affiche la progression de la récupération. Nécessite une version contenant PR #2018 ; la disponibilité de la version stable dépend de la branche.",
+           "deviceAvailability": "config-hidden",
+-          "deepDive": "Source : https://github.com/sunnypilot/sunnypilot/pull/2018. Selector version 20. Les manifestes de fichiers entiers sont proposés séparément dans le PR ouvert n° 2015 : https://github.com/sunnypilot/sunnypilot/pull/2015.."
++          "deepDive": "Actualisation : https://github.com/sunnypilot/sunnypilot/pull/2018. Master est passé au sélecteur 20, à Chestnut v27 et à Qualcomm v23 via la synchronisation du 6 octobre : https://github.com/sunnypilot/sunnypilot/pull/2036. Le PR #2015 reste ouvert, bien que le sélecteur 20 soit déjà dans master. L’adoption de Qualcomm v24 reste une proposition : https://github.com/sunnypilot/sunnypilot/pull/2044."
+         },
+         {
+           "key": "ClearModelCache",
+@@ -1725,5 +1725,5 @@
+       ]
+     }
+   ],
+-  "lastUpdated": "2026-10-03"
++  "lastUpdated": "October 09, 2026"
+ }
+diff --git a/data/models.de.json b/data/models.de.json
+index 33551b0..b52e229 100644
+--- a/data/models.de.json
++++ b/data/models.de.json
+@@ -2,15 +2,15 @@
+   "appName": "Sunnylink Model Database",
+   "version": "8.4",
+   "totalModels": 130,
+-  "lastUpdated": "October 03, 2026",
++  "lastUpdated": "October 09, 2026",
+   "vibeGuide": {
+     "chestnut_gpu": {
+       "title": "Die Chestnut GPU-Serie (große Modelle)",
+       "subtitle": "Nur eGPU-Schwergewichte",
+       "includes": "Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+-      "vibe": "Dies sind die „großen Modelle“ – Netzwerke der Chestnutklasse, die größer sind als alles in der WMI- oder OP-Reihe, verbunden mit dem neuen GPU-Add-on von Comma, das seit August 2026 Besitzer erreicht. Sie fallen während eines Laufs fast täglich unter dem Tag „big_model“ des Forums auf. Die zusätzliche Netzwerkgröße zeigt sich zuerst im Querverkehr: 90-Grad-Kurven innerhalb der Stadt werden weit gefahren, anstatt sie zu schneiden, und die Stabilität auf bepflanzten statt auf schwebenden Autobahnen wird deutlich. Herausragende Modelle wie Cinque Terre und Sad Model haben die Seitenstabilität und das natürliche Lenkgefühl deutlich verbessert, während frühere BMRLNAP-Fahrten unter Lenkschwingungen bei niedriger Geschwindigkeit litten. Stoppschilder und Ampelstopplinien bleiben auf der gesamten Strecke ein aktiver Tuningbereich. Laufzeithinweise (2. Oktober): PR #2035 schlägt 1344×760 comma 3X-Frames vor der einheitlichen AMD-Übertragung vor. PR #2023 schlägt ChestnutPowerLimit (0 = Lager; 40–100 W) über erweiterte sunnylink-Gerätesteuerungen auf comma four vor. Beide bleiben geöffnet. Modellverwaltung: Ganze Dateimanifeste der Selector-Version 20 werden weiterhin in PR #2015 vorgeschlagen. Refresh Models erreichte den Master durch PR #2018; Aktualisierung im geparkten Zustand, ohne dass ein Download läuft. „Cache löschen“ entfernt heruntergeladene Modelle. PR #1999 schlägt die Diagnose veralteter Startfehler der kompilierten Laufzeit vor, die als Posenet NaN-Geschwindigkeitswarnungen angezeigt werden können.",
++      "vibe": "Dies sind die „großen Modelle“ – Netzwerke der Chestnutklasse, die größer sind als alles in der WMI- oder OP-Reihe, verbunden mit dem neuen GPU-Add-on von Comma, das seit August 2026 Besitzer erreicht. Sie fallen während eines Laufs fast täglich unter dem Tag „big_model“ des Forums auf. Die zusätzliche Netzwerkgröße zeigt sich zuerst im Querverkehr: 90-Grad-Kurven innerhalb der Stadt werden weit gefahren, anstatt sie zu schneiden, und die Stabilität auf bepflanzten statt auf schwebenden Autobahnen wird deutlich. Herausragende Modelle wie Cinque Terre und Sad Model haben die Seitenstabilität und das natürliche Lenkgefühl deutlich verbessert, während frühere BMRLNAP-Fahrten unter Lenkschwingungen bei niedriger Geschwindigkeit litten. Stoppschilder und Ampelstopplinien bleiben auf der gesamten Strecke ein aktiver Tuningbereich. Laufzeithinweise (2. Oktober): PR #2035 schlägt 1344×760 comma 3X-Frames vor der einheitlichen AMD-Übertragung vor. PR #2023 schlägt ChestnutPowerLimit (0 = Lager; 40–100 W) über erweiterte sunnylink-Gerätesteuerungen auf comma four vor. Beide bleiben geöffnet. Modellverwaltung (9. Oktober): Die Synchronisierung vom 6. Oktober (#2036) stellte master auf Selector 20, Chestnut v27 und Qualcomm v23 um. Qualcomm v24 ist veröffentlicht, seine Übernahme wird jedoch im offenen PR #2044 vorgeschlagen. PR #2015 bleibt offen; Selector 20 ist durch die Synchronisierung bereits in master enthalten. PR #1999 schlägt die Diagnose veralteter Startfehler der kompilierten Laufzeit vor, die als Posenet NaN-Geschwindigkeitswarnungen angezeigt werden können.",
+       "bestFor": "Chestnut-Besitzer mit einer eGPU, die die größten verfügbaren Netzwerke wünschen und sich beim Testen wohl fühlen.",
+-      "recommendation": "Die Gesamtumfragen zu Cinque Terre und Cinque Terre V2 sind positiv, die fahrzeugspezifischen Berichte jedoch gemischt. Prüfen Sie Anhalten, Kurven und Lenkung bei niedriger Geschwindigkeit in Ihrer Konfiguration. V3 steht im neueren Katalog für Selektor 20; diese Prüfung bestätigte keine eigene V3-Umfrage. Hardware- und Branch-Kompatibilität bleiben erforderlich."
++      "recommendation": "Die Gesamtumfragen zu Cinque Terre und V2 sind positiv, aber die Berichte unterscheiden sich je nach Fahrzeug. Prüfen Sie Anhalten, Kurven und langsames Lenken mit Ihrer Konfiguration. Master enthält jetzt V3 in Chestnut v27 mit Selector 20; eine eigene V3-Forumsumfrage wurde nicht bestätigt. Hardware- und Branchkompatibilität gelten weiterhin."
+     },
+     "wmi_2026": {
+       "title": "Die WMI & 2026 World Series (The Modern Standard)",
+@@ -273,7 +273,7 @@
+             "bad": 10
+           },
+           "consensus": "Die Gesamtumfrage hat zehn Teilnehmer: vier Great, vier Good, eine OK und eine Bad. Fahrer berichten von besseren Stopps, aber auch Schwingungen bei niedriger Geschwindigkeit, Untersteuern, Nähe zu Fahrbahnlinien und langsamer Beschleunigung. Die Rückmeldungen sind gemischt und fahrzeugspezifisch.",
+-          "note": "CTMV2 wurde am 8. September 2026 angekündigt. Erfordert comma four oder comma 3X mit Chestnut-eGPU. Es steht sowohl im Chestnut-v25-Katalog des geprüften master-Branches für Selektor 19 als auch im neueren v27-Katalog für Selektor 20. Verwenden Sie den mit Ihrem installierten Branch kompatiblen Katalog.",
++          "note": "CTMV2 wurde am 8. September 2026 angekündigt. Erfordert comma four oder comma 3X mit Chestnut-eGPU. Die Master-Synchronisierung vom 6. Oktober (#2036) nutzt Selector 20 und Chestnut v27 und legt Cinque Terre Model v2 als großes Standardmodell fest. Darauf basierende Dev- und Staging-Builds sind Entwicklungsversionen; der neueste markierte Release bleibt v2026.002.002.",
+           "bestFor": "Community-Tests mit kompatibler Hardware und Software.",
+           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-v2-september-08-2026/7096",
+           "testedOn": [
+@@ -292,7 +292,7 @@
+             "Experimental"
+           ],
+           "consensus": "Im Chestnut-v27-Katalog veröffentlicht. In dieser Prüfung wurden weder eine eigene V3-Community-Umfrage noch fahrzeugspezifische Leistungsnachweise bestätigt.",
+-          "note": "Das offizielle Manifest datiert CTV3M auf den 17. September 2026 und verlangt Selektorversion 20. Der geprüfte sunnypilot-master nutzt Selektor 19 und den Chestnut-v25-Katalog. Ein veröffentlichtes Artefakt allein belegt keine Verfügbarkeit im installierten Branch.",
++          "note": "CTV3M ist auf den 17. September 2026 datiert und benötigt Selector 20. Seit der Synchronisierung vom 6. Oktober (#2036) nutzt master Chestnut v27 mit V3. Prüfen Sie den installierten Branch und die Hardwarekompatibilität; ältere Builds mit Selector 19 verwenden andere Kataloge. Eine eigene V3-Forumsumfrage wurde nicht bestätigt.",
+           "bestFor": "Community-Tests mit kompatibler Hardware und Software."
+         },
+         {
+@@ -1585,13 +1585,13 @@
+           "negatives": [],
+           "routesDriven": 788,
+           "fleetRank": 24,
+-          "communityScore": 52,
+-          "totalVotes": 15,
++          "communityScore": 56,
++          "totalVotes": 19,
+           "sentiment": {
+-            "great": 27,
+-            "good": 33,
+-            "ok": 0,
+-            "bad": 40
++            "great": 26,
++            "good": 37,
++            "ok": 5,
++            "bad": 32
+           }
+         },
+         {
+@@ -1606,12 +1606,12 @@
+           ],
+           "consensus": "Von Yassine/MVL abgestimmt mit spürbaren Längsgewinnen gegenüber POP und CD210. Bietet eine reibungslose Stop-and-Go-Geschwindigkeitsanpassung und sichere Kurvenverfolgung auf weitläufigen Autobahnen. Einige Benutzer berichten von leichten seitlichen Wackelbewegungen bei niedriger Geschwindigkeit und einem verringerten Drehmoment in Kurven mit hohem Winkel bei bestimmten Lenkeinstellungen.",
+           "note": "Kombinieren Sie es mit aktuellen MVL-Tunings, wenn Sie Honda/Hyundai-Plattformen fahren. Sehr solide Längskontrolle im experimentellen Modus.",
+-          "communityScore": 76,
+-          "totalVotes": 44,
++          "communityScore": 75,
++          "totalVotes": 45,
+           "sentiment": {
+-            "great": 32,
+-            "good": 43,
+-            "ok": 23,
++            "great": 31,
++            "good": 42,
++            "ok": 25,
+             "bad": 2
+           },
+           "bestFor": "Autobahn / Stop & Go",
+diff --git a/data/features.de.json b/data/features.de.json
+index b671f3d..a47b601 100644
+--- a/data/features.de.json
++++ b/data/features.de.json
+@@ -2,7 +2,7 @@
+   "appName": "Sunnylink Database",
+   "version": "2026.002",
+   "dataSource": "Official Sunnypilot Documentation, release notes, and linked upstream development proposals / issue reports",
+-  "lastUpdated": "2026-10-03",
++  "lastUpdated": "October 09, 2026",
+   "features": [
+     {
+       "id": "mads",
+@@ -235,7 +235,7 @@
+       "category": "Models & AI",
+       "officialDefinition": "Ermöglicht das Umschalten und Testen verschiedener Fahrmodelle für visuelle neuronale Netze direkt auf dem Gerät. Konfigurieren Sie erweiterte Modellparameter, einschließlich Spurwechselwünsche, Lenkverzögerung beim Live-Lernen und Verzögerung der Kamerasoftware.",
+       "userSummary": "KI-Modellumschalter in der Kabine mit Feinabstimmungsparametern.",
+-      "userTranslation": "„Gehirntauscher.“ Wählen Sie zwischen verschiedenen KI-Modellen, die auf unterschiedliche Fahrstile trainiert sind (glatte Autobahn, scharfe Kurven, aggressive Stadt). Passen Sie die Lenkverzögerung und die gewünschte Wendegeschwindigkeit an Ihre Vorlieben an. Modelle aktualisieren wurde von PR #2018 zu comma four im Master hinzugefügt; Verwenden Sie es im geparkten Zustand, wenn kein Download/Aktualisierung ausgeführt wird. „Cache löschen“ entfernt den heruntergeladenen Modellcache. Die vollständigen Dateimanifeste der Selector-Version 20 bleiben ein offener Vorschlag (#2015).",
++      "userTranslation": "Wählen Sie ein Fahrmodell und passen Sie Lenkverzögerung oder Abbiegeabsichten an Ihre Konfiguration an. Seit der Synchronisierung vom 6. Oktober (#2036) nutzt master Selector 20 mit Chestnut v27 und Qualcomm v23. Die Übernahme von Qualcomm v24 wird weiterhin im offenen PR #2044 vorgeschlagen. Modellaktualisierung wurde mit #2018 ergänzt; aktualisieren Sie im Stand ohne laufenden Download. Cache löschen entfernt heruntergeladene Modelle.",
+       "settingsKeys": [
+         "DrivingModel",
+         "ModelLibrary",
+diff --git a/data/toggles.de.json b/data/toggles.de.json
+index 304c8c7..e0ef6db 100644
+--- a/data/toggles.de.json
++++ b/data/toggles.de.json
+@@ -71,14 +71,14 @@
+           "type": "dropdown",
+           "description": "Wählen Sie das KI-Fahrmodell aus. Jedes Modell verfügt über einzigartige Fahreigenschaften.",
+           "useCase": "Wählen Sie ein Modell, das Ihrem Fahrstil und den Straßenverhältnissen entspricht.",
+-          "userNote": "Detaillierte Beschreibungen aller über 66 verfügbaren Modelle finden Sie in der Modellbibliothek.",
++          "userNote": "Das Wiki dokumentiert 130 Modelle. Die auf Ihrem Gerät verfügbaren Modelle hängen von der Hardware und dem installierten Branch ab.",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+           "key": "ModelLibrary",
+           "label": "Modellbibliothek",
+           "type": "action",
+-          "description": "Durchsuchen Sie die komplette Bibliothek mit über 66 Fahrmodellen mit Beschreibungen, Veröffentlichungsdaten und Community-Konsens.",
++          "description": "Durchsuchen Sie 130 dokumentierte Fahrmodelle mit Veröffentlichungsdaten und Community-Belegen. Die Verfügbarkeit auf dem Gerät hängt von Hardware und installiertem Branch ab.",
+           "useCase": "Finden Sie das perfekte Modell für Ihren Fahrstil.",
+           "userNote": "Enthält die Modelle WMI Series, Dark Souls, Down to Ride, Tomb Raider und Legacy.",
+           "deviceAvailability": "config-hidden"
+@@ -90,7 +90,7 @@
+           "description": "Ruft den verfügbaren Modellkatalog vom Server ab. PR #2018, zusammengeführt in Master am 14. September, fügt die Aktion zu comma four (MICI) hinzu und verbessert den Aktualisierungsfortschritt in beiden Geräte-Benutzeroberflächen.",
+           "userNote": "Verfügbar im Stand, ohne dass bereits ein Modell-Download oder eine Modellaktualisierung ausgeführt wird. Die Schaltfläche zeigt den Fortschritt des Abrufs an. Erfordert einen Build mit PR #2018; Die Verfügbarkeit von Stable-Releases hängt vom Zweig ab.",
+           "deviceAvailability": "config-hidden",
+-          "deepDive": "Quelle: https://github.com/sunnypilot/sunnypilot/pull/2018. Selector Version 20 Manifeste für ganze Dateien werden separat in der offenen PR #2015 vorgeschlagen: https://github.com/sunnypilot/sunnypilot/pull/2015."
++          "deepDive": "Aktualisierungsfunktion: https://github.com/sunnypilot/sunnypilot/pull/2018. Master wechselte durch die Synchronisierung vom 6. Oktober zu Selector 20, Chestnut v27 und Qualcomm v23: https://github.com/sunnypilot/sunnypilot/pull/2036. PR #2015 bleibt offen, obwohl Selector 20 bereits in master enthalten ist. Qualcomm v24 bleibt ein offener Vorschlag: https://github.com/sunnypilot/sunnypilot/pull/2044."
+         },
+         {
+           "key": "ClearModelCache",
+@@ -1725,5 +1725,5 @@
+       ]
+     }
+   ],
+-  "lastUpdated": "2026-10-03"
++  "lastUpdated": "October 09, 2026"
+ }
+diff --git a/data/models.es.json b/data/models.es.json
+index 9920f61..0a55321 100644
+--- a/data/models.es.json
++++ b/data/models.es.json
+@@ -2,15 +2,15 @@
+   "appName": "Sunnylink Model Database",
+   "version": "8.4",
+   "totalModels": 130,
+-  "lastUpdated": "October 03, 2026",
++  "lastUpdated": "October 09, 2026",
+   "vibeGuide": {
+     "chestnut_gpu": {
+       "title": "La serie Chestnut GPU (modelos grandes)",
+       "subtitle": "Pesos pesados solo para eGPU",
+       "includes": "Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+-      "vibe": "Estos son los \"modelos grandes\": redes de clase Chestnut más grandes que cualquier cosa en las líneas WMI u OP, vinculadas al nuevo complemento GPU de comma, que comenzó a llegar a los propietarios en agosto de 2026. Caen bajo la etiqueta big_model del foro con una cadencia casi diaria durante una ejecución. El tamaño adicional de la red aparece primero en el lateral: toma amplias curvas de 90 grados en la ciudad en lugar de cortarlas, y muestra una estabilidad en la carretera plantada en lugar de flotante. Los participantes destacados como Cinque Terre y Sad Model han mejorado significativamente la estabilidad lateral y la sensación de dirección natural, mientras que las versiones anteriores del BMRLNAP sufrieron oscilaciones de dirección a baja velocidad. Las señales de alto y las líneas de alto de los semáforos siguen siendo un área activa de ajuste a lo largo de la línea. Notas de ejecución (2 de octubre): PR #2035 propone fotogramas comma 3X de 1344×760 antes de la transferencia unificada de AMD. PR #2023 propone ChestnutPowerLimit (0 = stock; 40–100 W) a través de controles avanzados del dispositivo sunnylink en comma four. Ambos permanecen abiertos. Gestión de modelos: los manifiestos de archivos completos de la versión 20 del selector siguen propuestos en el PR n.º 2015. Actualizar modelos alcanzó el nivel maestro a través del PR #2018; actualizar mientras está estacionado sin ninguna descarga en curso. Clear Cache elimina los modelos descargados. PR #1999 propone diagnosticar fallas de inicio en tiempo de ejecución compilado obsoleto que pueden aparecer como alertas de velocidad de Posenet NaN.",
++      "vibe": "Estos son los \"modelos grandes\": redes de clase Chestnut más grandes que cualquier cosa en las líneas WMI u OP, vinculadas al nuevo complemento GPU de comma, que comenzó a llegar a los propietarios en agosto de 2026. Caen bajo la etiqueta big_model del foro con una cadencia casi diaria durante una ejecución. El tamaño adicional de la red aparece primero en el lateral: toma amplias curvas de 90 grados en la ciudad en lugar de cortarlas, y muestra una estabilidad en la carretera plantada en lugar de flotante. Los participantes destacados como Cinque Terre y Sad Model han mejorado significativamente la estabilidad lateral y la sensación de dirección natural, mientras que las versiones anteriores del BMRLNAP sufrieron oscilaciones de dirección a baja velocidad. Las señales de alto y las líneas de alto de los semáforos siguen siendo un área activa de ajuste a lo largo de la línea. Notas de ejecución (2 de octubre): PR #2035 propone fotogramas comma 3X de 1344×760 antes de la transferencia unificada de AMD. PR #2023 propone ChestnutPowerLimit (0 = stock; 40–100 W) a través de controles avanzados del dispositivo sunnylink en comma four. Ambos permanecen abiertos. Gestión de modelos (9 de octubre): la sincronización del 6 de octubre (#2036) cambió master al selector 20, Chestnut v27 y Qualcomm v23. Qualcomm v24 está publicado, pero su adopción se propone en el PR #2044 abierto. El PR #2015 sigue abierto; el selector 20 ya está en master mediante la sincronización. PR #1999 propone diagnosticar fallas de inicio en tiempo de ejecución compilado obsoleto que pueden aparecer como alertas de velocidad de Posenet NaN.",
+       "bestFor": "Propietarios de Chestnut con una eGPU que desean las redes más grandes disponibles y se sienten cómodos realizando pruebas.",
+-      "recommendation": "Las encuestas generales de Cinque Terre y Cinque Terre V2 son positivas, pero las experiencias varían por vehículo. Comprueba las paradas, curvas y dirección a baja velocidad en tu configuración. V3 figura en el catálogo nuevo para el selector 20; esta revisión no verificó una encuesta específica de V3. Siguen siendo necesarias la compatibilidad del hardware y de la rama."
++      "recommendation": "Las encuestas generales de Cinque Terre y V2 son positivas, pero los informes varían según el vehículo. Comprueba las paradas, las curvas y la dirección a baja velocidad en tu configuración. Master incluye ahora V3 en Chestnut v27 con el selector 20; no se verificó ninguna encuesta del foro específica de V3. Siguen aplicándose los requisitos de hardware y rama."
+     },
+     "wmi_2026": {
+       "title": "La serie mundial WMI y 2026 (el estándar moderno)",
+@@ -273,7 +273,7 @@
+             "bad": 10
+           },
+           "consensus": "La encuesta general tiene 10 votantes: cuatro Great, cuatro Good, una OK y una Bad. Los conductores informan de mejores paradas, pero también de oscilaciones a baja velocidad, subviraje, proximidad a las líneas y aceleración lenta. Las opiniones son variadas y específicas de cada vehículo.",
+-          "note": "CTMV2 se anunció el 8 de septiembre de 2026. Requiere comma four o comma 3X con eGPU Chestnut. Figura en el catálogo Chestnut v25 del master revisado para el selector 19 y en el nuevo catálogo v27 para el selector 20. Utiliza el catálogo compatible con tu rama instalada.",
++          "note": "CTMV2 se anunció el 8 de septiembre de 2026. Requiere comma four o comma 3X con una eGPU Chestnut. La sincronización de master del 6 de octubre (#2036) usa el selector 20 y Chestnut v27, y establece Cinque Terre Model v2 como modelo grande predeterminado. Las versiones dev y staging basadas en esa sincronización son de desarrollo; la última versión etiquetada sigue siendo v2026.002.002.",
+           "bestFor": "Pruebas comunitarias con hardware y software compatibles.",
+           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-v2-september-08-2026/7096",
+           "testedOn": [
+@@ -292,7 +292,7 @@
+             "Experimental"
+           ],
+           "consensus": "Publicado en el catálogo Chestnut v27. Esta revisión no verificó una encuesta comunitaria específica de V3 ni pruebas de rendimiento por vehículo.",
+-          "note": "El manifiesto oficial fecha CTV3M el 17 de septiembre de 2026 y exige el selector 20. El master de sunnypilot revisado utiliza el selector 19 y el catálogo Chestnut v25. Publicar un archivo no demuestra su disponibilidad en la rama instalada.",
++          "note": "CTV3M tiene fecha del 17 de septiembre de 2026 y requiere el selector 20. Tras la sincronización del 6 de octubre (#2036), master usa Chestnut v27, que incluye V3. Comprueba tu rama instalada y el hardware compatible; las versiones antiguas con selector 19 usan otros catálogos. No se verificó ninguna encuesta del foro específica de V3.",
+           "bestFor": "Pruebas comunitarias con hardware y software compatibles."
+         },
+         {
+@@ -1585,13 +1585,13 @@
+           "negatives": [],
+           "routesDriven": 788,
+           "fleetRank": 24,
+-          "communityScore": 52,
+-          "totalVotes": 15,
++          "communityScore": 56,
++          "totalVotes": 19,
+           "sentiment": {
+-            "great": 27,
+-            "good": 33,
+-            "ok": 0,
+-            "bad": 40
++            "great": 26,
++            "good": 37,
++            "ok": 5,
++            "bad": 32
+           }
+         },
+         {
+@@ -1606,12 +1606,12 @@
+           ],
+           "consensus": "Afinado por Yassine/MVL con notables ganancias longitudinales sobre POP y CD210. Ofrece un ajuste suave de la velocidad con paradas y arranques y un seguimiento asertivo de las curvas en carreteras amplias. Algunos usuarios informan ligeros movimientos laterales a baja velocidad y torsión reducida en curvas de ángulo alto para ciertas configuraciones de dirección.",
+           "note": "Combínelo con ajustes recientes de MVL si conduce plataformas Honda/Hyundai. Control longitudinal muy sólido en modo experimental.",
+-          "communityScore": 76,
+-          "totalVotes": 44,
++          "communityScore": 75,
++          "totalVotes": 45,
+           "sentiment": {
+-            "great": 32,
+-            "good": 43,
+-            "ok": 23,
++            "great": 31,
++            "good": 42,
++            "ok": 25,
+             "bad": 2
+           },
+           "bestFor": "Autopista/Para y sigue",
+diff --git a/data/features.es.json b/data/features.es.json
+index 2ad2e18..8a8be95 100644
+--- a/data/features.es.json
++++ b/data/features.es.json
+@@ -2,7 +2,7 @@
+   "appName": "Sunnylink Database",
+   "version": "2026.002",
+   "dataSource": "Official Sunnypilot Documentation, release notes, and linked upstream development proposals / issue reports",
+-  "lastUpdated": "2026-10-03",
++  "lastUpdated": "October 09, 2026",
+   "features": [
+     {
+       "id": "mads",
+@@ -235,7 +235,7 @@
+       "category": "Models & AI",
+       "officialDefinition": "Permite cambiar y probar diferentes modelos de conducción de redes neuronales de visión directamente en el dispositivo. Configure parámetros avanzados del modelo, incluidos los deseos de giro de carril, el retraso de la dirección con aprendizaje en vivo y el retraso del software de la cámara.",
+       "userSummary": "Conmutador de modelo AI en cabina con parámetros de ajuste fino.",
+-      "userTranslation": "\"Intercambiador de cerebros\". Elija entre diferentes modelos de IA entrenados en varios estilos de conducción (carretera suave, curvas cerradas, ciudad agresiva). Ajuste el retraso de la dirección y gire la velocidad deseada según sus preferencias. Actualizar modelos se agregó a comma four en master mediante PR #2018; Úselo mientras está estacionado cuando no se esté ejecutando ninguna descarga/actualización. Borrar caché elimina el caché del modelo descargado. Los manifiestos de archivos completos de la versión 20 del selector siguen siendo una propuesta abierta (#2015).",
++      "userTranslation": "Elige un modelo de conducción y ajusta el retardo de dirección o las intenciones de giro a tu configuración. Tras la sincronización del 6 de octubre (#2036), master usa el selector 20 con Chestnut v27 y Qualcomm v23. La adopción de Qualcomm v24 sigue propuesta en el PR #2044 abierto. #2018 añadió la actualización de modelos; actualiza con el vehículo estacionado y sin descargas en curso. Borrar caché elimina los modelos descargados.",
+       "settingsKeys": [
+         "DrivingModel",
+         "ModelLibrary",
+diff --git a/data/toggles.es.json b/data/toggles.es.json
+index 73ffc9b..5617d2a 100644
+--- a/data/toggles.es.json
++++ b/data/toggles.es.json
+@@ -71,14 +71,14 @@
+           "type": "dropdown",
+           "description": "Seleccione el modelo de conducción AI. Cada modelo tiene características de conducción únicas.",
+           "useCase": "Elija un modelo que se adapte a su estilo de conducción y a las condiciones de la carretera.",
+-          "userNote": "Consulte la biblioteca de modelos para obtener descripciones detalladas de los más de 66 modelos disponibles.",
++          "userNote": "El wiki documenta 130 modelos. Los modelos disponibles en tu dispositivo dependen del hardware y la rama instalada.",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+           "key": "ModelLibrary",
+           "label": "Biblioteca de modelos",
+           "type": "action",
+-          "description": "Explore la biblioteca completa de más de 66 modelos de conducción con descripciones, fechas de lanzamiento y consenso de la comunidad.",
++          "description": "Explora 130 modelos de conducción documentados, con fechas de publicación y evidencia de la comunidad. La disponibilidad en el dispositivo depende del hardware y la rama instalada.",
+           "useCase": "Encuentra el modelo perfecto para tu estilo de conducción.",
+           "userNote": "Incluye los modelos de la serie WMI, Dark Souls, Down to Ride, Tomb Raider y Legacy.",
+           "deviceAvailability": "config-hidden"
+@@ -90,7 +90,7 @@
+           "description": "Obtiene el catálogo de modelos disponibles del servidor. PR #2018, fusionado en master el 14 de septiembre, agrega la acción a comma four (MICI) y mejora el progreso de actualización en las interfaces de usuario de ambos dispositivos.",
+           "userNote": "Disponible en todo terreno, sin descargar ni actualizar el modelo en ejecución. El botón muestra el progreso de la búsqueda. Requiere una compilación que contenga PR #2018; La disponibilidad de la versión estable depende de la rama.",
+           "deviceAvailability": "config-hidden",
+-          "deepDive": "Fuente: https://github.com/sunnypilot/sunnypilot/pull/2018. Los manifiestos de archivos completos de la versión 20 del selector se proponen por separado en el PR abierto n.º 2015: https://github.com/sunnypilot/sunnypilot/pull/2015."
++          "deepDive": "Actualización de modelos: https://github.com/sunnypilot/sunnypilot/pull/2018. Master pasó al selector 20, Chestnut v27 y Qualcomm v23 mediante la sincronización del 6 de octubre: https://github.com/sunnypilot/sunnypilot/pull/2036. El PR #2015 sigue abierto, aunque el selector 20 ya está en master. Adoptar Qualcomm v24 sigue siendo una propuesta: https://github.com/sunnypilot/sunnypilot/pull/2044."
+         },
+         {
+           "key": "ClearModelCache",
+@@ -1725,5 +1725,5 @@
+       ]
+     }
+   ],
+-  "lastUpdated": "2026-10-03"
++  "lastUpdated": "October 09, 2026"
+ }
+diff --git a/locales/en.json b/locales/en.json
+index 9b1836f..e301269 100644
+--- a/locales/en.json
++++ b/locales/en.json
+@@ -3741,5 +3741,13 @@
+   "content.0b75c1780ed2": "Test-only page. Compare the old SVG simulator, the new unified renderer (synthetic route → real openpilot math), and a real recorded modelV2 stream.",
+   "content.e310ca338543": "The same synthetic route is rendered through openpilot's real calcFrameMatrix → drawModelRenderFrame pipeline.",
+   "content.8c87defc60de": "The left pane is this wiki's existing heuristic simulator: a hand-tuned animation that approximates a driving model's feel from community sentiment text on a synthetic test loop (the Gauntlet). It does not run any real model.",
+-  "content.2dd82d115610": "The right pane replays a recorded openpilot drive. It decodes modelV2 messages from a real rlog/qlog file and renders them using a direct TypeScript port of openpilot's onroad rendering code. The path and lane lines are actual model output from a real road. The panes show different routes; this compares a heuristic simulation with actual model output, rather than matching frames."
++  "content.2dd82d115610": "The right pane replays a recorded openpilot drive. It decodes modelV2 messages from a real rlog/qlog file and renders them using a direct TypeScript port of openpilot's onroad rendering code. The path and lane lines are actual model output from a real road. The panes show different routes; this compares a heuristic simulation with actual model output, rather than matching frames.",
++  "content.dc0446683764": "CTMV2 was announced September 8, 2026. Requires comma four or comma 3X plus a Chestnut eGPU. The October 6 master sync (#2036) uses selector 20 and Chestnut v27, and names Cinque Terre Model v2 as the default big model. Dev and staging builds based on that sync are development builds; the latest tagged release remains v2026.002.002.",
++  "content.462278a5f825": "CTV3M is dated September 17, 2026 and requires selector 20. Master now consumes Chestnut v27, which includes V3, following the October 6 sync (#2036). Check your installed branch and compatible hardware; older selector-19 builds use different catalogs. No dedicated V3 forum poll was verified.",
++  "content.05d1bee225fd": "Cinque Terre and V2 have positive overall polls but mixed vehicle-specific reports. Check stopping, cornering, and low-speed steering on your setup. Master now includes V3 in Chestnut v27 with selector 20; no dedicated V3 forum poll was verified. Hardware and branch compatibility still apply.",
++  "content.8ef3d91fc217": "Choose a driving model and tune steer delay or turn desires for your setup. Master now uses selector 20 with Chestnut v27 and Qualcomm v23 after the October 6 sync (#2036). Qualcomm v24 adoption remains proposed in open PR #2044. Refresh Models was added by #2018; refresh while parked with no download in progress. Clear Cache removes downloaded models.",
++  "content.d39a7caece07": "Refresh action: https://github.com/sunnypilot/sunnypilot/pull/2018. Master moved to selector 20, Chestnut v27, and Qualcomm v23 through the October 6 sync: https://github.com/sunnypilot/sunnypilot/pull/2036. PR #2015 is still open, although selector 20 is already in master. Qualcomm v24 adoption is an open proposal: https://github.com/sunnypilot/sunnypilot/pull/2044.",
++  "content.d0a80a6226ce": "The wiki documents 130 models. The models available on your device depend on its hardware and installed branch.",
++  "content.5f84dae1dd80": "Browse 130 documented driving models with release dates and community evidence. Device availability depends on hardware and the installed branch.",
++  "content.070223c6ad0a": "These are the \"big models\" — chestnut-class networks larger than anything in the WMI or OP lines, tied to comma's new GPU add-on, which began reaching owners in August 2026. They drop under the forum's big_model tag on a near-daily cadence during a run. The extra network size shows up first in lateral: taking in-town 90-degree turns wide instead of cutting them, and showing planted rather than floaty highway stability. Standout entries like Cinque Terre and Sad Model have significantly improved lateral stability and natural steering feel, while earlier BMRLNAP runs suffered from low-speed steering oscillations. Stop signs and traffic light stop lines remain an active area of tuning across the line. Runtime notes (October 2): PR #2035 proposes 1344×760 comma 3X frames before unified AMD transfer. PR #2023 proposes ChestnutPowerLimit (0 = stock; 40–100 W) via advanced sunnylink Device controls on comma four. Both remain open. Model management (October 9): the October 6 sync (#2036) moved master to selector 20, Chestnut v27, and Qualcomm v23. Qualcomm v24 is published, but its adoption is proposed in open PR #2044. PR #2015 remains open; selector 20 is already in master through the sync. PR #1999 proposes diagnosing stale compiled-runtime startup failures that can appear as Posenet NaN-speed alerts."
+ }
+diff --git a/locales/ko.json b/locales/ko.json
+index c71f4bc..718680e 100644
+--- a/locales/ko.json
++++ b/locales/ko.json
+@@ -3741,5 +3741,13 @@
+   "content.0b75c1780ed2": "테스트 전용 페이지입니다. 기존 SVG 시뮬레이터, 새로운 통합 렌더러(합성 경로 → 실제 openpilot 계산), 실제 기록된 modelV2 스트림을 비교합니다.",
+   "content.e310ca338543": "동일한 합성 경로를 openpilot의 실제 calcFrameMatrix → drawModelRenderFrame 처리 과정으로 렌더링합니다.",
+   "content.8c87defc60de": "왼쪽 화면은 이 위키의 기존 휴리스틱 시뮬레이터입니다. 커뮤니티 의견을 바탕으로 수동 조정한 애니메이션이 합성 시험 경로(복합 주행 시험)에서 모델의 주행 느낌을 근사합니다. 실제 주행 모델을 실행하는 것은 아닙니다.",
+-  "content.2dd82d115610": "오른쪽 화면은 기록된 openpilot 주행을 재생합니다. 실제 rlog/qlog 파일의 modelV2 메시지를 해독하고, openpilot의 주행 화면 렌더링 코드를 TypeScript로 직접 옮긴 코드로 표시합니다. 경로와 차선은 실제 도로에서 얻은 모델 출력입니다. 두 화면은 서로 다른 경로를 보여줍니다. 프레임을 일대일로 비교하는 시험이 아니라, 휴리스틱 시뮬레이션과 실제 모델 출력을 비교하는 화면입니다."
++  "content.2dd82d115610": "오른쪽 화면은 기록된 openpilot 주행을 재생합니다. 실제 rlog/qlog 파일의 modelV2 메시지를 해독하고, openpilot의 주행 화면 렌더링 코드를 TypeScript로 직접 옮긴 코드로 표시합니다. 경로와 차선은 실제 도로에서 얻은 모델 출력입니다. 두 화면은 서로 다른 경로를 보여줍니다. 프레임을 일대일로 비교하는 시험이 아니라, 휴리스틱 시뮬레이션과 실제 모델 출력을 비교하는 화면입니다.",
++  "content.dc0446683764": "CTMV2는 2026년 9월 8일 발표되었습니다. comma four 또는 Chestnut eGPU를 연결한 comma 3X가 필요합니다. 10월 6일 master 동기화(#2036)는 선택기 20과 Chestnut v27을 사용하며 기본 대형 모델을 Cinque Terre Model v2로 지정합니다. 이 동기화를 기반으로 한 dev와 staging은 개발 빌드이며 최신 태그 릴리스는 v2026.002.002입니다.",
++  "content.462278a5f825": "CTV3M의 날짜는 2026년 9월 17일이며 선택기 20이 필요합니다. 10월 6일 동기화(#2036) 이후 master는 V3가 포함된 Chestnut v27을 사용합니다. 설치한 브랜치와 하드웨어 호환성을 확인하세요. 이전 선택기 19 빌드는 다른 카탈로그를 사용합니다. V3 전용 포럼 투표는 확인되지 않았습니다.",
++  "content.05d1bee225fd": "Cinque Terre와 V2의 종합 투표는 긍정적이지만 차량별 보고는 엇갈립니다. 자신의 구성에서 정지, 코너링, 저속 조향을 확인하세요. master는 이제 선택기 20과 Chestnut v27을 통해 V3를 포함하지만 V3 전용 포럼 투표는 확인되지 않았습니다. 하드웨어와 브랜치 호환성 조건은 여전히 적용됩니다.",
++  "content.8ef3d91fc217": "구성에 맞는 주행 모델을 선택하고 조향 지연 또는 회전 의도를 조정하세요. master는 10월 6일 동기화(#2036) 이후 선택기 20, Chestnut v27, Qualcomm v23을 사용합니다. Qualcomm v24 도입은 열린 PR #2044에서 제안 중입니다. 모델 새로고침은 #2018에서 추가되었습니다. 다운로드 중이 아닐 때 주차 상태에서 새로고침하세요. 캐시 지우기는 다운로드한 모델을 삭제합니다.",
++  "content.d39a7caece07": "새로고침 기능: https://github.com/sunnypilot/sunnypilot/pull/2018. master는 10월 6일 동기화를 통해 선택기 20, Chestnut v27, Qualcomm v23으로 전환되었습니다: https://github.com/sunnypilot/sunnypilot/pull/2036. PR #2015는 아직 열려 있지만 선택기 20은 이미 master에 포함되어 있습니다. Qualcomm v24 도입은 열린 제안입니다: https://github.com/sunnypilot/sunnypilot/pull/2044.",
++  "content.d0a80a6226ce": "위키에는 130개 모델이 설명되어 있습니다. 기기에서 사용할 수 있는 모델은 하드웨어와 설치한 브랜치에 따라 달라집니다.",
++  "content.5f84dae1dd80": "출시 날짜와 커뮤니티 근거를 포함한 130개 주행 모델을 살펴보세요. 기기에서의 사용 가능 여부는 하드웨어와 설치한 브랜치에 따라 달라집니다.",
++  "content.070223c6ad0a": "이것은 2026년 8월에 소유자에게 도달하기 시작한 comma의 새로운 GPU 추가 기능과 연결된 WMI 또는 OP 라인의 어떤 것보다 더 큰 Chestnut급 네트워크인 \"빅 모델\"입니다. 실행 중에 거의 매일 케이던스로 포럼의 big_model 태그 아래로 떨어집니다. 추가 네트워크 크기는 측면에서 먼저 나타납니다. 시내를 자르는 대신 90도 회전하고, 고속도로 안정성보다는 심어진 모습을 보여줍니다. Cinque Terre 및 Sad Model와 같은 뛰어난 항목은 측면 안정성과 자연스러운 조향 느낌을 크게 향상시켰으며, 이전 BMRLNAP 실행은 저속 조향 진동으로 어려움을 겪었습니다. 정지 표지판과 신호등 정지선은 선을 가로지르는 활성 튜닝 영역으로 남아 있습니다. 런타임 참고 사항(10월 2일): PR #2035는 통합 AMD 전송 전 1344×760 comma 3X 프레임을 제안합니다. PR #2023에서는 comma four의 고급 sunnylink 장치 제어를 통해 ChestnutPowerLimit(0 = 재고, 40–100W)를 제안합니다. 둘 다 열려 있습니다. 모델 관리(10월 9일): 10월 6일 동기화(#2036)로 master가 선택기 20, Chestnut v27, Qualcomm v23을 사용하게 되었습니다. Qualcomm v24는 게시되었지만 도입은 열린 PR #2044에서 제안 중입니다. PR #2015는 아직 열려 있으나 선택기 20은 동기화를 통해 이미 master에 포함되어 있습니다. PR #1999에서는 Posenet NaN 속도 경고로 나타날 수 있는 오래된 컴파일 런타임 시작 오류 진단을 제안합니다."
+ }
+diff --git a/locales/zh.json b/locales/zh.json
+index 6cb08d9..6bfd6c7 100644
+--- a/locales/zh.json
++++ b/locales/zh.json
+@@ -3741,5 +3741,13 @@
+   "content.0b75c1780ed2": "此頁面僅供測試。比較舊版 SVG 模擬器、新版統一渲染器（合成路線 → 實際 openpilot 計算）及實際錄製的 modelV2 資料流。",
+   "content.e310ca338543": "使用 openpilot 的實際 calcFrameMatrix → drawModelRenderFrame 處理流程渲染相同的合成路線。",
+   "content.8c87defc60de": "左側是本 Wiki 原有的啟發式模擬器：以社群意見文字為依據，手動調整動畫，在合成測試路線（綜合駕駛挑戰）上近似呈現模型的駕駛感受。它沒有執行任何真正的駕駛模型。",
+-  "content.2dd82d115610": "右側重播錄製的 openpilot 駕駛過程。它解碼實際 rlog/qlog 檔案中的 modelV2 訊息，並使用直接移植為 TypeScript 的 openpilot 行車渲染程式碼顯示結果。路徑與車道線都是模型在真實道路上的實際輸出。兩側顯示不同路線；這是啟發式模擬與實際模型輸出的比較，而非逐影格對照測試。"
++  "content.2dd82d115610": "右側重播錄製的 openpilot 駕駛過程。它解碼實際 rlog/qlog 檔案中的 modelV2 訊息，並使用直接移植為 TypeScript 的 openpilot 行車渲染程式碼顯示結果。路徑與車道線都是模型在真實道路上的實際輸出。兩側顯示不同路線；這是啟發式模擬與實際模型輸出的比較，而非逐影格對照測試。",
++  "content.dc0446683764": "CTMV2 於 2026 年 9 月 8 日發布。需要 comma four，或連接 Chestnut eGPU 的 comma 3X。10 月 6 日的 master 同步（#2036）採用選擇器 20 與 Chestnut v27，並將 Cinque Terre Model v2 設為預設大型模型。基於此次同步的 dev 和 staging 屬於開發版本；最新標籤版仍為 v2026.002.002。",
++  "content.462278a5f825": "CTV3M 的日期為 2026 年 9 月 17 日，需要選擇器 20。10 月 6 日同步（#2036）後，master 採用包含 V3 的 Chestnut v27。請確認已安裝的分支及硬體相容性；舊的選擇器 19 版本使用不同目錄。未核實到 V3 專屬論壇投票。",
++  "content.05d1bee225fd": "Cinque Terre 和 V2 的整體投票偏正面，但不同車輛的回報並不一致。請在自己的配置上確認停車、轉彎及低速轉向。master 現已透過選擇器 20 與 Chestnut v27 包含 V3，但未核實到 V3 專屬論壇投票。仍須符合硬體與分支相容性條件。",
++  "content.8ef3d91fc217": "選擇適合配置的駕駛模型，並調整轉向延遲或轉彎意圖。10 月 6 日同步（#2036）後，master 採用選擇器 20、Chestnut v27 和 Qualcomm v23。Qualcomm v24 的採用仍是尚未合併的 PR #2044 提案。模型重新整理由 #2018 加入；請在停車且未下載時重新整理。清除快取會刪除已下載的模型。",
++  "content.d39a7caece07": "重新整理功能：https://github.com/sunnypilot/sunnypilot/pull/2018。master 透過 10 月 6 日同步更新為選擇器 20、Chestnut v27 和 Qualcomm v23：https://github.com/sunnypilot/sunnypilot/pull/2036。PR #2015 仍未合併，但選擇器 20 已進入 master。Qualcomm v24 的採用仍為提案：https://github.com/sunnypilot/sunnypilot/pull/2044。",
++  "content.d0a80a6226ce": "本維基記錄了 130 個模型。裝置可使用的模型取決於硬體與已安裝的分支。",
++  "content.5f84dae1dd80": "瀏覽 130 個已記錄的駕駛模型、發布日期與社群證據。裝置可用性取決於硬體與已安裝的分支。",
++  "content.070223c6ad0a": "這些是“大模型”——比 WMI 或 OP 系列中的任何產品都大的Chestnut級網絡，與 comma 的新 GPU 附加組件相關，該附加組件於 2026 年 8 月開始向用戶提供。它們在跑步期間幾乎每天都會出現在論壇的 big_model 標籤下。額外的網絡尺寸首先體現在橫向上：將城市內的 90 度轉彎改寬而不是切斷它們，並顯示出穩定的而不是浮動的高速公路穩定性。像五漁村和 Sad Model 這樣的傑出參賽作品顯着改善了橫向穩定性和自然的轉向感覺，而早期的 BMRLNAP 則遭受低速轉向振盪的困擾。停車標誌和交通燈停車線仍然是整線調整的活躍區域。運行時說明（10 月 2 日）：PR #2035 建議在統一 AMD 傳輸之前使用 1344×760 comma 3X 幀。 PR #2023 建議通過 comma four 上的高級 sunnylink 設備控制來實現 ChestnutPowerLimit（0 = 庫存；40–100 W）。兩者均保持開放狀態。模型管理（10 月 9 日）：10 月 6 日同步（#2036）將 master 更新為選擇器 20、Chestnut v27 和 Qualcomm v23。Qualcomm v24 已發布，但採用它仍是尚未合併的 PR #2044 提案。PR #2015 仍未合併；選擇器 20 已透過同步進入 master。 PR #1999 建議診斷過時的編譯運行時啓動故障，這些故障可能顯示爲 Posenet NaN 速度警報。"
+ }
+diff --git a/locales/fr.json b/locales/fr.json
+index 493b8b0..2e5837d 100644
+--- a/locales/fr.json
++++ b/locales/fr.json
+@@ -3741,5 +3741,13 @@
+   "content.0b75c1780ed2": "Page de test uniquement. Comparez l'ancien simulateur SVG, le nouveau moteur de rendu unifié (itinéraire synthétique → calculs réels d'openpilot) et un flux modelV2 réellement enregistré.",
+   "content.e310ca338543": "Le même itinéraire synthétique est rendu par la chaîne réelle calcFrameMatrix → drawModelRenderFrame d'openpilot.",
+   "content.8c87defc60de": "Le panneau de gauche est le simulateur heuristique existant du wiki : une animation réglée manuellement qui reproduit approximativement le ressenti d'un modèle de conduite à partir des avis de la communauté, sur un circuit synthétique (le parcours de défis). Il n'exécute aucun véritable modèle.",
+-  "content.2dd82d115610": "Le panneau de droite rejoue une conduite openpilot enregistrée. Il décode les messages modelV2 d'un véritable fichier rlog/qlog et les affiche au moyen d'un portage direct en TypeScript du code de rendu routier d'openpilot. La trajectoire et les lignes de voie sont les sorties réelles du modèle sur une route réelle. Les panneaux montrent des itinéraires différents : ils comparent une simulation heuristique aux sorties réelles d'un modèle, sans correspondance image par image."
++  "content.2dd82d115610": "Le panneau de droite rejoue une conduite openpilot enregistrée. Il décode les messages modelV2 d'un véritable fichier rlog/qlog et les affiche au moyen d'un portage direct en TypeScript du code de rendu routier d'openpilot. La trajectoire et les lignes de voie sont les sorties réelles du modèle sur une route réelle. Les panneaux montrent des itinéraires différents : ils comparent une simulation heuristique aux sorties réelles d'un modèle, sans correspondance image par image.",
++  "content.dc0446683764": "CTMV2 a été annoncé le 8 septembre 2026. Il nécessite un comma four ou un comma 3X avec un eGPU Chestnut. La synchronisation de master du 6 octobre (#2036) utilise le sélecteur 20 et Chestnut v27, et définit Cinque Terre Model v2 comme grand modèle par défaut. Les versions dev et staging issues de cette synchronisation sont des versions de développement ; la dernière version étiquetée reste v2026.002.002.",
++  "content.462278a5f825": "CTV3M est daté du 17 septembre 2026 et nécessite le sélecteur 20. Après la synchronisation du 6 octobre (#2036), master utilise Chestnut v27, qui inclut V3. Vérifiez votre branche installée et le matériel compatible ; les anciennes versions avec le sélecteur 19 utilisent d’autres catalogues. Aucun sondage de forum propre à V3 n’a été vérifié.",
++  "content.05d1bee225fd": "Les sondages globaux de Cinque Terre et V2 sont positifs, mais les retours varient selon le véhicule. Vérifiez les arrêts, les virages et la direction à basse vitesse sur votre configuration. Master inclut désormais V3 dans Chestnut v27 avec le sélecteur 20 ; aucun sondage de forum propre à V3 n’a été vérifié. Les conditions de compatibilité du matériel et de la branche restent applicables.",
++  "content.8ef3d91fc217": "Choisissez un modèle de conduite et ajustez le délai de direction ou les intentions de virage selon votre configuration. Après la synchronisation du 6 octobre (#2036), master utilise le sélecteur 20 avec Chestnut v27 et Qualcomm v23. L’adoption de Qualcomm v24 reste proposée dans le PR #2044 ouvert. L’actualisation des modèles a été ajoutée par #2018 ; actualisez à l’arrêt, sans téléchargement en cours. Vider le cache supprime les modèles téléchargés.",
++  "content.d39a7caece07": "Actualisation : https://github.com/sunnypilot/sunnypilot/pull/2018. Master est passé au sélecteur 20, à Chestnut v27 et à Qualcomm v23 via la synchronisation du 6 octobre : https://github.com/sunnypilot/sunnypilot/pull/2036. Le PR #2015 reste ouvert, bien que le sélecteur 20 soit déjà dans master. L’adoption de Qualcomm v24 reste une proposition : https://github.com/sunnypilot/sunnypilot/pull/2044.",
++  "content.d0a80a6226ce": "Le wiki documente 130 modèles. Les modèles disponibles sur votre appareil dépendent du matériel et de la branche installée.",
++  "content.5f84dae1dd80": "Parcourez 130 modèles de conduite documentés, avec leurs dates de publication et les données communautaires. La disponibilité sur l’appareil dépend du matériel et de la branche installée.",
++  "content.070223c6ad0a": "Ce sont les « grands modèles » – des réseaux de classe Chestnut plus grands que tout ce qui existe dans les gammes WMI ou OP, liés au nouveau module complémentaire GPU de Comma, qui a commencé à atteindre les propriétaires en août 2026. Ils tombent sous la balise big_model du forum à une cadence quasi quotidienne pendant une course. La taille supplémentaire du réseau apparaît d'abord sur le plan latéral : en prenant des virages à 90 degrés en ville au lieu de les couper, et en montrant une stabilité d'autoroute plantée plutôt que flottante. Les modèles les plus remarquables comme Cinque Terre et Sad Model ont considérablement amélioré la stabilité latérale et la sensation naturelle de la direction, tandis que les versions précédentes de la BMRLNAP souffraient d'oscillations de direction à basse vitesse. Les panneaux d'arrêt et les lignes d'arrêt aux feux de circulation restent un domaine actif de réglage sur toute la ligne. Notes d'exécution (2 octobre) : PR #2035 propose 1344 × 760 images comma 3X avant le transfert unifié AMD. Le PR #2023 propose le ChestnutPowerLimit (0 = stock ; 40-100 W) via des commandes avancées de périphérique sunnylink sur le comma four. Les deux restent ouverts. Gestion des modèles (9 octobre) : la synchronisation du 6 octobre (#2036) a fait passer master au sélecteur 20, à Chestnut v27 et à Qualcomm v23. Qualcomm v24 est publié, mais son adoption est proposée dans le PR #2044 encore ouvert. Le PR #2015 reste ouvert ; le sélecteur 20 est déjà dans master grâce à la synchronisation. PR #1999 propose de diagnostiquer les échecs de démarrage du runtime compilé obsolètes qui peuvent apparaître sous la forme d'alertes de vitesse Posenet NaN."
+ }
+diff --git a/locales/de.json b/locales/de.json
+index 47117d9..364156e 100644
+--- a/locales/de.json
++++ b/locales/de.json
+@@ -3741,5 +3741,13 @@
+   "content.0b75c1780ed2": "Nur für Tests. Vergleichen Sie den bisherigen SVG-Simulator, den neuen einheitlichen Renderer (synthetische Strecke → echte openpilot-Berechnungen) und einen tatsächlich aufgezeichneten modelV2-Datenstrom.",
+   "content.e310ca338543": "Dieselbe synthetische Strecke wird mit openpilots tatsächlicher Verarbeitungskette calcFrameMatrix → drawModelRenderFrame gerendert.",
+   "content.8c87defc60de": "Der linke Bereich zeigt den bisherigen heuristischen Simulator dieses Wikis: Eine manuell abgestimmte Animation bildet das Fahrgefühl eines Modells anhand von Community-Kommentaren auf einer synthetischen Teststrecke (dem Herausforderungsparcours) näherungsweise nach. Es wird kein echtes Fahrmodell ausgeführt.",
+-  "content.2dd82d115610": "Der rechte Bereich spielt eine aufgezeichnete openpilot-Fahrt ab. Er dekodiert modelV2-Nachrichten aus einer echten rlog/qlog-Datei und stellt sie mit einer direkten TypeScript-Portierung von openpilots Onroad-Rendering-Code dar. Fahrpfad und Fahrspurmarkierungen sind tatsächliche Modellausgaben von einer echten Straße. Die Bereiche zeigen unterschiedliche Strecken. Verglichen werden eine heuristische Simulation und tatsächliche Modellausgaben, keine aufeinander abgestimmten Einzelbilder."
++  "content.2dd82d115610": "Der rechte Bereich spielt eine aufgezeichnete openpilot-Fahrt ab. Er dekodiert modelV2-Nachrichten aus einer echten rlog/qlog-Datei und stellt sie mit einer direkten TypeScript-Portierung von openpilots Onroad-Rendering-Code dar. Fahrpfad und Fahrspurmarkierungen sind tatsächliche Modellausgaben von einer echten Straße. Die Bereiche zeigen unterschiedliche Strecken. Verglichen werden eine heuristische Simulation und tatsächliche Modellausgaben, keine aufeinander abgestimmten Einzelbilder.",
++  "content.dc0446683764": "CTMV2 wurde am 8. September 2026 angekündigt. Erfordert comma four oder comma 3X mit Chestnut-eGPU. Die Master-Synchronisierung vom 6. Oktober (#2036) nutzt Selector 20 und Chestnut v27 und legt Cinque Terre Model v2 als großes Standardmodell fest. Darauf basierende Dev- und Staging-Builds sind Entwicklungsversionen; der neueste markierte Release bleibt v2026.002.002.",
++  "content.462278a5f825": "CTV3M ist auf den 17. September 2026 datiert und benötigt Selector 20. Seit der Synchronisierung vom 6. Oktober (#2036) nutzt master Chestnut v27 mit V3. Prüfen Sie den installierten Branch und die Hardwarekompatibilität; ältere Builds mit Selector 19 verwenden andere Kataloge. Eine eigene V3-Forumsumfrage wurde nicht bestätigt.",
++  "content.05d1bee225fd": "Die Gesamtumfragen zu Cinque Terre und V2 sind positiv, aber die Berichte unterscheiden sich je nach Fahrzeug. Prüfen Sie Anhalten, Kurven und langsames Lenken mit Ihrer Konfiguration. Master enthält jetzt V3 in Chestnut v27 mit Selector 20; eine eigene V3-Forumsumfrage wurde nicht bestätigt. Hardware- und Branchkompatibilität gelten weiterhin.",
++  "content.8ef3d91fc217": "Wählen Sie ein Fahrmodell und passen Sie Lenkverzögerung oder Abbiegeabsichten an Ihre Konfiguration an. Seit der Synchronisierung vom 6. Oktober (#2036) nutzt master Selector 20 mit Chestnut v27 und Qualcomm v23. Die Übernahme von Qualcomm v24 wird weiterhin im offenen PR #2044 vorgeschlagen. Modellaktualisierung wurde mit #2018 ergänzt; aktualisieren Sie im Stand ohne laufenden Download. Cache löschen entfernt heruntergeladene Modelle.",
++  "content.d39a7caece07": "Aktualisierungsfunktion: https://github.com/sunnypilot/sunnypilot/pull/2018. Master wechselte durch die Synchronisierung vom 6. Oktober zu Selector 20, Chestnut v27 und Qualcomm v23: https://github.com/sunnypilot/sunnypilot/pull/2036. PR #2015 bleibt offen, obwohl Selector 20 bereits in master enthalten ist. Qualcomm v24 bleibt ein offener Vorschlag: https://github.com/sunnypilot/sunnypilot/pull/2044.",
++  "content.d0a80a6226ce": "Das Wiki dokumentiert 130 Modelle. Die auf Ihrem Gerät verfügbaren Modelle hängen von der Hardware und dem installierten Branch ab.",
++  "content.5f84dae1dd80": "Durchsuchen Sie 130 dokumentierte Fahrmodelle mit Veröffentlichungsdaten und Community-Belegen. Die Verfügbarkeit auf dem Gerät hängt von Hardware und installiertem Branch ab.",
++  "content.070223c6ad0a": "Dies sind die „großen Modelle“ – Netzwerke der Chestnutklasse, die größer sind als alles in der WMI- oder OP-Reihe, verbunden mit dem neuen GPU-Add-on von Comma, das seit August 2026 Besitzer erreicht. Sie fallen während eines Laufs fast täglich unter dem Tag „big_model“ des Forums auf. Die zusätzliche Netzwerkgröße zeigt sich zuerst im Querverkehr: 90-Grad-Kurven innerhalb der Stadt werden weit gefahren, anstatt sie zu schneiden, und die Stabilität auf bepflanzten statt auf schwebenden Autobahnen wird deutlich. Herausragende Modelle wie Cinque Terre und Sad Model haben die Seitenstabilität und das natürliche Lenkgefühl deutlich verbessert, während frühere BMRLNAP-Fahrten unter Lenkschwingungen bei niedriger Geschwindigkeit litten. Stoppschilder und Ampelstopplinien bleiben auf der gesamten Strecke ein aktiver Tuningbereich. Laufzeithinweise (2. Oktober): PR #2035 schlägt 1344×760 comma 3X-Frames vor der einheitlichen AMD-Übertragung vor. PR #2023 schlägt ChestnutPowerLimit (0 = Lager; 40–100 W) über erweiterte sunnylink-Gerätesteuerungen auf comma four vor. Beide bleiben geöffnet. Modellverwaltung (9. Oktober): Die Synchronisierung vom 6. Oktober (#2036) stellte master auf Selector 20, Chestnut v27 und Qualcomm v23 um. Qualcomm v24 ist veröffentlicht, seine Übernahme wird jedoch im offenen PR #2044 vorgeschlagen. PR #2015 bleibt offen; Selector 20 ist durch die Synchronisierung bereits in master enthalten. PR #1999 schlägt die Diagnose veralteter Startfehler der kompilierten Laufzeit vor, die als Posenet NaN-Geschwindigkeitswarnungen angezeigt werden können."
+ }
+diff --git a/locales/es.json b/locales/es.json
+index a016a50..b0c8c3c 100644
+--- a/locales/es.json
++++ b/locales/es.json
+@@ -3741,5 +3741,13 @@
+   "content.0b75c1780ed2": "Página solo para pruebas. Compare el simulador SVG anterior, el nuevo renderizador unificado (ruta sintética → cálculos reales de openpilot) y un flujo modelV2 grabado.",
+   "content.e310ca338543": "La misma ruta sintética se renderiza mediante la cadena real calcFrameMatrix → drawModelRenderFrame de openpilot.",
+   "content.8c87defc60de": "El panel izquierdo muestra el simulador heurístico existente de esta wiki: una animación ajustada manualmente que aproxima la sensación de conducción de un modelo a partir de opiniones de la comunidad en un circuito sintético de pruebas (el circuito de desafíos). No ejecuta ningún modelo real.",
+-  "content.2dd82d115610": "El panel derecho reproduce una conducción openpilot grabada. Decodifica los mensajes modelV2 de un archivo rlog/qlog real y los muestra mediante una adaptación directa a TypeScript del código de renderizado en carretera de openpilot. La trayectoria y las líneas de carril son salidas reales del modelo en una carretera real. Los paneles muestran rutas distintas: se compara una simulación heurística con las salidas reales de un modelo, sin correspondencia fotograma a fotograma."
++  "content.2dd82d115610": "El panel derecho reproduce una conducción openpilot grabada. Decodifica los mensajes modelV2 de un archivo rlog/qlog real y los muestra mediante una adaptación directa a TypeScript del código de renderizado en carretera de openpilot. La trayectoria y las líneas de carril son salidas reales del modelo en una carretera real. Los paneles muestran rutas distintas: se compara una simulación heurística con las salidas reales de un modelo, sin correspondencia fotograma a fotograma.",
++  "content.dc0446683764": "CTMV2 se anunció el 8 de septiembre de 2026. Requiere comma four o comma 3X con una eGPU Chestnut. La sincronización de master del 6 de octubre (#2036) usa el selector 20 y Chestnut v27, y establece Cinque Terre Model v2 como modelo grande predeterminado. Las versiones dev y staging basadas en esa sincronización son de desarrollo; la última versión etiquetada sigue siendo v2026.002.002.",
++  "content.462278a5f825": "CTV3M tiene fecha del 17 de septiembre de 2026 y requiere el selector 20. Tras la sincronización del 6 de octubre (#2036), master usa Chestnut v27, que incluye V3. Comprueba tu rama instalada y el hardware compatible; las versiones antiguas con selector 19 usan otros catálogos. No se verificó ninguna encuesta del foro específica de V3.",
++  "content.05d1bee225fd": "Las encuestas generales de Cinque Terre y V2 son positivas, pero los informes varían según el vehículo. Comprueba las paradas, las curvas y la dirección a baja velocidad en tu configuración. Master incluye ahora V3 en Chestnut v27 con el selector 20; no se verificó ninguna encuesta del foro específica de V3. Siguen aplicándose los requisitos de hardware y rama.",
++  "content.8ef3d91fc217": "Elige un modelo de conducción y ajusta el retardo de dirección o las intenciones de giro a tu configuración. Tras la sincronización del 6 de octubre (#2036), master usa el selector 20 con Chestnut v27 y Qualcomm v23. La adopción de Qualcomm v24 sigue propuesta en el PR #2044 abierto. #2018 añadió la actualización de modelos; actualiza con el vehículo estacionado y sin descargas en curso. Borrar caché elimina los modelos descargados.",
++  "content.d39a7caece07": "Actualización de modelos: https://github.com/sunnypilot/sunnypilot/pull/2018. Master pasó al selector 20, Chestnut v27 y Qualcomm v23 mediante la sincronización del 6 de octubre: https://github.com/sunnypilot/sunnypilot/pull/2036. El PR #2015 sigue abierto, aunque el selector 20 ya está en master. Adoptar Qualcomm v24 sigue siendo una propuesta: https://github.com/sunnypilot/sunnypilot/pull/2044.",
++  "content.d0a80a6226ce": "El wiki documenta 130 modelos. Los modelos disponibles en tu dispositivo dependen del hardware y la rama instalada.",
++  "content.5f84dae1dd80": "Explora 130 modelos de conducción documentados, con fechas de publicación y evidencia de la comunidad. La disponibilidad en el dispositivo depende del hardware y la rama instalada.",
++  "content.070223c6ad0a": "Estos son los \"modelos grandes\": redes de clase Chestnut más grandes que cualquier cosa en las líneas WMI u OP, vinculadas al nuevo complemento GPU de comma, que comenzó a llegar a los propietarios en agosto de 2026. Caen bajo la etiqueta big_model del foro con una cadencia casi diaria durante una ejecución. El tamaño adicional de la red aparece primero en el lateral: toma amplias curvas de 90 grados en la ciudad en lugar de cortarlas, y muestra una estabilidad en la carretera plantada en lugar de flotante. Los participantes destacados como Cinque Terre y Sad Model han mejorado significativamente la estabilidad lateral y la sensación de dirección natural, mientras que las versiones anteriores del BMRLNAP sufrieron oscilaciones de dirección a baja velocidad. Las señales de alto y las líneas de alto de los semáforos siguen siendo un área activa de ajuste a lo largo de la línea. Notas de ejecución (2 de octubre): PR #2035 propone fotogramas comma 3X de 1344×760 antes de la transferencia unificada de AMD. PR #2023 propone ChestnutPowerLimit (0 = stock; 40–100 W) a través de controles avanzados del dispositivo sunnylink en comma four. Ambos permanecen abiertos. Gestión de modelos (9 de octubre): la sincronización del 6 de octubre (#2036) cambió master al selector 20, Chestnut v27 y Qualcomm v23. Qualcomm v24 está publicado, pero su adopción se propone en el PR #2044 abierto. El PR #2015 sigue abierto; el selector 20 ya está en master mediante la sincronización. PR #1999 propone diagnosticar fallas de inicio en tiempo de ejecución compilado obsoleto que pueden aparecer como alertas de velocidad de Posenet NaN."
+ }
+diff --git a/data/discourse_polls.json b/data/discourse_polls.json
+index c6cdb15..f9d3206 100644
+--- a/data/discourse_polls.json
++++ b/data/discourse_polls.json
+@@ -2682,7 +2682,7 @@
+         "type": "regular",
+         "min": null,
+         "max": null,
+-        "voters": 18,
++        "voters": 19,
+         "title": "RDFMV2",
+         "options": [
+           {
+@@ -2693,7 +2693,7 @@
+           {
+             "id": "1e8a0edd7eccff859eb116c3407618f2",
+             "html": "4 - Good",
+-            "votes": 6
++            "votes": 7
+           },
+           {
+             "id": "7ef97090910fff777e2c50edc5463030",
+@@ -2713,7 +2713,7 @@
+         ]
+       }
+     ],
+-    "updatedAt": "2026-10-03T18:14:27.722Z"
++    "updatedAt": "2026-10-09T21:51:24.997Z"
+   },
+   "RDF Model": {
+     "topicId": "6569",
+@@ -2724,7 +2724,7 @@
+         "type": "regular",
+         "min": null,
+         "max": null,
+-        "voters": 44,
++        "voters": 45,
+         "title": "How is this model?",
+         "options": [
+           {
+@@ -2740,7 +2740,7 @@
+           {
+             "id": "7ef97090910fff777e2c50edc5463030",
+             "html": "3 - Ok",
+-            "votes": 10
++            "votes": 11
+           },
+           {
+             "id": "321f444cf2be5d7e0e2227920be1eff0",
+@@ -2755,7 +2755,7 @@
+         ]
+       }
+     ],
+-    "updatedAt": "2026-10-03T18:14:27.864Z"
++    "updatedAt": "2026-10-09T21:51:25.012Z"
+   },
+   "Off-Policy Model": {
+     "topicId": "2819",
+diff --git a/lib/modelVotes.ts b/lib/modelVotes.ts
+index 16db5d5..bd1d3d8 100644
+--- a/lib/modelVotes.ts
++++ b/lib/modelVotes.ts
+@@ -278,13 +278,22 @@ export function calculateBlendedModelStats(
+             '1 - Poor'
+         ];
+ 
+-        const baseVotes = baseTotalVotes ?? 10;
+-        const baseS = baseSentiment ?? { great: 45, good: 35, ok: 15, bad: 5 };
+-
+-        const baseGreat = Math.round(baseVotes * (baseS.great / 100));
+-        const baseGood = Math.round(baseVotes * (baseS.good / 100));
+-        const baseOk = Math.round(baseVotes * (baseS.ok / 100));
+-        const baseBad = Math.max(0, baseVotes - (baseGreat + baseGood + baseOk));
++        const weights = baseSentiment
++            ? [baseSentiment.great, baseSentiment.good, baseSentiment.ok, baseSentiment.bad]
++            : [0, 0, 0, 0];
++        const weightTotal = weights.reduce((sum, weight) => sum + weight, 0);
++        const baseVotes = Number.isInteger(baseTotalVotes) && baseTotalVotes! > 0
++            && weights.every(weight => Number.isFinite(weight) && weight >= 0) && weightTotal > 0
++            ? baseTotalVotes! : 0;
++        // Only use an explicitly recorded baseline. Allocate its rounded counts
++        // together so option totals cannot exceed the recorded voter count.
++        const exactCounts = weights.map(weight => baseVotes > 0 ? baseVotes * weight / weightTotal : 0);
++        const counts = exactCounts.map(Math.floor);
++        const remainderOrder = exactCounts.map((count, index) => ({ index, remainder: count - counts[index] }))
++            .sort((a, b) => b.remainder - a.remainder || a.index - b.index);
++        const remaining = baseVotes - counts.reduce((sum, count) => sum + count, 0);
++        for (let i = 0; i < remaining; i++) counts[remainderOrder[i].index]++;
++        const [baseGreat, baseGood, baseOk, baseBad] = counts;
+ 
+         const baseCounts: Record<string, number> = {
+             '5 - Great': baseGreat,
+@@ -334,9 +343,9 @@ export function calculateBlendedModelStats(
+     // Identify rating poll: first poll named 'overall' or 'poll', or questions[0]
+     const ratingQ = questions.find(q => q.id === 'overall' || q.id === 'poll') || questions[0];
+ 
+-    let liveScore = baseCommunityScore ?? 75;
+-    let liveSentiment = baseSentiment ?? { great: 40, good: 35, ok: 20, bad: 5 };
+-    let liveTotalVotes = baseTotalVotes ?? questions[0]?.voters ?? 0;
++    let liveScore = baseCommunityScore ?? 0;
++    let liveSentiment = baseSentiment ?? { great: 0, good: 0, ok: 0, bad: 0 };
++    let liveTotalVotes = 0;
+ 
+     if (ratingQ && ratingQ.options.length > 0) {
+         let greatVotes = 0;
+diff --git a/components/ModelLibrary.tsx b/components/ModelLibrary.tsx
+index bd0f3b1..02b29c9 100644
+--- a/components/ModelLibrary.tsx
++++ b/components/ModelLibrary.tsx
+@@ -317,9 +317,10 @@ function ModelCard({
+     const [simulationVotes, setSimulationVotes] = useState<ModelVoteSummary>();
+     const [isPulsing, setIsPulsing] = useState(false);
+ 
+-    const liveScore = userVoteData?.communityScore ?? model.communityScore;
+     const liveVotes = userVoteData?.totalVotes ?? model.totalVotes;
+-    const liveSentiment = userVoteData?.sentiment ?? model.sentiment;
++    const hasRatingVotes = (liveVotes ?? 0) > 0;
++    const liveScore = hasRatingVotes ? userVoteData?.communityScore ?? model.communityScore : undefined;
++    const liveSentiment = hasRatingVotes ? userVoteData?.sentiment ?? model.sentiment : undefined;
+ 
+     const handleScoreUpdate = useCallback((liveData: {
+         communityScore: number;
+diff --git a/tests/model-votes.test.ts b/tests/model-votes.test.ts
+new file mode 100644
+index 0000000..aadf892
+--- /dev/null
++++ b/tests/model-votes.test.ts
+@@ -0,0 +1,52 @@
++import assert from 'node:assert/strict';
++import { test } from 'node:test';
++import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
++import { tmpdir } from 'node:os';
++import path from 'node:path';
++import { createRequire } from 'node:module';
++import { fileURLToPath } from 'node:url';
++import { execFileSync } from 'node:child_process';
++
++const require = createRequire(import.meta.url);
++
++test('model ratings require recorded evidence and retain real votes without creating extra baseline votes', () => {
++    const dir = mkdtempSync(path.join(tmpdir(), 'sunnylink-vote-evidence-'));
++    try {
++        mkdirSync(path.join(dir, 'data'));
++        writeFileSync(path.join(dir, 'data/model_votes.json'), JSON.stringify({
++            one: { voterHash: 'test-voter', modelName: 'Local Only', answers: { overall: 5 } },
++        }));
++        writeFileSync(path.join(dir, 'data/discourse_polls.json'), JSON.stringify({
++            'Forum Model': { polls: [{ name: 'overall', voters: 2, options: [
++                { html: '5 - Great', votes: 1 }, { html: '1 - Poor', votes: 1 },
++            ] }] },
++        }));
++        const modulePath = fileURLToPath(new URL('../lib/modelVotes.ts', import.meta.url));
++        const script = `const { calculateBlendedModelStats: stats } = require(${JSON.stringify(modulePath)});
++            console.log(JSON.stringify({
++                empty: stats('No Evidence'),
++                local: stats('Local Only'),
++                forum: stats('Forum Model'),
++                baseline: stats('Explicit Baseline', 75, 10, {great:45,good:35,ok:15,bad:5}),
++                partial: stats('Missing Distribution', undefined, 10),
++            }));`;
++        const output = execFileSync(process.execPath, ['--import', require.resolve('tsx'), '-e', script], {
++            cwd: dir, encoding: 'utf8',
++        });
++        const results = JSON.parse(output);
++        assert.equal(results.empty.live.totalVotes, 0);
++        assert.equal(results.empty.totalVoters, 0);
++        assert.equal(results.empty.questions[0].options.reduce((sum: number, o: {votes: number}) => sum + o.votes, 0), 0);
++        assert.deepEqual(results.empty.live.sentiment, { great: 0, good: 0, ok: 0, bad: 0 });
++        assert.equal(results.local.live.totalVotes, 1);
++        assert.equal(results.local.live.communityScore, 100);
++        assert.equal(results.forum.live.totalVotes, 2);
++        assert.equal(results.forum.live.communityScore, 50);
++        assert.equal(results.baseline.live.totalVotes, 10);
++        assert.equal(results.baseline.questions[0].options.reduce((sum: number, o: {votes: number}) => sum + o.votes, 0), 10);
++        assert.equal(results.partial.questions[0].voters, 0);
++        assert.equal(results.partial.live.totalVotes, 0);
++    } finally {
++        rmSync(dir, { recursive: true, force: true });
++    }
++});

@@ -1,4 +1,7 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import { useState, useEffect, useMemo } from 'react';
 import DOMPurify from 'dompurify';
@@ -24,6 +27,7 @@ interface FeatureGuideProps {
 }
 
 export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
+  const tx = useTextTranslation();
     const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
     const [showGlossary, setShowGlossary] = useState(false);
     const { t, locale } = useLanguage();
@@ -137,13 +141,13 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                             >
                                 <div className="flex-1">
                                     <div className="flex items-center gap-2 flex-wrap mb-1">
-                                        <span className="text-lg font-bold text-slate-100">{feature.name}</span>
+                                        <span className="text-lg font-bold text-slate-100"><TranslatedText text={feature.name} /></span>
                                         <span className={`px-2 py-0.5 text-[10px] font-medium rounded-full border ${getCategoryColor(feature.category)}`}>
-                                            {feature.category}
+                                            <TranslatedText text={feature.category} />
                                         </span>
                                     </div>
-                                    <p className="text-sm text-slate-500 mb-2">{feature.fullName}</p>
-                                    <p className="text-sm text-slate-300">{feature.userSummary}</p>
+                                    <p className="text-sm text-slate-500 mb-2"><TranslatedText text={feature.fullName} /></p>
+                                    <p className="text-sm text-slate-300"><TranslatedText text={feature.userSummary} /></p>
                                 </div>
 
                                 <svg
@@ -166,7 +170,7 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                                     window.open(`https://github.com/vinnie291/sunnylink-wiki/issues/new?title=${title}&body=${body}`, '_blank');
                                 }}
                                 className="mt-1 p-1 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors shrink-0"
-                                aria-label={`${t('features.flagFeature') || 'Flag this feature'}: ${feature.name}`}
+                                aria-label={tx(`${t('features.flagFeature') || 'Flag this feature'}: ${feature.name}`)}
                                 title={t('features.flagFeature') || 'Flag this feature'}
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -183,7 +187,7 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                                 {/* User Translation */}
                                 <div className="p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
                                     <p className="text-emerald-400 text-sm">
-                                        <span className="font-semibold">{t('features.inPlainEnglish') || '🗣️ In Plain English:'}</span> {feature.userTranslation}
+                                        <span className="font-semibold">{t('features.inPlainEnglish') || '🗣️ In Plain English:'}</span> <TranslatedText text={feature.userTranslation} />
                                     </p>
                                 </div>
 
@@ -207,7 +211,7 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                                         )}
                                     </div>
                                     <p className="text-sm text-slate-300 font-mono leading-relaxed">
-                                        {feature.officialDefinition}
+                                        <TranslatedText text={feature.officialDefinition} />
                                     </p>
                                     {feature.discourseHtml && (
                                         <div className="mt-3 pt-3 border-t border-slate-700/30">
@@ -230,7 +234,7 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                                                 href={`/#${key}`}
                                                 className="px-2 py-1 text-xs rounded-md bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 hover:bg-cyan-500/20 transition-colors"
                                             >
-                                                {key}
+                                                <TranslatedText text={key} />
                                             </a>
                                         ))}
                                     </div>
@@ -257,9 +261,9 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
                 <div className="grid gap-2 sm:grid-cols-2">
                     {Object.entries(glossary).map(([term, definition]) => (
                         <div key={term} className="p-3 rounded-lg bg-slate-800/30 border border-slate-700/50">
-                            <span className="text-cyan-400 font-mono font-bold text-sm">{term}</span>
+                            <span className="text-cyan-400 font-mono font-bold text-sm"><TranslatedText text={term} /></span>
                             <span className="text-slate-500 mx-2">—</span>
-                            <span className="text-slate-400 text-sm">{definition}</span>
+                            <span className="text-slate-400 text-sm"><TranslatedText text={definition} /></span>
                         </div>
                     ))}
                 </div>

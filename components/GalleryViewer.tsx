@@ -1,4 +1,7 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { computeModelRenderFrame, drawModelRenderFrame } from '../lib/openpilotModelRenderer';
@@ -13,6 +16,7 @@ interface Props {
 }
 
 export default function GalleryViewer({ data, label }: Props) {
+  const tx = useTextTranslation();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [playing, setPlaying] = useState(true);
     const [currentSec, setCurrentSec] = useState(0);
@@ -77,20 +81,20 @@ export default function GalleryViewer({ data, label }: Props) {
                 width={CANVAS_W}
                 height={CANVAS_H}
                 className="absolute inset-0 w-full h-full"
-                aria-label={`${label} driving path on the canonical test road`}
+                aria-label={tx(`${label} driving path on the canonical test road`)}
             />
 
             <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-black/45 to-transparent" />
 
             <div className="absolute left-3 top-3 select-none">
                 <span className="text-[10px] font-medium tracking-[0.2em] uppercase text-emerald-400 [text-shadow:0_1px_2px_rgba(0,0,0,0.6)]">
-                    {label}
+                    <TranslatedText text={label} />
                 </span>
             </div>
 
             <div className="absolute right-3 top-3 select-none text-right">
                 <span className="text-[10px] font-mono text-slate-300/80 [text-shadow:0_1px_2px_rgba(0,0,0,0.6)]">
-                    {data.route}
+                    <TranslatedText text={data.route} />
                 </span>
             </div>
 
@@ -99,9 +103,9 @@ export default function GalleryViewer({ data, label }: Props) {
                     type="button"
                     onClick={() => setPlaying((p) => !p)}
                     className="pointer-events-auto shrink-0 rounded-full bg-white/10 hover:bg-white/25 active:bg-white/35 text-white text-xs font-bold h-7 w-7 flex items-center justify-center transition-colors"
-                    aria-label={playing ? 'Pause' : 'Play'}
+                    aria-label={tx(playing ? 'Pause' : 'Play')}
                 >
-                    {playing ? '❚❚' : '▶'}
+                    <TranslatedText text={playing ? '❚❚' : '▶'} />
                 </button>
                 <input
                     type="range"
@@ -111,10 +115,10 @@ export default function GalleryViewer({ data, label }: Props) {
                     value={currentSec}
                     onChange={onScrub}
                     className="pointer-events-auto flex-1 accent-cyan-400"
-                    aria-label="Scrub playback position"
+                    aria-label={tx("Scrub playback position")}
                 />
                 <span className="shrink-0 text-[10px] font-mono text-slate-300 tabular-nums">
-                    {currentSec.toFixed(1)}s / {durationSec.toFixed(1)}s
+                    <TranslatedText text={currentSec.toFixed(1)} />s / <TranslatedText text={durationSec.toFixed(1)} />s
                 </span>
             </div>
         </div>

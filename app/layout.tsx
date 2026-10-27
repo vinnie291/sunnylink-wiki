@@ -7,6 +7,7 @@ import GlobalControls from '@/components/GlobalControls';
 import { LanguageProvider } from '@/lib/i18n';
 import WebMCP from '@/components/WebMCP';
 import SessionDonateModal from '@/components/SessionDonateModal';
+import LocalizedDocumentTitle from '@/components/LocalizedDocumentTitle';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -108,6 +109,7 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased pb-20 md:pb-0 overflow-x-hidden" suppressHydrationWarning>
         <LanguageProvider>
+          <LocalizedDocumentTitle />
           {children}
           <GlobalControls />
           <UniversalSearchTrigger />

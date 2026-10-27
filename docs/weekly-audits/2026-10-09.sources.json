@@ -1,0 +1,1751 @@
+{
+  "batch": "2026-10-09",
+  "savedAt": "2026-10-09T21:57:37.447Z",
+  "previousSuccessfulScan": "2026-10-03T18:30:36.582Z",
+  "sourceHeads": {
+    "sunnypilotMaster": "3323aafb5422cee72653206dc83a56e66c61799d",
+    "sunnypilotDev": "6c7564969016b91e28aafa3a167300f8731e875a",
+    "sunnypilotStaging": "4063760cefe1d3c05a1572ad5f41943c7f8fe373",
+    "modelRepository": "1ea3e6d2ae0040e35a5729604e7d84b756e31e83",
+    "documentation": "c34b63208cdb7bcbef389cf90b3c15e38221a8bc"
+  },
+  "coverage": {
+    "requests": 144,
+    "successful": 141,
+    "pollTopicsChecked": 50,
+    "pollTopicsChanged": 2,
+    "failedInitialRequestsResolvedBySuccessfulRetries": true,
+    "githubDiscussions": "disabled for sunnypilot/sunnypilot",
+    "discordLatestAvailableMessage": "2026-04-05T20:40:01.212-04:00",
+    "discordLiveUnavailable": true,
+    "scope": "Recent indexes and selected relevant details; not an exhaustive historical review"
+  },
+  "checks": {
+    "i18n": {
+      "status": "passed",
+      "keysPerLocale": 3751,
+      "locales": [
+        "de",
+        "es",
+        "fr",
+        "ko",
+        "zh"
+      ]
+    },
+    "tests": {
+      "status": "passed",
+      "count": 12,
+      "command": "node --import tsx --test tests/model-votes.test.ts tests/model-links.test.ts tests/i18n.test.ts tests/vehicle-settings.test.ts"
+    },
+    "build": {
+      "status": "passed",
+      "command": "npm run build",
+      "typeCheck": true,
+      "staticPages": 21
+    },
+    "lint": {
+      "status": "pre-existing failures",
+      "errors": 40,
+      "warnings": 41,
+      "diagnosticsUnchangedAfterIgnoringLineNumbers": true
+    },
+    "newTestLint": "passed",
+    "dataRatingsAudit": "completed; existing heuristic warnings remain",
+    "patchApplyCheck": "passed against the run-start working baseline",
+    "modelScanner": {
+      "catalogModels": 130,
+      "remoteReferences": 99,
+      "newNames": 0
+    },
+    "supportedCarComparison": {
+      "rows": 334,
+      "vehicleIdentifiersAndYearRangesUnchanged": true
+    },
+    "whitespace": "passed for affected tracked files"
+  },
+  "deployedComparison": {
+    "oldSelectorClaim": true,
+    "oldV2CatalogClaim": true,
+    "v3Name": true,
+    "liveVoting": {
+      "communityScore": 81,
+      "totalVotes": 11,
+      "sentiment": {
+        "great": 45,
+        "good": 36,
+        "ok": 18,
+        "bad": 1
+      }
+    },
+    "verification": {
+      "method": "Rendered browser accessibility text plus sanitized public rating API",
+      "observedAt": "2026-10-09",
+      "url": "https://sunnylink.wiki/models",
+      "v2": "Rendered note refers to master Chestnut v25 / selector 19.",
+      "v3": "Rendered note refers to master selector 19 / Chestnut v25. Card shows 81% and 11 votes; poll shows 10 voters."
+    }
+  },
+  "pollUpdates": [
+    {
+      "name": "RDF Model v2",
+      "source": "https://community.sunnypilot.ai/t/6763",
+      "counts": [
+        5,
+        7,
+        1,
+        6
+      ],
+      "total": 19,
+      "score": 56,
+      "sentiment": {
+        "great": 26,
+        "good": 37,
+        "ok": 5,
+        "bad": 32
+      },
+      "before": {
+        "score": 52,
+        "votes": 15,
+        "sentiment": {
+          "great": 27,
+          "good": 33,
+          "ok": 0,
+          "bad": 40
+        }
+      }
+    },
+    {
+      "name": "RDF Model",
+      "source": "https://community.sunnypilot.ai/t/6569",
+      "counts": [
+        14,
+        19,
+        11,
+        1
+      ],
+      "total": 45,
+      "score": 75,
+      "sentiment": {
+        "great": 31,
+        "good": 42,
+        "ok": 25,
+        "bad": 2
+      },
+      "before": {
+        "score": 76,
+        "votes": 44,
+        "sentiment": {
+          "great": 32,
+          "good": 43,
+          "ok": 23,
+          "bad": 2
+        }
+      }
+    }
+  ],
+  "review": {
+    "base": "Run-start working tree, including existing user work; patch excludes that work",
+    "patch": "docs/weekly-audits/2026-10-09.patch",
+    "patchSha256": "f7d956ffd6c05c2a0fcd28f7175b11ffa7290d1cc57eae4c5a8ae5ea7cefdc4f",
+    "files": [
+      {
+        "file": "data/models.json",
+        "beforeSha256": "8ef5ace00b4d3d5913aedb6122c21f825d63f53674b3408432e993ac15a91ffd",
+        "preparedSha256": "980738a9ab0ce6acf83cea32b93632fa742bf50543f89dece984e6dafe0c2b92"
+      },
+      {
+        "file": "data/features.json",
+        "beforeSha256": "ea8fa34b8fcf65adf9bd0d41be5f98250a69e1af3d6d1149de8b956ef323c91d",
+        "preparedSha256": "d23170c934a98d66b91b29467902367430a11d143730a84a7116c8cb72cd9700"
+      },
+      {
+        "file": "data/toggles.json",
+        "beforeSha256": "3ce67f6398a7e6bfc706a2d9c22df8ebc94e95bc217046f6be676c1dfd507562",
+        "preparedSha256": "f5dd0305819a7b577ce86288c6bd0a921cc0c997289a6b404109b0058c1ab992"
+      },
+      {
+        "file": "data/models.ko.json",
+        "beforeSha256": "8102bfe308e4f6062baab849a75ae6fa2b790cece407d51aebd0f8dac3b994dc",
+        "preparedSha256": "665fe7d5f6134d5e6a32509595dcbc2a6ab2ed73f6c0cb9ca2544557464b3fe0"
+      },
+      {
+        "file": "data/features.ko.json",
+        "beforeSha256": "e4a5b30ac92f2cf6eed5755cbd1da12e84c8fa106bcf6f9b79862145453e15ad",
+        "preparedSha256": "2e96167ba65173d25f22a160b6b65f12518776f675cc06b70131cdc0bff93b64"
+      },
+      {
+        "file": "data/toggles.ko.json",
+        "beforeSha256": "e84484fc4d6dd7b7d59e60817ea7480dd590acde26b529a701873addcbec536e",
+        "preparedSha256": "2748d20fafa874b32a684273c8aed5ba611858ff5c0d8ca727c7be24a0041580"
+      },
+      {
+        "file": "data/models.zh.json",
+        "beforeSha256": "ffdc66352458cdb6fcbb4c129455913715173f69b16a1173c1514e0fe9fc1386",
+        "preparedSha256": "3afdf16642b6146d842779573a9b045077bf2a94435c1084cdae0fe63912170f"
+      },
+      {
+        "file": "data/features.zh.json",
+        "beforeSha256": "3a77f3765ea07595fa22aee54bd0a72f4fb5af06e0c8c29a2f8a98bd7f177853",
+        "preparedSha256": "66e2c917313b6006962ec08a1f547f7d839194fce9a900f30d77b417b46957ee"
+      },
+      {
+        "file": "data/toggles.zh.json",
+        "beforeSha256": "db34d09de94193d76c1784534480b92ee1c4d45ae0b289673042ec9d3678655d",
+        "preparedSha256": "c9bd5464fcd2d27710a7137f82df648dce331cfeee9fe8d80de81749e24516f5"
+      },
+      {
+        "file": "data/models.fr.json",
+        "beforeSha256": "5a9fd65df2059a8262357d154624b2c884097a1e331db7897fabb281fccff102",
+        "preparedSha256": "3b2a3249310c0a67fd328c70a8ea81714107061d8fcd5015043e52cd555c194a"
+      },
+      {
+        "file": "data/features.fr.json",
+        "beforeSha256": "7db2483c295c491ef89ca7e593e294b3b98fd0f1a7d23965524ffd576f307bc0",
+        "preparedSha256": "eed75f544a7fe5b92463e218fef6a08c18adb698bdf74083c21be8de0d0879d3"
+      },
+      {
+        "file": "data/toggles.fr.json",
+        "beforeSha256": "9eeaa6891d91c02bdcad10a820787a9b9bbe2ac5f6580dfb0da5955d868c5e54",
+        "preparedSha256": "7dffd41d3c107ed75159974322fa927514e7754893e1a6c1209917b2b2731d48"
+      },
+      {
+        "file": "data/models.de.json",
+        "beforeSha256": "90d34ac30146e7417bcad97afd5a83282d40a0a72f7d78668a75202e38bb60de",
+        "preparedSha256": "36346440ac3eb4e6cd4fd9c7cc47731f121aff3882d0fbcfb5aadc27d707d413"
+      },
+      {
+        "file": "data/features.de.json",
+        "beforeSha256": "98ed07567cdaf4d5502babbc2780b5d1ba46a315d3a1e7a45a2e18ad231ecd15",
+        "preparedSha256": "8a455af46c8225dd8dbfcc2c8a19a28d36df9878d141a5313340847ae4c78e9a"
+      },
+      {
+        "file": "data/toggles.de.json",
+        "beforeSha256": "236a1af95040825ea67f50d1e76acea800e0346ef72b308f3bfa83636036a76f",
+        "preparedSha256": "6f1dc2bc3d1c32fa98b50450bd10fe4463ba5398ee2b0ce1226b3ccca68fc8aa"
+      },
+      {
+        "file": "data/models.es.json",
+        "beforeSha256": "f36b724ae1e5edeff2714046338288f71f8991afad44438df92e17f8a5379cb7",
+        "preparedSha256": "ec9e06709132055a3f8f21540596db29694578afda42bb4695f1f11e37788f31"
+      },
+      {
+        "file": "data/features.es.json",
+        "beforeSha256": "5903f99f279b07728818ff09bc959a1cb9fa6d567e76d3903db085394efc4933",
+        "preparedSha256": "a2f3a85441eafa2a30f8a173ee66d6145b39b97bf6b67aeb0ad456392bddb0a9"
+      },
+      {
+        "file": "data/toggles.es.json",
+        "beforeSha256": "b9fa7d56c43890c7c267912664292a7ad81facfa9d790adec75f4054293ef43e",
+        "preparedSha256": "6ddc3162740780df98b159a7bc1789d6009e9f2aa8516d9a01ba24309e4ce667"
+      },
+      {
+        "file": "locales/en.json",
+        "beforeSha256": "63d4bc09282b15ae4142adfc99a9dfb3e48fbbcb172a700f1286b07a763cc389",
+        "preparedSha256": "b247dd5036050f4855eef54f2b892910d5232e0a96dc087178d862af158606c5"
+      },
+      {
+        "file": "locales/ko.json",
+        "beforeSha256": "db4a2d1db0545bce777a87683d0f55cad761e0017ad480bb14be438d33755beb",
+        "preparedSha256": "bc5778d667b94454ba0db79f54e9c4cc0fba29021f3c28e4a9c7d5a4d1e7ba00"
+      },
+      {
+        "file": "locales/zh.json",
+        "beforeSha256": "cd06f6c98101e168ba87a25b9264bbe4b2b7258d7352d95811c1904de6a7b1fd",
+        "preparedSha256": "8c6204d7300de3c5a032bd33481398a37a28f6be526a6011a5551b06a69db648"
+      },
+      {
+        "file": "locales/fr.json",
+        "beforeSha256": "6f97f1ad27af43f7dd18c1b9dca755c82b86ff1401b2cf42bc4b0f48401d9aaf",
+        "preparedSha256": "2f908aa5539acc5fd9c98f6504af64b48d3a41b1e49beb70804e4e08cbd0fa9c"
+      },
+      {
+        "file": "locales/de.json",
+        "beforeSha256": "9659e90316f7852988e36581b7ae28c808c31b979f86e4151d523295f73c88b7",
+        "preparedSha256": "e29025fa350afe1c4dd4a894768e7b00a8d174a9a69b26e9f6fca99366d0ff31"
+      },
+      {
+        "file": "locales/es.json",
+        "beforeSha256": "e3e63f8920c294f36e522383a06b580af4ff55e31ec27693d1d9c59be2742149",
+        "preparedSha256": "547530389b11092b6655ebb7f5e3e8e0a4047ce508cef9e10a12176f4a48960d"
+      },
+      {
+        "file": "data/discourse_polls.json",
+        "beforeSha256": "e8fce518e8bfe3ad3e064a73ecb87e2c959403712029642e4afeabafb250c3e1",
+        "preparedSha256": "c4de0e2dd236ed9564b528870ff365aa0e74c651bc759ab2beff7e104c78e90e"
+      },
+      {
+        "file": "lib/modelVotes.ts",
+        "beforeSha256": "f4a8fb61115abdf4dcd9474f12c935faf9bcd507b07bfa35d66958ac21a991ff",
+        "preparedSha256": "14c40a3d4b11d66fe035497dc7876f9b2bf92ab6e5ad10f7f909a138f3710cea"
+      },
+      {
+        "file": "components/ModelLibrary.tsx",
+        "beforeSha256": "f199ce9c953ed6ff7c4362f46558bdeea448c0a18c3c2eeda6947634245e1cda",
+        "preparedSha256": "401b32e43016ec8b326f2c9874a5f726af9e9b5b778a78ae71461baabc19c0ac"
+      },
+      {
+        "file": "tests/model-votes.test.ts",
+        "beforeSha256": null,
+        "preparedSha256": "6e2103c14f880441cc66336aa3c240ee993d1557243bbe4831d92dc09f61f1b0"
+      }
+    ],
+    "translationAdditions": [
+      "content.dc0446683764",
+      "content.462278a5f825",
+      "content.05d1bee225fd",
+      "content.8ef3d91fc217",
+      "content.d39a7caece07",
+      "content.d0a80a6226ce",
+      "content.5f84dae1dd80",
+      "content.070223c6ad0a"
+    ]
+  },
+  "requests": [
+    {
+      "id": "repo",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot",
+      "fetchedAt": "2026-10-09T15:43:55.689Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "d08f7759a40944a54d9a12801508f05e3db87fbb68581e566d266af988c2814a",
+      "bytes": 6923
+    },
+    {
+      "id": "releases",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/releases?per_page=5",
+      "fetchedAt": "2026-10-09T15:43:55.684Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "220b9d63568a3123ac0519dac6e9b3fd14b7736f9d079929ee969548d8b5e642",
+      "bytes": 13965
+    },
+    {
+      "id": "issues",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/issues?state=all&since=2026-10-03T18%3A30%3A36.582Z&sort=updated&direction=desc&per_page=100",
+      "fetchedAt": "2026-10-09T15:43:55.691Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "c38cc035293a6919064889c56780a994da961437566680504b67adb9c2b8402a",
+      "bytes": 49493
+    },
+    {
+      "id": "master-commits",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/commits?sha=master&since=2026-10-03T18%3A30%3A36.582Z&per_page=100",
+      "fetchedAt": "2026-10-09T15:43:56.309Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "69709ede5966bb649d31a23094277559f794c4c95b8b3bca1116d5ca6440f66a",
+      "bytes": 4882
+    },
+    {
+      "id": "master-head",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/branches/master",
+      "fetchedAt": "2026-10-09T15:43:56.280Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "d7ff6df50b4793a0845d155574bf4cdda9c8eaa4cff15be4c25af04d41d0ac90",
+      "bytes": 5279
+    },
+    {
+      "id": "dev-head",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/branches/dev",
+      "fetchedAt": "2026-10-09T15:43:56.672Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "275b7e42a68d0dc2165db6a57f03f821b209a15bc48ed35ec7c64d946087d9d7",
+      "bytes": 3929
+    },
+    {
+      "id": "dev-commits",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/commits?sha=dev&since=2026-10-03T18%3A30%3A36.582Z&per_page=100",
+      "fetchedAt": "2026-10-09T15:43:56.691Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "360fb9147c081a734e121cc54e1c97372662a4d8c59d2cc1c62150b644e11f6d",
+      "bytes": 3542
+    },
+    {
+      "id": "pulls",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls?state=all&sort=updated&direction=desc&per_page=100",
+      "fetchedAt": "2026-10-09T15:43:56.236Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "232560ea2f79fc5ac2df35fac72ab5e8c363616a67c1f59a50304b0e319eb289",
+      "bytes": 1853124
+    },
+    {
+      "id": "staging-head",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/branches/staging",
+      "fetchedAt": "2026-10-09T15:43:57.002Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "d85906efb5a477362202d23cc2767570234e8dc70ea9ab6426a9a1effe1af38b",
+      "bytes": 3946
+    },
+    {
+      "id": "staging-commits",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/commits?sha=staging&since=2026-10-03T18%3A30%3A36.582Z&per_page=100",
+      "fetchedAt": "2026-10-09T15:43:57.008Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "a399ba2859380853cd4b3685d2673001f0fec82b3ddc4d3f10858ce45f7ee52e",
+      "bytes": 3543
+    },
+    {
+      "id": "model-commits",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot-models/commits?sha=gh-pages&per_page=20",
+      "fetchedAt": "2026-10-09T15:43:57.313Z",
+      "error": "GitHub CLI unavailable; used public HTTP",
+      "status": 200,
+      "finalUrl": "https://api.github.com/repos/sunnypilot/sunnypilot-models/commits?sha=gh-pages&per_page=20",
+      "sha256": "5e5ab81c39c2b1c4eb4967552297b41c62f119acb4538502135956e8ee28d79c",
+      "bytes": 68899
+    },
+    {
+      "id": "model-index",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot-models/contents/docs?ref=gh-pages",
+      "fetchedAt": "2026-10-09T15:43:57.309Z",
+      "error": "GitHub CLI unavailable; used public HTTP",
+      "status": 200,
+      "finalUrl": "https://api.github.com/repos/sunnypilot/sunnypilot-models/contents/docs?ref=gh-pages",
+      "sha256": "0a00f1822481f73f89b97343cb6d4ebaa2c3c8b1384d472e76d714fff04b476a",
+      "bytes": 49162
+    },
+    {
+      "id": "docs-commits",
+      "url": "https://api.github.com/repos/sunnypilot/user-docs/commits?per_page=30",
+      "fetchedAt": "2026-10-09T15:43:57.321Z",
+      "error": "GitHub CLI unavailable; used public HTTP",
+      "status": 200,
+      "finalUrl": "https://api.github.com/repos/sunnypilot/user-docs/commits?per_page=30",
+      "sha256": "1ccaa35d93df1e4eebeca78b84981a977fb0d961ff468f1ef920ecbab53708d0",
+      "bytes": 131585
+    },
+    {
+      "id": "upstream-cars",
+      "url": "https://raw.githubusercontent.com/commaai/openpilot/master/docs/CARS.md",
+      "fetchedAt": "2026-10-09T15:45:30.150Z",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/commaai/openpilot/master/docs/CARS.md",
+      "sha256": "496471a18ad94f9a68df105fd5e1408966b69429443982bc2062d698fb152b16",
+      "bytes": 165924
+    },
+    {
+      "id": "dbc-commits",
+      "url": "https://api.github.com/repos/sunnypilot/opendbc/commits?since=2026-10-03T18%3A30%3A36.582Z&per_page=30",
+      "fetchedAt": "2026-10-09T15:45:30.092Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "bytes": 2
+    },
+    {
+      "id": "docs-tree",
+      "url": "https://api.github.com/repos/sunnypilot/user-docs/git/trees/master?recursive=1",
+      "fetchedAt": "2026-10-09T15:45:30.088Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "c8f53c728067d33b8d78b2da1fa26151e7669adbabdf221fd9f38a531b7c2c5c",
+      "bytes": 34343
+    },
+    {
+      "id": "forum-latest",
+      "url": "https://community.sunnypilot.ai/latest.json",
+      "fetchedAt": "2026-10-09T15:45:30.343Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/latest.json",
+      "sha256": "01aba3341efb6d737d60b4f2a4d1d9a6c9f7ad320fb733747f685a771059b232",
+      "bytes": 58552
+    },
+    {
+      "id": "forum-model-drops",
+      "url": "https://community.sunnypilot.ai/c/9.json",
+      "fetchedAt": "2026-10-09T15:45:30.432Z",
+      "status": 0,
+      "error": "The operation was aborted due to timeout"
+    },
+    {
+      "id": "forum-docs-index",
+      "url": "https://community.sunnypilot.ai/t/202.json",
+      "fetchedAt": "2026-10-09T15:45:30.435Z",
+      "status": 0,
+      "error": "The operation was aborted due to timeout"
+    },
+    {
+      "id": "forum-announcements",
+      "url": "https://community.sunnypilot.ai/c/7.json",
+      "fetchedAt": "2026-10-09T15:45:30.763Z",
+      "status": 0,
+      "error": "The operation was aborted due to timeout"
+    },
+    {
+      "id": "live-models",
+      "url": "https://sunnylink.wiki/models",
+      "fetchedAt": "2026-10-09T15:48:10.009Z",
+      "status": 200,
+      "finalUrl": "https://sunnylink.wiki/models",
+      "sha256": "cf6d7d2d3a4560c507ea40ad1066af2bbcb1e9a8a45e0842158ea135fcabb303",
+      "bytes": 310282
+    },
+    {
+      "id": "live-home",
+      "url": "https://sunnylink.wiki/",
+      "fetchedAt": "2026-10-09T15:48:10.008Z",
+      "status": 200,
+      "finalUrl": "https://sunnylink.wiki/",
+      "sha256": "b8ccb868c1d006939ab8084ec95bfc79c73e43842049addc4732803ed2f11016",
+      "bytes": 473454
+    },
+    {
+      "id": "live-cars",
+      "url": "https://sunnylink.wiki/cars",
+      "fetchedAt": "2026-10-09T15:48:10.733Z",
+      "status": 200,
+      "finalUrl": "https://sunnylink.wiki/cars",
+      "sha256": "94ec349d15ec8ea64a0c89c0f44aa60020ea721a82fde369540e3d2b820edc0c",
+      "bytes": 31068
+    },
+    {
+      "id": "live-features",
+      "url": "https://sunnylink.wiki/features",
+      "fetchedAt": "2026-10-09T15:48:10.728Z",
+      "status": 200,
+      "finalUrl": "https://sunnylink.wiki/features",
+      "sha256": "60a0a83a6d27018959a84036a1637dbfac3db06c3ae93694baa2a81f062b8f36",
+      "bytes": 59633
+    },
+    {
+      "id": "forum-categories",
+      "url": "https://community.sunnypilot.ai/categories.json",
+      "fetchedAt": "2026-10-09T15:48:10.007Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/categories.json",
+      "sha256": "46db428e85b7d96aa38857fd2e206b137639fa13ed861bff7ce4dafb9ecf7043",
+      "bytes": 33925
+    },
+    {
+      "id": "live-sla",
+      "url": "https://sunnylink.wiki/api/wiki-data?type=settings&search=SpeedLimitAssistMode",
+      "fetchedAt": "2026-10-09T15:48:10.852Z",
+      "status": 200,
+      "finalUrl": "https://sunnylink.wiki/api/wiki-data?type=settings&search=SpeedLimitAssistMode",
+      "sha256": "f333e0dfb8a25eea28e076ee7be271092cb3ce6e7fd442a6f1b8ecf4990bf935",
+      "bytes": 365
+    },
+    {
+      "id": "live-nnlc",
+      "url": "https://sunnylink.wiki/api/wiki-data?type=settings&search=NeuralNetworkLateralControl",
+      "fetchedAt": "2026-10-09T15:48:10.851Z",
+      "status": 200,
+      "finalUrl": "https://sunnylink.wiki/api/wiki-data?type=settings&search=NeuralNetworkLateralControl",
+      "sha256": "440d04c697586d22bd09cb537d1b70bf1e82709ad2563ee45b79f9d1e56cb2d4",
+      "bytes": 364
+    },
+    {
+      "id": "live-markdown",
+      "url": "https://sunnylink.wiki/api/markdown?path=/features",
+      "fetchedAt": "2026-10-09T15:48:10.884Z",
+      "status": 200,
+      "finalUrl": "https://sunnylink.wiki/api/markdown?path=/features",
+      "sha256": "211ed60ae30aec2ecbaae91795dc25f817405d4b78713e39f61848674130e729",
+      "bytes": 1307
+    },
+    {
+      "id": "issue2019",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/issues/2019",
+      "fetchedAt": "2026-10-09T15:48:11.081Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "b63d7c668f9840127d7b53cb9aa81714245e84b68be96c9ec6e0ebe09436557a",
+      "bytes": 10666
+    },
+    {
+      "id": "docs-root",
+      "url": "https://docs.sunnypilot.ai",
+      "fetchedAt": "2026-10-09T15:48:10.937Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/c/documentation/114",
+      "sha256": "68799ad9db19c26b88f8d035ca43e8bd8de9c0cff6e173f226ce655f705c928c",
+      "bytes": 34751
+    },
+    {
+      "id": "pr2042",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2042",
+      "fetchedAt": "2026-10-09T15:48:10.938Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "ef4b03c481218eccf0528c801c1fa1a8dc3e400ccb4c1f98faba5be943b16273",
+      "bytes": 20574
+    },
+    {
+      "id": "pr2036",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2036",
+      "fetchedAt": "2026-10-09T17:31:42.388Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "af1c15eb53609aec48a8682449eaeac8894bd4a138cb647cad0697e9ad8fc2d6",
+      "bytes": 20408
+    },
+    {
+      "id": "pr2036-files",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2036/files?per_page=100",
+      "fetchedAt": "2026-10-09T17:31:42.395Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "5ea1980d00d60d845b4e194d40d5d47339cbc243043ce7be2577b47db04e2a5a",
+      "bytes": 395257
+    },
+    {
+      "id": "pr2043",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2043",
+      "fetchedAt": "2026-10-09T17:31:42.396Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "95ff6283588944c269d606791180a23f7d8a86e60a33290e1895e567f2c91bfc",
+      "bytes": 16953
+    },
+    {
+      "id": "pr2043-files",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2043/files?per_page=100",
+      "fetchedAt": "2026-10-09T17:31:43.124Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "1e1899a7ce5088965ba634cf784a38aeb2896c51408289d65eb0df0dab74748e",
+      "bytes": 1064
+    },
+    {
+      "id": "pr2044",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2044",
+      "fetchedAt": "2026-10-09T17:31:43.148Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "6b250084527db834661a96a5b48e49ec512dd10a4da747f6bfe1744d05fb3340",
+      "bytes": 17073
+    },
+    {
+      "id": "pr2044-files",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2044/files?per_page=100",
+      "fetchedAt": "2026-10-09T17:31:43.420Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "5af449da59a6f40d12c95237d64cb94b30e84b2f7b3d643015b97f3cc70e455a",
+      "bytes": 40421
+    },
+    {
+      "id": "pr2045-files",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2045/files?per_page=100",
+      "fetchedAt": "2026-10-09T17:31:43.860Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "a932e20c00899bbef4bc30c0818b93708db70c3faa3fb3371b25ba36a48640cf",
+      "bytes": 1936
+    },
+    {
+      "id": "pr2045",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2045",
+      "fetchedAt": "2026-10-09T17:31:43.576Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "2b4c85fc4bb5fc61128c8011f0a6c64a7c9acea25ffed50857bdb08d94a61578",
+      "bytes": 17072
+    },
+    {
+      "id": "pr2046",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2046",
+      "fetchedAt": "2026-10-09T17:31:43.886Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "c191ac91e98f275bcdb1adb413ec2d039066e70af13bd84c15a2caf17467e00f",
+      "bytes": 19547
+    },
+    {
+      "id": "pr2046-files",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2046/files?per_page=100",
+      "fetchedAt": "2026-10-09T17:31:44.351Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "f74dcad3350b0344d0c9ce3909e750a300bb29b0145f050374ecc94290f77710",
+      "bytes": 6177
+    },
+    {
+      "id": "pr2047-files",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2047/files?per_page=100",
+      "fetchedAt": "2026-10-09T17:31:44.665Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "f7e3e21a390eef8cc7ff325dfd3d95a5c278d9832524a7831a6e51679e0cbef3",
+      "bytes": 221728
+    },
+    {
+      "id": "pr2047",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2047",
+      "fetchedAt": "2026-10-09T17:31:44.568Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "eca55ff55e933506b05e64d927152b1d59fc8d9941a1a0fccfd2a58f7d3d951f",
+      "bytes": 18910
+    },
+    {
+      "id": "pr2035-files",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2035/files?per_page=100",
+      "fetchedAt": "2026-10-09T17:31:45.145Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "ab86d945944d734a07fcc4425219b5250ee04fd81623fe702f577dcf53c42ea7",
+      "bytes": 47219
+    },
+    {
+      "id": "pr2035",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2035",
+      "fetchedAt": "2026-10-09T17:31:44.784Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "4a4aafc50625dcb7feaecc3b28f6271f502586df93dc56e7031a6b53bbcb59ee",
+      "bytes": 17366
+    },
+    {
+      "id": "pr1306-files",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/1306/files?per_page=100",
+      "fetchedAt": "2026-10-09T17:31:45.635Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "ae1ae7501d2452bbb09e3a2e92044ea57994aa976a9f72489a2ae5bb7bdfa177",
+      "bytes": 448
+    },
+    {
+      "id": "master-tree",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/git/trees/master?recursive=1",
+      "fetchedAt": "2026-10-09T17:31:45.735Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "5b40e9bbb2bdccf7c76cd82d23a64cc806a5d2ab6539933c9d7a31a98cba927c",
+      "bytes": 472355
+    },
+    {
+      "id": "pr1306",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/1306",
+      "fetchedAt": "2026-10-09T17:31:45.432Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "8ebc1d4631f423f83366628a252073c61d2ca2f45d20e04c75b94f2c44c4e34d",
+      "bytes": 18978
+    },
+    {
+      "id": "new-qcom",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot-models/gh-pages/docs/driving_models_v24.json",
+      "fetchedAt": "2026-10-09T17:31:46.104Z",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/sunnypilot/sunnypilot-models/gh-pages/docs/driving_models_v24.json",
+      "sha256": "9dbda4fa09ac3fc20a9ee909a59370010746baf0ee861ddab58fc85ceacff1aa",
+      "bytes": 122837
+    },
+    {
+      "id": "chestnut",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot-models/gh-pages/docs/driving_models_chestnut_v27.json",
+      "fetchedAt": "2026-10-09T17:31:46.279Z",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/sunnypilot/sunnypilot-models/gh-pages/docs/driving_models_chestnut_v27.json",
+      "sha256": "321d56e52620949e2dc7f9ab87185e81dafe4c1b6a9fd7f5479c70502b1f6b70",
+      "bytes": 106968
+    },
+    {
+      "id": "usb",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot-models/gh-pages/docs/driving_models_usbgpu_v22.json",
+      "fetchedAt": "2026-10-09T17:31:46.313Z",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/sunnypilot/sunnypilot-models/gh-pages/docs/driving_models_usbgpu_v22.json",
+      "sha256": "b078628dc6ee1973b285a8a51e79bc38296b326136b39cb438b698055dffca07",
+      "bytes": 76818
+    },
+    {
+      "id": "model-compare",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot-models/compare/9850fb07544b3c1f8c21b793c454e606dbb7fdca...1ea3e6d2ae0040e35a5729604e7d84b756e31e83",
+      "fetchedAt": "2026-10-09T17:31:46.086Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "d30f5aeac8a16faab5d6e0d20ac4ca732b3048516bfccd6aa53bd59a8152edb5",
+      "bytes": 122544
+    },
+    {
+      "id": "announcements",
+      "url": "https://community.sunnypilot.ai/c/announcements/112.json",
+      "fetchedAt": "2026-10-09T17:31:46.395Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/c/announcements/112.json",
+      "sha256": "069df84d2271878c64bc508978bcb5e48bc70e154f1d92d754083b50832cb66c",
+      "bytes": 33278
+    },
+    {
+      "id": "documentation",
+      "url": "https://community.sunnypilot.ai/c/documentation/114.json",
+      "fetchedAt": "2026-10-09T17:31:46.430Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/c/documentation/114.json",
+      "sha256": "3705c96163ae837552c873ea74ac5d0ff28cb170e43ff159cdf5936b51f00ee1",
+      "bytes": 34751
+    },
+    {
+      "id": "forum-docs-index-retry",
+      "url": "https://community.sunnypilot.ai/t/202.json",
+      "fetchedAt": "2026-10-09T17:31:46.738Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/202.json",
+      "sha256": "8a95b227a62bcc40506fe020ba43213705040eeb5110e0287d752496624a8659",
+      "bytes": 14631
+    },
+    {
+      "id": "topic-1064",
+      "url": "https://community.sunnypilot.ai/t/1064.json",
+      "fetchedAt": "2026-10-09T17:31:46.758Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/1064.json",
+      "sha256": "423067a454d7d099049e3172c3aa41d92982076d68ff18dcc038669b80e7fe60",
+      "bytes": 96880
+    },
+    {
+      "id": "model-drops",
+      "url": "https://community.sunnypilot.ai/c/9.json",
+      "fetchedAt": "2026-10-09T17:31:46.697Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/c/general/model-discussions/9.json",
+      "sha256": "f90c6eed94bff16162b2e64920f83aa1a1a0ed3bf11c9694baea179d43c08a67",
+      "bytes": 51573
+    },
+    {
+      "id": "topic-22",
+      "url": "https://community.sunnypilot.ai/t/22.json",
+      "fetchedAt": "2026-10-09T17:31:46.998Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/22.json",
+      "sha256": "3ea3281f1c3f8f526562df91ece039f046d02c008c3471c9fb20f60b1660c9d2",
+      "bytes": 101614
+    },
+    {
+      "id": "topic-7230",
+      "url": "https://community.sunnypilot.ai/t/7230.json",
+      "fetchedAt": "2026-10-09T17:31:47.207Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/7230.json",
+      "sha256": "eec77447e8601b97cb09220dea2230921911f8770f54ea324ad58df894fbbecd",
+      "bytes": 50841
+    },
+    {
+      "id": "topic-1509",
+      "url": "https://community.sunnypilot.ai/t/1509.json",
+      "fetchedAt": "2026-10-09T17:31:47.190Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/1509.json",
+      "sha256": "2523447e9449ade84f42a53908321e3450bc0951f568d420372a47b537b483bf",
+      "bytes": 418949
+    },
+    {
+      "id": "topic-7384",
+      "url": "https://community.sunnypilot.ai/t/7384.json",
+      "fetchedAt": "2026-10-09T17:31:47.476Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/7384.json",
+      "sha256": "f1122e8093d071d4e074b480824b7f9aaded1f66e74b7d69f3586cc026c5f421",
+      "bytes": 38019
+    },
+    {
+      "id": "topic-7389",
+      "url": "https://community.sunnypilot.ai/t/7389.json",
+      "fetchedAt": "2026-10-09T17:31:47.557Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/7389.json",
+      "sha256": "6b09848a510ba1ed90a5e44f3182c648c972548cc2e25c653829aceba969182d",
+      "bytes": 38989
+    },
+    {
+      "id": "topic-7370",
+      "url": "https://community.sunnypilot.ai/t/7370.json",
+      "fetchedAt": "2026-10-09T17:31:47.794Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/7370.json",
+      "sha256": "6ab7e6885bef918d979b205a3b30e6c9af020bf67ce8ec3f17b03ae6064e5d7c",
+      "bytes": 17251
+    },
+    {
+      "id": "topic-463",
+      "url": "https://community.sunnypilot.ai/t/463.json",
+      "fetchedAt": "2026-10-09T17:31:47.839Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/463.json",
+      "sha256": "874924fab0e4431b6dced9e34bd67f193ac0e263047f3f10d9cf83c2190f3a63",
+      "bytes": 141148
+    },
+    {
+      "id": "topic-7444",
+      "url": "https://community.sunnypilot.ai/t/7444.json",
+      "fetchedAt": "2026-10-09T17:31:47.924Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/7444.json",
+      "sha256": "4af199dad992af6ecec2a92f8ac3e2dec9267dae97e865fe85d49952493c234d",
+      "bytes": 18388
+    },
+    {
+      "id": "topic-4111",
+      "url": "https://community.sunnypilot.ai/t/4111.json",
+      "fetchedAt": "2026-10-09T17:31:48.086Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/4111.json",
+      "sha256": "f72c395f8d4d32d0814bd03d3671824275fee55106712959e5e6354342c5d54f",
+      "bytes": 24413
+    },
+    {
+      "id": "ctv3-search",
+      "url": "https://community.sunnypilot.ai/search.json?q=Cinque%20Terre%20V3",
+      "fetchedAt": "2026-10-09T17:31:48.359Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/search.json?q=Cinque%20Terre%20V3",
+      "sha256": "c4f5375990e8d40426768277a5ab748a3ff58a0b0f1611c2c1ff32fdf4276496",
+      "bytes": 6513
+    },
+    {
+      "id": "topic-7456",
+      "url": "https://community.sunnypilot.ai/t/7456.json",
+      "fetchedAt": "2026-10-09T17:31:48.215Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/7456.json",
+      "sha256": "96a26f2a03e03d83acc0ae6e9ebc647978bb1627ef1f446dd5027d82876101f9",
+      "bytes": 17585
+    },
+    {
+      "id": "topic-7096",
+      "url": "https://community.sunnypilot.ai/t/7096.json",
+      "fetchedAt": "2026-10-09T17:31:48.253Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/7096.json",
+      "sha256": "d3591cf0d8ff71297c731b0f181cb745a3f39c4b132540b2ffb3889b64993a7e",
+      "bytes": 46499
+    },
+    {
+      "id": "master-helpers",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3323aafb5422cee72653206dc83a56e66c61799d/openpilot/sunnypilot/models/helpers.py",
+      "fetchedAt": "2026-10-09T17:33:32.963Z",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3323aafb5422cee72653206dc83a56e66c61799d/openpilot/sunnypilot/models/helpers.py",
+      "sha256": "1a6d7f310628e3c8f95a48399fe044f829b03256392d7de988854bed7edcaa44",
+      "bytes": 8531
+    },
+    {
+      "id": "master-fetcher",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3323aafb5422cee72653206dc83a56e66c61799d/openpilot/sunnypilot/models/fetcher.py",
+      "fetchedAt": "2026-10-09T17:33:32.925Z",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3323aafb5422cee72653206dc83a56e66c61799d/openpilot/sunnypilot/models/fetcher.py",
+      "sha256": "e481952f3e631840d2194b2d5f696ed4881dd3a59d01e7935db805868acde040",
+      "bytes": 11102
+    },
+    {
+      "id": "master-master-cars",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3323aafb5422cee72653206dc83a56e66c61799d/docs/CARS.md",
+      "fetchedAt": "2026-10-09T17:33:32.963Z",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3323aafb5422cee72653206dc83a56e66c61799d/docs/CARS.md",
+      "sha256": "b6e95408592fbfe842e8b88e9c49b34f0ae0eeb4be623035e5ccf67ff51fc50b",
+      "bytes": 170839
+    },
+    {
+      "id": "master-version",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3323aafb5422cee72653206dc83a56e66c61799d/openpilot/common/version.h",
+      "fetchedAt": "2026-10-09T17:33:33.128Z",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3323aafb5422cee72653206dc83a56e66c61799d/openpilot/common/version.h",
+      "sha256": "44d1693b3239bb85686365be8eed7bec4da5aeda684cf2145d7214ee3e2cecdb",
+      "bytes": 31
+    },
+    {
+      "id": "master-params",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3323aafb5422cee72653206dc83a56e66c61799d/openpilot/common/params_keys.h",
+      "fetchedAt": "2026-10-09T17:33:33.132Z",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3323aafb5422cee72653206dc83a56e66c61799d/openpilot/common/params_keys.h",
+      "sha256": "77560962c199ce387f667b252b601cfce1112e58b2ce6fb71e6ac5aa42dd8e54",
+      "bytes": 17126
+    },
+    {
+      "id": "master-release-notes",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3323aafb5422cee72653206dc83a56e66c61799d/RELEASES.md",
+      "fetchedAt": "2026-10-09T17:33:33.125Z",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3323aafb5422cee72653206dc83a56e66c61799d/RELEASES.md",
+      "sha256": "f1d46b6df81703f65b2064d2d418478b9338eabe379451148ad9ef0c423256fa",
+      "bytes": 47459
+    },
+    {
+      "id": "pr1999",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/1999",
+      "fetchedAt": "2026-10-09T17:33:33.217Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "0f58a8c8f5622de7794ed491856517dc7a6d27d87f76c7285709ce7db1416cd4",
+      "bytes": 19484
+    },
+    {
+      "id": "sync-file-page2",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2036/files?per_page=100&page=2",
+      "fetchedAt": "2026-10-09T17:33:33.211Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "faeaaea4689322d0afb08b1aece29a3b252b077fc4947a8954446a815b566dad",
+      "bytes": 588839
+    },
+    {
+      "id": "pr2015",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2015",
+      "fetchedAt": "2026-10-09T17:33:33.214Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "db9d64f42eddd4630ceb55a771794b6aa0a832231783ab68bda55afcf243e4b7",
+      "bytes": 18583
+    },
+    {
+      "id": "docs-recommend",
+      "url": "https://raw.githubusercontent.com/sunnypilot/user-docs/master/docs/references/recommended-branches.md",
+      "fetchedAt": "2026-10-09T17:33:33.969Z",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/sunnypilot/user-docs/master/docs/references/recommended-branches.md",
+      "sha256": "3f52e385ae6936149d603586911da275360ff28f8b040993f721188aee22a7f9",
+      "bytes": 1798
+    },
+    {
+      "id": "docs-models",
+      "url": "https://raw.githubusercontent.com/sunnypilot/user-docs/master/docs/features/models.md",
+      "fetchedAt": "2026-10-09T17:33:34.071Z",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/sunnypilot/user-docs/master/docs/features/models.md",
+      "sha256": "e3e1b5bb3f2c91cb84c8fca9352afd6dba88bf5dae43fbf4e6f02e010b805873",
+      "bytes": 1120
+    },
+    {
+      "id": "dbc523",
+      "url": "https://api.github.com/repos/sunnypilot/opendbc/pulls/523",
+      "fetchedAt": "2026-10-09T17:33:33.923Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "fa5a89e490b260c93560bfe63bd6dcdfa4fb1b34673d9826c301cd19e83fa8b7",
+      "bytes": 17768
+    },
+    {
+      "id": "topic-7384-recent",
+      "url": "https://community.sunnypilot.ai/t/7384/posts.json?post_ids%5B%5D=30570&post_ids%5B%5D=30575&post_ids%5B%5D=30605&post_ids%5B%5D=30614&post_ids%5B%5D=30666&post_ids%5B%5D=30761&post_ids%5B%5D=30914&post_ids%5B%5D=30916",
+      "fetchedAt": "2026-10-09T17:33:34.155Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/7384/posts.json?post_ids%5B%5D=30570&post_ids%5B%5D=30575&post_ids%5B%5D=30605&post_ids%5B%5D=30614&post_ids%5B%5D=30666&post_ids%5B%5D=30761&post_ids%5B%5D=30914&post_ids%5B%5D=30916",
+      "sha256": "e2521be11d4985e63ebec119c4dde601c87e38a9a9b8eed0e6eca0123976571e",
+      "bytes": 29615
+    },
+    {
+      "id": "pr2023",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/pulls/2023",
+      "fetchedAt": "2026-10-09T17:33:33.903Z",
+      "status": 200,
+      "transport": "authenticated GitHub CLI",
+      "sha256": "5f3e229f7d7ad6051dbb4e128516bc6cf40a093515cc0af38e1d2bf552d191d0",
+      "bytes": 19464
+    },
+    {
+      "id": "topic-7230-recent",
+      "url": "https://community.sunnypilot.ai/t/7230/posts.json?post_ids%5B%5D=30568&post_ids%5B%5D=30574&post_ids%5B%5D=30615&post_ids%5B%5D=30622&post_ids%5B%5D=30624&post_ids%5B%5D=30917&post_ids%5B%5D=30918&post_ids%5B%5D=30921",
+      "fetchedAt": "2026-10-09T17:33:34.554Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/7230/posts.json?post_ids%5B%5D=30568&post_ids%5B%5D=30574&post_ids%5B%5D=30615&post_ids%5B%5D=30622&post_ids%5B%5D=30624&post_ids%5B%5D=30917&post_ids%5B%5D=30918&post_ids%5B%5D=30921",
+      "sha256": "ac2d388d0d32ae60e782996a293b2cde2ebcdb6f8fac78c9c659d3fa9ba46194",
+      "bytes": 26563
+    },
+    {
+      "id": "topic-7389-recent",
+      "url": "https://community.sunnypilot.ai/t/7389/posts.json?post_ids%5B%5D=30554&post_ids%5B%5D=30569&post_ids%5B%5D=30592&post_ids%5B%5D=30595&post_ids%5B%5D=30643&post_ids%5B%5D=30675&post_ids%5B%5D=30678&post_ids%5B%5D=30762",
+      "fetchedAt": "2026-10-09T17:33:34.549Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/7389/posts.json?post_ids%5B%5D=30554&post_ids%5B%5D=30569&post_ids%5B%5D=30592&post_ids%5B%5D=30595&post_ids%5B%5D=30643&post_ids%5B%5D=30675&post_ids%5B%5D=30678&post_ids%5B%5D=30762",
+      "sha256": "49e7efe41dc921cedf58b55380b342de17bd7226a8f91ff0a4b1cfef5a541af6",
+      "bytes": 33857
+    },
+    {
+      "id": "topic-1064-recent",
+      "url": "https://community.sunnypilot.ai/t/1064/posts.json?post_ids%5B%5D=30391&post_ids%5B%5D=30392&post_ids%5B%5D=30404&post_ids%5B%5D=30417&post_ids%5B%5D=30419&post_ids%5B%5D=30807&post_ids%5B%5D=30919&post_ids%5B%5D=30929",
+      "fetchedAt": "2026-10-09T17:33:34.583Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/1064/posts.json?post_ids%5B%5D=30391&post_ids%5B%5D=30392&post_ids%5B%5D=30404&post_ids%5B%5D=30417&post_ids%5B%5D=30419&post_ids%5B%5D=30807&post_ids%5B%5D=30919&post_ids%5B%5D=30929",
+      "sha256": "8a68264ae7bd3fba737e6d71de962e21bc5b7b392f9b9115dd628d8a5fb04309",
+      "bytes": 29758
+    },
+    {
+      "id": "v3-search-specific",
+      "url": "https://community.sunnypilot.ai/search.json?q=%22CTV3M%22",
+      "fetchedAt": "2026-10-09T17:33:34.965Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/search.json?q=%22CTV3M%22",
+      "sha256": "d2c7e622ab86705d58097b7e1871d11846cc31aaf7a39a7404fc4109f009098d",
+      "bytes": 340
+    },
+    {
+      "id": "topic-463-recent",
+      "url": "https://community.sunnypilot.ai/t/463/posts.json?post_ids%5B%5D=29833&post_ids%5B%5D=29835&post_ids%5B%5D=29836&post_ids%5B%5D=29840&post_ids%5B%5D=29841&post_ids%5B%5D=29842&post_ids%5B%5D=29872&post_ids%5B%5D=30837",
+      "fetchedAt": "2026-10-09T17:33:34.927Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/463/posts.json?post_ids%5B%5D=29833&post_ids%5B%5D=29835&post_ids%5B%5D=29836&post_ids%5B%5D=29840&post_ids%5B%5D=29841&post_ids%5B%5D=29842&post_ids%5B%5D=29872&post_ids%5B%5D=30837",
+      "sha256": "9c153e823cbb2bfa40dce600bb4eeac254c9763fc48fcbb5d8107ce03298a111",
+      "bytes": 57517
+    },
+    {
+      "id": "topic-22-recent",
+      "url": "https://community.sunnypilot.ai/t/22/posts.json?post_ids%5B%5D=30644&post_ids%5B%5D=30665&post_ids%5B%5D=30876&post_ids%5B%5D=30888&post_ids%5B%5D=30903&post_ids%5B%5D=30904&post_ids%5B%5D=30905&post_ids%5B%5D=30923",
+      "fetchedAt": "2026-10-09T17:33:34.842Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/22/posts.json?post_ids%5B%5D=30644&post_ids%5B%5D=30665&post_ids%5B%5D=30876&post_ids%5B%5D=30888&post_ids%5B%5D=30903&post_ids%5B%5D=30904&post_ids%5B%5D=30905&post_ids%5B%5D=30923",
+      "sha256": "7360a2f3e7cc70921bed325accceb16d8f47469ece6b874bdec9d4ec31b19499",
+      "bytes": 24415
+    },
+    {
+      "id": "poll-1657",
+      "url": "https://community.sunnypilot.ai/t/1657.json",
+      "fetchedAt": "2026-10-09T17:34:37.355Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/1657.json",
+      "sha256": "1142b18a89cf4cdd911eff90431b63b6d35142bdfa27a8925cebfa6990b0f914",
+      "bytes": 41403
+    },
+    {
+      "id": "poll-2368",
+      "url": "https://community.sunnypilot.ai/t/2368.json",
+      "fetchedAt": "2026-10-09T17:34:37.354Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/2368.json",
+      "sha256": "47d1f1b10a05414bc15667a6ede4a34c0f0c1a2ddb1094116008f1247365db91",
+      "bytes": 73389
+    },
+    {
+      "id": "poll-7046",
+      "url": "https://community.sunnypilot.ai/t/7046.json",
+      "fetchedAt": "2026-10-09T17:34:37.316Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/7046.json",
+      "sha256": "235726cbbc59137c5af5a3590a742b51d7d627f763394657b3e93f5402beb94b",
+      "bytes": 52328
+    },
+    {
+      "id": "poll-7004",
+      "url": "https://community.sunnypilot.ai/t/7004.json",
+      "fetchedAt": "2026-10-09T17:34:37.763Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/7004.json",
+      "sha256": "ee3f5c33e0968d9e8fa38cc915045993f4606d4cdccc6fd7a4c65e47eb4a0333",
+      "bytes": 64286
+    },
+    {
+      "id": "poll-6945",
+      "url": "https://community.sunnypilot.ai/t/6945.json",
+      "fetchedAt": "2026-10-09T17:34:37.832Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6945.json",
+      "sha256": "d59f798c39da8fd06d27dd6cd5112606c7103cea15439be97f0fc8688cb76393",
+      "bytes": 33530
+    },
+    {
+      "id": "poll-6971",
+      "url": "https://community.sunnypilot.ai/t/6971.json",
+      "fetchedAt": "2026-10-09T17:34:37.785Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6971.json",
+      "sha256": "e5c4e3c0f86c54ba2ac4d17fa7ba1be4fdc56e76df202736c1d6e778001d4f75",
+      "bytes": 80929
+    },
+    {
+      "id": "poll-6917",
+      "url": "https://community.sunnypilot.ai/t/6917.json",
+      "fetchedAt": "2026-10-09T17:34:38.107Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6917.json",
+      "sha256": "8de2759de8ff8b1e66284b685f67fe3983d45f353a56e255b9ff865ae1a3392f",
+      "bytes": 50316
+    },
+    {
+      "id": "poll-6871",
+      "url": "https://community.sunnypilot.ai/t/6871.json",
+      "fetchedAt": "2026-10-09T17:34:38.148Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6871.json",
+      "sha256": "c4700596541ecc201bc6778bf591ea1529aa41971e60d6bcf67ef8cbef0c021a",
+      "bytes": 30918
+    },
+    {
+      "id": "poll-6878",
+      "url": "https://community.sunnypilot.ai/t/6878.json",
+      "fetchedAt": "2026-10-09T17:34:38.144Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6878.json",
+      "sha256": "f90bbae5b7d3d36ac7ebc7b3173e73d318fad32366145a9a677067fb7761cefc",
+      "bytes": 57009
+    },
+    {
+      "id": "poll-6828",
+      "url": "https://community.sunnypilot.ai/t/6828.json",
+      "fetchedAt": "2026-10-09T17:34:38.430Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6828.json",
+      "sha256": "09a170460f50f355f6ef7207454bac3b71ec4707dd2072e4e4c9ce8a130070c0",
+      "bytes": 31980
+    },
+    {
+      "id": "poll-6831",
+      "url": "https://community.sunnypilot.ai/t/6831.json",
+      "fetchedAt": "2026-10-09T17:34:38.420Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6831.json",
+      "sha256": "9092caf168ec88fddeab1ddb4ca507c244b06246d5ef26b1497999e8d2c32d61",
+      "bytes": 33023
+    },
+    {
+      "id": "poll-6814",
+      "url": "https://community.sunnypilot.ai/t/6814.json",
+      "fetchedAt": "2026-10-09T17:34:38.529Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6814.json",
+      "sha256": "91bda955bd1ea4a17bd57123b720614398933f79feff244510bc2680a4a81b61",
+      "bytes": 51797
+    },
+    {
+      "id": "poll-6813",
+      "url": "https://community.sunnypilot.ai/t/6813.json",
+      "fetchedAt": "2026-10-09T17:34:38.722Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6813.json",
+      "sha256": "fa509e7b05fcb78a1bf91b89ffb2cb92a92fe69868603d43be846e90e7a471be",
+      "bytes": 22781
+    },
+    {
+      "id": "poll-6812",
+      "url": "https://community.sunnypilot.ai/t/6812.json",
+      "fetchedAt": "2026-10-09T17:34:38.834Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6812.json",
+      "sha256": "d83d2c5413ea1509b6615c63764c4388b75abf5bec9eb4daf17d8c4392170a42",
+      "bytes": 44150
+    },
+    {
+      "id": "poll-4690",
+      "url": "https://community.sunnypilot.ai/t/4690.json",
+      "fetchedAt": "2026-10-09T17:34:38.877Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/4690.json",
+      "sha256": "d519835863189c7567092019a69a56e2b5af09db00158aad227130c118e00b3c",
+      "bytes": 44717
+    },
+    {
+      "id": "poll-4657",
+      "url": "https://community.sunnypilot.ai/t/4657.json",
+      "fetchedAt": "2026-10-09T17:34:38.994Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/4657.json",
+      "sha256": "2ee2bd13904ac8af4a43c2e5fe229f7684153e0e8fb827982aab679eedee2ade",
+      "bytes": 20926
+    },
+    {
+      "id": "poll-4648",
+      "url": "https://community.sunnypilot.ai/t/4648.json",
+      "fetchedAt": "2026-10-09T17:34:39.148Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/4648.json",
+      "sha256": "94dcbc977403395aa6f9705cd9986073dd036e559bd6b318ba5f5b363a863ec9",
+      "bytes": 22005
+    },
+    {
+      "id": "poll-4478",
+      "url": "https://community.sunnypilot.ai/t/4478.json",
+      "fetchedAt": "2026-10-09T17:34:39.217Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/4478.json",
+      "sha256": "c7b961b0f720f4885a8544f59b2b7514636034622152ee68292e76911ceb8539",
+      "bytes": 19487
+    },
+    {
+      "id": "poll-4380",
+      "url": "https://community.sunnypilot.ai/t/4380.json",
+      "fetchedAt": "2026-10-09T17:34:39.275Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/4380.json",
+      "sha256": "2082ab8152cd92c3aef2ca8904bf8f5ad72fa8c3bc66b62d8acb0f9dcdb1c26a",
+      "bytes": 39764
+    },
+    {
+      "id": "poll-4317",
+      "url": "https://community.sunnypilot.ai/t/4317.json",
+      "fetchedAt": "2026-10-09T17:34:39.440Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/4317.json",
+      "sha256": "2123276db54173edd43dc36f1140262db1a28b9adf7e895fda32b712b15e88e4",
+      "bytes": 32568
+    },
+    {
+      "id": "poll-4314",
+      "url": "https://community.sunnypilot.ai/t/4314.json",
+      "fetchedAt": "2026-10-09T17:34:39.507Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/4314.json",
+      "sha256": "cab01327f697d2158af9ead253cd38bac9cf5f0e500e1b1fcfd14328333a1dbe",
+      "bytes": 14555
+    },
+    {
+      "id": "poll-4019",
+      "url": "https://community.sunnypilot.ai/t/4019.json",
+      "fetchedAt": "2026-10-09T17:34:39.610Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/4019.json",
+      "sha256": "f81515d8e713143bb835c9a8367f34f49a1c1a184097b8c2989bacfe7879faeb",
+      "bytes": 64773
+    },
+    {
+      "id": "poll-3921",
+      "url": "https://community.sunnypilot.ai/t/3921.json",
+      "fetchedAt": "2026-10-09T17:34:39.731Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/3921.json",
+      "sha256": "7b01d315616b55dfea83bafdec6e77e202aea5a401bbeabe0d04e640b429d650",
+      "bytes": 61223
+    },
+    {
+      "id": "poll-2704",
+      "url": "https://community.sunnypilot.ai/t/2704.json",
+      "fetchedAt": "2026-10-09T17:34:39.806Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/2704.json",
+      "sha256": "cfee071ed1d9fb36930356cd7e66b75d4af362029aef42eebd47ff8144d66f0c",
+      "bytes": 68185
+    },
+    {
+      "id": "poll-2335",
+      "url": "https://community.sunnypilot.ai/t/2335.json",
+      "fetchedAt": "2026-10-09T17:34:40.084Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/2335.json",
+      "sha256": "10e8bcdc288ee2a05b6c1092bf5501adae3e09185c71fb49de094381a46287ab",
+      "bytes": 25181
+    },
+    {
+      "id": "poll-2352",
+      "url": "https://community.sunnypilot.ai/t/2352.json",
+      "fetchedAt": "2026-10-09T17:34:40.044Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/2352.json",
+      "sha256": "d0dd842c2aa44e61286f93933fe8c76ce48a74b3b30ce28aea842c8a449fe2fb",
+      "bytes": 37370
+    },
+    {
+      "id": "poll-2305",
+      "url": "https://community.sunnypilot.ai/t/2305.json",
+      "fetchedAt": "2026-10-09T17:34:40.142Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/2305.json",
+      "sha256": "dd47e3c70912121b258c6ae793cf415b2b8674847e2e01039d796bcfd7b77d29",
+      "bytes": 67249
+    },
+    {
+      "id": "poll-2184",
+      "url": "https://community.sunnypilot.ai/t/2184.json",
+      "fetchedAt": "2026-10-09T17:34:40.438Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/2184.json",
+      "sha256": "7cfca6fbf8d4fccae73710147f00a8e5725c5dd944e7dc2211f0b24df53fe0b7",
+      "bytes": 52632
+    },
+    {
+      "id": "poll-2275",
+      "url": "https://community.sunnypilot.ai/t/2275.json",
+      "fetchedAt": "2026-10-09T17:34:40.436Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/2275.json",
+      "sha256": "a5e09b740b79c55ed36e4a43e82981436eb005daa9c2c5f21ee1beeec2f235fb",
+      "bytes": 42070
+    },
+    {
+      "id": "poll-2150",
+      "url": "https://community.sunnypilot.ai/t/2150.json",
+      "fetchedAt": "2026-10-09T17:34:40.526Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/2150.json",
+      "sha256": "14da3abf71ab944b98bf7f100ba035c0ce047ba28a8b343430f5851a418502d3",
+      "bytes": 54023
+    },
+    {
+      "id": "poll-6557",
+      "url": "https://community.sunnypilot.ai/t/6557.json",
+      "fetchedAt": "2026-10-09T17:34:40.806Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6557.json",
+      "sha256": "94dcce7d22479956a3bbdd1487bc85748e9022919dc1ade770cb758c15192034",
+      "bytes": 22800
+    },
+    {
+      "id": "poll-2145",
+      "url": "https://community.sunnypilot.ai/t/2145.json",
+      "fetchedAt": "2026-10-09T17:34:40.769Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/2145.json",
+      "sha256": "b20186ff9bb301eab008ecfddbf03552c95a29131602070ad4d8e75a152598e6",
+      "bytes": 67025
+    },
+    {
+      "id": "poll-6558",
+      "url": "https://community.sunnypilot.ai/t/6558.json",
+      "fetchedAt": "2026-10-09T17:34:40.892Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6558.json",
+      "sha256": "a6b1ec578e03fdd23d5c148484c169c97d1270e6a3718dc4b7ece97285588109",
+      "bytes": 13806
+    },
+    {
+      "id": "poll-6559",
+      "url": "https://community.sunnypilot.ai/t/6559.json",
+      "fetchedAt": "2026-10-09T17:34:41.105Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6559.json",
+      "sha256": "32e0ed4e474b6be1e18d2352b6713cde69e19b4698e988c6ba9b96ff7fc1db60",
+      "bytes": 14741
+    },
+    {
+      "id": "poll-6560",
+      "url": "https://community.sunnypilot.ai/t/6560.json",
+      "fetchedAt": "2026-10-09T17:34:41.146Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6560.json",
+      "sha256": "42dcc0a77854214f994d97fde61d46647358a7c2de7e56f309a6eb957e9d081a",
+      "bytes": 29791
+    },
+    {
+      "id": "poll-6765",
+      "url": "https://community.sunnypilot.ai/t/6765.json",
+      "fetchedAt": "2026-10-09T17:34:41.159Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6765.json",
+      "sha256": "a4e0ce47fc8203d52d82c7ee7732aa0a4f7a92570e7f568601e68b40ffcbb1a8",
+      "bytes": 40174
+    },
+    {
+      "id": "poll-6764",
+      "url": "https://community.sunnypilot.ai/t/6764.json",
+      "fetchedAt": "2026-10-09T17:34:41.384Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6764.json",
+      "sha256": "f5f25b9cce8bf128f3f3431cbafd3dfb68c53885783e994630e1857432d0c580",
+      "bytes": 13661
+    },
+    {
+      "id": "poll-6763",
+      "url": "https://community.sunnypilot.ai/t/6763.json",
+      "fetchedAt": "2026-10-09T17:34:41.457Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6763.json",
+      "sha256": "2856a9ed047b6fa57c031b32232d07aca57fe03415a0450b939ce8fdc4fb16f7",
+      "bytes": 53113
+    },
+    {
+      "id": "poll-6569",
+      "url": "https://community.sunnypilot.ai/t/6569.json",
+      "fetchedAt": "2026-10-09T17:34:41.492Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/6569.json",
+      "sha256": "22dca0acfda95b61c89e9a93f37da85d55dfb1ad90b55fa4a1f3538ac0c41f13",
+      "bytes": 68643
+    },
+    {
+      "id": "poll-2819",
+      "url": "https://community.sunnypilot.ai/t/2819.json",
+      "fetchedAt": "2026-10-09T17:34:41.635Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/2819.json",
+      "sha256": "e06a28d8de8cfe00468dbcb33bd75632be01e9179f27d45f5c4b43c0dc1fc35c",
+      "bytes": 54783
+    },
+    {
+      "id": "poll-3162",
+      "url": "https://community.sunnypilot.ai/t/3162.json",
+      "fetchedAt": "2026-10-09T17:34:41.793Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/3162.json",
+      "sha256": "3be703b7dac69805500b2c8626a6f4a15e9a125b4a6c08e01ff1dddfa7d0047c",
+      "bytes": 39183
+    },
+    {
+      "id": "poll-3297",
+      "url": "https://community.sunnypilot.ai/t/3297.json",
+      "fetchedAt": "2026-10-09T17:34:41.842Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/3297.json",
+      "sha256": "30657f53c2c325cf901214f2465717dd83d950f5263891bf3e915b57a8b3bd57",
+      "bytes": 39430
+    },
+    {
+      "id": "poll-3331",
+      "url": "https://community.sunnypilot.ai/t/3331.json",
+      "fetchedAt": "2026-10-09T17:34:41.982Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/3331.json",
+      "sha256": "bdc7361a95b868fb2de1ebcae1825bc81809bf691ac82d23b5dbde19957abe78",
+      "bytes": 43761
+    },
+    {
+      "id": "poll-3756",
+      "url": "https://community.sunnypilot.ai/t/3756.json",
+      "fetchedAt": "2026-10-09T17:34:42.111Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/3756.json",
+      "sha256": "ac83304a90dfbe3ecf09bc5d03bce0c772645c6fd2dfcd64be7b7ebc044b2de8",
+      "bytes": 41547
+    },
+    {
+      "id": "poll-1481",
+      "url": "https://community.sunnypilot.ai/t/1481.json",
+      "fetchedAt": "2026-10-09T17:34:42.169Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/1481.json",
+      "sha256": "9b0aeed45c52204b99e55ae9e954900135d3e485c3d52fbd9c896392a00ddfbe",
+      "bytes": 33621
+    },
+    {
+      "id": "poll-1650",
+      "url": "https://community.sunnypilot.ai/t/1650.json",
+      "fetchedAt": "2026-10-09T17:34:42.312Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/1650.json",
+      "sha256": "571265940cb572c531e37cfba019d5a9857a9c2106dfef88bf9d42c343634ea7",
+      "bytes": 26137
+    },
+    {
+      "id": "poll-308",
+      "url": "https://community.sunnypilot.ai/t/308.json",
+      "fetchedAt": "2026-10-09T17:34:42.495Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/308.json",
+      "sha256": "a2fa9996fd0cf714053c6e85319af5a4cc601b3d147dd2b3a27fbbeb87232e2a",
+      "bytes": 51802
+    },
+    {
+      "id": "poll-7096",
+      "url": "https://community.sunnypilot.ai/t/7096.json",
+      "fetchedAt": "2026-10-09T17:34:42.614Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/7096.json",
+      "sha256": "d3591cf0d8ff71297c731b0f181cb745a3f39c4b132540b2ffb3889b64993a7e",
+      "bytes": 46499
+    },
+    {
+      "id": "poll-986",
+      "url": "https://community.sunnypilot.ai/t/986.json",
+      "fetchedAt": "2026-10-09T17:34:42.451Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/986.json",
+      "sha256": "817b0f3bc0914fbb6f0de2a036286c71e43e9942f076281a08e57cc6698fcb40",
+      "bytes": 60808
+    },
+    {
+      "id": "poll-137",
+      "url": "https://community.sunnypilot.ai/t/137.json",
+      "fetchedAt": "2026-10-09T17:34:42.903Z",
+      "status": 200,
+      "finalUrl": "https://community.sunnypilot.ai/t/137.json",
+      "sha256": "fe41dfefb7557e0fcf70084522af4dcd1a651242bcd27832f9eb36968dd4e1af",
+      "bytes": 65328
+    },
+    {
+      "id": "model-name",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3323aafb5422cee72653206dc83a56e66c61799d/openpilot/sunnypilot/models/model_name.py",
+      "fetchedAt": "2026-10-09T17:37:01.745Z",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3323aafb5422cee72653206dc83a56e66c61799d/openpilot/sunnypilot/models/model_name.py",
+      "sha256": "e011598cc9d8bce3f2f966316885128ea9df9367963506d076b9a20a83b7dc54",
+      "bytes": 198
+    },
+    {
+      "id": "upstream-agnos",
+      "url": "https://raw.githubusercontent.com/commaai/openpilot/master/launch_env.sh",
+      "fetchedAt": "2026-10-09T17:37:01.745Z",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/commaai/openpilot/master/launch_env.sh",
+      "sha256": "3317160d7c1f69b7abf3243a997720a68a37d6fda1e84b58c45567e0028ae4c8",
+      "bytes": 541
+    },
+    {
+      "id": "live-model-v3",
+      "url": "https://sunnylink.wiki/models?model=cinque-terre-v3-model",
+      "fetchedAt": "2026-10-09T17:37:01.706Z",
+      "status": 200,
+      "finalUrl": "https://sunnylink.wiki/models?model=cinque-terre-v3-model",
+      "sha256": "cf6d7d2d3a4560c507ea40ad1066af2bbcb1e9a8a45e0842158ea135fcabb303",
+      "bytes": 310282
+    },
+    {
+      "id": "sunnypilot-agnos",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3323aafb5422cee72653206dc83a56e66c61799d/launch_env.sh",
+      "fetchedAt": "2026-10-09T17:37:01.931Z",
+      "status": 200,
+      "finalUrl": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3323aafb5422cee72653206dc83a56e66c61799d/launch_env.sh",
+      "sha256": "4aab9fa8764d31dcd55b60e8e90989fb17dae6f2d0f9811072d9ed20530aeb4d",
+      "bytes": 541
+    },
+    {
+      "id": "live-v3-votes",
+      "url": "https://sunnylink.wiki/api/models/vote?model=Cinque%20Terre%20V3%20Model",
+      "status": 200,
+      "fetchedAt": "2026-10-09T17:37:02.315Z",
+      "sha256": "b677a42167d9441dd63321f8e035f8bb347f5fdee595ab7ef15c894c9d99b6d7",
+      "sanitized": true
+    }
+  ],
+  "sourceSnapshots": {
+    "sunnypilotMaster": {
+      "sha": "3323aafb5422cee72653206dc83a56e66c61799d",
+      "committedAt": "2026-10-06T20:32:30Z",
+      "url": "https://github.com/sunnypilot/sunnypilot/commit/3323aafb5422cee72653206dc83a56e66c61799d"
+    },
+    "sunnypilotDev": {
+      "sha": "6c7564969016b91e28aafa3a167300f8731e875a",
+      "committedAt": "2026-10-07T18:28:49Z",
+      "url": "https://github.com/sunnypilot/sunnypilot/commit/6c7564969016b91e28aafa3a167300f8731e875a"
+    },
+    "sunnypilotStaging": {
+      "sha": "4063760cefe1d3c05a1572ad5f41943c7f8fe373",
+      "committedAt": "2026-10-08T06:28:10Z",
+      "url": "https://github.com/sunnypilot/sunnypilot/commit/4063760cefe1d3c05a1572ad5f41943c7f8fe373"
+    },
+    "modelRepository": {
+      "sha": "1ea3e6d2ae0040e35a5729604e7d84b756e31e83",
+      "committedAt": "2026-10-09T10:16:16Z",
+      "url": "https://github.com/sunnypilot/sunnypilot-models/commit/1ea3e6d2ae0040e35a5729604e7d84b756e31e83"
+    },
+    "documentation": {
+      "sha": "c34b63208cdb7bcbef389cf90b3c15e38221a8bc",
+      "committedAt": "2026-05-06T04:24:38Z",
+      "url": "https://github.com/sunnypilot/user-docs/commit/c34b63208cdb7bcbef389cf90b3c15e38221a8bc"
+    },
+    "latestTaggedRelease": {
+      "tag": "v2026.002.002",
+      "publishedAt": "2026-08-07T00:37:37Z",
+      "url": "https://github.com/sunnypilot/sunnypilot/releases/tag/v2026.002.002"
+    }
+  },
+  "pullRequests": [
+    {
+      "number": 1306,
+      "title": "HKG: ccNC port (non-HDA2)",
+      "url": "https://github.com/sunnypilot/sunnypilot/pull/1306",
+      "state": "open",
+      "merged": false,
+      "updatedAt": "2026-10-07T18:08:09Z",
+      "mergedAt": null,
+      "closedAt": null
+    },
+    {
+      "number": 1999,
+      "title": "modeld: misleading \"Posenet Speed Invalid / Speed Error: nan m/s\" and underlying fix",
+      "url": "https://github.com/sunnypilot/sunnypilot/pull/1999",
+      "state": "open",
+      "merged": false,
+      "updatedAt": "2026-09-10T15:57:29Z",
+      "mergedAt": null,
+      "closedAt": null
+    },
+    {
+      "number": 2015,
+      "title": "models: switch to whole-file manifests (selector version 20)",
+      "url": "https://github.com/sunnypilot/sunnypilot/pull/2015",
+      "state": "open",
+      "merged": false,
+      "updatedAt": "2026-09-13T02:02:02Z",
+      "mergedAt": null,
+      "closedAt": null
+    },
+    {
+      "number": 2023,
+      "title": "modeld: chestnut power limit, adjustable via sunnylink",
+      "url": "https://github.com/sunnypilot/sunnypilot/pull/2023",
+      "state": "open",
+      "merged": false,
+      "updatedAt": "2026-09-22T21:46:25Z",
+      "mergedAt": null,
+      "closedAt": null
+    },
+    {
+      "number": 2035,
+      "title": "modeld: Resize Comma 3X frames for unified AMD models",
+      "url": "https://github.com/sunnypilot/sunnypilot/pull/2035",
+      "state": "open",
+      "merged": false,
+      "updatedAt": "2026-10-09T17:20:48Z",
+      "mergedAt": null,
+      "closedAt": null
+    },
+    {
+      "number": 2036,
+      "title": "Sync: commaai/openpilot:master -> sunnypilot/sunnypilot:master",
+      "url": "https://github.com/sunnypilot/sunnypilot/pull/2036",
+      "state": "closed",
+      "merged": true,
+      "updatedAt": "2026-10-06T20:32:34Z",
+      "mergedAt": "2026-10-06T20:32:31Z",
+      "closedAt": "2026-10-06T20:32:31Z"
+    },
+    {
+      "number": 2042,
+      "title": "Speed Limit Assist: add opt-in map-based Auto SET",
+      "url": "https://github.com/sunnypilot/sunnypilot/pull/2042",
+      "state": "open",
+      "merged": false,
+      "updatedAt": "2026-10-03T19:58:12Z",
+      "mergedAt": null,
+      "closedAt": null
+    },
+    {
+      "number": 2043,
+      "title": "tici ui: fix sidebar crash pressing a dimmed eGPU button",
+      "url": "https://github.com/sunnypilot/sunnypilot/pull/2043",
+      "state": "open",
+      "merged": false,
+      "updatedAt": "2026-10-06T17:08:15Z",
+      "mergedAt": null,
+      "closedAt": null
+    },
+    {
+      "number": 2044,
+      "title": "models: Bill nye the science guy",
+      "url": "https://github.com/sunnypilot/sunnypilot/pull/2044",
+      "state": "open",
+      "merged": false,
+      "updatedAt": "2026-10-09T09:27:44Z",
+      "mergedAt": null,
+      "closedAt": null
+    },
+    {
+      "number": 2045,
+      "title": "Implement custom stop sign and traffic light logic",
+      "url": "https://github.com/sunnypilot/sunnypilot/pull/2045",
+      "state": "closed",
+      "merged": false,
+      "updatedAt": "2026-10-07T14:36:49Z",
+      "mergedAt": null,
+      "closedAt": "2026-10-07T11:03:56Z"
+    },
+    {
+      "number": 2046,
+      "title": "default models: fix big",
+      "url": "https://github.com/sunnypilot/sunnypilot/pull/2046",
+      "state": "open",
+      "merged": false,
+      "updatedAt": "2026-10-07T23:20:06Z",
+      "mergedAt": null,
+      "closedAt": null
+    },
+    {
+      "number": 2047,
+      "title": "Sync: commaai/openpilot:master -> sunnypilot/sunnypilot:master",
+      "url": "https://github.com/sunnypilot/sunnypilot/pull/2047",
+      "state": "open",
+      "merged": false,
+      "updatedAt": "2026-10-08T17:17:14Z",
+      "mergedAt": null,
+      "closedAt": null
+    }
+  ]
+}

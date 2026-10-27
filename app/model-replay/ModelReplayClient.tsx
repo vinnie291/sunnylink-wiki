@@ -1,4 +1,6 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+
 
 import { useState } from 'react';
 import PageShell from '@/components/PageShell';
@@ -25,34 +27,22 @@ export default function ModelReplayClient() {
         <PageShell>
             <div className="mb-8">
                 <h1 className="text-2xl sm:text-3xl font-bold text-slate-100 mb-2">
-                    Synthetic vs. Real Model Vision
-                </h1>
+                     <TranslatedText text={"Synthetic vs. Real Model Vision"} /> </h1>
                 <p className="text-sm text-slate-400 max-w-3xl">
-                    Two genuinely different things, side by side — not the same route.
-                </p>
+                     <TranslatedText text={"Two genuinely different things, side by side — not the same route."} /> </p>
             </div>
 
             <div className="mb-6 rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3 text-xs text-amber-200/90 leading-relaxed">
-                <strong className="text-amber-300">What this actually is:</strong> the left pane is
-                this wiki&apos;s existing heuristic simulator — a hand-tuned animation that fakes how
-                a driving model &quot;feels&quot; from community sentiment text, driving a synthetic
-                hand-designed test loop (the &quot;Gauntlet&quot;). It is <em>not</em> running any real
-                model. The right pane plays back a real recorded openpilot drive: it decodes the
-                actual <code className="text-amber-100">modelV2</code> messages from a real{' '}
-                <code className="text-amber-100">rlog</code>/<code className="text-amber-100">qlog</code>{' '}
-                file and renders them with a direct TypeScript port of openpilot&apos;s own real
-                onroad rendering code — so that path and those lane lines are the real model&apos;s
-                real output on a real road, not a recreation. The two panes are different routes;
-                this is a comparison of a heuristic stand-in versus genuine model output, not a
-                frame-matched test.
+                <strong className="text-amber-300"><TranslatedText text="What this actually is:" /></strong>{' '}
+                <TranslatedText text="The left pane is this wiki's existing heuristic simulator: a hand-tuned animation that approximates a driving model's feel from community sentiment text on a synthetic test loop (the Gauntlet). It does not run any real model." />{' '}
+                <TranslatedText text="The right pane replays a recorded openpilot drive. It decodes modelV2 messages from a real rlog/qlog file and renders them using a direct TypeScript port of openpilot's onroad rendering code. The path and lane lines are actual model output from a real road. The panes show different routes; this compares a heuristic simulation with actual model output, rather than matching frames." />
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
                 <div>
                     <div className="mb-2 flex items-center justify-between">
                         <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">
-                            Synthetic — heuristic simulation
-                        </h2>
+                             <TranslatedText text={"Synthetic — heuristic simulation"} /> </h2>
                     </div>
                     <DriveSimulation profile={profile} seedKey="model-replay-baseline" scenarioOverride="gauntlet" />
                 </div>
@@ -60,8 +50,7 @@ export default function ModelReplayClient() {
                 <div>
                     <div className="mb-2 flex items-center justify-between">
                         <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">
-                            Real model — recorded drive
-                        </h2>
+                             <TranslatedText text={"Real model — recorded drive"} /> </h2>
                     </div>
                     {log ? (
                         <div className="space-y-2">
@@ -71,7 +60,7 @@ export default function ModelReplayClient() {
                                 onClick={() => setLog(null)}
                                 className="text-xs text-slate-400 hover:text-slate-200 transition-colors"
                             >
-                                ← load a different log ({fileName})
+                                 <TranslatedText text={"← load a different log ("} />{fileName})
                             </button>
                         </div>
                     ) : (

@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "tsx --test tests/*.test.ts",
     "i18n:check": "node scripts/check-i18n.mjs",
     "db:push": "drizzle-kit push",
     "db:seed": "tsx scripts/seed.ts",

@@ -1,4 +1,7 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import { useLanguage } from '@/lib/i18n';
+
 
 import {
     ResponsiveContainer,
@@ -36,11 +39,11 @@ const CHART_COLORS = [
 ];
 
 export function BranchDistributionChart({ data }: { data: ChartData[] }) {
+    const { tx, locale } = useLanguage();
     if (!data || data.length === 0) {
         return (
             <div className="flex items-center justify-center h-64 text-slate-500">
-                No branch distribution data available
-            </div>
+                 <TranslatedText text={"No branch distribution data available"} /> </div>
         );
     }
 
@@ -75,11 +78,15 @@ export function BranchDistributionChart({ data }: { data: ChartData[] }) {
                             borderRadius: '0.75rem',
                             color: 'white'
                         }}
-                        formatter={(value) => [(value ?? 0).toLocaleString(), 'Count']}
+                        formatter={(value) => [Number(value ?? 0).toLocaleString(locale), tx('Devices')]}
                     />
                     <Legend
-                        wrapperStyle={{ color: 'var(--color-slate-400)' }}
-                        formatter={(value) => <span className="text-slate-400 text-sm">{value}</span>}
+                        content={<ul className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-slate-400">
+                            {data.map((item, index) => <li key={item.name} className="flex items-center gap-2">
+                                <span aria-hidden="true" className="h-2 w-2 rounded-full" style={{ backgroundColor: CHART_COLORS[index % CHART_COLORS.length] }} />
+                                {item.name}
+                            </li>)}
+                        </ul>}
                     />
                 </PieChart>
             </ResponsiveContainer>
@@ -88,11 +95,11 @@ export function BranchDistributionChart({ data }: { data: ChartData[] }) {
 }
 
 export function TopModelsChart({ data }: { data: ChartData[] }) {
+    const { tx, locale } = useLanguage();
     if (!data || data.length === 0) {
         return (
             <div className="flex items-center justify-center h-64 text-slate-500">
-                No model data available
-            </div>
+                 <TranslatedText text={"No model data available"} /> </div>
         );
     }
 
@@ -125,7 +132,7 @@ export function TopModelsChart({ data }: { data: ChartData[] }) {
                             borderRadius: '0.75rem',
                             color: 'white'
                         }}
-                        formatter={(value) => [(value ?? 0).toLocaleString(), 'Users']}
+                        formatter={(value) => [Number(value ?? 0).toLocaleString(locale), tx('Routes')]}
                         cursor={{ fill: 'rgba(6, 182, 212, 0.1)' }}
                     />
                     <Bar
@@ -146,8 +153,7 @@ export default function StatsCharts({ branchDistribution, topModels }: StatsChar
             <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-lg font-semibold text-slate-100 mb-4 flex items-center gap-2">
                     <span>🌿</span>
-                    Branch Distribution
-                </h3>
+                     <TranslatedText text={"Branch Distribution"} /> </h3>
                 <BranchDistributionChart data={branchDistribution} />
             </div>
 
@@ -155,8 +161,7 @@ export default function StatsCharts({ branchDistribution, topModels }: StatsChar
             <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-lg font-semibold text-slate-100 mb-4 flex items-center gap-2">
                     <span>🧠</span>
-                    Top Models
-                </h3>
+                     <TranslatedText text={"Top Models"} /> </h3>
                 <TopModelsChart data={topModels} />
             </div>
         </div>

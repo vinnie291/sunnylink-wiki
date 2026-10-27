@@ -1,4 +1,6 @@
 'use client';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -11,6 +13,7 @@ function getCurrentTheme(): Theme {
 }
 
 export default function ThemeToggle() {
+  const tx = useTextTranslation();
     // Render the dark icon on the server, then sync after mount to avoid hydration mismatch
     const [theme, setTheme] = useState<Theme>('dark');
     const [mounted, setMounted] = useState(false);
@@ -52,8 +55,8 @@ export default function ThemeToggle() {
                 cursor-pointer
                 text-slate-400 hover:text-cyan-400
             "
-            aria-label={isLight ? 'Switch to dark mode' : 'Switch to light mode'}
-            title={isLight ? 'Switch to dark mode' : 'Switch to light mode'}
+            aria-label={tx(isLight ? 'Switch to dark mode' : 'Switch to light mode')}
+            title={tx(isLight ? 'Switch to dark mode' : 'Switch to light mode')}
         >
             <AnimatePresence mode="wait" initial={false}>
                 {isLight ? (

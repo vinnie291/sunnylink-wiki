@@ -1,4 +1,5 @@
 import type { ConfigValues } from '../components/ConfigWizard';
+import { isSettingApplicableToMake } from './vehicleSettings';
 
 /**
  * Builds the sunnylink-standard export JSON from the wizard's internal
@@ -44,7 +45,10 @@ const TORQUE_CONTROL_TUNE: Record<string, number> = {
 };
 
 const SPEED_LIMIT_MODE: Record<string, number> = {
+    'Off': 0,
     'Information': 1,
+    'Warning': 2,
+    'Assist': 3,
     'User Confirm': 2,
     'Auto': 3,
 };
@@ -203,7 +207,9 @@ export function buildSunnylinkExport(config: ConfigValues) {
                 e2eEnabled,
                 customAccLong: num(config.CustomAccLongPressIncrement, 5),
                 customAccShort: num(config.CustomAccShortPressIncrement, 1),
-                hyundaiLongTune: lookup(HYUNDAI_LONG_TUNE, config.HyundaiLongitudinalTuning, 0),
+                ...(isSettingApplicableToMake('HyundaiLongitudinalTuning', make) ? {
+                    hyundaiLongTune: lookup(HYUNDAI_LONG_TUNE, config.HyundaiLongitudinalTuning, 0),
+                } : {}),
                 planplusEnabled: e2eEnabled,
                 alphaLongEnabled: bool(config.AlphaLongitudinal),
                 customAccEnabled: bool(config.CustomAccIncrements),
@@ -221,10 +227,17 @@ export function buildSunnylinkExport(config: ConfigValues) {
                 mapAdvisorySpeedLimit: bool(config.MapAdvisorySpeedLimit),
             },
             vehicleSpecific: {
-                subaruStopAndGo: bool(config.SubaruStopAndGo),
-                teslaCoopSteering: bool(config.TeslaCoopSteering),
-                toyotaEnforceFactoryLong: bool(config.ToyotaEnforceFactoryLongitudinalControl),
-                toyotaStopAndGo: false,
+                ...(isSettingApplicableToMake('SubaruStopAndGo', make) ? {
+                    subaruStopAndGo: bool(config.SubaruStopAndGo),
+                    subaruStopAndGoManualParkingBrake: bool(config.SubaruStopAndGoManualParkingBrake),
+                } : {}),
+                ...(isSettingApplicableToMake('TeslaCoopSteering', make) ? {
+                    teslaCoopSteering: bool(config.TeslaCoopSteering),
+                } : {}),
+                ...(isSettingApplicableToMake('ToyotaStopAndGoHack', make) ? {
+                    toyotaEnforceFactoryLong: bool(config.ToyotaEnforceFactoryLongitudinalControl),
+                    toyotaStopAndGo: bool(config.ToyotaStopAndGoHack),
+                } : {}),
             },
             drivingPersonality: {
                 longitudinalPersonality: String(config.DrivingPersonality || 'Standard').toLowerCase(),

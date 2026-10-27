@@ -4,6 +4,60 @@
 const METABASE_BASE_URL = 'https://metabase.sunnypilot.ai/api/public/dashboard';
 const DASHBOARD_UUID = '8d0ca494-6ab3-4d4c-9642-7deb493c4fac';
 
+export interface PublicFleetChart {
+    id: number;
+    title: string;
+    columns: string[];
+    rows: (string | number | boolean | null)[][];
+}
+
+const localizedCardLabels: Record<number, { title: string; columns: string[] }> = {
+    39: { title: 'Active Users', columns: ['Time', 'Users'] },
+    40: { title: 'Model distribution by routes', columns: ['Driving Model', 'Routes'] },
+    42: { title: 'Routes by platform', columns: ['Vehicle platform', 'Routes'] },
+    43: { title: 'Unique Devices', columns: ['Device', 'Devices'] },
+    45: { title: 'Brand and branch distribution', columns: ['Manufacturer', 'Branch', 'Devices'] },
+    46: { title: 'MADS usage by routes', columns: ['MADS', 'Routes'] },
+};
+
+/** Keep canonical names/counts intact; omit Metabase's internal pivot subtotals. */
+export function normalizePublicFleetCard(id: number, rows: PublicFleetChart['rows']): PublicFleetChart | null {
+    const labels = localizedCardLabels[id];
+    if (!labels) return null;
+    return { id, ...labels, rows: id === 45 ? rows.filter(row => row[2] === 0).map(row => [row[0], row[1], row[3]]) : rows };
+}
+
+/** Read the same public dashboard and defaults as the former iframe, with a five-minute cache. */
+export async function getPublicFleetCharts(): Promise<PublicFleetChart[] | null> {
+    try {
+        const response = await fetch(`${METABASE_BASE_URL}/${DASHBOARD_UUID}`, {
+            next: { revalidate: 300 }, signal: AbortSignal.timeout(10000),
+        });
+        if (!response.ok) return null;
+        const dashboard: {
+            parameters: { id: string; type: string; default?: string | string[] }[];
+            dashcards: { id: number; card?: { id: number } }[];
+        } = await response.json();
+        const parameters = dashboard.parameters.filter(parameter => parameter.default !== undefined &&
+            !(Array.isArray(parameter.default) && parameter.default.length === 0))
+            .map(parameter => ({ id: parameter.id, type: parameter.type, value: parameter.default }));
+        const query = new URLSearchParams({ parameters: JSON.stringify(parameters) });
+        const charts = await Promise.all(dashboard.dashcards.filter(card => card.card && localizedCardLabels[card.card.id]).map(async card => {
+            const result = await fetch(`${METABASE_BASE_URL}/${DASHBOARD_UUID}/dashcard/${card.id}/card/${card.card!.id}?${query}`, {
+                next: { revalidate: 300 }, signal: AbortSignal.timeout(10000),
+            });
+            if (!result.ok) throw new Error('Public fleet chart unavailable');
+            const body = await result.json();
+            if (body.status !== 'completed' || !Array.isArray(body.data?.rows)) throw new Error('Invalid public fleet chart');
+            return normalizePublicFleetCard(card.card!.id, body.data.rows);
+        }));
+        const complete = charts.filter((chart): chart is PublicFleetChart => chart !== null);
+        return complete.length === Object.keys(localizedCardLabels).length ? complete : null;
+    } catch {
+        return null;
+    }
+}
+
 export interface MetabaseCard {
     id: number;
     name: string;

@@ -46,3 +46,11 @@ gcloud run deploy sunnylink-wiki-service --image gcr.io/sunnylink-wiki/wiki-app:
 ## Success!
 Once the command finishes, it will print a **Service URL** (e.g., `https://sunnylink-wiki-service-xyz.a.run.app`).
 Click that link to see your live app!
+
+## Cloud Storage (GCS) Note
+Per Google Cloud's CLI deprecation timeline (March 2027), always use `gcloud storage` instead of `gsutil`:
+- List buckets/objects: `gcloud storage ls gs://sunnylink-wiki_cloudbuild`
+- Upload file: `gcloud storage cp <local-file> gs://<bucket>/`
+- Download file: `gcloud storage cp gs://<bucket>/<file> .`
+- Sync directories: `gcloud storage rsync -r <local-dir> gs://<bucket>/<dir>`
+

@@ -1,4 +1,7 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import { useEffect, useRef, useState, useSyncExternalStore, useMemo } from 'react';
 import dynamic from 'next/dynamic';
@@ -20,7 +23,7 @@ import styles from './SimulatorLab.module.css';
 
 const WorldCanvas = dynamic(() => import('./WorldCanvas'), {
   ssr: false,
-  loading: () => <div className={styles.loading}>Preparing the driving environment…</div>,
+  loading: () => <div className={styles.loading}><TranslatedText text={"Preparing the driving environment…"} /></div>,
 });
 
 const SCENARIO_ICONS: Record<Scenario, typeof Building2> = {
@@ -83,23 +86,25 @@ const cameras: { key: CameraMode; name: string; icon: typeof Navigation }[] = [
 
 /** One labelled row of chips. Every setting in the panel uses this shape. */
 function SettingRow({ label, value, children }: { label: string; value?: string; children: React.ReactNode }) {
+  const tx = useTextTranslation();
   return (
     <div className={styles.settingRow}>
       <div className={styles.settingHead}>
-        <span>{label}</span>
-        {value && <b>{value}</b>}
+        <span><TranslatedText text={label} /></span>
+        {value && <b><TranslatedText text={value} /></b>}
       </div>
-      <div className={styles.settingChips} role="group" aria-label={label}>{children}</div>
+      <div className={styles.settingChips} role="group" aria-label={tx(label)}>{children}</div>
     </div>
   );
 }
 
 function Chip({ active, onClick, label, children }: { active: boolean; onClick: () => void; label?: string; children: React.ReactNode }) {
+  const tx = useTextTranslation();
   return (
     <button
       type="button"
       aria-pressed={active}
-      aria-label={label}
+      aria-label={tx(label)}
       className={`${styles.chip} ${active ? styles.chipActive : ''}`}
       onClick={onClick}
     >
@@ -153,6 +158,7 @@ export interface SimulatorLabProps {
 }
 
 export default function SimulatorLab({ initialModelId, embedded = false, onClose, onModelChange }: SimulatorLabProps) {
+  const tx = useTextTranslation();
   const reducedMotion = useSyncExternalStore(subscribeMotion, motionSnapshot, () => true);
   const theme = useSyncExternalStore(subscribeTheme, themeSnapshot, () => 'dark' as const);
   const compact = useSyncExternalStore(subscribeCompact, compactSnapshot, () => false);
@@ -253,43 +259,43 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
   return (
     <div className={`${styles.page} ${embedded ? styles.embedded : ''}`}>
       <div className={styles.shell}>
-        <header className={styles.labHeader} aria-label="Simulation controls">
-          <h1 className="sr-only">Driving simulator</h1>
+        <header className={styles.labHeader} aria-label={tx("Simulation controls")}>
+          <h1 className="sr-only"><TranslatedText text={"Driving simulator"} /></h1>
           <div className={styles.labActions}>
-            {embedded ? <button type="button" onClick={onClose}><ArrowLeft size={14} /> All models</button>
-              : <Link href="/models"><ArrowLeft size={14} /> All models</Link>}
+            {embedded ? <button type="button" onClick={onClose}><ArrowLeft size={14} />  <TranslatedText text={"All models"} /></button>
+              : <Link href="/models"><ArrowLeft size={14} />  <TranslatedText text={"All models"} /></Link>}
           </div>
           <div className={styles.labActions}>
-            <div className={styles.modelStepper} role="group" aria-label="Model comparison">
-              <button type="button" onClick={() => adjacentModel(-1)} aria-label="Previous model" title="Previous model"><ChevronLeft size={16} /></button>
-              {!compact && <div className={styles.headerModel} title={activeModel.name} aria-live="polite">
+            <div className={styles.modelStepper} role="group" aria-label={tx("Model comparison")}>
+              <button type="button" onClick={() => adjacentModel(-1)} aria-label={tx("Previous model")} title={tx("Previous model")}><ChevronLeft size={16} /></button>
+              {!compact && <div className={styles.headerModel} title={tx(activeModel.name)} aria-live="polite">
                 <span className={styles.dot} style={{ background: activeModel.pathColor }} />
-                <b>{activeModel.name}</b>
+                <b><TranslatedText text={activeModel.name} /></b>
               </div>}
-              <button type="button" onClick={() => adjacentModel(1)} aria-label="Next model" title="Next model"><ChevronRight size={16} /></button>
+              <button type="button" onClick={() => adjacentModel(1)} aria-label={tx("Next model")} title={tx("Next model")}><ChevronRight size={16} /></button>
             </div>
-            <button type="button" onClick={shareSimulation}><Share2 size={14} /> Share simulation</button>
+            <button type="button" onClick={shareSimulation}><Share2 size={14} />  <TranslatedText text={"Share simulation"} /></button>
           </div>
         </header>
-        <div role="status" className={styles.shareStatus}>{shareStatus}
-          {shareUrl && <input aria-label="Simulation share link" readOnly value={shareUrl} onFocus={e => e.target.select()} />}
+        <div role="status" className={styles.shareStatus}><TranslatedText text={shareStatus} />
+          {shareUrl && <input aria-label={tx("Simulation share link")} readOnly value={shareUrl} onFocus={e => e.target.select()} />}
         </div>
 
         <div className={styles.workspace}>
-          <section className={`${styles.stage} ${expanded ? styles.expanded : ''}`} aria-label="Driving simulator">
+          <section className={`${styles.stage} ${expanded ? styles.expanded : ''}`} aria-label={tx("Driving simulator")}>
             <WorldCanvas options={options} revision={revision} chapter="start" theme={theme} skipRef={skipRef} onTelemetry={setTelemetry} />
             
             <div className={styles.sceneTop}>
               <div className={styles.envBar}>
                 <div className={styles.sceneTitle}>
                   <span className={options.playing ? styles.liveDot : styles.pausedDot} />
-                  <b>{options.playing ? 'LIVE' : 'PAUSED'}</b>
+                  <b><TranslatedText text={options.playing ? 'LIVE' : 'PAUSED'} /></b>
                 </div>
 
                 {compact && (
-                  <div className={styles.modelPill} title={activeModel.name}>
+                  <div className={styles.modelPill} title={tx(activeModel.name)}>
                     <span className={styles.dot} style={{ background: activeModel.pathColor }} />
-                    <b>{activeModel.name}</b>
+                    <b><TranslatedText text={activeModel.name} /></b>
                   </div>
                 )}
 
@@ -303,24 +309,24 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
                       onClick={() => setOpenMenu(environmentOpen ? null : 'environment')}
                     >
                       <SlidersHorizontal size={14} />
-                      <b>Environment settings</b>
+                      <b><TranslatedText text={"Environment settings"} /></b>
                       <ChevronUp size={13} className={environmentOpen ? '' : styles.chevronOpen} />
                     </button>
 
                     {environmentOpen && (
-                      <div className={styles.envPanel} role="dialog" aria-label="Environment settings">
-                        <SettingRow label="Road" value={scenario.name}>
+                      <div className={styles.envPanel} role="dialog" aria-label={tx("Environment settings")}>
+                        <SettingRow label={tx("Road")} value={scenario.name}>
                           {(Object.keys(SCENARIOS) as Scenario[]).map(key => {
                             const Icon = SCENARIO_ICONS[key] || Building2;
                             return (
                               <Chip key={key} active={options.scenario === key} onClick={() => selectRoad(key)}>
-                                <Icon size={13} /> {SCENARIOS[key].name}
+                                <Icon size={13} /> <TranslatedText text={SCENARIOS[key].name} />
                               </Chip>
                             );
                           })}
                         </SettingRow>
 
-                        <SettingRow label="Traffic" value={`${telemetry.vehicles} cars`}>
+                        <SettingRow label={tx("Traffic")} value={`${telemetry.vehicles} cars`}>
                           {TRAFFIC_PRESETS.map((preset, index) => (
                             <Chip
                               key={preset.label}
@@ -330,15 +336,15 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
                               <span className={styles.chipCars} aria-hidden="true">
                                 {Array.from({ length: index + 1 }, (_, i) => <CarFront key={i} size={12} />)}
                               </span>
-                              {preset.label}
+                              <TranslatedText text={preset.label} />
                             </Chip>
                           ))}
                         </SettingRow>
 
-                        <SettingRow label="Lighting">
+                        <SettingRow label={tx("Lighting")}>
                           {LIGHTING_OPTIONS.map(({ key, name, icon: Icon }) => (
                             <Chip key={key} active={options.lighting === key} onClick={() => update('lighting', key)}>
-                              <Icon size={13} /> {key === 'auto' ? 'Auto' : name}
+                              <Icon size={13} /> <TranslatedText text={key === 'auto' ? 'Auto' : name} />
                             </Chip>
                           ))}
                         </SettingRow>
@@ -349,8 +355,8 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
                 ) : (
                   <>
                 {/* Environment: every option is one click, no menu to open. */}
-                <div className={styles.envGroup} role="radiogroup" aria-label="Road">
-                  <span className={styles.envLabel}>Road</span>
+                <div className={styles.envGroup} role="radiogroup" aria-label={tx("Road")}>
+                  <span className={styles.envLabel}><TranslatedText text={"Road"} /></span>
                   {(Object.keys(SCENARIOS) as Scenario[]).map(key => {
                     const Icon = SCENARIO_ICONS[key] || Building2;
                     return (
@@ -359,8 +365,8 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
                         type="button"
                         role="radio"
                         aria-checked={options.scenario === key}
-                        aria-label={SCENARIOS[key].name}
-                        title={SCENARIOS[key].name}
+                        aria-label={tx(SCENARIOS[key].name)}
+                        title={tx(SCENARIOS[key].name)}
                         className={options.scenario === key ? styles.envActive : ''}
                         onClick={() => selectRoad(key)}
                       >
@@ -370,16 +376,16 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
                   })}
                 </div>
 
-                <div className={styles.envGroup} role="radiogroup" aria-label="Traffic density">
-                  <span className={styles.envLabel}>Traffic</span>
+                <div className={styles.envGroup} role="radiogroup" aria-label={tx("Traffic density")}>
+                  <span className={styles.envLabel}><TranslatedText text={"Traffic"} /></span>
                   {TRAFFIC_PRESETS.map((preset, index) => (
                     <button
                       key={preset.label}
                       type="button"
                       role="radio"
                       aria-checked={trafficPreset.label === preset.label}
-                      aria-label={`${preset.label} traffic`}
-                      title={`${preset.label} traffic`}
+                      aria-label={tx(`${preset.label} traffic`)}
+                      title={tx(`${preset.label} traffic`)}
                       className={`${styles.envCars} ${trafficPreset.label === preset.label ? styles.envActive : ''}`}
                       onClick={() => update('density', preset.value)}
                     >
@@ -388,16 +394,16 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
                   ))}
                 </div>
 
-                <div className={styles.envGroup} role="radiogroup" aria-label="Lighting">
-                  <span className={styles.envLabel}>Light</span>
+                <div className={styles.envGroup} role="radiogroup" aria-label={tx("Lighting")}>
+                  <span className={styles.envLabel}><TranslatedText text={"Light"} /></span>
                   {LIGHTING_OPTIONS.map(({ key, name, icon: Icon }) => (
                     <button
                       key={key}
                       type="button"
                       role="radio"
                       aria-checked={options.lighting === key}
-                      aria-label={name}
-                      title={name}
+                      aria-label={tx(name)}
+                      title={tx(name)}
                       className={options.lighting === key ? styles.envActive : ''}
                       onClick={() => update('lighting', key)}
                     >
@@ -412,7 +418,7 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
               </div>
               <button
                 className={styles.iconButton}
-                aria-label={expanded ? 'Exit expanded view' : 'Expand simulator'}
+                aria-label={tx(expanded ? 'Exit expanded view' : 'Expand simulator')}
                 onClick={() => setExpanded(v => !v)}
               >
                 {expanded ? <Minimize2 size={17} /> : <Maximize2 size={17} />}
@@ -427,32 +433,30 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
 
             <div className={styles.dockLeft} data-dock>
               {settingsOpen && (
-                <div className={styles.settingsPanel} role="dialog" aria-label="Simulator settings">
-                  <SettingRow label="Pacing">
+                <div className={styles.settingsPanel} role="dialog" aria-label={tx("Simulator settings")}>
+                  <SettingRow label={tx("Pacing")}>
                     {(Object.keys(BEHAVIORS) as Behavior[]).map(key => (
                       <Chip key={key} active={options.behavior === key} onClick={() => update('behavior', key)}>
-                        {BEHAVIORS[key].name}
+                        <TranslatedText text={BEHAVIORS[key].name} />
                       </Chip>
                     ))}
                   </SettingRow>
 
-                  <SettingRow label="Overlays">
+                  <SettingRow label={tx("Overlays")}>
                     <Chip active={options.path} onClick={() => update('path', !options.path)}>
-                      <Route size={13} /> Route
-                    </Chip>
+                      <Route size={13} />  <TranslatedText text={"Route"} /> </Chip>
                     <Chip active={options.perception} onClick={() => update('perception', !options.perception)}>
-                      <ScanLine size={13} /> Lane lines
-                    </Chip>
+                      <ScanLine size={13} />  <TranslatedText text={"Lane lines"} /> </Chip>
                   </SettingRow>
-                  <SettingRow label="Car colour" value={CAR_COLORS.find(c => c.hex === options.carColor)?.name}>
+                  <SettingRow label={tx("Car colour")} value={CAR_COLORS.find(c => c.hex === options.carColor)?.name}>
                     {CAR_COLORS.map(color => (
                       <button
                         key={color.id}
                         type="button"
                         role="radio"
                         aria-checked={options.carColor === color.hex}
-                        aria-label={color.name}
-                        title={color.name}
+                        aria-label={tx(color.name)}
+                        title={tx(color.name)}
                         className={`${styles.colorSwatch} ${options.carColor === color.hex ? styles.colorSwatchActive : ''}`}
                         style={{ background: color.hex }}
                         onClick={() => update('carColor', color.hex)}
@@ -472,14 +476,14 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
                   onClick={() => setOpenMenu(settingsOpen ? null : 'settings')}
                 >
                   <Car size={15} />
-                  <b>Car</b>
+                  <b><TranslatedText text={"Car"} /></b>
                   <ChevronUp size={13} className={settingsOpen ? styles.chevronOpen : ''} />
                 </button>
                 <span className={styles.pillDivider} />
                 <button
                   type="button"
                   className={styles.pillGhost}
-                  aria-label="Skip back 200 metres"
+                  aria-label={tx("Skip back 200 metres")}
                   onClick={() => skipRef.current?.(-SKIP_METRES)}
                 >
                   <SkipBack size={13} />
@@ -487,7 +491,7 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
                 <button
                   type="button"
                   className={styles.pillPrimary}
-                  aria-label={options.playing ? 'Pause simulation' : 'Play simulation'}
+                  aria-label={tx(options.playing ? 'Pause simulation' : 'Play simulation')}
                   onClick={() => update('playing', !options.playing)}
                 >
                   {options.playing ? <Pause size={13} fill="currentColor" /> : <Play size={13} fill="currentColor" />}
@@ -495,18 +499,18 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
                 <button
                   type="button"
                   className={styles.pillGhost}
-                  aria-label="Skip forward 200 metres"
+                  aria-label={tx("Skip forward 200 metres")}
                   onClick={() => skipRef.current?.(SKIP_METRES)}
                 >
                   <SkipForward size={13} />
                 </button>
-                <button type="button" className={styles.pillGhost} aria-label="Restart simulation" onClick={restart}>
+                <button type="button" className={styles.pillGhost} aria-label={tx("Restart simulation")} onClick={restart}>
                   <RotateCcw size={13} />
                 </button>
                 <button
                   type="button"
                   className={styles.pillRate}
-                  aria-label={`Playback speed ${options.rate}×, tap to change`}
+                  aria-label={tx(`Playback speed ${options.rate}×, tap to change`)}
                   onClick={() => update('rate', RATES[(RATES.indexOf(options.rate) + 1) % RATES.length])}
                 >
                   {options.rate}×
@@ -516,16 +520,16 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
 
             <div className={`${styles.dockRight} ${compact && settingsOpen ? styles.dockHidden : ''}`}>
               {!compact && (
-                <div className={`${styles.envGroup} ${styles.cameraControls}`} role="radiogroup" aria-label="Camera view">
-                  <span className={styles.envLabel}>Camera view</span>
+                <div className={`${styles.envGroup} ${styles.cameraControls}`} role="radiogroup" aria-label={tx("Camera view")}>
+                  <span className={styles.envLabel}><TranslatedText text={"Camera view"} /></span>
                   {cameras.map(({ key, name, icon: Icon }) => (
                     <button
                       key={key}
                       type="button"
                       role="radio"
                       aria-checked={options.camera === key}
-                      aria-label={name}
-                      title={name}
+                      aria-label={tx(name)}
+                      title={tx(name)}
                       className={options.camera === key ? styles.envActive : ''}
                       onClick={() => update('camera', key)}
                     >
@@ -537,7 +541,7 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
               {compact && (
                 <div className={styles.cameraDock} data-dock>
                   {cameraOpen && (
-                    <div className={styles.dockMenu} role="radiogroup" aria-label="Camera view">
+                    <div className={styles.dockMenu} role="radiogroup" aria-label={tx("Camera view")}>
                       {cameras.map(({ key, name, icon: Icon }) => (
                         <button
                           key={key}
@@ -548,7 +552,7 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
                           onClick={() => { update('camera', key); setOpenMenu(null); }}
                         >
                           <Icon size={15} />
-                          <span>{name}</span>
+                          <span><TranslatedText text={name} /></span>
                         </button>
                       ))}
                     </div>
@@ -558,13 +562,13 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
                     className={styles.dockPill}
                     aria-expanded={cameraOpen}
                     aria-haspopup="true"
-                    aria-label={`Camera view: ${activeCamera.name}`}
+                    aria-label={tx(`Camera view: ${activeCamera.name}`)}
                     onClick={() => setOpenMenu(cameraOpen ? null : 'camera')}
                   >
                     <Camera size={15} />
-                    <b>View</b>
+                    <b><TranslatedText text={"View"} /></b>
                     <span className={styles.cameraValue}>
-                      <ActiveCameraIcon size={12} /> {activeCamera.name}
+                      <ActiveCameraIcon size={12} /> <TranslatedText text={activeCamera.name} />
                     </span>
                     <ChevronUp size={13} className={cameraOpen ? styles.chevronOpen : ''} />
                   </button>
@@ -573,20 +577,20 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
 
               <div className={`${styles.dockPill} ${styles.readout}`}>
                 <strong>{Math.round(toDisplaySpeed(telemetry.speed, unit))}</strong>
-                <span>{unit}</span>
+                <span><TranslatedText text={unit} /></span>
                 <div className={styles.cruiseStepper}>
                   <button
                     type="button"
-                    aria-label="Decrease cruise speed"
+                    aria-label={tx("Decrease cruise speed")}
                     disabled={options.speed <= 15}
                     onClick={() => update('speed', stepSpeed(-1))}
                   >
                     −
                   </button>
-                  <span>SET <b>{Math.round(toDisplaySpeed(options.speed, unit))}</b></span>
+                  <span><TranslatedText text={"SET"} /> <b>{Math.round(toDisplaySpeed(options.speed, unit))}</b></span>
                   <button
                     type="button"
-                    aria-label="Increase cruise speed"
+                    aria-label={tx("Increase cruise speed")}
                     disabled={options.speed >= scenario.maxSpeed}
                     onClick={() => update('speed', stepSpeed(1))}
                   >
@@ -597,7 +601,7 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
             </div>
           </section>
 
-          <aside className={styles.controls} aria-label="Driving models">
+          <aside className={styles.controls} aria-label={tx("Driving models")}>
             <ModelAccordionSelector
               activeModelId={options.modelId}
               onSelectModel={selectModel}
@@ -609,20 +613,20 @@ export default function SimulatorLab({ initialModelId, embedded = false, onClose
         <div className={styles.transport}>
           <div className={styles.routeProgress}>
             <div>
-              <span>ROUTE PROGRESS</span>
-              <b>{elapsed(telemetry.elapsed)} · {(telemetry.distance / 1000).toFixed(2)} km driven</b>
+              <span><TranslatedText text={"ROUTE PROGRESS"} /></span>
+              <b><TranslatedText text={elapsed(telemetry.elapsed)} /> · <TranslatedText text={(telemetry.distance / 1000).toFixed(2)} />  <TranslatedText text={"km driven"} /></b>
             </div>
-            <progress value={telemetry.progress} max={1} aria-label="Route lap progress" />
+            <progress value={telemetry.progress} max={1} aria-label={tx("Route lap progress")} />
           </div>
-          <span className={styles.keyboard}>Space to {options.playing ? 'pause' : 'play'}</span>
+          <span className={styles.keyboard}><TranslatedText text={"Space to"} /> <TranslatedText text={options.playing ? 'pause' : 'play'} /></span>
         </div>
 
         <footer className={styles.footer}>
           <p>
             <TrafficCone size={15} />
-            <span>Experimental playground · Feedback-based behavior approximation · Not actual model inference or measured performance.</span>
+            <span><TranslatedText text={"Experimental playground · Feedback-based behavior approximation · Not actual model inference or measured performance."} /></span>
           </p>
-          <Link href={embedded ? "/new-sim" : "/models"}>{embedded ? "Open standalone lab" : "Back to models"} <ArrowUpRight size={14} /></Link>
+          <Link href={embedded ? "/new-sim" : "/models"}><TranslatedText text={embedded ? "Open standalone lab" : "Back to models"} /> <ArrowUpRight size={14} /></Link>
         </footer>
       </div>
     </div>

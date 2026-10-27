@@ -1,4 +1,7 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import { useState, useEffect, useId, useRef } from 'react';
 import Link from 'next/link';
@@ -64,6 +67,7 @@ interface CarDetailViewProps {
 }
 
 export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) {
+  const tx = useTextTranslation();
     const { t } = useLanguage();
     const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
     const [selectedConfigIdx, setSelectedConfigIdx] = useState(0);
@@ -106,11 +110,6 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
             opener?.focus?.();
         };
     }, [onClose]);
-
-    // Reset config selection when variant changes
-    useEffect(() => {
-        setSelectedConfigIdx(0);
-    }, [selectedVariantIdx]);
 
     const configs = currentVehicle.configs?.length ? currentVehicle.configs : [
         { name: t('cars.bestSettings') || 'Recommended Configuration', settings: currentVehicle.bestSettings }
@@ -163,11 +162,14 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                 <div className="relative mt-2 inline-block">
                                     <select
                                         value={selectedVariantIdx}
-                                        onChange={(e) => setSelectedVariantIdx(Number(e.target.value))}
+                                        onChange={(e) => {
+                                            setSelectedVariantIdx(Number(e.target.value));
+                                            setSelectedConfigIdx(0);
+                                        }}
                                         className="appearance-none bg-slate-800/80 hover:bg-slate-700 border border-slate-700/50 text-cyan-400 text-sm font-bold py-1.5 pl-3 pr-8 rounded-lg outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all cursor-pointer"
                                     >
                                         {vehicle.variants.map((v, idx) => (
-                                            <option key={idx} value={idx}>{v.years}</option>
+                                            <option key={idx} value={idx}><TranslatedText text={v.years} /></option>
                                         ))}
                                     </select>
                                     <div className="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
@@ -177,14 +179,14 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                     </div>
                                 </div>
                             ) : (
-                                <div className="text-slate-400 font-medium">{currentVehicle.years}</div>
+                                <div className="text-slate-400 font-medium"><TranslatedText text={currentVehicle.years} /></div>
                             )}
                         </div>
                         <div className="flex items-center gap-4">
                             <div className="hidden sm:flex shrink-0 w-32 h-16 md:w-40 md:h-20 items-center justify-center pointer-events-none">
                                 <img
                                     src={getCarCutoutImage(vehicle.make, vehicle.model)}
-                                    alt={`${vehicle.make} ${vehicle.model}`}
+                                    alt={tx(`${vehicle.make} ${vehicle.model}`)}
                                     className="w-full h-full object-contain filter drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
                                 />
                             </div>
@@ -218,8 +220,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                 <h3 className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">{t('cars.consensus') || 'Community Consensus'}</h3>
                                 <div className="bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50">
                                     <p className="text-lg text-slate-200 leading-relaxed italic">
-                                        &quot;{currentVehicle.communityConsensus}&quot;
-                                    </p>
+                                         <TranslatedText text={"\""} /><TranslatedText text={currentVehicle.communityConsensus} /><TranslatedText text={"\""} /> </p>
                                 </div>
                             </section>
 
@@ -235,17 +236,15 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                                 </div>
                                                 <div className="flex items-center gap-2 mb-3">
                                                     <span className="px-2 py-0.5 rounded-md bg-cyan-500/10 text-cyan-400 text-[10px] font-bold uppercase tracking-wider border border-cyan-500/20">
-                                                        Sunnypilot Forum
-                                                    </span>
+                                                         <TranslatedText text={"Sunnypilot Forum"} /> </span>
                                                     <span className="text-slate-500 text-xs font-medium">@{quote.user}</span>
                                                 </div>
                                                 <p className="text-slate-200 text-lg leading-relaxed font-medium mb-2 relative z-10">
-                                                    &ldquo;{quote.text}&rdquo;
-                                                </p>
+                                                     <TranslatedText text={"“"} /><TranslatedText text={quote.text} /><TranslatedText text={"“"} /> </p>
                                                 {quote.context && (
                                                     <div className="text-xs text-slate-500 italic flex items-center gap-2">
                                                         <span className="w-1.5 h-1.5 rounded-full bg-cyan-500/30"></span>
-                                                        {quote.context}
+                                                        <TranslatedText text={quote.context} />
                                                     </div>
                                                 )}
                                             </div>
@@ -267,7 +266,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                                 className="appearance-none bg-slate-800/80 hover:bg-slate-700 border border-slate-700/50 text-slate-100 text-sm font-bold py-2 pl-4 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all cursor-pointer w-full"
                                             >
                                                 {configs.map((config, idx) => (
-                                                    <option key={idx} value={idx}>{config.name}</option>
+                                                    <option key={idx} value={idx}><TranslatedText text={config.name} /></option>
                                                 ))}
                                             </select>
                                             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -292,18 +291,18 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                                     <Link
                                                         href={modelUrl}
                                                         className="block group/link"
-                                                        title={`View ${modelName} specs on models page`}
+                                                        title={tx(`View ${modelName} specs on models page`)}
                                                     >
                                                         <div className="text-xs text-cyan-400 font-semibold mb-0.5">{t('cars.setting.model') || 'Driving Model'}</div>
                                                         <div className="font-bold text-slate-100 text-lg leading-tight group-hover/link:text-cyan-300 transition-colors flex items-center gap-1.5">
-                                                            <span>{modelName}</span>
+                                                            <span><TranslatedText text={modelName} /></span>
                                                             <span className="text-xs text-cyan-400/80 group-hover/link:text-cyan-300 transition-colors">↗</span>
                                                         </div>
                                                     </Link>
                                                     <Link
                                                         href={modelUrl}
                                                         className="text-2xl hover:scale-110 transition-transform"
-                                                        title={`View ${modelName} specs on models page`}
+                                                        title={tx(`View ${modelName} specs on models page`)}
                                                     >
                                                         🧠
                                                     </Link>
@@ -311,8 +310,8 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                                 <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-700/60">
                                                     {stat ? (
                                                         <div className="flex items-center gap-1.5 text-xs text-cyan-300 font-medium">
-                                                            <span>{stat.rank <= 5 ? '🔥' : '⚡'}</span>
-                                                            <span>{formatRouteCount(stat.routes)} {t('cars.fleetStats.routesLogged') || 'routes logged'}</span>
+                                                            <span><TranslatedText text={stat.rank <= 5 ? '🔥' : '⚡'} /></span>
+                                                            <span><TranslatedText text={formatRouteCount(stat.routes)} /> {t('cars.fleetStats.routesLogged') || 'routes logged'}</span>
                                                             <span className="text-[10px] text-slate-400">({t('cars.fleetStats.fleetRank') || 'Rank'} #{stat.rank})</span>
                                                         </div>
                                                     ) : (
@@ -321,7 +320,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                                     <Link
                                                         href={modelUrl}
                                                         className="text-[11px] text-cyan-400 hover:text-cyan-300 font-semibold inline-flex items-center gap-1 transition-colors px-1.5 py-0.5 rounded hover:bg-cyan-500/10"
-                                                        title={`View ${modelName} specs on models page`}
+                                                        title={tx(`View ${modelName} specs on models page`)}
                                                     >
                                                         <span>{t('cars.fleetStats.viewModel') || 'Specs'}</span>
                                                         <span>↗</span>
@@ -340,10 +339,10 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                     ].map((s, idx) => (
                                         <div key={idx} className="p-4 rounded-2xl bg-slate-800/30 border border-slate-700/50 flex items-center justify-between">
                                             <div>
-                                                <div className="text-xs text-slate-500 mb-0.5">{s.label}</div>
-                                                <div className="font-bold text-slate-100">{s.value}</div>
+                                                <div className="text-xs text-slate-500 mb-0.5"><TranslatedText text={s.label} /></div>
+                                                <div className="font-bold text-slate-100"><TranslatedText text={s.value} /></div>
                                             </div>
-                                            <span className="text-2xl">{s.icon}</span>
+                                            <span className="text-2xl"><TranslatedText text={s.icon} /></span>
                                         </div>
                                     ))}
                                 </div>
@@ -387,23 +386,22 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                             >
                                                 <div className="flex items-center justify-between text-xs mb-1.5">
                                                     <span className={`font-bold truncate ${isCurrent ? 'text-cyan-300' : 'text-slate-200'}`}>
-                                                        {cfg.name}
+                                                        <TranslatedText text={cfg.name} />
                                                     </span>
                                                     {stat && (
                                                         <span className="font-mono text-cyan-400 font-semibold text-xs shrink-0">
-                                                            {formatRouteCount(stat.routes)} routes
-                                                        </span>
+                                                            <TranslatedText text={formatRouteCount(stat.routes)} />  <TranslatedText text={"routes"} /> </span>
                                                     )}
                                                 </div>
                                                 <div className="flex items-center justify-between text-[11px] text-slate-400">
                                                     <span>
-                                                        Model:{' '}
+                                                         <TranslatedText text={"Model:"} /><TranslatedText text={' '} />
                                                         <Link
                                                             href={`/models?model=${modelNameToSlug(cfg.settings.drivingModel)}#${modelNameToSlug(cfg.settings.drivingModel)}`}
                                                             className="text-slate-300 hover:text-cyan-400 underline decoration-slate-600 hover:decoration-cyan-400 transition-colors font-bold inline-flex items-center gap-1"
-                                                            title={`View ${cfg.settings.drivingModel} specs`}
+                                                            title={tx(`View ${cfg.settings.drivingModel} specs`)}
                                                         >
-                                                            <span>{cfg.settings.drivingModel}</span>
+                                                            <span><TranslatedText text={cfg.settings.drivingModel} /></span>
                                                             <span className="text-[10px]">↗</span>
                                                         </Link>
                                                     </span>
@@ -434,7 +432,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                                     ))}
                                                 </div>
                                             </div>
-                                            <p className="text-slate-400 italic font-medium leading-relaxed">&quot;{review.comment}&quot;</p>
+                                            <p className="text-slate-400 italic font-medium leading-relaxed"><TranslatedText text={"\""} /><TranslatedText text={review.comment} /><TranslatedText text={"\""} /></p>
                                         </div>
                                     ))}
                                 </div>
@@ -449,19 +447,19 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                     <div className="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
                                         <div className="text-xs text-slate-500 mb-1">{t('cars.device') || 'Device'}</div>
                                         <div className="font-bold text-slate-100 flex items-center gap-2">
-                                            <span>📱</span> {currentVehicle.hardware.device}
+                                            <span>📱</span> <TranslatedText text={currentVehicle.hardware.device} />
                                         </div>
                                     </div>
                                     <div className="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
                                         <div className="text-xs text-slate-500 mb-1">{t('cars.harness') || 'Harness'}</div>
                                         <div className="font-bold text-slate-100 flex items-center gap-2">
-                                            <span>🔌</span> {currentVehicle.hardware.harness}
+                                            <span>🔌</span> <TranslatedText text={currentVehicle.hardware.harness} />
                                         </div>
                                     </div>
                                     <div className="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
                                         <div className="text-xs text-slate-500 mb-1">{t('cars.radar') || 'Radar'}</div>
                                         <div className="font-bold text-slate-100 flex items-center gap-2">
-                                            <span>📡</span> {currentVehicle.hardware.radar}
+                                            <span>📡</span> <TranslatedText text={currentVehicle.hardware.radar} />
                                         </div>
                                     </div>
                                 </div>
@@ -479,12 +477,12 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                                 <span>⚡</span> {t('cars.fleetStats.platformScale') || 'Platform Fleet Scale'}
                                             </h4>
                                             <span className="text-[11px] font-mono text-cyan-400 font-bold px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 shrink-0">
-                                                Rank #{brandStat.rank}
+                                                 <TranslatedText text={"Rank #"} />{brandStat.rank}
                                             </span>
                                         </div>
                                         <div className="flex items-baseline gap-2.5 mb-3 flex-wrap">
                                             <span className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
-                                                {formatDeviceCount(brandStat.totalDevices)}
+                                                <TranslatedText text={formatDeviceCount(brandStat.totalDevices)} />
                                             </span>
                                             <span className="text-xs text-slate-400 leading-snug">
                                                 {t('cars.fleetStats.activeDongles', { brand: fleet.groupName, pct: brandStat.sharePercent }) || `active ${fleet.groupName} dongles (${brandStat.sharePercent}% of fleet)`}
@@ -511,7 +509,7 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                                     return (
                                                         <div key={branch} className="text-xs">
                                                             <div className="flex justify-between text-[11px] mb-1">
-                                                                <span className="font-mono text-slate-300 font-medium">{branch}</span>
+                                                                <span className="font-mono text-slate-300 font-medium"><TranslatedText text={branch} /></span>
                                                                 <span className="text-slate-400 font-mono">{count} ({pct}%)</span>
                                                             </div>
                                                             <div className="w-full bg-slate-700/40 rounded-full h-1.5 overflow-hidden">

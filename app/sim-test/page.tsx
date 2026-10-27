@@ -1,4 +1,6 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+
 
 // TEST-ONLY page (not linked in nav): THREE-way comparison of the driving
 // simulator renderers.
@@ -67,13 +69,9 @@ export default function SimTestPage() {
     <div className="force-dark min-h-screen bg-slate-950 px-4 py-8 text-slate-100">
       <div className="mx-auto max-w-[1400px]">
         <h1 className="text-2xl font-semibold">
-          Simulator A/B/C — synthetic SVG vs unified renderer vs real modelV2
-        </h1>
+           <TranslatedText text={"Simulator A/B/C — synthetic SVG vs unified renderer vs real modelV2"} /> </h1>
         <p className="mt-1 text-sm text-slate-400">
-          Test-only page. Compare the old SVG simulator, the new unified renderer
-          (synthetic route → real openpilot math), and a real recorded{' '}
-          <code className="text-emerald-300">modelV2</code> stream.
-        </p>
+           <TranslatedText text="Test-only page. Compare the old SVG simulator, the new unified renderer (synthetic route → real openpilot math), and a real recorded modelV2 stream." /> </p>
 
         {/* Model selector */}
         <div className="mt-4 flex flex-wrap gap-2">
@@ -87,14 +85,14 @@ export default function SimTestPage() {
                   : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
               }`}
             >
-              {m.name}
+              <TranslatedText text={m.name} />
             </button>
           ))}
         </div>
 
         {/* Scenario override */}
         <div className="mt-3 flex flex-wrap items-center gap-2">
-          <span className="text-[11px] text-slate-500 uppercase tracking-wider">Scenario:</span>
+          <span className="text-[11px] text-slate-500 uppercase tracking-wider"><TranslatedText text={"Scenario:"} /></span>
           <button
             onClick={() => setScenarioOverride(null)}
             className={`rounded-full px-2.5 py-1 text-[11px] font-medium transition ${
@@ -103,8 +101,7 @@ export default function SimTestPage() {
                 : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
             }`}
           >
-            Auto
-          </button>
+             <TranslatedText text={"Auto"} /> </button>
           {SCENARIO_OPTIONS.map((s) => (
             <button
               key={s.key}
@@ -115,7 +112,7 @@ export default function SimTestPage() {
                   : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
               }`}
             >
-              {s.label}
+              <TranslatedText text={s.label} />
             </button>
           ))}
         </div>
@@ -125,9 +122,8 @@ export default function SimTestPage() {
           <section>
             <div className="mb-2 flex items-center gap-2">
               <span className="rounded bg-amber-500/20 px-2 py-0.5 text-xs font-semibold text-amber-300">
-                OLD · SVG synthetic
-              </span>
-              <span className="text-xs text-slate-500">{model.name}</span>
+                 <TranslatedText text={"OLD · SVG synthetic"} /> </span>
+              <span className="text-xs text-slate-500"><TranslatedText text={model.name} /></span>
             </div>
             <div className="aspect-video overflow-hidden rounded-xl border border-slate-800">
               <DriveSimulation
@@ -137,18 +133,15 @@ export default function SimTestPage() {
               />
             </div>
             <p className="mt-2 text-xs text-slate-500">
-              Path/lanes generated from text-derived parameters (smoothness, wobble, offset).
-              Custom SVG perspective rendering.
-            </p>
+               <TranslatedText text={"Path/lanes generated from text-derived parameters (smoothness, wobble, offset). Custom SVG perspective rendering."} /> </p>
           </section>
 
           {/* NEW: Unified renderer (synthetic route → real openpilot math) */}
           <section>
             <div className="mb-2 flex items-center gap-2">
               <span className="rounded bg-cyan-500/20 px-2 py-0.5 text-xs font-semibold text-cyan-300">
-                NEW · unified renderer
-              </span>
-              <span className="text-xs text-slate-500">{model.name}</span>
+                 <TranslatedText text={"NEW · unified renderer"} /> </span>
+              <span className="text-xs text-slate-500"><TranslatedText text={model.name} /></span>
             </div>
             <div className="aspect-video overflow-hidden rounded-xl border border-cyan-800/40">
               <UnifiedDriveSimulation
@@ -158,27 +151,21 @@ export default function SimTestPage() {
               />
             </div>
             <p className="mt-2 text-xs text-slate-500">
-              Same synthetic route, but rendered through openpilot&apos;s real
-              <code className="text-cyan-300"> calcFrameMatrix</code> →{' '}
-              <code className="text-cyan-300">drawModelRenderFrame</code> pipeline.
-            </p>
+               <TranslatedText text="The same synthetic route is rendered through openpilot's real calcFrameMatrix → drawModelRenderFrame pipeline." /> </p>
           </section>
 
           {/* REAL: modelV2 replay */}
           <section>
             <div className="mb-2 flex items-center gap-2">
               <span className="rounded bg-emerald-500/20 px-2 py-0.5 text-xs font-semibold text-emerald-300">
-                REAL · recorded modelV2
-              </span>
-              <span className="text-xs text-slate-500">recorded route</span>
+                 <TranslatedText text={"REAL · recorded modelV2"} /> </span>
+              <span className="text-xs text-slate-500"><TranslatedText text={"recorded route"} /></span>
             </div>
             <div className="aspect-video overflow-hidden rounded-xl border border-slate-800">
               <RealModelSimulation src="/sim/demo_route.json" />
             </div>
             <p className="mt-2 text-xs text-slate-500">
-              Real predicted path, lane lines and road edges from a recorded openpilot drive,
-              projected through the same renderer.
-            </p>
+               <TranslatedText text={"Real predicted path, lane lines and road edges from a recorded openpilot drive, projected through the same renderer."} /> </p>
           </section>
         </div>
       </div>

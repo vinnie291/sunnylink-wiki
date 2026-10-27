@@ -1,0 +1,979 @@
+{
+  "lastScanAt": "2026-10-16T19:10:49.199Z",
+  "timezone": "America/New_York",
+  "lastReport": "docs/weekly-audits/2026-10-16.md",
+  "status": "deployed_verified",
+  "deployed": true,
+  "baselineScope": "Latest forum and documentation indexes, selected recent discussions, model manifest and poll snapshots, GitHub release/PR/issue/commit indexes, and upstream vehicle table",
+  "sourceHeads": {
+    "sunnypilotMaster": "27c132984df60e9ef42ebd1a805738b8c851356f",
+    "sunnypilotDev": "a77bb6660ae19e12ef0313b0599934eb391e3f35",
+    "sunnypilotStaging": "5fb421d045b6fd1f862886c00b1ad8ab939202bc",
+    "modelRepository": "da2d8dac5f77e3a6f72fefbfb14edea3555f05f6",
+    "documentation": "c34b63208cdb7bcbef389cf90b3c15e38221a8bc"
+  },
+  "pendingBatches": [],
+  "nextRunNotes": [
+    "October 16 plus October 25 model batch deployed and verified at revision sunnylink-wiki-service-refresh-20261025-47b520. Use the October 25 deployment patch and build source as the production baseline; other local user changes remain unpublished. Future batches require fresh approval.",
+    "DEC was removed from master and inspected dev by #2056; inspected staging still retains it. Preserve older-build context and do not automatically recommend DEC without knowing the branch.",
+    "Audio proposal commaai/agnos-builder#633 is open; no universal released fix established.",
+    "Discord archive ends April 5, 2026; it is not current feedback.",
+    "Car table from upstream is byte-identical to the previous scan; do not convert experimental ccNC reports into stable support claims.",
+    "Model-only scan October 25: inspected master/dev/staging now selector 21, Chestnut v28, Qualcomm v25; default big model Mountain Dew v3. The broad weekly scan date remains October 16.",
+    "Train Track and Flip Flop bring the local catalog to 134. Newly verified maintainer topics 7608/7619/7620 have zero overall votes and explicitly require comma four plus Chestnut, excluding comma 3X for now. Do not invent performance evidence."
+  ],
+  "approval": "User instruction: deploy, approving the combined October 16 and October 25 batch",
+  "deploymentBaseline": {
+    "revision": "sunnylink-wiki-service-refresh-20261003-ed9f9f",
+    "buildId": "ed9f9f44-4ed4-486a-afc4-9435c03c3f6c",
+    "date": "2026-10-03",
+    "patch": "docs/weekly-audits/2026-10-09.deployment.patch"
+  },
+  "deployedAt": "2026-10-26T02:51:44.721263Z",
+  "deployment": {
+    "batch": "2026-10-25-combined",
+    "includes": [
+      "2026-10-16",
+      "2026-10-25-models"
+    ],
+    "status": "deployed_verified",
+    "approvedBy": "User instructions: deploy, then proceed",
+    "site": "https://sunnylink.wiki",
+    "project": "sunnylink-wiki",
+    "region": "us-central1",
+    "service": "sunnylink-wiki-service",
+    "buildId": "47b520f9-3b73-4236-bc0a-16ce10436211",
+    "previousRevision": "sunnylink-wiki-service-refresh-20261009-a29313",
+    "baselineBuildId": "a2931319-dd52-4173-8306-98828572b842",
+    "previousDeploymentRecord": "docs/weekly-audits/2026-10-09.deployment.json",
+    "deploymentPatch": "docs/weekly-audits/2026-10-25.deployment.patch",
+    "adaptations": {
+      "adaptations": [
+        {
+          "field": "data/models.json.vibeGuide.chestnut_gpu.vibe",
+          "reason": "Preserved deployed introduction and replaced only model-management segment; unpublished runtime paragraphs excluded."
+        },
+        {
+          "field": "data/features.json.features.model_runtime_startup",
+          "reason": "Added only the approved updated runtime-startup card, which was absent from production."
+        },
+        {
+          "field": "data/models.ko.json.vibeGuide.chestnut_gpu.vibe",
+          "reason": "Preserved deployed introduction and replaced only model-management segment; unpublished runtime paragraphs excluded."
+        },
+        {
+          "field": "data/features.ko.json.features.dec.officialDefinition",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/features.ko.json.features.dec.userSummary",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/features.ko.json.features.dec.userTranslation",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/features.ko.json.features.model_runtime_startup",
+          "reason": "Added only the approved updated runtime-startup card, which was absent from production."
+        },
+        {
+          "field": "data/features.ko.json.glossary.DEC",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/toggles.ko.json.categories.steering.settings.DynamicExperimentalControl.useCase",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/toggles.ko.json.categories.steering.settings.DynamicExperimentalControl.deepDive",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/models.zh.json.vibeGuide.chestnut_gpu.vibe",
+          "reason": "Preserved deployed introduction and replaced only model-management segment; unpublished runtime paragraphs excluded."
+        },
+        {
+          "field": "data/features.zh.json.features.dec.officialDefinition",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/features.zh.json.features.dec.userSummary",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/features.zh.json.features.dec.userTranslation",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/features.zh.json.features.model_runtime_startup",
+          "reason": "Added only the approved updated runtime-startup card, which was absent from production."
+        },
+        {
+          "field": "data/features.zh.json.glossary.DEC",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/toggles.zh.json.categories.steering.settings.DynamicExperimentalControl.description",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/toggles.zh.json.categories.steering.settings.DynamicExperimentalControl.useCase",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/toggles.zh.json.categories.steering.settings.DynamicExperimentalControl.deepDive",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/toggles.zh.json.categories.steering.settings.DynamicExperimentalControl.userNote",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/models.fr.json.vibeGuide.chestnut_gpu.vibe",
+          "reason": "Preserved deployed introduction and replaced only model-management segment; unpublished runtime paragraphs excluded."
+        },
+        {
+          "field": "data/features.fr.json.features.dec.officialDefinition",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/features.fr.json.features.dec.userSummary",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/features.fr.json.features.dec.userTranslation",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/features.fr.json.features.model_runtime_startup",
+          "reason": "Added only the approved updated runtime-startup card, which was absent from production."
+        },
+        {
+          "field": "data/features.fr.json.glossary.DEC",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/toggles.fr.json.categories.steering.settings.DynamicExperimentalControl.useCase",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/toggles.fr.json.categories.steering.settings.DynamicExperimentalControl.deepDive",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/models.de.json.vibeGuide.chestnut_gpu.vibe",
+          "reason": "Preserved deployed introduction and replaced only model-management segment; unpublished runtime paragraphs excluded."
+        },
+        {
+          "field": "data/features.de.json.features.dec.officialDefinition",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/features.de.json.features.dec.userSummary",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/features.de.json.features.dec.userTranslation",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/features.de.json.features.model_runtime_startup",
+          "reason": "Added only the approved updated runtime-startup card, which was absent from production."
+        },
+        {
+          "field": "data/features.de.json.glossary.DEC",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/toggles.de.json.categories.steering.settings.DynamicExperimentalControl.useCase",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/toggles.de.json.categories.steering.settings.DynamicExperimentalControl.deepDive",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/models.es.json.vibeGuide.chestnut_gpu.vibe",
+          "reason": "Preserved deployed introduction and replaced only model-management segment; unpublished runtime paragraphs excluded."
+        },
+        {
+          "field": "data/features.es.json.features.dec.officialDefinition",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/features.es.json.features.dec.userSummary",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/features.es.json.features.dec.userTranslation",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/features.es.json.features.model_runtime_startup",
+          "reason": "Added only the approved updated runtime-startup card, which was absent from production."
+        },
+        {
+          "field": "data/features.es.json.glossary.DEC",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/toggles.es.json.categories.steering.settings.DynamicExperimentalControl.useCase",
+          "reason": "Applied approved replacement to older deployed wording."
+        },
+        {
+          "field": "data/toggles.es.json.categories.steering.settings.DynamicExperimentalControl.deepDive",
+          "reason": "Applied approved replacement to older deployed wording."
+        }
+      ],
+      "translationKeys": [
+        "content.fc0681438b1b",
+        "content.120a019dd418",
+        "content.7f68f41a61cb",
+        "content.3556c2fdb03d",
+        "content.1429b85c93d3",
+        "content.7a8b08692e2e",
+        "content.388d32485bf6",
+        "content.6d043f46fdf6",
+        "content.6e8d1bdbce27",
+        "content.163fb8300cd6",
+        "content.9e2e02a27687",
+        "content.940def03d2a7",
+        "content.acb24bbbc07c",
+        "content.5ce6409c775b",
+        "content.d49b775b36e4",
+        "content.2523a7f769bd",
+        "content.61b629644d41",
+        "content.6a170c189509",
+        "content.a42d426331ad",
+        "content.18aa1ccb8a20",
+        "content.f03773b9dc12"
+      ],
+      "adaptedVibeKey": "content.58119312519a",
+      "scope": "Approved combined October 16 and October 25 data plus wizard change only. Unchanged unpublished data fields and unrelated features excluded."
+    },
+    "checks": {
+      "releaseBuild": "passed with webpack; type checking and 21 static pages",
+      "releaseTests": "2 passed; model links and vote evidence regression",
+      "translations": "all five locales match English; 512 keys",
+      "data": "134 unique models per language; four additions and no invented ratings",
+      "lint": "identical baseline diagnostics: 46 errors and 41 warnings",
+      "scope": "only 26 approved source files differ from the exact production source",
+      "patch": "dry application passed against exact production source",
+      "pollSnapshots": "No duplicate question names; local runtime confirms Macrostiff 34 voters and Terrible Super Fantastic 3 voters",
+      "cloudBuild": "SUCCESS",
+      "preview": "Seven pages, 134 runtime models, model settings and poll counts passed",
+      "live": "Seven pages, 134 runtime models, model settings and poll counts passed",
+      "runtimeSettings": "preserved from previous production revision"
+    },
+    "files": [
+      {
+        "path": "data/models.json",
+        "sha256": "dde3504e3f9d8d3c444e3f8e6232928b752f8f405e18f2ace79a9481bf9029e7"
+      },
+      {
+        "path": "data/features.json",
+        "sha256": "8621fbdd5de248e88f8989d7d715dcdeb31daef83709da4bb863253edad7f618"
+      },
+      {
+        "path": "data/toggles.json",
+        "sha256": "211551fe6520e22e8fbf126cb39fb392877d29f271b7a9c83a4b374d6ce1ae09"
+      },
+      {
+        "path": "data/models.ko.json",
+        "sha256": "49bcdc04213c4ada10c02dac8fe48330287fa3e4efa022245d48cbedb028d489"
+      },
+      {
+        "path": "data/features.ko.json",
+        "sha256": "d799679816cfdcadf531d633866d03ec8b9678ed96b36aea2fcbacc9192e7961"
+      },
+      {
+        "path": "data/toggles.ko.json",
+        "sha256": "b9b347ec19ba40d18308f9e1534e67c8d012d2d4e58b4227c1926a7613804c30"
+      },
+      {
+        "path": "data/models.zh.json",
+        "sha256": "4c6058c2d10ea760f8b7cce16e054dd5fad8ce649e265affb2b3231a7af66a26"
+      },
+      {
+        "path": "data/features.zh.json",
+        "sha256": "788fef67ca057ce6aba164cb0777b8f79d3b4f4e5653f8ab0d12a7509586723e"
+      },
+      {
+        "path": "data/toggles.zh.json",
+        "sha256": "72836859950de97f07e055fb89c413027d9560a6bb11409d3bfae29a3acb511e"
+      },
+      {
+        "path": "data/models.fr.json",
+        "sha256": "59de0faab554bc7489245ddb20a091ea7cf278ce52ab6dff0dee38720de19c0c"
+      },
+      {
+        "path": "data/features.fr.json",
+        "sha256": "04cf3aed3de3ef24b0d4c2473eee706ece36c0b80a56fd723bff082d61755640"
+      },
+      {
+        "path": "data/toggles.fr.json",
+        "sha256": "54d9852368e5e9bd988704f0d590834d706e7fafcff1806fabec509e8939241c"
+      },
+      {
+        "path": "data/models.de.json",
+        "sha256": "4a3a75a5e3d50929a12150ac019825acfe3a0ced955ddd47791f22f47351b946"
+      },
+      {
+        "path": "data/features.de.json",
+        "sha256": "dbfb9fc550ec355a8f77ef3ec3d0a807a41a3b64361bbba943776ec5e9a6e30e"
+      },
+      {
+        "path": "data/toggles.de.json",
+        "sha256": "7a14f1507cb825a1001e0ff644e496b664f0f1e6e73a299198bcbf8e43028210"
+      },
+      {
+        "path": "data/models.es.json",
+        "sha256": "b9f0a718fdd4faa7304992ecfd12528b2c129991a187ec0f19be6d74c043b552"
+      },
+      {
+        "path": "data/features.es.json",
+        "sha256": "eea73a4d0b999df8baa53c76a035b451bab9e35e74376204d28c8e8b3d47c823"
+      },
+      {
+        "path": "data/toggles.es.json",
+        "sha256": "8c4d957112a7278c3133194a4f07d1474395221f70c487e174ce0ae2dc10709a"
+      },
+      {
+        "path": "locales/en.json",
+        "sha256": "82c43bbddd337c4d4a7f93e71c395542744370a4a088d198a7a63e2019bcf6cf"
+      },
+      {
+        "path": "locales/ko.json",
+        "sha256": "067a9311e863d9b03322f20779ab5fc12eb6747ca6eec5bca3c123bbb7e4ec7a"
+      },
+      {
+        "path": "locales/zh.json",
+        "sha256": "988fa90a249fb9cd355e7d09553bd2abc188dffc37eb54d6b3c1f36801c431e8"
+      },
+      {
+        "path": "locales/fr.json",
+        "sha256": "b39c48690d60272ffa039c1a3be6d15483d22f770368c7ff458b42215e9b3358"
+      },
+      {
+        "path": "locales/de.json",
+        "sha256": "e70336707a382658cb55090fe3110dfcd04fc4183ecf2b17519e153e64ebe58d"
+      },
+      {
+        "path": "locales/es.json",
+        "sha256": "45a3e0aa3f9c6084c4acd0ad82b292c4faa37fa6df20f759d78bdf7e7e770fe3"
+      },
+      {
+        "path": "data/discourse_polls.json",
+        "sha256": "6b8a5b86b9064adec853bb4df31fb86c68124bded4713b2d971cf599ec0f2ba6"
+      },
+      {
+        "path": "components/SetupWizard.tsx",
+        "sha256": "8da114a49d96daa3ffde4a64d57440e0628ab39adeec005fa77697c583426271"
+      }
+    ],
+    "supersededBuildId": "2b8ffd6d-138a-4f30-950e-555af83a080b",
+    "supersededPreviewRevision": "sunnylink-wiki-service-refresh-20261025-2b8ffd",
+    "previewCorrection": "Preview detected duplicate old/new poll questions in the production adapter. Corrected to replace each changed source snapshot atomically. Five approved poll updates now match exactly; unchanged production snapshots are preserved.",
+    "deployedAt": "2026-10-26T02:51:44.721263Z",
+    "verifiedAt": "2026-10-26T02:51:44.721263Z",
+    "revision": "sunnylink-wiki-service-refresh-20261025-47b520",
+    "trafficPercent": 100,
+    "image": "gcr.io/sunnylink-wiki/wiki-app@sha256:711d3bccd2996ae393862455af102c5add98dbfdbc6faa77e00f8e047736fc46",
+    "buildSource": {
+      "storageSource": {
+        "bucket": "sunnylink-wiki_cloudbuild",
+        "generation": "1792979949165075",
+        "object": "source/1792979943.274072-17a1302a32104faf9806b21db79920f2.tgz"
+      }
+    },
+    "deploymentPatchSha256": "916ad56afb2ba65948a4684435204f6b3fcdbc04f6614c7bed5701196c360cc1",
+    "previewCheckRecord": "docs/weekly-audits/2026-10-25.preview-checks.json",
+    "liveCheckRecord": "docs/weekly-audits/2026-10-25.live-checks.json"
+  },
+  "lastDeploymentRecord": "docs/weekly-audits/2026-10-25.deployment.json",
+  "lastSuccessfulCoverage": {
+    "date": "2026-10-16",
+    "sources": "docs/weekly-audits/2026-10-16.sources.json",
+    "requests": 138,
+    "successfulRequests": 137,
+    "pollTopics": 50,
+    "scope": "Current indexes, changes since October 9, selected relevant PRs/settings/vehicle discussions, all 50 stored model poll topics; not an exhaustive historical review"
+  },
+  "lastModelScanAt": "2026-10-26T00:39:15.663Z",
+  "lastModelReport": "docs/weekly-audits/2026-10-25-models.md",
+  "modelSourceHeads": {
+    "modelRepository": "022c30df830b8336b64b06e094058e2237b0db2a",
+    "branches": {
+      "master": "861fd118a1fe4ffec2283208456032b3616da968",
+      "dev": "3ca46d505ced38802e2fa084bedd5a26e8eab308",
+      "staging": "2cd73045c072695780f699c9167f1870f6309ac4"
+    }
+  },
+  "previousDeployment": {
+    "batch": "2026-10-09",
+    "status": "deployed_verified",
+    "approvedBy": "User instruction on October 10: do it, responding to approval request for October 9 batch",
+    "site": "https://sunnylink.wiki",
+    "project": "sunnylink-wiki",
+    "region": "us-central1",
+    "service": "sunnylink-wiki-service",
+    "buildId": "a2931319-dd52-4173-8306-98828572b842",
+    "previousRevision": "sunnylink-wiki-service-refresh-20261003-ed9f9f",
+    "baselineBuildId": "ed9f9f44-4ed4-486a-afc4-9435c03c3f6c",
+    "isolation": {
+      "approvedBatch": "2026-10-09",
+      "changes": [
+        "data/models.json.lastUpdated",
+        "data/models.json.vibeGuide.chestnut_gpu.vibe",
+        "data/models.json.vibeGuide.chestnut_gpu.recommendation",
+        "data/models.json.categories.1.models.0.note",
+        "data/models.json.categories.1.models.1.note",
+        "data/models.json.categories.2.models.24.communityScore",
+        "data/models.json.categories.2.models.24.totalVotes",
+        "data/models.json.categories.2.models.24.sentiment.great",
+        "data/models.json.categories.2.models.24.sentiment.good",
+        "data/models.json.categories.2.models.24.sentiment.ok",
+        "data/models.json.categories.2.models.24.sentiment.bad",
+        "data/models.json.categories.2.models.25.communityScore",
+        "data/models.json.categories.2.models.25.totalVotes",
+        "data/models.json.categories.2.models.25.sentiment.great",
+        "data/models.json.categories.2.models.25.sentiment.good",
+        "data/models.json.categories.2.models.25.sentiment.ok",
+        "data/features.json.lastUpdated",
+        "data/features.json.features.15.userTranslation",
+        "data/toggles.json.categories.0.settings.3.userNote",
+        "data/toggles.json.categories.0.settings.4.description",
+        "data/toggles.json.categories.0.settings.5.deepDive",
+        "data/toggles.json.lastUpdated",
+        "data/models.ko.json.lastUpdated",
+        "data/models.ko.json.vibeGuide.chestnut_gpu.vibe",
+        "data/models.ko.json.vibeGuide.chestnut_gpu.recommendation",
+        "data/models.ko.json.categories.1.models.0.note",
+        "data/models.ko.json.categories.1.models.1.note",
+        "data/models.ko.json.categories.2.models.24.communityScore",
+        "data/models.ko.json.categories.2.models.24.totalVotes",
+        "data/models.ko.json.categories.2.models.24.sentiment.great",
+        "data/models.ko.json.categories.2.models.24.sentiment.good",
+        "data/models.ko.json.categories.2.models.24.sentiment.ok",
+        "data/models.ko.json.categories.2.models.24.sentiment.bad",
+        "data/models.ko.json.categories.2.models.25.communityScore",
+        "data/models.ko.json.categories.2.models.25.totalVotes",
+        "data/models.ko.json.categories.2.models.25.sentiment.great",
+        "data/models.ko.json.categories.2.models.25.sentiment.good",
+        "data/models.ko.json.categories.2.models.25.sentiment.ok",
+        "data/features.ko.json.lastUpdated",
+        "data/features.ko.json.features.15.userTranslation",
+        "data/toggles.ko.json.categories.0.settings.3.userNote",
+        "data/toggles.ko.json.categories.0.settings.4.description",
+        "data/toggles.ko.json.categories.0.settings.5.deepDive",
+        "data/toggles.ko.json.lastUpdated",
+        "data/models.zh.json.lastUpdated",
+        "data/models.zh.json.vibeGuide.chestnut_gpu.vibe",
+        "data/models.zh.json.vibeGuide.chestnut_gpu.recommendation",
+        "data/models.zh.json.categories.1.models.0.note",
+        "data/models.zh.json.categories.1.models.1.note",
+        "data/models.zh.json.categories.2.models.24.communityScore",
+        "data/models.zh.json.categories.2.models.24.totalVotes",
+        "data/models.zh.json.categories.2.models.24.sentiment.great",
+        "data/models.zh.json.categories.2.models.24.sentiment.good",
+        "data/models.zh.json.categories.2.models.24.sentiment.ok",
+        "data/models.zh.json.categories.2.models.24.sentiment.bad",
+        "data/models.zh.json.categories.2.models.25.communityScore",
+        "data/models.zh.json.categories.2.models.25.totalVotes",
+        "data/models.zh.json.categories.2.models.25.sentiment.great",
+        "data/models.zh.json.categories.2.models.25.sentiment.good",
+        "data/models.zh.json.categories.2.models.25.sentiment.ok",
+        "data/features.zh.json.lastUpdated",
+        "data/features.zh.json.features.15.userTranslation",
+        "data/toggles.zh.json.categories.0.settings.3.userNote",
+        "data/toggles.zh.json.categories.0.settings.4.description",
+        "data/toggles.zh.json.categories.0.settings.5.deepDive",
+        "data/toggles.zh.json.lastUpdated",
+        "data/models.fr.json.lastUpdated",
+        "data/models.fr.json.vibeGuide.chestnut_gpu.vibe",
+        "data/models.fr.json.vibeGuide.chestnut_gpu.recommendation",
+        "data/models.fr.json.categories.1.models.0.note",
+        "data/models.fr.json.categories.1.models.1.note",
+        "data/models.fr.json.categories.2.models.24.communityScore",
+        "data/models.fr.json.categories.2.models.24.totalVotes",
+        "data/models.fr.json.categories.2.models.24.sentiment.great",
+        "data/models.fr.json.categories.2.models.24.sentiment.good",
+        "data/models.fr.json.categories.2.models.24.sentiment.ok",
+        "data/models.fr.json.categories.2.models.24.sentiment.bad",
+        "data/models.fr.json.categories.2.models.25.communityScore",
+        "data/models.fr.json.categories.2.models.25.totalVotes",
+        "data/models.fr.json.categories.2.models.25.sentiment.great",
+        "data/models.fr.json.categories.2.models.25.sentiment.good",
+        "data/models.fr.json.categories.2.models.25.sentiment.ok",
+        "data/features.fr.json.lastUpdated",
+        "data/features.fr.json.features.15.userTranslation",
+        "data/toggles.fr.json.categories.0.settings.3.userNote",
+        "data/toggles.fr.json.categories.0.settings.4.description",
+        "data/toggles.fr.json.categories.0.settings.5.deepDive",
+        "data/toggles.fr.json.lastUpdated",
+        "data/models.de.json.lastUpdated",
+        "data/models.de.json.vibeGuide.chestnut_gpu.vibe",
+        "data/models.de.json.vibeGuide.chestnut_gpu.recommendation",
+        "data/models.de.json.categories.1.models.0.note",
+        "data/models.de.json.categories.1.models.1.note",
+        "data/models.de.json.categories.2.models.24.communityScore",
+        "data/models.de.json.categories.2.models.24.totalVotes",
+        "data/models.de.json.categories.2.models.24.sentiment.great",
+        "data/models.de.json.categories.2.models.24.sentiment.good",
+        "data/models.de.json.categories.2.models.24.sentiment.ok",
+        "data/models.de.json.categories.2.models.24.sentiment.bad",
+        "data/models.de.json.categories.2.models.25.communityScore",
+        "data/models.de.json.categories.2.models.25.totalVotes",
+        "data/models.de.json.categories.2.models.25.sentiment.great",
+        "data/models.de.json.categories.2.models.25.sentiment.good",
+        "data/models.de.json.categories.2.models.25.sentiment.ok",
+        "data/features.de.json.lastUpdated",
+        "data/features.de.json.features.15.userTranslation",
+        "data/toggles.de.json.categories.0.settings.3.userNote",
+        "data/toggles.de.json.categories.0.settings.4.description",
+        "data/toggles.de.json.categories.0.settings.5.deepDive",
+        "data/toggles.de.json.lastUpdated",
+        "data/models.es.json.lastUpdated",
+        "data/models.es.json.vibeGuide.chestnut_gpu.vibe",
+        "data/models.es.json.vibeGuide.chestnut_gpu.recommendation",
+        "data/models.es.json.categories.1.models.0.note",
+        "data/models.es.json.categories.1.models.1.note",
+        "data/models.es.json.categories.2.models.24.communityScore",
+        "data/models.es.json.categories.2.models.24.totalVotes",
+        "data/models.es.json.categories.2.models.24.sentiment.great",
+        "data/models.es.json.categories.2.models.24.sentiment.good",
+        "data/models.es.json.categories.2.models.24.sentiment.ok",
+        "data/models.es.json.categories.2.models.24.sentiment.bad",
+        "data/models.es.json.categories.2.models.25.communityScore",
+        "data/models.es.json.categories.2.models.25.totalVotes",
+        "data/models.es.json.categories.2.models.25.sentiment.great",
+        "data/models.es.json.categories.2.models.25.sentiment.good",
+        "data/models.es.json.categories.2.models.25.sentiment.ok",
+        "data/features.es.json.lastUpdated",
+        "data/features.es.json.features.15.userTranslation",
+        "data/toggles.es.json.categories.0.settings.3.userNote",
+        "data/toggles.es.json.categories.0.settings.4.description",
+        "data/toggles.es.json.categories.0.settings.5.deepDive",
+        "data/toggles.es.json.lastUpdated",
+        "data/discourse_polls.json.RDF Model v2.polls.0.voters",
+        "data/discourse_polls.json.RDF Model v2.polls.0.options.1.votes",
+        "data/discourse_polls.json.RDF Model v2.updatedAt",
+        "data/discourse_polls.json.RDF Model.polls.0.voters",
+        "data/discourse_polls.json.RDF Model.polls.0.options.2.votes",
+        "data/discourse_polls.json.RDF Model.updatedAt"
+      ],
+      "adapted": [
+        {
+          "field": "data/models.json.vibeGuide.chestnut_gpu.vibe",
+          "reason": "Preserve deployed introduction; append only the approved updated model-management segment."
+        },
+        {
+          "field": "data/features.json.features.15.userTranslation",
+          "reason": "Apply the approved replacement to the older deployed wording."
+        },
+        {
+          "field": "data/toggles.json.categories.0.settings.5.deepDive",
+          "reason": "Apply the approved replacement to the older deployed wording."
+        },
+        {
+          "field": "data/models.ko.json.vibeGuide.chestnut_gpu.vibe",
+          "reason": "Preserve deployed introduction; append only the approved updated model-management segment."
+        },
+        {
+          "field": "data/features.ko.json.features.15.userTranslation",
+          "reason": "Apply the approved replacement to the older deployed wording."
+        },
+        {
+          "field": "data/toggles.ko.json.categories.0.settings.5.deepDive",
+          "reason": "Apply the approved replacement to the older deployed wording."
+        },
+        {
+          "field": "data/models.zh.json.vibeGuide.chestnut_gpu.vibe",
+          "reason": "Preserve deployed introduction; append only the approved updated model-management segment."
+        },
+        {
+          "field": "data/features.zh.json.features.15.userTranslation",
+          "reason": "Apply the approved replacement to the older deployed wording."
+        },
+        {
+          "field": "data/toggles.zh.json.categories.0.settings.3.userNote",
+          "reason": "Apply the approved replacement to the older deployed wording."
+        },
+        {
+          "field": "data/toggles.zh.json.categories.0.settings.4.description",
+          "reason": "Apply the approved replacement to the older deployed wording."
+        },
+        {
+          "field": "data/toggles.zh.json.categories.0.settings.5.deepDive",
+          "reason": "Apply the approved replacement to the older deployed wording."
+        },
+        {
+          "field": "data/models.fr.json.vibeGuide.chestnut_gpu.vibe",
+          "reason": "Preserve deployed introduction; append only the approved updated model-management segment."
+        },
+        {
+          "field": "data/features.fr.json.features.15.userTranslation",
+          "reason": "Apply the approved replacement to the older deployed wording."
+        },
+        {
+          "field": "data/toggles.fr.json.categories.0.settings.5.deepDive",
+          "reason": "Apply the approved replacement to the older deployed wording."
+        },
+        {
+          "field": "data/models.de.json.vibeGuide.chestnut_gpu.vibe",
+          "reason": "Preserve deployed introduction; append only the approved updated model-management segment."
+        },
+        {
+          "field": "data/features.de.json.features.15.userTranslation",
+          "reason": "Apply the approved replacement to the older deployed wording."
+        },
+        {
+          "field": "data/toggles.de.json.categories.0.settings.5.deepDive",
+          "reason": "Apply the approved replacement to the older deployed wording."
+        },
+        {
+          "field": "data/models.es.json.vibeGuide.chestnut_gpu.vibe",
+          "reason": "Preserve deployed introduction; append only the approved updated model-management segment."
+        },
+        {
+          "field": "data/features.es.json.features.15.userTranslation",
+          "reason": "Apply the approved replacement to the older deployed wording."
+        },
+        {
+          "field": "data/toggles.es.json.categories.0.settings.5.deepDive",
+          "reason": "Apply the approved replacement to the older deployed wording."
+        }
+      ],
+      "adaptedVibeKey": "content.d1c4768bf6a8",
+      "reason": "Only approved leaf updates and code patch applied to exact October 3 source; unchanged unpublished runtime notes, introductory rewrites and other workspace work excluded."
+    },
+    "deploymentPatch": "docs/weekly-audits/2026-10-09.deployment.patch",
+    "checks": {
+      "releaseBuild": "passed with webpack; type checks and 21 static pages",
+      "releaseTests": "2 passed: model links and vote evidence/count regression",
+      "translations": "all five locales match English; 490 keys each",
+      "dataStructures": "existing production structures preserved; only approved field updates applied",
+      "lint": "unchanged baseline: 46 errors, 41 warnings",
+      "newTestLint": "passed",
+      "deploymentPatch": "dry application passed against exact October 3 production source",
+      "cloudBuild": "SUCCESS; default Turbopack build, type checking and 21 static pages",
+      "serviceConfiguration": "unchanged apart from image and traffic/revision metadata",
+      "hostedPreview": {
+        "origin": "https://refresh-20261009---sunnylink-wiki-service-gowsuvx36a-uc.a.run.app",
+        "checkedAt": "2026-10-10T13:48:45.366Z",
+        "results": [
+          {
+            "path": "/cars",
+            "status": 200,
+            "bytes": 31358
+          },
+          {
+            "path": "/",
+            "status": 200,
+            "bytes": 477691
+          },
+          {
+            "path": "/models",
+            "status": 200,
+            "bytes": 306881
+          },
+          {
+            "path": "/features",
+            "status": 200,
+            "bytes": 530711
+          },
+          {
+            "path": "/api/wiki-data?type=models&vibe=chestnut_gpu",
+            "status": 200,
+            "bytes": 1515
+          },
+          {
+            "path": "/api/wiki-data?type=settings&search=ModelLibrary",
+            "status": 200,
+            "bytes": 284
+          },
+          {
+            "path": "/stats",
+            "status": 200,
+            "bytes": 35785
+          },
+          {
+            "path": "/wizard",
+            "status": 200,
+            "bytes": 30415
+          },
+          {
+            "path": "/api/models/vote?model=Cinque%20Terre%20V3%20Model",
+            "status": 200,
+            "bytes": 640
+          },
+          {
+            "path": "/api/models/vote?model=RDF%20Model",
+            "status": 200,
+            "bytes": 661
+          },
+          {
+            "path": "/api/models/vote?model=RDF%20Model%20v2",
+            "status": 200,
+            "bytes": 650
+          }
+        ],
+        "checks": [
+          "Six main pages respond",
+          "Master selector/catalog status and open v24 proposal",
+          "130 documented model setting",
+          "V3 rating and option counts agree",
+          "RDF poll snapshots contain at least 45 and 19 votes"
+        ],
+        "modelStats": [
+          {
+            "model": "Cinque Terre V3 Model",
+            "score": 0,
+            "votes": 0,
+            "pollVoters": 0,
+            "optionVotes": 0
+          },
+          {
+            "model": "RDF Model",
+            "score": 75,
+            "votes": 45,
+            "pollVoters": 45,
+            "optionVotes": 45
+          },
+          {
+            "model": "RDF Model v2",
+            "score": 56,
+            "votes": 19,
+            "pollVoters": 19,
+            "optionVotes": 19
+          }
+        ]
+      },
+      "liveSite": {
+        "origin": "https://sunnylink.wiki",
+        "checkedAt": "2026-10-10T13:49:54.050Z",
+        "results": [
+          {
+            "path": "/cars",
+            "status": 200,
+            "bytes": 31358
+          },
+          {
+            "path": "/models",
+            "status": 200,
+            "bytes": 306881
+          },
+          {
+            "path": "/",
+            "status": 200,
+            "bytes": 477691
+          },
+          {
+            "path": "/features",
+            "status": 200,
+            "bytes": 530711
+          },
+          {
+            "path": "/api/wiki-data?type=settings&search=ModelLibrary",
+            "status": 200,
+            "bytes": 284
+          },
+          {
+            "path": "/api/wiki-data?type=models&vibe=chestnut_gpu",
+            "status": 200,
+            "bytes": 1515
+          },
+          {
+            "path": "/wizard",
+            "status": 200,
+            "bytes": 30415
+          },
+          {
+            "path": "/stats",
+            "status": 200,
+            "bytes": 35785
+          },
+          {
+            "path": "/api/models/vote?model=Cinque%20Terre%20V3%20Model",
+            "status": 200,
+            "bytes": 640
+          },
+          {
+            "path": "/api/models/vote?model=RDF%20Model%20v2",
+            "status": 200,
+            "bytes": 650
+          },
+          {
+            "path": "/api/models/vote?model=RDF%20Model",
+            "status": 200,
+            "bytes": 661
+          }
+        ],
+        "checks": [
+          "Six main pages respond",
+          "Master selector/catalog status and open v24 proposal",
+          "130 documented model setting",
+          "V3 rating and option counts agree",
+          "RDF poll snapshots contain at least 45 and 19 votes"
+        ],
+        "modelStats": [
+          {
+            "model": "Cinque Terre V3 Model",
+            "score": 0,
+            "votes": 0,
+            "pollVoters": 0,
+            "optionVotes": 0
+          },
+          {
+            "model": "RDF Model",
+            "score": 75,
+            "votes": 45,
+            "pollVoters": 45,
+            "optionVotes": 45
+          },
+          {
+            "model": "RDF Model v2",
+            "score": 56,
+            "votes": 19,
+            "pollVoters": 19,
+            "optionVotes": 19
+          }
+        ]
+      },
+      "liveBrowser": {
+        "url": "https://sunnylink.wiki/models",
+        "checkedAt": "2026-10-10T13:54:59.728Z",
+        "updatedV2AndV3Notes": true,
+        "v3CardHasNoInventedRatingBadge": true,
+        "v3PollVoters": 0,
+        "screenshot": "docs/weekly-audits/2026-10-09.live.jpg"
+      }
+    },
+    "files": [
+      {
+        "path": "data/models.json",
+        "sha256": "d1c4ce4abd179f275ea835d6f38010224e5fc5383ea7903a140b1ce281fa6865"
+      },
+      {
+        "path": "data/features.json",
+        "sha256": "9ee9b93c551ea7ba2919546ad98ae9c854d8ea7f8a55917e1a54cb9c4ec9f579"
+      },
+      {
+        "path": "data/toggles.json",
+        "sha256": "e91d4db007443d9a0840edb889d378a1efbba81784e182857bd47b8d9ae810a0"
+      },
+      {
+        "path": "data/models.ko.json",
+        "sha256": "0de0715664fd3e8bb78fc9755c841d683f25cbe392eba0e26e256b5b02c6ace8"
+      },
+      {
+        "path": "data/features.ko.json",
+        "sha256": "ba7689df87852380f3166566647f90d7f4259721305c1e9f9b0f02d7d9119fe7"
+      },
+      {
+        "path": "data/toggles.ko.json",
+        "sha256": "c484d98d21d3b30608216e4b52bf47187544fecdbe05c1b6780a7c400ed2588b"
+      },
+      {
+        "path": "data/models.zh.json",
+        "sha256": "238a284188e0403c314aceae698dbba77e29dcbb82ccb0b3d005218c04306e4a"
+      },
+      {
+        "path": "data/features.zh.json",
+        "sha256": "b5317b2782fbb91bb48ab73e0855e4c57f841fa9b45fe87e0fa67b58b1007462"
+      },
+      {
+        "path": "data/toggles.zh.json",
+        "sha256": "0dd19897b44dd9813bd571a1ddac33682580d2c0331afc7c26a96f3f9610c00f"
+      },
+      {
+        "path": "data/models.fr.json",
+        "sha256": "9671b43b6ff0b8e2a275a20f111ab16d41645dc493b01f1db1ca3691c8d0b318"
+      },
+      {
+        "path": "data/features.fr.json",
+        "sha256": "b130bf97ea76ffca228d0d2a47d70bb4f386dee6af72a8926d3b61b48ad260e7"
+      },
+      {
+        "path": "data/toggles.fr.json",
+        "sha256": "ca9ec659a7f57088d452dc9fd31be333ce3706cf179975071f0a265e62a0c7fd"
+      },
+      {
+        "path": "data/models.de.json",
+        "sha256": "469bcac2a9479dd615a388e7c40649056775a31b692376289b6885522adc43e6"
+      },
+      {
+        "path": "data/features.de.json",
+        "sha256": "04b427d43eb6ac1db1d4d22e56e8416cd7b68aa5591a304adee18a07acee49ca"
+      },
+      {
+        "path": "data/toggles.de.json",
+        "sha256": "0ddf0301a6e5d863eb90f74a72e723265a8899bf37cced1b76e840f4ba87826a"
+      },
+      {
+        "path": "data/models.es.json",
+        "sha256": "0c6dcdb5f18cc74acf58a85ba90baaee898716ff8b361a949ddee1d5824ae322"
+      },
+      {
+        "path": "data/features.es.json",
+        "sha256": "e7a6fbc47d6934d6dafb346dfd8f0d696dcabb97228ed7ed408339e426cd5017"
+      },
+      {
+        "path": "data/toggles.es.json",
+        "sha256": "dd097730a02def6a5479489a32e7a433319d755bc956eb8b385ce360b490156d"
+      },
+      {
+        "path": "locales/en.json",
+        "sha256": "3afbeeef64ae9f45acaa756f02b03ab13c147c5762643c424982913eb3b5ba42"
+      },
+      {
+        "path": "locales/ko.json",
+        "sha256": "8637becab236b29f28631205f6a332d9cd233774b3191847bae613b39891734c"
+      },
+      {
+        "path": "locales/zh.json",
+        "sha256": "49a1b4103d137bf0de2e6145b79531203e38e0614f0c660b625c9b6db5cebd4e"
+      },
+      {
+        "path": "locales/fr.json",
+        "sha256": "5d24078c33bb993be62905135bca56b80a8405eebc2dfb27122e566cdf612576"
+      },
+      {
+        "path": "locales/de.json",
+        "sha256": "ad6cf78235e8abd41b1420e59845ce99889aad3fcced51e3ffacf59393b2a661"
+      },
+      {
+        "path": "locales/es.json",
+        "sha256": "d1e9dba0a1c9279672c9aa9f2b9a8f56f810bc44b6ea84a3d3070244b2e35e38"
+      },
+      {
+        "path": "data/discourse_polls.json",
+        "sha256": "09542cb51b75bca16ffcda60dbbe5ec7d9971be38b272102553975c2d2f70cd9"
+      },
+      {
+        "path": "lib/modelVotes.ts",
+        "sha256": "14c40a3d4b11d66fe035497dc7876f9b2bf92ab6e5ad10f7f909a138f3710cea"
+      },
+      {
+        "path": "components/ModelLibrary.tsx",
+        "sha256": "d9b6f7307efc3c0daf00cbe95e58eaf864734b2dc9f4bac55e57dcae4f1cfbe2"
+      },
+      {
+        "path": "tests/model-votes.test.ts",
+        "sha256": "6e2103c14f880441cc66336aa3c240ee993d1557243bbe4831d92dc09f61f1b0"
+      }
+    ],
+    "deployedAt": "2026-10-10T13:54:59.728Z",
+    "revision": "sunnylink-wiki-service-refresh-20261009-a29313",
+    "trafficPercent": 100,
+    "image": "gcr.io/sunnylink-wiki/wiki-app@sha256:3e6d8dcdc3d33e67c4c3de9e05b8001b103b68302f64d023219c4d7c94cfe1bb",
+    "previousDeploymentRecord": "docs/weekly-audits/2026-10-03.deployment.json",
+    "buildSource": {
+      "bucket": "sunnylink-wiki_cloudbuild",
+      "generation": "1791639628419908",
+      "object": "source/1791639621.57097-eed818dacfc0440a815a848a2169f993.tgz"
+    },
+    "deploymentPatchSha256": "68d3a3e1d6db2f8cc4d6f7050866752f8bffd112b360d0eeac7f0575bdf2bb72"
+  }
+}

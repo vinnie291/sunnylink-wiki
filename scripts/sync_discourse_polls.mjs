@@ -15,6 +15,9 @@ function decodeHtml(html) {
         .replace(/&#39;/g, "'")
         .replace(/&lt;/g, '<')
         .replace(/&gt;/g, '>')
+        .replace(/&nbsp;/g, ' ')
+        .replace(/\s+/g, ' ')
+        .replace(/\s+([:?.,])/g, '$1')
         .trim();
 }
 

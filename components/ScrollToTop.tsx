@@ -1,8 +1,11 @@
 'use client';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import { useState, useEffect } from 'react';
 
 export default function ScrollToTop() {
+  const tx = useTextTranslation();
     const [isVisible, setIsVisible] = useState(false);
 
     // Toggle visibility based on scroll position
@@ -47,7 +50,7 @@ export default function ScrollToTop() {
             <button
                 onClick={scrollToTop}
                 className="p-3 rounded-full shadow-lg border border-slate-700 bg-slate-800 text-cyan-400 hover:bg-slate-700 hover:text-cyan-300 hover:border-cyan-500/50 transition-all duration-300"
-                aria-label="Scroll to top"
+                aria-label={tx("Scroll to top")}
             >
                 <svg
                     className="w-6 h-6"
@@ -68,8 +71,8 @@ export default function ScrollToTop() {
             <button
                 onClick={handleFeedback}
                 className="p-3 rounded-full shadow-lg border border-slate-700 bg-slate-800 text-amber-400 hover:bg-slate-700 hover:text-amber-300 hover:border-amber-500/50 transition-all duration-300"
-                aria-label="Send feedback"
-                title="Send feedback"
+                aria-label={tx("Send feedback")}
+                title={tx("Send feedback")}
             >
                 <svg
                     className="w-6 h-6"

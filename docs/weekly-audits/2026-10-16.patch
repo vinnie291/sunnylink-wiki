@@ -1,0 +1,1820 @@
+diff --git aa/data/models.json bb/data/models.json
+index b192b25..cc04507 100644
+--- aa/data/models.json
++++ bb/data/models.json
+@@ -1,14 +1,14 @@
+ {
+   "appName": "Sunnylink Model Database",
+   "version": "8.4",
+-  "totalModels": 130,
+-  "lastUpdated": "October 09, 2026",
++  "totalModels": 132,
++  "lastUpdated": "October 16, 2026",
+   "vibeGuide": {
+     "chestnut_gpu": {
+       "title": "The Chestnut GPU Series (Big Models)",
+       "subtitle": "eGPU-Only Heavyweights",
+-      "includes": "Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+-      "vibe": "These are the \"big models\" — chestnut-class networks larger than anything in the WMI or OP lines, tied to comma's new GPU add-on, which began reaching owners in August 2026. They drop under the forum's big_model tag on a near-daily cadence during a run. The extra network size shows up first in lateral: taking in-town 90-degree turns wide instead of cutting them, and showing planted rather than floaty highway stability. Standout entries like Cinque Terre and Sad Model have significantly improved lateral stability and natural steering feel, while earlier BMRLNAP runs suffered from low-speed steering oscillations. Stop signs and traffic light stop lines remain an active area of tuning across the line. Runtime notes (October 2): PR #2035 proposes 1344×760 comma 3X frames before unified AMD transfer. PR #2023 proposes ChestnutPowerLimit (0 = stock; 40–100 W) via advanced sunnylink Device controls on comma four. Both remain open. Model management (October 9): the October 6 sync (#2036) moved master to selector 20, Chestnut v27, and Qualcomm v23. Qualcomm v24 is published, but its adoption is proposed in open PR #2044. PR #2015 remains open; selector 20 is already in master through the sync. PR #1999 proposes diagnosing stale compiled-runtime startup failures that can appear as Posenet NaN-speed alerts.",
++      "includes": "Mountain Dew v3, Mountain Dew, Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
++      "vibe": "These are the \"big models\" — chestnut-class networks larger than anything in the WMI or OP lines, tied to comma's new GPU add-on, which began reaching owners in August 2026. They drop under the forum's big_model tag on a near-daily cadence during a run. The extra network size shows up first in lateral: taking in-town 90-degree turns wide instead of cutting them, and showing planted rather than floaty highway stability. Standout entries like Cinque Terre and Sad Model have significantly improved lateral stability and natural steering feel, while earlier BMRLNAP runs suffered from low-speed steering oscillations. Stop signs and traffic light stop lines remain an active area of tuning across the line. Runtime notes (October 2): PR #2035 proposes 1344×760 comma 3X frames before unified AMD transfer. PR #2023 proposes ChestnutPowerLimit (0 = stock; 40–100 W) via advanced sunnylink Device controls on comma four. Both remain open. Model management (October 16): master, dev and staging still use selector 20 with Chestnut v27 and Qualcomm v23. Published Chestnut v28 and Qualcomm v25 require selector 21; publication does not establish availability on those branches. PRs #2015, #2044 and #1999 were closed without merging; they are not released fixes.",
+       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
+       "recommendation": "Cinque Terre and V2 have positive overall polls but mixed vehicle-specific reports. Check stopping, cornering, and low-speed steering on your setup. Master now includes V3 in Chestnut v27 with selector 20; no dedicated V3 forum poll was verified. Hardware and branch compatibility still apply."
+     },
+@@ -750,6 +750,34 @@
+           ],
+           "routesDriven": 19,
+           "fleetRank": 64
++        },
++        {
++          "name": "Mountain Dew Model",
++          "date": "October 10, 2026",
++          "badge": "Experimental",
++          "tags": [
++            "Big Model",
++            "Chestnut",
++            "Experimental"
++          ],
++          "consensus": "Published artifact only. No dedicated model poll or vehicle-specific driving evidence was verified in this audit.",
++          "note": "The official Chestnut v28 manifest lists this model with selector 21 and generation 12. Inspected master/dev/staging use selector 20 and Chestnut v27, so publication does not establish availability on those branches. Hardware and runtime compatibility must be checked.",
++          "bestFor": "Research with a compatible selector-21 runtime; no vehicle-specific recommendation is established.",
++          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/da2d8dac5f77e3a6f72fefbfb14edea3555f05f6/docs/driving_models_chestnut_v28.json"
++        },
++        {
++          "name": "Mountain Dew Model v3",
++          "date": "October 14, 2026",
++          "badge": "Experimental",
++          "tags": [
++            "Big Model",
++            "Chestnut",
++            "Experimental"
++          ],
++          "consensus": "Published artifact only. No dedicated model poll or vehicle-specific driving evidence was verified in this audit.",
++          "note": "The official Chestnut v28 manifest lists this model with selector 21 and generation 12. Inspected master/dev/staging use selector 20 and Chestnut v27, so publication does not establish availability on those branches. Hardware and runtime compatibility must be checked.",
++          "bestFor": "Research with a compatible selector-21 runtime; no vehicle-specific recommendation is established.",
++          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/da2d8dac5f77e3a6f72fefbfb14edea3555f05f6/docs/driving_models_chestnut_v28.json"
+         }
+       ]
+     },
+@@ -1292,10 +1320,10 @@
+             "Highway"
+           ],
+           "communityScore": 86,
+-          "totalVotes": 32,
++          "totalVotes": 34,
+           "sentiment": {
+-            "great": 66,
+-            "good": 22,
++            "great": 68,
++            "good": 20,
+             "ok": 6,
+             "bad": 6
+           },
+@@ -1562,13 +1590,13 @@
+           "negatives": [],
+           "routesDriven": 32,
+           "fleetRank": 59,
+-          "communityScore": 0,
+-          "totalVotes": 2,
++          "communityScore": 33,
++          "totalVotes": 3,
+           "sentiment": {
+-            "great": 0,
++            "great": 33,
+             "good": 0,
+             "ok": 0,
+-            "bad": 100
++            "bad": 67
+           }
+         },
+         {
+diff --git aa/data/features.json bb/data/features.json
+index 6c3c85c..3ee8dac 100644
+--- aa/data/features.json
++++ bb/data/features.json
+@@ -2,7 +2,7 @@
+     "appName": "Sunnylink Database",
+     "version": "2026.002",
+     "dataSource": "Official Sunnypilot Documentation, release notes, and linked upstream development proposals / issue reports",
+-    "lastUpdated": "October 09, 2026",
++    "lastUpdated": "2026-10-16",
+     "features": [
+         {
+             "id": "mads",
+@@ -71,9 +71,9 @@
+             "name": "DEC",
+             "fullName": "Dynamic Experimental Control",
+             "category": "Core Control",
+-            "officialDefinition": "Automatically toggles between Chill Mode (Standard Longitudinal) and Experimental Mode (Traffic Light/Stop Sign handling) based on driving context (e.g., speed, road type).",
+-            "userSummary": "Auto-switches driving modes based on context.",
+-            "userTranslation": "\"City/Highway Switcher.\" Automatically switches modes based on context. Smooth highway cruising in Chill Mode, and intelligent slowing for intersections and stop signs when needed.",
++            "officialDefinition": "Legacy contextual switching between Chill and Experimental longitudinal modes. PR #2056 removed DEC from master on October 16, 2026; the inspected dev build also omits it, while staging still retains it.",
++            "userSummary": "Legacy mode switching; removed from current master and dev.",
++            "userTranslation": "Check your installed branch. DEC is absent from inspected master/dev and remains in inspected staging. This change does not establish removal from older tagged releases. The setup wizard no longer automatically recommends this branch-dependent setting.",
+             "settingsKeys": [
+                 "DynamicExperimentalControl"
+             ],
+@@ -235,7 +235,7 @@
+             "category": "Models & AI",
+             "officialDefinition": "Allows switching and testing different vision neural network driving models directly on device. Configure advanced model parameters including lane turn desires, live learning steer delay, and camera software delay.",
+             "userSummary": "In-cab AI model switcher with fine-tuning parameters.",
+-            "userTranslation": "Choose a driving model and tune steer delay or turn desires for your setup. Master now uses selector 20 with Chestnut v27 and Qualcomm v23 after the October 6 sync (#2036). Qualcomm v24 adoption remains proposed in open PR #2044. Refresh Models was added by #2018; refresh while parked with no download in progress. Clear Cache removes downloaded models.",
++            "userTranslation": "Master, dev and staging still use selector 20, Chestnut v27 and Qualcomm v23. The published Chestnut v28 and Qualcomm v25 catalogs require selector 21. Check your branch before selecting a model. PRs #2015 and #2044 were closed without merging. Refresh while parked with no download in progress; Clear Cache removes downloaded models.",
+             "settingsKeys": [
+                 "DrivingModel",
+                 "ModelLibrary",
+@@ -315,9 +315,9 @@
+             "name": "Model Runtime Startup Troubleshooting",
+             "fullName": "Model Runtime Startup Troubleshooting",
+             "category": "Models & AI",
+-            "officialDefinition": "Open PR #1999 addresses a misleading Posenet NaN-speed alert caused by modeld failing to load a stale compiled model artifact.",
++            "officialDefinition": "PR #1999 proposed changes for a misleading Posenet NaN-speed alert during compiled-model startup, but was closed without merging on October 16, 2026.",
+             "userSummary": "An initialization failure can appear as a Posenet speed error.",
+-            "userTranslation": "The proposal validates compiled-model keys and changes cache invalidation and alert gating. It is not a confirmed released fix. A persistent alert needs runtime diagnostics; model-cache clearing alone does not establish that the compiled runtime is repaired.",
++            "userTranslation": "Do not treat PR #1999 as an available fix. Persistent alerts still require runtime diagnostics; clearing the model cache alone does not establish a repaired runtime.",
+             "settingsKeys": [],
+             "docUrl": "https://github.com/sunnypilot/sunnypilot/pull/1999"
+         },
+@@ -392,7 +392,7 @@
+         "ACC": "Adaptive Cruise Control - Maintains set speed and follows traffic",
+         "ALC": "Automatic Lane Centering / Automatic Lane Change - Keeps car centered or changes lanes automatically",
+         "BSM": "Blind Spot Monitoring - Vehicle sensors detecting cars in adjacent lanes",
+-        "DEC": "Dynamic Experimental Control - Contextual switching between Chill and Experimental mode",
++        "DEC": "Dynamic Experimental Control — legacy mode switching; removed from current master/dev, retained in inspected staging.",
+         "E2E": "End-to-End - AI neural network that directly predicts vehicle driving path",
+         "ESCC": "Enhanced Smart Cruise Control - Hyundai/Kia cruise management and button integration",
+         "Firehose": "Large-scale automated driving telemetry upload system contributing to driving model training",
+diff --git aa/data/toggles.json bb/data/toggles.json
+index 3aaf928..4e054cc 100644
+--- aa/data/toggles.json
++++ bb/data/toggles.json
+@@ -71,14 +71,14 @@
+           "type": "dropdown",
+           "description": "Select the AI driving model. Each model has unique driving characteristics.",
+           "useCase": "Choose a model that matches your driving style and road conditions.",
+-          "userNote": "The wiki documents 130 models. The models available on your device depend on its hardware and installed branch.",
++          "userNote": "The wiki documents 132 models. Device availability depends on hardware, selector version and installed branch.",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+           "key": "ModelLibrary",
+           "label": "Model Library",
+           "type": "action",
+-          "description": "Browse 130 documented driving models with release dates and community evidence. Device availability depends on hardware and the installed branch.",
++          "description": "Browse 132 documented driving models. Published catalog entries are not necessarily available on your device or branch.",
+           "useCase": "Find the perfect model for your driving style.",
+           "userNote": "Includes WMI Series, Dark Souls, Down to Ride, Tomb Raider, and Legacy models.",
+           "deviceAvailability": "config-hidden"
+@@ -90,7 +90,7 @@
+           "description": "Fetches the available model catalog from the server. PR #2018, merged into master September 14, adds the action to comma four (MICI) and improves refresh progress in both device UIs.",
+           "userNote": "Available while offroad, with no model download or refresh already running. The button shows fetching progress. Requires a build containing PR #2018; stable-release availability depends on branch.",
+           "deviceAvailability": "config-hidden",
+-          "deepDive": "Refresh action: https://github.com/sunnypilot/sunnypilot/pull/2018. Master moved to selector 20, Chestnut v27, and Qualcomm v23 through the October 6 sync: https://github.com/sunnypilot/sunnypilot/pull/2036. PR #2015 is still open, although selector 20 is already in master. Qualcomm v24 adoption is an open proposal: https://github.com/sunnypilot/sunnypilot/pull/2044."
++          "deepDive": "Master, dev and staging use selector 20 and Chestnut v27 / Qualcomm v23. New v28 / v25 catalogs require selector 21. PRs #2015 and #2044 are closed without merging, not pending adoption. Sources: https://github.com/sunnypilot/sunnypilot/pull/2015 and https://github.com/sunnypilot/sunnypilot/pull/2044."
+         },
+         {
+           "key": "ClearModelCache",
+@@ -695,17 +695,17 @@
+           "label": "Dynamic Experimental Control",
+           "type": "toggle",
+           "default": false,
+-          "description": "Automatically switches between Chill Mode (Highway) and Experimental Mode (City) based on driving context.",
+-          "recommended": true,
+-          "useCase": "Perfect for mixed commutes involving both freeways and city streets with traffic lights.",
++          "description": "Legacy automatic switching between Chill and Experimental modes; unavailable on inspected current master/dev.",
++          "recommended": false,
++          "useCase": "For legacy builds that still implement DEC; not a recommendation for current master/dev.",
+           "tradeoffs": [
+             "Can cause phantom braking if it falsely detects a red light or stop sign.",
+             "May switch modes unpredictably in complex intersections.",
+             "Can cause late braking for lights/signs.",
+             "Makes evaluating specific models harder due to mode switching."
+           ],
+-          "deepDive": "Monitors the 'throttle_prob' from the model to determine intent. If model intent is low, it temporarily injects the Experimental Mode longitudinal plan for complex scenarios.",
+-          "userNote": "Good for mixed driving, but switch to full Experimental if you need consistent behavior.",
++          "deepDive": "Removal source: https://github.com/sunnypilot/sunnypilot/pull/2056. Preserve older-build context; do not infer identical behavior across branches.",
++          "userNote": "Removed from master by PR #2056 on October 16. Inspected dev omits DEC; staging retains it. Check branch and release notes before using this legacy setting.",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+@@ -1725,5 +1725,5 @@
+       ]
+     }
+   ],
+-  "lastUpdated": "October 09, 2026"
++  "lastUpdated": "2026-10-16"
+ }
+diff --git aa/data/models.ko.json bb/data/models.ko.json
+index 4d0ca79..3ddf62a 100644
+--- aa/data/models.ko.json
++++ bb/data/models.ko.json
+@@ -1,14 +1,14 @@
+ {
+   "appName": "Sunnylink Model Database",
+   "version": "8.4",
+-  "totalModels": 130,
+-  "lastUpdated": "October 09, 2026",
++  "totalModels": 132,
++  "lastUpdated": "October 16, 2026",
+   "vibeGuide": {
+     "chestnut_gpu": {
+       "title": "Chestnut GPU 시리즈(대형 모델)",
+       "subtitle": "eGPU 전용 헤비급",
+-      "includes": "Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+-      "vibe": "이것은 2026년 8월에 소유자에게 도달하기 시작한 comma의 새로운 GPU 추가 기능과 연결된 WMI 또는 OP 라인의 어떤 것보다 더 큰 Chestnut급 네트워크인 \"빅 모델\"입니다. 실행 중에 거의 매일 케이던스로 포럼의 big_model 태그 아래로 떨어집니다. 추가 네트워크 크기는 측면에서 먼저 나타납니다. 시내를 자르는 대신 90도 회전하고, 고속도로 안정성보다는 심어진 모습을 보여줍니다. Cinque Terre 및 Sad Model와 같은 뛰어난 항목은 측면 안정성과 자연스러운 조향 느낌을 크게 향상시켰으며, 이전 BMRLNAP 실행은 저속 조향 진동으로 어려움을 겪었습니다. 정지 표지판과 신호등 정지선은 선을 가로지르는 활성 튜닝 영역으로 남아 있습니다. 런타임 참고 사항(10월 2일): PR #2035는 통합 AMD 전송 전 1344×760 comma 3X 프레임을 제안합니다. PR #2023에서는 comma four의 고급 sunnylink 장치 제어를 통해 ChestnutPowerLimit(0 = 재고, 40–100W)를 제안합니다. 둘 다 열려 있습니다. 모델 관리(10월 9일): 10월 6일 동기화(#2036)로 master가 선택기 20, Chestnut v27, Qualcomm v23을 사용하게 되었습니다. Qualcomm v24는 게시되었지만 도입은 열린 PR #2044에서 제안 중입니다. PR #2015는 아직 열려 있으나 선택기 20은 동기화를 통해 이미 master에 포함되어 있습니다. PR #1999에서는 Posenet NaN 속도 경고로 나타날 수 있는 오래된 컴파일 런타임 시작 오류 진단을 제안합니다.",
++      "includes": "Mountain Dew v3, Mountain Dew, Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
++      "vibe": "이것은 2026년 8월에 소유자에게 도달하기 시작한 comma의 새로운 GPU 추가 기능과 연결된 WMI 또는 OP 라인의 어떤 것보다 더 큰 Chestnut급 네트워크인 \"빅 모델\"입니다. 실행 중에 거의 매일 케이던스로 포럼의 big_model 태그 아래로 떨어집니다. 추가 네트워크 크기는 측면에서 먼저 나타납니다. 시내를 자르는 대신 90도 회전하고, 고속도로 안정성보다는 심어진 모습을 보여줍니다. Cinque Terre 및 Sad Model와 같은 뛰어난 항목은 측면 안정성과 자연스러운 조향 느낌을 크게 향상시켰으며, 이전 BMRLNAP 실행은 저속 조향 진동으로 어려움을 겪었습니다. 정지 표지판과 신호등 정지선은 선을 가로지르는 활성 튜닝 영역으로 남아 있습니다. 런타임 참고 사항(10월 2일): PR #2035는 통합 AMD 전송 전 1344×760 comma 3X 프레임을 제안합니다. PR #2023에서는 comma four의 고급 sunnylink 장치 제어를 통해 ChestnutPowerLimit(0 = 재고, 40–100W)를 제안합니다. 둘 다 열려 있습니다. 모델 관리(10월 16일): master, dev, staging은 여전히 선택기 20, Chestnut v27, Qualcomm v23을 사용합니다. 공개된 Chestnut v28과 Qualcomm v25는 선택기 21이 필요하며, 공개만으로 해당 브랜치에서 사용 가능하다고 볼 수 없습니다. PR #2015, #2044, #1999는 병합 없이 닫혔으며 출시된 수정 사항이 아닙니다.",
+       "bestFor": "가장 큰 사용 가능한 네트워크를 원하고 편안하게 테스트할 수 있는 eGPU를 갖춘 Chestnut 소유자입니다.",
+       "recommendation": "Cinque Terre와 V2의 종합 투표는 긍정적이지만 차량별 보고는 엇갈립니다. 자신의 구성에서 정지, 코너링, 저속 조향을 확인하세요. master는 이제 선택기 20과 Chestnut v27을 통해 V3를 포함하지만 V3 전용 포럼 투표는 확인되지 않았습니다. 하드웨어와 브랜치 호환성 조건은 여전히 적용됩니다."
+     },
+@@ -750,6 +750,34 @@
+           ],
+           "routesDriven": 19,
+           "fleetRank": 64
++        },
++        {
++          "name": "Mountain Dew Model",
++          "date": "October 10, 2026",
++          "badge": "Experimental",
++          "tags": [
++            "Big Model",
++            "Chestnut",
++            "Experimental"
++          ],
++          "consensus": "공개된 모델 파일만 확인되었습니다. 이번 검토에서는 전용 모델 투표나 차량별 주행 근거를 확인하지 못했습니다.",
++          "note": "공식 Chestnut v28 매니페스트는 이 모델을 선택기 21 및 세대 12로 나열합니다. 확인한 master/dev/staging은 선택기 20과 Chestnut v27을 사용하므로 공개만으로 해당 브랜치에서 사용할 수 있다고 볼 수 없습니다. 하드웨어와 런타임 호환성을 확인해야 합니다.",
++          "bestFor": "호환되는 선택기 21 런타임에서의 연구용이며 차량별 권장 사항은 확립되지 않았습니다.",
++          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/da2d8dac5f77e3a6f72fefbfb14edea3555f05f6/docs/driving_models_chestnut_v28.json"
++        },
++        {
++          "name": "Mountain Dew Model v3",
++          "date": "October 14, 2026",
++          "badge": "Experimental",
++          "tags": [
++            "Big Model",
++            "Chestnut",
++            "Experimental"
++          ],
++          "consensus": "공개된 모델 파일만 확인되었습니다. 이번 검토에서는 전용 모델 투표나 차량별 주행 근거를 확인하지 못했습니다.",
++          "note": "공식 Chestnut v28 매니페스트는 이 모델을 선택기 21 및 세대 12로 나열합니다. 확인한 master/dev/staging은 선택기 20과 Chestnut v27을 사용하므로 공개만으로 해당 브랜치에서 사용할 수 있다고 볼 수 없습니다. 하드웨어와 런타임 호환성을 확인해야 합니다.",
++          "bestFor": "호환되는 선택기 21 런타임에서의 연구용이며 차량별 권장 사항은 확립되지 않았습니다.",
++          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/da2d8dac5f77e3a6f72fefbfb14edea3555f05f6/docs/driving_models_chestnut_v28.json"
+         }
+       ]
+     },
+@@ -1292,10 +1320,10 @@
+             "Highway"
+           ],
+           "communityScore": 86,
+-          "totalVotes": 32,
++          "totalVotes": 34,
+           "sentiment": {
+-            "great": 66,
+-            "good": 22,
++            "great": 68,
++            "good": 20,
+             "ok": 6,
+             "bad": 6
+           },
+@@ -1562,13 +1590,13 @@
+           "negatives": [],
+           "routesDriven": 32,
+           "fleetRank": 59,
+-          "communityScore": 0,
+-          "totalVotes": 2,
++          "communityScore": 33,
++          "totalVotes": 3,
+           "sentiment": {
+-            "great": 0,
++            "great": 33,
+             "good": 0,
+             "ok": 0,
+-            "bad": 100
++            "bad": 67
+           }
+         },
+         {
+diff --git aa/data/features.ko.json bb/data/features.ko.json
+index 1c2e560..1798c18 100644
+--- aa/data/features.ko.json
++++ bb/data/features.ko.json
+@@ -2,7 +2,7 @@
+   "appName": "Sunnylink Database",
+   "version": "2026.002",
+   "dataSource": "Official Sunnypilot Documentation, release notes, and linked upstream development proposals / issue reports",
+-  "lastUpdated": "October 09, 2026",
++  "lastUpdated": "2026-10-16",
+   "features": [
+     {
+       "id": "mads",
+@@ -71,9 +71,9 @@
+       "name": "DEC",
+       "fullName": "동적 실험 제어",
+       "category": "Core Control",
+-      "officialDefinition": "운전 상황(예: 속도, 도로 유형)에 따라 냉각 모드(표준 세로)와 실험 모드(신호등/정지 신호 처리) 간에 자동으로 전환됩니다.",
+-      "userSummary": "상황에 따라 운전 모드를 자동으로 전환합니다.",
+-      "userTranslation": "\"도시/고속도로 전환기.\" 상황에 따라 자동으로 모드를 전환합니다. 냉각 모드에서는 고속도로 순항을 원활하게 하고, 필요할 경우 교차로와 정지 신호에서는 지능적으로 감속합니다.",
++      "officialDefinition": "Chill과 Experimental 종방향 모드를 상황에 따라 전환하던 기존 기능입니다. PR #2056이 2026년 10월 16일 master에서 DEC를 제거했습니다. 확인한 dev에도 없지만 staging에는 남아 있습니다.",
++      "userSummary": "기존 모드 전환 기능이며 현재 master와 dev에서는 제거되었습니다.",
++      "userTranslation": "설치된 브랜치를 확인하세요. 확인한 master/dev에는 DEC가 없고 staging에는 남아 있습니다. 이것이 이전 태그 릴리스에서도 제거되었다는 뜻은 아닙니다. 설정 마법사는 이 브랜치별 기능을 더 이상 자동 권장하지 않습니다.",
+       "settingsKeys": [
+         "DynamicExperimentalControl"
+       ],
+@@ -235,7 +235,7 @@
+       "category": "Models & AI",
+       "officialDefinition": "장치에서 직접 다양한 비전 신경망 구동 모델을 전환하고 테스트할 수 있습니다. 차선 회전 희망, 실시간 학습 조향 지연, 카메라 소프트웨어 지연을 포함한 고급 모델 매개변수를 구성합니다.",
+       "userSummary": "매개변수를 미세 조정하는 운전실 내 AI 모델 전환기입니다.",
+-      "userTranslation": "구성에 맞는 주행 모델을 선택하고 조향 지연 또는 회전 의도를 조정하세요. master는 10월 6일 동기화(#2036) 이후 선택기 20, Chestnut v27, Qualcomm v23을 사용합니다. Qualcomm v24 도입은 열린 PR #2044에서 제안 중입니다. 모델 새로고침은 #2018에서 추가되었습니다. 다운로드 중이 아닐 때 주차 상태에서 새로고침하세요. 캐시 지우기는 다운로드한 모델을 삭제합니다.",
++      "userTranslation": "master, dev, staging은 여전히 선택기 20, Chestnut v27, Qualcomm v23을 사용합니다. 공개된 Chestnut v28과 Qualcomm v25 카탈로그는 선택기 21이 필요합니다. 모델을 선택하기 전에 브랜치를 확인하세요. PR #2015와 #2044는 병합 없이 닫혔습니다. 다운로드 중이 아닐 때 주차 상태에서 새로고침하세요. Clear Cache는 다운로드한 모델을 삭제합니다.",
+       "settingsKeys": [
+         "DrivingModel",
+         "ModelLibrary",
+@@ -315,9 +315,9 @@
+       "name": "모델 런타임 시작 문제 해결",
+       "fullName": "모델 런타임 시작 문제 해결",
+       "category": "Models & AI",
+-      "officialDefinition": "Open PR #1999는 모델링이 오래된 컴파일된 모델 아티팩트를 로드하지 못하여 발생하는 오해의 소지가 있는 Posenet NaN 속도 경고를 해결합니다.",
++      "officialDefinition": "PR #1999는 컴파일된 모델 시작 시 발생하는 오해의 소지가 있는 Posenet NaN 속도 경고의 변경을 제안했으나 2026년 10월 16일 병합 없이 닫혔습니다.",
+       "userSummary": "초기화 실패는 Posenet 속도 오류로 나타날 수 있습니다.",
+-      "userTranslation": "제안서는 컴파일된 모델 키의 유효성을 검사하고 캐시 무효화 및 경고 게이팅을 변경합니다. 확정된 릴리스 수정 사항은 아닙니다. 지속적인 경고에는 런타임 진단이 필요합니다. 모델 캐시 지우기만으로는 컴파일된 런타임이 복구되었음을 확인할 수 없습니다.",
++      "userTranslation": "PR #1999를 사용 가능한 수정으로 간주하지 마세요. 지속되는 경고에는 여전히 런타임 진단이 필요하며 모델 캐시 삭제만으로 런타임이 복구되었다고 볼 수 없습니다.",
+       "settingsKeys": [],
+       "docUrl": "https://github.com/sunnypilot/sunnypilot/pull/1999"
+     },
+@@ -392,7 +392,7 @@
+     "ACC": "적응형 크루즈 컨트롤 - 설정 속도를 유지하고 교통 상황을 따라갑니다.",
+     "ALC": "자동 차선 센터링/자동 차선 변경 - 차량을 중앙에 유지하거나 차선을 자동으로 변경합니다.",
+     "BSM": "사각지대 모니터링 - 인접 차선의 차량을 감지하는 차량 센서",
+-    "DEC": "동적 실험 제어 - 냉각 모드와 실험 모드 간 상황에 따른 전환",
++    "DEC": "Dynamic Experimental Control — 기존 모드 전환 기능으로 현재 master/dev에서 제거되었으며 확인한 staging에는 남아 있습니다.",
+     "E2E": "End-to-End - 차량 주행 경로를 직접 예측하는 AI 신경망",
+     "ESCC": "향상된 스마트 크루즈 컨트롤 - Hyundai/Kia 크루즈 관리 및 버튼 통합",
+     "Firehose": "운전 모델 훈련에 기여하는 대규모 자율주행 텔레메트리 업로드 시스템",
+diff --git aa/data/toggles.ko.json bb/data/toggles.ko.json
+index ced5483..3d80b91 100644
+--- aa/data/toggles.ko.json
++++ bb/data/toggles.ko.json
+@@ -71,14 +71,14 @@
+           "type": "dropdown",
+           "description": "AI 주행 모델을 선택하세요. 각 모델에는 고유한 주행 특성이 있습니다.",
+           "useCase": "귀하의 운전 스타일과 도로 상황에 맞는 모델을 선택하십시오.",
+-          "userNote": "위키에는 130개 모델이 설명되어 있습니다. 기기에서 사용할 수 있는 모델은 하드웨어와 설치한 브랜치에 따라 달라집니다.",
++          "userNote": "위키에는 모델 132개가 문서화되어 있습니다. 기기에서의 사용 가능 여부는 하드웨어, 선택기 버전 및 설치된 브랜치에 따라 달라집니다.",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+           "key": "ModelLibrary",
+           "label": "모델 라이브러리",
+           "type": "action",
+-          "description": "출시 날짜와 커뮤니티 근거를 포함한 130개 주행 모델을 살펴보세요. 기기에서의 사용 가능 여부는 하드웨어와 설치한 브랜치에 따라 달라집니다.",
++          "description": "문서화된 주행 모델 132개를 살펴보세요. 공개된 카탈로그 항목이 모든 기기나 브랜치에서 사용 가능한 것은 아닙니다.",
+           "useCase": "귀하의 운전 스타일에 딱 맞는 모델을 찾아보세요.",
+           "userNote": "WMI 시리즈, Dark Souls, Down to Ride, Tomb Raider 및 Legacy 모델이 포함됩니다.",
+           "deviceAvailability": "config-hidden"
+@@ -90,7 +90,7 @@
+           "description": "서버에서 사용 가능한 모델 카탈로그를 가져옵니다. 9월 14일 마스터에 병합된 PR #2018은 comma four(MICI)에 작업을 추가하고 두 장치 UI 모두에서 새로 고침 진행 상황을 개선합니다.",
+           "userNote": "모델 다운로드나 새로 고침이 이미 실행되지 않은 상태에서 정차 모드 중에도 사용할 수 있습니다. 버튼에는 가져오기 진행 상황이 표시됩니다. PR #2018이 포함된 빌드가 필요합니다. 안정 릴리스 가용성은 지점에 따라 다릅니다.",
+           "deviceAvailability": "config-hidden",
+-          "deepDive": "새로고침 기능: https://github.com/sunnypilot/sunnypilot/pull/2018. master는 10월 6일 동기화를 통해 선택기 20, Chestnut v27, Qualcomm v23으로 전환되었습니다: https://github.com/sunnypilot/sunnypilot/pull/2036. PR #2015는 아직 열려 있지만 선택기 20은 이미 master에 포함되어 있습니다. Qualcomm v24 도입은 열린 제안입니다: https://github.com/sunnypilot/sunnypilot/pull/2044."
++          "deepDive": "master, dev, staging은 선택기 20 및 Chestnut v27 / Qualcomm v23을 사용합니다. 새 v28 / v25 카탈로그에는 선택기 21이 필요합니다. PR #2015와 #2044는 도입 대기 중이 아니라 병합 없이 닫혔습니다. 출처: https://github.com/sunnypilot/sunnypilot/pull/2015 및 https://github.com/sunnypilot/sunnypilot/pull/2044."
+         },
+         {
+           "key": "ClearModelCache",
+@@ -695,17 +695,17 @@
+           "label": "동적 실험 제어",
+           "type": "toggle",
+           "default": false,
+-          "description": "운전 상황에 따라 냉각 모드(고속도로)와 실험 모드(도시) 사이를 자동으로 전환합니다.",
+-          "recommended": true,
+-          "useCase": "고속도로와 신호등이 있는 도시 거리를 모두 포함하는 혼합 통근에 적합합니다.",
++          "description": "Chill과 Experimental 모드를 자동 전환하던 기존 기능입니다. 확인한 현재 master/dev에서는 사용할 수 없습니다.",
++          "recommended": false,
++          "useCase": "DEC가 구현된 이전 빌드용이며 현재 master/dev에는 권장하지 않습니다.",
+           "tradeoffs": [
+             "적색 신호등이나 정지 신호를 잘못 감지하면 팬텀 제동이 발생할 수 있습니다.",
+             "복잡한 교차로에서는 예기치 않게 모드가 전환될 수 있습니다.",
+             "조명/표지판의 제동이 늦어질 수 있습니다.",
+             "모드 전환으로 인해 특정 모델을 평가하기가 더 어려워집니다."
+           ],
+-          "deepDive": "의도를 확인하기 위해 모델의 'throttle_prob'를 모니터링합니다. 모델 의도가 낮은 경우 복잡한 시나리오에 대한 실험 모드 종단 계획을 일시적으로 주입합니다.",
+-          "userNote": "혼합 운전에 적합하지만 일관된 행동이 필요한 경우 전체 실험으로 전환하십시오.",
++          "deepDive": "제거 근거: https://github.com/sunnypilot/sunnypilot/pull/2056. 이전 빌드의 맥락을 유지하고 브랜치 간 동작이 동일하다고 가정하지 마세요.",
++          "userNote": "10월 16일 PR #2056으로 master에서 제거되었습니다. 확인한 dev에는 없고 staging에는 남아 있습니다. 기존 설정을 사용하기 전에 브랜치와 릴리스 노트를 확인하세요.",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+@@ -1725,5 +1725,5 @@
+       ]
+     }
+   ],
+-  "lastUpdated": "October 09, 2026"
++  "lastUpdated": "2026-10-16"
+ }
+diff --git aa/data/models.zh.json bb/data/models.zh.json
+index ce4c8e3..e1dedcb 100644
+--- aa/data/models.zh.json
++++ bb/data/models.zh.json
+@@ -1,14 +1,14 @@
+ {
+   "appName": "Sunnylink Model Database",
+   "version": "8.4",
+-  "totalModels": 130,
+-  "lastUpdated": "October 09, 2026",
++  "totalModels": 132,
++  "lastUpdated": "October 16, 2026",
+   "vibeGuide": {
+     "chestnut_gpu": {
+       "title": "Chestnut GPU 系列（大型號）",
+       "subtitle": "僅限 eGPU 的重量級產品",
+-      "includes": "Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+-      "vibe": "這些是“大模型”——比 WMI 或 OP 系列中的任何產品都大的Chestnut級網絡，與 comma 的新 GPU 附加組件相關，該附加組件於 2026 年 8 月開始向用戶提供。它們在跑步期間幾乎每天都會出現在論壇的 big_model 標籤下。額外的網絡尺寸首先體現在橫向上：將城市內的 90 度轉彎改寬而不是切斷它們，並顯示出穩定的而不是浮動的高速公路穩定性。像五漁村和 Sad Model 這樣的傑出參賽作品顯着改善了橫向穩定性和自然的轉向感覺，而早期的 BMRLNAP 則遭受低速轉向振盪的困擾。停車標誌和交通燈停車線仍然是整線調整的活躍區域。運行時說明（10 月 2 日）：PR #2035 建議在統一 AMD 傳輸之前使用 1344×760 comma 3X 幀。 PR #2023 建議通過 comma four 上的高級 sunnylink 設備控制來實現 ChestnutPowerLimit（0 = 庫存；40–100 W）。兩者均保持開放狀態。模型管理（10 月 9 日）：10 月 6 日同步（#2036）將 master 更新為選擇器 20、Chestnut v27 和 Qualcomm v23。Qualcomm v24 已發布，但採用它仍是尚未合併的 PR #2044 提案。PR #2015 仍未合併；選擇器 20 已透過同步進入 master。 PR #1999 建議診斷過時的編譯運行時啓動故障，這些故障可能顯示爲 Posenet NaN 速度警報。",
++      "includes": "Mountain Dew v3, Mountain Dew, Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
++      "vibe": "這些是“大模型”——比 WMI 或 OP 系列中的任何產品都大的Chestnut級網絡，與 comma 的新 GPU 附加組件相關，該附加組件於 2026 年 8 月開始向用戶提供。它們在跑步期間幾乎每天都會出現在論壇的 big_model 標籤下。額外的網絡尺寸首先體現在橫向上：將城市內的 90 度轉彎改寬而不是切斷它們，並顯示出穩定的而不是浮動的高速公路穩定性。像五漁村和 Sad Model 這樣的傑出參賽作品顯着改善了橫向穩定性和自然的轉向感覺，而早期的 BMRLNAP 則遭受低速轉向振盪的困擾。停車標誌和交通燈停車線仍然是整線調整的活躍區域。運行時說明（10 月 2 日）：PR #2035 建議在統一 AMD 傳輸之前使用 1344×760 comma 3X 幀。 PR #2023 建議通過 comma four 上的高級 sunnylink 設備控制來實現 ChestnutPowerLimit（0 = 庫存；40–100 W）。兩者均保持開放狀態。模型管理（10 月 16 日）：master、dev 和 staging 仍採用選擇器 20、Chestnut v27 與 Qualcomm v23。已發布的 Chestnut v28 和 Qualcomm v25 需要選擇器 21；發布不代表這些分支可用。PR #2015、#2044 和 #1999 均未合併即關閉，並非已發布的修正。",
+       "bestFor": "擁有 eGPU 的 Chestnut 所有者想要最大的可用網絡並且願意進行測試。",
+       "recommendation": "Cinque Terre 和 V2 的整體投票偏正面，但不同車輛的回報並不一致。請在自己的配置上確認停車、轉彎及低速轉向。master 現已透過選擇器 20 與 Chestnut v27 包含 V3，但未核實到 V3 專屬論壇投票。仍須符合硬體與分支相容性條件。"
+     },
+@@ -750,6 +750,34 @@
+           ],
+           "routesDriven": 19,
+           "fleetRank": 64
++        },
++        {
++          "name": "Mountain Dew Model",
++          "date": "October 10, 2026",
++          "badge": "Experimental",
++          "tags": [
++            "Big Model",
++            "Chestnut",
++            "Experimental"
++          ],
++          "consensus": "僅核實到已發布的模型檔案。本次審查未核實到專屬模型投票或特定車輛的駕駛證據。",
++          "note": "官方 Chestnut v28 清單將此模型列為選擇器 21、世代 12。檢查的 master/dev/staging 使用選擇器 20 與 Chestnut v27，因此發布不代表這些分支可用。須確認硬體與執行期相容性。",
++          "bestFor": "供相容選擇器 21 執行期的研究使用；尚未確立特定車輛的推薦。",
++          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/da2d8dac5f77e3a6f72fefbfb14edea3555f05f6/docs/driving_models_chestnut_v28.json"
++        },
++        {
++          "name": "Mountain Dew Model v3",
++          "date": "October 14, 2026",
++          "badge": "Experimental",
++          "tags": [
++            "Big Model",
++            "Chestnut",
++            "Experimental"
++          ],
++          "consensus": "僅核實到已發布的模型檔案。本次審查未核實到專屬模型投票或特定車輛的駕駛證據。",
++          "note": "官方 Chestnut v28 清單將此模型列為選擇器 21、世代 12。檢查的 master/dev/staging 使用選擇器 20 與 Chestnut v27，因此發布不代表這些分支可用。須確認硬體與執行期相容性。",
++          "bestFor": "供相容選擇器 21 執行期的研究使用；尚未確立特定車輛的推薦。",
++          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/da2d8dac5f77e3a6f72fefbfb14edea3555f05f6/docs/driving_models_chestnut_v28.json"
+         }
+       ]
+     },
+@@ -1292,10 +1320,10 @@
+             "Highway"
+           ],
+           "communityScore": 86,
+-          "totalVotes": 32,
++          "totalVotes": 34,
+           "sentiment": {
+-            "great": 66,
+-            "good": 22,
++            "great": 68,
++            "good": 20,
+             "ok": 6,
+             "bad": 6
+           },
+@@ -1562,13 +1590,13 @@
+           "negatives": [],
+           "routesDriven": 32,
+           "fleetRank": 59,
+-          "communityScore": 0,
+-          "totalVotes": 2,
++          "communityScore": 33,
++          "totalVotes": 3,
+           "sentiment": {
+-            "great": 0,
++            "great": 33,
+             "good": 0,
+             "ok": 0,
+-            "bad": 100
++            "bad": 67
+           }
+         },
+         {
+diff --git aa/data/features.zh.json bb/data/features.zh.json
+index 3e592a8..1290953 100644
+--- aa/data/features.zh.json
++++ bb/data/features.zh.json
+@@ -2,7 +2,7 @@
+   "appName": "Sunnylink Database",
+   "version": "2026.002",
+   "dataSource": "Official Sunnypilot Documentation, release notes, and linked upstream development proposals / issue reports",
+-  "lastUpdated": "October 09, 2026",
++  "lastUpdated": "2026-10-16",
+   "features": [
+     {
+       "id": "mads",
+@@ -71,9 +71,9 @@
+       "name": "DEC",
+       "fullName": "動態實驗控制",
+       "category": "Core Control",
+-      "officialDefinition": "根據駕駛環境（例如速度、道路類型）自動在冷卻模式（標準縱向）和實驗模式（紅綠燈/停車標誌處理）之間切換。",
+-      "userSummary": "根據上下文自動切換駕駛模式。",
+-      "userTranslation": "“城市/高速公路切換器。”根據上下文自動切換模式。在寒冷模式下實現平穩的高速公路巡航，並在需要時對十字路口和停車標誌進行智能減速。",
++      "officialDefinition": "依情境切換 Chill 和 Experimental 縱向模式的舊功能。PR #2056 於 2026 年 10 月 16 日從 master 移除 DEC；檢查的 dev 版本也已移除，但 staging 仍保留。",
++      "userSummary": "舊版模式切換功能；目前 master 和 dev 已移除。",
++      "userTranslation": "請確認已安裝分支。檢查的 master/dev 不含 DEC，staging 則仍保留。此變更不代表舊標籤版本也已移除。設定精靈不再自動建議這個依分支而定的設定。",
+       "settingsKeys": [
+         "DynamicExperimentalControl"
+       ],
+@@ -235,7 +235,7 @@
+       "category": "Models & AI",
+       "officialDefinition": "允許直接在設備上切換和測試不同的視覺神經網絡驅動模型。配置高級模型參數，包括車道轉彎期望、實時學習轉向延遲和攝像頭軟件延遲。",
+       "userSummary": "具有微調參數的駕駛室內人工智能模型切換器。",
+-      "userTranslation": "選擇適合配置的駕駛模型，並調整轉向延遲或轉彎意圖。10 月 6 日同步（#2036）後，master 採用選擇器 20、Chestnut v27 和 Qualcomm v23。Qualcomm v24 的採用仍是尚未合併的 PR #2044 提案。模型重新整理由 #2018 加入；請在停車且未下載時重新整理。清除快取會刪除已下載的模型。",
++      "userTranslation": "master、dev 和 staging 仍採用選擇器 20、Chestnut v27 與 Qualcomm v23。已發布的 Chestnut v28 和 Qualcomm v25 目錄需要選擇器 21。選擇模型前請確認分支。PR #2015 和 #2044 已關閉且未合併。請在停車且沒有下載時重新整理；Clear Cache 會刪除已下載模型。",
+       "settingsKeys": [
+         "DrivingModel",
+         "ModelLibrary",
+@@ -315,9 +315,9 @@
+       "name": "模型運行時啓動故障排除",
+       "fullName": "模型運行時啓動故障排除",
+       "category": "Models & AI",
+-      "officialDefinition": "Open PR #1999 解決了由於 modeld 無法加載過時的編譯模型工件而導致的誤導性 Posenet NaN 速度警報。",
++      "officialDefinition": "PR #1999 曾提議調整編譯模型啟動時誤導性的 Posenet NaN 速度警報，但已於 2026 年 10 月 16 日關閉且未合併。",
+       "userSummary": "初始化失敗可能會顯示爲 Posenet 速度錯誤。",
+-      "userTranslation": "該提案驗證編譯模型密鑰並更改緩存失效和警報門控。這不是已確認發佈的修復程序。持續警報需要運行時診斷；僅清除模型緩存並不能確定已編譯的運行時已修復。",
++      "userTranslation": "請勿將 PR #1999 視為可用修正。持續警報仍需執行期診斷；僅清除模型快取並不能證明執行期已修復。",
+       "settingsKeys": [],
+       "docUrl": "https://github.com/sunnypilot/sunnypilot/pull/1999"
+     },
+@@ -392,7 +392,7 @@
+     "ACC": "自適應巡航控制 - 保持設定速度並跟隨交通",
+     "ALC": "自動車道居中/自動變道 - 保持車輛居中或自動變道",
+     "BSM": "盲點監控 - 車輛傳感器檢測相鄰車道上的車輛",
+-    "DEC": "動態實驗控制 - Chill 和 Experimental 模式之間的上下文切換",
++    "DEC": "Dynamic Experimental Control — 舊版模式切換；目前 master/dev 已移除，檢查的 staging 仍保留。",
+     "E2E": "端到端——直接預測車輛行駛路徑的AI神經網絡",
+     "ESCC": "增強型智能巡航控制 - Hyundai/Kia 巡航管理和按鈕集成",
+     "Firehose": "大規模自動駕駛遙測上傳系統助力駕駛模型訓練",
+diff --git aa/data/toggles.zh.json bb/data/toggles.zh.json
+index 0665f0e..6afd21d 100644
+--- aa/data/toggles.zh.json
++++ bb/data/toggles.zh.json
+@@ -71,14 +71,14 @@
+           "type": "dropdown",
+           "description": "選擇AI駕駛模式。每個模型都有獨特的駕駛特性。",
+           "useCase": "選擇適合您的駕駛風格和路況的車型。",
+-          "userNote": "本維基記錄了 130 個模型。裝置可使用的模型取決於硬體與已安裝的分支。",
++          "userNote": "本維基記錄了 132 個模型。裝置可用性取決於硬體、選擇器版本及已安裝分支。",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+           "key": "ModelLibrary",
+           "label": "模型庫",
+           "type": "action",
+-          "description": "瀏覽 130 個已記錄的駕駛模型、發布日期與社群證據。裝置可用性取決於硬體與已安裝的分支。",
++          "description": "瀏覽 132 個已記錄的駕駛模型。已發布的目錄項目不一定可用於您的裝置或分支。",
+           "useCase": "找到適合您駕駛風格的完美車型。",
+           "userNote": "包括 WMI 系列、《黑暗之魂》、《Down to Ride》、《古墓麗影》和《Legacy》型號。",
+           "deviceAvailability": "config-hidden"
+@@ -90,7 +90,7 @@
+           "description": "從服務器獲取可用的模型目錄。 PR #2018 於 9 月 14 日合併到 master，向 comma four (MICI) 添加了操作，並改進了兩個設備 UI 中的刷新進度。",
+           "userNote": "在停車模式時可用，無需運行任何模型下載或刷新。該按鈕顯示獲取進度。需要包含 PR #2018 的構建；穩定版本的可用性取決於分支。",
+           "deviceAvailability": "config-hidden",
+-          "deepDive": "重新整理功能：https://github.com/sunnypilot/sunnypilot/pull/2018。master 透過 10 月 6 日同步更新為選擇器 20、Chestnut v27 和 Qualcomm v23：https://github.com/sunnypilot/sunnypilot/pull/2036。PR #2015 仍未合併，但選擇器 20 已進入 master。Qualcomm v24 的採用仍為提案：https://github.com/sunnypilot/sunnypilot/pull/2044。"
++          "deepDive": "master、dev 和 staging 使用選擇器 20 與 Chestnut v27 / Qualcomm v23。新的 v28 / v25 目錄需要選擇器 21。PR #2015 和 #2044 均未合併即關閉，並非待採用功能。來源：https://github.com/sunnypilot/sunnypilot/pull/2015 及 https://github.com/sunnypilot/sunnypilot/pull/2044."
+         },
+         {
+           "key": "ClearModelCache",
+@@ -695,17 +695,17 @@
+           "label": "動態實驗控制",
+           "type": "toggle",
+           "default": false,
+-          "description": "根據駕駛環境自動在放鬆模式（高速公路）和實驗模式（城市）之間切換。",
+-          "recommended": true,
+-          "useCase": "非常適合涉及高速公路和有交通燈的城市街道的混合通勤。",
++          "description": "舊版 Chill 與 Experimental 自動切換功能；檢查的目前 master/dev 不可用。",
++          "recommended": false,
++          "useCase": "僅適用於仍實作 DEC 的舊版本；不建議用於目前 master/dev。",
+           "tradeoffs": [
+             "如果錯誤地檢測到紅燈或停車標誌，可能會導致幻象制動。",
+             "在複雜的十字路口可能會不可預測地切換模式。",
+             "可能會導致燈光/標誌延遲制動。",
+             "由於模式切換，使得評估特定模型變得更加困難。"
+           ],
+-          "deepDive": "監視模型中的“throttle_prob”以確定意圖。如果模型意圖較低，它會暫時注入複雜場景的實驗模式縱向計劃。",
+-          "userNote": "適合混合駕駛，但如果您需要一致的行爲，請切換到完整實驗。",
++          "deepDive": "移除依據：https://github.com/sunnypilot/sunnypilot/pull/2056。請保留舊版本脈絡，不要假設各分支行為相同。",
++          "userNote": "master 已於 10 月 16 日透過 PR #2056 移除 DEC。檢查的 dev 也已移除，staging 則保留。使用舊設定前請查閱分支與版本說明。",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+@@ -1725,5 +1725,5 @@
+       ]
+     }
+   ],
+-  "lastUpdated": "October 09, 2026"
++  "lastUpdated": "2026-10-16"
+ }
+diff --git aa/data/models.fr.json bb/data/models.fr.json
+index 501e47f..8f93672 100644
+--- aa/data/models.fr.json
++++ bb/data/models.fr.json
+@@ -1,14 +1,14 @@
+ {
+   "appName": "Sunnylink Model Database",
+   "version": "8.4",
+-  "totalModels": 130,
+-  "lastUpdated": "October 09, 2026",
++  "totalModels": 132,
++  "lastUpdated": "October 16, 2026",
+   "vibeGuide": {
+     "chestnut_gpu": {
+       "title": "La série Chestnut GPU (grands modèles)",
+       "subtitle": "Poids lourds eGPU uniquement",
+-      "includes": "Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+-      "vibe": "Ce sont les « grands modèles » – des réseaux de classe Chestnut plus grands que tout ce qui existe dans les gammes WMI ou OP, liés au nouveau module complémentaire GPU de Comma, qui a commencé à atteindre les propriétaires en août 2026. Ils tombent sous la balise big_model du forum à une cadence quasi quotidienne pendant une course. La taille supplémentaire du réseau apparaît d'abord sur le plan latéral : en prenant des virages à 90 degrés en ville au lieu de les couper, et en montrant une stabilité d'autoroute plantée plutôt que flottante. Les modèles les plus remarquables comme Cinque Terre et Sad Model ont considérablement amélioré la stabilité latérale et la sensation naturelle de la direction, tandis que les versions précédentes de la BMRLNAP souffraient d'oscillations de direction à basse vitesse. Les panneaux d'arrêt et les lignes d'arrêt aux feux de circulation restent un domaine actif de réglage sur toute la ligne. Notes d'exécution (2 octobre) : PR #2035 propose 1344 × 760 images comma 3X avant le transfert unifié AMD. Le PR #2023 propose le ChestnutPowerLimit (0 = stock ; 40-100 W) via des commandes avancées de périphérique sunnylink sur le comma four. Les deux restent ouverts. Gestion des modèles (9 octobre) : la synchronisation du 6 octobre (#2036) a fait passer master au sélecteur 20, à Chestnut v27 et à Qualcomm v23. Qualcomm v24 est publié, mais son adoption est proposée dans le PR #2044 encore ouvert. Le PR #2015 reste ouvert ; le sélecteur 20 est déjà dans master grâce à la synchronisation. PR #1999 propose de diagnostiquer les échecs de démarrage du runtime compilé obsolètes qui peuvent apparaître sous la forme d'alertes de vitesse Posenet NaN.",
++      "includes": "Mountain Dew v3, Mountain Dew, Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
++      "vibe": "Ce sont les « grands modèles » – des réseaux de classe Chestnut plus grands que tout ce qui existe dans les gammes WMI ou OP, liés au nouveau module complémentaire GPU de Comma, qui a commencé à atteindre les propriétaires en août 2026. Ils tombent sous la balise big_model du forum à une cadence quasi quotidienne pendant une course. La taille supplémentaire du réseau apparaît d'abord sur le plan latéral : en prenant des virages à 90 degrés en ville au lieu de les couper, et en montrant une stabilité d'autoroute plantée plutôt que flottante. Les modèles les plus remarquables comme Cinque Terre et Sad Model ont considérablement amélioré la stabilité latérale et la sensation naturelle de la direction, tandis que les versions précédentes de la BMRLNAP souffraient d'oscillations de direction à basse vitesse. Les panneaux d'arrêt et les lignes d'arrêt aux feux de circulation restent un domaine actif de réglage sur toute la ligne. Notes d'exécution (2 octobre) : PR #2035 propose 1344 × 760 images comma 3X avant le transfert unifié AMD. Le PR #2023 propose le ChestnutPowerLimit (0 = stock ; 40-100 W) via des commandes avancées de périphérique sunnylink sur le comma four. Les deux restent ouverts. Gestion des modèles (16 octobre) : master, dev et staging utilisent toujours le sélecteur 20, Chestnut v27 et Qualcomm v23. Les catalogues publiés Chestnut v28 et Qualcomm v25 nécessitent le sélecteur 21 ; leur publication ne prouve pas leur disponibilité sur ces branches. Les PR #2015, #2044 et #1999 ont été fermés sans fusion et ne constituent pas des correctifs publiés.",
+       "bestFor": "Propriétaires de Chestnut dotés d’un eGPU qui souhaitent disposer des plus grands réseaux disponibles et sont à l’aise avec les tests.",
+       "recommendation": "Les sondages globaux de Cinque Terre et V2 sont positifs, mais les retours varient selon le véhicule. Vérifiez les arrêts, les virages et la direction à basse vitesse sur votre configuration. Master inclut désormais V3 dans Chestnut v27 avec le sélecteur 20 ; aucun sondage de forum propre à V3 n’a été vérifié. Les conditions de compatibilité du matériel et de la branche restent applicables."
+     },
+@@ -750,6 +750,34 @@
+           ],
+           "routesDriven": 19,
+           "fleetRank": 64
++        },
++        {
++          "name": "Mountain Dew Model",
++          "date": "October 10, 2026",
++          "badge": "Experimental",
++          "tags": [
++            "Big Model",
++            "Chestnut",
++            "Experimental"
++          ],
++          "consensus": "Seul l’artefact publié a été vérifié. Aucun sondage dédié au modèle ni retour de conduite propre à un véhicule n’a été vérifié lors de cet audit.",
++          "note": "Le manifeste officiel Chestnut v28 répertorie ce modèle avec le sélecteur 21 et la génération 12. Les master/dev/staging inspectés utilisent le sélecteur 20 et Chestnut v27 : la publication ne prouve donc pas la disponibilité sur ces branches. Vérifiez matériel et runtime.",
++          "bestFor": "Recherche avec un runtime compatible avec le sélecteur 21 ; aucune recommandation propre à un véhicule n’est établie.",
++          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/da2d8dac5f77e3a6f72fefbfb14edea3555f05f6/docs/driving_models_chestnut_v28.json"
++        },
++        {
++          "name": "Mountain Dew Model v3",
++          "date": "October 14, 2026",
++          "badge": "Experimental",
++          "tags": [
++            "Big Model",
++            "Chestnut",
++            "Experimental"
++          ],
++          "consensus": "Seul l’artefact publié a été vérifié. Aucun sondage dédié au modèle ni retour de conduite propre à un véhicule n’a été vérifié lors de cet audit.",
++          "note": "Le manifeste officiel Chestnut v28 répertorie ce modèle avec le sélecteur 21 et la génération 12. Les master/dev/staging inspectés utilisent le sélecteur 20 et Chestnut v27 : la publication ne prouve donc pas la disponibilité sur ces branches. Vérifiez matériel et runtime.",
++          "bestFor": "Recherche avec un runtime compatible avec le sélecteur 21 ; aucune recommandation propre à un véhicule n’est établie.",
++          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/da2d8dac5f77e3a6f72fefbfb14edea3555f05f6/docs/driving_models_chestnut_v28.json"
+         }
+       ]
+     },
+@@ -1292,10 +1320,10 @@
+             "Highway"
+           ],
+           "communityScore": 86,
+-          "totalVotes": 32,
++          "totalVotes": 34,
+           "sentiment": {
+-            "great": 66,
+-            "good": 22,
++            "great": 68,
++            "good": 20,
+             "ok": 6,
+             "bad": 6
+           },
+@@ -1562,13 +1590,13 @@
+           "negatives": [],
+           "routesDriven": 32,
+           "fleetRank": 59,
+-          "communityScore": 0,
+-          "totalVotes": 2,
++          "communityScore": 33,
++          "totalVotes": 3,
+           "sentiment": {
+-            "great": 0,
++            "great": 33,
+             "good": 0,
+             "ok": 0,
+-            "bad": 100
++            "bad": 67
+           }
+         },
+         {
+diff --git aa/data/features.fr.json bb/data/features.fr.json
+index f21e9b5..6a0db66 100644
+--- aa/data/features.fr.json
++++ bb/data/features.fr.json
+@@ -2,7 +2,7 @@
+   "appName": "Sunnylink Database",
+   "version": "2026.002",
+   "dataSource": "Official Sunnypilot Documentation, release notes, and linked upstream development proposals / issue reports",
+-  "lastUpdated": "October 09, 2026",
++  "lastUpdated": "2026-10-16",
+   "features": [
+     {
+       "id": "mads",
+@@ -71,9 +71,9 @@
+       "name": "DEC",
+       "fullName": "Contrôle expérimental dynamique",
+       "category": "Core Control",
+-      "officialDefinition": "Bascule automatiquement entre le mode Chill (longitudinal standard) et le mode expérimental (gestion des feux de circulation/des panneaux d'arrêt) en fonction du contexte de conduite (par exemple, vitesse, type de route).",
+-      "userSummary": "Change automatiquement de mode de conduite en fonction du contexte.",
+-      "userTranslation": "« Commutateur ville/autoroute ». Change automatiquement de mode en fonction du contexte. Conduite fluide sur autoroute en mode Chill et ralentissement intelligent aux intersections et aux panneaux d'arrêt en cas de besoin.",
++      "officialDefinition": "Ancienne commutation contextuelle entre les modes longitudinaux Chill et Experimental. Le PR #2056 a retiré DEC de master le 16 octobre 2026 ; le dev inspecté l’omet aussi, tandis que staging le conserve.",
++      "userSummary": "Ancienne commutation des modes ; retirée des versions actuelles de master et dev.",
++      "userTranslation": "Vérifiez la branche installée. DEC est absent de master/dev inspectés et reste dans staging inspecté. Cela ne prouve pas son retrait des anciennes versions étiquetées. L’assistant ne recommande plus automatiquement ce réglage dépendant de la branche.",
+       "settingsKeys": [
+         "DynamicExperimentalControl"
+       ],
+@@ -235,7 +235,7 @@
+       "category": "Models & AI",
+       "officialDefinition": "Permet de changer et de tester différents modèles de pilotage de réseau neuronal de vision directement sur l'appareil. Configurez les paramètres avancés du modèle, notamment les souhaits de changement de voie, le délai de direction d'apprentissage en direct et le délai du logiciel de la caméra.",
+       "userSummary": "Sélecteur de modèles AI en cabine avec paramètres de réglage précis.",
+-      "userTranslation": "Choisissez un modèle de conduite et ajustez le délai de direction ou les intentions de virage selon votre configuration. Après la synchronisation du 6 octobre (#2036), master utilise le sélecteur 20 avec Chestnut v27 et Qualcomm v23. L’adoption de Qualcomm v24 reste proposée dans le PR #2044 ouvert. L’actualisation des modèles a été ajoutée par #2018 ; actualisez à l’arrêt, sans téléchargement en cours. Vider le cache supprime les modèles téléchargés.",
++      "userTranslation": "Master, dev et staging utilisent toujours le sélecteur 20, Chestnut v27 et Qualcomm v23. Les catalogues publiés Chestnut v28 et Qualcomm v25 nécessitent le sélecteur 21. Vérifiez votre branche avant de choisir un modèle. Les PR #2015 et #2044 ont été fermés sans fusion. Actualisez à l’arrêt sans téléchargement en cours ; Clear Cache supprime les modèles téléchargés.",
+       "settingsKeys": [
+         "DrivingModel",
+         "ModelLibrary",
+@@ -315,9 +315,9 @@
+       "name": "Dépannage au démarrage du runtime du modèle",
+       "fullName": "Dépannage au démarrage du runtime du modèle",
+       "category": "Models & AI",
+-      "officialDefinition": "Open PR #1999 corrige une alerte trompeuse de vitesse Posenet NaN provoquée par l'échec de modeld à charger un artefact de modèle compilé obsolète.",
++      "officialDefinition": "Le PR #1999 proposait des modifications pour une alerte de vitesse Posenet NaN trompeuse au démarrage d’un modèle compilé, mais a été fermé sans fusion le 16 octobre 2026.",
+       "userSummary": "Un échec d'initialisation peut apparaître comme une erreur de vitesse Posenet.",
+-      "userTranslation": "La proposition valide les clés du modèle compilé et modifie l'invalidation du cache et le déclenchement des alertes. Il ne s'agit pas d'un correctif publié confirmé. Une alerte persistante nécessite des diagnostics d'exécution ; La suppression du cache de modèle à elle seule ne permet pas d'établir que le runtime compilé est réparé.",
++      "userTranslation": "Ne considérez pas le PR #1999 comme un correctif disponible. Une alerte persistante nécessite toujours un diagnostic du runtime ; vider le cache des modèles ne prouve pas sa réparation.",
+       "settingsKeys": [],
+       "docUrl": "https://github.com/sunnypilot/sunnypilot/pull/1999"
+     },
+@@ -392,7 +392,7 @@
+     "ACC": "Régulateur de vitesse adaptatif - Maintient la vitesse définie et suit le trafic",
+     "ALC": "Centrage automatique de voie/changement de voie automatique – Maintient la voiture centrée ou change de voie automatiquement.",
+     "BSM": "Surveillance des angles morts – Capteurs de véhicules détectant les voitures dans les voies adjacentes",
+-    "DEC": "Contrôle expérimental dynamique - Commutation contextuelle entre les modes Chill et Experimental",
++    "DEC": "Dynamic Experimental Control — ancienne commutation des modes ; retirée de master/dev actuels, conservée dans staging inspecté.",
+     "E2E": "De bout en bout : réseau neuronal IA qui prédit directement la trajectoire de conduite du véhicule",
+     "ESCC": "Régulateur de vitesse intelligent amélioré - Gestion de la croisière Hyundai/Kia et intégration des boutons",
+     "Firehose": "Système de téléchargement de télémétrie de conduite automatisé à grande échelle contribuant à la formation des modèles de conduite",
+diff --git aa/data/toggles.fr.json bb/data/toggles.fr.json
+index bcce51f..38d2a15 100644
+--- aa/data/toggles.fr.json
++++ bb/data/toggles.fr.json
+@@ -71,14 +71,14 @@
+           "type": "dropdown",
+           "description": "Sélectionnez le modèle de conduite AI. Chaque modèle possède des caractéristiques de conduite uniques.",
+           "useCase": "Choisissez un modèle qui correspond à votre style de conduite et aux conditions routières.",
+-          "userNote": "Le wiki documente 130 modèles. Les modèles disponibles sur votre appareil dépendent du matériel et de la branche installée.",
++          "userNote": "Le wiki documente 132 modèles. Leur disponibilité dépend du matériel, de la version du sélecteur et de la branche installée.",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+           "key": "ModelLibrary",
+           "label": "Bibliothèque de modèles",
+           "type": "action",
+-          "description": "Parcourez 130 modèles de conduite documentés, avec leurs dates de publication et les données communautaires. La disponibilité sur l’appareil dépend du matériel et de la branche installée.",
++          "description": "Parcourez 132 modèles de conduite documentés. Une entrée publiée dans un catalogue n’est pas nécessairement disponible sur votre appareil ou votre branche.",
+           "useCase": "Trouvez le modèle parfait pour votre style de conduite.",
+           "userNote": "Comprend les modèles WMI Series, Dark Souls, Down to Ride, Tomb Raider et Legacy.",
+           "deviceAvailability": "config-hidden"
+@@ -90,7 +90,7 @@
+           "description": "Récupère le catalogue de modèles disponible sur le serveur. PR #2018, fusionné avec le master le 14 septembre, ajoute l'action à comma four (MICI) et améliore la progression de l'actualisation dans les deux interfaces utilisateur de l'appareil.",
+           "userNote": "Disponible en stationné, sans téléchargement ni actualisation de modèle déjà en cours. Le bouton affiche la progression de la récupération. Nécessite une version contenant PR #2018 ; la disponibilité de la version stable dépend de la branche.",
+           "deviceAvailability": "config-hidden",
+-          "deepDive": "Actualisation : https://github.com/sunnypilot/sunnypilot/pull/2018. Master est passé au sélecteur 20, à Chestnut v27 et à Qualcomm v23 via la synchronisation du 6 octobre : https://github.com/sunnypilot/sunnypilot/pull/2036. Le PR #2015 reste ouvert, bien que le sélecteur 20 soit déjà dans master. L’adoption de Qualcomm v24 reste une proposition : https://github.com/sunnypilot/sunnypilot/pull/2044."
++          "deepDive": "Master, dev et staging utilisent le sélecteur 20 et Chestnut v27 / Qualcomm v23. Les nouveaux catalogues v28 / v25 nécessitent le sélecteur 21. Les PR #2015 et #2044 ont été fermés sans fusion, et non laissés en attente d’adoption. Sources : https://github.com/sunnypilot/sunnypilot/pull/2015 et https://github.com/sunnypilot/sunnypilot/pull/2044."
+         },
+         {
+           "key": "ClearModelCache",
+@@ -695,17 +695,17 @@
+           "label": "Contrôle expérimental dynamique",
+           "type": "toggle",
+           "default": false,
+-          "description": "Bascule automatiquement entre le mode Chill (autoroute) et le mode expérimental (ville) en fonction du contexte de conduite.",
+-          "recommended": true,
+-          "useCase": "Parfait pour les trajets mixtes impliquant à la fois des autoroutes et des rues urbaines avec feux de circulation.",
++          "description": "Ancienne commutation automatique entre Chill et Experimental ; absente des versions actuelles inspectées de master/dev.",
++          "recommended": false,
++          "useCase": "Pour les anciennes versions qui implémentent encore DEC ; non recommandé pour master/dev actuels.",
+           "tradeoffs": [
+             "Peut provoquer un freinage fantôme s'il détecte par erreur un feu rouge ou un panneau d'arrêt.",
+             "Peut changer de mode de manière imprévisible dans des intersections complexes.",
+             "Peut provoquer un freinage tardif pour les feux/panneaux.",
+             "Rend l’évaluation de modèles spécifiques plus difficile en raison du changement de mode."
+           ],
+-          "deepDive": "Surveille le « throttle_prob » du modèle pour déterminer l'intention. Si l'intention du modèle est faible, il injecte temporairement le plan longitudinal du mode expérimental pour les scénarios complexes.",
+-          "userNote": "Idéal pour la conduite mixte, mais passez au mode expérimental complet si vous avez besoin d'un comportement cohérent.",
++          "deepDive": "Source du retrait : https://github.com/sunnypilot/sunnypilot/pull/2056. Conservez le contexte des anciennes versions ; ne supposez pas un comportement identique entre branches.",
++          "userNote": "Retiré de master par le PR #2056 le 16 octobre. Le dev inspecté l’omet ; staging le conserve. Vérifiez branche et notes de version avant d’utiliser cet ancien réglage.",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+@@ -1725,5 +1725,5 @@
+       ]
+     }
+   ],
+-  "lastUpdated": "October 09, 2026"
++  "lastUpdated": "2026-10-16"
+ }
+diff --git aa/data/models.de.json bb/data/models.de.json
+index b52e229..c7afbe1 100644
+--- aa/data/models.de.json
++++ bb/data/models.de.json
+@@ -1,14 +1,14 @@
+ {
+   "appName": "Sunnylink Model Database",
+   "version": "8.4",
+-  "totalModels": 130,
+-  "lastUpdated": "October 09, 2026",
++  "totalModels": 132,
++  "lastUpdated": "October 16, 2026",
+   "vibeGuide": {
+     "chestnut_gpu": {
+       "title": "Die Chestnut GPU-Serie (große Modelle)",
+       "subtitle": "Nur eGPU-Schwergewichte",
+-      "includes": "Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+-      "vibe": "Dies sind die „großen Modelle“ – Netzwerke der Chestnutklasse, die größer sind als alles in der WMI- oder OP-Reihe, verbunden mit dem neuen GPU-Add-on von Comma, das seit August 2026 Besitzer erreicht. Sie fallen während eines Laufs fast täglich unter dem Tag „big_model“ des Forums auf. Die zusätzliche Netzwerkgröße zeigt sich zuerst im Querverkehr: 90-Grad-Kurven innerhalb der Stadt werden weit gefahren, anstatt sie zu schneiden, und die Stabilität auf bepflanzten statt auf schwebenden Autobahnen wird deutlich. Herausragende Modelle wie Cinque Terre und Sad Model haben die Seitenstabilität und das natürliche Lenkgefühl deutlich verbessert, während frühere BMRLNAP-Fahrten unter Lenkschwingungen bei niedriger Geschwindigkeit litten. Stoppschilder und Ampelstopplinien bleiben auf der gesamten Strecke ein aktiver Tuningbereich. Laufzeithinweise (2. Oktober): PR #2035 schlägt 1344×760 comma 3X-Frames vor der einheitlichen AMD-Übertragung vor. PR #2023 schlägt ChestnutPowerLimit (0 = Lager; 40–100 W) über erweiterte sunnylink-Gerätesteuerungen auf comma four vor. Beide bleiben geöffnet. Modellverwaltung (9. Oktober): Die Synchronisierung vom 6. Oktober (#2036) stellte master auf Selector 20, Chestnut v27 und Qualcomm v23 um. Qualcomm v24 ist veröffentlicht, seine Übernahme wird jedoch im offenen PR #2044 vorgeschlagen. PR #2015 bleibt offen; Selector 20 ist durch die Synchronisierung bereits in master enthalten. PR #1999 schlägt die Diagnose veralteter Startfehler der kompilierten Laufzeit vor, die als Posenet NaN-Geschwindigkeitswarnungen angezeigt werden können.",
++      "includes": "Mountain Dew v3, Mountain Dew, Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
++      "vibe": "Dies sind die „großen Modelle“ – Netzwerke der Chestnutklasse, die größer sind als alles in der WMI- oder OP-Reihe, verbunden mit dem neuen GPU-Add-on von Comma, das seit August 2026 Besitzer erreicht. Sie fallen während eines Laufs fast täglich unter dem Tag „big_model“ des Forums auf. Die zusätzliche Netzwerkgröße zeigt sich zuerst im Querverkehr: 90-Grad-Kurven innerhalb der Stadt werden weit gefahren, anstatt sie zu schneiden, und die Stabilität auf bepflanzten statt auf schwebenden Autobahnen wird deutlich. Herausragende Modelle wie Cinque Terre und Sad Model haben die Seitenstabilität und das natürliche Lenkgefühl deutlich verbessert, während frühere BMRLNAP-Fahrten unter Lenkschwingungen bei niedriger Geschwindigkeit litten. Stoppschilder und Ampelstopplinien bleiben auf der gesamten Strecke ein aktiver Tuningbereich. Laufzeithinweise (2. Oktober): PR #2035 schlägt 1344×760 comma 3X-Frames vor der einheitlichen AMD-Übertragung vor. PR #2023 schlägt ChestnutPowerLimit (0 = Lager; 40–100 W) über erweiterte sunnylink-Gerätesteuerungen auf comma four vor. Beide bleiben geöffnet. Modellverwaltung (16. Oktober): master, dev und staging verwenden weiterhin Selector 20, Chestnut v27 und Qualcomm v23. Die veröffentlichten Kataloge Chestnut v28 und Qualcomm v25 erfordern Selector 21; ihre Veröffentlichung belegt keine Verfügbarkeit auf diesen Branches. PR #2015, #2044 und #1999 wurden ohne Merge geschlossen und sind keine veröffentlichten Fehlerbehebungen.",
+       "bestFor": "Chestnut-Besitzer mit einer eGPU, die die größten verfügbaren Netzwerke wünschen und sich beim Testen wohl fühlen.",
+       "recommendation": "Die Gesamtumfragen zu Cinque Terre und V2 sind positiv, aber die Berichte unterscheiden sich je nach Fahrzeug. Prüfen Sie Anhalten, Kurven und langsames Lenken mit Ihrer Konfiguration. Master enthält jetzt V3 in Chestnut v27 mit Selector 20; eine eigene V3-Forumsumfrage wurde nicht bestätigt. Hardware- und Branchkompatibilität gelten weiterhin."
+     },
+@@ -750,6 +750,34 @@
+           ],
+           "routesDriven": 19,
+           "fleetRank": 64
++        },
++        {
++          "name": "Mountain Dew Model",
++          "date": "October 10, 2026",
++          "badge": "Experimental",
++          "tags": [
++            "Big Model",
++            "Chestnut",
++            "Experimental"
++          ],
++          "consensus": "Nur das veröffentlichte Modellartefakt wurde verifiziert. Keine eigene Modellumfrage oder fahrzeugspezifische Fahrerfahrung wurde in diesem Audit bestätigt.",
++          "note": "Das offizielle Chestnut-v28-Manifest führt dieses Modell mit Selector 21 und Generation 12. Geprüfte master/dev/staging nutzen Selector 20 und Chestnut v27; die Veröffentlichung belegt daher keine Verfügbarkeit auf diesen Branches. Hardware und Laufzeit müssen kompatibel sein.",
++          "bestFor": "Forschung mit kompatibler Selector-21-Laufzeit; keine fahrzeugspezifische Empfehlung belegt.",
++          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/da2d8dac5f77e3a6f72fefbfb14edea3555f05f6/docs/driving_models_chestnut_v28.json"
++        },
++        {
++          "name": "Mountain Dew Model v3",
++          "date": "October 14, 2026",
++          "badge": "Experimental",
++          "tags": [
++            "Big Model",
++            "Chestnut",
++            "Experimental"
++          ],
++          "consensus": "Nur das veröffentlichte Modellartefakt wurde verifiziert. Keine eigene Modellumfrage oder fahrzeugspezifische Fahrerfahrung wurde in diesem Audit bestätigt.",
++          "note": "Das offizielle Chestnut-v28-Manifest führt dieses Modell mit Selector 21 und Generation 12. Geprüfte master/dev/staging nutzen Selector 20 und Chestnut v27; die Veröffentlichung belegt daher keine Verfügbarkeit auf diesen Branches. Hardware und Laufzeit müssen kompatibel sein.",
++          "bestFor": "Forschung mit kompatibler Selector-21-Laufzeit; keine fahrzeugspezifische Empfehlung belegt.",
++          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/da2d8dac5f77e3a6f72fefbfb14edea3555f05f6/docs/driving_models_chestnut_v28.json"
+         }
+       ]
+     },
+@@ -1292,10 +1320,10 @@
+             "Highway"
+           ],
+           "communityScore": 86,
+-          "totalVotes": 32,
++          "totalVotes": 34,
+           "sentiment": {
+-            "great": 66,
+-            "good": 22,
++            "great": 68,
++            "good": 20,
+             "ok": 6,
+             "bad": 6
+           },
+@@ -1562,13 +1590,13 @@
+           "negatives": [],
+           "routesDriven": 32,
+           "fleetRank": 59,
+-          "communityScore": 0,
+-          "totalVotes": 2,
++          "communityScore": 33,
++          "totalVotes": 3,
+           "sentiment": {
+-            "great": 0,
++            "great": 33,
+             "good": 0,
+             "ok": 0,
+-            "bad": 100
++            "bad": 67
+           }
+         },
+         {
+diff --git aa/data/features.de.json bb/data/features.de.json
+index a47b601..6217959 100644
+--- aa/data/features.de.json
++++ bb/data/features.de.json
+@@ -2,7 +2,7 @@
+   "appName": "Sunnylink Database",
+   "version": "2026.002",
+   "dataSource": "Official Sunnypilot Documentation, release notes, and linked upstream development proposals / issue reports",
+-  "lastUpdated": "October 09, 2026",
++  "lastUpdated": "2026-10-16",
+   "features": [
+     {
+       "id": "mads",
+@@ -71,9 +71,9 @@
+       "name": "DEC",
+       "fullName": "Dynamische experimentelle Kontrolle",
+       "category": "Core Control",
+-      "officialDefinition": "Schaltet je nach Fahrkontext (z. B. Geschwindigkeit, Straßentyp) automatisch zwischen dem Chill-Modus (Standard-Längsrichtung) und dem Experimentalmodus (Verwaltung von Ampel-/Stoppschildern) um.",
+-      "userSummary": "Schaltet den Fahrmodus je nach Kontext automatisch um.",
+-      "userTranslation": "„Stadt-/Autobahn-Umschalter.“ Wechselt automatisch den Modus basierend auf dem Kontext. Sanftes Fahren auf der Autobahn im Chill-Modus und intelligentes Verlangsamen bei Kreuzungen und Stoppschildern bei Bedarf.",
++      "officialDefinition": "Frühere situationsabhängige Umschaltung zwischen den Längsregelungsmodi Chill und Experimental. PR #2056 entfernte DEC am 16. Oktober 2026 aus master; auch der geprüfte dev-Build enthält es nicht mehr, staging dagegen weiterhin.",
++      "userSummary": "Frühere Modusumschaltung; aus aktuellem master und dev entfernt.",
++      "userTranslation": "Prüfen Sie den installierten Branch. DEC fehlt in geprüftem master/dev und bleibt in geprüftem staging erhalten. Daraus folgt keine Entfernung aus älteren getaggten Releases. Der Assistent empfiehlt diese branchabhängige Einstellung nicht mehr automatisch.",
+       "settingsKeys": [
+         "DynamicExperimentalControl"
+       ],
+@@ -235,7 +235,7 @@
+       "category": "Models & AI",
+       "officialDefinition": "Ermöglicht das Umschalten und Testen verschiedener Fahrmodelle für visuelle neuronale Netze direkt auf dem Gerät. Konfigurieren Sie erweiterte Modellparameter, einschließlich Spurwechselwünsche, Lenkverzögerung beim Live-Lernen und Verzögerung der Kamerasoftware.",
+       "userSummary": "KI-Modellumschalter in der Kabine mit Feinabstimmungsparametern.",
+-      "userTranslation": "Wählen Sie ein Fahrmodell und passen Sie Lenkverzögerung oder Abbiegeabsichten an Ihre Konfiguration an. Seit der Synchronisierung vom 6. Oktober (#2036) nutzt master Selector 20 mit Chestnut v27 und Qualcomm v23. Die Übernahme von Qualcomm v24 wird weiterhin im offenen PR #2044 vorgeschlagen. Modellaktualisierung wurde mit #2018 ergänzt; aktualisieren Sie im Stand ohne laufenden Download. Cache löschen entfernt heruntergeladene Modelle.",
++      "userTranslation": "Master, dev und staging verwenden weiterhin Selector 20, Chestnut v27 und Qualcomm v23. Die veröffentlichten Kataloge Chestnut v28 und Qualcomm v25 benötigen Selector 21. Prüfen Sie vor der Modellwahl Ihren Branch. PR #2015 und #2044 wurden ohne Merge geschlossen. Aktualisieren Sie im Stand ohne laufenden Download; Clear Cache löscht heruntergeladene Modelle.",
+       "settingsKeys": [
+         "DrivingModel",
+         "ModelLibrary",
+@@ -315,9 +315,9 @@
+       "name": "Fehlerbehebung beim Modelllaufzeitstart",
+       "fullName": "Fehlerbehebung beim Modelllaufzeitstart",
+       "category": "Models & AI",
+-      "officialDefinition": "Open PR #1999 behebt einen irreführenden Posenet NaN-Geschwindigkeitsalarm, der dadurch verursacht wurde, dass modeld ein veraltetes kompiliertes Modellartefakt nicht laden konnte.",
++      "officialDefinition": "PR #1999 schlug Änderungen für eine irreführende Posenet-NaN-Geschwindigkeitswarnung beim Start kompilierter Modelle vor, wurde aber am 16. Oktober 2026 ohne Merge geschlossen.",
+       "userSummary": "Ein Initialisierungsfehler kann als Posenet-Geschwindigkeitsfehler erscheinen.",
+-      "userTranslation": "Der Vorschlag validiert kompilierte Modellschlüssel und ändert die Cache-Invalidierung und das Alert-Gating. Es handelt sich nicht um einen bestätigten veröffentlichten Fix. Eine dauerhafte Warnung erfordert eine Laufzeitdiagnose. Das Löschen des Modellcaches allein stellt nicht sicher, dass die kompilierte Laufzeit repariert ist.",
++      "userTranslation": "PR #1999 ist keine verfügbare Fehlerbehebung. Anhaltende Warnungen erfordern weiterhin eine Laufzeitdiagnose; das Leeren des Modellcaches allein belegt keine Reparatur.",
+       "settingsKeys": [],
+       "docUrl": "https://github.com/sunnypilot/sunnypilot/pull/1999"
+     },
+@@ -392,7 +392,7 @@
+     "ACC": "Adaptive Geschwindigkeitsregelung – Hält die eingestellte Geschwindigkeit bei und folgt dem Verkehr",
+     "ALC": "Automatische Spurzentrierung/automatischer Spurwechsel – Hält das Fahrzeug in der Mitte oder wechselt automatisch die Spur",
+     "BSM": "Überwachung des toten Winkels – Fahrzeugsensoren erkennen Autos auf Nebenspuren",
+-    "DEC": "Dynamische experimentelle Steuerung – Kontextabhängiger Wechsel zwischen Chill- und Experimentalmodus",
++    "DEC": "Dynamic Experimental Control — frühere Modusumschaltung; aus aktuellem master/dev entfernt, in geprüftem staging erhalten.",
+     "E2E": "End-to-End – KI-Neuronales Netzwerk, das den Fahrweg des Fahrzeugs direkt vorhersagt",
+     "ESCC": "Verbesserte intelligente Geschwindigkeitsregelung – Hyundai/Kia Geschwindigkeitsregelung und Tastenintegration",
+     "Firehose": "Groß angelegtes Telemetrie-Upload-System für automatisiertes Fahren, das zum Training von Fahrmodellen beiträgt",
+diff --git aa/data/toggles.de.json bb/data/toggles.de.json
+index e0ef6db..3ec1877 100644
+--- aa/data/toggles.de.json
++++ bb/data/toggles.de.json
+@@ -71,14 +71,14 @@
+           "type": "dropdown",
+           "description": "Wählen Sie das KI-Fahrmodell aus. Jedes Modell verfügt über einzigartige Fahreigenschaften.",
+           "useCase": "Wählen Sie ein Modell, das Ihrem Fahrstil und den Straßenverhältnissen entspricht.",
+-          "userNote": "Das Wiki dokumentiert 130 Modelle. Die auf Ihrem Gerät verfügbaren Modelle hängen von der Hardware und dem installierten Branch ab.",
++          "userNote": "Das Wiki dokumentiert 132 Modelle. Die Verfügbarkeit hängt von Hardware, Selector-Version und installiertem Branch ab.",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+           "key": "ModelLibrary",
+           "label": "Modellbibliothek",
+           "type": "action",
+-          "description": "Durchsuchen Sie 130 dokumentierte Fahrmodelle mit Veröffentlichungsdaten und Community-Belegen. Die Verfügbarkeit auf dem Gerät hängt von Hardware und installiertem Branch ab.",
++          "description": "132 dokumentierte Fahrmodelle durchsuchen. Veröffentlichte Katalogeinträge sind nicht zwangsläufig auf Ihrem Gerät oder Branch verfügbar.",
+           "useCase": "Finden Sie das perfekte Modell für Ihren Fahrstil.",
+           "userNote": "Enthält die Modelle WMI Series, Dark Souls, Down to Ride, Tomb Raider und Legacy.",
+           "deviceAvailability": "config-hidden"
+@@ -90,7 +90,7 @@
+           "description": "Ruft den verfügbaren Modellkatalog vom Server ab. PR #2018, zusammengeführt in Master am 14. September, fügt die Aktion zu comma four (MICI) hinzu und verbessert den Aktualisierungsfortschritt in beiden Geräte-Benutzeroberflächen.",
+           "userNote": "Verfügbar im Stand, ohne dass bereits ein Modell-Download oder eine Modellaktualisierung ausgeführt wird. Die Schaltfläche zeigt den Fortschritt des Abrufs an. Erfordert einen Build mit PR #2018; Die Verfügbarkeit von Stable-Releases hängt vom Zweig ab.",
+           "deviceAvailability": "config-hidden",
+-          "deepDive": "Aktualisierungsfunktion: https://github.com/sunnypilot/sunnypilot/pull/2018. Master wechselte durch die Synchronisierung vom 6. Oktober zu Selector 20, Chestnut v27 und Qualcomm v23: https://github.com/sunnypilot/sunnypilot/pull/2036. PR #2015 bleibt offen, obwohl Selector 20 bereits in master enthalten ist. Qualcomm v24 bleibt ein offener Vorschlag: https://github.com/sunnypilot/sunnypilot/pull/2044."
++          "deepDive": "Master, dev und staging nutzen Selector 20 und Chestnut v27 / Qualcomm v23. Die neuen Kataloge v28 / v25 benötigen Selector 21. PR #2015 und #2044 wurden ohne Merge geschlossen und warten nicht auf Übernahme. Quellen: https://github.com/sunnypilot/sunnypilot/pull/2015 und https://github.com/sunnypilot/sunnypilot/pull/2044."
+         },
+         {
+           "key": "ClearModelCache",
+@@ -695,17 +695,17 @@
+           "label": "Dynamische experimentelle Kontrolle",
+           "type": "toggle",
+           "default": false,
+-          "description": "Schaltet je nach Fahrkontext automatisch zwischen dem Chill-Modus (Autobahn) und dem Experimentalmodus (Stadt) um.",
+-          "recommended": true,
+-          "useCase": "Perfekt für gemischte Pendelfahrten auf Autobahnen und Stadtstraßen mit Ampeln.",
++          "description": "Frühere automatische Umschaltung zwischen Chill und Experimental; auf geprüftem aktuellem master/dev nicht verfügbar.",
++          "recommended": false,
++          "useCase": "Für ältere Builds, die DEC noch implementieren; keine Empfehlung für aktuelles master/dev.",
+           "tradeoffs": [
+             "Kann eine Phantombremsung verursachen, wenn eine rote Ampel oder ein Stoppschild fälschlicherweise erkannt wird.",
+             "Kann an komplexen Kreuzungen unvorhersehbar den Modus wechseln.",
+             "Kann zu spätem Bremsen von Lichtern/Schildern führen.",
+             "Erschwert die Bewertung bestimmter Modelle aufgrund der Modusumschaltung."
+           ],
+-          "deepDive": "Überwacht „throttle_prob“ aus dem Modell, um die Absicht zu bestimmen. Wenn die Modellabsicht gering ist, wird für komplexe Szenarien vorübergehend der Längsschnittplan des Experimentalmodus eingefügt.",
+-          "userNote": "Gut für gemischtes Fahren, aber schalten Sie auf „Experimental“ um, wenn Sie ein konsistentes Verhalten benötigen.",
++          "deepDive": "Quelle der Entfernung: https://github.com/sunnypilot/sunnypilot/pull/2056. Den Kontext älterer Builds bewahren; kein identisches Verhalten aller Branches annehmen.",
++          "userNote": "Am 16. Oktober durch PR #2056 aus master entfernt. Im geprüften dev fehlt DEC, staging enthält es weiterhin. Vor Nutzung der alten Einstellung Branch und Release-Hinweise prüfen.",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+@@ -1725,5 +1725,5 @@
+       ]
+     }
+   ],
+-  "lastUpdated": "October 09, 2026"
++  "lastUpdated": "2026-10-16"
+ }
+diff --git aa/data/models.es.json bb/data/models.es.json
+index 0a55321..ba9f6f7 100644
+--- aa/data/models.es.json
++++ bb/data/models.es.json
+@@ -1,14 +1,14 @@
+ {
+   "appName": "Sunnylink Model Database",
+   "version": "8.4",
+-  "totalModels": 130,
+-  "lastUpdated": "October 09, 2026",
++  "totalModels": 132,
++  "lastUpdated": "October 16, 2026",
+   "vibeGuide": {
+     "chestnut_gpu": {
+       "title": "La serie Chestnut GPU (modelos grandes)",
+       "subtitle": "Pesos pesados solo para eGPU",
+-      "includes": "Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+-      "vibe": "Estos son los \"modelos grandes\": redes de clase Chestnut más grandes que cualquier cosa en las líneas WMI u OP, vinculadas al nuevo complemento GPU de comma, que comenzó a llegar a los propietarios en agosto de 2026. Caen bajo la etiqueta big_model del foro con una cadencia casi diaria durante una ejecución. El tamaño adicional de la red aparece primero en el lateral: toma amplias curvas de 90 grados en la ciudad en lugar de cortarlas, y muestra una estabilidad en la carretera plantada en lugar de flotante. Los participantes destacados como Cinque Terre y Sad Model han mejorado significativamente la estabilidad lateral y la sensación de dirección natural, mientras que las versiones anteriores del BMRLNAP sufrieron oscilaciones de dirección a baja velocidad. Las señales de alto y las líneas de alto de los semáforos siguen siendo un área activa de ajuste a lo largo de la línea. Notas de ejecución (2 de octubre): PR #2035 propone fotogramas comma 3X de 1344×760 antes de la transferencia unificada de AMD. PR #2023 propone ChestnutPowerLimit (0 = stock; 40–100 W) a través de controles avanzados del dispositivo sunnylink en comma four. Ambos permanecen abiertos. Gestión de modelos (9 de octubre): la sincronización del 6 de octubre (#2036) cambió master al selector 20, Chestnut v27 y Qualcomm v23. Qualcomm v24 está publicado, pero su adopción se propone en el PR #2044 abierto. El PR #2015 sigue abierto; el selector 20 ya está en master mediante la sincronización. PR #1999 propone diagnosticar fallas de inicio en tiempo de ejecución compilado obsoleto que pueden aparecer como alertas de velocidad de Posenet NaN.",
++      "includes": "Mountain Dew v3, Mountain Dew, Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
++      "vibe": "Estos son los \"modelos grandes\": redes de clase Chestnut más grandes que cualquier cosa en las líneas WMI u OP, vinculadas al nuevo complemento GPU de comma, que comenzó a llegar a los propietarios en agosto de 2026. Caen bajo la etiqueta big_model del foro con una cadencia casi diaria durante una ejecución. El tamaño adicional de la red aparece primero en el lateral: toma amplias curvas de 90 grados en la ciudad en lugar de cortarlas, y muestra una estabilidad en la carretera plantada en lugar de flotante. Los participantes destacados como Cinque Terre y Sad Model han mejorado significativamente la estabilidad lateral y la sensación de dirección natural, mientras que las versiones anteriores del BMRLNAP sufrieron oscilaciones de dirección a baja velocidad. Las señales de alto y las líneas de alto de los semáforos siguen siendo un área activa de ajuste a lo largo de la línea. Notas de ejecución (2 de octubre): PR #2035 propone fotogramas comma 3X de 1344×760 antes de la transferencia unificada de AMD. PR #2023 propone ChestnutPowerLimit (0 = stock; 40–100 W) a través de controles avanzados del dispositivo sunnylink en comma four. Ambos permanecen abiertos. Gestión de modelos (16 de octubre): master, dev y staging siguen usando selector 20, Chestnut v27 y Qualcomm v23. Los catálogos publicados Chestnut v28 y Qualcomm v25 requieren selector 21; su publicación no demuestra disponibilidad en esas ramas. Los PR #2015, #2044 y #1999 se cerraron sin integrar y no son correcciones publicadas.",
+       "bestFor": "Propietarios de Chestnut con una eGPU que desean las redes más grandes disponibles y se sienten cómodos realizando pruebas.",
+       "recommendation": "Las encuestas generales de Cinque Terre y V2 son positivas, pero los informes varían según el vehículo. Comprueba las paradas, las curvas y la dirección a baja velocidad en tu configuración. Master incluye ahora V3 en Chestnut v27 con el selector 20; no se verificó ninguna encuesta del foro específica de V3. Siguen aplicándose los requisitos de hardware y rama."
+     },
+@@ -750,6 +750,34 @@
+           ],
+           "routesDriven": 19,
+           "fleetRank": 64
++        },
++        {
++          "name": "Mountain Dew Model",
++          "date": "October 10, 2026",
++          "badge": "Experimental",
++          "tags": [
++            "Big Model",
++            "Chestnut",
++            "Experimental"
++          ],
++          "consensus": "Solo se verificó el artefacto publicado. En esta auditoría no se verificó una encuesta dedicada al modelo ni evidencia de conducción específica de un vehículo.",
++          "note": "El manifiesto oficial Chestnut v28 enumera este modelo con selector 21 y generación 12. Master/dev/staging inspeccionados usan selector 20 y Chestnut v27, por lo que la publicación no demuestra disponibilidad en esas ramas. Compruebe la compatibilidad del hardware y del entorno de ejecución.",
++          "bestFor": "Investigación con un entorno compatible con selector 21; no se establece una recomendación para un vehículo concreto.",
++          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/da2d8dac5f77e3a6f72fefbfb14edea3555f05f6/docs/driving_models_chestnut_v28.json"
++        },
++        {
++          "name": "Mountain Dew Model v3",
++          "date": "October 14, 2026",
++          "badge": "Experimental",
++          "tags": [
++            "Big Model",
++            "Chestnut",
++            "Experimental"
++          ],
++          "consensus": "Solo se verificó el artefacto publicado. En esta auditoría no se verificó una encuesta dedicada al modelo ni evidencia de conducción específica de un vehículo.",
++          "note": "El manifiesto oficial Chestnut v28 enumera este modelo con selector 21 y generación 12. Master/dev/staging inspeccionados usan selector 20 y Chestnut v27, por lo que la publicación no demuestra disponibilidad en esas ramas. Compruebe la compatibilidad del hardware y del entorno de ejecución.",
++          "bestFor": "Investigación con un entorno compatible con selector 21; no se establece una recomendación para un vehículo concreto.",
++          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/da2d8dac5f77e3a6f72fefbfb14edea3555f05f6/docs/driving_models_chestnut_v28.json"
+         }
+       ]
+     },
+@@ -1292,10 +1320,10 @@
+             "Highway"
+           ],
+           "communityScore": 86,
+-          "totalVotes": 32,
++          "totalVotes": 34,
+           "sentiment": {
+-            "great": 66,
+-            "good": 22,
++            "great": 68,
++            "good": 20,
+             "ok": 6,
+             "bad": 6
+           },
+@@ -1562,13 +1590,13 @@
+           "negatives": [],
+           "routesDriven": 32,
+           "fleetRank": 59,
+-          "communityScore": 0,
+-          "totalVotes": 2,
++          "communityScore": 33,
++          "totalVotes": 3,
+           "sentiment": {
+-            "great": 0,
++            "great": 33,
+             "good": 0,
+             "ok": 0,
+-            "bad": 100
++            "bad": 67
+           }
+         },
+         {
+diff --git aa/data/features.es.json bb/data/features.es.json
+index 8a8be95..3be6fb7 100644
+--- aa/data/features.es.json
++++ bb/data/features.es.json
+@@ -2,7 +2,7 @@
+   "appName": "Sunnylink Database",
+   "version": "2026.002",
+   "dataSource": "Official Sunnypilot Documentation, release notes, and linked upstream development proposals / issue reports",
+-  "lastUpdated": "October 09, 2026",
++  "lastUpdated": "2026-10-16",
+   "features": [
+     {
+       "id": "mads",
+@@ -71,9 +71,9 @@
+       "name": "DEC",
+       "fullName": "Control experimental dinámico",
+       "category": "Core Control",
+-      "officialDefinition": "Alterna automáticamente entre el modo frío (longitudinal estándar) y el modo experimental (manejo de semáforos/señales de alto) según el contexto de conducción (por ejemplo, velocidad, tipo de carretera).",
+-      "userSummary": "Cambia automáticamente los modos de conducción según el contexto.",
+-      "userTranslation": "\"Conmutador de ciudad/carretera\". Cambia automáticamente los modos según el contexto. Navegación suave por carretera en modo frío y desaceleración inteligente en intersecciones y señales de alto cuando sea necesario.",
++      "officialDefinition": "Antiguo cambio contextual entre los modos longitudinales Chill y Experimental. El PR #2056 eliminó DEC de master el 16 de octubre de 2026; el dev inspeccionado también lo omite, mientras que staging lo conserva.",
++      "userSummary": "Cambio de modos heredado; eliminado de master y dev actuales.",
++      "userTranslation": "Compruebe la rama instalada. DEC está ausente en master/dev inspeccionados y sigue en staging inspeccionado. Esto no demuestra su eliminación de versiones etiquetadas anteriores. El asistente ya no recomienda automáticamente este ajuste dependiente de la rama.",
+       "settingsKeys": [
+         "DynamicExperimentalControl"
+       ],
+@@ -235,7 +235,7 @@
+       "category": "Models & AI",
+       "officialDefinition": "Permite cambiar y probar diferentes modelos de conducción de redes neuronales de visión directamente en el dispositivo. Configure parámetros avanzados del modelo, incluidos los deseos de giro de carril, el retraso de la dirección con aprendizaje en vivo y el retraso del software de la cámara.",
+       "userSummary": "Conmutador de modelo AI en cabina con parámetros de ajuste fino.",
+-      "userTranslation": "Elige un modelo de conducción y ajusta el retardo de dirección o las intenciones de giro a tu configuración. Tras la sincronización del 6 de octubre (#2036), master usa el selector 20 con Chestnut v27 y Qualcomm v23. La adopción de Qualcomm v24 sigue propuesta en el PR #2044 abierto. #2018 añadió la actualización de modelos; actualiza con el vehículo estacionado y sin descargas en curso. Borrar caché elimina los modelos descargados.",
++      "userTranslation": "Master, dev y staging siguen usando selector 20, Chestnut v27 y Qualcomm v23. Los catálogos publicados Chestnut v28 y Qualcomm v25 requieren selector 21. Compruebe su rama antes de elegir un modelo. Los PR #2015 y #2044 se cerraron sin integrar. Actualice estacionado y sin descargas activas; Clear Cache elimina los modelos descargados.",
+       "settingsKeys": [
+         "DrivingModel",
+         "ModelLibrary",
+@@ -315,9 +315,9 @@
+       "name": "Solución de problemas de inicio del tiempo de ejecución del modelo",
+       "fullName": "Solución de problemas de inicio del tiempo de ejecución del modelo",
+       "category": "Models & AI",
+-      "officialDefinition": "Open PR #1999 aborda una alerta engañosa de velocidad Posenet NaN causada por una falla del modelo al cargar un artefacto de modelo compilado obsoleto.",
++      "officialDefinition": "El PR #1999 propuso cambios para una alerta engañosa de velocidad Posenet NaN al iniciar modelos compilados, pero se cerró sin integrar el 16 de octubre de 2026.",
+       "userSummary": "Un error de inicialización puede aparecer como un error de velocidad de Posenet.",
+-      "userTranslation": "La propuesta valida las claves del modelo compilado y cambia la invalidación de la caché y la activación de alertas. No es una solución publicada confirmada. Una alerta persistente necesita diagnósticos en tiempo de ejecución; La limpieza del caché del modelo por sí sola no establece que el tiempo de ejecución compilado esté reparado.",
++      "userTranslation": "No considere el PR #1999 una corrección disponible. Las alertas persistentes siguen requiriendo diagnóstico del entorno de ejecución; borrar la caché de modelos no demuestra su reparación.",
+       "settingsKeys": [],
+       "docUrl": "https://github.com/sunnypilot/sunnypilot/pull/1999"
+     },
+@@ -392,7 +392,7 @@
+     "ACC": "Control de crucero adaptativo: mantiene la velocidad establecida y sigue el tráfico",
+     "ALC": "Centrado automático de carril/cambio automático de carril: mantiene el automóvil centrado o cambia de carril automáticamente",
+     "BSM": "Monitoreo de puntos ciegos: sensores de vehículos que detectan automóviles en carriles adyacentes",
+-    "DEC": "Control experimental dinámico: cambio contextual entre el modo Chill y Experimental",
++    "DEC": "Dynamic Experimental Control — cambio de modos heredado; eliminado de master/dev actuales y conservado en staging inspeccionado.",
+     "E2E": "De extremo a extremo: red neuronal de IA que predice directamente la ruta de conducción del vehículo",
+     "ESCC": "Control de crucero inteligente mejorado: gestión de crucero e integración de botones Hyundai/Kia",
+     "Firehose": "Sistema de carga de telemetría de conducción automatizada a gran escala que contribuye a la formación de modelos de conducción",
+diff --git aa/data/toggles.es.json bb/data/toggles.es.json
+index 5617d2a..6232354 100644
+--- aa/data/toggles.es.json
++++ bb/data/toggles.es.json
+@@ -71,14 +71,14 @@
+           "type": "dropdown",
+           "description": "Seleccione el modelo de conducción AI. Cada modelo tiene características de conducción únicas.",
+           "useCase": "Elija un modelo que se adapte a su estilo de conducción y a las condiciones de la carretera.",
+-          "userNote": "El wiki documenta 130 modelos. Los modelos disponibles en tu dispositivo dependen del hardware y la rama instalada.",
++          "userNote": "La wiki documenta 132 modelos. La disponibilidad depende del hardware, la versión del selector y la rama instalada.",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+           "key": "ModelLibrary",
+           "label": "Biblioteca de modelos",
+           "type": "action",
+-          "description": "Explora 130 modelos de conducción documentados, con fechas de publicación y evidencia de la comunidad. La disponibilidad en el dispositivo depende del hardware y la rama instalada.",
++          "description": "Explore 132 modelos de conducción documentados. Una entrada publicada en un catálogo no garantiza disponibilidad en su dispositivo o rama.",
+           "useCase": "Encuentra el modelo perfecto para tu estilo de conducción.",
+           "userNote": "Incluye los modelos de la serie WMI, Dark Souls, Down to Ride, Tomb Raider y Legacy.",
+           "deviceAvailability": "config-hidden"
+@@ -90,7 +90,7 @@
+           "description": "Obtiene el catálogo de modelos disponibles del servidor. PR #2018, fusionado en master el 14 de septiembre, agrega la acción a comma four (MICI) y mejora el progreso de actualización en las interfaces de usuario de ambos dispositivos.",
+           "userNote": "Disponible en todo terreno, sin descargar ni actualizar el modelo en ejecución. El botón muestra el progreso de la búsqueda. Requiere una compilación que contenga PR #2018; La disponibilidad de la versión estable depende de la rama.",
+           "deviceAvailability": "config-hidden",
+-          "deepDive": "Actualización de modelos: https://github.com/sunnypilot/sunnypilot/pull/2018. Master pasó al selector 20, Chestnut v27 y Qualcomm v23 mediante la sincronización del 6 de octubre: https://github.com/sunnypilot/sunnypilot/pull/2036. El PR #2015 sigue abierto, aunque el selector 20 ya está en master. Adoptar Qualcomm v24 sigue siendo una propuesta: https://github.com/sunnypilot/sunnypilot/pull/2044."
++          "deepDive": "Master, dev y staging usan selector 20 y Chestnut v27 / Qualcomm v23. Los nuevos catálogos v28 / v25 requieren selector 21. Los PR #2015 y #2044 se cerraron sin integrar; no están pendientes de adopción. Fuentes: https://github.com/sunnypilot/sunnypilot/pull/2015 y https://github.com/sunnypilot/sunnypilot/pull/2044."
+         },
+         {
+           "key": "ClearModelCache",
+@@ -695,17 +695,17 @@
+           "label": "Control experimental dinámico",
+           "type": "toggle",
+           "default": false,
+-          "description": "Cambia automáticamente entre el modo relajado (carretera) y el modo experimental (ciudad) según el contexto de conducción.",
+-          "recommended": true,
+-          "useCase": "Perfecto para desplazamientos mixtos que incluyan autopistas y calles de la ciudad con semáforos.",
++          "description": "Antiguo cambio automático entre Chill y Experimental; no disponible en master/dev actuales inspeccionados.",
++          "recommended": false,
++          "useCase": "Para versiones antiguas que aún implementen DEC; no se recomienda para master/dev actuales.",
+           "tradeoffs": [
+             "Puede provocar un frenado fantasma si detecta erróneamente una luz roja o una señal de alto.",
+             "Puede cambiar de modo de manera impredecible en intersecciones complejas.",
+             "Puede causar un frenado tardío debido a luces/señales.",
+             "Hace que la evaluación de modelos específicos sea más difícil debido al cambio de modo."
+           ],
+-          "deepDive": "Supervisa el 'throttle_prob' del modelo para determinar la intención. Si la intención del modelo es baja, inyecta temporalmente el plan longitudinal del modo experimental para escenarios complejos.",
+-          "userNote": "Bueno para conducción mixta, pero cambie a Experimental completo si necesita un comportamiento consistente.",
++          "deepDive": "Fuente de la eliminación: https://github.com/sunnypilot/sunnypilot/pull/2056. Conserve el contexto de versiones anteriores; no suponga el mismo comportamiento en todas las ramas.",
++          "userNote": "Eliminado de master mediante el PR #2056 el 16 de octubre. El dev inspeccionado lo omite; staging lo conserva. Compruebe rama y notas de versión antes de usar este ajuste antiguo.",
+           "deviceAvailability": "config-hidden"
+         },
+         {
+@@ -1725,5 +1725,5 @@
+       ]
+     }
+   ],
+-  "lastUpdated": "October 09, 2026"
++  "lastUpdated": "2026-10-16"
+ }
+diff --git aa/locales/en.json bb/locales/en.json
+index 500a9a8..c408759 100644
+--- aa/locales/en.json
++++ bb/locales/en.json
+@@ -3806,5 +3806,24 @@
+   "content.6bd1cd4f62fa": "Longitudinal aggressiveness",
+   "content.1136be17a021": "Stop-line creep",
+   "content.320d9c42ea2b": "Illustrative: values are estimated from community feedback, tags and polls — not recorded driving. Controller execution is a simplified saturation model.",
+-  "content.90300c33c2a3": "Curated telemetry values. Controller execution is a simplified saturation model."
++  "content.90300c33c2a3": "Curated telemetry values. Controller execution is a simplified saturation model.",
++  "content.0ee9ffcefb2f": "Model management (October 16): master, dev and staging still use selector 20 with Chestnut v27 and Qualcomm v23. Published Chestnut v28 and Qualcomm v25 require selector 21; publication does not establish availability on those branches. PRs #2015, #2044 and #1999 were closed without merging; they are not released fixes.",
++  "content.7ed583d2f6de": "Master, dev and staging still use selector 20, Chestnut v27 and Qualcomm v23. The published Chestnut v28 and Qualcomm v25 catalogs require selector 21. Check your branch before selecting a model. PRs #2015 and #2044 were closed without merging. Refresh while parked with no download in progress; Clear Cache removes downloaded models.",
++  "content.8991ba93f76f": "Master, dev and staging use selector 20 and Chestnut v27 / Qualcomm v23. New v28 / v25 catalogs require selector 21. PRs #2015 and #2044 are closed without merging, not pending adoption. Sources: https://github.com/sunnypilot/sunnypilot/pull/2015 and https://github.com/sunnypilot/sunnypilot/pull/2044.",
++  "content.473919f486c6": "The wiki documents 132 models. Device availability depends on hardware, selector version and installed branch.",
++  "content.6071b9423bba": "Browse 132 documented driving models. Published catalog entries are not necessarily available on your device or branch.",
++  "content.fc0681438b1b": "Legacy contextual switching between Chill and Experimental longitudinal modes. PR #2056 removed DEC from master on October 16, 2026; the inspected dev build also omits it, while staging still retains it.",
++  "content.120a019dd418": "Legacy mode switching; removed from current master and dev.",
++  "content.7f68f41a61cb": "Check your installed branch. DEC is absent from inspected master/dev and remains in inspected staging. This change does not establish removal from older tagged releases. The setup wizard no longer automatically recommends this branch-dependent setting.",
++  "content.3556c2fdb03d": "Legacy automatic switching between Chill and Experimental modes; unavailable on inspected current master/dev.",
++  "content.1429b85c93d3": "For legacy builds that still implement DEC; not a recommendation for current master/dev.",
++  "content.7a8b08692e2e": "Removed from master by PR #2056 on October 16. Inspected dev omits DEC; staging retains it. Check branch and release notes before using this legacy setting.",
++  "content.388d32485bf6": "Removal source: https://github.com/sunnypilot/sunnypilot/pull/2056. Preserve older-build context; do not infer identical behavior across branches.",
++  "content.6d043f46fdf6": "PR #1999 proposed changes for a misleading Posenet NaN-speed alert during compiled-model startup, but was closed without merging on October 16, 2026.",
++  "content.6e8d1bdbce27": "Do not treat PR #1999 as an available fix. Persistent alerts still require runtime diagnostics; clearing the model cache alone does not establish a repaired runtime.",
++  "content.716581c145c4": "Published artifact only. No dedicated model poll or vehicle-specific driving evidence was verified in this audit.",
++  "content.b4bccd2140c7": "The official Chestnut v28 manifest lists this model with selector 21 and generation 12. Inspected master/dev/staging use selector 20 and Chestnut v27, so publication does not establish availability on those branches. Hardware and runtime compatibility must be checked.",
++  "content.163fb8300cd6": "Research with a compatible selector-21 runtime; no vehicle-specific recommendation is established.",
++  "content.9e2e02a27687": "Dynamic Experimental Control — legacy mode switching; removed from current master/dev, retained in inspected staging.",
++  "content.052c83176bf9": "These are the \"big models\" — chestnut-class networks larger than anything in the WMI or OP lines, tied to comma's new GPU add-on, which began reaching owners in August 2026. They drop under the forum's big_model tag on a near-daily cadence during a run. The extra network size shows up first in lateral: taking in-town 90-degree turns wide instead of cutting them, and showing planted rather than floaty highway stability. Standout entries like Cinque Terre and Sad Model have significantly improved lateral stability and natural steering feel, while earlier BMRLNAP runs suffered from low-speed steering oscillations. Stop signs and traffic light stop lines remain an active area of tuning across the line. Runtime notes (October 2): PR #2035 proposes 1344×760 comma 3X frames before unified AMD transfer. PR #2023 proposes ChestnutPowerLimit (0 = stock; 40–100 W) via advanced sunnylink Device controls on comma four. Both remain open. Model management (October 16): master, dev and staging still use selector 20 with Chestnut v27 and Qualcomm v23. Published Chestnut v28 and Qualcomm v25 require selector 21; publication does not establish availability on those branches. PRs #2015, #2044 and #1999 were closed without merging; they are not released fixes."
+ }
+diff --git aa/locales/ko.json bb/locales/ko.json
+index e913c01..e9e1c7a 100644
+--- aa/locales/ko.json
++++ bb/locales/ko.json
+@@ -3806,5 +3806,24 @@
+   "content.6bd1cd4f62fa": "종방향 제어 강도",
+   "content.1136be17a021": "정지선 크립 성향",
+   "content.320d9c42ea2b": "참고용: 수치는 실제 주행 기록이 아닌 커뮤니티 피드백, 태그, 설문조사에서 추정한 값입니다. 컨트롤러 실행은 단순화된 포화 모델입니다.",
+-  "content.90300c33c2a3": "검증된 텔레메트리 값입니다. 컨트롤러 실행은 단순화된 포화 모델입니다."
++  "content.90300c33c2a3": "검증된 텔레메트리 값입니다. 컨트롤러 실행은 단순화된 포화 모델입니다.",
++  "content.0ee9ffcefb2f": "모델 관리(10월 16일): master, dev, staging은 여전히 선택기 20, Chestnut v27, Qualcomm v23을 사용합니다. 공개된 Chestnut v28과 Qualcomm v25는 선택기 21이 필요하며, 공개만으로 해당 브랜치에서 사용 가능하다고 볼 수 없습니다. PR #2015, #2044, #1999는 병합 없이 닫혔으며 출시된 수정 사항이 아닙니다.",
++  "content.7ed583d2f6de": "master, dev, staging은 여전히 선택기 20, Chestnut v27, Qualcomm v23을 사용합니다. 공개된 Chestnut v28과 Qualcomm v25 카탈로그는 선택기 21이 필요합니다. 모델을 선택하기 전에 브랜치를 확인하세요. PR #2015와 #2044는 병합 없이 닫혔습니다. 다운로드 중이 아닐 때 주차 상태에서 새로고침하세요. Clear Cache는 다운로드한 모델을 삭제합니다.",
++  "content.8991ba93f76f": "master, dev, staging은 선택기 20 및 Chestnut v27 / Qualcomm v23을 사용합니다. 새 v28 / v25 카탈로그에는 선택기 21이 필요합니다. PR #2015와 #2044는 도입 대기 중이 아니라 병합 없이 닫혔습니다. 출처: https://github.com/sunnypilot/sunnypilot/pull/2015 및 https://github.com/sunnypilot/sunnypilot/pull/2044.",
++  "content.473919f486c6": "위키에는 모델 132개가 문서화되어 있습니다. 기기에서의 사용 가능 여부는 하드웨어, 선택기 버전 및 설치된 브랜치에 따라 달라집니다.",
++  "content.6071b9423bba": "문서화된 주행 모델 132개를 살펴보세요. 공개된 카탈로그 항목이 모든 기기나 브랜치에서 사용 가능한 것은 아닙니다.",
++  "content.fc0681438b1b": "Chill과 Experimental 종방향 모드를 상황에 따라 전환하던 기존 기능입니다. PR #2056이 2026년 10월 16일 master에서 DEC를 제거했습니다. 확인한 dev에도 없지만 staging에는 남아 있습니다.",
++  "content.120a019dd418": "기존 모드 전환 기능이며 현재 master와 dev에서는 제거되었습니다.",
++  "content.7f68f41a61cb": "설치된 브랜치를 확인하세요. 확인한 master/dev에는 DEC가 없고 staging에는 남아 있습니다. 이것이 이전 태그 릴리스에서도 제거되었다는 뜻은 아닙니다. 설정 마법사는 이 브랜치별 기능을 더 이상 자동 권장하지 않습니다.",
++  "content.3556c2fdb03d": "Chill과 Experimental 모드를 자동 전환하던 기존 기능입니다. 확인한 현재 master/dev에서는 사용할 수 없습니다.",
++  "content.1429b85c93d3": "DEC가 구현된 이전 빌드용이며 현재 master/dev에는 권장하지 않습니다.",
++  "content.7a8b08692e2e": "10월 16일 PR #2056으로 master에서 제거되었습니다. 확인한 dev에는 없고 staging에는 남아 있습니다. 기존 설정을 사용하기 전에 브랜치와 릴리스 노트를 확인하세요.",
++  "content.388d32485bf6": "제거 근거: https://github.com/sunnypilot/sunnypilot/pull/2056. 이전 빌드의 맥락을 유지하고 브랜치 간 동작이 동일하다고 가정하지 마세요.",
++  "content.6d043f46fdf6": "PR #1999는 컴파일된 모델 시작 시 발생하는 오해의 소지가 있는 Posenet NaN 속도 경고의 변경을 제안했으나 2026년 10월 16일 병합 없이 닫혔습니다.",
++  "content.6e8d1bdbce27": "PR #1999를 사용 가능한 수정으로 간주하지 마세요. 지속되는 경고에는 여전히 런타임 진단이 필요하며 모델 캐시 삭제만으로 런타임이 복구되었다고 볼 수 없습니다.",
++  "content.716581c145c4": "공개된 모델 파일만 확인되었습니다. 이번 검토에서는 전용 모델 투표나 차량별 주행 근거를 확인하지 못했습니다.",
++  "content.b4bccd2140c7": "공식 Chestnut v28 매니페스트는 이 모델을 선택기 21 및 세대 12로 나열합니다. 확인한 master/dev/staging은 선택기 20과 Chestnut v27을 사용하므로 공개만으로 해당 브랜치에서 사용할 수 있다고 볼 수 없습니다. 하드웨어와 런타임 호환성을 확인해야 합니다.",
++  "content.163fb8300cd6": "호환되는 선택기 21 런타임에서의 연구용이며 차량별 권장 사항은 확립되지 않았습니다.",
++  "content.9e2e02a27687": "Dynamic Experimental Control — 기존 모드 전환 기능으로 현재 master/dev에서 제거되었으며 확인한 staging에는 남아 있습니다.",
++  "content.052c83176bf9": "이것은 2026년 8월에 소유자에게 도달하기 시작한 comma의 새로운 GPU 추가 기능과 연결된 WMI 또는 OP 라인의 어떤 것보다 더 큰 Chestnut급 네트워크인 \"빅 모델\"입니다. 실행 중에 거의 매일 케이던스로 포럼의 big_model 태그 아래로 떨어집니다. 추가 네트워크 크기는 측면에서 먼저 나타납니다. 시내를 자르는 대신 90도 회전하고, 고속도로 안정성보다는 심어진 모습을 보여줍니다. Cinque Terre 및 Sad Model와 같은 뛰어난 항목은 측면 안정성과 자연스러운 조향 느낌을 크게 향상시켰으며, 이전 BMRLNAP 실행은 저속 조향 진동으로 어려움을 겪었습니다. 정지 표지판과 신호등 정지선은 선을 가로지르는 활성 튜닝 영역으로 남아 있습니다. 런타임 참고 사항(10월 2일): PR #2035는 통합 AMD 전송 전 1344×760 comma 3X 프레임을 제안합니다. PR #2023에서는 comma four의 고급 sunnylink 장치 제어를 통해 ChestnutPowerLimit(0 = 재고, 40–100W)를 제안합니다. 둘 다 열려 있습니다. 모델 관리(10월 16일): master, dev, staging은 여전히 선택기 20, Chestnut v27, Qualcomm v23을 사용합니다. 공개된 Chestnut v28과 Qualcomm v25는 선택기 21이 필요하며, 공개만으로 해당 브랜치에서 사용 가능하다고 볼 수 없습니다. PR #2015, #2044, #1999는 병합 없이 닫혔으며 출시된 수정 사항이 아닙니다."
+ }
+diff --git aa/locales/zh.json bb/locales/zh.json
+index 4b33911..64f8291 100644
+--- aa/locales/zh.json
++++ bb/locales/zh.json
+@@ -3806,5 +3806,24 @@
+   "content.6bd1cd4f62fa": "縱向激進度",
+   "content.1136be17a021": "停止線蠕行傾向",
+   "content.320d9c42ea2b": "示意說明：數值基於社群回饋、標籤及投票估算，非實際駕駛記錄。控制器執行採用簡化飽和模型。",
+-  "content.90300c33c2a3": "精選遙測數值。控制器執行採用簡化飽和模型。"
++  "content.90300c33c2a3": "精選遙測數值。控制器執行採用簡化飽和模型。",
++  "content.0ee9ffcefb2f": "模型管理（10 月 16 日）：master、dev 和 staging 仍採用選擇器 20、Chestnut v27 與 Qualcomm v23。已發布的 Chestnut v28 和 Qualcomm v25 需要選擇器 21；發布不代表這些分支可用。PR #2015、#2044 和 #1999 均未合併即關閉，並非已發布的修正。",
++  "content.7ed583d2f6de": "master、dev 和 staging 仍採用選擇器 20、Chestnut v27 與 Qualcomm v23。已發布的 Chestnut v28 和 Qualcomm v25 目錄需要選擇器 21。選擇模型前請確認分支。PR #2015 和 #2044 已關閉且未合併。請在停車且沒有下載時重新整理；Clear Cache 會刪除已下載模型。",
++  "content.8991ba93f76f": "master、dev 和 staging 使用選擇器 20 與 Chestnut v27 / Qualcomm v23。新的 v28 / v25 目錄需要選擇器 21。PR #2015 和 #2044 均未合併即關閉，並非待採用功能。來源：https://github.com/sunnypilot/sunnypilot/pull/2015 及 https://github.com/sunnypilot/sunnypilot/pull/2044.",
++  "content.473919f486c6": "本維基記錄了 132 個模型。裝置可用性取決於硬體、選擇器版本及已安裝分支。",
++  "content.6071b9423bba": "瀏覽 132 個已記錄的駕駛模型。已發布的目錄項目不一定可用於您的裝置或分支。",
++  "content.fc0681438b1b": "依情境切換 Chill 和 Experimental 縱向模式的舊功能。PR #2056 於 2026 年 10 月 16 日從 master 移除 DEC；檢查的 dev 版本也已移除，但 staging 仍保留。",
++  "content.120a019dd418": "舊版模式切換功能；目前 master 和 dev 已移除。",
++  "content.7f68f41a61cb": "請確認已安裝分支。檢查的 master/dev 不含 DEC，staging 則仍保留。此變更不代表舊標籤版本也已移除。設定精靈不再自動建議這個依分支而定的設定。",
++  "content.3556c2fdb03d": "舊版 Chill 與 Experimental 自動切換功能；檢查的目前 master/dev 不可用。",
++  "content.1429b85c93d3": "僅適用於仍實作 DEC 的舊版本；不建議用於目前 master/dev。",
++  "content.7a8b08692e2e": "master 已於 10 月 16 日透過 PR #2056 移除 DEC。檢查的 dev 也已移除，staging 則保留。使用舊設定前請查閱分支與版本說明。",
++  "content.388d32485bf6": "移除依據：https://github.com/sunnypilot/sunnypilot/pull/2056。請保留舊版本脈絡，不要假設各分支行為相同。",
++  "content.6d043f46fdf6": "PR #1999 曾提議調整編譯模型啟動時誤導性的 Posenet NaN 速度警報，但已於 2026 年 10 月 16 日關閉且未合併。",
++  "content.6e8d1bdbce27": "請勿將 PR #1999 視為可用修正。持續警報仍需執行期診斷；僅清除模型快取並不能證明執行期已修復。",
++  "content.716581c145c4": "僅核實到已發布的模型檔案。本次審查未核實到專屬模型投票或特定車輛的駕駛證據。",
++  "content.b4bccd2140c7": "官方 Chestnut v28 清單將此模型列為選擇器 21、世代 12。檢查的 master/dev/staging 使用選擇器 20 與 Chestnut v27，因此發布不代表這些分支可用。須確認硬體與執行期相容性。",
++  "content.163fb8300cd6": "供相容選擇器 21 執行期的研究使用；尚未確立特定車輛的推薦。",
++  "content.9e2e02a27687": "Dynamic Experimental Control — 舊版模式切換；目前 master/dev 已移除，檢查的 staging 仍保留。",
++  "content.052c83176bf9": "這些是“大模型”——比 WMI 或 OP 系列中的任何產品都大的Chestnut級網絡，與 comma 的新 GPU 附加組件相關，該附加組件於 2026 年 8 月開始向用戶提供。它們在跑步期間幾乎每天都會出現在論壇的 big_model 標籤下。額外的網絡尺寸首先體現在橫向上：將城市內的 90 度轉彎改寬而不是切斷它們，並顯示出穩定的而不是浮動的高速公路穩定性。像五漁村和 Sad Model 這樣的傑出參賽作品顯着改善了橫向穩定性和自然的轉向感覺，而早期的 BMRLNAP 則遭受低速轉向振盪的困擾。停車標誌和交通燈停車線仍然是整線調整的活躍區域。運行時說明（10 月 2 日）：PR #2035 建議在統一 AMD 傳輸之前使用 1344×760 comma 3X 幀。 PR #2023 建議通過 comma four 上的高級 sunnylink 設備控制來實現 ChestnutPowerLimit（0 = 庫存；40–100 W）。兩者均保持開放狀態。模型管理（10 月 16 日）：master、dev 和 staging 仍採用選擇器 20、Chestnut v27 與 Qualcomm v23。已發布的 Chestnut v28 和 Qualcomm v25 需要選擇器 21；發布不代表這些分支可用。PR #2015、#2044 和 #1999 均未合併即關閉，並非已發布的修正。"
+ }
+diff --git aa/locales/fr.json bb/locales/fr.json
+index e1126e3..ba570a4 100644
+--- aa/locales/fr.json
++++ bb/locales/fr.json
+@@ -3806,5 +3806,24 @@
+   "content.6bd1cd4f62fa": "Agressivité longitudinale",
+   "content.1136be17a021": "Fluage à la ligne d'arrêt",
+   "content.320d9c42ea2b": "À titre illustratif : valeurs estimées à partir des avis de la communauté, tags et sondages — non enregistrées en conduite réelle. L'exécution du contrôleur est un modèle de saturation simplifié.",
+-  "content.90300c33c2a3": "Valeurs de télémétrie sélectionnées. L'exécution du contrôleur est un modèle de saturation simplifié."
++  "content.90300c33c2a3": "Valeurs de télémétrie sélectionnées. L'exécution du contrôleur est un modèle de saturation simplifié.",
++  "content.0ee9ffcefb2f": "Gestion des modèles (16 octobre) : master, dev et staging utilisent toujours le sélecteur 20, Chestnut v27 et Qualcomm v23. Les catalogues publiés Chestnut v28 et Qualcomm v25 nécessitent le sélecteur 21 ; leur publication ne prouve pas leur disponibilité sur ces branches. Les PR #2015, #2044 et #1999 ont été fermés sans fusion et ne constituent pas des correctifs publiés.",
++  "content.7ed583d2f6de": "Master, dev et staging utilisent toujours le sélecteur 20, Chestnut v27 et Qualcomm v23. Les catalogues publiés Chestnut v28 et Qualcomm v25 nécessitent le sélecteur 21. Vérifiez votre branche avant de choisir un modèle. Les PR #2015 et #2044 ont été fermés sans fusion. Actualisez à l’arrêt sans téléchargement en cours ; Clear Cache supprime les modèles téléchargés.",
++  "content.8991ba93f76f": "Master, dev et staging utilisent le sélecteur 20 et Chestnut v27 / Qualcomm v23. Les nouveaux catalogues v28 / v25 nécessitent le sélecteur 21. Les PR #2015 et #2044 ont été fermés sans fusion, et non laissés en attente d’adoption. Sources : https://github.com/sunnypilot/sunnypilot/pull/2015 et https://github.com/sunnypilot/sunnypilot/pull/2044.",
++  "content.473919f486c6": "Le wiki documente 132 modèles. Leur disponibilité dépend du matériel, de la version du sélecteur et de la branche installée.",
++  "content.6071b9423bba": "Parcourez 132 modèles de conduite documentés. Une entrée publiée dans un catalogue n’est pas nécessairement disponible sur votre appareil ou votre branche.",
++  "content.fc0681438b1b": "Ancienne commutation contextuelle entre les modes longitudinaux Chill et Experimental. Le PR #2056 a retiré DEC de master le 16 octobre 2026 ; le dev inspecté l’omet aussi, tandis que staging le conserve.",
++  "content.120a019dd418": "Ancienne commutation des modes ; retirée des versions actuelles de master et dev.",
++  "content.7f68f41a61cb": "Vérifiez la branche installée. DEC est absent de master/dev inspectés et reste dans staging inspecté. Cela ne prouve pas son retrait des anciennes versions étiquetées. L’assistant ne recommande plus automatiquement ce réglage dépendant de la branche.",
++  "content.3556c2fdb03d": "Ancienne commutation automatique entre Chill et Experimental ; absente des versions actuelles inspectées de master/dev.",
++  "content.1429b85c93d3": "Pour les anciennes versions qui implémentent encore DEC ; non recommandé pour master/dev actuels.",
++  "content.7a8b08692e2e": "Retiré de master par le PR #2056 le 16 octobre. Le dev inspecté l’omet ; staging le conserve. Vérifiez branche et notes de version avant d’utiliser cet ancien réglage.",
++  "content.388d32485bf6": "Source du retrait : https://github.com/sunnypilot/sunnypilot/pull/2056. Conservez le contexte des anciennes versions ; ne supposez pas un comportement identique entre branches.",
++  "content.6d043f46fdf6": "Le PR #1999 proposait des modifications pour une alerte de vitesse Posenet NaN trompeuse au démarrage d’un modèle compilé, mais a été fermé sans fusion le 16 octobre 2026.",
++  "content.6e8d1bdbce27": "Ne considérez pas le PR #1999 comme un correctif disponible. Une alerte persistante nécessite toujours un diagnostic du runtime ; vider le cache des modèles ne prouve pas sa réparation.",
++  "content.716581c145c4": "Seul l’artefact publié a été vérifié. Aucun sondage dédié au modèle ni retour de conduite propre à un véhicule n’a été vérifié lors de cet audit.",
++  "content.b4bccd2140c7": "Le manifeste officiel Chestnut v28 répertorie ce modèle avec le sélecteur 21 et la génération 12. Les master/dev/staging inspectés utilisent le sélecteur 20 et Chestnut v27 : la publication ne prouve donc pas la disponibilité sur ces branches. Vérifiez matériel et runtime.",
++  "content.163fb8300cd6": "Recherche avec un runtime compatible avec le sélecteur 21 ; aucune recommandation propre à un véhicule n’est établie.",
++  "content.9e2e02a27687": "Dynamic Experimental Control — ancienne commutation des modes ; retirée de master/dev actuels, conservée dans staging inspecté.",
++  "content.052c83176bf9": "Ce sont les « grands modèles » – des réseaux de classe Chestnut plus grands que tout ce qui existe dans les gammes WMI ou OP, liés au nouveau module complémentaire GPU de Comma, qui a commencé à atteindre les propriétaires en août 2026. Ils tombent sous la balise big_model du forum à une cadence quasi quotidienne pendant une course. La taille supplémentaire du réseau apparaît d'abord sur le plan latéral : en prenant des virages à 90 degrés en ville au lieu de les couper, et en montrant une stabilité d'autoroute plantée plutôt que flottante. Les modèles les plus remarquables comme Cinque Terre et Sad Model ont considérablement amélioré la stabilité latérale et la sensation naturelle de la direction, tandis que les versions précédentes de la BMRLNAP souffraient d'oscillations de direction à basse vitesse. Les panneaux d'arrêt et les lignes d'arrêt aux feux de circulation restent un domaine actif de réglage sur toute la ligne. Notes d'exécution (2 octobre) : PR #2035 propose 1344 × 760 images comma 3X avant le transfert unifié AMD. Le PR #2023 propose le ChestnutPowerLimit (0 = stock ; 40-100 W) via des commandes avancées de périphérique sunnylink sur le comma four. Les deux restent ouverts. Gestion des modèles (16 octobre) : master, dev et staging utilisent toujours le sélecteur 20, Chestnut v27 et Qualcomm v23. Les catalogues publiés Chestnut v28 et Qualcomm v25 nécessitent le sélecteur 21 ; leur publication ne prouve pas leur disponibilité sur ces branches. Les PR #2015, #2044 et #1999 ont été fermés sans fusion et ne constituent pas des correctifs publiés."
+ }
+diff --git aa/locales/de.json bb/locales/de.json
+index b88acc3..7716327 100644
+--- aa/locales/de.json
++++ bb/locales/de.json
+@@ -3806,5 +3806,24 @@
+   "content.6bd1cd4f62fa": "Längsführungs-Aggressivität",
+   "content.1136be17a021": "Haltelinien-Kriechen",
+   "content.320d9c42ea2b": "Zur Veranschaulichung: Werte wurden aus Community-Feedback, Tags und Umfragen geschätzt — keine realen Fahrdaten. Die Reglersteuerung basiert auf einem vereinfachten Sättigungsmodell.",
+-  "content.90300c33c2a3": "Kuratierte Telemetriewerte. Die Reglersteuerung basiert auf einem vereinfachten Sättigungsmodell."
++  "content.90300c33c2a3": "Kuratierte Telemetriewerte. Die Reglersteuerung basiert auf einem vereinfachten Sättigungsmodell.",
++  "content.0ee9ffcefb2f": "Modellverwaltung (16. Oktober): master, dev und staging verwenden weiterhin Selector 20, Chestnut v27 und Qualcomm v23. Die veröffentlichten Kataloge Chestnut v28 und Qualcomm v25 erfordern Selector 21; ihre Veröffentlichung belegt keine Verfügbarkeit auf diesen Branches. PR #2015, #2044 und #1999 wurden ohne Merge geschlossen und sind keine veröffentlichten Fehlerbehebungen.",
++  "content.7ed583d2f6de": "Master, dev und staging verwenden weiterhin Selector 20, Chestnut v27 und Qualcomm v23. Die veröffentlichten Kataloge Chestnut v28 und Qualcomm v25 benötigen Selector 21. Prüfen Sie vor der Modellwahl Ihren Branch. PR #2015 und #2044 wurden ohne Merge geschlossen. Aktualisieren Sie im Stand ohne laufenden Download; Clear Cache löscht heruntergeladene Modelle.",
++  "content.8991ba93f76f": "Master, dev und staging nutzen Selector 20 und Chestnut v27 / Qualcomm v23. Die neuen Kataloge v28 / v25 benötigen Selector 21. PR #2015 und #2044 wurden ohne Merge geschlossen und warten nicht auf Übernahme. Quellen: https://github.com/sunnypilot/sunnypilot/pull/2015 und https://github.com/sunnypilot/sunnypilot/pull/2044.",
++  "content.473919f486c6": "Das Wiki dokumentiert 132 Modelle. Die Verfügbarkeit hängt von Hardware, Selector-Version und installiertem Branch ab.",
++  "content.6071b9423bba": "132 dokumentierte Fahrmodelle durchsuchen. Veröffentlichte Katalogeinträge sind nicht zwangsläufig auf Ihrem Gerät oder Branch verfügbar.",
++  "content.fc0681438b1b": "Frühere situationsabhängige Umschaltung zwischen den Längsregelungsmodi Chill und Experimental. PR #2056 entfernte DEC am 16. Oktober 2026 aus master; auch der geprüfte dev-Build enthält es nicht mehr, staging dagegen weiterhin.",
++  "content.120a019dd418": "Frühere Modusumschaltung; aus aktuellem master und dev entfernt.",
++  "content.7f68f41a61cb": "Prüfen Sie den installierten Branch. DEC fehlt in geprüftem master/dev und bleibt in geprüftem staging erhalten. Daraus folgt keine Entfernung aus älteren getaggten Releases. Der Assistent empfiehlt diese branchabhängige Einstellung nicht mehr automatisch.",
++  "content.3556c2fdb03d": "Frühere automatische Umschaltung zwischen Chill und Experimental; auf geprüftem aktuellem master/dev nicht verfügbar.",
++  "content.1429b85c93d3": "Für ältere Builds, die DEC noch implementieren; keine Empfehlung für aktuelles master/dev.",
++  "content.7a8b08692e2e": "Am 16. Oktober durch PR #2056 aus master entfernt. Im geprüften dev fehlt DEC, staging enthält es weiterhin. Vor Nutzung der alten Einstellung Branch und Release-Hinweise prüfen.",
++  "content.388d32485bf6": "Quelle der Entfernung: https://github.com/sunnypilot/sunnypilot/pull/2056. Den Kontext älterer Builds bewahren; kein identisches Verhalten aller Branches annehmen.",
++  "content.6d043f46fdf6": "PR #1999 schlug Änderungen für eine irreführende Posenet-NaN-Geschwindigkeitswarnung beim Start kompilierter Modelle vor, wurde aber am 16. Oktober 2026 ohne Merge geschlossen.",
++  "content.6e8d1bdbce27": "PR #1999 ist keine verfügbare Fehlerbehebung. Anhaltende Warnungen erfordern weiterhin eine Laufzeitdiagnose; das Leeren des Modellcaches allein belegt keine Reparatur.",
++  "content.716581c145c4": "Nur das veröffentlichte Modellartefakt wurde verifiziert. Keine eigene Modellumfrage oder fahrzeugspezifische Fahrerfahrung wurde in diesem Audit bestätigt.",
++  "content.b4bccd2140c7": "Das offizielle Chestnut-v28-Manifest führt dieses Modell mit Selector 21 und Generation 12. Geprüfte master/dev/staging nutzen Selector 20 und Chestnut v27; die Veröffentlichung belegt daher keine Verfügbarkeit auf diesen Branches. Hardware und Laufzeit müssen kompatibel sein.",
++  "content.163fb8300cd6": "Forschung mit kompatibler Selector-21-Laufzeit; keine fahrzeugspezifische Empfehlung belegt.",
++  "content.9e2e02a27687": "Dynamic Experimental Control — frühere Modusumschaltung; aus aktuellem master/dev entfernt, in geprüftem staging erhalten.",
++  "content.052c83176bf9": "Dies sind die „großen Modelle“ – Netzwerke der Chestnutklasse, die größer sind als alles in der WMI- oder OP-Reihe, verbunden mit dem neuen GPU-Add-on von Comma, das seit August 2026 Besitzer erreicht. Sie fallen während eines Laufs fast täglich unter dem Tag „big_model“ des Forums auf. Die zusätzliche Netzwerkgröße zeigt sich zuerst im Querverkehr: 90-Grad-Kurven innerhalb der Stadt werden weit gefahren, anstatt sie zu schneiden, und die Stabilität auf bepflanzten statt auf schwebenden Autobahnen wird deutlich. Herausragende Modelle wie Cinque Terre und Sad Model haben die Seitenstabilität und das natürliche Lenkgefühl deutlich verbessert, während frühere BMRLNAP-Fahrten unter Lenkschwingungen bei niedriger Geschwindigkeit litten. Stoppschilder und Ampelstopplinien bleiben auf der gesamten Strecke ein aktiver Tuningbereich. Laufzeithinweise (2. Oktober): PR #2035 schlägt 1344×760 comma 3X-Frames vor der einheitlichen AMD-Übertragung vor. PR #2023 schlägt ChestnutPowerLimit (0 = Lager; 40–100 W) über erweiterte sunnylink-Gerätesteuerungen auf comma four vor. Beide bleiben geöffnet. Modellverwaltung (16. Oktober): master, dev und staging verwenden weiterhin Selector 20, Chestnut v27 und Qualcomm v23. Die veröffentlichten Kataloge Chestnut v28 und Qualcomm v25 erfordern Selector 21; ihre Veröffentlichung belegt keine Verfügbarkeit auf diesen Branches. PR #2015, #2044 und #1999 wurden ohne Merge geschlossen und sind keine veröffentlichten Fehlerbehebungen."
+ }
+diff --git aa/locales/es.json bb/locales/es.json
+index 268643c..8aab73e 100644
+--- aa/locales/es.json
++++ bb/locales/es.json
+@@ -3806,5 +3806,24 @@
+   "content.6bd1cd4f62fa": "Agresividad longitudinal",
+   "content.1136be17a021": "Arrastre en línea de detención",
+   "content.320d9c42ea2b": "Ilustrativo: los valores se estiman a partir de comentarios de la comunidad, etiquetas y encuestas, no de conducción real grabada. La ejecución del controlador es un modelo de saturación simplificado.",
+-  "content.90300c33c2a3": "Valores de telemetría seleccionados. La ejecución del controlador es un modelo de saturación simplificado."
++  "content.90300c33c2a3": "Valores de telemetría seleccionados. La ejecución del controlador es un modelo de saturación simplificado.",
++  "content.0ee9ffcefb2f": "Gestión de modelos (16 de octubre): master, dev y staging siguen usando selector 20, Chestnut v27 y Qualcomm v23. Los catálogos publicados Chestnut v28 y Qualcomm v25 requieren selector 21; su publicación no demuestra disponibilidad en esas ramas. Los PR #2015, #2044 y #1999 se cerraron sin integrar y no son correcciones publicadas.",
++  "content.7ed583d2f6de": "Master, dev y staging siguen usando selector 20, Chestnut v27 y Qualcomm v23. Los catálogos publicados Chestnut v28 y Qualcomm v25 requieren selector 21. Compruebe su rama antes de elegir un modelo. Los PR #2015 y #2044 se cerraron sin integrar. Actualice estacionado y sin descargas activas; Clear Cache elimina los modelos descargados.",
++  "content.8991ba93f76f": "Master, dev y staging usan selector 20 y Chestnut v27 / Qualcomm v23. Los nuevos catálogos v28 / v25 requieren selector 21. Los PR #2015 y #2044 se cerraron sin integrar; no están pendientes de adopción. Fuentes: https://github.com/sunnypilot/sunnypilot/pull/2015 y https://github.com/sunnypilot/sunnypilot/pull/2044.",
++  "content.473919f486c6": "La wiki documenta 132 modelos. La disponibilidad depende del hardware, la versión del selector y la rama instalada.",
++  "content.6071b9423bba": "Explore 132 modelos de conducción documentados. Una entrada publicada en un catálogo no garantiza disponibilidad en su dispositivo o rama.",
++  "content.fc0681438b1b": "Antiguo cambio contextual entre los modos longitudinales Chill y Experimental. El PR #2056 eliminó DEC de master el 16 de octubre de 2026; el dev inspeccionado también lo omite, mientras que staging lo conserva.",
++  "content.120a019dd418": "Cambio de modos heredado; eliminado de master y dev actuales.",
++  "content.7f68f41a61cb": "Compruebe la rama instalada. DEC está ausente en master/dev inspeccionados y sigue en staging inspeccionado. Esto no demuestra su eliminación de versiones etiquetadas anteriores. El asistente ya no recomienda automáticamente este ajuste dependiente de la rama.",
++  "content.3556c2fdb03d": "Antiguo cambio automático entre Chill y Experimental; no disponible en master/dev actuales inspeccionados.",
++  "content.1429b85c93d3": "Para versiones antiguas que aún implementen DEC; no se recomienda para master/dev actuales.",
++  "content.7a8b08692e2e": "Eliminado de master mediante el PR #2056 el 16 de octubre. El dev inspeccionado lo omite; staging lo conserva. Compruebe rama y notas de versión antes de usar este ajuste antiguo.",
++  "content.388d32485bf6": "Fuente de la eliminación: https://github.com/sunnypilot/sunnypilot/pull/2056. Conserve el contexto de versiones anteriores; no suponga el mismo comportamiento en todas las ramas.",
++  "content.6d043f46fdf6": "El PR #1999 propuso cambios para una alerta engañosa de velocidad Posenet NaN al iniciar modelos compilados, pero se cerró sin integrar el 16 de octubre de 2026.",
++  "content.6e8d1bdbce27": "No considere el PR #1999 una corrección disponible. Las alertas persistentes siguen requiriendo diagnóstico del entorno de ejecución; borrar la caché de modelos no demuestra su reparación.",
++  "content.716581c145c4": "Solo se verificó el artefacto publicado. En esta auditoría no se verificó una encuesta dedicada al modelo ni evidencia de conducción específica de un vehículo.",
++  "content.b4bccd2140c7": "El manifiesto oficial Chestnut v28 enumera este modelo con selector 21 y generación 12. Master/dev/staging inspeccionados usan selector 20 y Chestnut v27, por lo que la publicación no demuestra disponibilidad en esas ramas. Compruebe la compatibilidad del hardware y del entorno de ejecución.",
++  "content.163fb8300cd6": "Investigación con un entorno compatible con selector 21; no se establece una recomendación para un vehículo concreto.",
++  "content.9e2e02a27687": "Dynamic Experimental Control — cambio de modos heredado; eliminado de master/dev actuales y conservado en staging inspeccionado.",
++  "content.052c83176bf9": "Estos son los \"modelos grandes\": redes de clase Chestnut más grandes que cualquier cosa en las líneas WMI u OP, vinculadas al nuevo complemento GPU de comma, que comenzó a llegar a los propietarios en agosto de 2026. Caen bajo la etiqueta big_model del foro con una cadencia casi diaria durante una ejecución. El tamaño adicional de la red aparece primero en el lateral: toma amplias curvas de 90 grados en la ciudad en lugar de cortarlas, y muestra una estabilidad en la carretera plantada en lugar de flotante. Los participantes destacados como Cinque Terre y Sad Model han mejorado significativamente la estabilidad lateral y la sensación de dirección natural, mientras que las versiones anteriores del BMRLNAP sufrieron oscilaciones de dirección a baja velocidad. Las señales de alto y las líneas de alto de los semáforos siguen siendo un área activa de ajuste a lo largo de la línea. Notas de ejecución (2 de octubre): PR #2035 propone fotogramas comma 3X de 1344×760 antes de la transferencia unificada de AMD. PR #2023 propone ChestnutPowerLimit (0 = stock; 40–100 W) a través de controles avanzados del dispositivo sunnylink en comma four. Ambos permanecen abiertos. Gestión de modelos (16 de octubre): master, dev y staging siguen usando selector 20, Chestnut v27 y Qualcomm v23. Los catálogos publicados Chestnut v28 y Qualcomm v25 requieren selector 21; su publicación no demuestra disponibilidad en esas ramas. Los PR #2015, #2044 y #1999 se cerraron sin integrar y no son correcciones publicadas."
+ }
+diff --git aa/data/discourse_polls.json bb/data/discourse_polls.json
+index f9d3206..4bd4c6f 100644
+--- aa/data/discourse_polls.json
++++ bb/data/discourse_polls.json
+@@ -2384,17 +2384,18 @@
+     "title": "Macrostiff Model (1 Jan 2026)",
+     "polls": [
+       {
++        "id": 35,
+         "name": "poll",
+         "type": "regular",
+-        "min": null,
+-        "max": null,
+-        "voters": 33,
+-        "title": "How is this model?",
++        "status": "open",
++        "public": true,
++        "dynamic": false,
++        "results": "always",
+         "options": [
+           {
+             "id": "988e4092371df8f838f45ddb6a668e06",
+             "html": "Great",
+-            "votes": 22
++            "votes": 23
+           },
+           {
+             "id": "9921ab8140738b9a0ad85b17f4252cfc",
+@@ -2416,10 +2417,265 @@
+             "html": "Horrible",
+             "votes": 1
+           }
+-        ]
++        ],
++        "voters": 34,
++        "preloaded_voters": {
++          "639a20b73029151e60a5e53540f3f5ad": [
++            {
++              "id": 856,
++              "username": "使用者3",
++              "name": "Tonehsie",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/使用者3/{size}/1646_2.png",
++              "title": null
++            }
++          ],
++          "870c75735fc43142f39d23af22ef5054": [
++            {
++              "id": 2906,
++              "username": "Petraru_Alexandru",
++              "name": "Petraru Alexandru",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/petraru_alexandru/{size}/5081_2.png",
++              "title": null
++            }
++          ],
++          "988e4092371df8f838f45ddb6a668e06": [
++            {
++              "id": 266,
++              "username": "rockforbrains",
++              "name": "rockforbrains",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/rockforbrains/{size}/845_2.png",
++              "title": "sunnypilot's Supporter"
++            },
++            {
++              "id": 1599,
++              "username": "Eddie",
++              "name": "Eddie",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/eddie/{size}/2976_2.png",
++              "title": null
++            },
++            {
++              "id": 112,
++              "username": "Rejean",
++              "name": "Rejean",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/rejean/{size}/1759_2.png",
++              "title": "sunnypilot's Novice"
++            },
++            {
++              "id": 16,
++              "username": "SpysyWeeb",
++              "name": "SpysyWeeb",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/spysyweeb/{size}/37_2.png",
++              "title": "Regular"
++            },
++            {
++              "id": 838,
++              "username": "eyezenheim",
++              "name": "eyezenheim",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/eyezenheim/{size}/1625_2.png",
++              "title": null
++            },
++            {
++              "id": 14,
++              "username": "Kumar",
++              "name": "Kumar",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/kumar/{size}/2928_2.png",
++              "title": "sunnypilot Developer"
++            },
++            {
++              "id": 568,
++              "username": "DenisL",
++              "name": "DenisL",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/denisl/{size}/1239_2.png",
++              "title": "sunnypilot's Contributor"
++            },
++            {
++              "id": 1415,
++              "username": "Paramesh",
++              "name": "Paramesh",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/paramesh/{size}/2621_2.png",
++              "title": null
++            },
++            {
++              "id": 1315,
++              "username": "SmileyFace",
++              "name": "NameIt ",
++              "avatar_template": "/letter_avatar_proxy/v4/letter/s/db5fbb/{size}.png",
++              "title": null
++            },
++            {
++              "id": 2018,
++              "username": "Kaan_ELASLAN",
++              "name": "Kaan ELASLAN",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/kaan_elaslan/{size}/4899_2.png",
++              "title": null
++            },
++            {
++              "id": 2615,
++              "username": "Dmac",
++              "name": "Dmac",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/dmac/{size}/4609_2.png",
++              "title": null
++            },
++            {
++              "id": 2384,
++              "username": "pharmacomaniac",
++              "name": "",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/pharmacomaniac/{size}/4296_2.png",
++              "title": null
++            },
++            {
++              "id": 2437,
++              "username": "broaden4885",
++              "name": "broaden4885",
++              "avatar_template": "/letter_avatar_proxy/v4/letter/b/779978/{size}.png",
++              "title": ""
++            },
++            {
++              "id": 1848,
++              "username": "Kenknee",
++              "name": "",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/kenknee/{size}/3387_2.png",
++              "title": ""
++            },
++            {
++              "id": 412,
++              "username": "a_walker",
++              "name": "",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/a_walker/{size}/1001_2.png",
++              "title": null
++            },
++            {
++              "id": 988,
++              "username": "durrfee",
++              "name": "durrfee",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/durrfee/{size}/1857_2.png",
++              "title": null
++            },
++            {
++              "id": 2143,
++              "username": "Adrian_Abedon",
++              "name": "Adrian Abedon",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/adrian_abedon/{size}/3869_2.png",
++              "title": null
++            },
++            {
++              "id": 2580,
++              "username": "DUBI_TV",
++              "name": "DUBI TV",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/dubi_tv/{size}/4577_2.png",
++              "title": null
++            },
++            {
++              "id": 3862,
++              "username": "Alex_Iltchev",
++              "name": "Alex Iltchev",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/alex_iltchev/{size}/3289_2.png",
++              "title": null
++            },
++            {
++              "id": 1960,
++              "username": "itsMrRobot",
++              "name": "Levi Loveless",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/itsmrrobot/{size}/3586_2.png",
++              "title": null
++            },
++            {
++              "id": 3812,
++              "username": "Jeffrey_Frazier",
++              "name": "Jeffrey Frazier",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/jeffrey_frazier/{size}/6331_2.png",
++              "title": null
++            },
++            {
++              "id": 1060,
++              "username": "JasonL",
++              "name": "Jason",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/jasonl/{size}/2022_2.png",
++              "title": null
++            },
++            {
++              "id": 2585,
++              "username": "Derek_Hanson",
++              "name": "Derek",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/derek_hanson/{size}/4582_2.png",
++              "title": null
++            }
++          ],
++          "9921ab8140738b9a0ad85b17f4252cfc": [
++            {
++              "id": 158,
++              "username": "Elastep",
++              "name": "Elastep",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/elastep/{size}/723_2.png",
++              "title": null
++            },
++            {
++              "id": 1406,
++              "username": "vinh.le",
++              "name": "vinh.le",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/vinh.le/{size}/2611_2.png",
++              "title": null
++            },
++            {
++              "id": 1167,
++              "username": "bvoy295y20",
++              "name": "bvoy295y20",
++              "avatar_template": "/letter_avatar_proxy/v4/letter/b/96bed5/{size}.png",
++              "title": null
++            },
++            {
++              "id": 143,
++              "username": "syncword",
++              "name": "",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/syncword/{size}/710_2.png",
++              "title": null
++            },
++            {
++              "id": 21,
++              "username": "warren",
++              "name": "Warren Togami",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/warren/{size}/46_2.png",
++              "title": "sunnypilot's Benefactor"
++            },
++            {
++              "id": 1658,
++              "username": "aad7122-gmail",
++              "name": "Aad7122-gmail",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/aad7122-gmail/{size}/3071_2.png",
++              "title": null
++            },
++            {
++              "id": 2632,
++              "username": "raayyy",
++              "name": "Ray",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/raayyy/{size}/4628_2.png",
++              "title": ""
++            }
++          ],
++          "baa33ef352a4e327fb3c09699c094b1d": [
++            {
++              "id": 1309,
++              "username": "ConnieWild",
++              "name": "ConnieWild",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/conniewild/{size}/2453_2.png",
++              "title": null
++            },
++            {
++              "id": 2485,
++              "username": "Jay_Mistry",
++              "name": "Jay Mistry",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/jay_mistry/{size}/4437_2.png",
++              "title": null
++            }
++          ]
++        },
++        "chart_type": "bar",
++        "title": null,
++        "closed_at": null,
++        "closed_by": null
+       }
+     ],
+-    "updatedAt": "2026-10-03T18:14:27.188Z"
++    "updatedAt": "2026-10-16T19:06:37.398Z"
+   },
+   "OP Model 16 Deep": {
+     "topicId": "6557",
+@@ -2636,17 +2892,18 @@
+     "title": "Terrible Super Fantastic Model (August 12, 2026)",
+     "polls": [
+       {
++        "id": 72,
+         "name": "poll",
+         "type": "regular",
+-        "min": null,
+-        "max": null,
+-        "voters": 2,
+-        "title": "TSFM",
++        "status": "open",
++        "public": true,
++        "dynamic": true,
++        "results": "always",
+         "options": [
+           {
+             "id": "17e1b6a510d64cd5d6deb8f2e049c0aa",
+             "html": "5 - Great",
+-            "votes": 0
++            "votes": 1
+           },
+           {
+             "id": "1e8a0edd7eccff859eb116c3407618f2",
+@@ -2668,10 +2925,44 @@
+             "html": "1 - Horrible",
+             "votes": 1
+           }
+-        ]
++        ],
++        "voters": 3,
++        "preloaded_voters": {
++          "17e1b6a510d64cd5d6deb8f2e049c0aa": [
++            {
++              "id": 3648,
++              "username": "pm3091",
++              "name": "Akarow",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/pm3091/{size}/6092_2.png",
++              "title": "sunnypilot's Supporter"
++            }
++          ],
++          "321f444cf2be5d7e0e2227920be1eff0": [
++            {
++              "id": 35,
++              "username": "Tony.Wu",
++              "name": "Tony.Wu",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/tony.wu/{size}/75_2.png",
++              "title": "sunnypilot's Novice"
++            }
++          ],
++          "7a87b4080da8193dfd9d949f64a6b8f2": [
++            {
++              "id": 1482,
++              "username": "mikehundley_1",
++              "name": "mikehundley_1",
++              "avatar_template": "/user_avatar/community.sunnypilot.ai/mikehundley_1/{size}/2743_2.png",
++              "title": null
++            }
++          ]
++        },
++        "chart_type": "bar",
++        "title": "TSFM",
++        "closed_at": null,
++        "closed_by": null
+       }
+     ],
+-    "updatedAt": "2026-10-03T18:14:27.551Z"
++    "updatedAt": "2026-10-16T19:06:37.400Z"
+   },
+   "RDF Model v2": {
+     "topicId": "6763",
+diff --git aa/components/SetupWizard.tsx bb/components/SetupWizard.tsx
+index 7856475..31b5866 100644
+--- aa/components/SetupWizard.tsx
++++ bb/components/SetupWizard.tsx
+@@ -181,25 +181,8 @@ export default function SetupWizard() {
+                 });
+             }
+ 
+-            if (answers.drivingStyle === 'rush_hour') {
+-                recipe.push({
+-                    category: t('wizard.recipe.category.cruise'),
+-                    key: 'DynamicExperimentalControl',
+-                    label: t('wizard.recipe.label.dynamicExperimental'),
+-                    value: false,
+-                    reason: t('wizard.recipe.reason.forceExperimental'),
+-                    isAdvanced: true,
+-                });
+-            } else {
+-                recipe.push({
+-                    category: t('wizard.recipe.category.cruise'),
+-                    key: 'DynamicExperimentalControl',
+-                    label: t('wizard.recipe.label.dynamicExperimental'),
+-                    value: true,
+-                    reason: t('wizard.recipe.reason.switchAuto'),
+-                    isAdvanced: true,
+-                });
+-            }
++            // DEC was removed from current master/dev. Without a branch choice,
++            // do not generate this legacy setting for any driving style.
+         } else {
+             recipe.push({
+                 category: t('wizard.recipe.category.cruise'),
+@@ -669,4 +652,3 @@ export default function SetupWizard() {
+         </div>
+     );
+ }
+-

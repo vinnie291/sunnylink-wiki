@@ -1,4 +1,6 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+
 
 import { useLanguage } from '../lib/i18n';
 
@@ -53,7 +55,7 @@ export default function EmptyState({ searchQuery, onClearSearch }: EmptyStatePro
                             }}
                             className="px-3 py-1.5 rounded-lg text-sm bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:bg-slate-700/50 hover:text-slate-100 transition-all"
                         >
-                            {suggestion}
+                            <TranslatedText text={suggestion} />
                         </button>
                     ))}
                 </div>

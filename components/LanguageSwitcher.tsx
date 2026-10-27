@@ -1,5 +1,6 @@
 'use client';
 
+
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage, SUPPORTED_LOCALES } from '../lib/i18n';
@@ -71,6 +72,8 @@ export default function LanguageSwitcher() {
           cursor-pointer
           ${isOpen ? 'border-cyan-500/50 bg-slate-800/80 ring-1 ring-cyan-500/30' : ''}
         `}
+                data-testid="language-switcher"
+                aria-expanded={isOpen}
                 aria-label={t('language.switchTo')}
                 title={t('language.switchTo')}
             >
@@ -102,6 +105,7 @@ export default function LanguageSwitcher() {
                             return (
                                 <button
                                     key={loc}
+                                    aria-pressed={isActive}
                                     onClick={() => handleSelect(loc)}
                                     className={`
                     w-full flex items-center gap-3 px-4 py-2.5

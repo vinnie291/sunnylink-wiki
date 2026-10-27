@@ -1,4 +1,6 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+
 
 import { useState } from 'react';
 
@@ -29,6 +31,16 @@ interface RecipeItem {
 }
 
 // --- Component ---
+const StepHeader = ({ title, icon }: { title: string, icon?: string }) => (
+        <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-bold text-slate-100 flex items-center gap-2">
+                <span><TranslatedText text={title} /></span>
+                {icon && <span><TranslatedText text={icon} /></span>}
+            </h2>
+
+        </div>
+    );
+
 export default function SetupWizard() {
     const { t } = useLanguage();
     const [step, setStep] = useState<WizardStep>('intro');
@@ -169,25 +181,8 @@ export default function SetupWizard() {
                 });
             }
 
-            if (answers.drivingStyle === 'rush_hour') {
-                recipe.push({
-                    category: t('wizard.recipe.category.cruise'),
-                    key: 'DynamicExperimentalControl',
-                    label: t('wizard.recipe.label.dynamicExperimental'),
-                    value: false,
-                    reason: t('wizard.recipe.reason.forceExperimental'),
-                    isAdvanced: true,
-                });
-            } else {
-                recipe.push({
-                    category: t('wizard.recipe.category.cruise'),
-                    key: 'DynamicExperimentalControl',
-                    label: t('wizard.recipe.label.dynamicExperimental'),
-                    value: true,
-                    reason: t('wizard.recipe.reason.switchAuto'),
-                    isAdvanced: true,
-                });
-            }
+            // DEC was removed from current master/dev. Without a branch choice,
+            // do not generate this legacy setting for any driving style.
         } else {
             recipe.push({
                 category: t('wizard.recipe.category.cruise'),
@@ -241,15 +236,7 @@ export default function SetupWizard() {
 
 
 
-    const StepHeader = ({ title, icon }: { title: string, icon?: string }) => (
-        <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-slate-100 flex items-center gap-2">
-                <span>{title}</span>
-                {icon && <span>{icon}</span>}
-            </h2>
 
-        </div>
-    );
 
     return (
         <div className="max-w-2xl mx-auto py-8 px-4 relative">
@@ -285,7 +272,7 @@ export default function SetupWizard() {
                     {/* Text Section - Left on Desktop */}
                     <div className="flex-1 text-center md:text-left order-2 md:order-1">
                         <h1 className="text-4xl md:text-6xl font-bold text-slate-100 mb-6 tracking-tight">
-                            Sunnylink <br className="hidden md:block" />
+                             Sunnylink <br className="hidden md:block" />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">{t('wizard.title')}</span>
                         </h1>
 
@@ -404,16 +391,16 @@ export default function SetupWizard() {
                                     </div>
                                     <div className="flex-1">
                                         <div className="flex justify-between items-start">
-                                            <div className="text-xs font-bold tracking-wider text-slate-500 mb-1 uppercase">{item.category}</div>
+                                            <div className="text-xs font-bold tracking-wider text-slate-500 mb-1 uppercase"><TranslatedText text={item.category} /></div>
                                             {item.isAdvanced && (
                                                 <span className="text-[10px] font-bold bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded">{t('wizard.recipe.advLabel')}</span>
                                             )}
                                         </div>
-                                        <h3 className="text-lg font-medium text-slate-100 mb-1">{item.label}</h3>
+                                        <h3 className="text-lg font-medium text-slate-100 mb-1"><TranslatedText text={item.label} /></h3>
                                         <div className="text-2xl font-bold text-cyan-400 mb-2">
-                                            {typeof item.value === 'boolean' ? (item.value ? t('wizard.recipe.value.on') : t('wizard.recipe.value.off')) : item.value}
+                                            <TranslatedText text={typeof item.value === 'boolean' ? (item.value ? t('wizard.recipe.value.on') : t('wizard.recipe.value.off')) : item.value} />
                                         </div>
-                                        <p className="text-sm text-slate-400 italic">&quot;{item.reason}&quot;</p>
+                                        <p className="text-sm text-slate-400 italic"><TranslatedText text={"\""} /><TranslatedText text={item.reason} /><TranslatedText text={"\""} /></p>
                                     </div>
                                 </div>
                             </div>
@@ -542,10 +529,10 @@ export default function SetupWizard() {
                                 onClick={() => updateAnswer('drivingStyle', opt.id)}
                                 className={`w-full p-6 rounded-xl border text-left transition-all flex items-center gap-4 ${answers.drivingStyle === opt.id ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
                             >
-                                <div className="text-4xl">{opt.icon}</div>
+                                <div className="text-4xl"><TranslatedText text={opt.icon} /></div>
                                 <div>
-                                    <div className="font-bold text-slate-100 text-lg">{opt.title}</div>
-                                    <div className="text-slate-400 text-sm">{opt.desc}</div>
+                                    <div className="font-bold text-slate-100 text-lg"><TranslatedText text={opt.title} /></div>
+                                    <div className="text-slate-400 text-sm"><TranslatedText text={opt.desc} /></div>
                                 </div>
                             </button>
                         ))}
@@ -599,7 +586,7 @@ export default function SetupWizard() {
                             }}
                             className="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold shadow-green-500/20 hover:scale-105 transition-transform"
                         >
-                            {answers.complexity === 'advanced' ? `${t('wizard.next')} ➔` : `${t('wizard.step4.generate')}`}
+                            <TranslatedText text={answers.complexity === 'advanced' ? `${t('wizard.next')} ➔` : `${t('wizard.step4.generate')}`} />
                         </button>
                     </div>
                 </div>
@@ -619,10 +606,10 @@ export default function SetupWizard() {
                                 onClick={() => updateAnswer('laneChangeType', opt.id as WizardState['laneChangeType'])}
                                 className={`w-full p-6 rounded-xl border text-left transition-all flex items-center gap-4 ${answers.laneChangeType === opt.id ? 'bg-cyan-500/20 border-cyan-500' : 'bg-slate-800 border-slate-700 hover:border-slate-500'}`}
                             >
-                                <div className="text-4xl">{opt.icon}</div>
+                                <div className="text-4xl"><TranslatedText text={opt.icon} /></div>
                                 <div>
-                                    <div className="font-bold text-slate-100 text-lg">{opt.title}</div>
-                                    <div className="text-slate-400 text-sm">{opt.desc}</div>
+                                    <div className="font-bold text-slate-100 text-lg"><TranslatedText text={opt.title} /></div>
+                                    <div className="text-slate-400 text-sm"><TranslatedText text={opt.desc} /></div>
                                 </div>
                             </button>
                         ))}
@@ -665,4 +652,3 @@ export default function SetupWizard() {
         </div>
     );
 }
-

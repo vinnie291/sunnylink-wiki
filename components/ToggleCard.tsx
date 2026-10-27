@@ -1,4 +1,7 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import { useState, useRef } from 'react';
 import DOMPurify from 'dompurify';
@@ -38,12 +41,13 @@ interface ToggleCardProps {
 /* ─────────────────────── Simulators ─────────────────────── */
 
 function ToggleSimulator({ defaultValue, statusText, settingLabel }: { defaultValue: boolean; statusText?: string; settingLabel?: string }) {
+  const tx = useTextTranslation();
   const [enabled, setEnabled] = useState(defaultValue);
   const { t } = useLanguage();
   return (
     <div className="rounded-2xl bg-slate-900/70 border border-slate-700/50 p-6 flex flex-col items-center gap-4">
       <span className="text-sm font-bold tracking-[0.2em] text-slate-300 uppercase">
-        {enabled ? t('settings.enabled') : t('settings.disabled')}
+        <TranslatedText text={enabled ? t('settings.enabled') : t('settings.disabled')} />
       </span>
       <button
         onClick={() => setEnabled(!enabled)}
@@ -54,7 +58,7 @@ function ToggleSimulator({ defaultValue, statusText, settingLabel }: { defaultVa
         role="switch"
         aria-checked={enabled}
         type="button"
-        aria-label={settingLabel || 'Preview toggle'}
+        aria-label={tx(settingLabel || 'Preview toggle')}
       >
         <span
           className={`
@@ -68,7 +72,7 @@ function ToggleSimulator({ defaultValue, statusText, settingLabel }: { defaultVa
           <svg className="w-4 h-4 text-violet-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <span className="text-xs font-bold tracking-[0.15em] text-violet-400 uppercase">{statusText}</span>
+          <span className="text-xs font-bold tracking-[0.15em] text-violet-400 uppercase"><TranslatedText text={statusText} /></span>
         </div>
       )}
     </div>
@@ -90,6 +94,7 @@ function SliderSimulator({
   statusText?: string;
   settingLabel?: string;
 }) {
+  const tx = useTextTranslation();
   const [value, setValue] = useState(defaultValue);
   const range = max - min;
   const percentage = ((value - min) / range) * 100;
@@ -107,9 +112,9 @@ function SliderSimulator({
     <div className="rounded-2xl bg-slate-900/70 border border-slate-700/50 p-5">
       {/* Top row: min — value — max */}
       <div className="flex items-baseline justify-between mb-4">
-        <span className="text-sm font-bold tracking-[0.15em] text-slate-400 uppercase">{fmt(min)}</span>
-        <span className="text-xl font-bold tracking-[0.2em] text-[#5b36f5]">{fmt(value)}</span>
-        <span className="text-sm font-bold tracking-[0.15em] text-slate-400 uppercase">{fmt(max)}</span>
+        <span className="text-sm font-bold tracking-[0.15em] text-slate-400 uppercase"><TranslatedText text={fmt(min)} /></span>
+        <span className="text-xl font-bold tracking-[0.2em] text-[#5b36f5]"><TranslatedText text={fmt(value)} /></span>
+        <span className="text-sm font-bold tracking-[0.15em] text-slate-400 uppercase"><TranslatedText text={fmt(max)} /></span>
       </div>
 
       {/* Slider row: − [track] + */}
@@ -119,7 +124,7 @@ function SliderSimulator({
           type="button"
           onClick={() => nudge(-1)}
           className="flex-shrink-0 text-xl font-bold text-slate-400 hover:text-slate-100 transition-colors w-6 text-center select-none cursor-pointer"
-          aria-label={settingLabel ? `Decrease ${settingLabel}` : 'Decrease value'}
+          aria-label={tx(settingLabel ? `Decrease ${settingLabel}` : 'Decrease value')}
         >
           −
         </button>
@@ -139,7 +144,7 @@ function SliderSimulator({
             step={step}
             value={value}
             onChange={(e) => setValue(parseFloat(e.target.value))}
-            aria-label={settingLabel || 'Value'}
+            aria-label={tx(settingLabel || 'Value')}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           />
           {/* Default Value Marker */}
@@ -159,7 +164,7 @@ function SliderSimulator({
           type="button"
           onClick={() => nudge(1)}
           className="flex-shrink-0 text-xl font-bold text-slate-400 hover:text-slate-100 transition-colors w-6 text-center select-none cursor-pointer"
-          aria-label={settingLabel ? `Increase ${settingLabel}` : 'Increase value'}
+          aria-label={tx(settingLabel ? `Increase ${settingLabel}` : 'Increase value')}
         >
           +
         </button>
@@ -171,7 +176,7 @@ function SliderSimulator({
           <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <span className="text-xs font-bold tracking-[0.15em] text-emerald-400 uppercase">{statusText}</span>
+          <span className="text-xs font-bold tracking-[0.15em] text-emerald-400 uppercase"><TranslatedText text={statusText} /></span>
         </div>
       )}
     </div>
@@ -214,13 +219,13 @@ function DropdownSimulator({
               <span className="w-4 h-4 flex-shrink-0" />
             )}
             <span className={`flex-1 ${option === selected ? 'font-semibold' : ''}`}>
-              {option}
+              <TranslatedText text={option} />
               {option === recommended && option !== selected && (
                 <span className="ml-2 text-xs text-emerald-400">★</span>
               )}
             </span>
             {option === defaultValue && (
-              <span className="text-xs text-slate-500 font-medium ml-auto">(Default)</span>
+              <span className="text-xs text-slate-500 font-medium ml-auto"><TranslatedText text={"(Default)"} /></span>
             )}
           </button>
         ))}
@@ -228,7 +233,7 @@ function DropdownSimulator({
 
       {/* Dropdown select */}
       <div className="rounded-xl bg-slate-900/70 border border-slate-700/50 px-4 py-3 flex items-center justify-between">
-        <span className="text-sm text-slate-100">{selected}</span>
+        <span className="text-sm text-slate-100"><TranslatedText text={selected} /></span>
         <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
@@ -246,6 +251,7 @@ export default function ToggleCard({
   categoryId,
   isHighlighted,
 }: ToggleCardProps) {
+  const tx = useTextTranslation();
   const [copied, setCopied] = useState(false);
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -326,7 +332,7 @@ export default function ToggleCard({
           <svg className="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <span className="text-emerald-400 text-sm font-medium">{setting.helpText}</span>
+          <span className="text-emerald-400 text-sm font-medium"><TranslatedText text={setting.helpText} /></span>
         </div>
       );
     }
@@ -342,7 +348,7 @@ export default function ToggleCard({
           <svg className="w-5 h-5 text-violet-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <span className="text-violet-400 text-sm font-medium">{statusText}</span>
+          <span className="text-violet-400 text-sm font-medium"><TranslatedText text={statusText} /></span>
         </div>
       );
     }
@@ -353,7 +359,7 @@ export default function ToggleCard({
           <svg className="w-5 h-5 text-violet-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <span className="text-violet-400 text-sm font-medium">{t('settings.default')}: {defaultLabel}</span>
+          <span className="text-violet-400 text-sm font-medium">{t('settings.default')}: <TranslatedText text={defaultLabel} /></span>
         </div>
       );
     }
@@ -364,7 +370,7 @@ export default function ToggleCard({
           <svg className="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <span className="text-cyan-400 text-sm font-medium">{setting.helpText}</span>
+          <span className="text-cyan-400 text-sm font-medium"><TranslatedText text={setting.helpText} /></span>
         </div>
       );
     }
@@ -448,7 +454,7 @@ export default function ToggleCard({
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap mb-2">
               <span className={`px-2.5 py-0.5 text-xs font-semibold rounded-full border ${getTypeBadgeStyle(setting.type)}`}>
-                {getTypeBadgeLabel(setting.type)}
+                <TranslatedText text={getTypeBadgeLabel(setting.type)} />
               </span>
               {setting.recommended && (
                 <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
@@ -468,26 +474,24 @@ export default function ToggleCard({
               {setting.deviceAvailability === 'comma-3x-only' && (
                 <span
                   className="px-2 py-0.5 text-xs font-medium rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30"
-                  title="Supported on comma 3X/3 only. Not supported on comma four screen or UI."
+                  title={tx("Supported on comma 3X/3 only. Not supported on comma four screen or UI.")}
                 >
-                  comma 3X/3 only
-                </span>
+                   <TranslatedText text={"comma 3X/3 only"} /> </span>
               )}
               {setting.deviceAvailability === 'config-hidden' && (
                 <span
                   className="px-2 py-0.5 text-xs font-medium rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30"
-                  title="Supported on all devices. comma four users configure via sunnylink."
+                  title={tx("Supported on all devices. comma four users configure via sunnylink.")}
                 >
-                  comma four via sunnylink
-                </span>
+                   <TranslatedText text={"comma four via sunnylink"} /> </span>
               )}
             </div>
             <h2 className="text-xl lg:text-2xl font-bold text-slate-100 group-hover:text-cyan-400 transition-colors leading-tight">
-              {setting.label}
+              <TranslatedText text={setting.label} />
             </h2>
             <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-1.5">
-              <span>{categoryIcon}</span>
-              <span>{categoryName}</span>
+              <span><TranslatedText text={categoryIcon} /></span>
+              <span><TranslatedText text={categoryName} /></span>
             </div>
           </div>
 
@@ -498,7 +502,7 @@ export default function ToggleCard({
               <button
                 onClick={handleReportIssue}
                 className="p-2 rounded-lg text-slate-400 hover:text-amber-400 hover:bg-amber-500/10 transition-all duration-200"
-                title="Flag this setting"
+                title={tx("Flag this setting")}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
@@ -508,7 +512,7 @@ export default function ToggleCard({
               <button
                 onClick={handleCopyLink}
                 className="p-2 rounded-lg text-slate-400 hover:text-cyan-400 hover:bg-cyan-500/10 transition-all duration-200"
-                title={copied ? "Copied!" : "Share this setting"}
+                title={tx(copied ? "Copied!" : "Share this setting")}
               >
                 {copied ? (
                   <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -526,7 +530,7 @@ export default function ToggleCard({
               href={getSunnylinkUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${t('settings.viewInSunnylink')}: ${setting.label}`}
+              aria-label={tx(`${t('settings.viewInSunnylink')}: ${setting.label}`)}
               className="px-4 py-2 rounded-lg text-sm font-medium bg-[#5b36f5] text-white hover:bg-[#4a2bd0] transition-all duration-200 flex items-center gap-1.5 shadow-lg shadow-[#5b36f5]/25 whitespace-nowrap"
             >
               <span>{t('settings.viewInSunnylink')}</span>
@@ -545,7 +549,7 @@ export default function ToggleCard({
 
             {/* Description */}
             <p className="text-slate-300 text-sm lg:text-base leading-relaxed mb-5">
-              {setting.description}
+              <TranslatedText text={setting.description} />
             </p>
 
             {/* Official Discourse Documentation */}
@@ -561,7 +565,7 @@ export default function ToggleCard({
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                  <span className="font-medium">📄 Official Documentation</span>
+                  <span className="font-medium"><TranslatedText text={"📄 Official Documentation"} /></span>
                 </button>
                 {expandedSection === 'discourse' && (
                   <div className="mt-3 ml-6 p-4 rounded-lg bg-slate-900/50 border border-slate-700/30">
@@ -578,7 +582,7 @@ export default function ToggleCard({
             {setting.warning && (
               <div className="mb-5 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
                 <p className="text-amber-400 text-sm">
-                  <span className="font-semibold">⚠️ {t('settings.warning')}:</span> {setting.warning}
+                  <span className="font-semibold">⚠️ {t('settings.warning')}:</span> <TranslatedText text={setting.warning} />
                 </p>
               </div>
             )}
@@ -588,7 +592,7 @@ export default function ToggleCard({
               <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 mb-5">
                 <span className="text-amber-400 text-xs">🔗</span>
                 <span className="text-amber-400 text-xs font-medium">
-                  Requires: {setting.dependencies.map(d => d.label).join(', ')}
+                   <TranslatedText text={"Requires:"} /> <TranslatedText text={setting.dependencies.map(d => d.label).join(', ')} />
                 </span>
               </div>
             )}
@@ -611,7 +615,7 @@ export default function ToggleCard({
                 {expandedSection === 'deepdive' && (
                   <div className="mt-3 ml-6 p-3 rounded-lg bg-slate-900/50 border border-slate-700/30">
                     <p className="text-sm text-slate-400 font-mono leading-relaxed">
-                      {setting.deepDive}
+                      <TranslatedText text={setting.deepDive} />
                     </p>
                   </div>
                 )}
@@ -643,7 +647,7 @@ export default function ToggleCard({
                         }
                       `}
                     >
-                      {option}
+                      <TranslatedText text={option} />
                       {option === setting.default && ` (${t('settings.default')})`}
                       {option === setting.recommended && ' ★'}
                     </span>
@@ -657,7 +661,7 @@ export default function ToggleCard({
               <div className="mb-5">
                 <span className="text-xs text-slate-400 uppercase tracking-wide">{t('settings.default')}: </span>
                 <span className={`text-xs font-medium ${setting.default ? 'text-emerald-400' : 'text-slate-400'}`}>
-                  {String(setting.default)}
+                  <TranslatedText text={String(setting.default)} />
                 </span>
               </div>
             )}
@@ -669,7 +673,7 @@ export default function ToggleCard({
                   <span className="text-lg mt-0.5 flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center">💡</span>
                   <div>
                     <span className="text-amber-400 font-semibold text-sm">{t('settings.tip')}</span>
-                    <p className="text-slate-400 text-sm mt-1">{setting.userNote}</p>
+                    <p className="text-slate-400 text-sm mt-1"><TranslatedText text={setting.userNote} /></p>
                   </div>
                 </div>
               </div>
@@ -691,7 +695,7 @@ export default function ToggleCard({
                     <span className="text-sm font-semibold text-slate-100">{t('settings.whenToUse')}:</span>
                   </div>
                   <p className="text-slate-400 text-sm leading-relaxed pl-7">
-                    {setting.useCase}
+                    <TranslatedText text={setting.useCase} />
                   </p>
                 </div>
               )}
@@ -702,14 +706,14 @@ export default function ToggleCard({
                   <div className="flex items-start gap-2 mb-3">
                     <span className="text-base">⚖️</span>
                     <span className="text-sm font-semibold text-slate-100">
-                      {setting.safetyLevel === 'critical' ? t('settings.safetyConsiderations') : t('settings.tradeoffsPitfalls')}
+                      <TranslatedText text={setting.safetyLevel === 'critical' ? t('settings.safetyConsiderations') : t('settings.tradeoffsPitfalls')} />
                     </span>
                   </div>
                   <ul className="space-y-2 pl-7">
                     {setting.tradeoffs.map((tradeoff, idx) => (
                       <li key={idx} className="text-sm text-slate-400 flex items-start gap-2">
                         <span className="text-rose-400 mt-0.5">•</span>
-                        <span>{tradeoff}</span>
+                        <span><TranslatedText text={tradeoff} /></span>
                       </li>
                     ))}
                   </ul>

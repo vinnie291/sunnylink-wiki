@@ -1,4 +1,6 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
@@ -86,15 +88,14 @@ export default function RealModelSimulation({ src = '/sim/demo_route.json', data
   if (err) {
     return (
       <div className="flex h-full w-full items-center justify-center rounded-xl bg-slate-900 text-sm text-rose-300">
-        Failed to load sim data: {err}
+         <TranslatedText text={"Failed to load sim data:"} /> <TranslatedText text={err} />
       </div>
     );
   }
   if (!route || !projected) {
     return (
       <div className="flex h-full w-full items-center justify-center rounded-xl bg-slate-900 text-sm text-slate-400">
-        Loading recorded model…
-      </div>
+         <TranslatedText text={"Loading recorded model…"} /> </div>
     );
   }
 
@@ -152,13 +153,13 @@ export default function RealModelSimulation({ src = '/sim/demo_route.json', data
       </svg>
 
       <div className="pointer-events-none absolute left-2 top-2 rounded-md bg-black/40 px-2 py-1 font-mono text-[10px] leading-tight text-emerald-300 backdrop-blur">
-        <div>REAL modelV2 · {route.fps}Hz</div>
+        <div><TranslatedText text={"REAL modelV2 ·"} /> {route.fps}<TranslatedText text={"Hz"} /></div>
         <div className="text-slate-300">
-          frame {frameIdx + 1}/{route.frames.length}
+           <TranslatedText text={"frame"} /> {frameIdx + 1}/{route.frames.length}
         </div>
       </div>
       <div className="pointer-events-none absolute bottom-2 right-2 max-w-[60%] truncate rounded-md bg-black/40 px-2 py-1 text-right font-mono text-[9px] text-slate-400 backdrop-blur">
-        {route.route}
+        <TranslatedText text={route.route} />
       </div>
     </div>
   );

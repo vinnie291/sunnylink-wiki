@@ -1,4 +1,8 @@
 'use client';
+import { vehicleModelLabel } from '@/lib/vehicleDisplay';
+import TranslatedText from '@/components/TranslatedText';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { useLanguage } from '../lib/i18n';
@@ -8,6 +12,7 @@ import './ConfigWizard.css';
 
 import { useTranslatedToggles, useTranslatedCars, useTranslatedModels } from '../lib/useTranslatedData';
 import { getFleetAttribution, formatDeviceCount } from '../lib/fleetStats';
+import { AUTOMATIC_VEHICLE_CAPABILITIES, SUBARU_MANUAL_BRAKE_DESCRIPTION, isSettingApplicableToMake, resetInapplicableVehicleSettings } from '../lib/vehicleSettings';
 
 // ─── Types ───
 
@@ -130,6 +135,8 @@ const DEFAULT_CONFIG: ConfigValues = {
     RainbowMode: 'False',
     ToyotaEnforceFactoryLongitudinalControl: 'False',
     SubaruStopAndGo: 'False',
+    SubaruStopAndGoManualParkingBrake: 'False',
+    ToyotaStopAndGoHack: 'False',
     EnableSsh: 'False',
     EnableAdb: 'False',
     ShowAdvancedControls: 'False',
@@ -155,6 +162,11 @@ function getSettingMeta(togglesData: any, modelsData: any, key: string): Setting
         for (const s of cat.settings) {
             if (s.key === key) {
                 const meta = { ...s } as SettingMeta;
+                if (AUTOMATIC_VEHICLE_CAPABILITIES.has(key)) return null;
+                if (key === 'SubaruStopAndGoManualParkingBrake') {
+                    meta.description = SUBARU_MANUAL_BRAKE_DESCRIPTION;
+                    meta.userNote = SUBARU_MANUAL_BRAKE_DESCRIPTION;
+                }
                 if (key === 'DrivingModel' && !meta.options) {
                     const allModels = (modelsData?.categories as Array<{ models: Array<{ name: string }> }> || []).flatMap(c => c.models.map((m) => m.name));
                     meta.options = ['Default', ...allModels];
@@ -213,7 +225,7 @@ function WizardDropdown({ value, options, onChange }: { value: string; options: 
             className="cw-select bg-slate-800/40 border border-slate-700/50 rounded-lg px-3 py-2 text-sm text-slate-200 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/30 outline-none transition-all min-w-[140px] hover:bg-slate-800/60"
         >
             {options.map(opt => (
-                <option key={opt} value={opt}>{opt}</option>
+                <option key={opt} value={opt}><TranslatedText text={opt} /></option>
             ))}
         </select>
     );
@@ -229,7 +241,7 @@ function WizardSlider({ value, min, max, step, unit, onChange }: { value: number
                 onChange={e => onChange(Number(e.target.value))}
                 className="cw-slider flex-1"
             />
-            <span className="text-sm font-mono text-cyan-400 min-w-[48px] text-right">{value}{unit ? ` ${unit}` : ''}</span>
+            <span className="text-sm font-mono text-cyan-400 min-w-[48px] text-right">{value}<TranslatedText text={unit ? ` ${unit}` : ''} /></span>
         </div>
     );
 }
@@ -273,7 +285,7 @@ function SettingCard({ settingKey, meta, value, onChange, config, isCommunityDef
             <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                        <h4 className="text-sm font-semibold text-slate-100">{label}</h4>
+                        <h4 className="text-sm font-semibold text-slate-100"><TranslatedText text={label} /></h4>
                         {isCommunityDefault && (
                             <span className="cw-badge-community text-[10px] px-1.5 py-0.5 rounded-full font-medium">★ {t('cw.badge.community') || 'Community'}</span>
                         )}
@@ -284,31 +296,31 @@ function SettingCard({ settingKey, meta, value, onChange, config, isCommunityDef
                             <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium bg-red-500/20 border border-red-500/30 text-red-400">⚠ {t('toggles.warning') || 'Warning'}</span>
                         )}
                     </div>
-                    <p className="text-xs text-slate-400 mt-1 leading-relaxed line-clamp-2">{desc}</p>
+                    <p className="text-xs text-slate-400 mt-1 leading-relaxed line-clamp-2"><TranslatedText text={desc} /></p>
 
                     {expanded && (
                         <div className="mt-3 space-y-2 animate-fade-in">
                             {meta.userNote && (
                                 <div className="text-xs text-cyan-400/80 bg-cyan-500/5 rounded-lg px-3 py-2 border border-cyan-500/10">
-                                    💡 {meta.userNote}
+                                    💡 <TranslatedText text={meta.userNote} />
                                 </div>
                             )}
                             {meta.tradeoffs && meta.tradeoffs.length > 0 && (
                                 <div className="text-xs text-slate-400 space-y-1">
-                                    <span className="text-slate-300 font-medium">Tradeoffs:</span>
-                                    {meta.tradeoffs.map((t, i) => <p key={i} className="ml-2">• {t}</p>)}
+                                    <span className="text-slate-300 font-medium"><TranslatedText text={"Tradeoffs:"} /></span>
+                                    {meta.tradeoffs.map((t, i) => <p key={i} className="ml-2">• <TranslatedText text={t} /></p>)}
                                 </div>
                             )}
                             {meta.warning && (
                                 <div className="text-xs text-red-400/80 bg-red-500/5 rounded-lg px-3 py-2 border border-red-500/10">
-                                    ⚠️ {meta.warning}
+                                    ⚠️ <TranslatedText text={meta.warning} />
                                 </div>
                             )}
                         </div>
                     )}
 
                     <button onClick={() => setExpanded(!expanded)} className="text-[11px] text-cyan-500 hover:text-cyan-400 mt-1.5 transition-colors">
-                        {expanded ? (t('cw.lessInfo') || '▲ Less info') : (t('cw.moreInfo') || '▼ More info')}
+                        <TranslatedText text={expanded ? (t('cw.lessInfo') || '▲ Less info') : (t('cw.moreInfo') || '▼ More info')} />
                     </button>
                 </div>
 
@@ -348,9 +360,7 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
                     {t('cw.welcome.title') === 'cw.welcome.title' ? 'Config Wizard' : t('cw.welcome.title')}
                 </h2>
                 <p className="text-slate-400 max-w-lg mx-auto leading-relaxed">
-                    Build a complete, device-ready sunnypilot configuration file in minutes.
-                    We&apos;ll guide you through every setting with community-tested recommendations for your specific vehicle.
-                </p>
+                     <TranslatedText text={"Build a complete, device-ready sunnypilot configuration file in minutes. We'll guide you through every setting with community-tested recommendations for your specific vehicle."} /> </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-2xl mx-auto">
@@ -360,9 +370,9 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
                     { icon: '📦', title: 'Ready-to-Use JSON', desc: 'Download a file that works directly on your device' },
                 ].map((f, i) => (
                     <div key={i} className="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4 text-center">
-                        <div className="text-2xl mb-2">{f.icon}</div>
-                        <div className="text-sm font-semibold text-slate-200">{f.title}</div>
-                        <div className="text-xs text-slate-400 mt-1">{f.desc}</div>
+                        <div className="text-2xl mb-2"><TranslatedText text={f.icon} /></div>
+                        <div className="text-sm font-semibold text-slate-200"><TranslatedText text={f.title} /></div>
+                        <div className="text-xs text-slate-400 mt-1"><TranslatedText text={f.desc} /></div>
                     </div>
                 ))}
             </div>
@@ -372,17 +382,13 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
                 <div className="flex items-start gap-2">
                     <span className="text-lg">⚠️</span>
                     <div>
-                        <h3 className="text-sm font-semibold text-amber-300">Important Safety Disclaimer</h3>
+                        <h3 className="text-sm font-semibold text-amber-300"><TranslatedText text={"Important Safety Disclaimer"} /></h3>
                         <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                            sunnypilot is an open-source driver assistance system. It does NOT make your car autonomous.
-                            You must always keep your hands on the wheel and eyes on the road.
-                            Settings generated by this wizard are community recommendations — not guarantees.
-                            Always start with conservative settings and test in safe conditions.
-                        </p>
+                             <TranslatedText text={"sunnypilot is an open-source driver assistance system. It does NOT make your car autonomous. You must always keep your hands on the wheel and eyes on the road. Settings generated by this wizard are community recommendations — not guarantees. Always start with conservative settings and test in safe conditions."} /> </p>
                     </div>
                 </div>
                 <div className="mt-2 pt-3 border-t border-amber-500/20 text-center">
-                    <p className="text-xs font-medium text-amber-400/90">By using this builder you accept the safety terms above.</p>
+                    <p className="text-xs font-medium text-amber-400/90"><TranslatedText text={"By using this builder you accept the safety terms above."} /></p>
                 </div>
             </div>
 
@@ -391,8 +397,7 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
                     onClick={onNext}
                     className="px-8 py-3 rounded-xl font-semibold text-sm transition-all bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:from-cyan-400 hover:to-cyan-500 shadow-lg shadow-cyan-500/20"
                 >
-                    Get Started →
-                </button>
+                     <TranslatedText text={"Get Started →"} /> </button>
             </div>
         </div>
     );
@@ -411,6 +416,7 @@ function CarStep({
     onBack: () => void;
     carsData: any;
 }) {
+  const tx = useTextTranslation();
     const { t } = useLanguage();
     const makes = useMemo(() => [...getUniqueMakes(carsData), 'Other'], [carsData]);
     const models = useMemo(() => config.make ? getModelsForMake(carsData, config.make as string) : [], [config.make, carsData]);
@@ -444,7 +450,7 @@ function CarStep({
                                     : `(${formatDeviceCount(fleet.stat.totalDevices, true)} active devices)`;
                             return (
                                 <option key={m} value={m}>
-                                    {m} {suffix}
+                                    <TranslatedText text={m} /> <TranslatedText text={suffix} />
                                 </option>
                             );
                         })}
@@ -463,7 +469,7 @@ function CarStep({
                                 </span>
                                 {topBranch && (
                                     <span className="text-[11px] text-cyan-300 font-mono">
-                                        {t('cw.step.car.popularBranch') || 'Popular branch:'} <strong>{topBranch[0]}</strong>
+                                        {t('cw.step.car.popularBranch') || 'Popular branch:'} <strong><TranslatedText text={topBranch[0]} /></strong>
                                     </span>
                                 )}
                             </div>
@@ -481,7 +487,7 @@ function CarStep({
                             className="cw-select w-full bg-slate-800/40 border border-slate-700/50 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:border-cyan-500 outline-none transition-all hover:bg-slate-800/60"
                         >
                             <option value="">{t('cw.step.car.selectModelPlaceholder') || 'Select model...'}</option>
-                            {models.map(m => <option key={m} value={m}>{m}</option>)}
+                            {models.map(m => <option key={m} value={m}>{vehicleModelLabel(m, tx)}</option>)}
                         </select>
                     </div>
                 )}
@@ -494,7 +500,7 @@ function CarStep({
                             type="text"
                             value={config.model}
                             onChange={e => onChange('model', e.target.value)}
-                            placeholder="e.g. Corolla"
+                            placeholder={tx("e.g. Corolla")}
                             className="w-full bg-slate-800/40 border border-slate-700/50 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:border-cyan-500 outline-none transition-all hover:bg-slate-800/60"
                         />
                     </div>
@@ -528,8 +534,8 @@ function CarStep({
                                 className={`cw-segmented-btn ${config.device === d.value ? 'active' : ''}`}
                                 onClick={() => onChange('device', d.value)}
                             >
-                                <span>{d.label}</span>
-                                <span className="cw-seg-sub">{d.sub}</span>
+                                <span><TranslatedText text={d.label} /></span>
+                                <span className="cw-seg-sub"><TranslatedText text={d.sub} /></span>
                             </button>
                         ))}
                     </div>
@@ -542,7 +548,7 @@ function CarStep({
                             <span className="text-lg">✅</span>
                             <span className="text-sm font-semibold text-green-400">{t('cw.car.found') || 'Vehicle found in community database!'}</span>
                         </div>
-                        <p className="text-xs text-slate-400 leading-relaxed">{carMatch.communityConsensus}</p>
+                        <p className="text-xs text-slate-400 leading-relaxed"><TranslatedText text={carMatch.communityConsensus} /></p>
                         <p className="text-xs text-cyan-400">{t('cw.step.car.preloaded') || 'Community settings have been pre-loaded into your config.'}</p>
                     </div>
                 )}
@@ -581,6 +587,7 @@ function SettingsStep({
     communityKeys,
     togglesData,
     modelsData,
+    vehicleMake,
 }: {
     title: string; icon: string; description: string;
     settingKeys: string[];
@@ -591,6 +598,7 @@ function SettingsStep({
     communityKeys: Set<string>;
     togglesData: any;
     modelsData: any;
+    vehicleMake: string;
 }) {
     const { t } = useLanguage();
     // Split settings into beginner/advanced
@@ -601,7 +609,7 @@ function SettingsStep({
         'CustomAccIncrements', 'CustomAccShortPressIncrement', 'CustomAccLongPressIncrement',
         'DeveloperUIInfo', 'ChevronInfo', 'StandstillTimer', 'DisplayRocketFuelBar', 'SteeringArc',
         'RainbowMode', 'AutoLaneChangeBsmDelay', 'MapAdvisorySpeedLimit',
-        'ToyotaEnforceFactoryLongitudinalControl', 'SubaruStopAndGo',
+        'ToyotaEnforceFactoryLongitudinalControl', 'ToyotaStopAndGoHack', 'SubaruStopAndGo', 'SubaruStopAndGoManualParkingBrake',
         'DynamicExperimentalControl', 'RecordFront', 'GsmMetered',
         'UseMetricUnits', 'QuietMode', 'Language', 'OnroadUploads',
         'AlwaysOnDriverMonitor', 'RecordUploadDriverCamera', 'RecordUploadMicAudio',
@@ -610,6 +618,7 @@ function SettingsStep({
     ]), []);
 
     const visibleSettings = settingKeys.filter(key => {
+        if (!isSettingApplicableToMake(key, vehicleMake)) return false;
         if (!isAdvancedMode && advancedSettingKeys.has(key)) return false;
         return true;
     });
@@ -617,9 +626,9 @@ function SettingsStep({
     return (
         <div className="cw-step-enter space-y-5">
             <div className="text-center space-y-2">
-                <div className="text-4xl">{icon}</div>
-                <h2 className="text-xl md:text-2xl font-bold text-slate-100">{title}</h2>
-                <p className="text-sm text-slate-400">{description}</p>
+                <div className="text-4xl"><TranslatedText text={icon} /></div>
+                <h2 className="text-xl md:text-2xl font-bold text-slate-100"><TranslatedText text={title} /></h2>
+                <p className="text-sm text-slate-400"><TranslatedText text={description} /></p>
             </div>
 
             <div className="max-w-2xl mx-auto space-y-3">
@@ -639,7 +648,7 @@ function SettingsStep({
                     );
                 })}
                 {visibleSettings.length === 0 && (
-                    <div className="text-center text-sm text-slate-500 py-8">No settings in this category match your current configuration.</div>
+                    <div className="text-center text-sm text-slate-500 py-8"><TranslatedText text={"No settings in this category match your current configuration."} /></div>
                 )}
             </div>
 
@@ -680,7 +689,7 @@ function ReviewStep({
             const catSettings = [];
             for (const rawMeta of cat.settings) {
                 const meta = getSettingMeta(togglesData, modelsData, rawMeta.key);
-                if (meta && meta.key in config && !excludeKeys.has(meta.key)) {
+                if (meta && meta.key in config && !excludeKeys.has(meta.key) && isSettingApplicableToMake(meta.key, config.make)) {
                     catSettings.push({ key: meta.key, val: config[meta.key as keyof ConfigValues], meta });
                 }
             }
@@ -693,7 +702,7 @@ function ReviewStep({
     const matchedKeys = new Set(groupedSettings.flatMap(g => g.settings.map(s => s.key)));
     const orphans = [];
     for (const [k, v] of Object.entries(config)) {
-        if (!excludeKeys.has(k) && !matchedKeys.has(k)) {
+        if (!excludeKeys.has(k) && !matchedKeys.has(k) && isSettingApplicableToMake(k, config.make)) {
             orphans.push({ key: k, val: v, meta: null });
         }
     }
@@ -709,7 +718,7 @@ function ReviewStep({
                     onClick={() => onChange(key, isOn ? 'False' : 'True')}
                     className="flex items-center justify-between w-full text-xs font-sans font-medium hover:opacity-80 transition-opacity text-left"
                 >
-                    <span className={isOn ? 'text-slate-100' : 'text-slate-500'}>{isOn ? '✓ ON' : '✗ OFF'}</span>
+                    <span className={isOn ? 'text-slate-100' : 'text-slate-500'}><TranslatedText text={isOn ? '✓ ON' : '✗ OFF'} /></span>
                 </button>
             );
         }
@@ -721,7 +730,7 @@ function ReviewStep({
                     className="bg-transparent text-xs font-sans font-medium text-slate-200 outline-none w-full cursor-pointer hover:text-cyan-400"
                 >
                     {meta.options.map(opt => (
-                        <option key={opt} value={opt} className="bg-slate-800 text-slate-100">{opt}</option>
+                        <option key={opt} value={opt} className="bg-slate-800 text-slate-100"><TranslatedText text={opt} /></option>
                     ))}
                 </select>
             );
@@ -738,7 +747,7 @@ function ReviewStep({
                         min={meta?.min}
                         max={meta?.max}
                     />
-                    {meta?.unit && <span className="text-xs text-slate-500">{meta.unit}</span>}
+                    {meta?.unit && <span className="text-xs text-slate-500"><TranslatedText text={meta.unit} /></span>}
                 </div>
             );
         }
@@ -766,12 +775,12 @@ function ReviewStep({
             <div className="max-w-2xl mx-auto space-y-6">
                 {groupedSettings.map(group => (
                     <div key={group.name} className="space-y-2">
-                        <div className="text-[10px] uppercase tracking-widest text-slate-400 font-sans">{group.name}</div>
+                        <div className="text-[10px] uppercase tracking-widest text-slate-400 font-sans"><TranslatedText text={group.name} /></div>
                         <div className="border border-slate-700/50 rounded-lg overflow-hidden bg-slate-800/20 divide-y divide-slate-700/50">
                             {group.settings.map(s => (
                                 <div key={s.key} className="flex min-h-[36px]">
                                     <div className="w-1/2 px-4 py-2 border-r border-slate-700/50 text-slate-300 text-xs font-sans flex items-center">
-                                        {s.meta?.label || s.key}
+                                        <TranslatedText text={s.meta?.label || s.key} />
                                     </div>
                                     <div className="w-1/2 px-4 py-2 flex items-center bg-slate-800/40">
                                         {renderControl(s.key, s.val, s.meta)}
@@ -797,7 +806,7 @@ function ReviewStep({
 }
 
 function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBack: () => void; onRestart: () => void }) {
-    const { t } = useLanguage();
+    const { t, tx } = useLanguage();
     const [copied, setCopied] = useState(false);
     const [showJson, setShowJson] = useState(false);
     const previewRef = useRef<HTMLPreElement>(null);
@@ -856,22 +865,22 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
                 <div className="text-4xl">📦</div>
                 <h2 className="text-xl md:text-2xl font-bold text-slate-100">{t('cw.step.export.title') || 'Your Config is Ready!'}</h2>
                 <p className="text-sm text-slate-400">
-                    {config.make && config.model
-                        ? `${config.year} ${config.make} ${config.model} — ${changedCount} customized settings`
-                        : `${changedCount} customized settings`}
+                    <TranslatedText text={config.make && config.model
+                        ? `${config.year} ${config.make} ${vehicleModelLabel(config.model, tx)} — ${changedCount} customized settings`
+                        : `${changedCount} customized settings`} />
                 </p>
             </div>
 
             {/* Summary cards */}
             <div className="max-w-2xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3">
                 {[
-                    { label: t('cw.car.make') || 'Vehicle', value: config.make && config.model ? `${config.make} ${config.model}` : 'Custom' },
+                    { label: t('cw.car.make') || 'Vehicle', value: config.make && config.model ? `${config.make} ${vehicleModelLabel(config.model, tx)}` : 'Custom' },
                     { label: t('cw.car.device') || 'Device', value: config.device },
                     { label: t('cw.car.model') || 'Model', value: config.DrivingModel },
                     { label: 'MADS', value: config.Mads === 'True' ? 'On' : 'Off' },
                 ].map((s, i) => (
                     <div key={i} className="rounded-xl border border-slate-700/50 bg-slate-800/40 p-3 text-center">
-                        <div className="text-[10px] text-slate-500 uppercase tracking-wider">{s.label}</div>
+                        <div className="text-[10px] text-slate-500 uppercase tracking-wider"><TranslatedText text={s.label} /></div>
                         <div className="text-sm font-semibold text-slate-200 mt-1 truncate">{s.value}</div>
                     </div>
                 ))}
@@ -889,19 +898,18 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
             <div className="max-w-2xl mx-auto">
                 <button onClick={() => setShowJson(!showJson)}
                     className="text-sm text-cyan-500 hover:text-cyan-400 transition-colors flex items-center gap-1 mx-auto">
-                    {showJson ? (t('cw.export.hideJson') || '▲ Hide') : (t('cw.export.showJson') || '▼ Show')} JSON Preview
-                </button>
+                    <TranslatedText text={showJson ? (t('cw.export.hideJson') || '▲ Hide') : (t('cw.export.showJson') || '▼ Show')} />  <TranslatedText text={"JSON Preview"} /> </button>
                 {showJson && (
                     <div className="mt-3 animate-fade-in relative">
                         <div className="absolute top-3 right-3 z-10">
                             <button onClick={handleCopy}
                                 className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800/90 backdrop-blur-sm text-slate-300 hover:text-slate-100 hover:bg-slate-700 border border-slate-600 transition-all flex items-center justify-center gap-1.5 shadow-lg">
-                                {copied ? (t('cw.export.copied') || '✅ Copied!') : (t('cw.export.copy') || '📋 Copy JSON')}
+                                <TranslatedText text={copied ? (t('cw.export.copied') || '✅ Copied!') : (t('cw.export.copy') || '📋 Copy JSON')} />
                             </button>
                         </div>
                         <pre ref={previewRef}
                             className="cw-json-preview bg-slate-900 border border-slate-700 rounded-xl p-4 overflow-x-auto max-h-96 text-slate-300">
-                            {jsonStr}
+                            <TranslatedText text={jsonStr} />
                         </pre>
                     </div>
                 )}
@@ -911,10 +919,10 @@ function ExportStep({ config, onBack, onRestart }: { config: ConfigValues; onBac
             <div className="max-w-2xl mx-auto rounded-xl border border-slate-700/50 bg-slate-800/30 p-4 space-y-2">
                 <h3 className="text-sm font-semibold text-slate-200">{t('cw.export.howTo.title') || 'How to use this file'}</h3>
                 <ol className="text-xs text-slate-400 space-y-1.5 list-decimal list-inside">
-                    <li>Sign in at <a href="https://sunnylink.ai" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300">sunnylink.ai</a></li>
-                    <li>On the Overview page, click <span className="text-slate-200 font-medium">Open Migration Wizard</span></li>
-                    <li>Select your device from the list</li>
-                    <li>Follow the steps to upload your <code className="text-cyan-400 bg-slate-800 px-1 rounded text-[11px]">.json</code> config file</li>
+                    <li><TranslatedText text={"Sign in at"} /> <a href="https://sunnylink.ai" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300"><TranslatedText text={"sunnylink.ai"} /></a></li>
+                    <li><TranslatedText text={"On the Overview page, click"} /> <span className="text-slate-200 font-medium"><TranslatedText text={"Open Migration Wizard"} /></span></li>
+                    <li><TranslatedText text={"Select your device from the list"} /></li>
+                    <li><TranslatedText text={"Follow the steps to upload your"} /> <code className="text-cyan-400 bg-slate-800 px-1 rounded text-[11px]"><TranslatedText text={".json"} /></code>  <TranslatedText text={"config file"} /></li>
                 </ol>
             </div>
 
@@ -969,10 +977,10 @@ function ProgressBar({ currentStep, steps }: { currentStep: number; steps: Array
                                 }`}
                         >
                             {/* Icon positioned slightly smaller/tighter to match a cleaner aesthetic */}
-                            <span className="text-xl leading-none mb-1.5">{s.icon}</span>
+                            <span className="text-xl leading-none mb-1.5"><TranslatedText text={s.icon} /></span>
                             <span className={`text-[10px] leading-[1.2] font-bold tracking-wider uppercase whitespace-normal break-words w-full ${i <= currentStep ? 'text-cyan-400' : 'text-slate-400'
                                 }`}>
-                                {s.label}
+                                <TranslatedText text={s.label} />
                             </span>
                         </div>
                     ))}
@@ -992,7 +1000,7 @@ function ProgressBar({ currentStep, steps }: { currentStep: number; steps: Array
                     <span className="flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-[10px] font-bold">
                         {currentStep + 1}
                     </span>
-                    <span className="text-slate-200 text-sm font-semibold">{steps[currentStep].icon} {steps[currentStep].label}</span>
+                    <span className="text-slate-200 text-sm font-semibold"><TranslatedText text={steps[currentStep].icon} /> <TranslatedText text={steps[currentStep].label} /></span>
                 </div>
                 <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">{t('cw.stepOf', { current: currentStep + 1, total: steps.length }) || `Step ${currentStep + 1} of ${steps.length}`}</div>
             </div>
@@ -1134,6 +1142,7 @@ export default function ConfigWizard() {
     const handleChange = useCallback((key: string, value: string | number) => {
         setConfig(prev => {
             let nextConfig = { ...prev, [key]: value };
+            if (key === 'make') nextConfig = resetInapplicableVehicleSettings(nextConfig, DEFAULT_CONFIG, String(value));
             
             // Waterfall dependency enforcement (resolve cascading toggles)
             let stable = false;
@@ -1178,7 +1187,7 @@ export default function ConfigWizard() {
     const expertKeys = ['UseMetricUnits', 'QuietMode', 'Language', 'OnroadUploads', 'AlwaysOnDriverMonitor', 'RecordUploadDriverCamera', 'RecordUploadMicAudio', 'GsmApn', 'GsmRoaming', 'QuickBoot', 'DisablePowerDown', 'AlphaLongitudinal', 'DisableUpdates', 'EnableSsh', 'EnableAdb'];
     const drivingKeys = ['DrivingModel', 'ExperimentalMode', 'DrivingPersonality', 'DynamicExperimentalControl', 'DisengageOnAccelerator', 'IsLdwEnabled', 'RecordFront', 'GsmMetered'];
     const steeringKeys = ['Mads', 'MadsSteeringMode', 'MadsMainCruiseAllowed', 'NNLCEnabled', 'SelfTune', 'LiveTorqueParamsToggle', 'CameraOffset', 'AutoLaneChangeTimer', 'AutoLaneChangeBsmDelay', 'HyundaiLongitudinalTuning', 'TorqueControlTuneVersion', 'TeslaCoopSteering'];
-    const speedKeys = ['VisionBasedTurnSpeedControl', 'MapBasedTurnSpeedControl', 'SpeedLimitAssistMode', 'SpeedLimitSource', 'SpeedLimitOffsetType', 'SpeedLimitOffsetValue', 'MapAdvisorySpeedLimit', 'CustomAccIncrements', 'CustomAccShortPressIncrement', 'CustomAccLongPressIncrement'];
+    const speedKeys = ['VisionBasedTurnSpeedControl', 'MapBasedTurnSpeedControl', 'SpeedLimitAssistMode', 'SpeedLimitSource', 'SpeedLimitOffsetType', 'SpeedLimitOffsetValue', 'MapAdvisorySpeedLimit', 'CustomAccIncrements', 'CustomAccShortPressIncrement', 'CustomAccLongPressIncrement', 'ToyotaEnforceFactoryLongitudinalControl', 'ToyotaStopAndGoHack', 'SubaruStopAndGo', 'SubaruStopAndGoManualParkingBrake'];
     const visualKeys = ['GreenLightAlert', 'LeadDepartAlert', 'BlindSpotDetection', 'ShowTurnSignals', 'DisplayRoadName', 'ScreenBrightness', 'StandstillTimer', 'DisplayRocketFuelBar', 'SteeringArc', 'ChevronInfo', 'DeveloperUIInfo', 'RainbowMode'];
 
     return (
@@ -1211,31 +1220,31 @@ export default function ConfigWizard() {
                 <SettingsStep title={t('cw.step.expert.title') || "Expert & System"} icon="⚙️" description={t('cw.step.expert.desc') || "Configure device-level system settings and power user features"}
                     settingKeys={expertKeys} config={config} onChange={handleChange}
                     onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys}
-                    togglesData={togglesData} modelsData={modelsData} />
+                    togglesData={togglesData} modelsData={modelsData} vehicleMake={config.make} />
             )}
             {currentStepId === 'driving' && (
                 <SettingsStep title={t('cw.step.driving.title') || "Core Driving"} icon="🛞" description={t('cw.step.driving.desc') || "Choose your driving model, personality, and core behavior"}
                     settingKeys={drivingKeys} config={config} onChange={handleChange}
                     onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys}
-                    togglesData={togglesData} modelsData={modelsData} />
+                    togglesData={togglesData} modelsData={modelsData} vehicleMake={config.make} />
             )}
             {currentStepId === 'steering' && (
                 <SettingsStep title={t('cw.step.steering.title') || "Steering & MADS"} icon="🎯" description={t('cw.step.steering.desc') || "Configure MADS, lane changes, and steering assist behavior"}
                     settingKeys={steeringKeys} config={config} onChange={handleChange}
                     onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys}
-                    togglesData={togglesData} modelsData={modelsData} />
+                    togglesData={togglesData} modelsData={modelsData} vehicleMake={config.make} />
             )}
             {currentStepId === 'speed' && (
                 <SettingsStep title={t('cw.step.speed.title') || "Speed & Cruise"} icon="⚡" description={t('cw.step.speed.desc') || "Speed limits, turn speed control, and ACC customization"}
                     settingKeys={speedKeys} config={config} onChange={handleChange}
                     onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys}
-                    togglesData={togglesData} modelsData={modelsData} />
+                    togglesData={togglesData} modelsData={modelsData} vehicleMake={config.make} />
             )}
             {currentStepId === 'visuals' && (
                 <SettingsStep title={t('cw.step.visuals.title') || "Visuals & HUD"} icon="🎨" description={t('cw.step.visuals.desc') || "Customize your on-screen display, alerts, and visual feedback"}
                     settingKeys={visualKeys} config={config} onChange={handleChange}
                     onNext={goNext} onBack={goBack} isAdvancedMode={isAdvancedMode} communityKeys={communityKeys}
-                    togglesData={togglesData} modelsData={modelsData} />
+                    togglesData={togglesData} modelsData={modelsData} vehicleMake={config.make} />
             )}
             {currentStepId === 'review' && <ReviewStep config={config} onBack={goBack} onNext={goNext} onChange={handleChange} togglesData={togglesData} modelsData={modelsData} />}
             {currentStepId === 'export' && <ExportStep config={config} onBack={goBack} onRestart={restart} />}

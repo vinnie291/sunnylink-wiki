@@ -1,8 +1,8 @@
 {
     "appName": "Sunnylink Database",
     "version": "2026.002",
-    "dataSource": "Official Sunnypilot Documentation",
-    "lastUpdated": "2026-09-03",
+    "dataSource": "Official Sunnypilot Documentation, release notes, and linked upstream development proposals / issue reports",
+    "lastUpdated": "2026-10-25",
     "features": [
         {
             "id": "mads",
@@ -11,7 +11,7 @@
             "category": "Core Control",
             "officialDefinition": "Decouples lateral control (steering) from longitudinal control (gas/brake), enabling the car to steer itself even when cruise control is disengaged.",
             "userSummary": "Steering stays on even if you brake or coast.",
-            "userTranslation": "\"Always-On Steering.\" The car steers for you even if you are in full control of the speed. You can coast, brake, or accelerate without the steering turning off.",
+            "userTranslation": "\"Always-On Steering.\" The car steers for you even if you are in full control of the speed. You can coast, brake, or accelerate without the steering turning off. Brake hold is a separate condition: open PRs #2031 and #2039 propose pause/engagement protection. Ordinary brake-pedal behavior does not guarantee steering remains active during brake hold.",
             "settingsKeys": [
                 "MadsEnabled",
                 "MadsSteeringMode",
@@ -25,9 +25,9 @@
             "name": "NNLC",
             "fullName": "Neural Network Lateral Control",
             "category": "Core Control",
-            "officialDefinition": "Replaces the traditional PID/Indi controller with a neural network model that inputs past curvature to predict future steering paths. Directly outputs curvature for lateral control.",
+            "officialDefinition": "Uses a vehicle-trained neural network to calculate steering commands in place of a conventional lateral controller. It does not replace the driving model or predict its path.",
             "userSummary": "AI-based steering controller. Note: Mutually exclusive with Enforce Torque Control.",
-            "userTranslation": "\"AI Steering.\" Uses a neural network to steer instead of traditional math formulas. Note: In sunnypilot 2026.002+, NNLC and Enforce Torque Control are mutually exclusive.",
+            "userTranslation": "Requires a trained model for your vehicle and torque-based steering; angle-steering vehicles are excluded. Configure while parked. NNLC and Enforce Torque Control are mutually exclusive. Issue #2019 reports low-speed oscillation on one Prius Prime/Chestnut setup; that report does not establish a fault on every vehicle.",
             "settingsKeys": [
                 "NeuralNetworkLateralControl"
             ],
@@ -38,14 +38,14 @@
             "name": "Blinker Pause",
             "fullName": "Blinker Pause Lateral Control",
             "category": "Core Control",
-            "officialDefinition": "Temporarily pauses lateral (steering) control when you activate a turn signal, giving you full manual steering control during the blinker activation. Automatically re-engages steering after the turn signal turns off or above a configurable speed threshold.",
+            "officialDefinition": "Pauses steering assist while a turn signal is active below the configured speed threshold. Above that threshold, steering stays active. After the signal turns off, steering resumes following the configured delay.",
             "userSummary": "Gives back manual steering while your turn signal is blinking.",
-            "userTranslation": "\"Signal Override.\" When you turn on your blinker to change lanes or make a turn, sunnypilot steps aside and lets you steer manually without having to fight the steering wheel or disengage the system.",
+            "userTranslation": "Use the speed threshold and re-engage delay to control when the blinker returns steering to you. This is separate from Auto Lane Change.",
             "settingsKeys": [
                 "BlinkerPauseLateralControl",
                 "BlinkerMinLateralControlSpeed"
             ],
-            "docUrl": "https://community.sunnypilot.ai/t/blinker-pause-lateral-control/240"
+            "docUrl": "https://community.sunnypilot.ai/t/blinker-pause-lateral-control/3676"
         },
         {
             "id": "torque_control",
@@ -71,9 +71,9 @@
             "name": "DEC",
             "fullName": "Dynamic Experimental Control",
             "category": "Core Control",
-            "officialDefinition": "Automatically toggles between Chill Mode (Standard Longitudinal) and Experimental Mode (Traffic Light/Stop Sign handling) based on driving context (e.g., speed, road type).",
-            "userSummary": "Auto-switches driving modes based on context.",
-            "userTranslation": "\"City/Highway Switcher.\" Automatically switches modes based on context. Smooth highway cruising in Chill Mode, and intelligent slowing for intersections and stop signs when needed.",
+            "officialDefinition": "Legacy contextual switching between Chill and Experimental longitudinal modes. PR #2056 removed DEC from master on October 16, 2026; the inspected dev build also omits it, while staging still retains it.",
+            "userSummary": "Legacy mode switching; removed from current master and dev.",
+            "userTranslation": "Check your installed branch. DEC is absent from inspected master/dev and remains in inspected staging. This change does not establish removal from older tagged releases. The setup wizard no longer automatically recommends this branch-dependent setting.",
             "settingsKeys": [
                 "DynamicExperimentalControl"
             ],
@@ -90,7 +90,7 @@
             "settingsKeys": [
                 "QuietMode"
             ],
-            "docUrl": "https://docs.sunnypilot.ai/features/quiet-mode/"
+            "docUrl": "https://community.sunnypilot.ai/t/quiet-mode-feature/3744"
         },
         {
             "id": "icbm",
@@ -99,7 +99,7 @@
             "category": "Compatibility",
             "officialDefinition": "A system designed to manage vehicle speed by electronically \"pressing\" the car's native cruise control buttons (RES+/SET-) to mimic full longitudinal control on cars that do not support it natively.",
             "userSummary": "Allows smart speed control on unsupported cars by simulating button presses.",
-            "userTranslation": "\"Cruise Hacker.\" If your car doesn't support full self-driving gas/brake, this feature simulates your steering wheel buttons to force the car to slow down for curves or speed limits.",
+            "userTranslation": "\"Cruise Hacker.\" If your car doesn't support full self-driving gas/brake, this feature simulates your steering wheel buttons to force the car to slow down for curves or speed limits. SCC-L is a proposed extension in issue #1846 to use model longitudinal output as an ICBM speed-target source. It is not an available SCC-V/SCC-M option.",
             "settingsKeys": [
                 "IntelligentCruiseButtonManagement"
             ],
@@ -110,7 +110,7 @@
             "name": "SCC-V",
             "fullName": "Smart Cruise Control - Vision (SCC-V)",
             "category": "Speed Control",
-            "officialDefinition": "Smart Cruise Control - Vision (SCC-V) leverages camera vision data to proactively adjust your vehicle\u2019s speed by calculating curvature in the road ahead.",
+            "officialDefinition": "Smart Cruise Control - Vision (SCC-V) leverages camera vision data to proactively adjust your vehicle’s speed by calculating curvature in the road ahead.",
             "userSummary": "Slows down for curves it sees with the camera.",
             "userTranslation": "\"Eyes-On Curve Slowdown.\" The car sees a sharp turn coming and smoothly slows down before entering the curve, just like a human driver would.",
             "settingsKeys": [
@@ -136,9 +136,9 @@
             "name": "SLA",
             "fullName": "Speed Limit Assist",
             "category": "Speed Control",
-            "officialDefinition": "Automatically adjusts the vehicle's cruise set speed to match the current speed limit. Sourced from Map Data, Dashboard Camera (TSR), or a combination of both.",
-            "userSummary": "Auto-sets cruise to the detected speed limit.",
-            "userTranslation": "\"Auto-Speed Limit.\" Automatically aligns your cruise control to the legal speed limit (plus your custom offset, e.g., +5 mph).",
+            "officialDefinition": "Reads speed limits from vehicle-provided sign data and downloaded maps. Off, Information, Warning, and Assist modes control how the limit is shown or used; cruise-speed adjustment depends on longitudinal control or ICBM and confirmation rules.",
+            "userSummary": "Displays or warns about limits; Assist can manage cruise speed on compatible configurations.",
+            "userTranslation": "Assist is not an unconditional automatic SET mode. Speed-limit changes may require cruise-button confirmation, depending on vehicle configuration and speed. PR #2042 proposes a separate opt-in map-based Auto SET mode limited to Honda City 7G with openpilot longitudinal and non-PCM cruise. It is open and unmerged; physical instrument-cluster validation is pending. Source: https://github.com/sunnypilot/sunnypilot/pull/2042",
             "settingsKeys": [
                 "SpeedLimitAssistMode",
                 "SpeedLimitSource",
@@ -152,7 +152,7 @@
             "name": "Custom ACC",
             "fullName": "Custom ACC Increments",
             "category": "Speed Control",
-            "officialDefinition": "Allows configuration of the speed increment/decrement values for Short Press (e.g., \u00b11) and Long Press (e.g., \u00b15) of the cruise buttons.",
+            "officialDefinition": "Allows configuration of the speed increment/decrement values for Short Press (e.g., ±1) and Long Press (e.g., ±5) of the cruise buttons.",
             "userSummary": "Remap cruise button speed increment values.",
             "userTranslation": "\"Button Step Sizer.\" Customize your steering wheel buttons so one tap changes speed by 1 mph and holding it jumps by 5 mph (or any step size you choose).",
             "settingsKeys": [
@@ -174,7 +174,7 @@
                 "AlphaLongitudinal",
                 "LongitudinalManeuverMode"
             ],
-            "docUrl": "https://docs.sunnypilot.ai/features/cruise/alpha-longitudinal/"
+            "docUrl": "https://community.sunnypilot.ai/t/alpha-longitudinal/1329"
         },
         {
             "id": "alc",
@@ -204,7 +204,7 @@
                 "SpeedLimitSource",
                 "MapAdvisorySpeedLimit"
             ],
-            "docUrl": "https://docs.sunnypilot.ai/features/connected/osm-maps/"
+            "docUrl": "https://community.sunnypilot.ai/t/osm-maps-integration/3708"
         },
         {
             "id": "hud_visuals",
@@ -226,7 +226,7 @@
                 "SteeringArc",
                 "RainbowMode"
             ],
-            "docUrl": "https://docs.sunnypilot.ai/features/display/hud-visuals/"
+            "docUrl": "https://community.sunnypilot.ai/t/hud-visuals/3678"
         },
         {
             "id": "driving_models",
@@ -235,7 +235,7 @@
             "category": "Models & AI",
             "officialDefinition": "Allows switching and testing different vision neural network driving models directly on device. Configure advanced model parameters including lane turn desires, live learning steer delay, and camera software delay.",
             "userSummary": "In-cab AI model switcher with fine-tuning parameters.",
-            "userTranslation": "\"Brain Swapper.\" Choose between different AI models trained on various driving styles (smooth highway, sharp curves, aggressive city). Tune steer delay and turn desire speed to suit your preferences.",
+            "userTranslation": "Inspected master, dev and staging now use selector 21, Chestnut v28 and Qualcomm v25, with Mountain Dew Model v3 as the default big model. Older builds use different catalogs. Check hardware and branch compatibility; refresh while parked with no download running. Clear Cache removes downloaded models.",
             "settingsKeys": [
                 "DrivingModel",
                 "ModelLibrary",
@@ -243,9 +243,11 @@
                 "AdjustLaneTurnSpeed",
                 "LiveLearningSteerDelay",
                 "ManualSoftwareDelay",
-                "AdjustCameraOffset"
+                "AdjustCameraOffset",
+                "RefreshModelList",
+                "ClearModelCache"
             ],
-            "docUrl": "https://docs.sunnypilot.ai/features/models/"
+            "docUrl": "https://community.sunnypilot.ai/t/models-ai/3679"
         },
         {
             "id": "sunnylink",
@@ -260,7 +262,7 @@
                 "CompletedSunnylinkConsentVersion",
                 "SunnylinkDongleId"
             ],
-            "docUrl": "https://docs.sunnypilot.ai/features/connected/sunnylink/"
+            "docUrl": "https://community.sunnypilot.ai/t/sunnylink-connected-services/3707"
         },
         {
             "id": "hkg_tuning",
@@ -274,13 +276,123 @@
                 "HyundaiLongitudinalTuning"
             ],
             "docUrl": "https://community.sunnypilot.ai/t/hyundai-longitudinal-tuning-implementation-in-sunnypilot/243"
+        },
+        {
+            "id": "speed_dependent_steering_delay",
+            "name": "Speed-Dependent Steering Delay (Open PR)",
+            "fullName": "Speed-Dependent Steering Delay (Open PR)",
+            "category": "Core Control",
+            "officialDefinition": "PR #2029 proposes speed-dependent fixed steering delay when live learning is disabled: a city boost blends down to the highway delay.",
+            "userSummary": "Development proposal: improve low-speed turns without excessive highway delay.",
+            "userTranslation": "City Delay Boost is proposed under Models. It applies only with live steering-delay learning off. It is not confirmed in a stable release.",
+            "settingsKeys": [],
+            "docUrl": "https://github.com/sunnypilot/sunnypilot/pull/2029"
+        },
+        {
+            "id": "smooth_final_stop",
+            "name": "Smooth Final Stop Braking (Draft)",
+            "fullName": "Smooth Final Stop Braking (Draft)",
+            "category": "Speed Control",
+            "officialDefinition": "Draft PR #2034 adjusts the longitudinal controller stopping transition to reduce abrupt braking at the final stop.",
+            "userSummary": "Draft controller improvement for a softer final stop.",
+            "userTranslation": "Applies when sunnypilot controls acceleration and braking. No independent toggle is documented, and stock ACC does not gain this behavior from a wiki setting.",
+            "settingsKeys": [],
+            "docUrl": "https://github.com/sunnypilot/sunnypilot/pull/2034"
+        },
+        {
+            "id": "chestnut_runtime",
+            "name": "Chestnut Runtime & Power (Development)",
+            "fullName": "Chestnut Runtime & Power (Development)",
+            "category": "Models & AI",
+            "officialDefinition": "Chestnut GPU models are already catalogued. Open PR #2035 proposes resizing comma 3X frames to 1344×760 before unified AMD-model transfer; open PR #2023 proposes a GPU power limit adjustable through sunnylink.",
+            "userSummary": "Development updates for comma 3X frame transfer and Chestnut power management.",
+            "userTranslation": "Resizing reduces camera transfer bandwidth; it requires the relevant runtime branch and compatible Chestnut hardware. The proposed power limit is 0 for stock or 40–100 W, exposed through advanced sunnylink Device settings for comma four.",
+            "settingsKeys": [],
+            "docUrl": "https://github.com/sunnypilot/sunnypilot/pull/2035"
+        },
+        {
+            "id": "model_runtime_startup",
+            "name": "Model Runtime Startup Troubleshooting",
+            "fullName": "Model Runtime Startup Troubleshooting",
+            "category": "Models & AI",
+            "officialDefinition": "PR #1999 proposed changes for a misleading Posenet NaN-speed alert during compiled-model startup, but was closed without merging on October 16, 2026.",
+            "userSummary": "An initialization failure can appear as a Posenet speed error.",
+            "userTranslation": "Do not treat PR #1999 as an available fix. Persistent alerts still require runtime diagnostics; clearing the model cache alone does not establish a repaired runtime.",
+            "settingsKeys": [],
+            "docUrl": "https://github.com/sunnypilot/sunnypilot/pull/1999"
+        },
+        {
+            "id": "sunnylink_oidc",
+            "name": "Third-Party Authentication (Requested)",
+            "fullName": "Third-Party Authentication (Requested)",
+            "category": "Connected Services",
+            "officialDefinition": "Issue #1857 requests an OIDC device authorization grant or Home Assistant OAuth redirect for user-authorized sunnylink API integrations.",
+            "userSummary": "Requested authentication flow for Home Assistant and other integrations.",
+            "userTranslation": "Neither requested flow is documented as enabled. Device credentials and user OAuth tokens serve different roles. Follow the issue for supported authorization before attempting integration setup.",
+            "settingsKeys": [],
+            "docUrl": "https://github.com/sunnypilot/sunnypilot/issues/1857"
+        },
+        {
+            "id": "ota_update_troubleshooting",
+            "name": "Software Update Troubleshooting",
+            "fullName": "Software Update Troubleshooting",
+            "category": "Installation & Troubleshooting",
+            "officialDefinition": "Open issue #2020 reports that ignition before Install Now is tapped can discard an already-prepared OTA update.",
+            "userSummary": "Install prepared updates while parked before starting ignition.",
+            "userTranslation": "Allow installation and reboot to complete before ignition. If Install Now disappears, return offroad with unmetered Wi-Fi and allow the updater to fetch and prepare again. Metered recovery may be delayed by up to three days according to the report.",
+            "settingsKeys": [],
+            "docUrl": "https://github.com/sunnypilot/sunnypilot/issues/2020"
+        },
+        {
+            "id": "jetlink",
+            "name": "Jetlink (Closed Proposal)",
+            "fullName": "Jetlink (Closed Proposal)",
+            "category": "Models & AI",
+            "officialDefinition": "PR #2001 proposed external NVIDIA Jetson acceleration over USB for large driving models and was closed without merging.",
+            "userSummary": "Experimental Jetson offload proposal; not an upstream released feature.",
+            "userTranslation": "The proposal used a separate ONNX catalog and TensorRT preparation while parked, with a local small model during startup or recovery. Existing QCOM model bundles are not TensorRT inputs. The closed PR does not establish supported availability.",
+            "settingsKeys": [],
+            "docUrl": "https://github.com/sunnypilot/sunnypilot/pull/2001"
+        },
+        {
+            "id": "staging_2026_003",
+            "name": "2026.003.000 Development Milestone",
+            "fullName": "2026.003.000 Development Milestone",
+            "category": "Device & Hardware",
+            "officialDefinition": "Milestone #6 includes open PR #1741 for a configurable low-voltage shutdown threshold and open PR #1767 for a detailed comma four (MICI) onroad view.",
+            "userSummary": "Planned power and display work remains under review.",
+            "userTranslation": "Check your build and the individual PRs. The milestone is open and does not mean these changes have shipped in all staging or release branches.",
+            "settingsKeys": [],
+            "docUrl": "https://github.com/sunnypilot/sunnypilot/milestone/6"
+        },
+        {
+            "id": "hkg_dynamic_torque",
+            "name": "HKG Dynamic Steering Torque (Requested)",
+            "fullName": "HKG Dynamic Steering Torque (Requested)",
+            "category": "Vehicle Specific",
+            "officialDefinition": "Open issue #1052 proposes dynamically inferring steering torque limits for Hyundai, Kia, and Genesis instead of relying only on fixed platform tables.",
+            "userSummary": "Proposed adaptive EPS torque limits; not an available setting.",
+            "userTranslation": "This remains a feature request. It does not authorize overriding vehicle safety limits or imply automatic EPS-limit discovery in released builds.",
+            "settingsKeys": [],
+            "docUrl": "https://github.com/sunnypilot/sunnypilot/issues/1052"
+        },
+        {
+            "id": "scc_l",
+            "name": "SCC-L (Requested)",
+            "fullName": "SCC-L (Requested)",
+            "category": "Speed Control",
+            "officialDefinition": "Open issue #1846 proposes using model longitudinal output as an ICBM cruise-speed target source.",
+            "userSummary": "Request to extend ICBM with longitudinal model cues.",
+            "userTranslation": "Existing ICBM and SCC-V/SCC-M documentation still applies. SCC-L has no confirmed implementation or parameter to enable.",
+            "settingsKeys": [],
+            "docUrl": "https://github.com/sunnypilot/sunnypilot/issues/1846"
         }
     ],
     "glossary": {
         "ACC": "Adaptive Cruise Control - Maintains set speed and follows traffic",
         "ALC": "Automatic Lane Centering / Automatic Lane Change - Keeps car centered or changes lanes automatically",
         "BSM": "Blind Spot Monitoring - Vehicle sensors detecting cars in adjacent lanes",
-        "DEC": "Dynamic Experimental Control - Contextual switching between Chill and Experimental mode",
+        "DEC": "Dynamic Experimental Control — legacy mode switching; removed from current master/dev, retained in inspected staging.",
         "E2E": "End-to-End - AI neural network that directly predicts vehicle driving path",
         "ESCC": "Enhanced Smart Cruise Control - Hyundai/Kia cruise management and button integration",
         "Firehose": "Large-scale automated driving telemetry upload system contributing to driving model training",

@@ -1,0 +1,489 @@
+
+Scanner
+🚀 Sunnypilot Model Scanner & Researcher
+
+ Local catalog loaded: 130 models across 10 categories.
+🌐 Fetching GitHub manifests (sunnypilot/sunnypilot-models:gh-pages)...
+  Chestnut GPU (Big Models) (v27): driving_models_chestnut_v27.json
+  Qualcomm Standard (v24): driving_models_v24.json
+  USB GPU (Big Models) (v22): driving_models_usbgpu_v22.json
+
+📊 Scan Summary:
+- Total remote model entries scanned: 99
+- Existing in local catalog: 99
+- New / Uncatalogued models: 0
+
+ All remote models are currently catalogued in data/models.json!
+
+
+Translations
+
+> sunnylink-wiki@0.1.0 i18n:check
+> node scripts/check-i18n.mjs
+
+ko: 3751 UI keys checked
+zh: 3751 UI keys checked
+fr: 3751 UI keys checked
+de: 3751 UI keys checked
+es: 3751 UI keys checked
+UI placeholders, translation calls, data structures, and canonical values match in every locale.
+
+
+Tests
+✔ interpolation preserves replacement characters and repeated parameters (0.668375ms)
+✔ each locale loads the matching UI and complete datasets together (491.278708ms)
+✔ template text translates counts without leaking placeholders (2.871167ms)
+✔ model behavior stays identical when evidence is translated (1.01675ms)
+✔ generated simulator evidence quotes and multiline tooltips translate (43.442958ms)
+✔ native fleet tables exclude pivot subtotals and localize every column (0.390333ms)
+✔ rating evidence localizes its source and matched signal without changing ratings (190.373167ms)
+✔ every driving model has a unique shareable slug that resolves to itself (4.315459ms)
+✔ model ratings require recorded evidence and retain real votes without creating extra baseline votes (159.531125ms)
+✔ a selected make keeps common settings and only its vehicle settings (0.955125ms)
+✔ automatic hardware capabilities are identified as information (0.113417ms)
+✔ changing makes clears stale options and the export omits unrelated brands (2.154042ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 980.579083
+
+
+Build
+
+> sunnylink-wiki@0.1.0 build
+> next build
+
+▲ Next.js 16.1.4 (Turbopack)
+- Environments: .env.local
+- Experiments (use with caution):
+  · optimizePackageImports
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 4.5s
+  Running TypeScript ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/21) ...
+  Generating static pages using 9 workers (5/21) 
+  Generating static pages using 9 workers (10/21) 
+[discourse-sync] Rate limited on topic 3691, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3694, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3699, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3736, waiting 2000ms (attempt 1)
+[discourse-models-sync] Rate limited on topic 4478, waiting 2000ms (attempt 1)
+[discourse-models-sync] Rate limited on topic 4648, waiting 2000ms (attempt 1)
+[discourse-models-sync] Rate limited on topic 4317, waiting 2000ms (attempt 1)
+[discourse-models-sync] Rate limited on topic 4314, waiting 2000ms (attempt 1)
+[discourse-models-sync] Rate limited on topic 4019, waiting 2000ms (attempt 1)
+[discourse-models-sync] Rate limited on topic 4380, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3688, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3705, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 244, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 248, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3679, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3686, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 247, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3685, waiting 2000ms (attempt 1)
+[discourse-models-sync] Rate limited on topic 4478, waiting 4000ms (attempt 2)
+[discourse-models-sync] Rate limited on topic 4648, waiting 4000ms (attempt 2)
+[discourse-models-sync] Rate limited on topic 4317, waiting 4000ms (attempt 2)
+[discourse-models-sync] Rate limited on topic 4314, waiting 4000ms (attempt 2)
+[discourse-models-sync] Rate limited on topic 4019, waiting 4000ms (attempt 2)
+[discourse-models-sync] Rate limited on topic 4380, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3688, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3686, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3685, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3705, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3679, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 247, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 244, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 248, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3688, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3705, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 244, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 248, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3679, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3686, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 247, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3685, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3688, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3686, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3685, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3705, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3679, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 247, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 244, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 248, waiting 4000ms (attempt 2)
+[discourse-models-sync] Rate limited on topic 4478, waiting 6000ms (attempt 3)
+[discourse-models-sync] Rate limited on topic 4648, waiting 6000ms (attempt 3)
+[discourse-models-sync] Rate limited on topic 4317, waiting 6000ms (attempt 3)
+[discourse-models-sync] Rate limited on topic 4314, waiting 6000ms (attempt 3)
+[discourse-models-sync] Rate limited on topic 4019, waiting 6000ms (attempt 3)
+[discourse-models-sync] Rate limited on topic 4380, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3688, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3705, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 244, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 248, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3679, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3686, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 247, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3685, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3688, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3686, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3685, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3705, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3679, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 247, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 244, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 248, waiting 6000ms (attempt 3)
+[discourse-sync] Exhausted retries for topic 3688
+[discourse-sync] Exhausted retries for topic 3705
+[discourse-sync] Exhausted retries for topic 244
+[discourse-sync] Exhausted retries for topic 248
+[discourse-sync] Exhausted retries for topic 3679
+[discourse-sync] Exhausted retries for topic 3686
+[discourse-sync] Exhausted retries for topic 247
+[discourse-sync] Exhausted retries for topic 3685
+[discourse-sync] Exhausted retries for topic 3688
+[discourse-sync] Exhausted retries for topic 3686
+[discourse-sync] Exhausted retries for topic 3685
+[discourse-sync] Exhausted retries for topic 3705
+[discourse-sync] Exhausted retries for topic 3679
+[discourse-sync] Exhausted retries for topic 247
+[discourse-sync] Exhausted retries for topic 244
+[discourse-sync] Exhausted retries for topic 248
+[discourse-sync] Rate limited on topic 245, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3735, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3704, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3734, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3739, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3738, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 245, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3740, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3739, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3738, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3735, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3744, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3734, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3704, waiting 2000ms (attempt 1)
+[discourse-models-sync] Rate limited on topic 308, waiting 2000ms (attempt 1)
+[discourse-models-sync] Rate limited on topic 986, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 245, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3735, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3704, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3734, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3739, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3738, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 245, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3739, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3738, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3735, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3734, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3704, waiting 4000ms (attempt 2)
+[discourse-models-sync] Rate limited on topic 308, waiting 4000ms (attempt 2)
+[discourse-models-sync] Rate limited on topic 986, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 245, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3735, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3704, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3734, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3739, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3738, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 245, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3739, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3738, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3735, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3734, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3704, waiting 6000ms (attempt 3)
+[discourse-models-sync] Rate limited on topic 308, waiting 6000ms (attempt 3)
+[discourse-models-sync] Rate limited on topic 986, waiting 6000ms (attempt 3)
+[discourse-sync] Exhausted retries for topic 245
+[discourse-sync] Exhausted retries for topic 3735
+[discourse-sync] Exhausted retries for topic 3704
+[discourse-sync] Exhausted retries for topic 3734
+[discourse-sync] Exhausted retries for topic 3739
+[discourse-sync] Exhausted retries for topic 3738
+[discourse-sync] Exhausted retries for topic 245
+[discourse-sync] Exhausted retries for topic 3739
+[discourse-sync] Exhausted retries for topic 3738
+[discourse-sync] Exhausted retries for topic 3735
+[discourse-sync] Exhausted retries for topic 3734
+[discourse-sync] Exhausted retries for topic 3704
+  Generating static pages using 9 workers (15/21) 
+The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+✓ Generating static pages using 9 workers (21/21) in 43s
+  Finalizing page optimization ...
+
+Route (app)                   Revalidate  Expire
+┌ ○ /                                 1h      1y
+├ ○ /_not-found
+├ ƒ /.well-known/api-catalog
+├ ƒ /api/markdown
+├ ƒ /api/models/vote
+├ ƒ /api/search
+├ ƒ /api/wiki-data
+├ ○ /cars
+├ ○ /features                         1h      1y
+├ ○ /icon.png
+├ ○ /model-replay
+├ ○ /models                           1w      1y
+├ ○ /new-sim
+├ ○ /quiz
+├ ○ /robots.txt
+├ ○ /sim-test
+├ ○ /sitemap.xml
+├ ○ /stats                            5m      1y
+├ ○ /wizard
+└ ○ /wizard/classic
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+npm notice
+npm notice New minor version of npm available! 11.11.0 -> 11.21.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.21.0
+npm notice To update run: npm install -g npm@11.21.0
+npm notice
+
+
+New test lint
+Browserslist: browsers data (caniuse-lite) is 9 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+
+Approved deployment release checks — October 10, 2026
+
+Translations
+
+> sunnylink-wiki@0.1.0 i18n:check
+> node scripts/check-i18n.mjs
+
+de: 490 keys, in sync with English
+es: 490 keys, in sync with English
+fr: 490 keys, in sync with English
+ko: 490 keys, in sync with English
+zh: 490 keys, in sync with English
+
+All locales match English.
+
+
+Release model tests
+✔ every driving model has a unique shareable slug that resolves to itself (4.214084ms)
+✔ model ratings require recorded evidence and retain real votes without creating extra baseline votes (155.547709ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 339.378292
+
+
+Production build
+
+> sunnylink-wiki@0.1.0 build
+> next build --webpack
+
+▲ Next.js 16.1.4 (webpack)
+- Experiments (use with caution):
+  · optimizePackageImports
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 2.6s
+  Running TypeScript ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/21) ...
+  Generating static pages using 9 workers (5/21) 
+(node:68732) Warning: `--localstorage-file` was provided without a valid path
+(Use `node --trace-warnings ...` to show where the warning was created)
+  Generating static pages using 9 workers (10/21) 
+[discourse-models-sync] Rate limited on topic 4317, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 535, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 237, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 699, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3683, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 2277, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 455, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3698, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 1916, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 699, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3683, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 237, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 535, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 2277, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 455, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 1916, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3698, waiting 2000ms (attempt 1)
+[discourse-models-sync] Rate limited on topic 4317, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 699, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 1916, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 535, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 2277, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 455, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3683, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3698, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 237, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 535, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 2277, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 1916, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 699, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3683, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3698, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 455, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 237, waiting 4000ms (attempt 2)
+[discourse-models-sync] Rate limited on topic 4317, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 699, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 455, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 2277, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 535, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 237, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3683, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 1916, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3698, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 699, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 535, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 237, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 455, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 2277, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 1916, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3698, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3683, waiting 6000ms (attempt 3)
+[discourse-sync] Exhausted retries for topic 699
+[discourse-sync] Exhausted retries for topic 455
+[discourse-sync] Exhausted retries for topic 2277
+[discourse-sync] Exhausted retries for topic 535
+[discourse-sync] Exhausted retries for topic 237
+[discourse-sync] Exhausted retries for topic 3683
+[discourse-sync] Exhausted retries for topic 1916
+[discourse-sync] Exhausted retries for topic 3698
+[discourse-sync] Exhausted retries for topic 699
+[discourse-sync] Exhausted retries for topic 535
+[discourse-sync] Exhausted retries for topic 237
+[discourse-sync] Exhausted retries for topic 455
+[discourse-sync] Exhausted retries for topic 2277
+[discourse-sync] Exhausted retries for topic 1916
+[discourse-sync] Exhausted retries for topic 3698
+[discourse-sync] Exhausted retries for topic 3683
+[discourse-models-sync] Rate limited on topic 6763, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3734, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3739, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3704, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 245, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3738, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3735, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3740, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3744, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3734, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3704, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 245, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3739, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3738, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3735, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3744, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3740, waiting 2000ms (attempt 1)
+[discourse-models-sync] Rate limited on topic 6763, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3739, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3734, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3735, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3704, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3738, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 245, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3740, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3744, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3739, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3734, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3704, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 245, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3738, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3740, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3735, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3744, waiting 4000ms (attempt 2)
+[discourse-models-sync] Rate limited on topic 6763, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3734, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3739, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3740, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3738, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 245, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3735, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3704, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3744, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 245, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3739, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3735, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3704, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3734, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3738, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3744, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3740, waiting 6000ms (attempt 3)
+[discourse-sync] Exhausted retries for topic 3734
+[discourse-sync] Exhausted retries for topic 3739
+[discourse-sync] Exhausted retries for topic 3740
+[discourse-sync] Exhausted retries for topic 3738
+[discourse-sync] Exhausted retries for topic 245
+[discourse-sync] Exhausted retries for topic 3735
+[discourse-sync] Exhausted retries for topic 3704
+[discourse-sync] Exhausted retries for topic 3744
+[discourse-sync] Exhausted retries for topic 245
+[discourse-sync] Exhausted retries for topic 3739
+[discourse-sync] Exhausted retries for topic 3735
+[discourse-sync] Exhausted retries for topic 3704
+[discourse-sync] Exhausted retries for topic 3734
+[discourse-sync] Exhausted retries for topic 3738
+[discourse-sync] Exhausted retries for topic 3744
+[discourse-sync] Exhausted retries for topic 3740
+  Generating static pages using 9 workers (15/21) 
+✓ Generating static pages using 9 workers (21/21) in 31.8s
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)                   Revalidate  Expire
+┌ ○ /                                 1h      1y
+├ ○ /_not-found
+├ ƒ /.well-known/api-catalog
+├ ƒ /api/markdown
+├ ƒ /api/models/vote
+├ ƒ /api/search
+├ ƒ /api/wiki-data
+├ ○ /cars
+├ ○ /features                         1h      1y
+├ ○ /icon.png
+├ ○ /model-replay
+├ ○ /models                           1w      1y
+├ ○ /new-sim
+├ ○ /quiz
+├ ○ /robots.txt
+├ ○ /sim-test
+├ ○ /sitemap.xml
+├ ○ /stats
+├ ○ /wizard
+└ ○ /wizard/classic
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+
+New regression test lint
+Browserslist: browsers data (caniuse-lite) is 9 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+

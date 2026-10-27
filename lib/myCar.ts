@@ -2,6 +2,7 @@
 
 import { useMemo, useSyncExternalStore } from 'react';
 import catalogue from '../data/supported-cars.json';
+import { trackCarSet, trackCarCleared } from './analytics';
 
 export const supportedCars = catalogue;
 export const COMMA_DEVICES = ['comma 3', 'comma 3X', 'comma 4'] as const;
@@ -29,12 +30,38 @@ function getSnapshot() {
 }
 
 export function saveMyCar(selection: MyCar | null) {
+    let previousCar: { year?: number; make?: string; model?: string } | undefined;
+    const previousRaw = getSnapshot();
+    if (previousRaw) {
+        try {
+            const parsed = JSON.parse(previousRaw) as MyCar;
+            const prevVehicle = catalogue.vehicles.find(c => c.id === parsed?.vehicleId);
+            if (prevVehicle) {
+                previousCar = { year: parsed.year, make: prevVehicle.make, model: prevVehicle.model };
+            }
+        } catch { /* ignore parse error */ }
+    }
+
     memorySelection = selection ? JSON.stringify(selection) : null;
     try {
         if (memorySelection) window.localStorage.setItem(MY_CAR_STORAGE_KEY, memorySelection);
         else window.localStorage.removeItem(MY_CAR_STORAGE_KEY);
     } catch { /* Keep the selection in memory when storage is unavailable. */ }
     window.dispatchEvent(new Event(CHANGE_EVENT));
+
+    if (selection) {
+        const vehicle = catalogue.vehicles.find(car => car.id === selection.vehicleId);
+        trackCarSet({
+            year: selection.year,
+            make: vehicle?.make ?? 'Unknown',
+            model: vehicle?.model ?? 'Unknown',
+            vehicleId: selection.vehicleId,
+            device: selection.device,
+            package: vehicle?.requiredPackage,
+        });
+    } else {
+        trackCarCleared(previousCar);
+    }
 }
 
 export function useMyCar() {

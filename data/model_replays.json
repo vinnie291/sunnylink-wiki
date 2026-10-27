@@ -1,0 +1,3 @@
+{
+  "$comment": "Optional static modelV2 replay snapshots keyed by model slug. Each value: { x: number[] (forward m), y: number[] (lateral m, + right), v: number[] (m/s), a: number[] (m/s^2), hz?: number (default 20), label?: string }. Arrays must have equal length. Keyed by scenario: { highway?, scurve?, intersection? }. Leave empty to use the simulated plan."
+}

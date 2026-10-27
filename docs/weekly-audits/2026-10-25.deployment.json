@@ -1,0 +1,361 @@
+{
+  "batch": "2026-10-25-combined",
+  "includes": [
+    "2026-10-16",
+    "2026-10-25-models"
+  ],
+  "status": "deployed_verified",
+  "approvedBy": "User instructions: deploy, then proceed",
+  "site": "https://sunnylink.wiki",
+  "project": "sunnylink-wiki",
+  "region": "us-central1",
+  "service": "sunnylink-wiki-service",
+  "buildId": "47b520f9-3b73-4236-bc0a-16ce10436211",
+  "previousRevision": "sunnylink-wiki-service-refresh-20261009-a29313",
+  "baselineBuildId": "a2931319-dd52-4173-8306-98828572b842",
+  "previousDeploymentRecord": "docs/weekly-audits/2026-10-09.deployment.json",
+  "deploymentPatch": "docs/weekly-audits/2026-10-25.deployment.patch",
+  "adaptations": {
+    "adaptations": [
+      {
+        "field": "data/models.json.vibeGuide.chestnut_gpu.vibe",
+        "reason": "Preserved deployed introduction and replaced only model-management segment; unpublished runtime paragraphs excluded."
+      },
+      {
+        "field": "data/features.json.features.model_runtime_startup",
+        "reason": "Added only the approved updated runtime-startup card, which was absent from production."
+      },
+      {
+        "field": "data/models.ko.json.vibeGuide.chestnut_gpu.vibe",
+        "reason": "Preserved deployed introduction and replaced only model-management segment; unpublished runtime paragraphs excluded."
+      },
+      {
+        "field": "data/features.ko.json.features.dec.officialDefinition",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/features.ko.json.features.dec.userSummary",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/features.ko.json.features.dec.userTranslation",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/features.ko.json.features.model_runtime_startup",
+        "reason": "Added only the approved updated runtime-startup card, which was absent from production."
+      },
+      {
+        "field": "data/features.ko.json.glossary.DEC",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/toggles.ko.json.categories.steering.settings.DynamicExperimentalControl.useCase",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/toggles.ko.json.categories.steering.settings.DynamicExperimentalControl.deepDive",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/models.zh.json.vibeGuide.chestnut_gpu.vibe",
+        "reason": "Preserved deployed introduction and replaced only model-management segment; unpublished runtime paragraphs excluded."
+      },
+      {
+        "field": "data/features.zh.json.features.dec.officialDefinition",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/features.zh.json.features.dec.userSummary",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/features.zh.json.features.dec.userTranslation",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/features.zh.json.features.model_runtime_startup",
+        "reason": "Added only the approved updated runtime-startup card, which was absent from production."
+      },
+      {
+        "field": "data/features.zh.json.glossary.DEC",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/toggles.zh.json.categories.steering.settings.DynamicExperimentalControl.description",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/toggles.zh.json.categories.steering.settings.DynamicExperimentalControl.useCase",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/toggles.zh.json.categories.steering.settings.DynamicExperimentalControl.deepDive",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/toggles.zh.json.categories.steering.settings.DynamicExperimentalControl.userNote",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/models.fr.json.vibeGuide.chestnut_gpu.vibe",
+        "reason": "Preserved deployed introduction and replaced only model-management segment; unpublished runtime paragraphs excluded."
+      },
+      {
+        "field": "data/features.fr.json.features.dec.officialDefinition",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/features.fr.json.features.dec.userSummary",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/features.fr.json.features.dec.userTranslation",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/features.fr.json.features.model_runtime_startup",
+        "reason": "Added only the approved updated runtime-startup card, which was absent from production."
+      },
+      {
+        "field": "data/features.fr.json.glossary.DEC",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/toggles.fr.json.categories.steering.settings.DynamicExperimentalControl.useCase",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/toggles.fr.json.categories.steering.settings.DynamicExperimentalControl.deepDive",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/models.de.json.vibeGuide.chestnut_gpu.vibe",
+        "reason": "Preserved deployed introduction and replaced only model-management segment; unpublished runtime paragraphs excluded."
+      },
+      {
+        "field": "data/features.de.json.features.dec.officialDefinition",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/features.de.json.features.dec.userSummary",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/features.de.json.features.dec.userTranslation",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/features.de.json.features.model_runtime_startup",
+        "reason": "Added only the approved updated runtime-startup card, which was absent from production."
+      },
+      {
+        "field": "data/features.de.json.glossary.DEC",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/toggles.de.json.categories.steering.settings.DynamicExperimentalControl.useCase",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/toggles.de.json.categories.steering.settings.DynamicExperimentalControl.deepDive",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/models.es.json.vibeGuide.chestnut_gpu.vibe",
+        "reason": "Preserved deployed introduction and replaced only model-management segment; unpublished runtime paragraphs excluded."
+      },
+      {
+        "field": "data/features.es.json.features.dec.officialDefinition",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/features.es.json.features.dec.userSummary",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/features.es.json.features.dec.userTranslation",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/features.es.json.features.model_runtime_startup",
+        "reason": "Added only the approved updated runtime-startup card, which was absent from production."
+      },
+      {
+        "field": "data/features.es.json.glossary.DEC",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/toggles.es.json.categories.steering.settings.DynamicExperimentalControl.useCase",
+        "reason": "Applied approved replacement to older deployed wording."
+      },
+      {
+        "field": "data/toggles.es.json.categories.steering.settings.DynamicExperimentalControl.deepDive",
+        "reason": "Applied approved replacement to older deployed wording."
+      }
+    ],
+    "translationKeys": [
+      "content.fc0681438b1b",
+      "content.120a019dd418",
+      "content.7f68f41a61cb",
+      "content.3556c2fdb03d",
+      "content.1429b85c93d3",
+      "content.7a8b08692e2e",
+      "content.388d32485bf6",
+      "content.6d043f46fdf6",
+      "content.6e8d1bdbce27",
+      "content.163fb8300cd6",
+      "content.9e2e02a27687",
+      "content.940def03d2a7",
+      "content.acb24bbbc07c",
+      "content.5ce6409c775b",
+      "content.d49b775b36e4",
+      "content.2523a7f769bd",
+      "content.61b629644d41",
+      "content.6a170c189509",
+      "content.a42d426331ad",
+      "content.18aa1ccb8a20",
+      "content.f03773b9dc12"
+    ],
+    "adaptedVibeKey": "content.58119312519a",
+    "scope": "Approved combined October 16 and October 25 data plus wizard change only. Unchanged unpublished data fields and unrelated features excluded."
+  },
+  "checks": {
+    "releaseBuild": "passed with webpack; type checking and 21 static pages",
+    "releaseTests": "2 passed; model links and vote evidence regression",
+    "translations": "all five locales match English; 512 keys",
+    "data": "134 unique models per language; four additions and no invented ratings",
+    "lint": "identical baseline diagnostics: 46 errors and 41 warnings",
+    "scope": "only 26 approved source files differ from the exact production source",
+    "patch": "dry application passed against exact production source",
+    "pollSnapshots": "No duplicate question names; local runtime confirms Macrostiff 34 voters and Terrible Super Fantastic 3 voters",
+    "cloudBuild": "SUCCESS",
+    "preview": "Seven pages, 134 runtime models, model settings and poll counts passed",
+    "live": "Seven pages, 134 runtime models, model settings and poll counts passed",
+    "runtimeSettings": "preserved from previous production revision"
+  },
+  "files": [
+    {
+      "path": "data/models.json",
+      "sha256": "dde3504e3f9d8d3c444e3f8e6232928b752f8f405e18f2ace79a9481bf9029e7"
+    },
+    {
+      "path": "data/features.json",
+      "sha256": "8621fbdd5de248e88f8989d7d715dcdeb31daef83709da4bb863253edad7f618"
+    },
+    {
+      "path": "data/toggles.json",
+      "sha256": "211551fe6520e22e8fbf126cb39fb392877d29f271b7a9c83a4b374d6ce1ae09"
+    },
+    {
+      "path": "data/models.ko.json",
+      "sha256": "49bcdc04213c4ada10c02dac8fe48330287fa3e4efa022245d48cbedb028d489"
+    },
+    {
+      "path": "data/features.ko.json",
+      "sha256": "d799679816cfdcadf531d633866d03ec8b9678ed96b36aea2fcbacc9192e7961"
+    },
+    {
+      "path": "data/toggles.ko.json",
+      "sha256": "b9b347ec19ba40d18308f9e1534e67c8d012d2d4e58b4227c1926a7613804c30"
+    },
+    {
+      "path": "data/models.zh.json",
+      "sha256": "4c6058c2d10ea760f8b7cce16e054dd5fad8ce649e265affb2b3231a7af66a26"
+    },
+    {
+      "path": "data/features.zh.json",
+      "sha256": "788fef67ca057ce6aba164cb0777b8f79d3b4f4e5653f8ab0d12a7509586723e"
+    },
+    {
+      "path": "data/toggles.zh.json",
+      "sha256": "72836859950de97f07e055fb89c413027d9560a6bb11409d3bfae29a3acb511e"
+    },
+    {
+      "path": "data/models.fr.json",
+      "sha256": "59de0faab554bc7489245ddb20a091ea7cf278ce52ab6dff0dee38720de19c0c"
+    },
+    {
+      "path": "data/features.fr.json",
+      "sha256": "04cf3aed3de3ef24b0d4c2473eee706ece36c0b80a56fd723bff082d61755640"
+    },
+    {
+      "path": "data/toggles.fr.json",
+      "sha256": "54d9852368e5e9bd988704f0d590834d706e7fafcff1806fabec509e8939241c"
+    },
+    {
+      "path": "data/models.de.json",
+      "sha256": "4a3a75a5e3d50929a12150ac019825acfe3a0ced955ddd47791f22f47351b946"
+    },
+    {
+      "path": "data/features.de.json",
+      "sha256": "dbfb9fc550ec355a8f77ef3ec3d0a807a41a3b64361bbba943776ec5e9a6e30e"
+    },
+    {
+      "path": "data/toggles.de.json",
+      "sha256": "7a14f1507cb825a1001e0ff644e496b664f0f1e6e73a299198bcbf8e43028210"
+    },
+    {
+      "path": "data/models.es.json",
+      "sha256": "b9f0a718fdd4faa7304992ecfd12528b2c129991a187ec0f19be6d74c043b552"
+    },
+    {
+      "path": "data/features.es.json",
+      "sha256": "eea73a4d0b999df8baa53c76a035b451bab9e35e74376204d28c8e8b3d47c823"
+    },
+    {
+      "path": "data/toggles.es.json",
+      "sha256": "8c4d957112a7278c3133194a4f07d1474395221f70c487e174ce0ae2dc10709a"
+    },
+    {
+      "path": "locales/en.json",
+      "sha256": "82c43bbddd337c4d4a7f93e71c395542744370a4a088d198a7a63e2019bcf6cf"
+    },
+    {
+      "path": "locales/ko.json",
+      "sha256": "067a9311e863d9b03322f20779ab5fc12eb6747ca6eec5bca3c123bbb7e4ec7a"
+    },
+    {
+      "path": "locales/zh.json",
+      "sha256": "988fa90a249fb9cd355e7d09553bd2abc188dffc37eb54d6b3c1f36801c431e8"
+    },
+    {
+      "path": "locales/fr.json",
+      "sha256": "b39c48690d60272ffa039c1a3be6d15483d22f770368c7ff458b42215e9b3358"
+    },
+    {
+      "path": "locales/de.json",
+      "sha256": "e70336707a382658cb55090fe3110dfcd04fc4183ecf2b17519e153e64ebe58d"
+    },
+    {
+      "path": "locales/es.json",
+      "sha256": "45a3e0aa3f9c6084c4acd0ad82b292c4faa37fa6df20f759d78bdf7e7e770fe3"
+    },
+    {
+      "path": "data/discourse_polls.json",
+      "sha256": "6b8a5b86b9064adec853bb4df31fb86c68124bded4713b2d971cf599ec0f2ba6"
+    },
+    {
+      "path": "components/SetupWizard.tsx",
+      "sha256": "8da114a49d96daa3ffde4a64d57440e0628ab39adeec005fa77697c583426271"
+    }
+  ],
+  "supersededBuildId": "2b8ffd6d-138a-4f30-950e-555af83a080b",
+  "supersededPreviewRevision": "sunnylink-wiki-service-refresh-20261025-2b8ffd",
+  "previewCorrection": "Preview detected duplicate old/new poll questions in the production adapter. Corrected to replace each changed source snapshot atomically. Five approved poll updates now match exactly; unchanged production snapshots are preserved.",
+  "deployedAt": "2026-10-26T02:51:44.721263Z",
+  "verifiedAt": "2026-10-26T02:51:44.721263Z",
+  "revision": "sunnylink-wiki-service-refresh-20261025-47b520",
+  "trafficPercent": 100,
+  "image": "gcr.io/sunnylink-wiki/wiki-app@sha256:711d3bccd2996ae393862455af102c5add98dbfdbc6faa77e00f8e047736fc46",
+  "buildSource": {
+    "storageSource": {
+      "bucket": "sunnylink-wiki_cloudbuild",
+      "generation": "1792979949165075",
+      "object": "source/1792979943.274072-17a1302a32104faf9806b21db79920f2.tgz"
+    }
+  },
+  "deploymentPatchSha256": "916ad56afb2ba65948a4684435204f6b3fcdbc04f6614c7bed5701196c360cc1",
+  "previewCheckRecord": "docs/weekly-audits/2026-10-25.preview-checks.json",
+  "liveCheckRecord": "docs/weekly-audits/2026-10-25.live-checks.json"
+}

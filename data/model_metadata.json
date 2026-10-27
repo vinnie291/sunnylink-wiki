@@ -1,0 +1,14 @@
+{
+  "$comment": "Curated DrivingModelMetadata overrides keyed by model slug (lib/modelSlug.ts). Any field omitted here is inferred at runtime by lib/modelMetadata.ts and labelled as an estimate in the UI. Only add values you can verify (weights hashes, PR URLs, measured telemetry).",
+  "$schema_fields": ["weightsSha256", "aliasOf", "aliasNote", "upstreamPrUrl", "trainingParadigm", "supportedCompute", "telemetryProfile"],
+  "the-cool-peoples-model-v3": {
+    "aliasOf": "tcpmv3-the-cool-peoples-model",
+    "aliasNote": "Same October 10, 2025 release as TCPmV3 — listed under its full name in the 2025 archive. Fleet route stats are reported under this name."
+  },
+  "down-to-ride-v6": {
+    "telemetryProfile": {
+      "lateralBias": 0.45,
+      "recommendedCameraOffset": { "c4": -0.06 }
+    }
+  }
+}

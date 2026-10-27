@@ -1,4 +1,9 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import { useTextTranslation } from '@/lib/i18n';
+
+
+import { usePageSearch } from '../hooks/usePageSearch';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -74,6 +79,7 @@ interface Props {
 }
 
 export default function FullScreenDriveVisualizer({ isOpen, onClose, models, initialModelName }: Props) {
+  const tx = useTextTranslation();
     const [mounted, setMounted] = useState(false);
     const [selectedName, setSelectedName] = useState<string>(initialModelName ?? models[0]?.name ?? '');
     const [settings, setSettings] = useState<SunnylinkSettings>(DEFAULT_SETTINGS);
@@ -193,10 +199,9 @@ export default function FullScreenDriveVisualizer({ isOpen, onClose, models, ini
         <div className="force-dark fixed inset-0 z-[100] bg-slate-950 flex flex-col animate-in fade-in duration-150">
             <header className="relative z-30 shrink-0 flex items-center gap-3 px-4 md:px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm">
                 <span className="hidden sm:inline-flex items-center gap-2 text-xs uppercase tracking-wider text-slate-400 font-semibold">
-                    <span aria-hidden>🛣️</span> Drive Visualizer
-                </span>
+                    <span aria-hidden>🛣️</span>  <TranslatedText text={"Drive Visualizer"} /> </span>
                 <div className="flex-1 flex items-center gap-2 min-w-0">
-                    <label className="text-xs text-slate-500 uppercase tracking-wider whitespace-nowrap">Model</label>
+                    <label className="text-xs text-slate-500 uppercase tracking-wider whitespace-nowrap"><TranslatedText text={"Model"} /></label>
                     <ModelSearchCombobox
                         models={models}
                         value={selectedModel.name}
@@ -205,29 +210,29 @@ export default function FullScreenDriveVisualizer({ isOpen, onClose, models, ini
                 </div>
                 <button
                     onClick={handleShare}
-                    aria-label="Share direct link to this model visualizer"
+                    aria-label={tx("Share direct link to this model visualizer")}
                     className="h-9 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center gap-1.5 text-xs font-medium transition-colors border border-slate-700/60"
-                    title={copied ? 'Copied link!' : 'Share model visualizer'}
+                    title={tx(copied ? 'Copied link!' : 'Share model visualizer')}
                 >
                     {copied ? (
                         <>
                             <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
-                            <span className="text-emerald-400 font-semibold">Copied!</span>
+                            <span className="text-emerald-400 font-semibold"><TranslatedText text={"Copied!"} /></span>
                         </>
                     ) : (
                         <>
                             <svg className="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                             </svg>
-                            <span className="hidden sm:inline">Share</span>
+                            <span className="hidden sm:inline"><TranslatedText text={"Share"} /></span>
                         </>
                     )}
                 </button>
                 <button
                     onClick={onClose}
-                    aria-label="Close fullscreen visualizer"
+                    aria-label={tx("Close fullscreen visualizer")}
                     className="h-9 w-9 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-100 flex items-center justify-center transition-colors"
                 >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -248,8 +253,7 @@ export default function FullScreenDriveVisualizer({ isOpen, onClose, models, ini
                             rel="noopener noreferrer"
                             className="block text-center text-xs font-medium text-cyan-300 hover:text-cyan-200 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-lg px-3 py-2 transition-colors"
                         >
-                            Compare against a real model →
-                        </a>
+                             <TranslatedText text={"Compare against a real model →"} /> </a>
                     </div>
                     <SettingsPanel
                         settings={settings}
@@ -288,7 +292,7 @@ function ScenarioPicker({ value, onChange }: { value: ScenarioKey; onChange: (s:
     const active = SCENARIO_OPTIONS.find((o) => o.value === value);
     return (
         <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-3">
-            <div className="text-[10px] uppercase tracking-[0.12em] text-slate-500 font-semibold mb-2">Route</div>
+            <div className="text-[10px] uppercase tracking-[0.12em] text-slate-500 font-semibold mb-2"><TranslatedText text={"Route"} /></div>
             <div className="grid grid-cols-4 gap-1 p-1 rounded-lg bg-slate-800/60 border border-slate-700/50">
                 {SCENARIO_OPTIONS.map((opt) => (
                     <button
@@ -301,11 +305,11 @@ function ScenarioPicker({ value, onChange }: { value: ScenarioKey; onChange: (s:
                                 : 'text-slate-400 hover:text-slate-100 border border-transparent'
                         }`}
                     >
-                        {opt.label}
+                        <TranslatedText text={opt.label} />
                     </button>
                 ))}
             </div>
-            {active && <p className="mt-1.5 text-[11px] text-slate-500 leading-snug">{active.hint}</p>}
+            {active && <p className="mt-1.5 text-[11px] text-slate-500 leading-snug"><TranslatedText text={active.hint} /></p>}
         </div>
     );
 }
@@ -313,13 +317,14 @@ function ScenarioPicker({ value, onChange }: { value: ScenarioKey; onChange: (s:
 // ───────────────────────────────────────── Behavior ratings ─────────────────────────────────────────
 
 function RatingBar({ label, value, hint }: { label: string; value: number; hint: string }) {
+  const tx = useTextTranslation();
     const pct = Math.round(value * 100);
     const color = pct >= 70 ? 'bg-emerald-500' : pct >= 40 ? 'bg-yellow-500' : 'bg-red-500';
     const textColor = pct >= 70 ? 'text-emerald-400' : pct >= 40 ? 'text-yellow-400' : 'text-red-400';
     return (
-        <div title={hint}>
+        <div title={tx(hint)}>
             <div className="flex justify-between items-baseline gap-2">
-                <span className="text-[11px] text-slate-300">{label}</span>
+                <span className="text-[11px] text-slate-300"><TranslatedText text={label} /></span>
                 <span className={`text-[11px] font-semibold tabular-nums ${textColor}`}>{pct}</span>
             </div>
             <div className="mt-0.5 h-1.5 rounded-full bg-slate-800 overflow-hidden">
@@ -332,17 +337,18 @@ function RatingBar({ label, value, hint }: { label: string; value: number; hint:
 // Higher = better for every bar, so "cuts corners" and "ping-pong"
 // severities are inverted into discipline/smoothness scores.
 function BehaviorRatings({ profile }: { profile: DrivingProfile }) {
+  const tx = useTextTranslation();
     return (
         <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-3 space-y-2.5">
             <div className="text-[10px] uppercase tracking-[0.12em] text-slate-500 font-semibold">
-                Behavior Ratings <span className="normal-case font-normal tracking-normal">— from community feedback</span>
+                 <TranslatedText text={"Behavior Ratings"} /> <span className="normal-case font-normal tracking-normal"><TranslatedText text={"— from community feedback"} /></span>
             </div>
-            <RatingBar label="Corner discipline" value={1 - profile.cornerCutting} hint="Does it cut corners / dive for the apex?" />
-            <RatingBar label="Slows for corners" value={profile.cornerBrakeReliability} hint="How reliably it sheds speed before a bend" />
-            <RatingBar label="Stops for lights" value={profile.lightStopReliability} hint="Stops — and stays stopped — at red lights" />
-            <RatingBar label="Lead-follow smoothness" value={1 - profile.longPingPong} hint="Longitudinal ping-pong when following a lead car" />
-            <RatingBar label="Accel behind lead" value={profile.leadAccelResponse} hint="How promptly it accelerates when the lead pulls away" />
-            <RatingBar label="Slow / stopped traffic" value={profile.trafficHandling} hint="Braking quality approaching slower or stopped traffic" />
+            <RatingBar label={tx("Corner discipline")} value={1 - profile.cornerCutting} hint="Does it cut corners / dive for the apex?" />
+            <RatingBar label={tx("Slows for corners")} value={profile.cornerBrakeReliability} hint="How reliably it sheds speed before a bend" />
+            <RatingBar label={tx("Stops for lights")} value={profile.lightStopReliability} hint="Stops — and stays stopped — at red lights" />
+            <RatingBar label={tx("Lead-follow smoothness")} value={1 - profile.longPingPong} hint="Longitudinal ping-pong when following a lead car" />
+            <RatingBar label={tx("Accel behind lead")} value={profile.leadAccelResponse} hint="How promptly it accelerates when the lead pulls away" />
+            <RatingBar label={tx("Slow / stopped traffic")} value={profile.trafficHandling} hint="Braking quality approaching slower or stopped traffic" />
         </div>
     );
 }
@@ -358,6 +364,7 @@ function ModelSearchCombobox({
     value: string;
     onChange: (name: string) => void;
 }) {
+  const tx = useTextTranslation();
     const [open, setOpen] = useState(false);
     const [query, setQuery] = useState('');
     const [highlight, setHighlight] = useState(0);
@@ -375,11 +382,13 @@ function ModelSearchCombobox({
         [models]
     );
 
-    const results = useMemo(() => {
+    const localResults = useMemo(() => {
         const trimmed = query.trim();
         if (!trimmed) return [...models].sort((a, b) => a.name.localeCompare(b.name)).slice(0, 100);
         return fuse.search(trimmed).slice(0, 50).map((r) => r.item);
     }, [query, fuse, models]);
+
+    const results = usePageSearch(models, localResults, query, item => ({ type: 'model', id: item.name, title: item.name }), open);
 
     // Keep the highlighted index in range when results change.
     useEffect(() => {
@@ -453,7 +462,7 @@ function ModelSearchCombobox({
                     onFocus={() => { setOpen(true); setQuery(''); setHighlight(0); }}
                     onChange={(e) => { setOpen(true); setQuery(e.target.value); setHighlight(0); }}
                     onKeyDown={onKeyDown}
-                    placeholder="Search models..."
+                    placeholder={tx("Search models...")}
                     className="w-full bg-slate-800 border border-slate-700 hover:border-slate-600 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none text-slate-100 text-sm rounded-lg pl-8 pr-9 py-2 truncate transition-colors"
                 />
                 <svg className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -469,7 +478,7 @@ function ModelSearchCombobox({
                     className="absolute top-full left-0 right-0 mt-1 max-h-72 overflow-y-auto bg-slate-900 border border-slate-700 rounded-lg shadow-2xl z-50"
                 >
                     {results.length === 0 ? (
-                        <div className="px-3 py-4 text-xs text-slate-500 text-center">No models match &ldquo;{query}&rdquo;</div>
+                        <div className="px-3 py-4 text-xs text-slate-500 text-center"><TranslatedText text={"No models match “"} /><TranslatedText text={query} /><TranslatedText text={"“"} /></div>
                     ) : (
                         results.map((m, i) => {
                             const active = i === highlight;
@@ -493,11 +502,11 @@ function ModelSearchCombobox({
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                                             </svg>
                                         )}
-                                        <span className="truncate">{m.name}</span>
+                                        <span className="truncate"><TranslatedText text={m.name} /></span>
                                     </span>
                                     {m.badge && (
                                         <span className="shrink-0 px-1.5 py-0.5 text-[9px] font-semibold rounded bg-slate-800 text-slate-400 border border-slate-700">
-                                            {m.badge}
+                                            <TranslatedText text={m.badge} />
                                         </span>
                                     )}
                                 </button>
@@ -521,6 +530,7 @@ function SettingsPanel({
     onChange: (s: SunnylinkSettings) => void;
     modelName: string;
 }) {
+  const tx = useTextTranslation();
     const update = <K extends keyof SunnylinkSettings>(key: K, val: SunnylinkSettings[K]) =>
         onChange({ ...settings, [key]: val });
 
@@ -528,23 +538,22 @@ function SettingsPanel({
         <div className="p-4 lg:p-5 space-y-4">
             <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                    <h3 className="text-slate-100 font-semibold text-base">Sunnylink Settings</h3>
+                    <h3 className="text-slate-100 font-semibold text-base"><TranslatedText text={"Sunnylink Settings"} /></h3>
                     <p className="text-xs text-slate-500 truncate">
-                        Driving <span className="text-cyan-300 font-medium">{modelName}</span>
+                         <TranslatedText text={"Driving"} /> <span className="text-cyan-300 font-medium"><TranslatedText text={modelName} /></span>
                     </p>
                 </div>
                 <button
                     onClick={() => onChange(DEFAULT_SETTINGS)}
                     className="shrink-0 px-3 py-1.5 rounded-lg text-[11px] font-semibold border bg-slate-800 border-slate-700 text-slate-400 hover:text-slate-100 transition-colors"
                 >
-                    Reset
-                </button>
+                     <TranslatedText text={"Reset"} /> </button>
             </div>
 
-            <Accordion title="Steering" icon="🛞" subtitle="Lateral control, lane changes, and steering behavior" defaultOpen>
-                <Section label="Camera">
+            <Accordion title={tx("Steering")} icon="🛞" subtitle="Lateral control, lane changes, and steering behavior" defaultOpen>
+                <Section label={tx("Camera")}>
                     <Slider
-                        label="Adjust Camera Offset"
+                        label={tx("Adjust Camera Offset")}
                         min={-0.35}
                         max={0.35}
                         step={0.01}
@@ -556,34 +565,34 @@ function SettingsPanel({
                     />
                 </Section>
 
-                <Section label="Modular Assistive Driving System (MADS)">
+                <Section label={tx("Modular Assistive Driving System (MADS)")}>
                     <Toggle
-                        label="Enable MADS"
+                        label={tx("Enable MADS")}
                         value={settings.madsEnabled}
                         onChange={(v) => update('madsEnabled', v)}
                         hint="Enable the beloved MADS feature."
                     />
                 </Section>
 
-                <Section label="Blinker Control">
+                <Section label={tx("Blinker Control")}>
                     <Toggle
-                        label="Pause Lateral Control with Blinker"
+                        label={tx("Pause Lateral Control with Blinker")}
                         value={settings.pauseLateralWithBlinker}
                         onChange={(v) => update('pauseLateralWithBlinker', v)}
                         hint="Pause lateral control with blinker below the desired speed."
                     />
                 </Section>
 
-                <Section label="Lane Turn">
+                <Section label={tx("Lane Turn")}>
                     <Toggle
-                        label="Use Lane Turn Desires"
+                        label={tx("Use Lane Turn Desires")}
                         value={settings.laneTurnDesires}
                         onChange={(v) => update('laneTurnDesires', v)}
                         hint="Plan a turn at the nearest drivable path with blinker on, ≤ 20 mph."
                     />
                     <div className={`transition-opacity ${settings.laneTurnDesires ? '' : 'opacity-40 pointer-events-none'}`}>
                         <Slider
-                            label="Adjust Lane Turn Speed"
+                            label={tx("Adjust Lane Turn Speed")}
                             min={0}
                             max={50}
                             step={1}
@@ -596,16 +605,16 @@ function SettingsPanel({
                     </div>
                 </Section>
 
-                <Section label="Path Tuning">
+                <Section label={tx("Path Tuning")}>
                     <Toggle
-                        label="Neural Network Lateral Control"
+                        label={tx("Neural Network Lateral Control")}
                         value={settings.neuralNetworkLateralControl}
                         onChange={(v) => update('neuralNetworkLateralControl', v)}
                         hint="Smoother, more confident path. Live in the visualizer."
                         live
                     />
                     <Toggle
-                        label="Self-Tune"
+                        label={tx("Self-Tune")}
                         value={settings.selfTune}
                         onChange={(v) => update('selfTune', v)}
                         hint="Reduces lateral wobble over time. Live in the visualizer."
@@ -614,22 +623,22 @@ function SettingsPanel({
                 </Section>
             </Accordion>
 
-            <Accordion title="Cruise" icon="🛟" subtitle="Longitudinal control, speed limits, and cruise behavior">
+            <Accordion title={tx("Cruise")} icon="🛟" subtitle="Longitudinal control, speed limits, and cruise behavior">
                 <Toggle
-                    label="Experimental Mode"
+                    label={tx("Experimental Mode")}
                     value={settings.experimentalMode}
                     onChange={(v) => update('experimentalMode', v)}
                     hint="Slightly snappier reaction to road geometry."
                     live
                 />
                 <Toggle
-                    label="Disengage Cruise on Accelerator Pedal"
+                    label={tx("Disengage Cruise on Accelerator Pedal")}
                     value={settings.disengageCruiseOnAccelerator}
                     onChange={(v) => update('disengageCruiseOnAccelerator', v)}
                     hint="When enabled, pressing the accelerator disengages longitudinal control."
                 />
                 <Segmented
-                    label="Driving Personality"
+                    label={tx("Driving Personality")}
                     value={settings.drivingPersonality}
                     onChange={(v) => update('drivingPersonality', v)}
                     options={[
@@ -642,9 +651,9 @@ function SettingsPanel({
                 />
             </Accordion>
 
-            <Accordion title="Visuals" icon="🎨" subtitle="HUD overlays, alerts, and on-screen display elements">
+            <Accordion title={tx("Visuals")} icon="🎨" subtitle="HUD overlays, alerts, and on-screen display elements">
                 <Toggle
-                    label="Tesla Rainbow Mode"
+                    label={tx("Tesla Rainbow Mode")}
                     value={settings.teslaRainbowMode}
                     onChange={(v) => update('teslaRainbowMode', v)}
                     hint="A beautiful rainbow effect on the path the model wants to take. Does not affect driving."
@@ -653,8 +662,7 @@ function SettingsPanel({
             </Accordion>
 
             <p className="text-[11px] text-slate-500 leading-relaxed pt-2">
-                Use the <span className="text-slate-300">−</span> / <span className="text-slate-300">+</span> buttons on the simulator to change speed. Press <kbd className="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-[10px] text-slate-300">Esc</kbd> to close.
-            </p>
+                 <TranslatedText text={"Use the"} /> <span className="text-slate-300">−</span> / <span className="text-slate-300">+</span>  <TranslatedText text={"buttons on the simulator to change speed. Press"} /> <kbd className="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-[10px] text-slate-300"><TranslatedText text={"Esc"} /></kbd>  <TranslatedText text={"to close."} /> </p>
         </div>
     );
 }
@@ -685,10 +693,10 @@ function Accordion({
             >
                 <span className="min-w-0">
                     <span className="flex items-center gap-2 font-semibold text-slate-100 text-sm">
-                        {icon && <span aria-hidden>{icon}</span>}
-                        <span>{title}</span>
+                        {icon && <span aria-hidden><TranslatedText text={icon} /></span>}
+                        <span><TranslatedText text={title} /></span>
                     </span>
-                    {subtitle && <span className="block text-[11px] text-slate-500 mt-0.5 leading-snug">{subtitle}</span>}
+                    {subtitle && <span className="block text-[11px] text-slate-500 mt-0.5 leading-snug"><TranslatedText text={subtitle} /></span>}
                 </span>
                 <svg
                     className={`shrink-0 w-4 h-4 text-slate-400 transition-transform ${open ? 'rotate-180' : ''}`}
@@ -708,7 +716,7 @@ function Section({ label, children }: { label?: string; children: React.ReactNod
     return (
         <div className="space-y-3">
             {label && (
-                <div className="text-[10px] uppercase tracking-[0.12em] text-slate-500 font-semibold">{label}</div>
+                <div className="text-[10px] uppercase tracking-[0.12em] text-slate-500 font-semibold"><TranslatedText text={label} /></div>
             )}
             {children}
         </div>
@@ -739,9 +747,9 @@ function Slider({
     return (
         <div>
             <div className="flex justify-between items-baseline mb-1.5 gap-2">
-                <label className="text-xs text-slate-300 font-medium">{label}</label>
+                <label className="text-xs text-slate-300 font-medium"><TranslatedText text={label} /></label>
                 <span className="text-xs text-cyan-300 tabular-nums font-medium">
-                    {value.toFixed(decimals)}{unit ? ` ${unit}` : ''}
+                    <TranslatedText text={value.toFixed(decimals)} /><TranslatedText text={unit ? ` ${unit}` : ''} />
                 </span>
             </div>
             <input
@@ -753,7 +761,7 @@ function Slider({
                 onChange={(e) => onChange(parseFloat(e.target.value))}
                 className="w-full accent-cyan-500 cursor-pointer"
             />
-            {hint && <p className="mt-1 text-[11px] text-slate-500 leading-snug">{hint}</p>}
+            {hint && <p className="mt-1 text-[11px] text-slate-500 leading-snug"><TranslatedText text={hint} /></p>}
         </div>
     );
 }
@@ -779,10 +787,10 @@ function Toggle({
         >
             <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-100">
-                    <span>{label}</span>
+                    <span><TranslatedText text={label} /></span>
                     {live && <LiveBadge />}
                 </div>
-                {hint && <div className="text-[11px] text-slate-500 mt-0.5 leading-snug">{hint}</div>}
+                {hint && <div className="text-[11px] text-slate-500 mt-0.5 leading-snug"><TranslatedText text={hint} /></div>}
             </div>
             <span
                 className={`shrink-0 inline-flex h-5 w-9 rounded-full transition-colors ${value ? 'bg-cyan-500' : 'bg-slate-700'}`}
@@ -814,7 +822,7 @@ function Segmented<T extends string>({
     return (
         <div>
             <div className="flex items-center gap-1.5 mb-1.5">
-                <label className="text-xs text-slate-300 font-medium">{label}</label>
+                <label className="text-xs text-slate-300 font-medium"><TranslatedText text={label} /></label>
                 {live && <LiveBadge />}
             </div>
             <div className="grid grid-cols-3 gap-1 p-1 rounded-lg bg-slate-800/60 border border-slate-700/50">
@@ -831,12 +839,12 @@ function Segmented<T extends string>({
                                     : 'text-slate-400 hover:text-slate-100 border border-transparent'
                             }`}
                         >
-                            {opt.label}
+                            <TranslatedText text={opt.label} />
                         </button>
                     );
                 })}
             </div>
-            {hint && <p className="mt-1 text-[11px] text-slate-500 leading-snug">{hint}</p>}
+            {hint && <p className="mt-1 text-[11px] text-slate-500 leading-snug"><TranslatedText text={hint} /></p>}
         </div>
     );
 }
@@ -845,7 +853,6 @@ function LiveBadge() {
     return (
         <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
             <span className="h-1 w-1 rounded-full bg-emerald-400 animate-pulse" />
-            Live
-        </span>
+             <TranslatedText text={"Live"} /> </span>
     );
 }

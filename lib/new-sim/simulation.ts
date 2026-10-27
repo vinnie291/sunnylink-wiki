@@ -324,24 +324,65 @@ export class Simulation {
     const windowBase = { city: 0, boulevard: 1400, curves: 0, highway: 1500 }[options.scenario];
     const window = windowBase ? windowBase * (1 - options.density * 0.0037) : 0;
     this.window = window;
+    const limit = window * 0.5;
     const rows = Math.ceil(count / lanes);
     const spacing = (window || this.road.length - 100) / rows;
     this.rowSpacing = spacing;
     const stagger = Math.min(window ? 17 : 23, spacing / (lanes + 1));
+
+    const laneCounts = new Array(lanes).fill(0);
+    for (let i = 1; i <= count; i++) {
+      const lane = (i - 1 + layout.egoLane) % lanes;
+      laneCounts[lane]++;
+    }
+
+    const leadClearance = highway ? 70 : 34;
+    const rearClearance = highway ? 50 : 35;
+    const laneAssigned = new Array(lanes).fill(0);
+
     for (let i = 1; i <= count; i++) {
       // Independent lane streams. Rotating by the ego lane puts the first car —
       // the deliberately visible lead — at the head of the ego's own stream, so
       // it never lands on another car's slot.
       const lane = (i - 1 + layout.egoLane) % lanes;
-      const row = Math.floor((i - 1) / lanes);
+      const row = laneAssigned[lane]++;
+      const n = laneCounts[lane];
       // Oncoming lanes are spread over the whole loop and left alone: they sweep
       // past the ego continuously, so packing them into a window would deliver
       // one clump per lap and empty road in between.
       const oncoming = layout.directions[lane] !== 1;
-      const laneSpacing = window && !oncoming ? spacing : (this.road.length - 100) / rows;
-      const phase = lane === layout.egoLane ? (highway ? 70 : 34)
-        : (window && !oncoming ? -window * 0.3 : 60) + lane * stagger;
-      const s = start + phase + row * laneSpacing;
+
+      let s: number;
+      if (window > 0 && !oncoming) {
+        if (lane === layout.egoLane) {
+          // Ego lane: split cars ahead and behind ego to guarantee the clear zone
+          const aheadCount = Math.ceil(n / 2);
+          const behindCount = n - aheadCount;
+          const aheadSpan = (limit - 30) - leadClearance;
+          const behindSpan = (limit - 30) - rearClearance;
+          if (row < aheadCount) {
+            const rel = leadClearance + (aheadCount > 1 ? row * (aheadSpan / (aheadCount - 1)) : 0);
+            s = start + rel;
+          } else {
+            const bIdx = row - aheadCount;
+            const rel = -rearClearance - (behindCount > 1 ? bIdx * (behindSpan / (behindCount - 1)) : 0);
+            s = start + rel;
+          }
+        } else {
+          // Other lanes: spread uniformly within [-limit + 25, limit - 25] with lane stagger
+          const span = (limit - 25) * 2;
+          const laneSpacing = span / n;
+          const staggerShift = ((lane * stagger) % (laneSpacing * 0.7)) - (laneSpacing * 0.35);
+          const rel = -limit + 25 + (row + 0.5) * laneSpacing + staggerShift;
+          s = start + rel;
+        }
+      } else {
+        const laneSpacing = (this.road.length - 100) / rows;
+        const phase = lane === layout.egoLane ? leadClearance
+          : (window && !oncoming ? -window * 0.3 : 60) + lane * stagger;
+        s = start + phase + row * laneSpacing;
+      }
+
       // Traffic is paced off the ego's set speed. A fixed field speed lets the ego
       // drive off the front of the pack, leaving an empty road at any density.
       // Cars in one lane hold nearly the same speed, or a packed carriageway
@@ -353,7 +394,7 @@ export class Simulation {
       this.cars.push({ id: i, s: mod(s, this.road.length), lane, direction: layout.directions[lane],
         speed: highway ? 22 + (i % 4) : 9 + (i % 4), acceleration: 0, desired,
         stoppedAt: -1, dwell: 0, released: -1, kind: options.previewTraffic && i % 11 === 8 && highway ? 'truck' : options.previewTraffic && i % 8 === 2 ? 'motorcycle' : i % 7 === 0 ? 'van' : i % 3 === 0 ? 'suv' : 'sedan', braking: false,
-        lateral: 0, lateralRate: 0, creep: 0, holdUntil: 0, changeCooldown: 0, prevS: start, prevLateral: 0, headingError: 0, prevHeading: 0, steeringAngle: 0, prevSteering: 0, yawRate: 0, requestedAcceleration: 0, waitingForRelease: false });
+        lateral: 0, lateralRate: 0, creep: 0, holdUntil: 0, changeCooldown: 4 + hash(i * 17) * 8, prevS: mod(s, this.road.length), prevLateral: 0, headingError: 0, prevHeading: 0, steeringAngle: 0, prevSteering: 0, yawRate: 0, requestedAcceleration: 0, waitingForRelease: false });
     }
     if (options.previewTraffic && options.scenario === 'city') {
       for (let i = 0; i < 8; i++) this.cyclists.push({ id: i, s: mod(start + 18 + i * this.road.length / 8, this.road.length), speed: 3.6 + i % 3 * .4, dwell: 0, released: -1 });
@@ -468,8 +509,12 @@ export class Simulation {
   }
   lead(car: Vehicle) {
     let gap = this.road.length, speed = car.desired;
+    const offsets = this.road.lanes.offsets;
+    const targetAcross = car.laneChange ? offsets[car.lane] + car.lateral : offsets[car.lane];
     for (const other of this.cars) {
-      if (other.id === car.id || (other.lane !== car.lane && other.laneChange?.from !== car.lane)) continue;
+      if (other.id === car.id || other.direction !== car.direction) continue;
+      const otherAcross = offsets[other.lane] + other.lateral;
+      if (Math.abs(otherAcross - targetAcross) > 1.4) continue;
       const d = this.road.distance(car.s, other.s, car.direction) - (vehicleLength(car) + vehicleLength(other)) / 2;
       if (d < gap) { gap = d; speed = other.speed; }
     }
@@ -664,15 +709,18 @@ export class Simulation {
   }
   /** Room to move over: a gap ahead, and one behind for whoever is back there. */
   private roomIn(car: Vehicle, lane: number, urgency = 1) {
-    let ahead = Infinity, behind = Infinity, behindSpeed = 0;
+    let ahead = Infinity, behind = Infinity, behindSpeed = 0, aheadSpeed = car.speed;
     for (const other of this.cars) {
       if (other.id === car.id || (other.lane !== lane && other.laneChange?.from !== lane) || other.direction !== car.direction) continue;
       const forward = this.road.distance(car.s, other.s, car.direction) - (vehicleLength(car) + vehicleLength(other)) / 2;
       const back = this.road.distance(other.s, car.s, car.direction) - (vehicleLength(car) + vehicleLength(other)) / 2;
-      if (forward < ahead) ahead = forward;
+      if (forward < ahead) { ahead = forward; aheadSpeed = other.speed; }
       if (back < behind) { behind = back; behindSpeed = other.speed; }
     }
-    return ahead > (9 + car.speed * 0.75) * urgency && behind > (7 + behindSpeed * 0.55) * urgency;
+    const closingBehind = Math.max(0, behindSpeed - car.speed);
+    const closingAhead = Math.max(0, car.speed - aheadSpeed);
+    return ahead > (9 + car.speed * 0.75 + closingAhead * 2.5) * urgency
+      && behind > (8 + behindSpeed * 0.65 + closingBehind * 3.5) * urgency;
   }
   private moveTo(car: Vehicle, lane: number, cooldown: number) {
     const offsets = this.road.lanes.offsets;
@@ -780,12 +828,18 @@ export class Simulation {
     for (const car of this.cars) {
       // Only the ego's own direction is recycled; oncoming lanes ring the loop.
       if (car.id === 0 || car.direction !== 1) continue;
+      // Do not recycle vehicles mid-lane-change
+      if (car.laneChange) continue;
       const offset = this.relative(car.s);
       if (Math.abs(offset) <= limit) continue;
       // Periodic boundary: a car leaving one end of the band re-enters the other
       // exactly one band-width away, which preserves the spacing it was spawned
       // with instead of stacking it onto the back of a platoon.
       const candidate = mod(car.s - Math.sign(offset) * limit * 2, this.road.length);
+      const candidateRel = this.relative(candidate);
+      // Recycled cars must appear at the distant boundary beyond fog, never near the viewer
+      if (Math.abs(candidateRel) < Math.min(220, limit * 0.65)) continue;
+
       // A recycled vehicle must approach a signal under its own braking
       // controller, never materialize inside a crossing or its stopping zone.
       const approach = 25 + car.speed * car.speed / 4;
@@ -793,8 +847,19 @@ export class Simulation {
         || this.road.distance(j.s, candidate, car.direction) < 25)) continue;
       // Never drop a car onto another one: if the slot is taken (a lane that has
       // drifted or bunched at a light), leave it and retry on a later step.
-      const clear = this.cars.every(other => other.id === car.id || other.lane !== car.lane
-        || Math.min(this.road.distance(candidate, other.s), this.road.distance(other.s, candidate)) > (vehicleLength(car) + vehicleLength(other)) / 2 + 8);
+      const carAcross = this.road.lanes.offsets[car.lane] + car.lateral;
+      const clear = this.cars.every(other => {
+        if (other.id === car.id) return true;
+        const otherAcross = this.road.lanes.offsets[other.lane] + other.lateral;
+        const sameLane = other.lane === car.lane || other.laneChange?.from === car.lane;
+        const lateralOverlap = Math.abs(carAcross - otherAcross) < 1.9;
+        if (!sameLane && !lateralOverlap) return true;
+        const aheadDist = this.road.distance(candidate, other.s, car.direction);
+        const behindDist = this.road.distance(other.s, candidate, car.direction);
+        if (aheadDist < 25) return false;
+        if (behindDist < Math.max(30, other.speed * 1.8)) return false;
+        return true;
+      });
       if (!clear) continue;
       car.s = candidate;
       car.prevS = candidate;

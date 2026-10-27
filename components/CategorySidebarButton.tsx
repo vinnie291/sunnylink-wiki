@@ -1,4 +1,6 @@
 'use client';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import { useState, useEffect } from 'react';
 
@@ -9,6 +11,7 @@ interface CategorySidebarButtonProps {
 }
 
 export default function CategorySidebarButton({ onClick, isSticky, isSidebarOpen }: CategorySidebarButtonProps) {
+  const tx = useTextTranslation();
     const [isVisible, setIsVisible] = useState(false);
 
     // Match ScrollToTop visibility logic (scrollY > 300)
@@ -38,7 +41,7 @@ export default function CategorySidebarButton({ onClick, isSticky, isSidebarOpen
                 ${isSidebarOpen ? 'z-[80]' : 'z-50'}
                 ${shouldShow ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}
             `}
-            aria-label={isSidebarOpen ? 'Close category sidebar' : 'Open category sidebar'}
+            aria-label={tx(isSidebarOpen ? 'Close category sidebar' : 'Open category sidebar')}
         >
             <svg
                 className={`w-6 h-6 transition-transform duration-300 ${isSidebarOpen ? 'rotate-90' : ''}`}

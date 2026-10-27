@@ -1,12 +1,21 @@
 'use client';
+import { vehicleModelLabel } from '@/lib/vehicleDisplay';
+import TranslatedText from '@/components/TranslatedText';
+
 
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import { Search, X, Settings2, Car, Brain, BookOpen } from 'lucide-react';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { Search, LoaderCircle, X, Settings2, Car, Brain, BookOpen } from 'lucide-react';
 import { useLanguage } from '../lib/i18n';
+import ModelModalLoadingOverlay from './ModelModalLoadingOverlay';
 import { useFuzzySearch } from '../hooks/useFuzzySearch';
 import { useTranslatedToggles, useTranslatedModels, useTranslatedFeatures, useTranslatedCars } from '../lib/useTranslatedData';
 import { modelNameToSlug } from '../lib/modelSlug';
+import SearchSuggestions from './SearchSuggestions';
+import { useSemanticSearch } from '../hooks/useSemanticSearch';
+import { mergeSemanticResults, searchIdentity } from '../lib/semanticSearch';
+import { useMyCar } from '../lib/myCar';
+import { isSettingApplicableToMake } from '../lib/vehicleSettings';
 
 interface SearchItem {
     id: string;
@@ -18,54 +27,46 @@ interface SearchItem {
     model?: string;
 }
 
-export default function UniversalSearch({ initialOpen = false }: { initialOpen?: boolean } = {}) {
-    const [isOpen, setIsOpen] = useState(initialOpen);
+export default function UniversalSearch({ onClose: closeSearch }: { onClose: () => void }) {
     const [query, setQuery] = useState('');
-    const [activeIndex, setActiveIndex] = useState(0);
+    const [activeId, setActiveId] = useState<string | null>(null);
+    const [loadingModel, setLoadingModel] = useState<string | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const router = useRouter();
-    const { t } = useLanguage();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const { t, tx, locale } = useLanguage();
+    const selectedMake = useMyCar()?.vehicle.make;
+
+    const initialPathnameRef = useRef(pathname);
+
+    // Automatically dismiss the loading overlay and search dialog when navigation finishes
+    useEffect(() => {
+        if (!loadingModel) return;
+
+        // If user arrived at /models from another route, dismiss search immediately
+        if (pathname === '/models' && initialPathnameRef.current !== '/models') {
+            closeSearch();
+            return;
+        }
+
+        // Safety fallback timer so loading screen never stays on screen
+        const timer = setTimeout(() => {
+            closeSearch();
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, [pathname, searchParams, loadingModel, closeSearch]);
 
     const togglesData = useTranslatedToggles();
     const modelsData = useTranslatedModels();
     const featuresData = useTranslatedFeatures();
     const carsData = useTranslatedCars();
 
-    // Listen for custom event and Cmd+K to open
     useEffect(() => {
-        const handleOpen = () => setIsOpen(true);
-        const handleClose = () => setIsOpen(false);
-
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-                e.preventDefault();
-                setIsOpen((prev) => !prev);
-            }
-            if (e.key === 'Escape') {
-                setIsOpen(false);
-            }
-        };
-
-        window.addEventListener('open-universal-search', handleOpen);
-        window.addEventListener('close-universal-search', handleClose);
-        document.addEventListener('keydown', handleKeyDown);
-
-        return () => {
-            window.removeEventListener('open-universal-search', handleOpen);
-            window.removeEventListener('close-universal-search', handleClose);
-            document.removeEventListener('keydown', handleKeyDown);
-        };
+        const timer = setTimeout(() => inputRef.current?.focus(), 100);
+        return () => clearTimeout(timer);
     }, []);
-
-    // Focus input when modal opens
-    useEffect(() => {
-        if (isOpen) {
-            setTimeout(() => inputRef.current?.focus(), 100);
-            setActiveIndex(0);
-        } else {
-            setQuery(''); // Reset on close
-        }
-    }, [isOpen]);
 
     // Normalize data
     const allItems = useMemo<SearchItem[]>(() => {
@@ -76,6 +77,7 @@ export default function UniversalSearch({ initialOpen = false }: { initialOpen?:
         togglesData.categories.forEach((cat: any) => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             cat.settings.forEach((setting: any) => {
+                if (!isSettingApplicableToMake(setting.key, selectedMake)) return;
                 items.push({
                     id: setting.key,
                     type: 'setting',
@@ -98,7 +100,7 @@ export default function UniversalSearch({ initialOpen = false }: { initialOpen?:
                     type: 'model',
                     title: model.name,
                     subtitle: model.consensus || cat.name,
-                    href: `/models?model=${slug}#${slug}`,
+                    href: `/models?model=${slug}`,
                 });
             });
         });
@@ -121,8 +123,8 @@ export default function UniversalSearch({ initialOpen = false }: { initialOpen?:
             items.push({
                 id: car.id,
                 type: 'car',
-                title: `${car.make} ${car.model}`,
-                subtitle: car.years || 'All Years',
+                title: `${car.make} ${vehicleModelLabel(car.model, tx)}`,
+                subtitle: car.years || tx('All Years'),
                 href: `/cars?vehicle=${car.id}&search=${encodeURIComponent(car.model)}`,
                 make: car.make,
                 model: car.model,
@@ -130,7 +132,7 @@ export default function UniversalSearch({ initialOpen = false }: { initialOpen?:
         });
 
         return items;
-    }, [togglesData, modelsData, featuresData, carsData]);
+    }, [togglesData, modelsData, featuresData, carsData, selectedMake, tx]);
 
     const searchKeys = useMemo(() => ['title', 'subtitle', 'make', 'model'], []);
 
@@ -143,15 +145,41 @@ export default function UniversalSearch({ initialOpen = false }: { initialOpen?:
         acronymKey: 'title',
     }) as unknown as SearchItem[];
 
-    const displayResults = query.length > 0 ? results.slice(0, 8) : [];
+    const { ids: semanticIds, isLoading } = useSemanticSearch(query, results.slice(0, 12).map(searchIdentity), true, locale);
+    const rankedResults = query.trim().length > 0
+        ? mergeSemanticResults(allItems, results, semanticIds, query)
+        : [];
+    const displayResults = rankedResults.slice(0, 8);
+    const selectedResult = activeId ? rankedResults.find(item => searchIdentity(item) === activeId) : undefined;
+    if (selectedResult && !displayResults.includes(selectedResult)) {
+        displayResults[displayResults.length - 1] = selectedResult;
+    }
 
-    // Reset active index when results change
+    // Track the chosen entry, so asynchronous ranking cannot change an active selection.
+    const activeIndex = Math.max(0, displayResults.findIndex(item => searchIdentity(item) === activeId));
+
+    // Prefetch routes for top search results so clicking opens them instantly
     useEffect(() => {
-        setActiveIndex(0);
-    }, [query]);
+        displayResults.slice(0, 4).forEach(item => {
+            const [path] = item.href.split('#');
+            if (path) router.prefetch(path);
+        });
+    }, [displayResults, router]);
 
     const handleSelect = (item: SearchItem) => {
-        setIsOpen(false);
+        if (item.type === 'model' || item.href.includes('/models?model=')) {
+            // If already on /models, close search dialog immediately and update URL without artificial delay
+            if (pathname === '/models') {
+                closeSearch();
+                router.push(item.href);
+                return;
+            }
+            // Navigating from another route: display blurred loading overlay during route transition
+            setLoadingModel(item.title);
+            router.push(item.href);
+            return;
+        }
+        closeSearch();
         router.push(item.href);
         // Force a hashchange event in case next/navigation doesn't trigger it for anchor links
         if (item.href.includes('#')) {
@@ -166,17 +194,16 @@ export default function UniversalSearch({ initialOpen = false }: { initialOpen?:
 
         if (e.key === 'ArrowDown') {
             e.preventDefault();
-            setActiveIndex((prev) => (prev + 1) % displayResults.length);
+            setActiveId(searchIdentity(displayResults[(activeIndex + 1) % displayResults.length]));
         } else if (e.key === 'ArrowUp') {
             e.preventDefault();
-            setActiveIndex((prev) => (prev - 1 + displayResults.length) % displayResults.length);
+            setActiveId(searchIdentity(displayResults[(activeIndex - 1 + displayResults.length) % displayResults.length]));
         } else if (e.key === 'Enter') {
             e.preventDefault();
-            handleSelect(displayResults[activeIndex]);
+            handleSelect(displayResults[Math.min(activeIndex, displayResults.length - 1)]);
         }
     };
 
-    if (!isOpen) return null;
 
     const getIcon = (type: string) => {
         switch (type) {
@@ -201,7 +228,7 @@ export default function UniversalSearch({ initialOpen = false }: { initialOpen?:
     // Highlight helper for title matches
     const HighlightMatch = ({ text }: { text: string }) => {
         const trimmed = query.trim();
-        if (!trimmed) return <>{text}</>;
+        if (!trimmed) return <><TranslatedText text={text} /></>;
 
         // Escape regex special characters to prevent injection
         const escaped = trimmed.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -223,7 +250,7 @@ export default function UniversalSearch({ initialOpen = false }: { initialOpen?:
         try {
             pattern = new RegExp(`(${allPatterns.join('|')})`, 'gi');
         } catch {
-            return <>{text}</>;
+            return <><TranslatedText text={text} /></>;
         }
 
         const parts = text.split(pattern);
@@ -236,37 +263,52 @@ export default function UniversalSearch({ initialOpen = false }: { initialOpen?:
                         return (patClean.length > 0 && partClean === patClean) || part.toLowerCase() === pat.toLowerCase();
                     });
                     return isMatch
-                        ? <span key={i} className="bg-cyan-500/30 text-cyan-200 rounded px-0.5">{part}</span>
+                        ? <span key={i} className="bg-cyan-500/30 text-cyan-200 rounded px-0.5"><TranslatedText text={part} /></span>
                         : part;
                 })}
             </span>
         );
     };
 
+    if (loadingModel) {
+        return (
+            <ModelModalLoadingOverlay
+                modelName={loadingModel}
+                onClose={() => {
+                    setLoadingModel(null);
+                    closeSearch();
+                }}
+            />
+        );
+    }
+
     return (
         <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[10vh] sm:pt-[20vh] px-4">
             {/* Backdrop */}
             <div 
                 className="fixed inset-0 bg-slate-950/60 backdrop-blur-md transition-opacity" 
-                onClick={() => setIsOpen(false)}
+                onClick={closeSearch}
             />
 
             {/* Modal */}
-            <div className="relative w-full max-w-2xl bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+            <div role="dialog" aria-modal="true" aria-label={t('search.label')} className="relative w-full max-w-2xl bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
                 <div className="flex items-center px-4 py-4 border-b border-slate-800/50">
                     <Search className="w-5 h-5 text-slate-400 mr-3" />
                     <input
                         ref={inputRef}
                         type="text"
                         placeholder={t('search.universalPlaceholder')}
-                        className="flex-1 bg-transparent text-lg text-slate-100 placeholder-slate-500 outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus:ring-0"
+                        aria-label={t('search.label')}
+                        className="min-w-0 flex-1 bg-transparent text-base sm:text-lg text-slate-100 placeholder-slate-500 outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus:ring-0"
                         style={{ outline: 'none', boxShadow: 'none' }}
                         value={query}
-                        onChange={(e) => setQuery(e.target.value)}
+                        maxLength={200}
+                        onChange={(e) => { setQuery(e.target.value); setActiveId(null); }}
                         onKeyDown={handleKeyDown}
                     />
                     <button 
-                        onClick={() => setIsOpen(false)}
+                        onClick={closeSearch}
+                        aria-label={t('search.closeSearch')}
                         className="p-1 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800/50 transition-colors"
                     >
                         <X className="w-5 h-5" />
@@ -274,18 +316,28 @@ export default function UniversalSearch({ initialOpen = false }: { initialOpen?:
                 </div>
 
                 {query.length > 0 && (
-                    <div className="max-h-[60vh] overflow-y-auto p-2">
-                        {displayResults.length === 0 ? (
+                    <div className="max-h-[60vh] overflow-y-auto p-2" aria-busy={isLoading}>
+                        {isLoading && (
+                            <div role="status" className={`flex items-center justify-center gap-3 text-sm text-slate-400 ${displayResults.length ? 'py-3' : 'py-8'}`}>
+                                <LoaderCircle aria-hidden="true" className="h-5 w-5 animate-spin motion-reduce:animate-none text-cyan-400" />
+                                <span>{t('search.loading')}</span>
+                            </div>
+                        )}
+                        {displayResults.length === 0 ? (!isLoading && (
                             <div className="text-center py-8 text-slate-400">
                                 {t('search.noResults', { query })}
                             </div>
-                        ) : (
+                        )) : (
                             <div className="space-y-1">
                                 {displayResults.map((item, index) => (
                                     <button
                                         key={`${item.type}-${item.id}`}
                                         onClick={() => handleSelect(item)}
-                                        onMouseEnter={() => setActiveIndex(index)}
+                                        onMouseEnter={() => {
+                                            setActiveId(searchIdentity(item));
+                                            const [path] = item.href.split('#');
+                                            if (path) router.prefetch(path);
+                                        }}
                                         className={`w-full flex items-center gap-4 p-3 rounded-xl transition-colors text-left group ${
                                             index === activeIndex 
                                                 ? 'bg-slate-800/80 border-slate-600 ring-1 ring-slate-700/50 shadow-lg' 
@@ -302,7 +354,7 @@ export default function UniversalSearch({ initialOpen = false }: { initialOpen?:
                                                 <HighlightMatch text={item.title} />
                                             </div>
                                             <div className={`text-sm truncate mt-0.5 ${index === activeIndex ? 'text-slate-300' : 'text-slate-500'}`}>
-                                                {item.subtitle}
+                                                <TranslatedText text={item.subtitle} />
                                             </div>
                                         </div>
                                         <div className="hidden sm:block">
@@ -311,7 +363,7 @@ export default function UniversalSearch({ initialOpen = false }: { initialOpen?:
                                                     ? 'text-cyan-300 bg-cyan-500/20 border-cyan-500/30' 
                                                     : 'text-slate-500 bg-slate-800 border-slate-700'
                                             }`}>
-                                                {getTypeLabel(item.type)}
+                                                <TranslatedText text={getTypeLabel(item.type)} />
                                             </span>
                                         </div>
                                     </button>
@@ -322,9 +374,11 @@ export default function UniversalSearch({ initialOpen = false }: { initialOpen?:
                 )}
                 
                 {query.length === 0 && (
-                    <div className="px-4 py-8 text-center text-slate-500 text-sm">
-                        {t('search.startTyping')}
-                    </div>
+                    <SearchSuggestions onSelect={example => {
+                        setQuery(example);
+                        setActiveId(null);
+                        inputRef.current?.focus();
+                    }} />
                 )}
             </div>
         </div>

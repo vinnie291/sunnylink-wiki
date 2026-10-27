@@ -1,4 +1,6 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+
 
 import { useCallback, useRef, useState } from 'react';
 import { parseLogFile, ParsedLog } from '../lib/openpilotLog/parseLogFile';
@@ -51,8 +53,8 @@ export default function OnroadLogSourcePanel({ onLoaded }: Props) {
     return (
         <div className="rounded-xl border border-slate-700/50 bg-slate-900/50 backdrop-blur-sm p-4">
             <div className="flex items-center justify-between mb-2">
-                <h3 className="text-sm font-semibold text-slate-200">Real model log</h3>
-                <span className="text-[10px] uppercase tracking-wider text-slate-500">rlog / qlog (.zst)</span>
+                <h3 className="text-sm font-semibold text-slate-200"><TranslatedText text={"Real model log"} /></h3>
+                <span className="text-[10px] uppercase tracking-wider text-slate-500"><TranslatedText text={"rlog / qlog (.zst)"} /></span>
             </div>
 
             <div
@@ -70,28 +72,25 @@ export default function OnroadLogSourcePanel({ onLoaded }: Props) {
                 />
                 {status === 'idle' && (
                     <p className="text-xs text-slate-400">
-                        Drop a real openpilot rlog/qlog here, or click to choose a file
-                    </p>
+                         <TranslatedText text={"Drop a real openpilot rlog/qlog here, or click to choose a file"} /> </p>
                 )}
-                {status === 'reading' && <p className="text-xs text-cyan-300">Parsing {fileName}…</p>}
+                {status === 'reading' && <p className="text-xs text-cyan-300"><TranslatedText text={"Parsing"} /> {fileName}…</p>}
                 {status === 'ready' && (
                     <div>
                         <p className="text-xs text-emerald-400 font-medium">{fileName}</p>
-                        <p className="text-[11px] text-slate-500 mt-1">{summary}</p>
+                        <p className="text-[11px] text-slate-500 mt-1"><TranslatedText text={summary} /></p>
                     </div>
                 )}
                 {status === 'error' && (
                     <div>
                         <p className="text-xs text-red-400 font-medium">{fileName}</p>
-                        <p className="text-[11px] text-red-400/80 mt-1">{error}</p>
+                        <p className="text-[11px] text-red-400/80 mt-1"><TranslatedText text={error} /></p>
                     </div>
                 )}
             </div>
 
             <p className="mt-2 text-[10px] leading-relaxed text-slate-500">
-                Only zstd-compressed logs are supported today (modern openpilot). This file
-                is parsed entirely in your browser — nothing is uploaded anywhere.
-            </p>
+                 <TranslatedText text={"Only zstd-compressed logs are supported today (modern openpilot). This file is parsed entirely in your browser — nothing is uploaded anywhere."} /> </p>
         </div>
     );
 }

@@ -1153,6 +1153,11 @@ const carUpdates = {
 };
 
 let updatedCount = 0;
+// Preserve the October 2026 controller guidance when regenerating presets.
+const torqueControlVehicles = new Set([
+  'hyundai-ioniq-5-2022', 'hyundai-ioniq-5-2026', 'honda-civic-2022',
+  'kia-niro-2023', 'ford-f150-2021', 'ford-f150-lightning-2022'
+]);
 carsData.vehicles.forEach(vehicle => {
   const update = carUpdates[vehicle.id];
   if (update) {
@@ -1162,8 +1167,14 @@ carsData.vehicles.forEach(vehicle => {
     }
     updatedCount++;
   }
+  if (torqueControlVehicles.has(vehicle.id)) {
+    vehicle.bestSettings.lateralControl = 'Torque Control (NNLC Off)';
+    for (const config of vehicle.configs ?? []) {
+      config.settings.lateralControl = 'Torque Control (NNLC Off)';
+    }
+  }
 });
 
-carsData.lastUpdated = '2026-09-02';
+carsData.lastUpdated = new Date().toISOString().slice(0, 10);
 fs.writeFileSync(carsPath, JSON.stringify(carsData, null, 4), 'utf8');
 console.log(`Updated ${updatedCount} vehicles in ${carsPath}`);

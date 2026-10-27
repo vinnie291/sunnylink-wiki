@@ -159,7 +159,15 @@ async function fetchTopicActivity(topicId: number): Promise<ForumActivity | null
  * Returns a map keyed by topic ID — empty map if anything goes wrong, so
  * the page still renders without forum data.
  */
+let memoryCache: ForumActivityMap | null = null;
+let memoryCacheTime = 0;
+const MEMORY_CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+
 export async function fetchModelForumActivity(forumUrls: string[]): Promise<ForumActivityMap> {
+    if (memoryCache && (Date.now() - memoryCacheTime < MEMORY_CACHE_TTL_MS)) {
+        return memoryCache;
+    }
+
     const out: ForumActivityMap = {};
     const topicIds = Array.from(
         new Set(
@@ -186,5 +194,7 @@ export async function fetchModelForumActivity(forumUrls: string[]): Promise<Foru
         console.error('[discourse-models-sync] Error fetching activity:', err);
     }
 
+    memoryCache = out;
+    memoryCacheTime = Date.now();
     return out;
 }

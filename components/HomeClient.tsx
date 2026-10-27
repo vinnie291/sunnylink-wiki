@@ -1,4 +1,9 @@
 'use client';
+import { vehicleModelLabel } from '@/lib/vehicleDisplay';
+import TranslatedText from '@/components/TranslatedText';
+
+
+import { usePageSearch } from '../hooks/usePageSearch';
 
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import dynamic from 'next/dynamic';
@@ -7,6 +12,8 @@ import SettingsDatabase from './SettingsDatabase';
 import { useFuzzySearch } from '../hooks/useFuzzySearch';
 import { useLanguage } from '../lib/i18n';
 import { useTranslatedToggles } from '../lib/useTranslatedToggles';
+import { useMyCar } from '../lib/myCar';
+import { AUTOMATIC_CAPABILITY_NOTES, SUBARU_MANUAL_BRAKE_DESCRIPTION, isSettingApplicableToMake } from '../lib/vehicleSettings';
 
 const ScrollToTop = dynamic(() => import('./ScrollToTop'), { ssr: false });
 
@@ -39,8 +46,10 @@ interface HomeClientProps {
 }
 
 export default function HomeClient({ discourseSettings }: HomeClientProps) {
-    const { t, locale } = useLanguage();
+    const { t, tx, locale } = useLanguage();
     const togglesData = useTranslatedToggles();
+    const myCar = useMyCar();
+    const selectedMake = myCar?.vehicle.make ?? null;
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategories, setActiveCategories] = useState<string[]>([]);
     const [highlightedKey, setHighlightedKey] = useState<string | null>(null);
@@ -89,6 +98,16 @@ export default function HomeClient({ discourseSettings }: HomeClientProps) {
                     categoryId: category.id,
                     categoryName: category.name,
                     categoryIcon: category.icon,
+                    ...(AUTOMATIC_CAPABILITY_NOTES[setting.key] ? {
+                        type: 'readonly',
+                        default: 'Auto-detected',
+                        description: AUTOMATIC_CAPABILITY_NOTES[setting.key],
+                        userNote: 'The connected device determines availability from its vehicle fingerprint and installed hardware.',
+                    } : {}),
+                    ...(setting.key === 'SubaruStopAndGoManualParkingBrake' ? {
+                        description: SUBARU_MANUAL_BRAKE_DESCRIPTION,
+                        userNote: SUBARU_MANUAL_BRAKE_DESCRIPTION,
+                    } : {}),
                 };
 
                 // Only apply Discourse enrichment for English locale
@@ -105,6 +124,11 @@ export default function HomeClient({ discourseSettings }: HomeClientProps) {
         );
     }, [categories, discourseSettings, locale]);
 
+    // The saved car controls the entire settings pipeline, including search and counts.
+    const applicableSettings = useMemo(() =>
+        allSettings.filter(setting => isSettingApplicableToMake(setting.key, selectedMake)),
+    [allSettings, selectedMake]);
+
     // Category metadata for filter
     const categoryMeta = useMemo(() => {
         return categories.map((cat) => ({
@@ -112,19 +136,19 @@ export default function HomeClient({ discourseSettings }: HomeClientProps) {
             name: cat.name,
             icon: cat.icon,
             description: cat.description,
-            count: cat.settings.length,
+            count: applicableSettings.filter(setting => setting.categoryId === cat.id).length,
         }));
-    }, [categories]);
+    }, [categories, applicableSettings]);
 
     // Filter settings by category first
     const categoryFiltered = useMemo(() => {
-        if (activeCategories.length === 0) return allSettings;
+        if (activeCategories.length === 0) return applicableSettings;
 
         // Check if 'recommended' filter is active
         const showRecommendedOnly = activeCategories.includes('recommended');
         const standardCategories = activeCategories.filter(id => id !== 'recommended');
 
-        let filtered = allSettings;
+        let filtered = applicableSettings;
 
         // Apply standard category filter if any selected
         if (standardCategories.length > 0) {
@@ -137,16 +161,18 @@ export default function HomeClient({ discourseSettings }: HomeClientProps) {
         }
 
         return filtered;
-    }, [allSettings, activeCategories]);
+    }, [applicableSettings, activeCategories]);
 
     // Fuzzy search over category-filtered settings (with acronym indexing on label)
-    const filteredSettings = useFuzzySearch({
+    const localSettings = useFuzzySearch({
         items: categoryFiltered,
         keys: ['label', 'key', 'description', 'userNote'],
         query: searchQuery,
         threshold: 0.3,
         acronymKey: 'label',
     });
+
+    const filteredSettings = usePageSearch(categoryFiltered, localSettings, searchQuery, item => ({ type: 'setting', id: item.key, title: item.label }));
 
     // Toggle category in filter
     const handleToggleCategory = useCallback((categoryId: string) => {
@@ -180,7 +206,7 @@ export default function HomeClient({ discourseSettings }: HomeClientProps) {
 
                 {/* Settings Content */}
                 <SettingsDatabase
-                    allSettings={allSettings}
+                    allSettings={applicableSettings}
                     filteredSettings={filteredSettings}
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
@@ -189,13 +215,14 @@ export default function HomeClient({ discourseSettings }: HomeClientProps) {
                     onClearCategories={handleClearAll}
                     categoryMeta={categoryMeta}
                     highlightedKey={highlightedKey}
+                    selectedVehicle={myCar ? `${myCar.year} ${myCar.vehicle.make} ${vehicleModelLabel(myCar.vehicle.model, tx)}` : null}
                 />
 
 
                 {/* Footer */}
                 <footer className="mt-16 text-center text-slate-400 text-sm lg:hidden">
                     <p>
-                        {t('footer.builtFor')} •{' '}
+                        {t('footer.builtFor')} •<TranslatedText text={' '} />
                         <a
                             href="https://www.sunnypilot.ai/terms"
                             target="_blank"
@@ -204,7 +231,7 @@ export default function HomeClient({ discourseSettings }: HomeClientProps) {
                         >
                             {t('footer.terms')}
                         </a>
-                        {' '}•{' '}
+                        <TranslatedText text={' '} />•<TranslatedText text={' '} />
                         <a
                             href="https://github.com/sunnypilot/sunnypilot"
                             target="_blank"
@@ -213,7 +240,7 @@ export default function HomeClient({ discourseSettings }: HomeClientProps) {
                         >
                             {t('footer.github')}
                         </a>
-                        {' '}•{' '}
+                        <TranslatedText text={' '} />•<TranslatedText text={' '} />
                         <a
                             href="https://buymeacoffee.com/vinhle.co"
                             target="_blank"

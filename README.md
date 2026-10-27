@@ -113,6 +113,10 @@ This is a standard Next.js project. You can have it running locally in minutes.
 4.  **Open your browser:**
     Navigate to `http://localhost:3000` to see the wiki live.
 
+5.  **Enable Jev semantic ranking (optional):**
+    Set `TYPESAFE_API_KEY` in `.env.local` and restart the server. See
+    [Jev search setup and verification](docs/semantic-search.md).
+
 ---
 
 ## 💾 Data Structure

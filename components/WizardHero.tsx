@@ -1,4 +1,6 @@
 'use client';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import { motion } from 'framer-motion';
 import { useLanguage } from '../lib/i18n';
@@ -9,6 +11,7 @@ interface WizardHeroProps {
 }
 
 export default function WizardHero({ onStart, showButton = true }: WizardHeroProps) {
+  const tx = useTextTranslation();
     const { t } = useLanguage();
     return (
         <div className="flex flex-col items-center justify-center w-full max-w-lg mx-auto mb-2 sm:mb-4">
@@ -18,7 +21,7 @@ export default function WizardHero({ onStart, showButton = true }: WizardHeroPro
 
                 <motion.img
                     src="/wizard-car.png"
-                    alt="Wizard driving a red tailored convertible"
+                    alt={tx("Wizard driving a red tailored convertible")}
                     className="relative z-10 w-full h-full object-contain drop-shadow-2xl"
                     animate={{
                         x: [0, -8, 0, 8, 0], // Lateral Sway (Lane Keeping)

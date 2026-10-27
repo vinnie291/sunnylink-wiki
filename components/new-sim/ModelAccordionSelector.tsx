@@ -1,4 +1,9 @@
 'use client';
+import TranslatedText from '@/components/TranslatedText';
+import { useTextTranslation } from '@/lib/i18n';
+
+
+import { usePageSearch } from '../../hooks/usePageSearch';
 
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { Search, X, ChevronDown, Check } from 'lucide-react';
@@ -23,6 +28,7 @@ const QUICK_FILTERS = [
 const curvePace = (patience: number) => (patience > 2.4 ? 'Spirited' : patience < 1.8 ? 'Cautious' : 'Balanced');
 
 export default function ModelAccordionSelector({ activeModelId, onSelectModel }: ModelAccordionSelectorProps) {
+  const tx = useTextTranslation();
   const activeModel = useMemo(() => getModelProfile(activeModelId), [activeModelId]);
   const [openCategories, setOpenCategories] = useState<Set<string>>(() => new Set([activeModel.category]));
   const [searchQuery, setSearchQuery] = useState('');
@@ -49,7 +55,7 @@ export default function ModelAccordionSelector({ activeModelId, onSelectModel }:
     });
   };
 
-  const filteredCategories = useMemo(() => {
+  const localCategories = useMemo(() => {
     return MODEL_CATEGORIES.map(group => {
       if (activeFilter !== 'all' && group.id !== activeFilter) return null;
       if (!query) return group;
@@ -66,6 +72,14 @@ export default function ModelAccordionSelector({ activeModelId, onSelectModel }:
     }).filter((group): group is ModelCategoryGroup => group !== null);
   }, [query, activeFilter]);
 
+  const eligibleModels = MODEL_CATEGORIES.filter(group => activeFilter === 'all' || group.id === activeFilter).flatMap(group => group.models);
+  const matchedModels = usePageSearch(eligibleModels, localCategories.flatMap(group => group.models), searchQuery,
+    item => ({ type: 'model', id: item.name, title: item.name }));
+  const filteredCategories = MODEL_CATEGORIES.flatMap(group => {
+    const models = matchedModels.filter(model => group.models.includes(model));
+    return models.length ? [{ ...group, models }] : [];
+  });
+
   const matchCount = filteredCategories.reduce((total, category) => total + category.models.length, 0);
 
   return (
@@ -74,33 +88,30 @@ export default function ModelAccordionSelector({ activeModelId, onSelectModel }:
       <div className={styles.active}>
         <div className={styles.activeTop}>
           <span className={styles.dot} style={{ backgroundColor: activeModel.pathColor }} />
-          <strong>{activeModel.name}</strong>
+          <strong><TranslatedText text={activeModel.name} /></strong>
           <span className={styles.score}>{activeModel.communityScore}</span>
         </div>
         <p className={styles.activeTraits}>
-          {activeModel.headway.toFixed(1)}s gap
-          <i /> {curvePace(activeModel.lateralPatience)} curves
-          <i /> {activeModel.steeringFeel} steering
-        </p>
+          <TranslatedText text={activeModel.headway.toFixed(1)} /><TranslatedText text={"s gap"} /> <i /> <TranslatedText text={curvePace(activeModel.lateralPatience)} />  <TranslatedText text={"curves"} /> <i /> <TranslatedText text={activeModel.steeringFeel} />  <TranslatedText text={"steering"} /> </p>
       </div>
 
       <div className={styles.search}>
         <Search size={13} />
         <input
           type="text"
-          placeholder={`Search ${matchCount} models`}
+          placeholder={tx(`Search ${matchCount} models`)}
           value={searchQuery}
           onChange={event => setSearchQuery(event.target.value)}
-          aria-label="Search models"
+          aria-label={tx("Search models")}
         />
         {searchQuery && (
-          <button type="button" onClick={() => setSearchQuery('')} aria-label="Clear search">
+          <button type="button" onClick={() => setSearchQuery('')} aria-label={tx("Clear search")}>
             <X size={12} />
           </button>
         )}
       </div>
 
-      <div className={styles.filters} role="tablist" aria-label="Model series">
+      <div className={styles.filters} role="tablist" aria-label={tx("Model series")}>
         {QUICK_FILTERS.map(chip => (
           <button
             key={chip.id}
@@ -115,7 +126,7 @@ export default function ModelAccordionSelector({ activeModelId, onSelectModel }:
               if (chip.id !== 'all') setOpenCategories(prev => new Set(prev).add(chip.id));
             }}
           >
-            {chip.label}
+            <TranslatedText text={chip.label} />
           </button>
         ))}
       </div>
@@ -123,8 +134,8 @@ export default function ModelAccordionSelector({ activeModelId, onSelectModel }:
       <div className={styles.list} ref={listRef}>
         {filteredCategories.length === 0 ? (
           <div className={styles.empty}>
-            <p>Nothing matches “{searchQuery}”.</p>
-            <button type="button" onClick={() => { setSearchQuery(''); setActiveFilter('all'); }}>Reset</button>
+            <p><TranslatedText text={"Nothing matches “"} /><TranslatedText text={searchQuery} />”.</p>
+            <button type="button" onClick={() => { setSearchQuery(''); setActiveFilter('all'); }}><TranslatedText text={"Reset"} /></button>
           </div>
         ) : (
           filteredCategories.map(category => {
@@ -138,14 +149,14 @@ export default function ModelAccordionSelector({ activeModelId, onSelectModel }:
                   onClick={() => toggleCategory(category.id)}
                   aria-expanded={isOpen}
                 >
-                  <span className={styles.categoryIcon}>{category.icon}</span>
-                  <span className={styles.categoryName}>{category.name}</span>
+                  <span className={styles.categoryIcon}><TranslatedText text={category.icon} /></span>
+                  <span className={styles.categoryName}><TranslatedText text={category.name} /></span>
                   <span className={styles.count}>{category.models.length}</span>
                   <ChevronDown size={13} className={isOpen ? styles.chevronOpen : ''} />
                 </button>
 
                 {isOpen && (
-                  <div className={styles.rows} role="listbox" aria-label={category.name}>
+                  <div className={styles.rows} role="listbox" aria-label={tx(category.name)}>
                     {category.models.map(model => {
                       const selected = model.id === activeModel.id;
                       return (
@@ -162,19 +173,18 @@ export default function ModelAccordionSelector({ activeModelId, onSelectModel }:
                           <span className={styles.rowBody}>
                             <span className={styles.rowTop}>
                               <b>{model.name}</b>
-                              {model.badge && <em>{model.badge}</em>}
+                              {model.badge && <em><TranslatedText text={model.badge} /></em>}
                               <span className={styles.score}>{model.communityScore}</span>
                             </span>
                             <span className={styles.rowTraits}>
-                              {model.bestFor}
-                              <i /> {model.headway.toFixed(1)}s
-                              <i /> {curvePace(model.lateralPatience)}
-                              <i /> {model.comfortDecel < -2.8 ? 'Firm' : 'Gliding'} braking
-                            </span>
+                              <TranslatedText text={model.bestFor} />
+                              <i /> <TranslatedText text={model.headway.toFixed(1)} />s
+                              <i /> <TranslatedText text={curvePace(model.lateralPatience)} />
+                              <i /> <TranslatedText text={model.comfortDecel < -2.8 ? 'Firm' : 'Gliding'} />  <TranslatedText text={"braking"} /> </span>
                             {selected && (
                               <span className={styles.rowNote}>
-                                {model.consensus}
-                                {model.testedOn?.length ? ` · Tested on ${model.testedOn[0]}${model.testedOn.length > 1 ? ` +${model.testedOn.length - 1}` : ''}` : ''}
+                                <TranslatedText text={model.consensus} />
+                                <TranslatedText text={model.testedOn?.length ? ` · Tested on ${model.testedOn[0]}${model.testedOn.length > 1 ? ` +${model.testedOn.length - 1}` : ''}` : ''} />
                               </span>
                             )}
                           </span>

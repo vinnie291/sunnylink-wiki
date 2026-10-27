@@ -1,0 +1,557 @@
+{
+  "batch": "2026-10-25-models",
+  "savedAt": "2026-10-26T00:39:15.663Z",
+  "scope": "Targeted model scan; does not replace the last full weekly audit",
+  "modelRepository": {
+    "sha": "022c30df830b8336b64b06e094058e2237b0db2a",
+    "committedAt": "2026-10-25T00:29:40Z",
+    "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json"
+  },
+  "branches": {
+    "master": {
+      "sha": "861fd118a1fe4ffec2283208456032b3616da968",
+      "committedAt": "2026-10-26T00:23:33Z",
+      "url": "https://github.com/sunnypilot/sunnypilot/commit/861fd118a1fe4ffec2283208456032b3616da968",
+      "selector": 21,
+      "chestnutCatalog": 28,
+      "qualcommCatalog": 25,
+      "defaultBigModel": "Mountain Dew Model v3"
+    },
+    "dev": {
+      "sha": "3ca46d505ced38802e2fa084bedd5a26e8eab308",
+      "committedAt": "2026-10-23T02:34:16Z",
+      "url": "https://github.com/sunnypilot/sunnypilot/commit/3ca46d505ced38802e2fa084bedd5a26e8eab308",
+      "selector": 21,
+      "chestnutCatalog": 28,
+      "qualcommCatalog": 25,
+      "defaultBigModel": "Mountain Dew Model v3"
+    },
+    "staging": {
+      "sha": "2cd73045c072695780f699c9167f1870f6309ac4",
+      "committedAt": "2026-10-23T05:54:51Z",
+      "url": "https://github.com/sunnypilot/sunnypilot/commit/2cd73045c072695780f699c9167f1870f6309ac4",
+      "selector": 21,
+      "chestnutCatalog": 28,
+      "qualcommCatalog": 25,
+      "defaultBigModel": "Mountain Dew Model v3"
+    }
+  },
+  "latestTaggedRelease": {
+    "tag": "v2026.002.002",
+    "publishedAt": "2026-08-07T00:37:37Z"
+  },
+  "newModels": [
+    {
+      "name": "Train Track Model (October 16, 2026)",
+      "index": 16,
+      "shortName": "TTM",
+      "ref": "e46b35b0dcce35761ba28ada1a7df6ae36589c30",
+      "minimumSelectorVersion": "21",
+      "generation": "12",
+      "builtAt": "2026-10-17T13:31:18Z"
+    },
+    {
+      "name": "Flip Flop Model (October 23, 2026)",
+      "index": 17,
+      "shortName": "FFM",
+      "ref": "35c5406aa5b03c51a6246a1f09ff84464b2a6b96",
+      "minimumSelectorVersion": "21",
+      "generation": "12",
+      "builtAt": "2026-10-24T18:35:41Z"
+    }
+  ],
+  "newForumTopics": [
+    {
+      "model": "Cinque Terre V3 Model",
+      "url": "https://community.sunnypilot.ai/t/7608",
+      "createdAt": "2026-10-25T14:08:01.506Z",
+      "author": "sunnyhaibin",
+      "polls": [
+        {
+          "name": "vs_default",
+          "voters": 0
+        },
+        {
+          "name": "overall",
+          "voters": 0
+        },
+        {
+          "name": "would_merge",
+          "voters": 0
+        }
+      ],
+      "hardware": "Announcement requires comma four plus Chestnut and excludes comma 3X for now."
+    },
+    {
+      "model": "Mountain Dew Model",
+      "url": "https://community.sunnypilot.ai/t/7619",
+      "createdAt": "2026-10-26T00:03:01.731Z",
+      "author": "sunnyhaibin",
+      "polls": [
+        {
+          "name": "vs_default",
+          "voters": 0
+        },
+        {
+          "name": "overall",
+          "voters": 0
+        },
+        {
+          "name": "would_merge",
+          "voters": 0
+        }
+      ],
+      "hardware": "Announcement requires comma four plus Chestnut and excludes comma 3X for now."
+    },
+    {
+      "model": "Mountain Dew Model v3",
+      "url": "https://community.sunnypilot.ai/t/7620",
+      "createdAt": "2026-10-26T00:19:57.411Z",
+      "author": "sunnyhaibin",
+      "polls": [
+        {
+          "name": "vs_default",
+          "voters": 0
+        },
+        {
+          "name": "overall",
+          "voters": 0
+        },
+        {
+          "name": "would_merge",
+          "voters": 0
+        }
+      ],
+      "hardware": "Announcement requires comma four plus Chestnut and excludes comma 3X for now."
+    }
+  ],
+  "uncertainty": {
+    "newModels": "No dedicated Train Track or Flip Flop poll verified; model-specific comma 3X compatibility unverified.",
+    "community": "Three newly linked overall polls have zero votes. No performance conclusion.",
+    "discord": "No current Discord evidence used; 115-file available archive ends 2026-04-05T20:40:01.212-04:00."
+  },
+  "checks": {
+    "scanner": {
+      "remote": 103,
+      "matched": 103,
+      "uncatalogued": 0,
+      "local": 134
+    },
+    "i18n": {
+      "status": "passed",
+      "keysPerLocale": 3839
+    },
+    "tests": {
+      "status": "passed",
+      "count": 50
+    },
+    "build": {
+      "status": "passed",
+      "typeCheck": true,
+      "staticPages": 21
+    },
+    "lint": {
+      "errors": 34,
+      "warnings": 40,
+      "normalizedDiagnosticsUnchanged": true
+    },
+    "ratingAudit": "completed; pre-existing heuristic warnings are not source evidence",
+    "data": "134 unique models per locale, no unsupported ratings/votes/test vehicles added",
+    "deltaPatchApply": "passed",
+    "combinedPatchApply": "passed"
+  },
+  "review": {
+    "dependsOn": "2026-10-16",
+    "deltaPatch": "docs/weekly-audits/2026-10-25-models.patch",
+    "deltaSha256": "9342c1bd791942a247764c1fbaac944b24bddfdcb0c593988c1aba29a3943de4",
+    "combinedPatch": "docs/weekly-audits/2026-10-25-combined.patch",
+    "combinedSha256": "4da8b7435d6fa01315dd0445308c9bf5e608222de01ee493b2c65d039de0ad6c",
+    "deltaFiles": [
+      {
+        "file": "data/models.json",
+        "beforeSha256": "10407fd03d8f607eedea9c971b639fc3d0563a24845318ee2a11869ec7b7883f",
+        "preparedSha256": "05a1b935a1598782f5327038de9e8ecc5917a058e6842f72eb70ac1f6d77f655"
+      },
+      {
+        "file": "data/features.json",
+        "beforeSha256": "dda376470443cf3cf97c1961c74eba34f8a620d8961a811793b2511f43515a07",
+        "preparedSha256": "641f5a155a3f39ea8886381278911d70d80d915dd0546f4e9a82bc835152bd20"
+      },
+      {
+        "file": "data/toggles.json",
+        "beforeSha256": "4e3e5be0ea0fa22c6dd1949833b56e6662e4317d2a51f9e9491ddb4081f2c7dc",
+        "preparedSha256": "e45f5f4e91ab82a86f236d8b54faacfef1adb3da42b9be0fd97cf84472db2fad"
+      },
+      {
+        "file": "data/models.ko.json",
+        "beforeSha256": "38a1eda542afeb976b4480e60e29ca2321298fb1c11bfb992682f2dbd6f4ebb4",
+        "preparedSha256": "2efee00ac96b19357bb203c141b09f9993faa2b021744c603f0f4f1a5d5ef017"
+      },
+      {
+        "file": "data/features.ko.json",
+        "beforeSha256": "846fa44a057bdb8351addc0897daf8fe9a62005473820cf97928196970007a14",
+        "preparedSha256": "fbc69dace5d118441b170e04914911a1c2db36f01e5ebc2f31177262ac84d19f"
+      },
+      {
+        "file": "data/toggles.ko.json",
+        "beforeSha256": "20736f27c1f95db3ac469b73fb718eceed3b997e2aba518276fbc54538677f7c",
+        "preparedSha256": "c26c3839da867d5f84965c9c33775da1035f7eef2457e226721885a036092443"
+      },
+      {
+        "file": "data/models.zh.json",
+        "beforeSha256": "eeaee0ab0220d11cec4ad46af665edccc76f4afa4c503f10a7c1f0aa15c54b48",
+        "preparedSha256": "159d06e4a136e6131ab14af78a0e353b0094213f848198542f150eafb54a6b69"
+      },
+      {
+        "file": "data/features.zh.json",
+        "beforeSha256": "a0cc98338896588301293fda5199aa26188ae31e02a1b02f1505b564201d31ce",
+        "preparedSha256": "d48bba6e97d2d66f5b5488efb9bc0447c72074bd6010372103bbc5b00b491837"
+      },
+      {
+        "file": "data/toggles.zh.json",
+        "beforeSha256": "7744f4f0c2eafba47c9989b9561bc93a6cd80f6a2fda13d95f26198496a38f41",
+        "preparedSha256": "b7a3324eb2a985456990e674794c7a47467e396c90c08f0df45aa8904d4d872a"
+      },
+      {
+        "file": "data/models.fr.json",
+        "beforeSha256": "f5e78e5df7ef642066af0bf06719238998158a85b45bb0a65de7fae4e0e06ad3",
+        "preparedSha256": "0fbddfccf1c3223740126d4b508eacad4854096d80689077730ef7bc68e9154d"
+      },
+      {
+        "file": "data/features.fr.json",
+        "beforeSha256": "d72e6a01ff769eae62e4e8d8b6961e735f7f18116d76a54eb3d6a7b1dd5a1f5f",
+        "preparedSha256": "25c579b5415a300772a33cd7394846bf2d38e5be9b658925e3669653f44e3dbb"
+      },
+      {
+        "file": "data/toggles.fr.json",
+        "beforeSha256": "f30c37fe270c23f6ca1e547fec89c8df31a2dd9e8439d1751062fa65bf0d62b2",
+        "preparedSha256": "a3428bdbb1d905e1c2331abdb838865fd22d4782343625151a5344545a822800"
+      },
+      {
+        "file": "data/models.de.json",
+        "beforeSha256": "c7035a36013c10eb0a96a643e42f289d6a34361c4e76759f69eeeb1517452a8b",
+        "preparedSha256": "2a603c53061d51f73993fcffd9a7d9c840f274b4a6ddf06c94c6ef01a674c275"
+      },
+      {
+        "file": "data/features.de.json",
+        "beforeSha256": "a89d348fb2e25302070c7bc15f5ce5ec92192d7695e9dd5b46899e65c21615b3",
+        "preparedSha256": "802c146d8e98694e31a1de399342cdf7fbc874d3dcf325aca7930af4c4f834d4"
+      },
+      {
+        "file": "data/toggles.de.json",
+        "beforeSha256": "63244af70892ca13755e1c989387752565e086a9b3b899f5e9fbfa6091e47ef9",
+        "preparedSha256": "c4d17074d104407a93f0179d21c782c2c8929f4f73f9c8aa118ab6e0eaff5844"
+      },
+      {
+        "file": "data/models.es.json",
+        "beforeSha256": "6705fa5f198d7196c4eac651c319fa9047b68de8bdbeca22c1ab957e1c9bb3c8",
+        "preparedSha256": "27a70a85429e9677bee874fce0339150a415603f55ae2b08cbbe4aeaf01de09a"
+      },
+      {
+        "file": "data/features.es.json",
+        "beforeSha256": "d0c32b50f3d3b98aadb21af4d9a041668322a3c1634f73f75ca605bc5e36ac49",
+        "preparedSha256": "6c3f621a28ac054b4489252902f911fda1b90695747f5cf9c360b65162e6f39f"
+      },
+      {
+        "file": "data/toggles.es.json",
+        "beforeSha256": "88a2672751bbb1e15e30dccf7af15b1cfbe99168d30f5ed608634e15869f1fa1",
+        "preparedSha256": "10b453d08a5d3f8666afebd1505b788fd36c1779de48695be0012f87330ebf3c"
+      },
+      {
+        "file": "locales/en.json",
+        "beforeSha256": "55599b244bceb987cd3dba3a275fa11acee53ac05354758d682668b1a191379d",
+        "preparedSha256": "9b0c93f66108df092c8c63bbe3327242e66abf58216fc8fc74ba494698b59ab2"
+      },
+      {
+        "file": "locales/ko.json",
+        "beforeSha256": "5ef26bef8c6f066ddb4316ec340f6dd9742a5dde9420d4e760e53bcfd203aa0d",
+        "preparedSha256": "5b7e67b1337ed99d626bbc1c807891a6228e44c4da3991a52bf215aa2c1f4f3e"
+      },
+      {
+        "file": "locales/zh.json",
+        "beforeSha256": "ed536c132784178bf0049206a8717a45ce89c9a37cb5900342219544e915ff71",
+        "preparedSha256": "68cc801e4cba8495a4e9543cd1085023df1af5397aa5760fcd6535136d1b6f83"
+      },
+      {
+        "file": "locales/fr.json",
+        "beforeSha256": "c21190da42e144d9559d17b00c4c9f77015347fd4fd4b228891b48b6393a92ba",
+        "preparedSha256": "99ffefe80c99dd24e5adb46cb7995f1ae188a8e9fe3c892a330388772d151cff"
+      },
+      {
+        "file": "locales/de.json",
+        "beforeSha256": "fdb03f79a5070586c452a0bc4a2a71606fd2771dba15065a7fc116c45da83152",
+        "preparedSha256": "f0da3877d2525681fb75beaa9ac47039e17a219101d6afde08c2f745063f9c5f"
+      },
+      {
+        "file": "locales/es.json",
+        "beforeSha256": "2ded4c38f63a08c3c558553fac10854cf6b91e6f3c64de554fc791f925ccaecd",
+        "preparedSha256": "53456119e6e614db4851b80dca8d1df8af71f3541fba624cd6bb5820d0937670"
+      },
+      {
+        "file": "data/discourse_polls.json",
+        "beforeSha256": "571c171d1490ad3531edcd078f67779a623febfb024b14561dc5684a41b77b76",
+        "preparedSha256": "bef886f14c3dd744027b1f7f4fc8b185d51573567e16b99ee2d1a878999f20bf"
+      }
+    ],
+    "translationAdditions": [
+      "content.c98ae1d47d6c",
+      "content.940def03d2a7",
+      "content.acb24bbbc07c",
+      "content.5ce6409c775b",
+      "content.d49b775b36e4",
+      "content.2523a7f769bd",
+      "content.61b629644d41",
+      "content.6a170c189509",
+      "content.a42d426331ad",
+      "content.18aa1ccb8a20",
+      "content.f03773b9dc12",
+      "content.8dab9ce8fc76"
+    ],
+    "parentReviewArtifactsPreserved": true
+  },
+  "requests": [
+    {
+      "id": "forum-latest",
+      "url": "https://community.sunnypilot.ai/latest.json",
+      "fetchedAt": "2026-10-26T00:31:35.890Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 54749,
+      "sha256": "f94023a9848ec44bda48a6584dc52d63510a239e01d07a9beeeeff037ffdf747"
+    },
+    {
+      "id": "model-index",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot-models/contents/docs?ref=gh-pages",
+      "fetchedAt": "2026-10-26T00:31:35.839Z",
+      "status": 200,
+      "transport": "GitHub CLI",
+      "bytes": 51136,
+      "sha256": "867471745b6dbca9f960e487b89519c430406ccc0d912df50d2f44f443c2759a"
+    },
+    {
+      "id": "model-commits",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot-models/commits?sha=gh-pages&per_page=30",
+      "fetchedAt": "2026-10-26T00:31:35.834Z",
+      "status": 200,
+      "transport": "GitHub CLI",
+      "bytes": 103561,
+      "sha256": "479e78f97f22e93b480e7e62af2e07983b14454e591800769c548694dd30880f"
+    },
+    {
+      "id": "model-drops",
+      "url": "https://community.sunnypilot.ai/c/9.json",
+      "fetchedAt": "2026-10-26T00:31:35.841Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 51272,
+      "sha256": "b7d34805b5ce5d80959db62dbfef698a00b4007c3a5e3089a10033cc8e71616b"
+    },
+    {
+      "id": "master-head",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/branches/master",
+      "fetchedAt": "2026-10-26T00:31:36.345Z",
+      "status": 200,
+      "transport": "GitHub CLI",
+      "bytes": 4781,
+      "sha256": "ecce5fffe96d83949b31fc6748b0f66ba731e6fd8487696b1fd8ac39b09f665e"
+    },
+    {
+      "id": "dev-head",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/branches/dev",
+      "fetchedAt": "2026-10-26T00:31:36.391Z",
+      "status": 200,
+      "transport": "GitHub CLI",
+      "bytes": 3929,
+      "sha256": "2cce6d18958c3cdff819afa9e0d8f345692493b43a918147977fbbbb7cc4a04e"
+    },
+    {
+      "id": "staging-head",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/branches/staging",
+      "fetchedAt": "2026-10-26T00:31:36.455Z",
+      "status": 200,
+      "transport": "GitHub CLI",
+      "bytes": 3946,
+      "sha256": "b89c468847e345aa1f13e042abb2a5175a06c9ceed79264501600681f9681115"
+    },
+    {
+      "id": "chestnut",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot-models/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
+      "fetchedAt": "2026-10-26T00:32:12.894Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 18807,
+      "sha256": "2e721e3dffbe509df4485ccaa321180d637729abf41215e538eae16b7e53dbdc"
+    },
+    {
+      "id": "master-helpers",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/861fd118a1fe4ffec2283208456032b3616da968/openpilot/sunnypilot/models/helpers.py",
+      "fetchedAt": "2026-10-26T00:32:12.940Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 8057,
+      "sha256": "41fa3a99e5b08e6a000c8cae093a629adec69d1f52e99fb417b7a2a3a11726be"
+    },
+    {
+      "id": "chestnut27",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot-models/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v27.json",
+      "fetchedAt": "2026-10-26T00:32:12.938Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 106968,
+      "sha256": "321d56e52620949e2dc7f9ab87185e81dafe4c1b6a9fd7f5479c70502b1f6b70"
+    },
+    {
+      "id": "qcom",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot-models/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_v25.json",
+      "fetchedAt": "2026-10-26T00:32:12.939Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 79665,
+      "sha256": "c8b50583ff6f5fad01e6cb7235b141d8cc5b827bcb9da93c2ed5e1a99ae1b030"
+    },
+    {
+      "id": "master-fetcher",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/861fd118a1fe4ffec2283208456032b3616da968/openpilot/sunnypilot/models/fetcher.py",
+      "fetchedAt": "2026-10-26T00:32:13.084Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 9957,
+      "sha256": "a2d0e6720f2d18f9aca2abaca2cecec3063c5674e8a4b2883ee3f2c21284b058"
+    },
+    {
+      "id": "dev-helpers",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3ca46d505ced38802e2fa084bedd5a26e8eab308/openpilot/sunnypilot/models/helpers.py",
+      "fetchedAt": "2026-10-26T00:32:13.089Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 8057,
+      "sha256": "41fa3a99e5b08e6a000c8cae093a629adec69d1f52e99fb417b7a2a3a11726be"
+    },
+    {
+      "id": "dev-fetcher",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3ca46d505ced38802e2fa084bedd5a26e8eab308/openpilot/sunnypilot/models/fetcher.py",
+      "fetchedAt": "2026-10-26T00:32:13.091Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 9957,
+      "sha256": "a2d0e6720f2d18f9aca2abaca2cecec3063c5674e8a4b2883ee3f2c21284b058"
+    },
+    {
+      "id": "staging-helpers",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/2cd73045c072695780f699c9167f1870f6309ac4/openpilot/sunnypilot/models/helpers.py",
+      "fetchedAt": "2026-10-26T00:32:13.099Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 8057,
+      "sha256": "41fa3a99e5b08e6a000c8cae093a629adec69d1f52e99fb417b7a2a3a11726be"
+    },
+    {
+      "id": "staging-fetcher",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/2cd73045c072695780f699c9167f1870f6309ac4/openpilot/sunnypilot/models/fetcher.py",
+      "fetchedAt": "2026-10-26T00:32:13.182Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 9957,
+      "sha256": "a2d0e6720f2d18f9aca2abaca2cecec3063c5674e8a4b2883ee3f2c21284b058"
+    },
+    {
+      "id": "topic-7619",
+      "url": "https://community.sunnypilot.ai/t/7619.json",
+      "fetchedAt": "2026-10-26T00:32:13.194Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 23268,
+      "sha256": "e29930cee795f3dabd74fc190faf7ab6d2f28cec1bbc55aeed287ba34736b44c"
+    },
+    {
+      "id": "train-search",
+      "url": "https://community.sunnypilot.ai/search.json?q=Train%20Track",
+      "fetchedAt": "2026-10-26T00:32:13.282Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 12455,
+      "sha256": "80153ee1860a1a14732bfdc8603d1fd4dcf440a960935f1df47053a259c1b4c6"
+    },
+    {
+      "id": "flip-search",
+      "url": "https://community.sunnypilot.ai/search.json?q=Flip%20Flop",
+      "fetchedAt": "2026-10-26T00:32:13.613Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 340,
+      "sha256": "7d61d84dcde75fda987ffc160604eb9e8a5e36036af8d01dc62246d65fdb8304"
+    },
+    {
+      "id": "topic-7608",
+      "url": "https://community.sunnypilot.ai/t/7608.json",
+      "fetchedAt": "2026-10-26T00:32:13.183Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 23707,
+      "sha256": "89c9d9ae15c22e994b32a8b9b14d477f0881d8fc6575d80020e916b0fa2c8cc2"
+    },
+    {
+      "id": "topic-7620",
+      "url": "https://community.sunnypilot.ai/t/7620.json",
+      "fetchedAt": "2026-10-26T00:32:13.200Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 22614,
+      "sha256": "fb140abd48a06de7d5895b9bcc336ecf4e694d1fdace0ce6980cdb827f69eeb4"
+    },
+    {
+      "id": "master-default",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/861fd118a1fe4ffec2283208456032b3616da968/openpilot/sunnypilot/models/model_name.py",
+      "fetchedAt": "2026-10-26T00:32:54.670Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 198,
+      "sha256": "e2b2439cdff78b13f9ce5bf15be0ca2edeb0db145e4bda39f94ab07a22c4949e"
+    },
+    {
+      "id": "dev-default",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/3ca46d505ced38802e2fa084bedd5a26e8eab308/openpilot/sunnypilot/models/model_name.py",
+      "fetchedAt": "2026-10-26T00:32:54.824Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 198,
+      "sha256": "e2b2439cdff78b13f9ce5bf15be0ca2edeb0db145e4bda39f94ab07a22c4949e"
+    },
+    {
+      "id": "train-exact",
+      "url": "https://community.sunnypilot.ai/search.json?q=%22Train%20Track%20Model%22",
+      "fetchedAt": "2026-10-26T00:32:54.626Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 352,
+      "sha256": "588807c0109e58cb29ec040650b9a9a15d35702577c5ec76a88170b791487a83"
+    },
+    {
+      "id": "staging-default",
+      "url": "https://raw.githubusercontent.com/sunnypilot/sunnypilot/2cd73045c072695780f699c9167f1870f6309ac4/openpilot/sunnypilot/models/model_name.py",
+      "fetchedAt": "2026-10-26T00:32:54.903Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 198,
+      "sha256": "e2b2439cdff78b13f9ce5bf15be0ca2edeb0db145e4bda39f94ab07a22c4949e"
+    },
+    {
+      "id": "releases",
+      "url": "https://api.github.com/repos/sunnypilot/sunnypilot/releases?per_page=3",
+      "fetchedAt": "2026-10-26T00:32:54.621Z",
+      "status": 200,
+      "transport": "GitHub CLI",
+      "bytes": 9276,
+      "sha256": "c6860d3c622d9f91504cd7aab22fd3890f5e92d4d2d6d234fad9c84fbaf56fc7"
+    },
+    {
+      "id": "topic-653",
+      "url": "https://community.sunnypilot.ai/t/653.json",
+      "fetchedAt": "2026-10-26T00:32:54.668Z",
+      "status": 200,
+      "transport": "public HTTP",
+      "bytes": 471556,
+      "sha256": "32fb6545ea743a7b5a6c008e0fe10073dc95f787de77db5871cbf8f509834b7b"
+    }
+  ]
+}

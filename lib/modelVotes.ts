@@ -1,8 +1,15 @@
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import {
+    sanitizeStackAnswers,
+    tallyControlStack,
+    tallyDomainRatings,
+    type ControlStackTally,
+    type DomainRatingTally,
+} from './controlStack';
 
-export type ModelSurveyAnswers = Record<string, any>;
+export type ModelSurveyAnswers = Record<string, unknown>;
 
 export interface ModelVoteRecord {
     voterHash: string;
@@ -44,6 +51,10 @@ export interface ModelVoteSummary {
     questions: PollQuestionDef[];
     live: ModelLiveScoreData;
     userVote?: ModelSurveyAnswers;
+    /** Per-domain (lateral / chill long / E2E long) reviewer ratings, 1-5. */
+    domains?: DomainRatingTally;
+    /** Lateral controller / longitudinal mode / hardware tags reported by voters. */
+    stacks?: ControlStackTally;
 }
 
 const DATA_DIR = path.join(process.cwd(), 'data');
@@ -70,9 +81,31 @@ export function checkRateLimit(voterHash: string, maxVotesPerMinute = 30): boole
     return true;
 }
 
+interface DiscoursePollOption {
+    id?: string;
+    html?: string;
+    votes?: number;
+}
+
+interface DiscoursePoll {
+    name?: string;
+    type?: string;
+    min?: number | null;
+    max?: number | null;
+    voters?: number;
+    title?: string;
+    options?: DiscoursePollOption[];
+}
+
+interface DiscourseModelData {
+    topicId?: string;
+    title?: string;
+    polls?: DiscoursePoll[];
+}
+
 // In-memory cache with file persistence
 let cachedVotes: Record<string, ModelVoteRecord> | null = null;
-let cachedDiscoursePolls: Record<string, any> | null = null;
+let cachedDiscoursePolls: Record<string, DiscourseModelData> | null = null;
 
 function loadVotes(): Record<string, ModelVoteRecord> {
     if (cachedVotes !== null) {
@@ -107,15 +140,15 @@ function saveVotes(votes: Record<string, ModelVoteRecord>) {
     }
 }
 
-function loadDiscoursePolls(): Record<string, any> {
+function loadDiscoursePolls(): Record<string, DiscourseModelData> {
     if (cachedDiscoursePolls !== null) {
         return cachedDiscoursePolls;
     }
     try {
         if (fs.existsSync(DISCOURSE_POLLS_FILE)) {
             const content = fs.readFileSync(DISCOURSE_POLLS_FILE, 'utf-8');
-            cachedDiscoursePolls = JSON.parse(content) || {};
-            return cachedDiscoursePolls!;
+            cachedDiscoursePolls = (JSON.parse(content) as Record<string, DiscourseModelData>) || {};
+            return cachedDiscoursePolls;
         }
     } catch (err) {
         console.error('[modelVotes] Failed to read discourse polls file:', err);
@@ -124,7 +157,23 @@ function loadDiscoursePolls(): Record<string, any> {
     return cachedDiscoursePolls;
 }
 
-function findDiscourseForModel(modelName: string): any | null {
+/** Discourse poll titles/options arrive as cooked HTML; reduce them to plain text. */
+function stripDiscourseHtml(value?: string): string {
+    if (!value) return '';
+    return value
+        .replace(/<[^>]*>/g, '')
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;|&#x27;/g, "'")
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&amp;/g, '&')
+        .replace(/\s+/g, ' ')
+        .replace(/\s+([:?.,])/g, '$1')
+        .trim();
+}
+
+function findDiscourseForModel(modelName: string): DiscourseModelData | null {
     const discourseMap = loadDiscoursePolls();
     if (discourseMap[modelName]) {
         return discourseMap[modelName];
@@ -138,7 +187,7 @@ function findDiscourseForModel(modelName: string): any | null {
     return null;
 }
 
-function optionMatchesUserChoice(optKey: string, choiceVal: any): boolean {
+function optionMatchesUserChoice(optKey: string, choiceVal: unknown): boolean {
     if (choiceVal === undefined || choiceVal === null) return false;
     const optLower = optKey.toLowerCase().trim();
     if (typeof choiceVal === 'string') {
@@ -189,9 +238,9 @@ export function calculateBlendedModelStats(
             const qId = p.name || 'poll';
             const isMulti = p.type === 'multiple';
             const baseVoters = typeof p.voters === 'number' ? p.voters : 0;
-            const optionsList: { key: string; label: string; baseVotes: number }[] = (p.options || []).map((o: any) => ({
-                key: o.html || '',
-                label: o.html || '',
+            const optionsList: { key: string; label: string; baseVotes: number }[] = (p.options || []).map((o: { html?: string; votes?: number }) => ({
+                key: stripDiscourseHtml(o.html),
+                label: stripDiscourseHtml(o.html),
                 baseVotes: typeof o.votes === 'number' ? o.votes : 0,
             }));
 
@@ -260,7 +309,7 @@ export function calculateBlendedModelStats(
 
             questions.push({
                 id: qId,
-                title: p.title || 'How is this model?',
+                title: stripDiscourseHtml(p.title) || 'How is this model?',
                 type: isMulti ? 'multi' : 'single',
                 maxChoices: p.max || 5,
                 voters: totalQustionVoters,
@@ -278,13 +327,22 @@ export function calculateBlendedModelStats(
             '1 - Poor'
         ];
 
-        const baseVotes = baseTotalVotes ?? 10;
-        const baseS = baseSentiment ?? { great: 45, good: 35, ok: 15, bad: 5 };
-
-        const baseGreat = Math.round(baseVotes * (baseS.great / 100));
-        const baseGood = Math.round(baseVotes * (baseS.good / 100));
-        const baseOk = Math.round(baseVotes * (baseS.ok / 100));
-        const baseBad = Math.max(0, baseVotes - (baseGreat + baseGood + baseOk));
+        const weights = baseSentiment
+            ? [baseSentiment.great, baseSentiment.good, baseSentiment.ok, baseSentiment.bad]
+            : [0, 0, 0, 0];
+        const weightTotal = weights.reduce((sum, weight) => sum + weight, 0);
+        const baseVotes = Number.isInteger(baseTotalVotes) && baseTotalVotes! > 0
+            && weights.every(weight => Number.isFinite(weight) && weight >= 0) && weightTotal > 0
+            ? baseTotalVotes! : 0;
+        // Only use an explicitly recorded baseline. Allocate its rounded counts
+        // together so option totals cannot exceed the recorded voter count.
+        const exactCounts = weights.map(weight => baseVotes > 0 ? baseVotes * weight / weightTotal : 0);
+        const counts = exactCounts.map(Math.floor);
+        const remainderOrder = exactCounts.map((count, index) => ({ index, remainder: count - counts[index] }))
+            .sort((a, b) => b.remainder - a.remainder || a.index - b.index);
+        const remaining = baseVotes - counts.reduce((sum, count) => sum + count, 0);
+        for (let i = 0; i < remaining; i++) counts[remainderOrder[i].index]++;
+        const [baseGreat, baseGood, baseOk, baseBad] = counts;
 
         const baseCounts: Record<string, number> = {
             '5 - Great': baseGreat,
@@ -334,9 +392,9 @@ export function calculateBlendedModelStats(
     // Identify rating poll: first poll named 'overall' or 'poll', or questions[0]
     const ratingQ = questions.find(q => q.id === 'overall' || q.id === 'poll') || questions[0];
 
-    let liveScore = baseCommunityScore ?? 75;
-    let liveSentiment = baseSentiment ?? { great: 40, good: 35, ok: 20, bad: 5 };
-    let liveTotalVotes = baseTotalVotes ?? questions[0]?.voters ?? 0;
+    let liveScore = baseCommunityScore ?? 0;
+    let liveSentiment = baseSentiment ?? { great: 0, good: 0, ok: 0, bad: 0 };
+    let liveTotalVotes = 0;
 
     if (ratingQ && ratingQ.options.length > 0) {
         let greatVotes = 0;
@@ -379,6 +437,8 @@ export function calculateBlendedModelStats(
 
     const maxVotersAcrossQuestions = Math.max(...questions.map(q => q.voters), liveTotalVotes, 0);
 
+    const localAnswers = modelVotes.map(v => v.answers as Record<string, unknown>);
+
     return {
         modelName,
         totalVoters: maxVotersAcrossQuestions,
@@ -389,6 +449,8 @@ export function calculateBlendedModelStats(
             sentiment: liveSentiment,
         },
         userVote,
+        domains: tallyDomainRatings(localAnswers),
+        stacks: tallyControlStack(questions, localAnswers),
     };
 }
 
@@ -406,7 +468,7 @@ export function recordVote(
 
     const updatedAnswers: ModelSurveyAnswers = {
         ...(existing ? existing.answers : {}),
-        ...partialAnswers,
+        ...sanitizeStackAnswers(partialAnswers as Record<string, unknown>),
     };
 
     allVotes[key] = {

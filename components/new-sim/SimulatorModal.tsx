@@ -1,4 +1,6 @@
 'use client';
+import { useTextTranslation } from '@/lib/i18n';
+
 
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
@@ -7,6 +9,7 @@ import styles from './SimulatorLab.module.css';
 
 /** Native modal provides focus containment, Escape dismissal and inert background. */
 export default function SimulatorModal(props: SimulatorLabProps) {
+  const tx = useTextTranslation();
   const dialogRef = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -21,7 +24,7 @@ export default function SimulatorModal(props: SimulatorLabProps) {
     };
   }, []);
   return createPortal(
-    <dialog ref={dialogRef} className={styles.modal} aria-label="Driving Lab simulator"
+    <dialog ref={dialogRef} className={styles.modal} aria-label={tx("Driving Lab simulator")}
       onCancel={event => { event.preventDefault(); props.onClose?.(); }}>
       <SimulatorLab {...props} embedded />
     </dialog>, document.body,

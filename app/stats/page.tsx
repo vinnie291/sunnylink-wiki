@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import StatsClient from './StatsClient';
+import { getPublicFleetCharts } from '@/lib/metabase';
+
+export const revalidate = 300;
 
 export const metadata: Metadata = {
     title: 'Live Stats | Sunnylink',
@@ -11,6 +14,6 @@ export const metadata: Metadata = {
     }
 };
 
-export default function StatsPage() {
-    return <StatsClient />;
+export default async function StatsPage() {
+    return <StatsClient charts={await getPublicFleetCharts()} />;
 }

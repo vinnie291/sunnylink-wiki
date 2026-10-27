@@ -1,7 +1,7 @@
 {
   "appName": "Sunnylink Car Database",
   "version": "1.0",
-  "lastUpdated": "2026-09-02",
+  "lastUpdated": "2026-10-02",
   "vehicles": [
     {
       "id": "hyundai-ioniq-5-2022",
@@ -11,12 +11,12 @@
       "hardware": {
         "device": "comma 3 / 3X / 4",
         "harness": "HKG Canvas",
-        "radar": "Internal (Stock SCC)"
+        "radar": "Stock SCC; CAN-FD radar fusion proposed in open PR #2024"
       },
       "bestSettings": {
         "drivingModel": "WMI V12",
         "torqueTuning": "v0.0",
-        "lateralControl": "NNLC (On)",
+        "lateralControl": "Torque Control (NNLC Off)",
         "longitudinalControl": "Stock / OP Long",
         "mads": "Remain Active",
         "experimentalMode": "Dynamic"
@@ -27,7 +27,7 @@
           "settings": {
             "drivingModel": "WMI V12",
             "torqueTuning": "v0.0",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock / OP Long",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -38,14 +38,14 @@
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "v0.0",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock / OP Long",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
           }
         }
       ],
-      "communityConsensus": "Highly recommended to use WMI V12 with Torque v0.0 for the smoothest centering. NNLC is critical to prevent ping-ponging at highway speeds. Use 'Camera Offset' (Pos=Left, Neg=Right) in settings if the car is riding too close to one side.",
+      "communityConsensus": "Highly recommended to use WMI V12 with Torque v0.0 for the smoothest centering. Start with Torque Control and NNLC off rather than a blanket NNLC recommendation. Use 'Camera Offset' (Pos=Left, Neg=Right) in settings if the car is riding too close to one side. Preset update (2026-10-02): start with Torque Control and NNLC off. See the NNLC feature advisory for the vehicle-specific issue report. NNLC and Enforce Torque Control must not both be enabled. Historical reviews describe the reviewer’s original setup. PR #2024 adds CAN-FD radar tracks and SCC fallback/vision matching, with an opendbc dependency; it is not a confirmed released capability and introduces no new user setting.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
       "reviews": [
         {
@@ -144,12 +144,12 @@
       "bestSettings": {
         "drivingModel": "Pop Model v2",
         "torqueTuning": "Default",
-        "lateralControl": "NNLC (On)",
+        "lateralControl": "Torque Control (NNLC Off)",
         "longitudinalControl": "OP Long (Alpha)",
         "mads": "Remain Active",
         "experimentalMode": "Always On"
       },
-      "communityConsensus": "The 2022+ Civic with comma 4 is a powerhouse. Using 'Pop Model' provides excellent 'one-pedal' style driving in city traffic with Experimental Mode.",
+      "communityConsensus": "The 2022+ Civic with comma 4 is a powerhouse. Using 'Pop Model' provides excellent 'one-pedal' style driving in city traffic with Experimental Mode. Preset update (2026-10-02): start with Torque Control and NNLC off. See the NNLC feature advisory for the vehicle-specific issue report. NNLC and Enforce Torque Control must not both be enabled. Historical reviews describe the reviewer’s original setup.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/honda-acura/81",
       "reviews": [
         {
@@ -165,7 +165,7 @@
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "Stock (EPS Mod)",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock Long",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -176,7 +176,7 @@
           "settings": {
             "drivingModel": "The Cool Peoples Model v3",
             "torqueTuning": "Stock (EPS Mod)",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock Long",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -197,12 +197,12 @@
       "bestSettings": {
         "drivingModel": "The Cool Peoples Model v3",
         "torqueTuning": "Default",
-        "lateralControl": "NNLC (On)",
+        "lateralControl": "Torque Control (NNLC Off)",
         "longitudinalControl": "Stock / OP Long",
         "mads": "Enabled (Always On)",
         "experimentalMode": "Enabled"
       },
-      "communityConsensus": "Rated 11/10 for centering by users. Exceptional stability and lane-keeping performance on highways, far surpassing stock HDA.",
+      "communityConsensus": "Rated 11/10 for centering by users. Exceptional stability and lane-keeping performance on highways, far surpassing stock HDA. Preset update (2026-10-02): start with Torque Control and NNLC off. See the NNLC feature advisory for the vehicle-specific issue report. NNLC and Enforce Torque Control must not both be enabled. Historical reviews describe the reviewer’s original setup.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
       "reviews": [
         {
@@ -218,7 +218,7 @@
           "settings": {
             "drivingModel": "The Cool Peoples Model v3",
             "torqueTuning": "v0.0",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -229,7 +229,7 @@
           "settings": {
             "drivingModel": "Pop Model v2",
             "torqueTuning": "v0.0",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -303,12 +303,12 @@
       "bestSettings": {
         "drivingModel": "Dark Souls Model v2",
         "torqueTuning": "Default",
-        "lateralControl": "NNLC (On)",
+        "lateralControl": "Torque Control (NNLC Off)",
         "longitudinalControl": "Stock Radar",
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "Smooth highway cruising experience. Users prefer it over Ford's stock BlueCruise for better centering on curves.",
+      "communityConsensus": "Smooth highway cruising experience. Users prefer it over Ford's stock BlueCruise for better centering on curves. Preset update (2026-10-02): start with Torque Control and NNLC off. See the NNLC feature advisory for the vehicle-specific issue report. NNLC and Enforce Torque Control must not both be enabled. Historical reviews describe the reviewer’s original setup.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
       "reviews": [
         {
@@ -324,7 +324,7 @@
           "settings": {
             "drivingModel": "Dark Souls Model v2",
             "torqueTuning": "Stock",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -335,7 +335,7 @@
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "Stock",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -1008,12 +1008,12 @@
       "bestSettings": {
         "drivingModel": "OP Model 10 V3",
         "torqueTuning": "v0",
-        "lateralControl": "NNLC (On)",
+        "lateralControl": "Torque Control (NNLC Off)",
         "longitudinalControl": "Stock",
         "mads": "Enabled",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "Excellent high-speed cornering (>30 MPH), but struggles at low speeds with lane commitment and turn lock-outs. Recommendation to use Torque v0.",
+      "communityConsensus": "Excellent high-speed cornering (>30 MPH), but struggles at low speeds with lane commitment and turn lock-outs. Recommendation to use Torque v0. Preset update (2026-10-02): start with Torque Control and NNLC off. See the NNLC feature advisory for the vehicle-specific issue report. NNLC and Enforce Torque Control must not both be enabled. Historical reviews describe the reviewer’s original setup.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/hyundai-kia-genesis/11",
       "reviews": [
         {
@@ -1028,7 +1028,7 @@
           "settings": {
             "drivingModel": "OP Model 10 V3",
             "torqueTuning": "v0.0",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -1039,7 +1039,7 @@
           "settings": {
             "drivingModel": "WMI V12",
             "torqueTuning": "v0.0",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -2115,12 +2115,12 @@
       "bestSettings": {
         "drivingModel": "Dark Souls Model v2",
         "torqueTuning": "v1.2 Stiff",
-        "lateralControl": "Torque Control",
+        "lateralControl": "Torque Control (NNLC Off)",
         "longitudinalControl": "Stock / OP Long",
         "mads": "Always On",
         "experimentalMode": "Off"
       },
-      "communityConsensus": "For the Lightning, 'Dark Souls v2' provides the necessary authority to keep the truck centered even in crosswinds. Users towing trailers found 'v1.2 Stiff' torque tuning to be the only reliable way to prevent tail-sway corrections.",
+      "communityConsensus": "For the Lightning, 'Dark Souls v2' provides the necessary authority to keep the truck centered even in crosswinds. Users towing trailers found 'v1.2 Stiff' torque tuning to be the only reliable way to prevent tail-sway corrections. Preset update (2026-10-02): start with Torque Control and NNLC off. See the NNLC feature advisory for the vehicle-specific issue report. NNLC and Enforce Torque Control must not both be enabled. Historical reviews describe the reviewer’s original setup.",
       "forumUrl": "https://community.sunnypilot.ai/c/vehicle-talk/ford/79",
       "reviews": [
         {
@@ -2135,7 +2135,7 @@
           "settings": {
             "drivingModel": "Dark Souls Model v2",
             "torqueTuning": "Stock",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -2146,7 +2146,7 @@
           "settings": {
             "drivingModel": "Down to Ride v6",
             "torqueTuning": "Stock",
-            "lateralControl": "NNLC (On)",
+            "lateralControl": "Torque Control (NNLC Off)",
             "longitudinalControl": "Stock",
             "mads": "Remain Active",
             "experimentalMode": "Dynamic"
@@ -2355,6 +2355,138 @@
           }
         }
       ]
+    },
+    {
+      "id": "rivian-r1s-2025",
+      "make": "Rivian",
+      "model": "R1S",
+      "years": "2025",
+      "hardware": {
+        "device": "Verify device compatibility for the installed branch",
+        "harness": "Vehicle-specific harness; verify exact model-year fitment",
+        "radar": "Factory system; verify platform configuration"
+      },
+      "bestSettings": {
+        "drivingModel": "Branch default",
+        "torqueTuning": "Default",
+        "lateralControl": "Vehicle default (verify controller support)",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Vehicle / branch dependent",
+        "experimentalMode": "OFF"
+      },
+      "communityConsensus": "2025 support is listed in sunnypilot release notes. MADS-only lateral operation includes ACM hold-the-wheel alert suppression in opendbc PR #465. This does not establish expanded longitudinal control or experimental-mode support for every harness.",
+      "forumUrl": "https://github.com/sunnypilot/sunnypilot/releases/tag/v2026.002.000",
+      "reviews": []
+    },
+    {
+      "id": "rivian-r1t-2025",
+      "make": "Rivian",
+      "model": "R1T",
+      "years": "2025",
+      "hardware": {
+        "device": "Verify device compatibility for the installed branch",
+        "harness": "Vehicle-specific harness; verify exact model-year fitment",
+        "radar": "Factory system; verify platform configuration"
+      },
+      "bestSettings": {
+        "drivingModel": "Branch default",
+        "torqueTuning": "Default",
+        "lateralControl": "Vehicle default (verify controller support)",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Vehicle / branch dependent",
+        "experimentalMode": "OFF"
+      },
+      "communityConsensus": "2025 support is listed in sunnypilot release notes. MADS-only lateral operation includes ACM hold-the-wheel alert suppression in opendbc PR #465. This does not establish expanded longitudinal control or experimental-mode support for every harness.",
+      "forumUrl": "https://github.com/sunnypilot/sunnypilot/releases/tag/v2026.002.000",
+      "reviews": []
+    },
+    {
+      "id": "acura-mdx-2022",
+      "make": "Acura",
+      "model": "MDX",
+      "years": "2022-2024",
+      "hardware": {
+        "device": "Verify device compatibility for the installed branch",
+        "harness": "Vehicle-specific harness; verify exact model-year fitment",
+        "radar": "Factory system; verify platform configuration"
+      },
+      "bestSettings": {
+        "drivingModel": "Branch default",
+        "torqueTuning": "Default",
+        "lateralControl": "Vehicle default (verify controller support)",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Vehicle / branch dependent",
+        "experimentalMode": "OFF"
+      },
+      "communityConsensus": "CAN-FD vehicle support is listed in the v2026.002.000 release notes and upstream supported-car table. Verify the exact harness and installed branch; no community model/tuning rating has been established for this profile.",
+      "forumUrl": "https://github.com/sunnypilot/sunnypilot/releases/tag/v2026.002.000",
+      "reviews": []
+    },
+    {
+      "id": "acura-tlx-2025",
+      "make": "Acura",
+      "model": "TLX",
+      "years": "2025",
+      "hardware": {
+        "device": "Verify device compatibility for the installed branch",
+        "harness": "Vehicle-specific harness; verify exact model-year fitment",
+        "radar": "Factory system; verify platform configuration"
+      },
+      "bestSettings": {
+        "drivingModel": "Branch default",
+        "torqueTuning": "Default",
+        "lateralControl": "Vehicle default (verify controller support)",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Vehicle / branch dependent",
+        "experimentalMode": "OFF"
+      },
+      "communityConsensus": "Listed in the upstream supported-car table. This profile retains stock ACC; verify controller support and harness fitment for the exact vehicle.",
+      "forumUrl": "https://github.com/commaai/openpilot/blob/master/docs/CARS.md",
+      "reviews": []
+    },
+    {
+      "id": "volkswagen-id4-2021",
+      "make": "Volkswagen",
+      "model": "ID.4",
+      "years": "2021-2025",
+      "hardware": {
+        "device": "Verify device compatibility for the installed branch",
+        "harness": "Vehicle-specific harness; verify exact model-year fitment",
+        "radar": "Factory system; verify platform configuration"
+      },
+      "bestSettings": {
+        "drivingModel": "Branch default",
+        "torqueTuning": "Default",
+        "lateralControl": "Vehicle default (verify controller support)",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Vehicle / branch dependent",
+        "experimentalMode": "OFF"
+      },
+      "communityConsensus": "Upstream lists 2021–2023 and 2024–2025 separately, requiring Adaptive Cruise Control and Lane Assist. Verify the model-year platform and harness rather than assuming all years share identical wiring.",
+      "forumUrl": "https://github.com/commaai/openpilot/blob/master/docs/CARS.md",
+      "reviews": []
+    },
+    {
+      "id": "cupra-born-2021",
+      "make": "CUPRA",
+      "model": "Born",
+      "years": "2021-2023",
+      "hardware": {
+        "device": "Verify device compatibility for the installed branch",
+        "harness": "Vehicle-specific harness; verify exact model-year fitment",
+        "radar": "Factory system; verify platform configuration"
+      },
+      "bestSettings": {
+        "drivingModel": "Branch default",
+        "torqueTuning": "Default",
+        "lateralControl": "Vehicle default (verify controller support)",
+        "longitudinalControl": "Stock ACC",
+        "mads": "Vehicle / branch dependent",
+        "experimentalMode": "OFF"
+      },
+      "communityConsensus": "Upstream support requires Adaptive Cruise Control and Lane Assist. Verify the exact vehicle and harness before installation. No model or tuning recommendation is inferred from compatibility alone.",
+      "forumUrl": "https://github.com/commaai/openpilot/blob/master/docs/CARS.md",
+      "reviews": []
     }
   ]
 }

@@ -1,71 +1,71 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 128,
-  "lastUpdated": "September 06, 2026",
+  "totalModels": 134,
+  "lastUpdated": "October 26, 2026",
   "vibeGuide": {
+    "chestnut_gpu": {
+      "title": "Chestnut GPU 系列（大型號）",
+      "subtitle": "僅限 eGPU 的重量級產品",
+      "includes": "Flip Flop, Train Track, Mountain Dew v3, Mountain Dew, Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+      "vibe": "這些是“大模型”——比 WMI 或 OP 系列中的任何產品都大的Chestnut級網絡，與 comma 的新 GPU 附加組件相關，該附加組件於 2026 年 8 月開始向用戶提供。它們在跑步期間幾乎每天都會出現在論壇的 big_model 標籤下。額外的網絡尺寸首先體現在橫向上：將城市內的 90 度轉彎改寬而不是切斷它們，並顯示出穩定的而不是浮動的高速公路穩定性。像五漁村和 Sad Model 這樣的傑出參賽作品顯着改善了橫向穩定性和自然的轉向感覺，而早期的 BMRLNAP 則遭受低速轉向振盪的困擾。停車標誌和交通燈停車線仍然是整線調整的活躍區域。運行時說明（10 月 2 日）：PR #2035 建議在統一 AMD 傳輸之前使用 1344×760 comma 3X 幀。 PR #2023 建議通過 comma four 上的高級 sunnylink 設備控制來實現 ChestnutPowerLimit（0 = 庫存；40–100 W）。兩者均保持開放狀態。模型管理（10 月 25 日）：檢查的 master、dev 和 staging 使用選擇器 21、Chestnut v28 與 Qualcomm v25，預設大型模型為 Mountain Dew Model v3。這些開發快照不代表舊標籤版本也可使用。PR #2015、#2044 和 #1999 仍為未合併即關閉。",
+      "bestFor": "擁有 eGPU 的 Chestnut 所有者想要最大的可用網絡並且願意進行測試。",
+      "recommendation": "Mountain Dew Model v3 是預設大型模型，之後推出的模型都以它為比較基準。成為預設並不代表效能背書。10 月 26 日的維護者公告列出的需求為 comma four 或 comma 3X，並搭配 comma chestnut。Train Track 與 Flip Flop 是最新的「2026 Deep RL」大型模型。Flip Flop 的第一位測試者（Kia EV6）評為普通、與 MDv3 差不多，並回報在 120 km/h 以上會左右擺盪。Train Track 目前尚無回饋。"
+    },
     "wmi_2026": {
-      "title": "The WMI & 2026 World Series (The Modern Standard)",
-      "subtitle": "End-to-End Intelligence",
+      "title": "WMI 和 2026 年世界大賽（現代標準）",
+      "subtitle": "端到端智能",
       "includes": "WMI V12, V11, V10, SC Model, Macrostiff",
-      "vibe": "这些都是最前沿的。 “WMI”可能代表“世界模型迭代”。 这些模型使用最新的端到端（E2E）架构，这意味着它们更像人类“看待”世界。 他们了解 3D 场景、停车标志、十字路口和道路边缘 - 而不仅仅是画线。 WMI V12 是当前的旗舰产品。 它在复杂的城市场景中是最聪明的，但在笔直的高速公路上可能会感觉有点“宽松”，因为它会像人类驾驶员一样不断进行微调。 如果您主要在有停车标志和转弯的城市街道上行驶，那么这就是您的系列。",
-      "bestFor": "Daily driving in 2026. They balance smoothness with intelligence.",
-      "recommendation": "从 WMI V12 开始。 如果在高速公路上感觉太“摇摆不定”，请尝试 Macrostiff 以获得更紧凑的转向感觉。"
+      "vibe": "這些都是最前沿的。 “WMI”可能代表“世界模型迭代”。這些模型使用最新的端到端 (E2E) 架構，這意味着它們更像人類一樣“看待”世界。他們瞭解 3D 場景、停車標誌、十字路口和道路邊緣，而不僅僅是畫線。 WMI V12是目前的旗艦。它在複雜的城市場景中是最聰明的，但在筆直的高速公路上可能會感覺有點“寬鬆”，因爲它會像人類駕駛員一樣不斷進行微調。如果您主要在有停車標誌和轉彎的城市街道上行駛，那麼這就是您的系列。",
+      "bestFor": "2026 年的日常駕駛。他們平衡平穩性與智能。",
+      "recommendation": "從 WMI V12 開始。如果在高速公路上感覺太“搖擺不定”，請嘗試使用 Macrostiff 以獲得更緊的轉向感。"
     },
     "aggressive": {
-      "title": "The Aggressive Series",
-      "subtitle": "Traffic Warriors",
+      "title": "進取系列",
+      "subtitle": "交通勇士",
       "includes": "Dark Souls Model, Dark Souls v2, Firehose",
-      "vibe": "高绩效、高关注度。 《黑暗之魂》因其“无情”或“硬核”而得名。 预计跟车距离会更紧，加速会更快，转弯会更急。 它的驾驶方式就像人类一样，匆忙但仍然安全。 非常适合需要权威输入来移动其质量的重型卡车（F-150、Sierra）。 Firehose 模型是来自 comma.ai 的 SOTA（最先进）训练任务的原始、未经过滤的开发人员订阅源。 它代表了模型开发的绝对‘前沿’，随着全球车队摄取新数据，几乎每天都会更新。",
-      "bestFor": "重型卡车通勤者（黑暗之魂）或冒险测试者（Firehose）。",
-      "recommendation": "适用于卡车和 SUV 的《黑暗之魂》v2。 只有在您想在 SOTA 迭代正式发布前测试最新、且可能不稳定的版本时，才尝试使用 Firehose。"
+      "vibe": "高績效、高關注度。 《黑暗之魂》因其“無情”或“硬核”而得名。預計跟隨距離更短、加速更快、轉彎更急。它的駕駛方式就像人類一樣，匆忙但仍然安全。非常適合需要權威輸入來移動其質量的重型卡車（F-150、Sierra）。 Firehose 模型是來自 comma.ai 的最先進 (SOTA) 訓練運行的原始、未經過濾的開發人員源。它代表了模型開發的絕對“前沿”，幾乎每天都會隨着從全球機隊中獲取新數據而更新。",
+      "bestFor": "交通繁忙的通勤者（《黑暗之魂》）或喜歡冒險的測試者（《Firehose》）。",
+      "recommendation": "適用於卡車和 SUVs 的黑暗之魂 v2。僅當您想在最終確定之前測試最新的、可能不穩定的 SOTA 迭代時，才嘗試 Firehose。"
     },
     "comfort": {
-      "title": "The Comfort & Smooth Series",
-      "subtitle": "Passenger Friendly",
+      "title": "舒適順滑系列",
+      "subtitle": "乘客友善",
       "includes": "Down to Ride (DTR), Space Lab, Kumars Vibe",
-      "vibe": "轻松且对乘客友好。 Down to Ride (DTR) 因“得到妻子认可”而闻名。 它优先考虑温和的制动和慢速转弯，而不是完美的牵引居中。 Kumars Vibe 针对特定汽车设置进行了定制调整，但因其消除了“机器人”感觉 - 非常自然的转向转换而变得流行。 这些车型非常适合公路旅行，乘客可能会因突然的转向修正而晕车。",
-      "bestFor": "Road trips with family or passengers who get motion sick.",
-      "recommendation": "从 Down to Ride v6 开始。 这是社区提高乘客舒适度的首选。"
+      "vibe": "輕鬆且對乘客友好。 Down to Ride (DTR) 因“得到妻子認可”而聞名。它優先考慮溫和制動和緩慢轉彎，而不是完美的車道居中。 Kumars Vibe 是針對特定汽車設置進行定製調整的，但因其消除了“機器人”感覺 - 非常自然的轉向轉換而變得流行。這些型號非常適合公路旅行，乘客可能會因突然的轉向修正而暈車。",
+      "bestFor": "與家人或暈車乘客一起進行公路旅行。",
+      "recommendation": "從 Down to Ride v6 開始。這是社羣提高乘客舒適度的首選。"
     },
     "tomb_raider": {
-      "title": "The Tomb Raider / Trash Folder (TR) Series",
-      "subtitle": "Hidden Gems",
+      "title": "古墓麗影 / 垃圾文件夾 (TR) 系列",
+      "subtitle": "隱藏的寶石",
       "includes": "Tomb Raider 16, 15, 14, Le Tomb Raider",
-      "vibe": "这些是实验性训练。 尽管有这个名字，但有些是隐藏的宝石！ 《古墓丽影 16》（Tomb Raider 16）（垃圾文件夹 16）因其对高速公路弯道的独特处理而长期受到社区的喜爱。 感觉就像“在铁轨上”行驶。 这些模型通常有一些怪癖，但在特定场景下却能以出色的性能给您带来惊喜。 如果您驾驶弯曲的道路，值得尝试。",
-      "bestFor": "Adventurous users looking for unique driving characteristics.",
-      "recommendation": "《古墓丽影 16》适合蜿蜒的小路。 不要让“垃圾文件夹”这个名字吓到您！"
+      "vibe": "這些是實驗性訓練。儘管有這個名字，但有些是隱藏的寶石！ Tomb Raider 16（垃圾文件夾 16）由於其對高速公路彎道的獨特處理而長期受到社羣的喜愛。感覺就像“在鐵軌上”行駛。這些模型通常有一些怪癖，但在特定場景下卻能以出色的性能給您帶來驚喜。如果您駕駛彎曲的道路，值得嘗試。",
+      "bestFor": "尋求獨特駕駛特性的冒險用戶。",
+      "recommendation": "Tomb Raider 16 用於蜿蜒的小路。不要讓“垃圾文件夾”這個名字嚇到您！"
     },
     "legacy": {
-      "title": "The Legacy Legends",
-      "subtitle": "Old Reliable",
+      "title": "遺產傳奇",
+      "subtitle": "老可靠",
       "includes": "Recertified Herbalist, North Dakota, Blue Diamond",
-      "vibe": "“老卫士”。 这些型号是 2023 年至 2024 年生产的。 他们不太“聪明”（不擅长停车标志），但在高速公路车道保持方面却令人难以置信。 重新认证的草药师是稳定性的“黄金标准”。 北达科他州以其刚性转向而闻名 - 它紧贴车道中心并拒绝移动。 WD40“润滑”了这种刚度，以实现更平滑的输入。 Blue Diamond 在雨天和较差的车道标记方面表现出色。 这些是车型中的“丰田凯美瑞”——无聊、可靠、坚如磐石。",
-      "bestFor": "Highway-focused driving with rock-solid lane centering.",
-      "recommendation": "重新认证的长途公路旅行草药师。 北达科他州如果你想要最大的刚度。"
+      "vibe": "“老衛士”。這些型號是 2023 年至 2024 年生產的。他們不太“聰明”（不擅長停車標誌），但在高速公路車道保持方面卻令人難以置信。 Recertified Herbalist 是穩定性的“黃金標準”。 North Dakota 以其 STIFF 轉向系統而聞名 - 它緊貼車道中心並拒絕移動。 WD40“潤滑”了這種剛度，以實現更平滑的輸入。 Blue Diamond 在雨天和較差的車道標記方面表現出色。這些是“Toyota 凱美瑞”車型 - 無聊、可靠且堅如磐石。",
+      "bestFor": "以高速公路爲中心的駕駛，車道居中堅如磐石。",
+      "recommendation": "Recertified Herbalist 適合長途公路旅行。 North Dakota 如果你想要最大的剛度。"
     },
     "opm": {
-      "title": "The OPM Series (Off-Policy Models)",
-      "subtitle": "Learning from Corrections",
+      "title": "OPM 系列 (Off-Policy Models)",
+      "subtitle": "從糾正中學習",
       "includes": "OP Model 10 v3 (latest), OP Model 10 v2/v1, OP Model 7-9, Off-Policy Model v1-v5",
-      "vibe": "这些模型使用离策略训练——它们从模型行为与人类驾驶员的修正不同的时刻进行学习，而不仅仅是克隆驾驶行为。 这使他们能够更有效地从边缘案例中学习。 与标准 WMI 模型相比，它们显示出改进的高速公路定心和更快的横向定心，尽管纵向控制仍在完善中。",
-      "bestFor": "Highway-focused driving with improved lane centering.",
-      "recommendation": "尝试离策略模型 v2 以获得横向控制的最新改进。 请注意，纵向（制动/加速）行为可能感觉与 WMI 模型不同。"
-    },
-    "chestnut_gpu": {
-      "title": "The Chestnut GPU Series (Big Models)",
-      "subtitle": "eGPU-Only Heavyweights",
-      "includes": "Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
-      "vibe": "这些就是所谓的“大模型”——Chestnut 级网络，规模超过 WMI 或 OP 系列的任何一版，并与 comma 新推出的 GPU 扩展模块绑定，而该硬件直到 2026 年 8 月才开始送达用户。它们以论坛 big_model 标签发布，在一轮发布期间几乎每天更新。更大的网络首先体现在横向控制上：首个版本的转弯表现被一位 sunnypilot 开发者称为“outstanding”，在市区 90 度以上的转弯中会以合适的弧度绕行而不是切弯；口碑最好的几版被形容为沉稳扎实而非飘忽。反复出现的短板是城市道路设施：把停车标志当作“加州式停车”滚过、红绿灯处理欠佳，部分版本还存在急刹或制动过晚，以及达到设定车速后的加减速顿挫。各帖投票数仍是个位数，因此本档位的所有分数都应视为暂定值。",
-      "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
-      "recommendation": "BMRLNAP 的投票表现最好——所有投票均为全票一致——但仅有 2 票；4 票的 I Desire 更可靠。如果你看重转弯表现，值得研究 Lebowski：本轮横向最强、纵向最弱。除非你是在做测试，否则建议跳过 Tee Time——它的横向投票没有获得任何正面票。在停车标志密集的路线上请准备一个标准模型备用。"
+      "vibe": "這些模型使用離策略訓練——它們從模型行爲與人類駕駛員的修正不同的時刻進行學習，而不僅僅是克隆駕駛行爲。這使他們能夠更有效地從邊緣案例中學習。與標準 WMI 型號相比，它們顯示出改進的高速公路定心和更快的橫向定心，儘管縱向控制仍在完善中。",
+      "bestFor": "以高速公路爲中心的駕駛，並改進了車道居中功能。",
+      "recommendation": "OP Model 10 v3是最新10系列的當前選擇——v1很粗糙，v2固定制動但熄火了，而v3則恢復了DEC級別的加速。請注意，低速性能和轉彎仍可能因車輛而異。"
     }
   },
   "categories": [
     {
       "id": "favorites",
-      "name": "收藏",
-      "description": "目前最流行的日常驾驶车型。 经过社区测试和批准。",
+      "name": "收藏夾",
+      "description": "目前最流行的日常駕駛車型。經過社羣測試和批准。",
       "icon": "⭐",
       "models": [
         {
@@ -77,19 +77,19 @@
             "Smooth",
             "Highway"
           ],
-          "communityScore": 52,
-          "totalVotes": 184,
+          "communityScore": 70,
+          "totalVotes": 40,
           "sentiment": {
-            "great": 7,
-            "good": 11,
-            "ok": 74,
-            "bad": 8
+            "great": 45,
+            "good": 20,
+            "ok": 20,
+            "bad": 15
           },
-          "consensus": "广受赞誉的社区模型，重塑了驾驶信心。以其卓越的平滑度和 NNLC 的稳定性而闻名。在 E2E 模式下能可靠地稳定速度。",
-          "note": "在 Kia e-Niro 和 Honda Civic 用户中特别受欢迎。2025 年底最佳自定义模型之一。",
+          "consensus": "備受讚譽的社羣模型，以其卓越的平滑度和低速跳動的現象而聞名。許多用戶將其描述爲“太棒了”，並且在橫向控制一致性方面優於標準版本。",
+          "note": "特別受英國 Kia e-Niro 用戶的歡迎。 2025 年末最好的定製橫向模型之一。",
           "bestFor": "全方位/舒適",
-          "steeringFeel": "超光滑",
-          "forumUrl": "https://community.sunnypilot.ai/t/the-cool-peoples-model-v3-10-october-2025/1151",
+          "steeringFeel": "Ultra-Smooth",
+          "forumUrl": "https://community.sunnypilot.ai/t/the-cool-peoples-model-v3-10-october-2025/137",
           "testedOn": [
             "Kia e-Niro",
             "Honda Civic",
@@ -98,16 +98,16 @@
             "21 Hyundai Palisade"
           ],
           "positives": [
-            "No low-speed jerkiness",
-            "Excellent lateral control",
-            "Ultra-smooth transitions",
-            "Stabilizes speed in E2E",
-            "Works well with NNLC"
+            "低速無抖動現象",
+            "出色的橫向控制",
+            "超平滑過渡",
+            "穩定E2E的速度",
+            "與 NNLC 配合良好"
           ],
           "negatives": [
-            "Late braking (experimental long)",
-            "Hugs turns tight",
-            "Hugs left at night without lead car"
+            "遲制動（實驗長）",
+            "緊緊跟著曲線的內側",
+            "夜間在沒有領頭車的情況下駕駛太靠近當前車道的左邊界"
           ],
           "routesDriven": 1690,
           "fleetRank": 14
@@ -129,10 +129,10 @@
             "ok": 22,
             "bad": 14
           },
-          "consensus": "2026 年大多数用户的当前旗舰产品和日常驾驶。针对十字路口、停车标志和城市急转弯等复杂场景的最高智能。",
-          "note": "在笔直的高速公路上会感觉有点“松散”。",
+          "consensus": "2026 年大多數用戶的當前旗艦產品和日常駕駛。針對十字路口、停車標誌和城市急轉彎等複雜場景的最高智能。",
+          "note": "在筆直的高速公路上會感覺有點“鬆散”。",
           "bestFor": "混合駕駛",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Hyundai Ioniq 5",
             "Kia EV6",
@@ -159,18 +159,18 @@
             "Trucks",
             "Highway"
           ],
-          "communityScore": 50,
-          "totalVotes": 22,
+          "communityScore": 52,
+          "totalVotes": 23,
           "sentiment": {
-            "great": 23,
-            "good": 27,
-            "ok": 14,
-            "bad": 36
+            "great": 26,
+            "good": 26,
+            "ok": 13,
+            "bad": 35
           },
-          "consensus": "精致的“无情”模型。 跟车距离更紧，反应更快，转弯更急。 非常适合需要权限的大型车辆。",
-          "note": "因其无情而被命名为“黑暗之魂”。",
+          "consensus": "精緻的“無情”模型。跟車距離更近，反應更快，轉彎更急。非常適合需要權限的大型車輛。",
+          "note": "因其無情而被命名爲“黑暗之魂”。",
           "bestFor": "交通繁忙",
-          "steeringFeel": "僵硬",
+          "steeringFeel": "Stiff",
           "testedOn": [
             "Ford F-150",
             "GMC Sierra",
@@ -201,9 +201,9 @@
             "ok": 76,
             "bad": 8
           },
-          "consensus": "“中性”基准。 如果一个新模型感觉很奇怪，那么你可以将其与内华达州进行比较。 在平滑和响应之间取得良好平衡。",
+          "consensus": "“中性”基準。如果一個新模型感覺很奇怪，那麼你可以將其與內華達州進行比較。在平滑和響應之間取得良好平衡。",
           "bestFor": "全能",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Most vehicles",
             "Kia Sportage PHEV"
@@ -228,10 +228,10 @@
             "ok": 76,
             "bad": 5
           },
-          "consensus": "传奇的“妻子认可”模式。为了乘客的舒适度牺牲了完美的车道居中。不会猛拉方向盘；轻轻地转弯。注意：部分 Comma 4 用户（特别是 Ioniq 5）反映存在明显的右侧靠边行驶现象。",
-          "note": "非常适合公路旅行。如果在 C4 上靠右行驶，请尝试调整摄像头偏移量 (-0.05 到 -0.10)。",
+          "consensus": "傳奇的「妻子認可」模式。為了乘客的舒適度而犧牲了完美的車道居中。不會猛拉方向盤；輕輕地轉彎。注意：一些 Comma 4 用戶（特別是 Ioniq 5）報告稱右側行駛過於靠近當前車道的一個邊界。",
+          "note": "非常適合公路旅行。如果緊靠 C4，請嘗試調整相機偏移（-0.05 至 -0.10）。",
           "bestFor": "乘客",
-          "steeringFeel": "光",
+          "steeringFeel": "Light",
           "testedOn": [
             "Hyundai Palisade",
             "Kia Telluride",
@@ -251,9 +251,52 @@
     {
       "id": "chestnut_gpu",
       "name": "Chestnut GPU",
-      "description": "Chestnut 级“大模型”驾驶模型——体量更大的网络，与 comma 新推出的 GPU 扩展模块绑定，该硬件自 2026 年 8 月起陆续发货给用户。以论坛 big_model 标签发布，在一轮发布期间几乎每天更新。",
+      "description": "Chestnut 級“大型”駕駛模型 - 與 comma 的新 GPU 附加組件相關的更大網絡，該附加組件於 2026 年 8 月開始向車主發貨。在論壇的 big_model 標籤下發布，幾乎每天都會在跑步期間進行。運行時兼容性取決於分支：open PR #2035 建議爲統一的 AMD 模型調整 comma 3X 框架大小； open PR #2023 提出 sunnylink 可調 Chestnut 功率限制。",
       "icon": "🌰",
       "models": [
+        {
+          "name": "Cinque Terre Model V2",
+          "date": "September 08, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "communityScore": 75,
+          "totalVotes": 10,
+          "sentiment": {
+            "great": 40,
+            "good": 40,
+            "ok": 10,
+            "bad": 10
+          },
+          "consensus": "論壇總體評分有 10 人：Great 4、Good 4、OK 1、Bad 1。駕駛者報告停車改善，也提到低速振盪、轉向不足、貼近車道線和加速緩慢。反饋不一，因車輛而異。",
+          "note": "在 Mountain Dew Model v3 取代它之前，Cinque Terre Model v2 是預設大型模型。位於 Model Manager 的「2026 Deep RL Models」資料夾。公告列出需要 comma four 或 comma 3X，並搭配 comma chestnut。硬體與分支相容性仍需注意。",
+          "bestFor": "使用兼容硬件和軟件進行社羣測試。",
+          "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-v2-september-08-2026/7096",
+          "testedOn": [
+            "Kia EV6",
+            "2026 Honda Civic Hybrid"
+          ]
+        },
+        {
+          "name": "Cinque Terre V3 Model",
+          "date": "September 17, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "consensus": "維護者的專屬論壇文章與投票現已公開。此快照的整體評分投票為零，因此尚無法得出效能結論。",
+          "note": "基於 openpilot 提交 bf3e363（PR #38932）；comma 於 9 月 18 日合併至 master。位於 Model Manager 的「Master Models」資料夾。公告（10 月 26 日修訂）列出需要 comma four 或 comma 3X，並搭配 comma chestnut。論壇投票以目前的預設模型 Mountain Dew Model v3 作為比較對象。",
+          "bestFor": "使用兼容硬件和軟件進行社羣測試。",
+          "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-v3-model-september-17-2026/7608",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json"
+        },
         {
           "name": "Cinque Terre Model",
           "date": "September 04, 2026",
@@ -264,18 +307,18 @@
             "Deep RL",
             "Experimental"
           ],
-          "communityScore": 90,
-          "totalVotes": 5,
+          "communityScore": 78,
+          "totalVotes": 10,
           "sentiment": {
-            "great": 60,
-            "good": 40,
-            "ok": 0,
-            "bad": 0
+            "great": 50,
+            "good": 30,
+            "ok": 10,
+            "bad": 10
           },
-          "consensus": "在 Discord 與 Discourse 社群中被譽為迄今為止最實用且最穩定的「大模型」（「用過最棒的模型，遙遙領先」、「足以讓 POP v2 感到驕傲」）。測試者反饋全速域（0-65 mph）橫向控制極為扎實、如在軌道上般穩定，媲美 Firehose，且大幅根治了 BMRLNAP 系列嚴重的低速晃動。在實驗模式下精準停靠紅綠燈與 Stop 標誌且起步加速果斷，但在未開啟動態實驗控制時，高速行駛速度可能略低於設定巡航值。",
-          "note": "Chestnut 級別大模型（CTM），由 commaai/openpilot 的 68b5f8e 構建。屬於 2026 Deep RL 模型系列。需要 comma four 或搭載 comma chestnut eGPU 的 comma 3X。社群投票 100% 認為優於預設 BMRLNAP v4。龐大體積（~700MB）促使 sunnypilot 開發者推出 DMA 記憶體傳輸最佳化（PR #1993 / PR #1998）以避免掉幀。",
-          "bestFor": "實驗模式 / 日常駕駛 / 橫向穩定性",
-          "steeringFeel": "沉穩 / 如在軌道上",
+          "consensus": "10 月 3 日論壇有 10 個評分：Great 5、Good 3、OK 1、Bad 1。報告既提到良好的停車和車道保持，也提到因車輛而異的低速振盪和轉彎問題。這些是駕駛者反饋，並非性能保證。",
+          "note": "Chestnut 大模型 CTM。需要 comma four 或 comma 3X、Chestnut eGPU 及兼容版本。比較投票中 9 人有 7 人更喜歡它；默認模型投票中 10 人有 8 人支持。兩者是不同投票，並非一致推薦。",
+          "bestFor": "實驗模式/日常駕駛/橫向穩定性",
+          "steeringFeel": "Solid / On Rails",
           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-september-04-2026/7046",
           "testedOn": [
             "2023 Hyundai Elantra HEV",
@@ -284,16 +327,12 @@
             "Comma Four"
           ],
           "positives": [
-            "橫向轉向扎實且居中控制力強，全速域表現媲美 Firehose",
-            "大幅改善 BMRLNAP v3/v4/v6 嚴重的低速方向盤擺動問題",
-            "在實驗模式下可靠遵守紅綠燈與 Stop 標誌",
-            "起步加速果斷敏捷，獲得熱愛主動巡航的駕駛者好評"
+            "部分駕駛者報告停車平順、車道保持穩定。",
+            "在單獨的比較投票中，多數參與者更喜歡它而非參考模型。"
           ],
           "negatives": [
-            "需要最新 dev-chestnut 分支構建（PR #1993）以避免 DMA 傳輸造成的模型延遲 / 掉幀警報",
-            "在純實驗模式下若無動態控制，高速公路行駛速度可能略低於設定巡航速度",
-            "時速 12 mph 以下仍可稍微感受到微弱低速晃動（但已顯著減輕）",
-            "約 700MB 大體積在較慢的車載 Wi-Fi 下可能需要下載數分鐘"
+            "部分駕駛者仍報告低速轉向振盪或轉彎能力不足。",
+            "不同車輛和分支的反饋不一，不應把單一配置的表現推廣到所有車輛。"
           ]
         },
         {
@@ -306,31 +345,31 @@
             "Experimental",
             "Stop Line Tuning"
           ],
-          "communityScore": 100,
-          "totalVotes": 2,
+          "communityScore": 80,
+          "totalVotes": 6,
           "sentiment": {
-            "great": 100,
-            "good": 0,
+            "great": 67,
+            "good": 17,
             "ok": 0,
-            "bad": 0
+            "bad": 16
           },
-          "consensus": "BMRLNAP 模型 v4 的直接後繼者（跳過 v5）。早期的社區回饋報告稱，與 v4 相比，縱向減速和紅綠燈的停車行為略有改善，但車輛仍然會稍微緩慢地越過路線。橫向穩定性保留了 v4 的公路巡航感覺。",
-          "note": "栗子級大模型，由9d683c0在commaai/openpilot中建構。由 sunnypilot 內部建構。直接與 BMRLNAP v4 進行比較，以評估停止線精度和減速度調整。",
+          "consensus": "BMRLNAP Model v4 的直接後繼者（v5 被跳過）。早期的社羣反饋報告稱，與 v4 相比，縱向減速和紅綠燈處的停車行爲略有改善，但車輛仍然會稍微緩慢地越過線路。橫向穩定性保留了 v4 的公路巡航感覺。",
+          "note": "Chestnut級大型號，由commaai/openpilot中的9d683c0構建。由 sunnypilot 內部構建。直接與 BMRLNAP v4 進行比較，以評估停止線精度和減速度調整。",
           "bestFor": "測試/大模型比較",
-          "steeringFeel": "光滑",
+          "steeringFeel": "Smooth",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v6-september-01-2026-big-model/7004",
           "testedOn": [
             "Toyota",
             "Honda Civic"
           ],
           "positives": [
-            "Improved traffic light deceleration and stopping behavior over v4",
-            "Retains smooth and planted high-speed highway cruising",
-            "Active developer responsiveness and in-house tuning"
+            "與 v4 相比，改進了交通燈減速和停車行爲",
+            "保持平穩的高速公路巡航",
+            "積極的開發人員響應能力和內部調整"
           ],
           "negatives": [
-            "Still tends to creep slightly across the stop line at traffic lights",
-            "Lateral control requires fine-tuning on select Honda builds"
+            "仍然傾向於在紅綠燈處稍微緩慢地越過停車線",
+            "橫向控制需要對選定的 Honda 版本進行微調"
           ]
         },
         {
@@ -343,18 +382,18 @@
             "Highway",
             "Cut-in Handling"
           ],
-          "communityScore": 61,
-          "totalVotes": 7,
+          "communityScore": 54,
+          "totalVotes": 8,
           "sentiment": {
-            "great": 43,
-            "good": 14,
-            "ok": 14,
-            "bad": 29
+            "great": 38,
+            "good": 13,
+            "ok": 13,
+            "bad": 36
           },
-          "consensus": "BMRLNAP系列的重大演化，徹底解決了v3嚴重的低速轉向振盪問題。在高速公路巡航、跟隨前車以及通過平靜、逐漸減速而不是猛烈制動來處理突然切入方面表現出色。測試人員指出，在停用傳統 SCC-V 曲率減速時，彎道操控性能會更好，但由於轉向扭矩限制，急轉彎 90 度轉彎仍可能出現轉向不足，並且綠燈時從靜止狀態加速仍然緩慢。",
-          "note": "栗子級大模型，由commaai/openpilot中的f877d7a打造。 Discord 和 Discourse 的高參與度。社區報告強調了豐田車輛控制器的顯著敏感度（扭矩 v0 與 v1）。",
+          "consensus": "BMRLNAP系列的重大進化，徹底解決了v3嚴重的低速轉向振盪問題。在高速公路巡航、跟隨前車以及通過平靜、逐漸減速而不是猛烈制動來處理突然切入方面表現出色。測試人員指出，禁用傳統 SCC-V 曲率減速時，彎道操控性能會更好，但由於轉向扭矩限制，急轉彎 90 度轉彎仍可能出現轉向不足，並且綠燈時從靜止狀態開始的加速仍然緩慢。",
+          "note": "Chestnut級大型號，由commaai/openpilot中的f877d7a打造。 Discord 和 Discourse 的高參與度。社羣報告強調了 Toyota 上車輛控制器的顯着靈敏度（扭矩 v0 與 v1）。",
           "bestFor": "公路巡航/切入處理",
-          "steeringFeel": "光滑",
+          "steeringFeel": "Smooth",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v4-august-30-2026-big-model/6971",
           "testedOn": [
             "Kia EV6",
@@ -363,15 +402,15 @@
             "Toyota Corolla Hatchback"
           ],
           "positives": [
-            "Completely resolves the low-speed see-saw steering oscillations from v3",
-            "Exceptional, calm, confidence-inspiring handling of sudden highway cut-ins",
-            "Smooth longitudinal deceleration without abrupt brake stabbing",
-            "Capable of maneuvering around illegally parked obstacles in E2E mode"
+            "徹底解決了v3低速拉鋸式轉向振盪問題",
+            "對高速公路突然切入的出色、冷靜、鼓舞人心的處理",
+            "平穩的縱向減速，不會突然制動",
+            "能夠在E2E模式下繞過非法停放的障礙物"
           ],
           "negatives": [
-            "Understeers or gives up halfway through sharp 90-degree intersection turns",
-            "Sluggish acceleration off the line when a red light turns green",
-            "Severe controller sensitivity reported on Toyota with Torque controller v1"
+            "在 90 度交叉路口急轉彎時轉向不足或中途放棄",
+            "紅燈變綠時下線加速緩慢",
+            "使用扭矩控制器 v1 的 Toyota 報告嚴重的控制器靈敏度"
           ]
         },
         {
@@ -384,18 +423,18 @@
             "Natural Steering",
             "Smooth Long"
           ],
-          "communityScore": 75,
-          "totalVotes": 5,
+          "communityScore": 63,
+          "totalVotes": 6,
           "sentiment": {
-            "great": 20,
-            "good": 60,
-            "ok": 20,
-            "bad": 0
+            "great": 17,
+            "good": 50,
+            "ok": 17,
+            "bad": 16
           },
-          "consensus": "專門為逗號研究員 Toby 告別，社區測試人員對他的負面評價為零（80% 好或很棒）。因一致平穩的加速和減速而受到讚揚，沒有急速波動或停止線超調。轉向感覺自然、人性化且穩定，沒有乒乓球般的感覺，但駕駛員注意到在某些彎道上有輕微的急轉彎傾向。",
-          "note": "栗子級大模型，由commaai/openpilot中的30de303所打造。發布是為了紀念逗號研究工程師Toby 對最終駕駛模型的貢獻。",
+          "consensus": "專門爲comma研究員託比 (Toby) 送別，社羣測試人員對他的負面評價爲零（80% 好或很棒）。因一致平穩的加速和減速而受到讚揚，沒有急速波動或停止線超調。轉向感覺自然、人性化且穩定，沒有乒乓球般的感覺，但駕駛員注意到在某些彎道上有輕微的急轉彎傾向。",
+          "note": "Chestnut級大型號，由commaai/openpilot中的30de303構建。發佈是爲了紀念comma研究工程師 Toby 對最終駕駛模型的貢獻。",
           "bestFor": "自然的轉向感/溫和的長途巡航",
-          "steeringFeel": "自然",
+          "steeringFeel": "Natural",
           "forumUrl": "https://community.sunnypilot.ai/t/sad-model-august-28-2026-big-model/6945",
           "testedOn": [
             "Hyundai",
@@ -403,14 +442,14 @@
             "Toyota"
           ],
           "positives": [
-            "Unanimously smooth acceleration and braking across all poll voters",
-            "Natural, humanlike steering without wander or low-speed oscillation",
-            "Zero Bad or Poor ratings from community testers",
-            "Smooth and reliable stop sign and light deceleration"
+            "所有投票選民一致平穩加速和剎車",
+            "自然、人性化的轉向，無漂移或低速振盪",
+            "社羣測試人員的零差評或差評",
+            "停車標誌平穩可靠，減速輕"
           ],
           "negatives": [
-            "Tends to cut corners slightly tight on inside curves",
-            "Minor lane hugging to one side noted by select drivers"
+            "傾向於在內部曲線上稍微緊一些地切角",
+            "部分司機注意到小車道靠向一側"
           ]
         },
         {
@@ -431,10 +470,10 @@
             "ok": 25,
             "bad": 24
           },
-          "consensus": "嚴重受低速轉向振盪和拉鋸困擾的測試人員幽默地將其比作老電影中演員的假轉向。雖然公路巡航和縱向煞車都很平穩，但普銳斯、思域、雅閣和 Rivian 測試車輛的低速車輪振動很明顯，促使測試人員建議跳至 v4。",
-          "note": "栗子級大模型，由commaai/openpilot中的47377ac所打造。高速公路巡航尚可，但低速晃動使其不適合日常駕駛。",
+          "consensus": "嚴重受到低速轉向振盪和拉鋸困擾的測試人員幽默地將其比作老電影中演員的假轉向。雖然公路巡航和縱向制動平穩，但普銳斯、Civic、Accord 和 Rivian 測試車輛的低速車輪振動明顯，促使測試人員建議跳至 v4。",
+          "note": "Chestnut級大型號，由commaai/openpilot中的47377ac構建。高速公路巡航尚可，但低速晃動使其不適合日常駕駛。",
           "bestFor": "僅測試/高速比較",
-          "steeringFeel": "振盪",
+          "steeringFeel": "Oscillating",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v3-august-26-2026-big-model/6917",
           "testedOn": [
             "2021 Toyota Prius Prime",
@@ -443,13 +482,13 @@
             "2022 Rivian R1T"
           ],
           "positives": [
-            "Smooth longitudinal acceleration and braking once up to cruising speeds",
-            "Stable lead-car following on open multi-lane highway"
+            "達到巡航速度後平穩的縱向加速和制動",
+            "在開放的多車道高速公路上穩定的前車跟隨"
           ],
           "negatives": [
-            "Aggressive low-speed steering wheel oscillations ('see-sawing')",
-            "Understeers and gives up in the second half of sharp intersection turns",
-            "Tends to roll stop signs as California stops"
+            "劇烈的低速方向盤振動（“蹺蹺板”）",
+            "在交叉路口急轉彎的後半段轉向不足並放棄",
+            "加州停車時往往會滾動停車標誌"
           ],
           "routesDriven": 54,
           "fleetRank": 53
@@ -457,7 +496,6 @@
         {
           "name": "BMRLNAP Model v2",
           "date": "August 24, 2026",
-          "badge": "NEW",
           "tags": [
             "Big Model",
             "Chestnut",
@@ -472,10 +510,10 @@
             "ok": 33,
             "bad": 12
           },
-          "consensus": "Second iteration of the BMRLNAP big model line. Early testing feedback indicates mixed results compared to v1: open highway lanekeeping and longitudinal response remain solid, but testers noted regressions in intersection stop consistency, particularly failing to stop reliably at the white line for traffic lights.",
-          "note": "栗子級的大模型，與comma的新GPU插件捆綁在一起。在起亞 EV6、2022 年現代伊蘭特和 2023 年凱美瑞 XSE 上進行了測試。",
+          "consensus": "BMRLNAP 大型號系列的第二次迭代。在 Kia、EV6、Elantra 和凱美瑞測試儀上，高速公路車道保持、切入反應和高速三葉草定心都表現得紮實而自然。然而，城市駕駛的結果好壞參半，測試人員報告說，紅綠燈處的停車距離不一致，而且往往會停在領先車輛後面太近的地方。",
+          "note": "Chestnut 級大型號，與comma 的新GPU 附加組件相關。在 Kia EV6、2022 Hyundai Elantra 和 2023 凱美瑞 XSE 上進行了測試。",
           "bestFor": "測試/大模型比較",
-          "steeringFeel": "光滑",
+          "steeringFeel": "Smooth",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v2-august-24-2026-big-model/6878",
           "testedOn": [
             "2023 Camry XSE",
@@ -483,12 +521,14 @@
             "2022 Hyundai Elantra"
           ],
           "positives": [
-            "Smooth, stable lateral control in open highway driving",
-            "Quick acceleration response off the line"
+            "在高速公路上實現平穩、自然的橫向控制和靈敏的切入避讓",
+            "三葉草式進/出坡道處理順暢，無需駕駛太靠近彎道內邊緣",
+            "離線加速響應快"
           ],
           "negatives": [
-            "Inconsistent stopping at traffic light white lines",
-            "Noticeable regression in city stop consistency compared to v1"
+            "在 55 mph 上方的交通燈白線和標誌處不一致停車",
+            "紅燈時停在領先車輛後面太近，不舒服",
+            "與 v1 相比，城市站點一致性明顯下降"
           ],
           "routesDriven": 19,
           "fleetRank": 63
@@ -511,98 +551,75 @@
             "ok": 50,
             "bad": 0
           },
-          "consensus": "紀念sunnyhaibin生日特別發售。 Discord 測試人員稱讚其在交通繁忙時溫和的走走停停行為和自然的巡航感覺，儘管在突然紅燈時高速煞車仍然有點晚。",
-          "note": "謹以此文紀念sunnypilot創始人sunnyhaibin生日（8月24日）。社區測試人員報告稱，在 Chestnut 硬體上可以進行愉快的走走停停的巡航。",
+          "consensus": "紀念sunnyhaibin生日特別發售。 Discord 測試人員稱讚其在交通繁忙時溫和的走走停停行爲和自然的巡航感覺，儘管在突然紅燈時高速制動仍然有點晚。",
+          "note": "謹以此文紀念sunnypilot創始人sunnyhaibin生日（8月24日）。社羣測試人員報告稱，Chestnut 硬件上的巡航令人愉快。",
           "bestFor": "走走停停/城市駕駛",
-          "steeringFeel": "光滑",
+          "steeringFeel": "Smooth",
           "forumUrl": "https://community.sunnypilot.ai/t/happy-birthday-model-august-24-2026-big-model/6871",
           "testedOn": [
             "Honda Accord",
             "Toyota Camry"
           ],
           "positives": [
-            "Smooth, natural feel in stop-and-go traffic",
-            "Strong low-speed lead car following and light detection",
-            "Pleasant, non-robotic steering feel"
+            "在走走停停的交通中提供平穩、自然的感覺",
+            "強低速跟車及燈光檢測",
+            "令人愉悅的非機器人轉向感覺"
           ],
           "negatives": [
-            "Brakes somewhat late and fast into sudden reds at high speeds"
+            "高速時剎車有點遲且快，突然紅燈"
           ],
           "routesDriven": 39,
           "fleetRank": 57
         },
         {
           "name": "I Desire Model",
-          "date": "2026年8月21日",
-          "badge": "NEW",
+          "date": "August 21, 2026",
           "tags": [
             "Big Model",
             "Chestnut",
             "Highway",
             "Smooth"
           ],
-          "consensus": "本轮大模型中早期口碑最好的一版：在仅 4 票的小规模投票中 75% 给出“好”或更高，同时也是目前唯一一个纵向评价全票一致的版本——两位投票者都选择了“加速与制动平顺”，没有人选择顿挫、急刹或走走停停表现差。其车道保持沉稳扎实而不飘忽，巡航时也没有引发晕车的长周期摆动，获得好评。红绿灯与停车标志仍是短板，横向投票则在“平顺稳定”与贴线/画龙之间对半分。",
-          "note": "Chestnut 级模型，与 comma 新推出的 GPU 扩展模块绑定。投票数仍然很少（主投票 4 票，细分投票 2~3 票），因此分数为暂定值。一位用户在仪表台安装的 C4 和 C3X 上使用；另一位用 2023 款凯美瑞在乡村道路测试。",
-          "bestFor": "高速 / 巡航",
+          "communityScore": 74,
+          "totalVotes": 6,
+          "sentiment": {
+            "great": 33,
+            "good": 33,
+            "ok": 33,
+            "bad": 1
+          },
+          "consensus": "大型模型運行的早期接受度最高：在一項小型四票民意調查中，75％的人表示良好或更好，也是迄今為止唯一一致的縱向結果 - 兩名投票者都選擇了“平穩的加速和製動”，沒有投票支持急躁、困難/遲到或糟糕的走走停停。因平穩、不漂浮的車道維持和巡航而受到稱讚，沒有導致暈車的長時間振盪。交通燈和停車標誌是一貫的弱點，橫向民意調查在「平穩」和駕駛距離太靠近當前車道/乒乓球的一個邊界之間均勻分佈。",
+          "note": "Chestnut 級型號，與 comma 的新 GPU 附加組件相關。得票數仍然很少（標題民意調查爲 4 票，詳細民意調查爲 2-3 票），因此請將分數視爲臨時分數。一位記者在安裝在儀錶板上的 C4 和 C3X 上運行了該程序；另一位在鄉村道路上測試了 2023 款凱美瑞。",
+          "bestFor": "公路/巡航",
+          "steeringFeel": "Varies",
           "forumUrl": "https://community.sunnypilot.ai/t/i-desire-model-august-21-2026-big-model/6831",
           "testedOn": [
             "2023 Camry"
           ],
           "positives": [
-            "车道保持与巡航表现出色，沉稳扎实而不飘忽",
-            "纵向投票中“加速与制动平顺”获全票一致",
-            "没有引发晕车的长周期摆动",
-            "仍能及时识别停车标志并适当减速"
+            "出色的車道保持和巡航能力；種植而不是漂浮",
+            "縱向輪詢中一致平穩的加速和制動",
+            "不會引起暈車的長時間振盪",
+            "仍能及時看到停車標誌並適當減速"
           ],
           "negatives": [
-            "红绿灯与停车标志是其最大短板",
-            "滚动停车——一次行程中 10 个标志仅在 1 个处完全停稳",
-            "高速下加速迟疑，55 mph 道路上稳定在 53 mph",
-            "在没有停车或让行标志的交叉路口也会减速",
-            "低速时的常见摆动，部分路段出现画龙现象"
+            "交通燈和停車標誌是它的致命弱點",
+            "滾動停車 — 在一次行駛中僅在 10 個標誌中的 1 個處完全停車",
+            "高速加速時猶豫不決，在 55 mph 道路上穩定在 53 mph",
+            "在沒有停車或讓路標誌的十字路口減速",
+            "典型的慢速振盪，部分道路出現乒乓球漂移現象"
           ],
-          "communityScore": 75,
-          "totalVotes": 5,
-          "sentiment": {
-            "great": 40,
-            "good": 20,
-            "ok": 40,
-            "bad": 0
-          },
-          "steeringFeel": "各不相同",
           "routesDriven": 20,
           "fleetRank": 62
         },
         {
           "name": "BMRLNAP Model",
-          "date": "2026年8月20日",
-          "badge": "NEW",
+          "date": "August 20, 2026",
           "tags": [
             "Big Model",
             "Chestnut",
             "Smooth",
             "Early Feedback"
-          ],
-          "consensus": "本轮大模型中口碑最好的一版，但投票者仅两人：主投票全票“5 - 很棒”，横向全票“平顺稳定”，纵向也全票“加速与制动平顺”。一位 sunnypilot 开发者称其“literally definition of end to end”。纵向控制是亮点——在 60 mph 下也能稳住车速，红灯转绿时能迅速重新加速，对来不及通过的黄灯也应对得当。停车标志是需要注意的地方：从 60 mph 接近时速度略快，难以在标志处或标志前停稳；黄昏时段的一次行程中滚过的停车标志明显更多，需要人工介入。",
-          "note": "Chestnut 级模型，与 comma 新推出的 GPU 扩展模块绑定。该分数来自一次全票但仅有 2 票的投票，因此属于暂定值，无法与样本更大的条目直接比较；细分投票也是同样这两位用户。最详细的反馈来自一辆 2023 款凯美瑞，车主表示尽管存在黄昏滚停车标志的问题，仍打算把它作为日常使用的模型。",
-          "bestFor": "全能",
-          "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-august-20-2026-big-model/6828",
-          "testedOn": [
-            "2023 Camry"
-          ],
-          "positives": [
-            "主投票全票“5 - 很棒”，横向也全票平顺稳定",
-            "纵向投票中“加速与制动平顺”获全票一致",
-            "即使在 60 mph 下也能稳住车速",
-            "红灯转绿时重新加速非常迅速",
-            "对来不及通过的黄灯应对得当"
-          ],
-          "negatives": [
-            "从 60 mph 接近停车标志时速度略快，难以在标志处或标志前停稳",
-            "黄昏行程中滚过的停车标志明显更多，需要人工介入",
-            "夜间在标志和信号灯处的停车位置略微靠前",
-            "对引导车辆并入新车道的锥桶反应偏慢",
-            "略有游移，在较窄道路上有轻微左偏"
           ],
           "communityScore": 84,
           "totalVotes": 3,
@@ -612,38 +629,38 @@
             "ok": 33,
             "bad": 0
           },
-          "steeringFeel": "光滑",
+          "consensus": "最佳獲得者是大型車型運行中的下降，但只有兩個投票者：一致的 5-Great 頭條民意調查、一致的“平滑和穩定”橫向以及一致的平滑加速和制動。 sunnypilot 開發人員將其稱爲“端到端的字面定義”。縱向是最突出的——將速度保持在 60 左右，當紅色變綠時迅速恢復油門，並且對無法清除的黃色反應良好。停車標誌是一個警告：它到達的速度有點太快，無法在標誌處或之前停下來，黃昏時的行駛會明顯增加更多的停車標誌，需要幹預。",
+          "note": "Chestnut 級型號，與 comma 的新 GPU 附加組件相關。該分數來自一致但兩票的民意調查，因此它是臨時的，不能與較大樣本的條目進行比較——詳細民意調查有相同的兩名選民。最完整的報告是一輛 2023 款凱美瑞，儘管黃昏時停車標誌滾動，但其司機仍計劃每天駕駛它。",
+          "bestFor": "全能",
+          "steeringFeel": "Smooth",
+          "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-august-20-2026-big-model/6828",
+          "testedOn": [
+            "2023 Camry"
+          ],
+          "positives": [
+            "一致5-偉大的頭條民意調查和一致平穩的橫向",
+            "縱向輪詢中一致平穩的加速和制動",
+            "即使在 60 mph 下也能很好地保持速度",
+            "當紅燈變綠時非常快地恢復油門",
+            "對無法清除的黃燈響應非常好"
+          ],
+          "negatives": [
+            "從 60 mph 接近停車標誌時速度稍快，無法在標誌處或標誌前停車",
+            "黃昏行駛時明顯出現更多停車標誌，需要幹預",
+            "夜間停車位置在標誌和燈處有點太靠前",
+            "對交通錐引導交通進入新車道的反應遲緩",
+            "有點漂移，在較窄的道路上行駛時距離當前車道的左邊界太近"
+          ],
           "routesDriven": 15,
           "fleetRank": 65
         },
         {
           "name": "Tee Time Model",
-          "date": "2026年8月19日",
-          "badge": "NEW",
+          "date": "August 19, 2026",
           "tags": [
             "Big Model",
             "Chestnut",
             "Mixed Sentiment"
-          ],
-          "consensus": "本轮分歧最大的一版：4 票的投票在“好”与“差”之间对半分，也是唯一一个横向投票没有获得任何正面票的条目——三位投票者中有两位选择画龙/游移，贴线与弯道转向过度各一位，“平顺稳定”和“自然”均为零票。高速下的画龙现象被形容为非常明显。纵向乍看矛盾，但把平顺度与判断力分开看就清楚了：投票全票认为“加速与制动平顺”，而文字反馈几乎都在说减速过早——在 55 mph 的道路上车速会掉到 48 mph 左右，遇到任何交叉路口或成片房屋都会降速。亮点是低速下的停车标志处理：在 50 mph 以下被称为在任何模型上见过的最佳表现，能连续 9 到 10 次平顺地在标志前恰好停稳；但超过该速度后，测试者因其无法及时识别标志而选择解除。",
-          "note": "Chestnut 级模型，与 comma 新推出的 GPU 扩展模块绑定。主投票为 4 票，“好”与“差”对半分。建议把投票与评论结合起来看：纵向投票全票正面，而文字反馈抱怨减速过早，说明该投票选项衡量的是平顺度，而非时机是否恰当。最详细的反馈来自一辆 2023 款凯美瑞。",
-          "bestFor": "僅測試",
-          "forumUrl": "https://community.sunnypilot.ai/t/tee-time-model-august-19-2026-big-model/6814",
-          "testedOn": [
-            "2023 Camry"
-          ],
-          "positives": [
-            "50 mph 以下的停车标志处理被称为在任何模型上见过的最佳表现",
-            "能连续 9 到 10 次平顺地在标志前恰好停稳",
-            "纵向投票中“加速与制动平顺”获全票一致",
-            "对向来车接近时会主动偏离中线"
-          ],
-          "negatives": [
-            "横向没有任何正面票——三位投票者中两位选择画龙/游移",
-            "高速下画龙现象非常明显",
-            "减速过早，在城市道路上体感不适",
-            "在 55 mph 道路上掉速，稳定在 48 mph 左右",
-            "超过 50 mph 后无法及时识别停车标志，需要解除"
           ],
           "communityScore": 51,
           "totalVotes": 8,
@@ -653,76 +670,200 @@
             "ok": 0,
             "bad": 37
           },
-          "steeringFeel": "抽搐"
+          "consensus": "本次投票中分歧最大的一點是：四票民意調查在好票和壞票之間平分秋色，也是唯一一個橫向民意調查根本沒有獲得任何正面選票的條目——三分之二的選民中有兩人打乒乓球/徘徊，擁堵車道和彎道過度轉向各一人，沒有任何平滑、穩定或自然的表現。乒乓球在高速時被稱爲非常引人注目。縱向讀起來是矛盾的，除非你將平穩性與判斷分開：民意調查一致認爲加速和制動平穩，而書面反饋都是關於過早減速——將 55 mph 的道路減至大約 48，並在每個十字路口或房屋羣處傾斜。最引人注目的是低速停車標誌，被描述爲在 50 mph 以下的任何車型上看到的最好的，在標誌前平穩地連續停車 9 或 10 次；超過該速度，測試儀就會脫離，因爲它不再及時看到它們。",
+          "note": "Chestnut 級型號，與 comma 的新 GPU 附加組件相關。頭條民意調查是四名選民，好人和壞人各佔一半。一起閱讀民意調查和評論：縱向民意調查一致積極，而散文則抱怨過早放緩，因此民意調查選項衡量的是平穩性，而不是時機是否合適。最完整的報告是 2023 款凱美瑞。",
+          "bestFor": "僅測試",
+          "steeringFeel": "Twitchy",
+          "forumUrl": "https://community.sunnypilot.ai/t/tee-time-model-august-19-2026-big-model/6814",
+          "testedOn": [
+            "2023 Camry"
+          ],
+          "positives": [
+            "低於 50 mph 的停車標誌性能被稱爲所有型號中最好的",
+            "在路標前順利停車，連續 9 或 10 次",
+            "縱向輪詢中一致平穩的加速和制動",
+            "當迎面而來的車輛接近時遠離中心"
+          ],
+          "negatives": [
+            "根本沒有積極的橫向投票——三名選民中的兩人出現乒乓球/徘徊的情況",
+            "乒乓球在高速時非常明顯",
+            "過早減速，在城市駕駛中會變得不舒服",
+            "在 55 mph 道路上加速並穩定在 48 左右",
+            "50 mph以上無法及時看到停車標誌，提示脫離"
+          ]
         },
         {
           "name": "TTTTFBRLM",
-          "date": "2026年8月18日",
-          "badge": "NEW",
+          "date": "August 18, 2026",
           "tags": [
             "Big Model",
             "Chestnut",
             "Early Feedback"
           ],
-          "consensus": "八月中旬大型模型運行的第一場。值得注意的是報告的“大模型錯誤”，該錯誤迫使在某些 Chestnut 設定後大約一分鐘立即接管。",
-          "note": "Chestnut 级模型，与 comma 新推出的 GPU 扩展模块绑定。 该硬件自 2026 年 8 月起开始送达用户。 另有一个 Driving Issues 主题帖跟踪 sunnypilot 2026.003.000 上的“Big Model Error”接管提示。",
-          "bestFor": "大模型测试者",
+          "consensus": "八月中旬大型模型運行的第一場。值得注意的是，報告的“大模型錯誤”迫使在某些 Chestnut 設置後大約一分鐘立即接管。",
+          "note": "Chestnut 級型號，與 comma 的新 GPU 附加組件相關。硬件於 2026 年 8 月開始交付給所有者。一個單獨的駕駛問題線程跟蹤 sunnypilot 2026.003.000 上的“大模型錯誤”接管提示。",
+          "bestFor": "大模型測試員",
           "forumUrl": "https://community.sunnypilot.ai/t/ttttfbrlm-august-18-2026-big-model/6813",
           "testedOn": [],
           "positives": [],
           "negatives": [
-            "有报告称启用约一分钟后出现“Big Model Error”并要求接管"
+            "交戰一分鐘後報告“模型大錯誤”接管"
           ],
           "routesDriven": 1,
           "fleetRank": 93
         },
         {
           "name": "Lebowski Model",
-          "date": "2026年7月1日",
+          "date": "July 01, 2026",
           "tags": [
             "Big Model",
             "Chestnut",
             "Curves",
             "City"
           ],
-          "consensus": "本轮的首个版本，两个维度的评价泾渭分明：横向是强项，纵向不是。一位 sunnypilot 开发者称其横向表现“outstanding”，在左右转弯时比小模型自信得多；一位使用 2022 款 Rivian R1T 的测试者反馈，市区 90 度以上的转弯会以合适的弧度绕行，大幅降低了切弯并让轮毂蹭到路缘的可能。纵向则明显掉队：急刹或制动过晚在纵向投票中居首，达到设定车速后测试者还描述了加减速顿挫。停车标志的识别优于小模型，但仍会漏掉一些，即便识别到也倾向于“加州式停车”滚过。",
-          "note": "一位测试者称其为 Chestnut 级模型的首个版本。主投票为 4 票。该帖还确定了硬件时间线：有读者询问大家在没有新 GPU 扩展模块的情况下是如何运行该模型的，创始人回复称 comma chestnut 正在当周陆续发货，另一位测试者表示自己上一周就已拿到。测试车辆为搭配角度转向线束的 2022 款 Rivian R1T。",
+          "communityScore": 64,
+          "totalVotes": 7,
+          "sentiment": {
+            "great": 0,
+            "good": 57,
+            "ok": 43,
+            "bad": 0
+          },
+          "consensus": "跑步的開場下降和軸線之間的清晰分割：橫向是強度，縱向不是。 sunnypilot 開發人員稱其橫向“出色”，並且在右轉和左轉方面比小型車型更有信心，而 2022 年 Rivian R1T 的測試人員報告說，在城鎮內進行 90 度以上轉彎時，其寬度適當，更不容易偷工減料和限制車輪。縱向是它的失敗之處：硬制動或延遲制動在縱向調查中名列前茅，一旦達到設定速度，測試人員就會報告油門制動喘振效果。停車標誌的識別效果比小型車型更好，但仍然偶爾會錯過，並且在看到時會像加利福尼亞州停車一樣滾動。",
+          "note": "被測試人員描述爲Chestnut級模型的第一次迭代。頭條民意調查有四名選民。該線程還固定了硬件時間表：一位讀者詢問人們如何在沒有新的 GPU 附加組件的情況下運行它，創始人回答說commaChestnut單元將在本週交付，另一位測試人員說他從前一週開始就已經有了他的。在帶有角度轉向線束的 2022 Rivian R1T 上進行了測試。",
           "bestFor": "城市駕駛",
+          "steeringFeel": "Confident",
           "forumUrl": "https://community.sunnypilot.ai/t/lebowski-model-july-01-2026-big-model/6812",
           "testedOn": [
             "2022 Rivian R1T"
           ],
           "positives": [
-            "横向表现出色——与小模型不同，左右转弯时非常自信",
-            "市区 90 度以上转弯以合适弧度绕行，大幅降低蹭到路缘的风险",
-            "起步加速优于更小的模型",
-            "减速开始得更早，停车过程舒适自然",
-            "停车标志识别优于小模型"
+            "出色的橫向能力——與小型車型不同，對左轉和右轉充滿信心",
+            "在城鎮內進行 90 度以上轉彎，轉彎範圍適當，不太可能限制車輪",
+            "比小型型號更好的起停加速能力",
+            "開始減速更快，停止舒適自然",
+            "比小型型號更好地識別停車標誌"
           ],
           "negatives": [
-            "急刹或制动过晚在纵向投票中居首，三位投票者中占两位",
-            "达到设定车速后出现加减速顿挫",
-            "仍会漏掉部分停车标志，识别到的也多以“加州式停车”滚过",
-            "横向投票者全部反馈存在贴线现象"
+            "在縱向民意調查中，急剎車或遲剎車位居榜首，三分之二的選民",
+            "一旦達到設定速度，氣體制動器就會喘振",
+            "仍然錯過了一些停車標誌，加州會在它看到的地方停下來嗎",
+            "每個橫向選民都報告稱，駕駛距離太靠近當前車道的一個邊界"
           ],
-          "communityScore": 67,
-          "totalVotes": 6,
-          "sentiment": {
-            "great": 0,
-            "good": 67,
-            "ok": 33,
-            "bad": 0
-          },
-          "steeringFeel": "自信",
           "routesDriven": 19,
           "fleetRank": 64
+        },
+        {
+          "name": "Mountain Dew Model",
+          "date": "October 10, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Experimental"
+          ],
+          "consensus": "第一個 Mountain Dew 版本：comma 於 10 月 10 日透過 PR #39047 合併至 openpilot master，四天後 v3 重製版取代它成為預設。論壇主題於 10 月 26 日開啟，目前尚無評分。目前唯一的一票是「是否應成為新預設？」投下的「否」，這與 v3 已取代它的情況一致。",
+          "note": "基於 openpilot 提交 6f4c0fa（PR #39047）。位於 Model Manager 的「Master Models」資料夾。維護者公告指出需要 comma four 或 comma 3X，並搭配 comma chestnut。論壇投票以目前的預設大型模型 Mountain Dew Model v3 作為比較對象。",
+          "bestFor": "用於與 v3 預設模型比較；對大多數人而言，v3 已取代它。",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/mountain-dew-model-october-10-2026/7619",
+          "testedOn": [],
+          "positives": [],
+          "negatives": [],
+          "modelRef": "6f4c0faf1f85132734e94aa39c67143f823b9324",
+          "shortName": "MDM",
+          "minimumSelectorVersion": 21
+        },
+        {
+          "name": "Mountain Dew Model v3",
+          "date": "October 14, 2026",
+          "badge": "FLAGSHIP",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Default"
+          ],
+          "consensus": "sunnypilot 目前的預設大型模型。若未另行選擇，Model Manager 就會使用它，之後推出的大型模型（Train Track、Flip Flop、Cinque Terre V3）都以它為比較基準。comma 於 10 月 14 日透過 PR #39087 合併至 master。其論壇投票尚無評分；目前唯一的直接比較（Flip Flop）將 Flip Flop 評為「差不多」。",
+          "note": "基於 openpilot 提交 1e219d7（PR #39087）。位於 Model Manager 的「Master Models」資料夾。需要 comma four 或 comma 3X，並搭配 comma chestnut。它取代 Cinque Terre Model v2 成為預設大型模型，因此其論壇投票以 CTM v2 為比較對象。",
+          "bestFor": "大型模型基準：預設的 Chestnut 體驗，也是評估新模型的參考。",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/mountain-dew-model-v3-october-14-2026/7620",
+          "testedOn": [],
+          "positives": [
+            "目前的預設大型模型；在 Model Manager 不做任何更改時即使用此模型"
+          ],
+          "negatives": [],
+          "modelRef": "1e219d7785cfb7b7343c7f2366347fc86e7ce5f2",
+          "shortName": "MDMV3",
+          "minimumSelectorVersion": 21
+        },
+        {
+          "name": "Train Track Model",
+          "date": "October 16, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "consensus": "來自 Model Manager 新「2026 Deep RL Models」資料夾的大型模型，與已合併至 master 的 Mountain Dew 系列分開。論壇主題於 10 月 26 日開啟，目前尚無投票或回覆，每週摘要與 Discord 頻道也尚未討論。目前還沒有可彙整的駕駛回饋。",
+          "note": "基於 openpilot 提交 e46b35b。位於 Model Manager 的「2026 Deep RL Models」資料夾。需要 comma four 或 comma 3X，並搭配 comma chestnut。論壇投票以目前的預設模型 Mountain Dew Model v3 作為比較對象。",
+          "bestFor": "想將 Deep RL 大型模型系列與 MDv3 預設模型比較的早期測試者。",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
+          "modelRef": "e46b35b0dcce35761ba28ada1a7df6ae36589c30",
+          "shortName": "TTM",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "forumUrl": "https://community.sunnypilot.ai/t/train-track-model-october-16-2026/7621",
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Flip Flop Model",
+          "date": "October 23, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "consensus": "最新的 Deep RL 大型模型，也是這批模型中目前唯一有實際駕駛回饋的。一位 Kia EV6 2022 測試者評為 3 – 普通，認為與 Mountain Dew Model v3「差不多」，並投票反對將其設為預設。他回報在時速 120 公里以上巡航時會在車道內左右擺盪（ping-pong），轉彎時也會猶豫而需要手動介入。他仍認為 Cinque Terre V3 最適合日常使用。這僅是一位測試者的意見，請視為早期訊號。",
+          "note": "基於 openpilot 提交 35c5406。位於 Model Manager 的「2026 Deep RL Models」資料夾。需要 comma four 或 comma 3X，並搭配 comma chestnut。論壇投票以 Mountain Dew Model v3 作為比較對象。主要投票：1 位投票者。",
+          "bestFor": "僅限早期測試者；目前不建議用於高速公路高速行駛。",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
+          "modelRef": "35c5406aa5b03c51a6246a1f09ff84464b2a6b96",
+          "shortName": "FFM",
+          "minimumSelectorVersion": 21,
+          "communityScore": 50,
+          "totalVotes": 1,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 100,
+            "bad": 0
+          },
+          "testedOn": [
+            "2022 Kia EV6"
+          ],
+          "forumUrl": "https://community.sunnypilot.ai/t/flip-flop-model-october-23-2026/7622",
+          "steeringFeel": "Ping-pongs above ~120 km/h",
+          "positives": [
+            "第一位測試者評為與預設的 Mountain Dew Model v3「差不多」"
+          ],
+          "negatives": [
+            "時速 120 公里以上巡航時在車道內左右擺盪",
+            "轉彎時猶豫，需要手動介入",
+            "第一位測試者仍偏好以 Cinque Terre V3 作日常使用"
+          ]
         }
       ]
     },
     {
       "id": "world_2026",
       "name": "WMI 2026",
-      "description": "最新的端到端架构。 了解 3D 场景、停车标志和复杂的交叉路口。",
+      "description": "最新的端到端架構。瞭解 3D 場景、停車標誌和複雜的交叉路口。",
       "icon": "🚀",
       "models": [
         {
@@ -742,18 +883,18 @@
             "ok": 19,
             "bad": 32
           },
-          "consensus": "OP Model 10 系列強勁反彈。據報道，加速與 DEC 相當（「加速也是一樣」）——這是 v1/v2 緩慢的離線行為的明確解決方案。早期的日常駕駛印象將其描述為“很棒”，並且是 v1/v2/v3 中的建議選擇。",
-          "note": "在 OP Model 9 線程中被引用為收到明顯更好回饋的替代版本。建議超過 v1 和 v2。",
+          "consensus": "OP Model 10線強勢反彈。據報道，加速與 DEC 相當（“加速也一樣”）——這是對 v1/v2 緩慢的離線行爲的明確修復。早期的日常駕駛印象將其描述爲“很棒”，並且是 v1/v2/v3 中的推薦選擇。",
+          "note": "在 OP Model 9 線程中被引用爲收到明顯更好反饋的替代。推薦超過 v1 和 v2。",
           "bestFor": "日常/實驗模式",
-          "steeringFeel": "自信",
+          "steeringFeel": "Confident",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v3-apr-19-2026/4690",
           "testedOn": [
             "2018 Corolla Sport"
           ],
           "positives": [
-            "DEC-level acceleration in Experimental Mode",
-            "Resolves v2's sluggish stops",
-            "Reviewer plans to daily-drive it"
+            "實驗模式DEC級加速",
+            "解決 v2 的緩慢停止問題",
+            "審閱者計劃每天駕駛它"
           ],
           "negatives": [],
           "routesDriven": 7463,
@@ -776,21 +917,21 @@
             "ok": 17,
             "bad": 58
           },
-          "consensus": "較 v1 有了重大進步。縱向感覺是亮點——這是評論者一段時間以來感受到的最柔和、最一致的煞車。橫向仍然緊貼左側（可透過相機偏移修復），並且模型在急轉彎後仍然緩慢地拉直車輪。",
-          "note": "可以透過相機偏移 +0.05 到 +0.10 來緩解左擁抱。出線時有些揮之不去的猶豫，彎道後車輪返回緩慢。",
+          "consensus": "較 v1 有了重大進步。縱向感覺是亮點——這是評論者一段時間以來感受到的最柔和、最一致的制動。橫向仍然緊貼左側（可通過相機偏移進行修復），並且模型在急轉彎後仍然緩慢地拉直車輪。",
+          "note": "使用攝影機偏移 +0.05 至 +0.10 可以緩解距離目前車道左邊界太近的情況。出線時有些揮之不去的猶豫，彎道後車輪返回緩慢。",
           "bestFor": "舒適/公路",
-          "steeringFeel": "光滑",
+          "steeringFeel": "Smooth",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-v2-apr-18-2026/4657",
           "testedOn": [],
           "positives": [
-            "Softest, most consistent braking in a while",
-            "Solid longitudinal control",
-            "Reaches cruise speed well"
+            "有史以來最柔和、最穩定的制動",
+            "穩固的縱向控制",
+            "很好地達到巡航速度"
           ],
           "negatives": [
-            "Hesitant to accelerate from a stop",
-            "Left-lane hugging",
-            "Slow to straighten wheel after sharp turns"
+            "猶豫是否要從停車處加速",
+            "行駛距離太靠近目前車道的左邊界",
+            "急轉彎後緩慢調直車輪"
           ],
           "routesDriven": 7,
           "fleetRank": 75
@@ -813,17 +954,17 @@
             "ok": 29,
             "bad": 71
           },
-          "consensus": "OP Model 10 系列的首次發布收到了強烈的負面回饋。評論家指出，橫向控制很差，修正較晚，在汽車已經離開車道線後，這些修正會急劇停止。沒有陽性報告。",
-          "note": "很快就被 v2 和 v3 取代。直接跳至 ​​v3 以取得推薦選項。",
+          "consensus": "OP Model 10 系列的首次發佈收到了強烈的早期負面反饋。評論家指出，側向控制很差，修正較晚，在汽車已經離開車道線後，這種控制會急劇下降。沒有陽性報告。",
+          "note": "很快被 v2 和 v3 取代。直接跳至 ​​v3 以獲取推薦選項。",
           "bestFor": "僅測試",
-          "steeringFeel": "抽搐",
+          "steeringFeel": "Twitchy",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-10-apr-17-2026/4648",
           "testedOn": [],
           "positives": [],
           "negatives": [
-            "Late lane corrections",
-            "Dramatic hard snaps after leaving lane lines",
-            "Frequently drives outside the painted lane"
+            "後期車道修正",
+            "離開車道線後戲劇性的猛衝",
+            "經常在油漆車道外行駛"
           ],
           "routesDriven": 8,
           "fleetRank": 73
@@ -845,17 +986,17 @@
             "ok": 11,
             "bad": 89
           },
-          "consensus": "社区反馈极其负面，共有9位投票者。44%评为\"差\"，44%评为\"极差\"，仅11%评为\"尚可\"。用户反映该模型应该被\"移除/回退\"，因为它\"相当糟糕\"。没有提交正面评价。",
-          "note": "不推荐日常驾驶使用。已被OP Model 10 v3取代，后者获得了显著更好的反馈。",
+          "consensus": "社羣反饋絕大多數是負面的，有 9 名投票者。 44% 的人認爲“差”，44% 的人認爲“很糟糕”，只有 11% 的人認爲“還可以”。用戶報告該模型應該“刪除/恢復”，因爲它“非常糟糕”。尚未提交任何正面評論。",
+          "note": "不建議日常駕駛。被 OP Model 10 v3 取代，後者收到了明顯更好的反饋。",
           "bestFor": "僅測試",
-          "steeringFeel": "抽搐",
+          "steeringFeel": "Twitchy",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-9-apr-10-2026/4478",
           "testedOn": [],
           "positives": [],
           "negatives": [
-            "Unstable lateral control",
-            "Unanimously negative feedback",
-            "Does not resolve previous OP model issues"
+            "橫向控制不穩定",
+            "一致負面反饋",
+            "不解決以前的 OP 模型問題"
           ]
         },
         {
@@ -875,17 +1016,17 @@
             "ok": 27,
             "bad": 53
           },
-          "consensus": "社区早期反馈以负面为主。用户反映高速时方向盘抖动/振荡、在泊播交通中非常难以保持车道，以及持续偷左车道的问题。该模型似乎在 OP Model 7 改善过的横向稳定性方面遇到困难。",
-          "note": "偷左车道是一个持续问题。请调整摄像头偏移量 (+0.05 到 +0.10)。目前阶段不建议用于日常驾驶。",
+          "consensus": "早期的社羣反饋主要是負面的。用戶報告說，高速行駛時轉向會抽搐、振盪，在走走停停的交通中很難保持車道，並且總是靠左車道。該模型似乎與 OP Model 7 改進的橫向穩定性作鬥爭。",
+          "note": "左抱是一個一貫的問題。如果嘗試此模型，請調整相機偏移（+0.05 至 +0.10）。現階段不建議日常駕駛。",
           "bestFor": "僅測試",
-          "steeringFeel": "抽搐",
+          "steeringFeel": "Twitchy",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-8-apr-7-2026/4380",
           "testedOn": [],
           "positives": [],
           "negatives": [
-            "Twitchy / oscillating steering at high speeds",
-            "Struggles to maintain lane in stop-and-go traffic",
-            "Consistent left-lane hugging"
+            "高速時轉向抽搐/振盪",
+            "在走走停停的交通中努力維持車道",
+            "持續行駛距離目前車道左邊界太近"
           ],
           "routesDriven": 81,
           "fleetRank": 50
@@ -907,10 +1048,10 @@
             "ok": 14,
             "bad": 48
           },
-          "consensus": "离策略系列的重大飞跃。被赞誉为迄今为止最自信的 OP 模型，对于停止的前车有更平滑的纵向减速，并且改进了横向控制，即使在超过 90 度急转弯时也能自动纠正。然而，部分用户仍反映存在随机的靠左行驶现象。",
-          "note": "该系列目前为止最好的横向控制。如果靠左行驶，请调整摄像头偏移量 (+0.05)。",
+          "consensus": "Off-Policy 系列的重大飛躍。被譽為迄今為止最自信的 OP 型號，在停止領先時具有更平滑的縱向減速，並改進了橫向控制，即使在過急 90 度轉彎時也能進行自我校正。然而，對於一些用戶來說，過於靠近當前車道左邊界的隨機駕駛仍然存在。",
+          "note": "迄今為止該系列最好的側面。如果行駛距離目前車道的左邊界太近，請調整攝影機偏移 (+0.05)。",
           "bestFor": "高速公路和蜿蜒道路",
-          "steeringFeel": "自信",
+          "steeringFeel": "Confident",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-7-april-03-2026/4317",
           "testedOn": [
             "Hyundai Ioniq 5",
@@ -919,14 +1060,14 @@
             "Angle steering vehicles"
           ],
           "positives": [
-            "Excellent lateral self-correction",
-            "Smooth stops for leads",
-            "Quick acceleration"
+            "出色的橫向自校正能力",
+            "線索平穩停止",
+            "加速快"
           ],
           "negatives": [
-            "Random left-hugging for some",
-            "Inconsistent city speed",
-            "Jerky steering on specific angle cars"
+            "對某些人來說，隨機駕駛距離目前車道的左邊界太近",
+            "城市速度不一致",
+            "特定角度汽車上的轉向不穩"
           ],
           "routesDriven": 1867,
           "fleetRank": 13
@@ -947,10 +1088,10 @@
             "ok": 0,
             "bad": 33
           },
-          "consensus": "非常早期的模型发布，目前社区反馈有限。初始投票为正面（良好），但样本量极小。需要更多测试和社区评估才能得出结论。",
-          "note": "目前投票很少——等更多用户测试后再查看更新的共识。",
+          "consensus": "模型很早就被放棄了，到目前爲止社羣反饋還很有限。最初的投票傾向於積極（好），但樣本量非常小。在得出結論之前需要更多的測試和社羣評估。",
+          "note": "到目前爲止，投票數很少——隨着更多用戶的測試，請回來查看更新的共識。",
           "bestFor": "待定",
-          "steeringFeel": "待定",
+          "steeringFeel": "TBD",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-april-01-2026/4314",
           "testedOn": [],
           "routesDriven": 75,
@@ -973,10 +1114,10 @@
             "ok": 32,
             "bad": 27
           },
-          "consensus": "高度两极化的发布，负面情绪增长。纵向控制被部分人称赞（GV60上跟随前车平稳停车），但多次报告'绿灯恐惧症'行为和红灯时无法保持停车。横向恢复有所改善，但更僵硬的转向在某些车辆上导致摆动和晕车。",
-          "note": "车辆依赖。GV60表现优秀，F-150 Lightning颤抖。Subaru Crosstrek用户报告晕车。推荐Torque Tune v0。",
+          "consensus": "發佈高度兩極分化，負面情緒不斷增長。縱向控制受到一些人的讚揚（在 GV60 上平穩地停在領先位置後面），但有多個報告稱“害怕綠燈”行爲以及在紅燈時未能保持停車狀態。橫向放鬆得到了改善，但更僵硬的轉向會導致某些車輛出現振盪和暈動病。非常依賴車輛 - F-150 Lightning 報告低速行爲。",
+          "note": "取決於車輛。在 GV60 上很棒，在 F-150 Lightning 上很抽搐。 Subaru Crosstrek用戶報告暈動病。推薦扭矩調整 v0。",
           "bestFor": "高速公路（有監管）",
-          "steeringFeel": "各不相同",
+          "steeringFeel": "Varies",
           "forumUrl": "https://community.sunnypilot.ai/t/pop-model-v2-24-mar-2026/4019",
           "testedOn": [
             "GV60",
@@ -986,17 +1127,17 @@
             "2020 Subaru Crosstrek"
           ],
           "positives": [
-            "Better lateral unwind",
-            "Smooth stops behind leads (GV60)",
-            "Improved longitudinal for some"
+            "更好的橫向展開",
+            "領先後平滑停止 (GV60)",
+            "改進了一些縱向"
           ],
           "negatives": [
-            "Afraid of green lights",
-            "Fails to stay stopped at red lights",
-            "Twitchy at low speeds (F-150 Lightning)",
-            "Stiffer steering causes oscillations",
-            "Yoyo following distance",
-            "Motion sickness inducing on some vehicles"
+            "害怕綠燈",
+            "紅燈時未能保持停車狀態",
+            "低速抽搐 (F-150 Lightning)",
+            "轉向較硬會導致振動",
+            "溜溜球跟隨距離",
+            "某些車輛會引起暈車"
           ]
         },
         {
@@ -1016,10 +1157,10 @@
             "ok": 30,
             "bad": 10
           },
-          "consensus": "随着更多测试，社区情绪显著改善。横向控制取决于车辆——Honda Civic用户报告是很长时间以来最好的横向控制，没有乒乓现象，居中'就像欠车道线钱一样'，而Hyundai Kona等在80公里/小时以上出现极端乒乓。比Pop v2更愿意达到设定速度。仍然以在红灯时缓慢前进而闻名。",
-          "note": "非常依赖车辆。Honda/Kia用户趋向积极。扭矩调整版本很重要——先用v0测试。",
+          "consensus": "隨着更多測試的進行，社羣情緒顯着升溫。橫向控制取決於車輛——Honda Civic 用戶報告說，在沒有乒乓球和居中的情況下，他們在一段時間內獲得了最好的緯度，“就像它欠車道線錢一樣”，而 Hyundai Kona 和其他人則經歷了超過 50mph 的極端線對線乒乓球。比 Pop v2 更願意達到設定速度。仍然以闖紅燈而聞名。",
+          "note": "非常依賴車輛。 Honda/Kia 用戶趨勢積極。扭矩調整版本很重要——首先使用 v0 進行測試。",
           "bestFor": "高速公路",
-          "steeringFeel": "各不相同",
+          "steeringFeel": "Varies",
           "testedOn": [
             "2025 Honda Civic Hybrid",
             "2026 Civic Hybrid ST",
@@ -1038,18 +1179,18 @@
             "Toyota Corolla (2023-2024)"
           ],
           "positives": [
-            "Confident lateral on some vehicles",
-            "Quick recentering",
-            "Good 90-degree turn handling",
-            "Stays stopped at red lights",
-            "11/10 lateral on Kia Niro",
-            "More willing to reach set speeds"
+            "對某些車輛的橫向自信",
+            "快速重新定位",
+            "良好的 90 度轉彎操控性",
+            "紅燈時保持停車",
+            "Kia Niro 上的 11/10 橫向",
+            "更願意達到設定的速度"
           ],
           "negatives": [
-            "Extreme ping-pong on some vehicles above 50mph",
-            "Speeds aggressively without a lead car",
-            "Jerky/octagonal curve handling",
-            "Creeps at red lights"
+            "50mph 以上的某些車輛上的極限乒乓球",
+            "在沒有領頭車的情況下快速加速",
+            "生澀/八角形曲線處理",
+            "紅燈時爬行"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/pop-model-20-mar-2026/3921",
           "routesDriven": 7902,
@@ -1065,17 +1206,17 @@
             "Vehicle-Dependent"
           ],
           "communityScore": 59,
-          "totalVotes": 49,
+          "totalVotes": 52,
           "sentiment": {
-            "great": 16,
-            "good": 41,
-            "ok": 24,
-            "bad": 19
+            "great": 15,
+            "good": 40,
+            "ok": 27,
+            "bad": 18
           },
-          "consensus": "基于 WMI V12 架构，有细微差别。 显示出改进的红灯停止行为以及低速时更少的乒乓现象。 然而，多名用户报告称，转弯时转向过度，尤其是配备低扭矩 EPS 的丰田汽车。 近距离制动困难和红灯蠕动也是值得注意的缺点。",
-          "note": "车辆依赖性：在现代 Ioniq 5 上受到好评，但在丰田 RAV4 Prime 上却表现不佳。 如果存在过度转向的问题，请考虑启用“转弯时横向暂停”。",
+          "consensus": "基於WMI V12架構，有細微差別。顯示出改進的紅燈停止行爲以及低速時更少的乒乓現象。然而，多個用戶報告轉彎時出現明顯的轉向過度問題，尤其是在配備低扭矩 EPS 的 Toyota 車輛上。近距離硬剎車和紅燈爬行也是值得注意的缺點。",
+          "note": "車輛相關：在 Hyundai Ioniq 5 上受到好評，但在 Toyota RAV4 Prime 上表現不佳。如果存在轉向過度的問題，請考慮啓用“轉彎時橫向暫停”。",
           "bestFor": "混合駕駛",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Hyundai Ioniq 5 (2025)",
             "Toyota RAV4 Prime (2025)",
@@ -1105,10 +1246,10 @@
             "ok": 10,
             "bad": 0
           },
-          "consensus": "在直道上比 V12 稍微稳定一些。 如果 V12 感觉太紧张的话，这是一个很好的后备方案。",
-          "note": "主要是高速公路通勤的首选。",
+          "consensus": "在直道上比 V12 稍微穩定一些。如果 V12 感覺太緊張的話，這是一個很好的後備方案。",
+          "note": "主要是高速公路通勤的首選。",
           "bestFor": "高速公路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Hyundai Ioniq 5",
             "Kia EV6",
@@ -1133,9 +1274,9 @@
             "ok": 54,
             "bad": 0
           },
-          "consensus": "经过充分测试的中代型号。 如果 V11/V12 在您的特定车辆上出现问题，这是一个可靠的选择。",
+          "consensus": "經過充分測試的中代型號。如果 V11/V12 在您的特定車輛上出現問題，這是一個可靠的選擇。",
           "bestFor": "混合駕駛",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Hyundai Palisade",
             "Kia Telluride",
@@ -1161,10 +1302,10 @@
             "ok": 29,
             "bad": 8
           },
-          "consensus": "可能是“太空猫”或“稳定控制”变体。 测试新的稳定性算法。",
-          "note": "如果你想要一些不同的东西，值得尝试。",
+          "consensus": "可能是“太空貓”或“穩定控制”變體。測試新的穩定性算法。",
+          "note": "如果你想要一些不同的東西，值得嘗試。",
           "bestFor": "實驗",
-          "steeringFeel": "僵硬",
+          "steeringFeel": "Stiff",
           "testedOn": [
             "Hyundai Ioniq 5",
             "Kia EV6",
@@ -1177,6 +1318,7 @@
         {
           "name": "WMI V9",
           "date": "January 07, 2026",
+          "badge": "STABLE",
           "tags": [
             "Smart",
             "C4 Default",
@@ -1190,9 +1332,9 @@
             "ok": 14,
             "bad": 8
           },
-          "consensus": "适用于 2025+ 新平台（如起亚 K4）的稳健选择。目前是 Comma 4 硬件上的默认预装模型。因其在现代 ADAS 架构上的稳定性和预测行为而受到青睐。",
+          "consensus": "較新的 2025+ 平臺（例如 Kia K4）的可靠選擇。目前Comma 4硬件上默認預裝的型號。因其在現代 ADAS 架構上的穩定性和預測行爲而受到青睞。",
           "bestFor": "混合駕駛",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Toyota Camry",
             "Honda CR-V",
@@ -1200,7 +1342,6 @@
             "comma 4"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/wmiv9-7-jan-2026/2275",
-          "badge": "STABLE",
           "routesDriven": 173,
           "fleetRank": 45
         },
@@ -1218,9 +1359,9 @@
             "ok": 0,
             "bad": 0
           },
-          "consensus": "2026 年初的建设奠定了基础。 对于保守的 E2E 用户来说仍然有效。",
+          "consensus": "2026 年初的建設奠定了基礎。對於保守的 E2E 用戶來說仍然可以使用。",
           "bestFor": "高速公路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various vehicles"
           ],
@@ -1240,9 +1381,9 @@
             "ok": 15,
             "bad": 8
           },
-          "consensus": "启动 2026 WMI 系列的新年版本。 历史意义。",
+          "consensus": "新年發佈，啓動 2026 WMI 系列。歷史意義。",
           "bestFor": "高速公路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Hyundai",
             "Toyota"
@@ -1257,18 +1398,18 @@
             "Stiff",
             "Highway"
           ],
-          "communityScore": 86,
-          "totalVotes": 32,
+          "communityScore": 87,
+          "totalVotes": 34,
           "sentiment": {
-            "great": 66,
-            "good": 22,
+            "great": 68,
+            "good": 21,
             "ok": 6,
-            "bad": 6
+            "bad": 5
           },
-          "consensus": "世界模型针对更强劲的转向响应进行了调整。 如果 WMI V12 感觉太“摇摆不定”，这会将其锁定。",
-          "note": "非常适合具有松散转向架的车辆。",
+          "consensus": "世界模型針對 STIFFER 轉向響應進行了調整。如果 WMI V12 感覺太“搖擺”，這會將其鎖定。",
+          "note": "非常適合帶有鬆散轉向架的車輛。",
           "bestFor": "高速公路",
-          "steeringFeel": "重型",
+          "steeringFeel": "Heavy",
           "testedOn": [
             "Ford",
             "Chevy",
@@ -1280,25 +1421,25 @@
         },
         {
           "name": "OP Model 16 Deep",
-          "date": "2026年6月3日",
+          "date": "June 03, 2026",
           "badge": "NEW",
           "tags": [
             "Deep Network",
             "Urban",
             "Off-Policy"
           ],
-          "communityScore": 50,
-          "totalVotes": 1,
+          "consensus": "在 OP 模型系列中具有擴展的神經網絡架構。在混亂的城市駕駛和多車道交叉口提供卓越的空間感知，但需要現代 comma 4 硬件來實現最佳計算延遲。",
+          "note": "針對 Comma 4 進行了優化。推薦用於人口稠密的郊區和城市環境。",
+          "communityScore": 17,
+          "totalVotes": 3,
           "sentiment": {
             "great": 0,
             "good": 0,
-            "ok": 100,
-            "bad": 0
+            "ok": 33,
+            "bad": 67
           },
-          "consensus": "OP 系列升级的大规模神经网络模型。在复杂城市路况和多车道交叉口表现出卓越的空间感知能力，推荐配合 Comma 4 硬件以获得最佳算力延迟表现。",
-          "note": "专为 Comma 4 优化。适合拥堵复杂的城市及城郊路况。",
-          "bestFor": "城市 / 混合路况",
-          "steeringFeel": "自信 (Confident)",
+          "bestFor": "城市/混合駕駛",
+          "steeringFeel": "Confident",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-16-deep-june-03-2026/6557",
           "testedOn": [
             "2025 Kia K4",
@@ -1307,78 +1448,78 @@
             "comma 4"
           ],
           "positives": [
-            "多车道与路口感知能力大幅进化",
-            "施工路障及复杂地面标线应对自如",
-            "中速弯道转向扭矩反馈自信充分"
+            "顯着改善多車道意識和交叉口跟蹤",
+            "很好地處理複雜的道路標記和建築桶",
+            "中速轉彎時可靠的轉向扭矩"
           ],
           "negatives": [
-            "老款 comma 3X 硬件上算力开销较高",
-            "对靠近路缘的行人刹车可能偏急促"
+            "較舊的 comma 3X 硬件上的計算開銷較高",
+            "可以爲靠近路邊的行人突然剎車"
           ],
           "routesDriven": 468,
           "fleetRank": 30
         },
         {
           "name": "Michael RL V2",
-          "date": "2026年7月18日",
+          "date": "July 18, 2026",
           "badge": "openpilot only",
           "tags": [
             "Reinforcement Learning",
             "Natural",
             "Experimental"
           ],
-          "consensus": "继 Deep_RL V3 后的下一代强化学习模型。方向盘转动平滑细腻，弯道预判减速非常接近真人驾驶习惯。",
-          "note": "适合追求拟人化流畅驾驶感而非死板居中的 openpilot 实验分支车主。",
-          "communityScore": 50,
-          "totalVotes": 2,
+          "consensus": "繼 Deep_RL V3 之後，強化學習駕駛模型的下一步發展。提供異常自然的方向盤運動和主動的彎道預測，緊密模仿人類駕駛動態。",
+          "note": "最適合 openpilot 實驗分支和駕駛員，他們更喜歡流暢、類人的動態而不是剛性的居中。",
+          "communityScore": 67,
+          "totalVotes": 3,
           "sentiment": {
-            "great": 0,
+            "great": 33,
             "good": 0,
-            "ok": 100,
+            "ok": 67,
             "bad": 0
           },
+          "bestFor": "自然的類人駕駛",
+          "steeringFeel": "Natural",
+          "forumUrl": "https://community.sunnypilot.ai/t/michael-rl-v2-july-18-2026/6558",
           "testedOn": [
             "comma 4",
             "Toyota Corolla",
             "Hyundai Palisade",
             "Subaru Outback"
           ],
-          "forumUrl": "https://community.sunnypilot.ai/t/michael-rl-v2-july-18-2026/6558",
           "positives": [
-            "过弯时自然切内弯顶点的拟人化寻迹",
-            "纵向减速预判渐进而平顺",
-            "转向微调流畅无机械生硬感"
+            "具有直觀內角頂點的類人車道定位",
+            "漸進且平穩的縱向制動預期",
+            "流體轉向校正，無需機械微調"
           ],
           "negatives": [
-            "相比规则模型弯道切线稍显贴近内侧",
-            "在标线突然中断或分岔处偶尔有轻微犹豫"
+            "可以比基於規則的模型稍微走捷徑",
+            "當車道標記突然分開或終止時偶爾會猶豫"
           ],
-          "bestFor": "自然拟人化驾驶",
-          "steeringFeel": "自然 (Natural)",
           "routesDriven": 361,
           "fleetRank": 34
         },
         {
           "name": "Rebel Legion Model",
-          "date": "2026年7月22日",
+          "date": "July 22, 2026",
           "badge": "NEW",
           "tags": [
             "Highway",
             "Stable",
             "Experimental"
           ],
-          "communityScore": 0,
-          "totalVotes": 1,
+          "consensus": "叛逆者系列的孿生兄弟，專注於高速公路。用激進的轉向扭矩換取穩定的直線跟蹤和平滑的車道變換，同時將漂移降至最低。",
+          "note": "推薦給尋找早期 WMI 型號的更沉穩替代品的高速公路通勤者。",
+          "communityScore": 50,
+          "totalVotes": 2,
           "sentiment": {
-            "great": 0,
+            "great": 50,
             "good": 0,
             "ok": 0,
-            "bad": 100
+            "bad": 50
           },
-          "consensus": "Rebel 系列的高速专注版本。舍弃部分激进过弯扭矩，换取极为沉稳的高速直线居中与平稳变道。",
-          "note": "推荐给需要比早期 WMI 模型更平稳巡航的高速通勤车主。",
-          "bestFor": "高速通勤",
-          "steeringFeel": "均衡 (Balanced)",
+          "bestFor": "高速公路通勤",
+          "steeringFeel": "Balanced",
           "forumUrl": "https://community.sunnypilot.ai/t/rebel-legion-model-july-22-2026/6559",
           "testedOn": [
             "Hyundai Ioniq 5",
@@ -1388,13 +1529,13 @@
             "comma 4"
           ],
           "positives": [
-            "高速直线车道居中稳如泰山无漂移",
-            "openpilot 变道动作细腻平顺",
-            "跟车车距控制稳重安全"
+            "鎖定高速公路居中，最大限度減少漂移",
+            "openpilot 變道期間平滑車道轉換",
+            "保守的前車跟隨距離"
           ],
           "negatives": [
-            "城市急弯转向力度不及 Rebellious Hope",
-            "静止起步加速相对保守"
+            "與 Rebellious Hope 相比，在城市急轉彎時不那麼激進",
+            "完全停止後的加速相對保守"
           ],
           "routesDriven": 35,
           "fleetRank": 58
@@ -1408,8 +1549,8 @@
             "Curves",
             "Deep RL"
           ],
-          "consensus": "叛逆系列中叛逆希望的早期前身。探索具有響應性橫向輸入的高角度曲線追蹤。",
-          "note": "Listed in the in-car model selector as \"Get Your Hopes Up Model (July 25, 2026)\". No community feedback collected yet.",
+          "consensus": "叛逆系列中叛逆希望的早期前身。探索具有響應性橫向輸入的高角度曲線跟蹤。",
+          "note": "叛逆希望的前身。建議測試 Rebellious Hope 的最新改進。",
           "communityScore": 65,
           "totalVotes": 18,
           "sentiment": {
@@ -1418,44 +1559,44 @@
             "ok": 20,
             "bad": 10
           },
+          "bestFor": "曲線與實驗",
+          "steeringFeel": "Firm",
+          "forumUrl": "https://community.sunnypilot.ai/tag/model-drop/155",
           "testedOn": [
             "comma 4",
             "Hyundai Ioniq 5"
           ],
-          "forumUrl": "https://community.sunnypilot.ai/tag/model-drop/155",
           "positives": [
-            "Good curve turn-in",
-            "Active steering engagement"
+            "良好的曲線轉彎",
+            "主動轉向接合"
           ],
           "negatives": [
-            "Low-speed wander on some vehicles"
+            "部分車輛低速漂移"
           ],
-          "bestFor": "曲線與實驗",
-          "steeringFeel": "公司",
           "routesDriven": 207,
           "fleetRank": 41
         },
         {
           "name": "Rebellious Hope Model",
-          "date": "2026年7月27日",
+          "date": "July 27, 2026",
           "badge": "NEW",
           "tags": [
             "Experimental",
             "Curves",
             "Torque-Assist"
           ],
-          "communityScore": 30,
-          "totalVotes": 9,
+          "consensus": "設計用於處理超出車輛扭矩限制的激進轉彎，而不會像 CD210 那樣衝破車道線。儘管有些車輛會出現低速橫向乒乓球現象，但在轉彎時仍可提供強大的車道保持能力。",
+          "note": "非常適合具有挑戰性曲線的路線。如果遇到低速漂移，請在低速時切換橫向暫停。",
+          "communityScore": 33,
+          "totalVotes": 10,
           "sentiment": {
-            "great": 11,
-            "good": 11,
-            "ok": 22,
-            "bad": 56
+            "great": 10,
+            "good": 10,
+            "ok": 30,
+            "bad": 50
           },
-          "consensus": "专为克服转向扭矩极限设计的过弯辅助模型，在急弯中相比 CD210 能更好守住车道线。在连续弯道表现优异，但部分车型低速时偶有画龙晃动。",
-          "note": "非常适合弯道较多的路线。若遇到低速画龙，可开启低速暂停横向控制。",
-          "bestFor": "多弯路段 / 辅助过弯",
-          "steeringFeel": "紧实沉稳 (Firm)",
+          "bestFor": "彎曲道路/輔助轉彎",
+          "steeringFeel": "Firm",
           "forumUrl": "https://community.sunnypilot.ai/t/rebellious-hope-model-july-27-2026/6560",
           "testedOn": [
             "2023 Lexus RC 350",
@@ -1464,26 +1605,37 @@
             "comma 4"
           ],
           "positives": [
-            "高扭矩辅助过弯时车道保持明显优于 CD210",
-            "切入急弯时居中感紧实沉稳",
-            "进弯减速曲线线性易预测"
+            "在高扭矩輔助轉彎過程中保持車道線完整性優於 CD210",
+            "進行劇烈彎道時，有牢固的中心感覺",
+            "可預測的轉彎減速曲線"
           ],
           "negatives": [
-            "雷克萨斯及部分丰田车型在低速时有横向震荡反馈",
-            "在扭矩超限需人工接管时过渡略显生硬"
+            "Lexus 和一些 Toyota 平臺上報告低速橫向乒乓/振盪",
+            "當駕駛員幹預扭矩限制轉彎時，過渡會略微不穩定"
           ],
           "routesDriven": 893,
           "fleetRank": 22
         },
         {
           "name": "Terrible Super Fantastic Do Over Model",
-          "date": "2026年8月15日",
+          "date": "August 15, 2026",
           "badge": "NEW",
           "tags": [
             "Experimental",
             "Mixed Sentiment"
           ],
-          "consensus": "12 票的投票评价两极分化：58% 给出“好”或更高，但四分之一选择了“差”或“糟糕”。纵向控制是强项，在走走停停的车流中被称为“确实令人印象深刻”。横向控制是弱项，有反馈称它会贴住弯道内侧、完全无法完成路口转弯，并且在大缓弯中逐渐外偏，甚至压到路面之外规划路径。",
+          "communityScore": 66,
+          "totalVotes": 19,
+          "sentiment": {
+            "great": 37,
+            "good": 21,
+            "ok": 26,
+            "bad": 16
+          },
+          "consensus": "12 票民意調查結果呈現分歧：58% 的人認爲“好”或“更好”，但四分之一的人認爲“不好”或“糟糕”。縱向是最強的一半——在走走停停的交通中被稱爲“真正令人印象深刻”。橫向是較弱的一半，有報道稱，它會緊貼彎道內側，根本無法通過交叉路口轉彎，而且轉彎時會漂移到足以越野的程度。",
+          "note": "8月12日Terrible Super Fantastic Model的重新剪輯。反饋是兩極分化的，而不是冷淡的——投票集中在兩端，所以預計結果取決於車輛。",
+          "bestFor": "高速公路/走走停停",
+          "steeringFeel": "Light",
           "forumUrl": "https://community.sunnypilot.ai/t/terrible-super-fantastic-do-over-model-august-15-2026/6765",
           "testedOn": [
             "2023 Ioniq 6",
@@ -1492,77 +1644,66 @@
             "VW Golf R"
           ],
           "positives": [
-            "在走走停停的车流中纵向控制表现出色",
-            "半数投票给出“好”或“很棒”"
+            "縱向被譽爲迄今爲止最平滑的之一；看到前方停住的導線和燈光，沒有猛烈的剎車刺痛",
+            "在交通繁忙的情況下令人印象深刻的平穩走走停停的巡航",
+            "58% 的社羣民意調查評級爲“好”或“優秀”"
           ],
           "negatives": [
-            "无法完成路口转弯",
-            "大缓弯表现较弱，会外偏至路面之外规划路径",
-            "贴住弯道内侧"
+            "多輛車行駛太靠近目前車道左邊界，靠近車道線以下 6 mph 徘徊",
+            "在急彎和交叉路口轉彎時馬虎，需要偶爾由駕駛員接管"
           ],
-          "communityScore": 67,
-          "totalVotes": 17,
-          "sentiment": {
-            "great": 41,
-            "good": 18,
-            "ok": 24,
-            "bad": 17
-          },
-          "bestFor": "高速 / 走走停停路况",
-          "steeringFeel": "光",
-          "note": "8 月 12 日 Terrible Super Fantastic Model 的重制版。反馈是两极分化而非平淡——票数集中在两端，因此结果可能高度依赖车型。",
           "routesDriven": 3,
           "fleetRank": 89
         },
         {
           "name": "Terrible Super Fantastic Model",
-          "date": "2026年8月12日",
+          "date": "August 12, 2026",
           "badge": "NEW",
           "tags": [
             "Experimental"
           ],
-          "consensus": "八月中旬標準硬體下降，三天後被「重做」重新剪輯取代。",
+          "consensus": "八月中旬標準硬件下降，三天後被“重做”重新剪輯取代。",
           "forumUrl": "https://community.sunnypilot.ai/t/terrible-super-fantastic-model-august-12-2026/6764",
           "testedOn": [],
           "positives": [],
           "negatives": [],
           "routesDriven": 32,
           "fleetRank": 59,
-          "communityScore": 0,
-          "totalVotes": 2,
+          "communityScore": 33,
+          "totalVotes": 3,
           "sentiment": {
-            "great": 0,
+            "great": 33,
             "good": 0,
             "ok": 0,
-            "bad": 100
+            "bad": 67
           }
         },
         {
           "name": "RDF Model v2",
-          "date": "2026年8月11日",
+          "date": "August 11, 2026",
           "badge": "NEW",
           "tags": [
             "Experimental"
           ],
-          "consensus": "8 月 5 日 RDF 模型的後續行動。標準硬體上同一系列的第二次迭代。",
+          "consensus": "8月5日RDF Model的後續。標準硬件上同一系列的第二次迭代。",
           "forumUrl": "https://community.sunnypilot.ai/t/rdf-model-v2-august-11-2026/6763",
           "testedOn": [],
           "positives": [],
           "negatives": [],
           "routesDriven": 788,
           "fleetRank": 24,
-          "communityScore": 52,
-          "totalVotes": 15,
+          "communityScore": 56,
+          "totalVotes": 19,
           "sentiment": {
-            "great": 27,
-            "good": 33,
-            "ok": 0,
-            "bad": 40
+            "great": 26,
+            "good": 37,
+            "ok": 5,
+            "bad": 32
           }
         },
         {
           "name": "RDF Model",
-          "date": "2026年8月5日",
+          "date": "August 05, 2026",
           "badge": "NEW",
           "tags": [
             "Recommended",
@@ -1570,18 +1711,18 @@
             "Highway",
             "Yassine/MVL"
           ],
-          "communityScore": 76,
-          "totalVotes": 44,
+          "consensus": "由 Yassine/MVL 調校，與 POP 和 CD210 相比，縱向增益顯着。在寬闊的高速公路上提供平穩的走走停停的速度匹配和自信的曲線跟蹤。一些用戶報告說，在某些轉向設置下，高角度曲線上會出現輕微的低速橫向擺動和扭矩降低。",
+          "note": "如果驅動 Honda/Hyundai 平臺，請與最近的 MVL 調音配對。實驗模式下的縱向控制非常可靠。",
+          "communityScore": 75,
+          "totalVotes": 45,
           "sentiment": {
-            "great": 32,
-            "good": 43,
-            "ok": 23,
-            "bad": 2
+            "great": 31,
+            "good": 42,
+            "ok": 24,
+            "bad": 3
           },
-          "consensus": "由 Yassine/MVL 调优，纵向表现较 POP 和 CD210 有显著提升。在高速跟车及大曲率弯道上提供平稳顺畅的加减速与果断转向。",
-          "note": "建议本田/现代平台搭配最新 MVL 调优使用。实验模式下纵向表现极其扎实。",
-          "bestFor": "高速 / 走走停停路况",
-          "steeringFeel": "果断自信 (Assertive)",
+          "bestFor": "高速公路/走走停停",
+          "steeringFeel": "Assertive",
           "forumUrl": "https://community.sunnypilot.ai/t/rdf-model-august-5-2026/6569",
           "testedOn": [
             "2022 Honda Civic",
@@ -1591,15 +1732,15 @@
             "comma 4"
           ],
           "positives": [
-            "加减速与跟车平顺性大幅优于 POP 与 CD210",
-            "高速走走停停与速度匹配极为平顺",
-            "大弯道转向力矩充沛果断",
-            "前车识别精准可靠"
+            "與 POP 和 CD210 相比，加速和停止方面有顯着改進",
+            "平穩的高速公路走走停停和速度匹配",
+            "長彎道上自信的轉向動力和彎道操控",
+            "強縱向導程檢測"
           ],
           "negatives": [
-            "在部分重型/角度转向车辆上大角度急弯可能放弃转向",
-            "自学习校准期间低速横向有轻微微晃",
-            "横穿前方的车辆可能引起突兀减速"
+            "放棄某些重型/角度車輛的尖銳高角度曲線（Rivian R1T）",
+            "車輛自整定時出現輕微的低速橫向振盪/擺動",
+            "垂直交通穿過路徑可能會導致突然減速"
           ],
           "routesDriven": 3248,
           "fleetRank": 7
@@ -1608,8 +1749,8 @@
     },
     {
       "id": "opm",
-      "name": "OPM 模型",
-      "description": "离策略模型从驾驶员修正中学习，而不仅仅是克隆行为，从而实现更智能的高速公路居中和重心调整。",
+      "name": "OPM型號",
+      "description": "Off-Policy Model 可以從駕駛員的修正中學習，而不僅僅是克隆行爲，從而實現更智能的高速公路居中和居中。",
       "icon": "🧪",
       "models": [
         {
@@ -1629,10 +1770,10 @@
             "ok": 53,
             "bad": 23
           },
-          "consensus": "使用离策略训练的实验模型——从修正中学习，而不仅仅是克隆。 与 WMI V12 相比，高速公路居中效果更好，横向居中速度更快。 然而，实验性的长模式让人感觉生涩，急转弯可能会让人倒退一步。 对于专注于高速公路的驾驶员来说具有良好的潜力。",
-          "note": "“离策略”意味着它从数据中学习模型行为与人类驾驶员行为不同的地方，使其能够比标准克隆更有效地从修正中学习。",
+          "consensus": "使用離策略訓練的實驗模型——從修正中學習，而不僅僅是克隆。與 WMI V12 相比，高速公路居中效果更好，橫向居中速度更快。然而，實驗性的長模式讓人感覺生澀，急轉彎可能會讓人倒退一步。對於專注於高速公路的駕駛員來說具有良好的潛力。",
+          "note": "“離策略”意味着它從數據中學習模型行爲與人類駕駛員行爲不同的地方，使其能夠比標準克隆更有效地從修正中學習。",
           "bestFor": "高速公路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Hyundai Ioniq 5",
             "Honda Civic",
@@ -1659,10 +1800,10 @@
             "ok": 31,
             "bad": 19
           },
-          "consensus": "离策略训练的第二次迭代。 横向性能受到赞扬——不会拥抱左侧，并且在 70 度以上的高速公路转弯时不太拥抱。 然而，纵向控制是一个显着的退化：制动延迟、领先车辆后面的橡皮筋以及夸张的跟随距离都是常见的。 最好在逗号 4 上； 其他平台上的结果好坏参半。",
-          "note": "与 v1 相比，横向改进显着，但长期控制还需要改进。 社区意见不一——有些人喜欢拉长，另一些则不能容忍拉长的行为。",
+          "consensus": "Off-Policy 訓練的第二次迭代。橫向控制表現獲得好評：不會偏向車道左側，在 70+ 的高速公路彎道中也較少貼近車道邊緣。不過，縱向控制明顯退步：延遲煞車、跟隨前車時的距離反覆變化，以及過大的跟車距離都很常見。comma 4 上表現最佳；其他平臺的結果好壞參半。",
+          "note": "與 v1 相比，橫向改進顯着，但長期控制還需要改進。社羣意見不一——有些人喜歡拉長，另一些則不能容忍拉長的行爲。",
           "bestFor": "高速公路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Hyundai Elantra HEV",
             "Mazda CX-5",
@@ -1692,10 +1833,10 @@
             "ok": 22,
             "bad": 22
           },
-          "consensus": "备受好评的第三次离线策略训练迭代。社区将其描述为CD210/WMI的'疯狂麦克斯'版本——快速的纵向响应和比前代更好的横向控制。包含PlanPlus集成，可自定义车道居中的激进程度。早期测试者给出A+评级。",
-          "note": "与前车间距保持略有不一致，高速公路速度下偶有摆动。PlanPlus集成允许调节车道居中与弯道贴近的平衡。",
+          "consensus": "高度讚揚第三次迭代的離策略訓練。社羣將其描述爲 CD210/WMI 的“瘋狂麥克斯”版本——快速的縱向響應和比其前輩更好的橫向控制。包括 PlanPlus 集成，可實現可定製的車道居中主動性。被早期測試者評爲 A+。",
+          "note": "跟隨領先間隙的輕微不一致以及在高速公路速度下偶爾出現的晃動。 PlanPlus 整合允許調整車道居中與緊密跟隨曲線內部。",
           "bestFor": "高速公路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Hyundai Sonata 2022",
             "Rivian R1T (2022-2024)",
@@ -1703,14 +1844,14 @@
             "comma 4"
           ],
           "positives": [
-            "Aggressive longitudinal acceleration",
-            "Better lateral than CD210/WMI",
-            "PlanPlus customizable lane centering",
-            "A+ community rating"
+            "劇烈的縱向加速度",
+            "橫向優於 CD210/WMI",
+            "PlanPlus 可定製車道居中",
+            "A+ 社羣評級"
           ],
           "negatives": [
-            "Inconsistent gap between lead cars",
-            "Occasional wobbles at high speed"
+            "領先車之間的差距不一致",
+            "高速時偶爾晃動"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v3-26-feb-2026/3297",
           "routesDriven": 6,
@@ -1735,26 +1876,26 @@
             "ok": 29,
             "bad": 39
           },
-          "consensus": "第四次离线策略训练迭代，相比v2改善了过度转向处理。与SCC-V配合使用时，车道居中出色，城市驾驶平稳。但在跟随前车时表现犹豫，没有前车时倾向于比周围车流慢。弯道表现不一——Hyundai/Toyota有所改善，但Tesla用户报告内线行驶。",
-          "note": "强烈建议使用SCC-V以安全处理弯道速度。跟随前车时的犹豫加速是与WMI/CD210相比的主要缺点。",
+          "consensus": "與 v2 相比，第四次迭代的離策略訓練改進了過度轉向處理。與 SCC-V 搭配使用時，可實現出色的車道居中和平穩的城市駕駛。然而，在跟隨領頭車輛時表現出猶豫，並且在沒有領頭車輛時往往比周圍車輛行駛得慢。曲線上的結果好壞參半——Hyundai/Toyota 有所改善，但 Tesla 用戶報告內線騎行。",
+          "note": "強烈推薦 SCC-V 用於安全彎道速度處理。與 WMI/CD210 相比，跟隨領先車輛時加速遲緩是其主要缺點。",
           "bestFor": "城市駕駛",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "2025 Hyundai Ioniq 5",
             "2023 Toyota RAV4 Prime",
             "Tesla V4"
           ],
           "positives": [
-            "Excellent lane centering",
-            "Smooth city acceleration",
-            "Improved oversteer vs v2",
-            "Works well with SCC-V"
+            "出色的車道居中",
+            "城市加速順暢",
+            "與 v2 相比改進了過度轉向",
+            "與 SCC-V 配合良好"
           ],
           "negatives": [
-            "Hesitant when lead vehicle moves",
-            "Drives too slow without a lead car",
-            "Occasional ping-pong at PlanPlus 1.5",
-            "Curve inside-line on Tesla"
+            "前車移動時猶豫不決",
+            "沒有領頭車時行駛速度太慢",
+            "偶爾在 PlanPlus 1.5 打乒乓球",
+            "Tesla 上的曲線內線"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v4-27-feb-2026/3331"
         },
@@ -1775,10 +1916,10 @@
             "ok": 59,
             "bad": 23
           },
-          "consensus": "第五次离线策略训练迭代，现在有了显著更多的社区反馈。相比v4弯道性能有所改善——转弯更宽，远离路缘。高速（50公里/小时以上）表现良好。但大多数人给出'OK'评价，有明显退步：低速性能、车道跟踪和交叉路口表现差。Prius Prime上报告低速乒乓现象严重。",
-          "note": "社区共识已改变——大多数人认为表现一般。推荐Torque Tune v0。",
+          "consensus": "第五次迭代的離策略訓練現在有了更多的社羣回饋。與 v4 相比，轉彎性能得到改善 - 轉彎更寬且遠離路緣。在較高速度（30 英里/小時以上）下具有良好的性能。然而，大多數人認為它只是“還可以”，但存在顯著的倒退：低速行為難以遵守車道、靠近車道邊界行駛或越線，以及中途鎖車。據報道，普銳斯 Prime 在低速行駛時出現明顯的乒乓現象。時速超過 65 英里/小時的高速晃動仍然存在。",
+          "note": "社羣共識已經發生轉變——大多數人認爲它平庸。轉彎性能比 v4 有所改善，但低速和轉彎操控性較差。推薦扭矩調整 v0。",
           "bestFor": "高速公路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "2026 Hyundai Ioniq 5",
             "2023 Lexus RC",
@@ -1787,18 +1928,18 @@
             "Prius Prime"
           ],
           "positives": [
-            "Better cornering than v4",
-            "Wider turns away from curbs",
-            "Good lane changes",
-            "Good above 30mph"
+            "比 v4 更好的轉彎",
+            "遠離路緣的轉彎更寬",
+            "良好的變道",
+            "30mph以上就好"
           ],
           "negatives": [
-            "Poor low-speed lane commitment",
-            "Turns lock out partway",
-            "High-speed wobbles above 65mph",
-            "Hesitant at neighborhood intersections",
-            "Significant ping-ponging at low speeds",
-            "Gets uncomfortably close to line markings"
+            "低速車道承諾不佳",
+            "中途鎖死",
+            "高速擺幅65mph以上",
+            "在鄰裏十字路口猶豫不決",
+            "低速時有明顯的乒乓效應",
+            "靠近線條標記會感到不舒服"
           ],
           "forumUrl": "https://community.sunnypilot.ai/t/off-policy-model-v5-14-mar-2026/3756",
           "routesDriven": 330,
@@ -1808,8 +1949,8 @@
     },
     {
       "id": "aggressive_exp",
-      "name": "激进",
-      "description": "适合追求性能、紧密跟随或尖端功能的驾驶员。",
+      "name": "好鬥的",
+      "description": "適合追求性能、緊密跟隨或尖端功能的駕駛員。",
       "icon": "🔥",
       "models": [
         {
@@ -1826,9 +1967,9 @@
             "ok": 17,
             "bad": 16
           },
-          "consensus": "原始的“无情”模型。 自信驾驶仍然很受欢迎。 不如 v2 精致，但具有原始特征。",
+          "consensus": "原始的“無情”模型。自信駕駛仍然很受歡迎。不如 v2 精緻，但具有原始特徵。",
           "bestFor": "激進駕駛",
-          "steeringFeel": "僵硬",
+          "steeringFeel": "Stiff",
           "testedOn": [
             "Ford F-150",
             "Toyota Tacoma",
@@ -1854,10 +1995,10 @@
             "ok": 84,
             "bad": 4
           },
-          "consensus": "来自 comma.ai 的 SOTA（最先进）训练管道的原始、未经过滤的开发人员订阅源。 这是 openpilot 智能的绝对‘前沿’，随着它从全球数据流中摄取新数据，几乎每天都会更新。 高风险，高回报：它通常包含路径规划和视觉方面的最新突破，但尚未经过标准发布所需的长期验证。",
-          "note": "技术说明：该模型是持续训练的直接输出。 预计日常行为会发生巨大变化。 如果您遇到‘性能倒退’的版本，只需等待明天的更新或恢复到稳定系列。",
+          "consensus": "來自 comma.ai 最先進 (SOTA) 培訓管道的原始、未經過濾的開發人員源。這是 openpilot 情報的絕對“前沿”，幾乎每天都會更新，因為它從全球資料流中獲取新數據。高風險，高回報：它通常包含路徑規劃和願景的最新突破，但尚未經過標準發布所需的長期驗證。",
+          "note": "技術說明：該模型是持續訓練的直接輸出。預計日常行爲會發生根本性變化。如果您遇到“迴歸”構建，只需等待下一次每日下降或恢復到穩定系列即可。",
           "bestFor": "測試和 SOTA 研究",
-          "steeringFeel": "揮發性（隨滴而變化）",
+          "steeringFeel": "Volatile (Varies by Drop)",
           "testedOn": [
             "Lexus IS",
             "Lexus RX 350",
@@ -1882,9 +2023,9 @@
             "ok": 11,
             "bad": 12
           },
-          "consensus": "测试新的横向规划器算法。 非常具有实验性——对于开发人员和测试人员来说。",
+          "consensus": "測試新的橫向規劃器算法。非常具有實驗性——對於開發人員和測試人員來說。",
           "bestFor": "發展",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Test vehicles"
           ],
@@ -1906,9 +2047,9 @@
             "ok": 19,
             "bad": 19
           },
-          "consensus": "在 NeurIPS AI 会议上展示的模型。 展示具有学术重点的技术。",
+          "consensus": "NeurIPS AI 大會上展示的模型。展示具有學術重點的技術。",
           "bestFor": "研究",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Research vehicles"
           ],
@@ -1930,9 +2071,9 @@
             "ok": 76,
             "bad": 7
           },
-          "consensus": "原始会议模型。 对于研究目的很有趣。",
+          "consensus": "原始會議模型。對於研究目的很有趣。",
           "bestFor": "研究",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Research vehicles"
           ]
@@ -1952,9 +2093,9 @@
             "ok": 75,
             "bad": 6
           },
-          "consensus": "Experimental longitudinal (gas/brake) behavior. Unique 加速 and 制动 feel.",
+          "consensus": "實驗縱向（油門/制動）行爲。獨特的加速和制動感覺。",
           "bestFor": "實驗",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ],
@@ -1965,8 +2106,8 @@
     },
     {
       "id": "comfort",
-      "name": "舒适",
-      "description": "乘客友好型车型。 平滑输入而不是精度。 非常适合公路旅行。",
+      "name": "舒適度",
+      "description": "乘客友好型車型。平滑輸入而不是精度。非常適合公路旅行。",
       "icon": "🛋️",
       "models": [
         {
@@ -1984,9 +2125,9 @@
             "ok": 79,
             "bad": 6
           },
-          "consensus": "以前的 DTR 版本。 依然流畅舒适，比v6稍显精致。",
+          "consensus": "之前的 DTR 版本。依然流暢舒適，比v6稍顯精緻。",
           "bestFor": "乘客",
-          "steeringFeel": "光",
+          "steeringFeel": "Light",
           "testedOn": [
             "Hyundai Palisade",
             "Toyota Camry"
@@ -2008,9 +2149,9 @@
             "ok": 78,
             "bad": 7
           },
-          "consensus": "太空主题的平滑模型，过渡柔和，感觉轻松。",
+          "consensus": "太空主題的平滑模型，過渡柔和，感覺輕鬆。",
           "bestFor": "輕鬆駕駛",
-          "steeringFeel": "光",
+          "steeringFeel": "Light",
           "testedOn": [
             "Most sedans"
           ],
@@ -2031,9 +2172,9 @@
             "ok": 87,
             "bad": 5
           },
-          "consensus": "早期的太空实验室迭代。 良好的基线舒适度。",
+          "consensus": "早期的太空實驗室迭代。良好的基線舒適度。",
           "bestFor": "輕鬆駕駛",
-          "steeringFeel": "光",
+          "steeringFeel": "Light",
           "testedOn": [
             "Toyota Camry",
             "Honda Accord"
@@ -2057,10 +2198,10 @@
             "ok": 79,
             "bad": 2
           },
-          "consensus": "定制的曲调消除了“机器人”的感觉。 非常自然、类似人类的转向输入。",
-          "note": "社区最喜爱的自然驾驶感觉。",
+          "consensus": "定製的曲調消除了“機器人”的感覺。非常自然、類似人類的轉向輸入。",
+          "note": "社羣最喜愛的自然駕駛感覺。",
           "bestFor": "自然的感覺",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various Hyundai/Kia",
             "Kia Sportage PHEV"
@@ -2083,9 +2224,9 @@
             "ok": 86,
             "bad": 6
           },
-          "consensus": "“无限视野”和“骑行”的融合。 将可视性与舒适性结合起来。",
+          "consensus": "“無限視野”和“騎行”的融合。將可視性與舒適性結合起來。",
           "bestFor": "混合駕駛",
-          "steeringFeel": "光",
+          "steeringFeel": "Light",
           "testedOn": [
             "Toyota",
             "Honda"
@@ -2108,9 +2249,9 @@
             "ok": 73,
             "bad": 11
           },
-          "consensus": "传统舒适模型具有非常柔和的输入。 以乘客为中心。",
+          "consensus": "傳統舒適模型具有非常柔和的輸入。以乘客爲中心。",
           "bestFor": "乘客",
-          "steeringFeel": "光",
+          "steeringFeel": "Light",
           "testedOn": [
             "Toyota",
             "Honda sedans"
@@ -2138,7 +2279,7 @@
           "consensus": "最初的太空實驗室。在中速和高速時響應靈敏且居中良好，具有良好的實驗性縱向性能，但被可怕的低速急動、左轉過度轉向和普遍的左偏所抵消。",
           "note": "太空實驗室系列的第一個。",
           "bestFor": "高速公路",
-          "steeringFeel": "抽搐",
+          "steeringFeel": "Twitchy",
           "testedOn": [
             "2025 Ioniq 5",
             "'21 Niro"
@@ -2148,8 +2289,8 @@
     },
     {
       "id": "tomb_raider",
-      "name": "古墓丽影",
-      "description": "实验性“垃圾文件夹”运行。 曲线的隐藏宝石。 不要让这个名字吓到你！",
+      "name": "Tomb Raider",
+      "description": "實驗性“垃圾文件夾”運行。曲線的隱藏寶石。不要讓這個名字嚇到你！",
       "icon": "🔬",
       "models": [
         {
@@ -2168,10 +2309,10 @@
             "ok": 80,
             "bad": 8
           },
-          "consensus": "邪典经典！ 通常称为“垃圾文件夹 16”。 2025 年车型中最佳的曲线处理能力。",
-          "note": "在蜿蜒的小路上“在铁轨上”行驶。",
+          "consensus": "CULT CLASSIC！通常稱爲“垃圾文件夾 16”。 BEST 任何 2025 款車型的曲線處理。",
+          "note": "在蜿蜒的小路上“在鐵軌上”行駛。",
           "bestFor": "彎曲的道路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Hyundai",
             "Kia",
@@ -2195,9 +2336,9 @@
             "ok": 76,
             "bad": 9
           },
-          "consensus": "TR16 的前身。 曲线处理良好，但精致度稍差。",
+          "consensus": "TR16 的前身。曲線處理良好，但精緻度稍差。",
           "bestFor": "彎曲的道路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Hyundai",
             "Toyota"
@@ -2217,9 +2358,9 @@
             "ok": 83,
             "bad": 4
           },
-          "consensus": "法语命名的变体。 具有独特特性的实验叉。",
+          "consensus": "法語命名的變體。具有獨特特性的實驗叉。",
           "bestFor": "實驗",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ]
@@ -2238,9 +2379,9 @@
             "ok": 79,
             "bad": 7
           },
-          "consensus": "标准 TR14 迭代。 为TR15和TR16奠定了基础。",
+          "consensus": "標準 TR14 迭代。爲TR15和TR16奠定了基礎。",
           "bestFor": "實驗",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ]
@@ -2259,9 +2400,9 @@
             "ok": 74,
             "bad": 8
           },
-          "consensus": "早期的TR系列。 曲线处理特性的基础。",
+          "consensus": "早期的TR系列。曲線處理特性的基礎。",
           "bestFor": "實驗",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ]
@@ -2281,9 +2422,9 @@
             "ok": 71,
             "bad": 15
           },
-          "consensus": "TR系列的激进曲调。 将曲线处理与主动输入相结合。",
+          "consensus": "TR系列的激進曲調。將曲線處理與主動輸入相結合。",
           "bestFor": "運動駕駛",
-          "steeringFeel": "僵硬",
+          "steeringFeel": "Stiff",
           "testedOn": [
             "Sporty vehicles"
           ],
@@ -2304,9 +2445,9 @@
             "ok": 77,
             "bad": 13
           },
-          "consensus": "早期的TR系列。 为后续版本奠定基础。",
+          "consensus": "早期的TR系列。爲後續版本奠定基礎。",
           "bestFor": "歷史",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ]
@@ -2326,9 +2467,9 @@
             "ok": 71,
             "bad": 13
           },
-          "consensus": "Gentle 制动 profile optimized for hybrids. Maximizes regenerative 制动.",
-          "bestFor": "油電混合/電動車",
-          "steeringFeel": "光",
+          "consensus": "針對混合動力車優化的溫和制動曲線。最大化再生制動。",
+          "bestFor": "混合動力/電動汽車",
+          "steeringFeel": "Light",
           "testedOn": [
             "Toyota Prius",
             "Hyundai Ioniq"
@@ -2350,9 +2491,9 @@
             "ok": 76,
             "bad": 7
           },
-          "consensus": "以黄油品牌命名 - “如黄油般光滑”。 非常温和的输入。",
+          "consensus": "以黃油品牌命名 - “如黃油般光滑”。非常溫和的輸入。",
           "bestFor": "舒適度",
-          "steeringFeel": "光",
+          "steeringFeel": "Light",
           "testedOn": [
             "Sedans"
           ],
@@ -2373,9 +2514,9 @@
             "ok": 90,
             "bad": 2
           },
-          "consensus": "具有独特转向特性的实验性 TR 时代模型。",
+          "consensus": "TR 時代的實驗模型，具有獨特的轉向特性。",
           "bestFor": "實驗",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ],
@@ -2397,9 +2538,9 @@
             "ok": 71,
             "bad": 0
           },
-          "consensus": "这个名字说明了一切——一颗隐藏的宝石！ 令人惊讶的良好的全面表现。",
+          "consensus": "這個名字說明瞭一切——一顆隱藏的寶石！令人驚訝的良好的全面表現。",
           "bestFor": "全能",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various Hyundai/Kia"
           ],
@@ -2421,9 +2562,9 @@
             "ok": 81,
             "bad": 6
           },
-          "consensus": "简化的规划模型。 可靠且可预测的行为。",
+          "consensus": "簡化的規劃模型。可靠且可預測的行爲。",
           "bestFor": "可靠性",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Most vehicles"
           ]
@@ -2445,9 +2586,9 @@
             "ok": 73,
             "bad": 12
           },
-          "consensus": "橫向駕駛與 SP Vikander 非常相似，縱向略好一些，使其成為幾位測試者的日常駕駛者。非常適合低速彎道，但在某些車輛上可在較重的車道線行駛，特別是 2025 年 Ioniq 5 和 RAV4 Prime。",
+          "consensus": "橫向駕駛與 SP Vikander 非常相似，縱向略好一些，使其成爲幾位測試者的日常駕駛者。非常適合低速彎道，但在某些車輛上行駛時車道線很重，特別是 2025 Ioniq 5 和 RAV4 Prime。",
           "bestFor": "高速公路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "2025 Ioniq 5",
             "RAV4 Prime",
@@ -2471,9 +2612,9 @@
             "ok": 71,
             "bad": 15
           },
-          "consensus": "TR14 的變體在車道上稍微居中，但感覺猶豫不決，在城市轉彎時會產生更大的轉向輸入。儘管存在惱人的左偏，但在多風的山後道路上表現出色。",
+          "consensus": "TR14 的變體在車道上稍微居中，但感覺猶豫不決，在城市轉彎時會產生更大的轉向輸入。儘管有惱人的左偏，但在多風的山後道路上表現出色。",
           "bestFor": "彎曲的道路",
-          "steeringFeel": "自信",
+          "steeringFeel": "Confident",
           "testedOn": [
             "'23 GV60",
             "2021 Lexus NX300",
@@ -2484,8 +2625,8 @@
     },
     {
       "id": "world_2025",
-      "name": "2025 模型",
-      "description": "“世界模式”发展时代。 性能差异很大。",
+      "name": "2025 款",
+      "description": "“世界模式”發展時代。性能差異很大。",
       "icon": "🌍",
       "models": [
         {
@@ -2502,9 +2643,9 @@
             "ok": 53,
             "bad": 34
           },
-          "consensus": "2025 年末迭代过渡到 2026 年系列。 比早期的 WMI 版本更稳定。",
+          "consensus": "2025 年末迭代過渡到 2026 年系列。比早期的 WMI 版本更穩定。",
           "bestFor": "混合駕駛",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ]
@@ -2523,9 +2664,9 @@
             "ok": 80,
             "bad": 0
           },
-          "consensus": "中期发展世界模型。 经过社区的充分测试。",
+          "consensus": "中期發展世界模型。經過社羣的充分測試。",
           "bestFor": "混合駕駛",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ]
@@ -2544,9 +2685,9 @@
             "ok": 71,
             "bad": 10
           },
-          "consensus": "早期稳定的世界模型。 不太聪明，但被证明是可靠的。",
+          "consensus": "早期穩定的世界模型。不太聰明，但被證明是可靠的。",
           "bestFor": "高速公路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ]
@@ -2565,9 +2706,9 @@
             "ok": 71,
             "bad": 8
           },
-          "consensus": "世界模型的第三次迭代。 稳定版本的基础。",
+          "consensus": "世界模型的第三次迭代。穩定版本的基礎。",
           "bestFor": "高速公路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ]
@@ -2586,9 +2727,9 @@
             "ok": 78,
             "bad": 10
           },
-          "consensus": "第二次世界模型迭代。 早期的 E2E 实验显示出了希望。",
+          "consensus": "第二次世界模型迭代。早期的 E2E 實驗顯示出了希望。",
           "bestFor": "歷史",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Test vehicles"
           ]
@@ -2607,9 +2748,9 @@
             "ok": 80,
             "bad": 9
           },
-          "consensus": "原始世界模型迭代。 Sunnypilot 开启了 E2E 革命。",
+          "consensus": "ORIGINAL 世界模型迭代。開啓了 Sunnypilot 的 E2E 革命。",
           "bestFor": "歷史",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Test vehicles"
           ]
@@ -2628,9 +2769,9 @@
             "ok": 77,
             "bad": 9
           },
-          "consensus": "横向规划器实验。 Planplus v2 的前身。",
+          "consensus": "橫向規劃器實驗。 Planplus v2 的前身。",
           "bestFor": "發展",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Test vehicles"
           ],
@@ -2651,9 +2792,9 @@
             "ok": 80,
             "bad": 9
           },
-          "consensus": "短期规划模型。 专注于即时路径决策。",
+          "consensus": "短期規劃模型。專注於即時路徑決策。",
           "bestFor": "實驗",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ]
@@ -2672,9 +2813,9 @@
             "ok": 79,
             "bad": 9
           },
-          "consensus": "由社区创建的通用世界模型变体。",
+          "consensus": "由社羣創建的通用世界模型變體。",
           "bestFor": "全能",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ],
@@ -2695,9 +2836,9 @@
             "ok": 18,
             "bad": 3
           },
-          "consensus": "通用世界模型版本 9。标准性能。",
+          "consensus": "通用世界模型版本 9。標準性能。",
           "bestFor": "全能",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ],
@@ -2717,9 +2858,9 @@
             "ok": 74,
             "bad": 8
           },
-          "consensus": "社区驱动模型的第三次迭代。 积极发展。",
+          "consensus": "社羣驅動模型的第三次迭代。積極發展。",
           "bestFor": "全能",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ],
@@ -2740,9 +2881,9 @@
             "ok": 78,
             "bad": 9
           },
-          "consensus": "社区模型的第二版。 根据反馈进行改进。",
+          "consensus": "社羣模型的第二版。根據反饋進行改進。",
           "bestFor": "全能",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ],
@@ -2764,9 +2905,9 @@
             "ok": 75,
             "bad": 8
           },
-          "consensus": "原创社区驱动模式。 “取之于民，服务于民。”",
+          "consensus": "原創社羣驅動模式。 “取之於民，服務於民。”",
           "bestFor": "全能",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ]
@@ -2785,10 +2926,10 @@
             "ok": 86,
             "bad": 1
           },
-          "consensus": "以 Meme 命名的实验训练运行。 不一致但有趣。",
-          "note": "请勿用于日常驾驶。",
+          "consensus": "以 Meme 命名的實驗訓練運行。不一致但有趣。",
+          "note": "請勿用於日常駕駛。",
           "bestFor": "樂趣",
-          "steeringFeel": "各不相同",
+          "steeringFeel": "Varies",
           "testedOn": [
             "Brave testers"
           ],
@@ -2809,9 +2950,9 @@
             "ok": 75,
             "bad": 9
           },
-          "consensus": "Updated version of the stable benchmark. Refined 车道居中.",
+          "consensus": "穩定基準的更新版本。精緻的車道居中。",
           "bestFor": "全能",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Most vehicles"
           ],
@@ -2833,9 +2974,9 @@
             "ok": 82,
             "bad": 7
           },
-          "consensus": "早期稳定基准。 建立了“中立”基线。",
+          "consensus": "早期穩定基準。建立了“中立”基線。",
           "bestFor": "全能",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Most vehicles"
           ]
@@ -2854,9 +2995,9 @@
             "ok": 80,
             "bad": 5
           },
-          "consensus": "通用神经模型版本 8。可靠的基线性能。",
+          "consensus": "通用神經模型版本 8。可靠的基線性能。",
           "bestFor": "全能",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ],
@@ -2877,9 +3018,9 @@
             "ok": 82,
             "bad": 4
           },
-          "consensus": "通用神经模型版本 6。不如 v8 精细。",
+          "consensus": "通用神經模型版本 6。不如 v8 精細。",
           "bestFor": "實驗",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ],
@@ -2900,9 +3041,9 @@
             "ok": 77,
             "bad": 5
           },
-          "consensus": "通用神经模型版本 5。中期开发。",
+          "consensus": "通用神經模型版本 5。中期開發。",
           "bestFor": "實驗",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ]
@@ -2922,9 +3063,9 @@
             "ok": 80,
             "bad": 6
           },
-          "consensus": "早期的通用神经模型。 历史兴趣。",
+          "consensus": "早期的通用神經模型。歷史興趣。",
           "bestFor": "歷史",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Test vehicles"
           ]
@@ -2945,10 +3086,10 @@
             "ok": 75,
             "bad": 9
           },
-          "consensus": "以飞机控制系统命名。 光滑、过滤的感觉就像飞翔一样。",
-          "note": "Minimal 转向 wheel movement.",
+          "consensus": "以飛機控制系統命名。光滑、過濾的感覺就像飛翔一樣。",
+          "note": "方向盤移動最少。",
           "bestFor": "高速公路",
-          "steeringFeel": "光",
+          "steeringFeel": "Light",
           "testedOn": [
             "Sedans",
             "SUVs"
@@ -2970,9 +3111,9 @@
             "ok": 70,
             "bad": 7
           },
-          "consensus": "Experimental merge. Unique 转向 some users love.",
+          "consensus": "實驗性合併。獨特的轉向系統受到一些用戶的喜愛。",
           "bestFor": "實驗",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ],
@@ -2993,9 +3134,9 @@
             "ok": 64,
             "bad": 4
           },
-          "consensus": "Sunnypilot 特有的曲调。 针对该前叉进行了优化。",
+          "consensus": "Sunnypilot 特有的曲調。針對該前叉進行了優化。",
           "bestFor": "全能",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Sunnypilot vehicles"
           ],
@@ -3017,9 +3158,9 @@
             "ok": 71,
             "bad": 10
           },
-          "consensus": "原始的“鱼”模型。 平滑的制动轮廓。 历史意义。",
+          "consensus": "原始的“魚”模型。平滑的制動曲線。歷史意義。",
           "bestFor": "舒適度",
-          "steeringFeel": "光",
+          "steeringFeel": "Light",
           "testedOn": [
             "Various sedans"
           ],
@@ -3045,7 +3186,7 @@
           },
           "consensus": "最初的 Down to Ride，基於 TR7 視覺模型構建。這是個人早期最喜歡的橫向控制，儘管縱向落後，並且一些測試人員嚴重偏向車道右側。",
           "bestFor": "歷史",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "'21 Niro"
           ]
@@ -3067,10 +3208,10 @@
             "ok": 72,
             "bad": 6
           },
-          "consensus": "一位日常駕駛平穩的駕駛者，稍微偏好左側車道線。橫向與 SP Vikander 相當，但轉彎時稍微懶惰，有時需要幫助才能完成急轉彎。",
-          "note": "測試人員的橫向評分約為 10/10，縱向評分約為 6/10。",
+          "consensus": "一位日常駕駛平穩的駕駛員，稍微偏愛左側車道線。橫向與 SP Vikander 相當，但轉彎時稍顯懶惰，有時需要幫助才能完成急轉彎。",
+          "note": "測試人員的橫向評分約爲 10/10，縱向評分約爲 6/10。",
           "bestFor": "全能",
-          "steeringFeel": "超光滑",
+          "steeringFeel": "Ultra-Smooth",
           "testedOn": [
             "'21 Hyundai",
             "Mazda CX-5",
@@ -3094,9 +3235,9 @@
             "ok": 83,
             "bad": 4
           },
-          "consensus": "橫向如此平滑的測試人員仔細檢查了 NNLC 是否已啟用，並且是第一個幾乎在紅燈時完全停止的模型。彎道處理意見分歧－有些汽車將彎道拉得足夠寬以越過終點線。",
+          "consensus": "橫向如此平滑的測試人員仔細檢查了 NNLC 是否啓用，這是第一個幾乎在紅燈時完全停止的模型。彎道處理意見分歧——有些汽車將彎道拉得足夠寬，以跨越終點線。",
           "bestFor": "舒適/走走停停",
-          "steeringFeel": "超光滑",
+          "steeringFeel": "Ultra-Smooth",
           "testedOn": [
             "Ioniq 6",
             "2022 Rivian R1T",
@@ -3119,9 +3260,9 @@
             "ok": 63,
             "bad": 9
           },
-          "consensus": "凱裡黃金 v2.在長距離行駛中給人留下了深刻的印象，在車道標記較差的鄉村道路上也充滿信心，但當沒有領頭車跟隨時，就明顯不一致。",
+          "consensus": "凱裏黃金 v2.在長距離行駛中給人留下了深刻的印象，在車道標記較差的鄉村道路上也充滿信心，但當沒有領頭車跟隨時，就明顯不一致。",
           "bestFor": "彎曲的道路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "23 Kona EV",
             "'17 Ioniq 28kWh"
@@ -3143,9 +3284,9 @@
             "ok": 87,
             "bad": 1
           },
-          "consensus": "當它識別出轉彎時，果斷而堅定，特別是願意在停車標誌處停車。公路上的行為很順利，但一些測試者在公路出發時遇到了讓人想起鳳凰墜落的恐懼。",
+          "consensus": "當它識別出轉彎時，果斷而堅定，特別是願意在停車標誌處停車。高速公路上的舉止很順利，但一些測試者遇到了讓人想起 Falling Phoenix 的道路出發恐慌。",
           "bestFor": "城市駕駛",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "2025 HKG"
           ]
@@ -3167,10 +3308,10 @@
             "ok": 74,
             "bad": 7
           },
-          "consensus": "在實驗模式和在公路行駛的軌道上縱向行駛時非常平滑，但在半決賽中它不會滑行，至少一名測試人員讓它在轉彎時自信地轉向路邊。",
+          "consensus": "在實驗模式下和在公路行駛的軌道上縱向行駛時非常平滑，但在半決賽中它不會滑行，至少一名測試人員讓它在轉彎時自信地轉向路邊。",
           "note": "長期運行的 gWM 系列的開始。",
           "bestFor": "高速公路（有監管）",
-          "steeringFeel": "抽搐",
+          "steeringFeel": "Twitchy",
           "testedOn": [
             "2025 Ioniq 5",
             "'25 EV6"
@@ -3192,9 +3333,9 @@
             "ok": 79,
             "bad": 3
           },
-          "consensus": "在 NNLC 開啟的情況下，它能很好地保持居中狀態，並提供平穩的高速公路縱向行駛，儘管測試人員發現很難將其與當時其他有競爭力的車型區分開來。在 2024 年 Ioniq 5 上，右抱仍然是一個真正的問題。",
+          "consensus": "在 NNLC 開啓的情況下，它可以很好地保持中心位置，並提供平穩的高速公路縱向行駛，儘管測試人員發現很難將其與當時其他有競爭力的車型區分開來。在 2024 年 Ioniq 5 上，右抱仍然是一個真正的問題。",
           "bestFor": "高速公路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Niro PHEV",
             "2024 Ioniq 5"
@@ -3216,9 +3357,9 @@
             "ok": 83,
             "bad": 2
           },
-          "consensus": "是多風山路的最愛－轉彎時扭力極大，保持穩定，有一定的左偏。縱向上相對於gWM3有所倒退，其謹慎的煞車招致了高速公路交通方面的抱怨。",
+          "consensus": "是多風山路的最愛——轉彎時扭矩極大，保持穩定，有一定的左偏。縱向上相對於gWM3有所倒退，其謹慎的制動招致了高速公路交通方面的抱怨。",
           "bestFor": "彎曲的道路",
-          "steeringFeel": "自信",
+          "steeringFeel": "Confident",
           "testedOn": [
             "Various"
           ]
@@ -3241,7 +3382,7 @@
           },
           "consensus": "幾位測試人員更喜歡內華達州，具有出色的要求扭矩和可靠的公路性能。沒有成功的停車標誌停車，在城市行駛中逐漸向靠左行駛的方向漂移。",
           "bestFor": "城市駕駛",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "'21 Niro",
             "'23 GV60"
@@ -3251,8 +3392,8 @@
     },
     {
       "id": "legacy",
-      "name": "经典",
-      "description": "“老卫士”。 坚如磐石的公路稳定性。 不太“聪明”但令人难以置信的车道保持。",
+      "name": "遺產",
+      "description": "“老衛士”。堅如磐石的公路穩定性。不太“聰明”但令人難以置信的車道保持。",
       "icon": "🏛️",
       "models": [
         {
@@ -3271,10 +3412,10 @@
             "ok": 72,
             "bad": 14
           },
-          "consensus": "最可靠的遗留模型。 车型中的“丰田凯美瑞”——乏味、可预测、坚如磐石。",
-          "note": "UNSHAKEABLE on highways. Bad at 停车标志s.",
+          "consensus": "THE 最可靠的傳統型號。車型中的“Toyota 凱美瑞”——乏味、可預測、堅如磐石。",
+          "note": "UNSHAKEABLE 在高速公路上。不擅長停車標誌。",
           "bestFor": "公路旅行",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "All compatible vehicles",
             "Kia Sportage PHEV"
@@ -3298,10 +3439,10 @@
             "ok": 75,
             "bad": 9
           },
-          "consensus": "以超硬转向而闻名。 拥抱中央车道并拒绝移动。 在铁轨上。",
-          "note": "感觉像是机器人，但又异常稳定。",
+          "consensus": "以超硬轉向而聞名。停留在目前車道中心附近並拒絕移動。在鐵軌上。",
+          "note": "感覺像是機器人，但又異常穩定。",
           "bestFor": "高速公路",
-          "steeringFeel": "重型",
+          "steeringFeel": "Heavy",
           "testedOn": [
             "Most vehicles"
           ],
@@ -3324,10 +3465,10 @@
             "ok": 57,
             "bad": 0
           },
-          "consensus": "因其“润滑”北达科他州的僵硬而得名。 两全其美。",
-          "note": "定心稳定，无机器人感。",
+          "consensus": "因其“潤滑”North Dakota 的剛度而得名。兩全其美。",
+          "note": "定心穩定，無機器人感。",
           "bestFor": "高速公路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Most vehicles"
           ],
@@ -3348,9 +3489,9 @@
             "ok": 89,
             "bad": 1
           },
-          "consensus": "可靠的遗留模型。 以经久耐用的大教堂命名。",
+          "consensus": "可靠的遺留模型。以經久耐用的大教堂命名。",
           "bestFor": "高速公路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ],
@@ -3371,9 +3512,9 @@
             "ok": 73,
             "bad": 7
           },
-          "consensus": "重新认证草药师的前身。 仍然不错，但不够精致。",
+          "consensus": "Recertified Herbalist 的前身。仍然不錯，但不夠精緻。",
           "bestFor": "高速公路",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various"
           ],
@@ -3396,10 +3537,10 @@
             "ok": 78,
             "bad": 7
           },
-          "consensus": "旧型号中的“VISION KING”。 在雨中或车道标记不佳的情况下表现出色。",
-          "note": "可以看到其他型号错过的车道。",
+          "consensus": "舊型號的“VISION KING”。 EXCELLENT 下雨或車道標記不良時。",
+          "note": "可以看到其他型號錯過的車道。",
           "bestFor": "惡劣天氣",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "All compatible vehicles"
           ]
@@ -3418,10 +3559,10 @@
             "ok": 67,
             "bad": 0
           },
-          "consensus": "2023 年的非常旧的模型。大部分已弃用。",
-          "note": "仅历史利益。 请勿用于日常驾驶。",
+          "consensus": "2023 年的非常舊的模型。大部分已棄用。",
+          "note": "僅歷史利益。請勿用於日常駕駛。",
           "bestFor": "歷史",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Legacy vehicles"
           ]
@@ -3443,10 +3584,10 @@
             "ok": 93,
             "bad": 0
           },
-          "consensus": "被廣泛認為是橫向控制的巨大飛躍。因首次將路徑規劃納入模型而聞名，這使其成為 2023 時代社區的持久寵兒。",
-          "note": "在一些 sunnypilot 版本中以“Nightstrike”的名稱發布，這導致了持續的命名混亂。",
+          "consensus": "被廣泛認爲是橫向控制方面的巨大飛躍。因首次將路徑規劃納入模型而聞名，這使其成爲 2023 時代社羣的持久寵兒。",
+          "note": "在一些 sunnypilot 版本中以“Nightstrike”的名稱發佈，這導致了持續的命名混亂。",
           "bestFor": "歷史",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Various HKG"
           ]
@@ -3467,9 +3608,9 @@
             "ok": 63,
             "bad": 33
           },
-          "consensus": "據傳實驗模型將改良 FarmVille 系列的縱向控制。測試人員指出，它對黃燈的準備異常出色，並且在通過彎道時採取更舒適的路線，而不是嚴格地保持車道中心。",
+          "consensus": "據傳實驗模型將改進 FarmVille 系列的縱向控制。測試人員指出，它對黃燈的準備異常出色，並且在通過彎道時採取更舒適的路線，而不是嚴格保持車道中心。",
           "bestFor": "歷史",
-          "steeringFeel": "光滑",
+          "steeringFeel": "Smooth",
           "testedOn": [
             "23 Sonata SE",
             "Honda Pilot"
@@ -3491,10 +3632,10 @@
             "ok": 63,
             "bad": 16
           },
-          "consensus": "對於一些測試人員來說，它比同時代的任何其他型號都更好地處理了基礎知識。當道路標記被雪遮蓋時，它可以很好地規劃其軌跡，並在夜裡很早就看到停車標誌，儘管它在彎道上會緊貼車道線。",
-          "note": "兩極分化：在本田 Pilot 和 Kona EV 上表現出色，但其他人報告的車道變換較差。",
+          "consensus": "對於一些測試人員來說，它比同時代的任何其他型號都更好地處理了基礎知識。當道路標記被雪遮蓋時，它可以很好地規劃其軌跡，並在夜裏很早就看到停車標誌，儘管它在彎道上會緊貼車道線。",
+          "note": "偏光：在 Honda、Pilot 和 Kona EV 上表現出色，其他人報告的車道變換較差。",
           "bestFor": "惡劣天氣",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "2020 Honda Pilot",
             "23 Kona EV"
@@ -3517,10 +3658,10 @@
             "ok": 82,
             "bad": 4
           },
-          "consensus": "許多測試者看到的第一個模型在 4 向停止處完成了 90 度轉彎。在當時的時代裡，日常駕駛平穩、無回歸，偶爾會沿著車道穿過急彎。",
-          "note": "引入了後來模型建構的 action/desiredCurvature 介面。",
+          "consensus": "許多測試者看到的第一個模型在 4 向停止處完成了 90 度轉彎。在當時的時代裏，日常駕駛平穩、無迴歸，偶爾會沿着車道線穿過急彎。",
+          "note": "引入了後來模型構建的 action/desiredCurvature 接口。",
           "bestFor": "歷史",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "23 F-150",
             "Various"
@@ -3543,9 +3684,9 @@
             "ok": 77,
             "bad": 6
           },
-          "consensus": "主要的橫向架構發生了變化，但到達時卻很粗糙——幾位測試人員報告說，它沿著中心黃線駛向迎面而來的車輛。其他人稱它是在 dev-c3 上運行時最好的時代。",
+          "consensus": "主要的橫向架構發生了變化，但到達時卻很粗糙——幾位測試人員報告說，它沿着中心黃線駛向迎面而來的車輛。其他人稱它是在 dev-c3 上運行時最好的時代。",
           "bestFor": "歷史",
-          "steeringFeel": "抽搐",
+          "steeringFeel": "Twitchy",
           "testedOn": [
             "Various"
           ]
@@ -3567,9 +3708,9 @@
             "bad": 6
           },
           "consensus": "對於某些測試者來說，它比洛杉磯系列的左轉和右轉更好，並改進了物體檢測，並且縱向比 LA v3 更平滑。",
-          "note": "由於未經命令的變換車道而從逗號主站恢復；被 v2 取代。",
+          "note": "由於未經命令的變道而從comma主站恢復；被 v2 取代。",
           "bestFor": "歷史",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Kia Niro EV"
           ]
@@ -3591,10 +3732,10 @@
             "ok": 75,
             "bad": 2
           },
-          "consensus": "社群合併將 Down to Ride 願景模型與 TR10 政策融合。在高速公路上舒適、平穩，變換車道乾淨俐落，但在城市彎道上不如 TR7 自信，容易抱左。",
-          "note": "已棄用 - 由後來的自訂合併取代。",
+          "consensus": "社羣合併將 Down to Ride 願景模型與 TR10 政策相融合。在高速公路上舒適、平穩，變道乾淨利落，但在城市彎道上不如 TR7 自信，並且容易抱左。",
+          "note": "已棄用 - 由後來的自定義合併取代。",
           "bestFor": "輕鬆駕駛",
-          "steeringFeel": "光滑",
+          "steeringFeel": "Smooth",
           "testedOn": [
             "RAV4 Prime",
             "'21 Niro",
@@ -3606,8 +3747,8 @@
     },
     {
       "id": "specialty_forks",
-      "name": "Specialty & Forks",
-      "description": "Vehicle-specific forks, longitudinal tunes, and specialized branch models tailored for specific hardware platforms.",
+      "name": "特殊模型與衍生項目",
+      "description": "爲特定硬件平臺量身定製的車輛專用前叉、縱向曲調和專用分支模型。",
       "icon": "🔧",
       "models": [
         {
@@ -3626,9 +3767,9 @@
             "ok": 15,
             "bad": 5
           },
-          "consensus": "專為福特 BlueCruise 硬體邏輯量身訂製。為重型卡車和 SUV 提供出色的扭力管理。",
-          "bestFor": "拖吊和公路",
-          "steeringFeel": "僵硬",
+          "consensus": "爲Ford的BlueCruise硬件邏輯定製。爲重型卡車和 SUVs 提供出色的扭矩管理。",
+          "bestFor": "拖車和公路",
+          "steeringFeel": "Stiff",
           "testedOn": [
             "Ford F-150",
             "Lincoln Navigator"
@@ -3650,9 +3791,9 @@
             "ok": 15,
             "bad": 5
           },
-          "consensus": "由 MVL 維護。特別針對本田奧德賽平台中存在的轉向盲區問題。",
+          "consensus": "由 MVL 維護。專門針對 Honda Odyssey 平臺中存在的轉向盲區問題。",
           "bestFor": "混合駕駛",
-          "steeringFeel": "光",
+          "steeringFeel": "Light",
           "testedOn": [
             "Honda Odyssey"
           ]
@@ -3674,21 +3815,21 @@
             "ok": 50,
             "bad": 10
           },
-          "consensus": "早期端到端模仿模型，用于测试深度学习轨迹规划器。在笔直的高速公路路段上横向控制稳定，但在弯曲道路上会出现轻微的居中振荡（画龙）。车速匹配非常稳定，但在起步跟车和急转弯时表现欠佳。",
-          "note": "⚠️ 仅限原生 openpilot 使用。Sunnylink/sunnypilot 暂不支持。",
+          "consensus": "早期的端到端模仿模型測試深度學習軌跡規劃器。在筆直的高速公路上行駛時橫向控制穩定，但在彎曲的道路上顯示出輕微的居中振盪。高度穩定的速度匹配，但難以應對走走停停的蠕變和急轉彎。",
+          "note": "⚠️ 獨家庫存openpilot。 NOT 適用於 sunnylink/sunnypilot。",
           "bestFor": "公路定心/測試",
-          "steeringFeel": "平衡",
+          "steeringFeel": "Balanced",
           "testedOn": [
             "Honda Accord Hybrid 2025"
           ],
           "positives": [
-            "Stable highway speed matching",
-            "Decent lane keeping on straight runs"
+            "穩定的高速公路速度匹配",
+            "直線行駛時保持良好的車道"
           ],
           "negatives": [
-            "Minor centering oscillations (lane-weaving) on curvy roads",
-            "Struggles with stop-and-go creep",
-            "Poor turn-in performance on sharp corners"
+            "彎曲道路上的輕微中心振盪（車道編織）",
+            "與走走停停的蠕動作鬥爭",
+            "尖角處的轉彎性能不佳"
           ]
         },
         {
@@ -3708,21 +3849,21 @@
             "ok": 30,
             "bad": 10
           },
-          "consensus": "精细化端到端规划模型，专注于车速控制和更平顺的制动过渡。通过阻尼更强的转向输入，解决了 V1 中的横向画龙问题。然而，在走走停停的交通中，从静止起步较为缓慢，需要驾驶员主动轻踩油门。",
-          "note": "⚠️ 仅限原生 openpilot 使用。Sunnylink/sunnypilot 暂不支持。",
+          "consensus": "完善的端到端規劃模型，專注於速度控制和更平滑的制動過渡。解決了 V1 中使用大量阻尼器轉向輸入時出現的橫向擺動問題。然而，在走走停停的交通中，從完全停止的起步是緩慢的，需要駕駛員主動踩油門踏板。",
+          "note": "⚠️ 獨家庫存openpilot。 NOT 適用於 sunnylink/sunnypilot。",
           "bestFor": "舒適/走走停停",
-          "steeringFeel": "固體",
+          "steeringFeel": "Solid",
           "testedOn": [
             "Honda Accord Hybrid 2025"
           ],
           "positives": [
-            "Excellent lateral dampening (no more weaving)",
-            "Extremely smooth braking transitions",
-            "High comfort level"
+            "出色的橫向阻尼（不再編織）",
+            "極其平穩的制動過渡",
+            "高舒適度"
           ],
           "negatives": [
-            "Sluggish launch from a dead stop",
-            "Requires driver interventions (gas pedal) in heavy traffic"
+            "從完全停止啓動緩慢",
+            "在交通繁忙時需要駕駛員幹預（油門踏板）"
           ]
         },
         {
@@ -3742,22 +3883,22 @@
             "ok": 10,
             "bad": 0
           },
-          "consensus": "具有改进 3D 场景理解能力的高级迭代版本，由 @Eyezenheim 在旧金山湾区进行了广泛测试。在应对旧金山陡峭街道以及无缝过渡到旧金山湾区大桥时表现出色。弯道横向保持非常自信且自然，尽管在城市街道转弯时仍可能切角过紧。",
-          "note": "⚠️ 仅限原生 openpilot 使用。Sunnylink/sunnypilot 暂不支持。",
+          "consensus": "高級迭代具有改進的 3D 場景理解能力，已由@Eyezenheim 在舊金山灣區進行了廣泛測試。在穿越舊金山陡峭的街道並無縫過渡到舊金山灣大橋時表現出色。彎道上的橫向抓地力非常自信和自然，儘管它仍然可以在城市彎道上顯得有點太緊。",
+          "note": "⚠️ 獨家庫存openpilot。 NOT 適用於 sunnylink/sunnypilot。",
           "bestFor": "高速公路彎道/城市駕駛",
-          "steeringFeel": "自然",
+          "steeringFeel": "Natural",
           "testedOn": [
             "Honda Accord Hybrid 2025",
             "Hyundai Ioniq 5"
           ],
           "positives": [
-            "Phenomenal lateral holding on steep curves",
-            "Seamless highway transitions and merges",
-            "Highly natural human-like steering"
+            "在陡峭的彎道上具有驚人的橫向抓地力",
+            "無縫高速公路過渡和合並",
+            "高度自然的類人轉向"
           ],
           "negatives": [
-            "May cut urban corners slightly too tight",
-            "Occasional caution needed at complex intersections"
+            "可能會在城市角落走得太緊",
+            "在複雜的十字路口偶爾需要小心"
           ]
         },
         {
@@ -3776,10 +3917,10 @@
             "ok": 77,
             "bad": 10
           },
-          "consensus": "torq_bois 實驗將無車道概念提升到了新的高度。縱向行駛是當時最好的，轉彎時也很有自信，但橫向行駛卻很不穩定，有些測試人員報告說高速公路車道偏離情況非常嚴重。",
-          "note": "實驗性的－不建議作為日常駕駛員。",
+          "consensus": "Torq_bois 實驗將無車道理念提升到了新的高度。縱向行駛是當時最好的，轉彎時也很自信，但橫向行駛卻很不穩定，有些測試人員報告說高速公路車道偏離情況非常嚴重。",
+          "note": "實驗性的——不建議作爲日常駕駛員。",
           "bestFor": "僅測試",
-          "steeringFeel": "揮發性（隨滴而變化）",
+          "steeringFeel": "Volatile (Varies by Drop)",
           "testedOn": [
             "2025 Ioniq 5",
             "Toyota Sienna"

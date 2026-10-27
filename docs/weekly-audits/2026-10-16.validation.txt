@@ -1,0 +1,197 @@
+October 16 audit validation
+Baseline lint: 34 errors, 40 warnings. Final lint diagnostics unchanged after normalizing moved line numbers. Baseline TypeScript check passed.
+
+Scanner
+🚀 Sunnypilot Model Scanner & Researcher
+
+ Local catalog loaded: 130 models across 10 categories.
+🌐 Fetching GitHub manifests (sunnypilot/sunnypilot-models:gh-pages)...
+  Chestnut GPU (Big Models) (v28): driving_models_chestnut_v28.json
+  Qualcomm Standard (v25): driving_models_v25.json
+  USB GPU (Big Models) (v22): driving_models_usbgpu_v22.json
+
+📊 Scan Summary:
+- Total remote model entries scanned: 101
+- Existing in local catalog: 99
+- New / Uncatalogued models: 2
+
+🚨 Found New Uncatalogued Models in GitHub:
+  • [Chestnut GPU (Big Models) (v28)] "Mountain Dew Model" (Index: 14, Short: MDM, Date: October 10, 2026)
+  • [Chestnut GPU (Big Models) (v28)] "Mountain Dew Model v3" (Index: 15, Short: MDMV3, Date: October 14, 2026)
+
+💡 Run `npm run scan:models -- --research` to research these models.
+
+
+Translations
+
+> sunnylink-wiki@0.1.0 i18n:check
+> node scripts/check-i18n.mjs
+
+ko: 3827 UI keys checked
+zh: 3827 UI keys checked
+fr: 3827 UI keys checked
+de: 3827 UI keys checked
+es: 3827 UI keys checked
+UI placeholders, translation calls, data structures, and canonical values match in every locale.
+
+
+Tests
+✔ classifyCarLateral recognizes torque, nnlc, pid, angle (1.546ms)
+✔ classifyCarLongitudinal identifies Chill, OEM Radar, Experimental, DEC (0.225ms)
+✔ classifyCarHardware detects comma 3X and comma 4 (0.172458ms)
+✔ sanitizeStackAnswers enforces allowed enum values and bounds domain ratings (0.139ms)
+✔ tallyMatchesFilters checks vote counts against MIN_STACK_VOTES (0.1315ms)
+✔ deriveDomainPriors and blendDomainRating produce calibrated domain scores (0.109458ms)
+✔ interpolation preserves replacement characters and repeated parameters (0.852084ms)
+✔ each locale loads the matching UI and complete datasets together (659.683375ms)
+✔ template text translates counts without leaking placeholders (3.237208ms)
+✔ model behavior stays identical when evidence is translated (1.059333ms)
+✔ generated simulator evidence quotes and multiline tooltips translate (31.88425ms)
+✔ native fleet tables exclude pivot subtotals and localize every column (0.428417ms)
+✔ rating evidence localizes its source and matched signal without changing ratings (222.4555ms)
+✔ natural language candidates include relevant wiki evidence and have a bounded size (285.91425ms)
+✔ Jev batches candidate questions, filters irrelevant entries, and sorts by score (16.341042ms)
+✔ malformed or missing provider scores reject the ranking (49.655875ms)
+✔ exact acronyms and vehicle models stay first; unknown IDs are discarded (0.795083ms)
+✔ route validates input and falls back without credentials without making requests (3.708708ms)
+✔ provider failures fall back; valid rankings are cached (91.88025ms)
+✔ page scopes constrain retrieval before shortlisting and cannot be bypassed by local IDs (0.751166ms)
+✔ route rejects malformed scopes and never calls Jev for an empty scope (0.883208ms)
+✔ page results preserve exact matches, resolve grouped variants, and exclude out-of-scope IDs (0.28775ms)
+✔ driving models generate clean slugs and resolve via search params (6.34575ms)
+✔ cars have valid IDs and can be queried via vehicle search params (0.677917ms)
+✔ every driving model has a unique shareable slug that resolves to itself (7.586ms)
+✔ resolveModelMetadata handles curated models with overrides (4.367666ms)
+✔ resolveModelMetadata falls back to inference for unknown models (0.382416ms)
+✔ parseModelDate parses diverse format strings (0.100292ms)
+✔ getModelDisplayName and getCanonicalAlias handle aliases properly (0.07575ms)
+✔ getNamingNotes extracts commentary for known confusing model names (0.217708ms)
+✔ model ratings require recorded evidence and retain real votes without creating extra baseline votes (275.170833ms)
+✔ a single 5-star review does not outrank a well-tested 4.6 (0.746542ms)
+✔ items with no evidence fall back to the global mean (0.100958ms)
+✔ more evidence moves the score toward the item rating (0.060125ms)
+✔ route volume contributes log-scaled supplementary weight (0.088083ms)
+✔ global mean is review-weighted and ignores unreviewed items (0.08925ms)
+✔ confidence pill reflects sample size (22.284917ms)
+✔ score to stars stays within 1-5 (0.175417ms)
+✔ an early button click remains open when the lazy dialog subscribes (1.173084ms)
+✔ all scenarios produce finite 20 Hz samples (6.231667ms)
+✔ lateral bias offsets the plan on the highway (0.534541ms)
+✔ late turn-in on a limited-torque rack tracks worse than early turn-in; high-authority stays close (2.316917ms)
+✔ chill models brake earlier and softer; aggressive models brake later and harder (0.54475ms)
+✔ stop-line creep carries the car past the line; holding models do not (0.518167ms)
+✔ ego never collides with the highway lead (0.648125ms)
+✔ a modelV2 replay snapshot overrides the simulated plan and speeds (1.297667ms)
+✔ malformed replay arrays fall back to simulation (0.952458ms)
+✔ a selected make keeps common settings and only its vehicle settings (1.075334ms)
+✔ automatic hardware capabilities are identified as information (0.139667ms)
+✔ changing makes clears stale options and the export omits unrelated brands (2.442917ms)
+ℹ tests 50
+ℹ suites 0
+ℹ pass 50
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1582.551667
+
+
+Build
+
+> sunnylink-wiki@0.1.0 build
+> next build
+
+▲ Next.js 16.1.4 (Turbopack)
+- Environments: .env.local
+- Experiments (use with caution):
+  · optimizePackageImports
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 4.9s
+  Running TypeScript ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/21) ...
+  Generating static pages using 9 workers (5/21) 
+  Generating static pages using 9 workers (10/21) 
+[discourse-sync] Rate limited on topic 3690, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3681, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3684, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3692, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3682, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3693, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3681, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3692, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3693, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3690, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3682, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3684, waiting 2000ms (attempt 1)
+[discourse-sync] Rate limited on topic 3690, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3681, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3684, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3692, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3682, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3693, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3681, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3692, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3693, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3690, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3682, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3684, waiting 4000ms (attempt 2)
+[discourse-sync] Rate limited on topic 3690, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3681, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3684, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3692, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3682, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3693, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3681, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3692, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3693, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3690, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3682, waiting 6000ms (attempt 3)
+[discourse-sync] Rate limited on topic 3684, waiting 6000ms (attempt 3)
+[discourse-sync] Exhausted retries for topic 3690
+[discourse-sync] Exhausted retries for topic 3681
+[discourse-sync] Exhausted retries for topic 3684
+[discourse-sync] Exhausted retries for topic 3692
+[discourse-sync] Exhausted retries for topic 3682
+[discourse-sync] Exhausted retries for topic 3693
+[discourse-sync] Exhausted retries for topic 3681
+[discourse-sync] Exhausted retries for topic 3692
+[discourse-sync] Exhausted retries for topic 3693
+[discourse-sync] Exhausted retries for topic 3690
+[discourse-sync] Exhausted retries for topic 3682
+[discourse-sync] Exhausted retries for topic 3684
+  Generating static pages using 9 workers (15/21) 
+✓ Generating static pages using 9 workers (21/21) in 29.5s
+  Finalizing page optimization ...
+
+Route (app)                   Revalidate  Expire
+┌ ○ /                                 1h      1y
+├ ○ /_not-found
+├ ƒ /.well-known/api-catalog
+├ ƒ /api/markdown
+├ ƒ /api/models/vote
+├ ƒ /api/search
+├ ƒ /api/wiki-data
+├ ○ /cars
+├ ○ /features                         1h      1y
+├ ○ /icon.png
+├ ○ /model-replay
+├ ○ /models                           1w      1y
+├ ○ /new-sim
+├ ○ /quiz
+├ ○ /robots.txt
+├ ○ /sim-test
+├ ○ /sitemap.xml
+├ ○ /stats                            5m      1y
+├ ○ /wizard
+└ ○ /wizard/classic
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+

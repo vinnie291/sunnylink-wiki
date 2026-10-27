@@ -1,16 +1,16 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 128,
-  "lastUpdated": "September 06, 2026",
+  "totalModels": 134,
+  "lastUpdated": "October 26, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "The Chestnut GPU Series (Big Models)",
       "subtitle": "eGPU-Only Heavyweights",
-      "includes": "Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
-      "vibe": "These are the \"big models\" — chestnut-class networks larger than anything in the WMI or OP lines, tied to comma's new GPU add-on, which began reaching owners in August 2026. They drop under the forum's big_model tag on a near-daily cadence during a run. The extra network size shows up first in lateral: taking in-town 90-degree turns wide instead of cutting them, and showing planted rather than floaty highway stability. Standout entries like Cinque Terre and Sad Model have significantly improved lateral stability and natural steering feel, while earlier BMRLNAP runs suffered from low-speed steering oscillations. Stop signs and traffic light stop lines remain an active area of tuning across the line.",
+      "includes": "Flip Flop, Train Track, Mountain Dew v3, Mountain Dew, Cinque Terre V3, Cinque Terre V2, Cinque Terre, BMRLNAP v6/v4/v3/v2/v1, Sad Model, Happy Birthday, I Desire, Tee Time, TTTTFBRLM, Lebowski",
+      "vibe": "These are the \"big models\" — chestnut-class networks larger than anything in the WMI or OP lines, tied to comma's new GPU add-on, which began reaching owners in August 2026. They drop under the forum's big_model tag on a near-daily cadence during a run. The extra network size shows up first in lateral: taking in-town 90-degree turns wide instead of cutting them, and showing planted rather than floaty highway stability. Standout entries like Cinque Terre and Sad Model have significantly improved lateral stability and natural steering feel, while earlier BMRLNAP runs suffered from low-speed steering oscillations. Stop signs and traffic light stop lines remain an active area of tuning across the line. Runtime notes (October 2): PR #2035 proposes 1344×760 comma 3X frames before unified AMD transfer. PR #2023 proposes ChestnutPowerLimit (0 = stock; 40–100 W) via advanced sunnylink Device controls on comma four. Both remain open. Model management (October 25): inspected master, dev and staging use selector 21, Chestnut v28 and Qualcomm v25. Mountain Dew Model v3 is their default big model. These development snapshots do not establish availability in older tagged releases. PRs #2015, #2044 and #1999 remain closed without merging.",
       "bestFor": "Chestnut owners with an eGPU who want the largest available networks and are comfortable testing.",
-      "recommendation": "Cinque Terre Model (CTM) is the top-rated big model for solid lateral stability and daily experimental driving. BMRLNAP v4 remains a proven community workhorse for highway cut-in response, while Sad Model is great for natural steering. Avoid BMRLNAP v3 due to severe low-speed steering oscillations."
+      "recommendation": "Mountain Dew Model v3 is the default big model, and every newer drop is polled against it. Being the default is not a performance endorsement. The October 26 maintainer announcements list a comma four or a comma 3X, plus comma chestnut, as the requirement. Train Track and Flip Flop are the newest '2026 Deep RL' big models. Flip Flop's first tester (Kia EV6) rated it OK, about the same as MDv3, with ping-pong above 120 km/h. Train Track has no feedback yet."
     },
     "wmi_2026": {
       "title": "The WMI & 2026 World Series (The Modern Standard)",
@@ -77,19 +77,19 @@
             "Smooth",
             "Highway"
           ],
-          "communityScore": 52,
-          "totalVotes": 184,
+          "communityScore": 70,
+          "totalVotes": 40,
           "sentiment": {
-            "great": 7,
-            "good": 11,
-            "ok": 74,
-            "bad": 8
+            "great": 45,
+            "good": 20,
+            "ok": 20,
+            "bad": 15
           },
           "consensus": "Highly praised community model known for its exceptional smoothness and lack of low-speed jerkiness. Many users describe it as 'awesome' and superior to standard releases for lateral control consistency.",
           "note": "Particularly popular with Kia e-Niro users in the UK. One of the best custom lateral models of late 2025.",
           "bestFor": "All-Around / Comfort",
           "steeringFeel": "Ultra-Smooth",
-          "forumUrl": "https://community.sunnypilot.ai/t/the-cool-peoples-model-v3-10-october-2025/1151",
+          "forumUrl": "https://community.sunnypilot.ai/t/the-cool-peoples-model-v3-10-october-2025/137",
           "testedOn": [
             "Kia e-Niro",
             "Honda Civic",
@@ -159,13 +159,13 @@
             "Trucks",
             "Highway"
           ],
-          "communityScore": 50,
-          "totalVotes": 22,
+          "communityScore": 52,
+          "totalVotes": 23,
           "sentiment": {
-            "great": 23,
-            "good": 27,
-            "ok": 14,
-            "bad": 36
+            "great": 26,
+            "good": 26,
+            "ok": 13,
+            "bad": 35
           },
           "consensus": "The 'unforgiving' model, refined. Tighter following distance, faster reactions, sharper turns. Excellent for larger vehicles that need authority.",
           "note": "Named 'Dark Souls' because it's unforgiving.",
@@ -251,9 +251,52 @@
     {
       "id": "chestnut_gpu",
       "name": "Chestnut GPU",
-      "description": "Chestnut-class \"big\" driving models — larger networks tied to comma's new GPU add-on, which began shipping to owners in August 2026. Released under the forum's big_model tag on a near-daily cadence during a run.",
+      "description": "Chestnut-class \"big\" driving models — larger networks tied to comma's new GPU add-on, which began shipping to owners in August 2026. Released under the forum's big_model tag on a near-daily cadence during a run. Runtime compatibility is branch-dependent: open PR #2035 proposes comma 3X frame resizing for unified AMD models; open PR #2023 proposes sunnylink-adjustable Chestnut power limits.",
       "icon": "🌰",
       "models": [
+        {
+          "name": "Cinque Terre Model V2",
+          "date": "September 08, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "communityScore": 75,
+          "totalVotes": 10,
+          "sentiment": {
+            "great": 40,
+            "good": 40,
+            "ok": 10,
+            "bad": 10
+          },
+          "consensus": "The forum overall poll has 10 voters: four Great, four Good, one OK, and one Bad. Drivers report improved stopping, but also low-speed oscillation, understeer, close approaches to lane lines, and slow acceleration. Feedback is mixed and vehicle-specific.",
+          "note": "Cinque Terre Model v2 was the default big model before Mountain Dew Model v3 replaced it. Listed in Model Manager under '2026 Deep RL Models'. The announcement lists a comma four or a comma 3X, plus comma chestnut. Hardware and branch compatibility still apply.",
+          "bestFor": "Community testing with compatible hardware and software.",
+          "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-v2-september-08-2026/7096",
+          "testedOn": [
+            "Kia EV6",
+            "2026 Honda Civic Hybrid"
+          ]
+        },
+        {
+          "name": "Cinque Terre V3 Model",
+          "date": "September 17, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "consensus": "A dedicated maintainer forum topic and poll are now available. The overall poll has zero ratings in this snapshot, so no performance conclusion is established.",
+          "note": "Built from openpilot commit bf3e363 (PR #38932); comma merged it to master on September 18. Listed in Model Manager under 'Master Models'. The announcement (edited October 26) lists a comma four or a comma 3X, plus comma chestnut. Forum polls compare it against Mountain Dew Model v3, the current default.",
+          "bestFor": "Community testing with compatible hardware and software.",
+          "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-v3-model-september-17-2026/7608",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json"
+        },
         {
           "name": "Cinque Terre Model",
           "date": "September 04, 2026",
@@ -264,16 +307,16 @@
             "Deep RL",
             "Experimental"
           ],
-          "communityScore": 90,
-          "totalVotes": 5,
+          "communityScore": 78,
+          "totalVotes": 10,
           "sentiment": {
-            "great": 60,
-            "good": 40,
-            "ok": 0,
-            "bad": 0
+            "great": 50,
+            "good": 30,
+            "ok": 10,
+            "bad": 10
           },
-          "consensus": "Early community standout hailed on Discord and Discourse as the most usable and stable big model to date ('Best model I've ever used by a mile', 'Would make POP v2 proud'). Testers report that lateral control feels solid and 'on rails' across all speeds (0-65 mph), closely rivaling Firehose, with low-speed oscillation drastically dampened compared to the violent wobbles of the BMRLNAP series. Successfully obeys stop signs and red lights in experimental mode, though some testers note eager acceleration and occasional highway speed deficits without dynamic experimental control.",
-          "note": "Chestnut-class big model (CTM), built from 68b5f8e in commaai/openpilot. Part of the 2026 Deep RL Models. Requires comma four or comma 3X with comma chestnut eGPU. 100% of survey respondents voted 'Better' than default BMRLNAP v4 and recommended merging as default. High network transfer overhead (~700MB model size) prompted sunnypilot developer optimization (PR #1993 / PR #1998) to prevent DMA frame drops.",
+          "consensus": "The October 3 forum poll has 10 ratings: five Great, three Good, one OK, and one Bad. Reports include good stopping and lane keeping, alongside vehicle-specific low-speed oscillation and cornering problems. These are driver reports, not a guarantee of performance.",
+          "note": "Chestnut big model CTM. Requires comma four or comma 3X plus a Chestnut eGPU and a compatible build. In the comparison poll, 7 of 9 voters prefer it to the reference model; 8 of 10 voters support making it the default. These are separate polls, not a unanimous recommendation.",
           "bestFor": "Experimental Mode / Daily Driving / Lateral Stability",
           "steeringFeel": "Solid / On Rails",
           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-september-04-2026/7046",
@@ -284,16 +327,12 @@
             "Comma Four"
           ],
           "positives": [
-            "Planted lateral steering and centering authority comparable to Firehose across all speeds",
-            "Substantially cures the severe low-speed steering oscillations seen in BMRLNAP v3/v4/v6",
-            "Reliable stop light and stop sign obedience in experimental mode",
-            "Quick, authoritative acceleration off the line praised by aggressive longitudinal drivers"
+            "Some drivers report smooth stops and steady lane keeping.",
+            "Most participants in the separate comparison poll prefer it to the reference model."
           ],
           "negatives": [
-            "Requires updated dev-chestnut build (PR #1993) to avoid initial model lagging / frame drop warnings during DMA CPU-to-GPU transfer",
-            "Can run a few mph under set speed on highways in pure experimental mode without dynamic experimental control",
-            "Minor low-speed oscillation still slightly perceptible under 12 mph (though greatly reduced)",
-            "Large ~700MB download size can take several minutes on slower comma Wi-Fi links"
+            "Some drivers still report low-speed steering oscillation or weak cornering.",
+            "Feedback is mixed across vehicles and branches; do not generalize one setup to every car."
           ]
         },
         {
@@ -306,13 +345,13 @@
             "Experimental",
             "Stop Line Tuning"
           ],
-          "communityScore": 100,
-          "totalVotes": 2,
+          "communityScore": 80,
+          "totalVotes": 6,
           "sentiment": {
-            "great": 100,
-            "good": 0,
+            "great": 67,
+            "good": 17,
             "ok": 0,
-            "bad": 0
+            "bad": 16
           },
           "consensus": "Direct successor to BMRLNAP Model v4 (v5 was skipped). Early community feedback reports that longitudinal deceleration and stopping behavior at traffic lights have improved slightly compared to v4, though vehicles can still creep slightly over the line. Lateral stability retains the planted highway cruising feel of v4.",
           "note": "Chestnut-class big model, built from 9d683c0 in commaai/openpilot. Built in-house by sunnypilot. Compares directly against BMRLNAP v4 to evaluate stop-line precision and deceleration tuning.",
@@ -343,13 +382,13 @@
             "Highway",
             "Cut-in Handling"
           ],
-          "communityScore": 61,
-          "totalVotes": 7,
+          "communityScore": 54,
+          "totalVotes": 8,
           "sentiment": {
-            "great": 43,
-            "good": 14,
-            "ok": 14,
-            "bad": 29
+            "great": 38,
+            "good": 13,
+            "ok": 13,
+            "bad": 36
           },
           "consensus": "Major evolution in the BMRLNAP series that completely cures the severe low-speed steering oscillations of v3. Outstanding in highway cruising, lead-car following, and handling sudden cut-ins with calm, gradual deceleration rather than harsh brake stabbing. Testers note that curve handling performs better when disabling legacy SCC-V curvature deceleration, though sharp intersection 90-degree turns can still understeer due to steering torque limits, and acceleration from a standstill at green lights remains slow.",
           "note": "Chestnut-class big model, built from f877d7a in commaai/openpilot. High engagement across Discord and Discourse. Community reports highlight significant vehicle controller sensitivity on Toyotas (Torque v0 vs v1).",
@@ -384,13 +423,13 @@
             "Natural Steering",
             "Smooth Long"
           ],
-          "communityScore": 75,
-          "totalVotes": 5,
+          "communityScore": 63,
+          "totalVotes": 6,
           "sentiment": {
-            "great": 20,
-            "good": 60,
-            "ok": 20,
-            "bad": 0
+            "great": 17,
+            "good": 50,
+            "ok": 17,
+            "bad": 16
           },
           "consensus": "Dedicated farewell drop for comma researcher Toby that earned zero negative ratings from community testers (80% Good or Great). Praised for unanimously smooth acceleration and deceleration with no jerky surging or stop line overshoots. Steering feels natural, humanlike, and stable with no ping-pong, though drivers note a slight tendency to cut corners tight on certain curves.",
           "note": "Chestnut-class big model, built from 30de303 in commaai/openpilot. Released to commemorate comma research engineer Toby's final driving model contribution.",
@@ -541,13 +580,13 @@
             "Highway",
             "Smooth"
           ],
-          "communityScore": 75,
-          "totalVotes": 5,
+          "communityScore": 74,
+          "totalVotes": 6,
           "sentiment": {
-            "great": 40,
-            "good": 20,
-            "ok": 40,
-            "bad": 0
+            "great": 33,
+            "good": 33,
+            "ok": 33,
+            "bad": 1
           },
           "consensus": "Strongest early reception of the big model run: 75% Good or better on a small four-vote poll, and the only unanimous longitudinal result so far — both voters picked 'smooth acceleration & braking', with no votes for jerky, hard/late or bad stop-and-go. Praised for planted, non-floaty lanekeeping and cruising with none of the long oscillations that cause motion sickness. Traffic lights and stop signs are the consistent weak point, and the lateral poll splits evenly between 'smooth & steady' and lane hugging / ping-pong.",
           "note": "Chestnut-class model, tied to comma's new GPU add-on. Vote counts are still tiny (4 on the headline poll, 2-3 on the detail polls), so treat the score as provisional. One reporter ran it on a dash-mounted C4 and a C3X; another tested a 2023 Camry on rural roads.",
@@ -682,12 +721,12 @@
             "Curves",
             "City"
           ],
-          "communityScore": 67,
-          "totalVotes": 6,
+          "communityScore": 64,
+          "totalVotes": 7,
           "sentiment": {
             "great": 0,
-            "good": 67,
-            "ok": 33,
+            "good": 57,
+            "ok": 43,
             "bad": 0
           },
           "consensus": "The run's opening drop and a clean split between axes: lateral is the strength, longitudinal is not. A sunnypilot developer calls the lateral 'outstanding' and far more confident on right and left turns than the small models, and a tester on a 2022 Rivian R1T reports in-town 90-degree-plus turns taken appropriately wide, much less prone to cutting corners and curbing the wheels. Longitudinal is where it falls apart: hard or late braking tops the longitudinal poll, and once at set speed testers report a gas-brake surging effect. Stop signs are recognised better than on the small models but still missed occasionally, and rolled as California stops when seen.",
@@ -713,6 +752,111 @@
           ],
           "routesDriven": 19,
           "fleetRank": 64
+        },
+        {
+          "name": "Mountain Dew Model",
+          "date": "October 10, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Experimental"
+          ],
+          "consensus": "The first Mountain Dew build: comma merged it to openpilot master on October 10 from PR #39047, and the v3 respin replaced it as the default four days later. The forum topic opened on October 26. No ratings yet. The only vote so far is one 'No' on the 'should this become the default?' poll, which fits the fact that v3 already superseded it.",
+          "note": "Built from openpilot commit 6f4c0fa (PR #39047). Listed in Model Manager under 'Master Models'. The maintainer announcement says it needs a comma four or a comma 3X, plus comma chestnut. Forum polls compare it against Mountain Dew Model v3, the current default big model.",
+          "bestFor": "Comparing against the v3 default; for most people, v3 replaces it.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/mountain-dew-model-october-10-2026/7619",
+          "modelRef": "6f4c0faf1f85132734e94aa39c67143f823b9324",
+          "shortName": "MDM",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Mountain Dew Model v3",
+          "date": "October 14, 2026",
+          "badge": "FLAGSHIP",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Default"
+          ],
+          "consensus": "The current default big model in sunnypilot. Model Manager uses it unless you pick something else, and every newer big-model drop (Train Track, Flip Flop, Cinque Terre V3) is polled against it. comma merged it to master on October 14 from PR #39087. Its own forum poll has no ratings yet. The one direct comparison so far, on Flip Flop, rated Flip Flop 'about the same'.",
+          "note": "Built from openpilot commit 1e219d7 (PR #39087). Listed in Model Manager under 'Master Models'. Needs a comma four or a comma 3X, plus comma chestnut. It replaced Cinque Terre Model v2 as the default big model, so its forum poll compares it against CTM v2.",
+          "bestFor": "Big-model baseline: the default Chestnut experience and the reference for judging newer drops.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/mountain-dew-model-v3-october-14-2026/7620",
+          "modelRef": "1e219d7785cfb7b7343c7f2366347fc86e7ce5f2",
+          "shortName": "MDMV3",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [
+            "Current default big model; it's what you get in Model Manager without changing anything"
+          ],
+          "negatives": []
+        },
+        {
+          "name": "Train Track Model",
+          "date": "October 16, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "consensus": "A big model from the new '2026 Deep RL Models' folder in Model Manager, separate from the master-merged Mountain Dew line. The forum topic opened on October 26 and has no votes or replies yet, and neither the weekly digest nor the Discord channel has discussed it. There is no driving feedback to summarise yet.",
+          "note": "Built from openpilot commit e46b35b. Listed in Model Manager under '2026 Deep RL Models'. Needs a comma four or a comma 3X, plus comma chestnut. Forum polls compare it against Mountain Dew Model v3, the current default.",
+          "bestFor": "Early testers who want to try the Deep RL big-model line against the MDv3 default.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/train-track-model-october-16-2026/7621",
+          "modelRef": "e46b35b0dcce35761ba28ada1a7df6ae36589c30",
+          "shortName": "TTM",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Flip Flop Model",
+          "date": "October 23, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "communityScore": 50,
+          "totalVotes": 1,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 100,
+            "bad": 0
+          },
+          "consensus": "The newest Deep RL big model, and the only one of this batch with real driving feedback so far. A Kia EV6 2022 tester rated it 3 – Ok and 'about the same' as Mountain Dew Model v3, and voted against making it the default. They report ping-pong in the lane at cruising speeds above 120 km/h, and hesitation when turning that needed manual intervention. They still consider Cinque Terre V3 the best choice for daily use. That is one tester, so treat it as an early signal.",
+          "note": "Built from openpilot commit 35c5406. Listed in Model Manager under '2026 Deep RL Models'. Needs a comma four or a comma 3X, plus comma chestnut. Forum polls compare it against Mountain Dew Model v3. Headline poll: one voter.",
+          "bestFor": "Early testers only; not yet recommended for high-speed highway driving.",
+          "steeringFeel": "Ping-pongs above ~120 km/h",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/flip-flop-model-october-23-2026/7622",
+          "modelRef": "35c5406aa5b03c51a6246a1f09ff84464b2a6b96",
+          "shortName": "FFM",
+          "minimumSelectorVersion": 21,
+          "testedOn": [
+            "2022 Kia EV6"
+          ],
+          "positives": [
+            "Rated 'about the same' as the Mountain Dew Model v3 default by its first tester"
+          ],
+          "negatives": [
+            "Ping-pongs in the lane at cruising speeds above 120 km/h",
+            "Hesitates when turning, requiring manual intervention",
+            "First tester still prefers Cinque Terre V3 for daily use"
+          ]
         }
       ]
     },
@@ -1062,12 +1206,12 @@
             "Vehicle-Dependent"
           ],
           "communityScore": 59,
-          "totalVotes": 49,
+          "totalVotes": 52,
           "sentiment": {
-            "great": 16,
-            "good": 41,
-            "ok": 24,
-            "bad": 19
+            "great": 15,
+            "good": 40,
+            "ok": 27,
+            "bad": 18
           },
           "consensus": "Based on WMI V12 architecture with subtle differences. Shows improved red light stopping behavior and less ping-pong at low speeds. However, multiple users report pronounced oversteering on turns — especially problematic on Toyota vehicles with low-torque EPS. Hard braking at close range and red light creeping are also noted drawbacks.",
           "note": "Vehicle-dependent: praised on Hyundai Ioniq 5, but struggles with Toyota RAV4 Prime. Consider enabling 'pause lateral while turning' if oversteering is an issue.",
@@ -1254,13 +1398,13 @@
             "Stiff",
             "Highway"
           ],
-          "communityScore": 86,
-          "totalVotes": 32,
+          "communityScore": 87,
+          "totalVotes": 34,
           "sentiment": {
-            "great": 66,
-            "good": 22,
+            "great": 68,
+            "good": 21,
             "ok": 6,
-            "bad": 6
+            "bad": 5
           },
           "consensus": "World Model tuned for STIFFER steering response. If WMI V12 feels too 'wiggly', this locks it down.",
           "note": "Great for vehicles with loose steering racks.",
@@ -1286,13 +1430,13 @@
           ],
           "consensus": "Features an expanded neural network architecture in the OP model lineup. Offers superior spatial perception in messy city driving and multi-lane intersections, though requires modern comma 4 hardware for optimal compute latency.",
           "note": "Optimized for Comma 4. Recommended for dense suburban and urban environments.",
-          "communityScore": 50,
-          "totalVotes": 1,
+          "communityScore": 17,
+          "totalVotes": 3,
           "sentiment": {
             "great": 0,
             "good": 0,
-            "ok": 100,
-            "bad": 0
+            "ok": 33,
+            "bad": 67
           },
           "bestFor": "Urban / Mixed Driving",
           "steeringFeel": "Confident",
@@ -1326,12 +1470,12 @@
           ],
           "consensus": "The next evolution in reinforcement learning driving models following Deep_RL V3. Delivers exceptionally natural steering wheel movement and proactive curve anticipation, mimicking human driving dynamics closely.",
           "note": "Best suited for openpilot experimental branches and drivers who prefer fluid, human-like dynamics over rigid centering.",
-          "communityScore": 50,
-          "totalVotes": 2,
+          "communityScore": 67,
+          "totalVotes": 3,
           "sentiment": {
-            "great": 0,
+            "great": 33,
             "good": 0,
-            "ok": 100,
+            "ok": 67,
             "bad": 0
           },
           "bestFor": "Natural Human-Like Driving",
@@ -1366,13 +1510,13 @@
           ],
           "consensus": "The highway-focused twin to the Rebel series. Trades aggressive turn torque for rock-steady straight-line tracking and smooth lane changes with minimal wander.",
           "note": "Recommended for highway commuters looking for a more composed alternative to early WMI models.",
-          "communityScore": 0,
-          "totalVotes": 1,
+          "communityScore": 50,
+          "totalVotes": 2,
           "sentiment": {
-            "great": 0,
+            "great": 50,
             "good": 0,
             "ok": 0,
-            "bad": 100
+            "bad": 50
           },
           "bestFor": "Highway Commutes",
           "steeringFeel": "Balanced",
@@ -1443,13 +1587,13 @@
           ],
           "consensus": "Designed to handle aggressive cornering where vehicle torque limits are exceeded without blowing through lane lines like CD210. Delivers strong lane retention through bends, though some vehicles experience low-speed lateral ping-ponging.",
           "note": "Great for routes with challenging curves. If experiencing low-speed wander, toggle pause lateral on low speeds.",
-          "communityScore": 30,
-          "totalVotes": 9,
+          "communityScore": 33,
+          "totalVotes": 10,
           "sentiment": {
-            "great": 11,
-            "good": 11,
-            "ok": 22,
-            "bad": 56
+            "great": 10,
+            "good": 10,
+            "ok": 30,
+            "bad": 50
           },
           "bestFor": "Curved Roads / Assisted Cornering",
           "steeringFeel": "Firm",
@@ -1480,13 +1624,13 @@
             "Experimental",
             "Mixed Sentiment"
           ],
-          "communityScore": 67,
-          "totalVotes": 17,
+          "communityScore": 66,
+          "totalVotes": 19,
           "sentiment": {
-            "great": 41,
-            "good": 18,
-            "ok": 24,
-            "bad": 17
+            "great": 37,
+            "good": 21,
+            "ok": 26,
+            "bad": 16
           },
           "consensus": "Split reception on a 12-vote poll: 58% land at Good or better, but a quarter sit at Bad or Horrible. Longitudinal is the strong half — called 'really impressive' in stop-and-go traffic. Lateral is the weak half, drawing reports of hugging the inside of corners, an inability to take intersection turns at all, and sweeping turns that drift wide enough to path off-road.",
           "note": "Re-cut of the August 12 Terrible Super Fantastic Model. Feedback is polarized rather than lukewarm — the votes cluster at both ends, so expect vehicle-dependent results.",
@@ -1525,13 +1669,13 @@
           "negatives": [],
           "routesDriven": 32,
           "fleetRank": 59,
-          "communityScore": 0,
-          "totalVotes": 2,
+          "communityScore": 33,
+          "totalVotes": 3,
           "sentiment": {
-            "great": 0,
+            "great": 33,
             "good": 0,
             "ok": 0,
-            "bad": 100
+            "bad": 67
           }
         },
         {
@@ -1548,13 +1692,13 @@
           "negatives": [],
           "routesDriven": 788,
           "fleetRank": 24,
-          "communityScore": 52,
-          "totalVotes": 15,
+          "communityScore": 56,
+          "totalVotes": 19,
           "sentiment": {
-            "great": 27,
-            "good": 33,
-            "ok": 0,
-            "bad": 40
+            "great": 26,
+            "good": 37,
+            "ok": 5,
+            "bad": 32
           }
         },
         {
@@ -1569,13 +1713,13 @@
           ],
           "consensus": "Tuned by Yassine/MVL with noticeable longitudinal gains over POP and CD210. Offers smooth stop-and-go speed matching and assertive curve tracking on sweeping highways. Some users report slight low-speed lateral wiggles and reduced torque on high-angle curves for certain steer setups.",
           "note": "Pair with recent MVL tunings if driving Honda/Hyundai platforms. Very solid longitudinal control in experimental mode.",
-          "communityScore": 76,
-          "totalVotes": 44,
+          "communityScore": 75,
+          "totalVotes": 45,
           "sentiment": {
-            "great": 32,
-            "good": 43,
-            "ok": 23,
-            "bad": 2
+            "great": 31,
+            "good": 42,
+            "ok": 24,
+            "bad": 3
           },
           "bestFor": "Highway / Stop & Go",
           "steeringFeel": "Assertive",

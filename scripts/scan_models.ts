@@ -8,9 +8,11 @@ const DISCORD_DIR = path.join(DATA_DIR, 'discord_feedback');
 const DISCOURSE_BASE = 'https://community.sunnypilot.ai';
 
 const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/sunnypilot/sunnypilot-models/refs/heads/gh-pages/docs';
-const MANIFEST_SOURCES = [
-    { id: 'chestnut', name: 'Chestnut GPU (Big Models)', file: 'driving_models_chestnut_v23.json', targetCategory: 'chestnut_gpu' },
-    { id: 'qcom_v22', name: 'Qualcomm Standard (v22)', file: 'driving_models_v22.json', targetCategory: 'world_2026' }
+const MANIFEST_INDEX = 'https://api.github.com/repos/sunnypilot/sunnypilot-models/contents/docs?ref=gh-pages';
+const MANIFEST_FAMILIES = [
+    { id: 'chestnut', name: 'Chestnut GPU (Big Models)', prefix: 'driving_models_chestnut_v', targetCategory: 'chestnut_gpu' },
+    { id: 'qcom', name: 'Qualcomm Standard', prefix: 'driving_models_v', targetCategory: 'world_2026' },
+    { id: 'usbgpu', name: 'USB GPU (Big Models)', prefix: 'driving_models_usbgpu_v', targetCategory: 'chestnut_gpu' }
 ];
 
 interface ModelManifestBundle {
@@ -146,6 +148,7 @@ interface DiscordResearchResult {
 }
 
 const KNOWN_ALIASES: Record<string, string> = {
+    'northdakotav2': 'northdakota',
     'lav2': 'losangelesv2la2',
     'popmodelv2': 'popv2',
     'gwmv9': 'gwmv9gwm9',
@@ -251,17 +254,27 @@ function loadLocalModels(): LocalModelsData {
  */
 async function scanGitHubManifests(localData: LocalModelsData): Promise<ScannedModel[]> {
     const results: ScannedModel[] = [];
+    const indexResponse = await fetch(MANIFEST_INDEX, { signal: AbortSignal.timeout(30000) });
+    if (!indexResponse.ok) throw new Error(`Manifest discovery failed: HTTP ${indexResponse.status}`);
+    const files = await indexResponse.json() as Array<{ name: string }>;
+    if (!Array.isArray(files)) throw new Error('Manifest index is not a file list');
 
-    for (const source of MANIFEST_SOURCES) {
+    for (const family of MANIFEST_FAMILIES) {
+        const versions = files.flatMap(({ name }) => {
+            if (!name.startsWith(family.prefix)) return [];
+            const match = name.slice(family.prefix.length).match(/^(\d+)\.json$/);
+            return match ? [{ file: name, version: Number(match[1]) }] : [];
+        }).sort((a, b) => b.version - a.version);
+        if (!versions.length) throw new Error(`No manifest found for ${family.name}`);
+        const source = { ...family, ...versions[0], name: `${family.name} (v${versions[0].version})` };
+        console.log(`  ${source.name}: ${source.file}`);
         const url = `${GITHUB_RAW_BASE}/${source.file}`;
         try {
-            const resp = await fetch(url);
-            if (!resp.ok) {
-                console.warn(`⚠️ Failed to fetch manifest ${source.file}: HTTP ${resp.status}`);
-                continue;
-            }
+            const resp = await fetch(url, { signal: AbortSignal.timeout(30000) });
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
             const data = await resp.json() as { bundles?: ModelManifestBundle[] };
-            const bundles = data.bundles || [];
+            if (!Array.isArray(data.bundles) || !data.bundles.length) throw new Error('Manifest has no model bundles');
+            const bundles = data.bundles;
 
             for (const bundle of bundles) {
                 const { cleanName, extractedDate } = parseDisplayName(bundle.display_name);
@@ -293,7 +306,7 @@ async function scanGitHubManifests(localData: LocalModelsData): Promise<ScannedM
                 });
             }
         } catch (err) {
-            console.error(`❌ Error fetching manifest ${source.file}:`, err);
+            throw new Error(`Incomplete scan: ${source.file}`, { cause: err });
         }
     }
 
@@ -604,12 +617,12 @@ async function main() {
     console.log('🌐 Fetching GitHub manifests (sunnypilot/sunnypilot-models:gh-pages)...');
     const scanned = await scanGitHubManifests(localData);
 
-    const newModels = scanned.filter(m => m.isNew);
+    const newModels = Array.from(new Map(scanned.filter(m => m.isNew).map(m => [normalize(m.cleanName), m])).values());
     const existingModels = scanned.filter(m => !m.isNew);
 
     if (isCheckOnly) {
         console.log(`\n📊 Scan Summary:`);
-        console.log(`- Total remote models scanned: ${scanned.length}`);
+        console.log(`- Total remote model entries scanned: ${scanned.length}`);
         console.log(`- Existing in local catalog: ${existingModels.length}`);
         console.log(`- New / Uncatalogued models: ${newModels.length}\n`);
 
