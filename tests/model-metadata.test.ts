@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
     resolveModelMetadata,
+    inferTelemetryProfile,
     parseModelDate,
     getModelDisplayName,
     getCanonicalAlias,
@@ -53,4 +54,17 @@ test('getNamingNotes extracts commentary for known confusing model names', () =>
     const notes = getNamingNotes('the-cool-peoples-model-v3');
     assert.ok(notes.length > 0, 'should have notes for tcpmv3');
     assert.match(notes.join(' '), /tcpm/i);
+});
+
+test('inferTelemetryProfile differentiates early apex-cutting from late/lazy turn-in', () => {
+    const early = inferTelemetryProfile({
+        name: 'apex-cutter',
+        negatives: ['Cuts corners and hugs turns tight'],
+    });
+    const late = inferTelemetryProfile({
+        name: 'lazy-understeer',
+        negatives: ['Drifts wide on turns and slow wheel return'],
+    });
+    assert.ok(early.turnInTiming < -0.3, `expected early turn-in, got ${early.turnInTiming}`);
+    assert.ok(late.turnInTiming > 0.5, `expected late turn-in, got ${late.turnInTiming}`);
 });

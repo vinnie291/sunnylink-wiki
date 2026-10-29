@@ -57,8 +57,8 @@ export function deriveFeedbackPhysics(model: FeedbackModel): FeedbackPhysics {
   const p: FeedbackPhysics = {
     headway: 1.7, accelerationMax: 1.8, comfortDecel: -2.4, lateralPatience: 2.1,
     curveLineBias: 0, laneWobble: 0.025, laneOffset: 0, departureLag: 0.25,
-    creepTendency: false, jerkLimit: 2.5, centeringGain: 2.2, lateralDamping: 1.05, stopOffset: 0,
-    steeringDelay: 0.14, steeringTimeConstant: 0.2, steeringRateLimit: 0.4, lookaheadTime: 0.85,
+    creepTendency: false, jerkLimit: 2.5, centeringGain: 2.3, lateralDamping: 1.22, stopOffset: 0,
+    steeringDelay: 0.14, steeringTimeConstant: 0.2, steeringRateLimit: 0.4, lookaheadTime: 1.05,
     speedResponseTime: 0.35, speedOscillation: 0, cruiseFactor: 1,
     stopDwell: 2, rollingStop: false, wobbleSpeedBias: 0, laneBiasContext: 'always',
     evidence, evidenceCoverage: 'Limited', sentiment: null,
@@ -89,7 +89,7 @@ export function deriveFeedbackPhysics(model: FeedbackModel): FeedbackPhysics {
     if (/smooth|natural/.test(feel)) p.jerkLimit = 1.3;
     evidence.push({ dimension: 'Lateral control', effect: 'Damped, consistent steering response', quote: model.steeringFeel ?? tags, source: model.steeringFeel ? 'steering feel' : 'model tags' });
   }
-  if (/light|heavy/.test(feel)) { p.centeringGain = 1.55; p.lookaheadTime = 1.05; p.steeringTimeConstant = 0.32; }
+  if (/light|heavy/.test(feel)) { p.centeringGain = 2.05; p.lookaheadTime = 1.08; p.steeringTimeConstant = 0.25; }
   if (/stiff|firm|planted/.test(`${feel} ${tags}`) || record('Lateral control', 'Firm steering response', /stiffer steering|locks it down|unshakeable|rock solid/)) {
     Object.assign(p, { laneWobble: .008, centeringGain: 3.1, lateralDamping: 1.5, steeringDelay: .1, steeringTimeConstant: .16, lookaheadTime: 1.12 });
   }
@@ -102,16 +102,16 @@ export function deriveFeedbackPhysics(model: FeedbackModel): FeedbackPhysics {
     Object.assign(p, { laneWobble: 0.015, centeringGain: 2.9, lateralDamping: 1.4 });
   }
   if (record('Lane centering', 'Oscillating lane corrections', /ping.pong|see.saw|(?:steer\w*|lateral).{0,30}oscillat|oscillat.{0,30}(?:steer|lane)|lane.weav|wobbl|twitch/, true)) {
-    Object.assign(p, { laneWobble: clamp(0.15 * severity, 0.12, 0.18), centeringGain: 2.5, lateralDamping: 1.25, steeringDelay: 0.18, steeringRateLimit: 0.4, lookaheadTime: 0.95 });
+    Object.assign(p, { laneWobble: clamp(0.15 * severity, 0.12, 0.18), centeringGain: 2.5, lateralDamping: 1.25, steeringDelay: 0.18, steeringRateLimit: 0.4, lookaheadTime: 1.05 });
     const adverse = reports.filter(r => r.source !== 'positive feedback' && reportsFault(r.quote, /ping.pong|see.saw|oscillat|wobbl|twitch/)).map(r => normalize(r.quote)).join(' ');
     p.wobbleSpeedBias = /low.speed|slow.speed|below 6/.test(adverse) ? -1 : /high.speed|above (?:50|65)|at speed/.test(adverse) ? 1 : 0;
   }
   if (record('Lane centering', 'Slower return toward lane centre', /wander|drifts|lazy|loose|floaty|late (?:lane|to cent)|slow.{0,20}(?:wheel return|straighten|unwind)/, true)) {
-    p.centeringGain = 1.3; p.steeringTimeConstant = 0.4; p.steeringDelay = 0.35;
+    p.centeringGain = 1.95; p.steeringTimeConstant = 0.28; p.steeringDelay = 0.22;
     p.laneWobble = Math.max(p.laneWobble, 0.11);
   }
   if (record('Lateral control', 'Delayed, sharper corrective steering', /hard snaps|late lane corrections|outside the painted|octagonal|jerky.{0,20}(?:steer|curve)/, true)) {
-    Object.assign(p, { steeringDelay: 0.22, steeringTimeConstant: 0.24, steeringRateLimit: 0.45, centeringGain: 2.6, lateralDamping: 1.3 });
+    Object.assign(p, { steeringDelay: 0.20, steeringTimeConstant: 0.24, steeringRateLimit: 0.45, centeringGain: 2.6, lateralDamping: 1.3 });
   }
   if (record('Lane centering', 'Rightward lane bias', /right.hug|hug\w*.{0,15}right|right.side lane hugging/, true) || /right-hug/.test(tags)) p.laneOffset = 0.28;
   if (record('Lane centering', 'Leftward lane bias', /left.hug|hug\w*.{0,15}left|left.lane hugging/, true)) {
@@ -120,7 +120,7 @@ export function deriveFeedbackPhysics(model: FeedbackModel): FeedbackPhysics {
   }
   if (record('Lateral control', 'Tighter inside line through bends', /cut.{0,20}corners|corners.{0,20}tight|hugs turns tight|inside.line|inside.corner apex|too tight/, true)) p.curveLineBias = 0.3;
   if (record('Lateral control', 'Wider line and slower steering unwind', /understeer|gives up.{0,35}(?:turn|sharp)|drifts wide|takes.{0,20}turns.{0,20}wide|wide turns/, true)) {
-    p.curveLineBias = -0.25; p.steeringTimeConstant = Math.max(0.4, p.steeringTimeConstant);
+    p.curveLineBias = -0.25; p.steeringTimeConstant = Math.max(0.28, p.steeringTimeConstant); p.steeringDelay = Math.max(0.19, p.steeringDelay);
   }
   if (record('Lateral control', 'More speed reduction before corners', /slows (?:heavily )?for curves|predictable deceleration.{0,20}turns|curve speed|gently drifts into turns/)) p.lateralPatience = 1.65;
   if (record('Lateral control', 'More confident cornering pace', /good.{0,12}turn handling|phenomenal lateral holding|outstanding lateral|excellent.{0,15}curv|good curve turn.in|better cornering/)) p.lateralPatience = 2.5;
@@ -144,9 +144,9 @@ export function deriveFeedbackPhysics(model: FeedbackModel): FeedbackPhysics {
   // Bound the illustrative fault response; sentiment must not destabilize the controller.
   p.lookaheadTime = Math.max(p.lookaheadTime, 1.05);
   p.lateralDamping = Math.max(p.lateralDamping, 1.2);
-  p.steeringDelay = Math.min(p.steeringDelay, 0.2);
+  p.steeringDelay = Math.min(p.steeringDelay, 0.22);
   p.steeringTimeConstant = Math.min(p.steeringTimeConstant, 0.28);
-  p.centeringGain = Math.max(p.centeringGain, 2);
+  p.centeringGain = Math.max(p.centeringGain, 1.95);
   // Preserve graded descriptions instead of giving every matching model the
   // same binary parameter value. No name-based randomization or score-only faults.
   const adverse = reports.filter(r => r.source === 'negative feedback' || r.source === 'community summary');

@@ -27,12 +27,17 @@ test('lateral bias offsets the plan on the highway', () => {
 
 test('late turn-in on a limited-torque rack tracks worse than early turn-in; high-authority stays close', () => {
     const early = buildTrajectoryRun('scurve', profile({ turnInTiming: -0.6 }));
+    const neutral = buildTrajectoryRun('scurve', profile({ turnInTiming: 0 }));
     const late = buildTrajectoryRun('scurve', profile({ turnInTiming: 0.8 }));
-    assert.ok(late.maxTrackingError > early.maxTrackingError);
-    assert.ok(late.maxTrackingError <= 1.41, 'understeer must stay bounded');
+    assert.ok(neutral.maxTrackingError > early.maxTrackingError);
+    assert.ok(late.maxTrackingError > neutral.maxTrackingError);
+    assert.ok(late.maxTrackingError < 1.35, 'understeer should stay graded below the hard clamp wall');
     const highErr = Math.max(...late.samples.map(s => Math.abs(s.highTorque - s.plan)));
     assert.ok(highErr < late.maxTrackingError);
     assert.ok(highErr < 0.6);
+    for (const s of late.samples) {
+        assert.ok(Math.abs(s.plan - late.roadAt(s.s)) < 1.85, 'ideal plan must stay within ego lane bounds');
+    }
 });
 
 test('chill models brake earlier and softer; aggressive models brake later and harder', () => {

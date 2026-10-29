@@ -237,7 +237,12 @@ export function inferTelemetryProfile(m: MetadataSourceModel): ModelTelemetryPro
     if (p.laneBiasContext === 'night-without-lead') lateralBias *= 0.6;
 
     // curveLineBias: +0.3 = cuts inside (early turn-in), -0.25 = wide/understeer (late).
-    const turnInTiming = clamp(-p.curveLineBias * 2 + (p.steeringDelay - 0.14) * 3, -1, 1);
+    const turnInTiming = clamp(
+        -p.curveLineBias * 2
+        + (p.steeringDelay - 0.14) * 5
+        + (p.steeringTimeConstant - 0.20) * 2.5,
+        -1, 1,
+    );
 
     const decel = -p.comfortDecel; // 1.8 (gentle) … 3.5 (late/hard)
     const longitudinalAggressiveness = clamp(

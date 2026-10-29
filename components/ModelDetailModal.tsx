@@ -22,6 +22,7 @@ import type { ForumActivity } from '../lib/discourse-models-sync';
 import ModelMetaBadges from './ModelMetaBadges';
 import CameraOffsetBanner from './CameraOffsetBanner';
 import ConfidencePill from './ConfidencePill';
+import ModelDomainRatings from './ModelDomainRatings';
 import { getModelFleetStat } from '@/lib/fleetStats';
 
 
@@ -31,6 +32,16 @@ const ModelSvgPreview = dynamic(() => import('./ModelSvgPreview'), {
         <div className="aspect-video w-full bg-slate-950 flex flex-col items-center justify-center text-slate-500 text-xs">
             <div className="w-6 h-6 border-2 border-cyan-500/30 border-t-cyan-400 rounded-full animate-spin mb-2" />
             <span className="font-mono text-[11px] text-slate-400"><TranslatedText text={"Loading drive preview..."} /></span>
+        </div>
+    ),
+});
+
+const ModelTrajectoryVisualizer = dynamic(() => import('./ModelTrajectoryVisualizer'), {
+    ssr: false,
+    loading: () => (
+        <div className="aspect-video w-full bg-slate-950 flex flex-col items-center justify-center text-slate-500 text-xs">
+            <div className="w-6 h-6 border-2 border-cyan-500/30 border-t-cyan-400 rounded-full animate-spin mb-2" />
+            <span className="font-mono text-[11px] text-slate-400"><TranslatedText text={"Loading trajectory visualizer..."} /></span>
         </div>
     ),
 });
@@ -213,6 +224,7 @@ export default function ModelDetailModal({
         sentiment: SentimentData;
     } | null>(null);
     const [simulationVotes, setSimulationVotes] = useState<ModelVoteSummary>();
+    const [simView, setSimView] = useState<'perspective' | 'trajectory'>('perspective');
     const [isPulsing, setIsPulsing] = useState(false);
 
     const liveScore = userVoteData?.modelName === model.name ? userVoteData.communityScore : model.communityScore;
@@ -442,23 +454,53 @@ export default function ModelDetailModal({
                         <div className="min-w-0 space-y-5">
                             {/* Live Simulation Preview */}
                             <section className="rounded-2xl overflow-hidden border border-slate-700/60 bg-slate-950/40 relative">
-                                <div className="p-3 border-b border-slate-800/60 flex items-center justify-between">
+                                <div className="p-3 border-b border-slate-800/60 flex flex-wrap items-center justify-between gap-2">
                                     <span className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
                                         <span>🛣️</span> {t('models.simulationPreview') || 'Drive Simulation'}
                                     </span>
-                                    {onExpandVisualizer && (
-                                        <button
-                                            type="button"
-                                            onClick={() => onExpandVisualizer(model.name)}
-                                            className="text-[11px] text-cyan-400 hover:text-cyan-300 font-semibold inline-flex items-center gap-1 transition-colors"
-                                        >
-                                            <span><TranslatedText text={"Full Simulator"} /></span>
-                                            <span>↗</span>
-                                        </button>
-                                    )}
+                                    <div className="flex items-center gap-2">
+                                        <div role="tablist" aria-label={tx('Simulation view mode')} className="inline-flex rounded-lg bg-slate-900 p-0.5 border border-slate-800">
+                                            <button
+                                                type="button"
+                                                role="tab"
+                                                aria-selected={simView === 'perspective'}
+                                                onClick={() => setSimView('perspective')}
+                                                className={`px-2 py-0.5 text-[10px] font-semibold rounded-md transition-colors ${
+                                                    simView === 'perspective' ? 'bg-cyan-500/20 text-cyan-200' : 'text-slate-400 hover:text-slate-200'
+                                                }`}
+                                            >
+                                                <TranslatedText text="3D Road" />
+                                            </button>
+                                            <button
+                                                type="button"
+                                                role="tab"
+                                                aria-selected={simView === 'trajectory'}
+                                                onClick={() => setSimView('trajectory')}
+                                                className={`px-2 py-0.5 text-[10px] font-semibold rounded-md transition-colors ${
+                                                    simView === 'trajectory' ? 'bg-cyan-500/20 text-cyan-200' : 'text-slate-400 hover:text-slate-200'
+                                                }`}
+                                            >
+                                                <TranslatedText text="Trajectory & Rack" />
+                                            </button>
+                                        </div>
+                                        {onExpandVisualizer && (
+                                            <button
+                                                type="button"
+                                                onClick={() => onExpandVisualizer(model.name)}
+                                                className="text-[11px] text-cyan-400 hover:text-cyan-300 font-semibold inline-flex items-center gap-1 transition-colors"
+                                            >
+                                                <span><TranslatedText text={"Full Simulator"} /></span>
+                                                <span>↗</span>
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
                                 <div className="relative">
-                                    <ModelSvgPreview modelName={model.name} votes={simulationVotes} />
+                                    {simView === 'perspective' ? (
+                                        <ModelSvgPreview modelName={model.name} votes={simulationVotes} />
+                                    ) : (
+                                        <ModelTrajectoryVisualizer modelName={model.name} />
+                                    )}
                                 </div>
                             </section>
 
@@ -592,6 +634,15 @@ export default function ModelDetailModal({
                                             </div>
                                         );
                                     })}
+                                </div>
+
+                                <div className="mt-3.5">
+                                    <ModelDomainRatings
+                                        modelName={model.name}
+                                        skills={ratings}
+                                        summary={simulationVotes}
+                                        onSummaryUpdate={setSimulationVotes}
+                                    />
                                 </div>
                             </section>
 

@@ -102,21 +102,24 @@ function makePlan(scenario: TrajectoryScenario, p: ModelTelemetryProfile): (s: n
     if (scenario !== 'scurve') return () => biasM;
 
     const timing = clamp(p.turnInTiming, -1, 1);
-    // Early turn-in leads the road; late turn-in lags it.
-    const lead = -timing * 9;
-    // Early models dive to the apex (inside); late models run wide.
-    const cut = -timing * 0.5;
+    // Early turn-in leads the road centreline; late turn-in lags it on entry.
+    const lead = -timing * 8.5;
+    // Early models dive to the apex (inside); late models drift toward the outside on entry.
+    const cut = -timing * 0.45;
     const kappaMax = CURVE_AMPLITUDE * CURVE_K * CURVE_K;
-    const correctionAmp = 0.3 * Math.max(0, timing);
-
-    // A late entry must be recovered with a sharper sweep, raising peak lateral demand.
-    const sweep = 1 + 0.5 * Math.max(0, timing);
+    // A late entry must be recovered with a sharper mid-corner catch-up correction,
+    // raising peak curvature/lateral demand while keeping the ideal plan inside the lane.
+    const correctionAmp = 0.48 * Math.max(0, timing);
 
     return (s: number) => {
+        // Phase lag/lead relative to the road centreline, bounded so the plan stays in-lane.
+        const phaseOffset = clamp(roadX('scurve', s + lead) - roadX('scurve', s), -1.15, 1.15);
         // Inside of a bend is the side the centreline curves toward (sign of x'').
         const cutTerm = cut * (roadKappa('scurve', s) / kappaMax);
-        const correction = correctionAmp * Math.sin(2 * CURVE_K * s + 0.8) * Math.min(1, Math.max(0, s) / 40);
-        return sweep * roadX('scurve', s + lead) + biasM + cutTerm + correction;
+        const ramp = Math.min(1, Math.max(0, s) / 35);
+        const correction = correctionAmp * Math.sin(2 * CURVE_K * s + 0.65) * ramp;
+        const inLaneOffset = clamp(phaseOffset + biasM + cutTerm + correction, -1.55, 1.55);
+        return roadX('scurve', s) + inLaneOffset;
     };
 }
 
@@ -167,9 +170,12 @@ function simulateLongitudinal(scenario: TrajectoryScenario, p: ModelTelemetryPro
     const lookDist = 25 + 30 * (1 - agg);
     const vLimitAt = (x: number) => {
         let limit = v0;
-        for (let u = 0; u <= lookDist; u += 5) {
+        for (let u = 0; u <= lookDist; u += 2) {
             const k = Math.abs(roadKappa(scenario, x + u)) / kappaPeak;
-            limit = Math.min(limit, k > 0.55 ? vCurve + (v0 - vCurve) * (1 - k) : v0);
+            if (k > 0.55) {
+                const ramp = (k - 0.55) / 0.45;
+                limit = Math.min(limit, v0 - (v0 - vCurve) * ramp);
+            }
         }
         return limit;
     };
@@ -248,7 +254,8 @@ function trackPlan(
     for (let i = 0; i < s.length; i++) {
         out.push(x);
         const speed = Math.max(v[i], 0.01);
-        const sT = s[i] + speed * delay;
+        // Actuator & torque-loop latency means the rack tracks a delayed reference.
+        const sT = Math.max(s[0], s[i] - speed * delay);
         const pT = planAt(sT);
         const eps = 1;
         const pV = speed * (planAt(sT + eps) - planAt(sT - eps)) / (2 * eps);
@@ -259,7 +266,8 @@ function trackPlan(
         // Anti-windup: a saturated rack lags the plan but cannot run away from it.
         xv = pV + clamp(xv - pV, -MAX_REL_LATERAL_SPEED, MAX_REL_LATERAL_SPEED);
         x += xv * DT;
-        x = pT + clamp(x - pT, -MAX_TRACKING_ERROR_M, MAX_TRACKING_ERROR_M);
+        const planNow = planAt(s[i]);
+        x = planNow + clamp(x - planNow, -MAX_TRACKING_ERROR_M, MAX_TRACKING_ERROR_M);
     }
     return out;
 }
@@ -301,8 +309,8 @@ export function buildTrajectoryRun(
         planAt = makePlan(scenario, profile);
     }
 
-    const highArr = trackPlan(planAt, sArr, vArr, AMAX_HIGH, 2.6, 0.1);
-    const limitedArr = trackPlan(planAt, sArr, vArr, AMAX_LIMITED, 1.7, 0.25);
+    const highArr = trackPlan(planAt, sArr, vArr, AMAX_HIGH, 2.8, 0.06);
+    const limitedArr = trackPlan(planAt, sArr, vArr, AMAX_LIMITED, 1.7, 0.22);
 
     const samples: TrajectorySample[] = sArr.map((s, i) => ({
         t: i * dt,

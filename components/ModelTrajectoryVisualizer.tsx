@@ -252,10 +252,10 @@ export default function ModelTrajectoryVisualizer({ modelName }: { modelName: st
                     {/* Ideal plan — green/cyan spline */}
                     <polyline points={aheadPoly(run.planAt)} fill="none" stroke="url(#traj-plan)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity=".8" />
                     {showHigh && (
-                        <polyline points={aheadPoly(s => run.execAt('highTorque', s))} fill="none" stroke={COLORS.high} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <polyline points={poly(s => run.execAt('highTorque', s))} fill="none" stroke={COLORS.high} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     )}
                     {showLimited && (
-                        <polyline points={aheadPoly(s => run.execAt('torqueLimited', s))} fill="none" stroke={COLORS.limited} strokeWidth="2.4" strokeDasharray="6 4" strokeLinecap="round" strokeLinejoin="round" />
+                        <polyline points={poly(s => run.execAt('torqueLimited', s))} fill="none" stroke={COLORS.limited} strokeWidth="2.4" strokeDasharray="6 4" strokeLinecap="round" strokeLinejoin="round" />
                     )}
 
                     {/* Ego vehicle */}

@@ -453,7 +453,8 @@ export class Simulation {
   plannedLaneOffset(distance: number) {
     const target = this.lateralTarget(this.ego, this.ego.s + distance, this.time + distance / Math.max(3, this.ego.speed));
     const blend = 1 - Math.exp(-distance / 15);
-    return this.road.lanes.offsets[this.ego.lane] + this.ego.lateral * (1 - blend) + target * blend;
+    const headingProjection = distance * Math.exp(-distance / 10) * Math.sin(this.ego.headingError);
+    return this.road.lanes.offsets[this.ego.lane] + this.ego.lateral * (1 - blend) + headingProjection + target * blend;
   }
   computeSteerAngle(car: Vehicle): number {
     if (car.id === 0) return car.steeringAngle;
