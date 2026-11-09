@@ -15,20 +15,72 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
+const SITE_URL = 'https://www.sunnylink.wiki';
+
 export const metadata: Metadata = {
-  title: "Sunnylink Wiki | Sunnypilot Settings Database",
-  description: "The complete wiki for Sunnypilot. A searchable database of settings, driving models, and features.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Sunnylink Wiki | Sunnypilot Settings & Driving Models Database",
+    template: "%s | Sunnylink Wiki",
+  },
+  description: "The complete wiki for Sunnypilot and openpilot. Searchable database of 100+ settings, 136+ driving models, 330+ supported cars, and features.",
   keywords: ["sunnylink", "sunnylink wiki", "sunnylink ai", "sunnypilot", "sunnypilot wiki", "sunnypilot features", "sunnylink app", "sunnypilot settings", "sunnypilot sunnylink", "sunnylink sunnypilot latest version", "openpilot", "MADS", "NNLC", "self-driving", "comma.ai", "settings", "toggles", "models"],
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
-    title: "Sunnylink Wiki",
-    description: "The complete wiki for Sunnypilot. Settings, models, and features.",
+    title: "Sunnylink Wiki | Sunnypilot Settings & Driving Models Database",
+    description: "The complete wiki for Sunnypilot. 100+ settings, 136+ driving models, 330+ supported cars, and in-depth ADAS features.",
+    url: SITE_URL,
+    siteName: "Sunnylink Wiki",
     type: "website",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sunnylink Wiki",
-    description: "The complete wiki for Sunnypilot. Settings, models, and features.",
+    title: "Sunnylink Wiki | Sunnypilot Settings & Models Database",
+    description: "The complete wiki for Sunnypilot. 100+ settings, 136+ driving models, 330+ supported cars, and features.",
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+};
+
+const siteJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: 'Sunnylink Wiki',
+      description: 'The complete community reference for openpilot driving models, sunnypilot settings, and supported cars.',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${SITE_URL}/?q={search_term_string}`,
+        'query-input': 'required name=search_term_string',
+      },
+    },
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'Sunnylink Wiki Community',
+      url: SITE_URL,
+      sameAs: [
+        'https://github.com/vinnie291/sunnylink-wiki',
+        'https://community.sunnypilot.ai',
+        'https://github.com/sunnypilot/sunnypilot',
+      ],
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -39,6 +91,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+        />
         {/* Theme bootstrap — applies saved/system theme before first paint to prevent flash */}
         <script
           dangerouslySetInnerHTML={{

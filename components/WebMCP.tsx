@@ -44,17 +44,17 @@ export default function WebMCP() {
         {
           name: 'browse_models',
           description:
-            'Browse Sunnypilot driving models. Filter by vibe category (wmi_2026, aggressive, comfort, precision, experimental) or search by model name.',
+            'Browse Sunnypilot driving models. Filter by vibe category (chestnut_gpu, wmi_2026, aggressive, comfort, tomb_raider, legacy, opm) or search by model name.',
           inputSchema: {
             type: 'object',
             properties: {
               vibe: {
                 type: 'string',
-                description: 'Vibe category: wmi_2026, aggressive, comfort, precision, experimental',
+                description: 'Vibe category: chestnut_gpu, wmi_2026, aggressive, comfort, tomb_raider, legacy, opm',
               },
               query: {
                 type: 'string',
-                description: 'Search by model name (e.g. "WMI V12", "Down to Ride", "Dark Souls")',
+                description: 'Search by model name or vehicle (e.g. "WMI V12", "Light Speed", "Down to Ride", "Dark Souls", "Ioniq 5")',
               },
             },
           },

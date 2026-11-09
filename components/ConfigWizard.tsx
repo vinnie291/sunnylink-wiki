@@ -356,9 +356,9 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
         <div className="cw-step-enter space-y-6">
             <div className="text-center space-y-4">
                 <div className="text-5xl mb-2">🛠️</div>
-                <h2 className="text-2xl md:text-3xl font-bold text-slate-100 mb-6">
+                <h1 className="text-2xl md:text-3xl font-bold text-slate-100 mb-6">
                     {t('cw.welcome.title') === 'cw.welcome.title' ? 'Config Wizard' : t('cw.welcome.title')}
-                </h2>
+                </h1>
                 <p className="text-slate-400 max-w-lg mx-auto leading-relaxed">
                      <TranslatedText text={"Build a complete, device-ready sunnypilot configuration file in minutes. We'll guide you through every setting with community-tested recommendations for your specific vehicle."} /> </p>
             </div>

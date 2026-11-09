@@ -25,14 +25,14 @@ export default function StatsClient({ charts }: { charts: PublicFleetChart[] | n
             </div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 pt-32 pb-8 sm:pt-40 sm:pb-12">
-                <Header />
+                <Header asPrimaryHeading={false} />
 
                 {/* Page Title with Live Indicator */}
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center gap-3 mb-4">
-                        <h2 className="text-2xl md:text-3xl font-bold text-slate-100">
+                        <h1 className="text-2xl md:text-3xl font-bold text-slate-100">
                             {t('stats.title')}
-                        </h2>
+                        </h1>
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-medium">
                             <span className="relative flex h-2 w-2">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>

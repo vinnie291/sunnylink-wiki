@@ -1,8 +1,8 @@
 {
   "serverInfo": {
     "name": "Sunnylink Wiki",
-    "version": "1.0.0",
-    "description": "MCP-compatible interface for the Sunnylink Wiki — the complete reference for Sunnypilot settings, driving models, car compatibility, and features."
+    "version": "1.1.0",
+    "description": "MCP-compatible interface for the Sunnylink Wiki — the complete reference for 100+ Sunnypilot settings, 136+ driving models, 330+ car compatibilities, and features."
   },
   "transport": {
     "type": "http",
@@ -20,25 +20,25 @@
       "inputSchema": {
         "type": "object",
         "properties": {
-          "query": { "type": "string", "description": "Search keyword (e.g. 'camera offset', 'MADS', 'speed limit')" }
+          "query": { "type": "string", "description": "Search keyword (e.g. 'camera offset', 'MADS', 'speed limit', 'NNLC')" }
         },
         "required": ["query"]
       }
     },
     {
       "name": "browse_models",
-      "description": "Browse Sunnypilot driving models by vibe or name",
+      "description": "Browse or search Sunnypilot driving models by name, vibe, or vehicle",
       "inputSchema": {
         "type": "object",
         "properties": {
-          "vibe": { "type": "string", "description": "Vibe category: wmi_2026, aggressive, comfort, precision, experimental" },
-          "query": { "type": "string", "description": "Search by model name" }
+          "vibe": { "type": "string", "description": "Vibe category: chestnut_gpu, wmi_2026, aggressive, comfort, tomb_raider, legacy, opm" },
+          "query": { "type": "string", "description": "Search by model name or vehicle (e.g. 'WMI V12', 'Light Speed', 'Dark Souls', 'Ioniq 5')" }
         }
       }
     },
     {
       "name": "check_car",
-      "description": "Check if a car make/model is compatible with Sunnypilot and get recommended settings",
+      "description": "Check if a car make/model is compatible with Sunnypilot and get recommended settings and harness",
       "inputSchema": {
         "type": "object",
         "properties": {

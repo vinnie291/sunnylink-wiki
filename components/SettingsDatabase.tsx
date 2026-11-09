@@ -49,7 +49,8 @@ interface SettingsDatabaseProps {
     selectedVehicle: string | null;
 }
 
-const INITIAL_RENDER_COUNT = 20;
+// Ensure all settings render in SSR HTML for SEO / AI crawlers
+const INITIAL_RENDER_COUNT = 200;
 
 /**
  * A default of `''` is as absent as `null` — text settings such as GSM APN and

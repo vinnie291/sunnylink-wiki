@@ -1,165 +1,176 @@
 import { NextRequest, NextResponse } from 'next/server';
 import modelsData from '@/data/models.json';
+import togglesData from '@/data/toggles.json';
+import carsData from '@/data/cars.json';
+import featuresData from '@/data/features.json';
 
-const MODEL_COUNT = modelsData.totalModels;
+const MODEL_COUNT = modelsData.totalModels ?? 136;
+const CAR_COUNT = (carsData as { vehicles?: unknown[] }).vehicles?.length ?? 334;
 
-const PAGE_MARKDOWN: Record<string, string> = {
-  '/': `# Sunnylink Wiki
+function generateSettingsMarkdown(): string {
+  const categories = (togglesData as { categories: Array<{ id: string; name: string; settings: Array<{ key: string; label: string; description?: string; default?: unknown; type?: string }> }> }).categories ?? [];
 
-> The complete reference for Sunnypilot — searchable settings, driving models, car compatibility, and features.
+  let md = `# Sunnylink Wiki — Sunnypilot Settings & Configuration Database
 
-## What is Sunnypilot?
+> The complete, searchable reference for Sunnypilot ADAS settings, toggles, parameters, defaults, and community guidance. Base URL: https://www.sunnylink.wiki
 
-Sunnypilot is an open-source advanced driver assistance system (ADAS) built on top of comma.ai's openpilot platform. It adds community-driven features, expanded vehicle support, and additional driving models.
+## Overview
+Sunnypilot is an open-source driving assistance system built on comma.ai's openpilot. It adds customizable controls, expanded vehicle compatibility, and community driving models.
 
-## Main Sections
+## Settings & Toggles by Category\n\n`;
 
-- **[Settings Database](/)** — 100+ configurable toggles and parameters with descriptions, defaults, and community tips
-- **[Model Library](/models)** — Browse ${MODEL_COUNT} driving models, filterable by vibe (comfort, aggressive, WMI 2026, experimental)
-- **[Car Database](/cars)** — Vehicle-specific compatibility, recommended settings, and harness information
-- **[Feature Guide](/features)** — Detailed documentation for major Sunnypilot features (MADS, NNLC, Speed Limit Assist, etc.)
-- **[Config Wizard](/wizard)** — Interactive tool to build a personalized Sunnypilot configuration
-- **[Live Stats](/stats)** — Real-time fleet statistics and model usage data
+  for (const cat of categories) {
+    md += `### ${cat.name}\n\n`;
+    for (const s of cat.settings) {
+      const defVal = s.default !== undefined && s.default !== '' ? String(s.default) : 'N/A';
+      md += `#### \`${s.key}\` — ${s.label}\n`;
+      md += `- **Type:** ${s.type ?? 'toggle'}\n`;
+      md += `- **Default:** \`${defVal}\`\n`;
+      if (s.description) {
+        md += `- **Description:** ${s.description}\n`;
+      }
+      md += `\n`;
+    }
+  }
 
-## Key Features of Sunnypilot
+  return md;
+}
 
-- **MADS (Modular Assistive Driving System)** — Decouples lateral and longitudinal control; keep ACC off while steering assist is active
-- **NNLC (Neural Network Lateral Control)** — Vehicle-trained steering controller; requires a compatible torque-steering vehicle
-- **Speed Limit Assist** — Displays, warns about, or assists with speed limits using map or vehicle-provided data, subject to configuration and confirmation rules
-- **Driving Models** — Explore ${MODEL_COUNT} catalogued models; availability depends on hardware and the installed branch
+function generateModelsMarkdown(): string {
+  const categories = (modelsData as { categories: Array<{ id: string; name: string; models: Array<{ name: string; communityScore?: number; bestFor?: string; steeringFeel?: string; tags?: string[]; testedOn?: string[]; consensus?: string; positives?: string[]; negatives?: string[] }> }> }).categories ?? [];
 
-## Agent Discovery
+  let md = `# Sunnylink Model Library — openpilot & Sunnypilot Driving Models
 
-- API Catalog: \`/.well-known/api-catalog\`
-- MCP Server Card: \`/.well-known/mcp/server-card.json\`
-- Agent Skills: \`/.well-known/agent-skills/index.json\`
-`,
-  '/models': `# Sunnylink Model Library
+> Comprehensive comparison of ${MODEL_COUNT}+ neural network driving models from comma.ai and sunnypilot with community ratings, steering profiles, and vehicle reports. Base URL: https://www.sunnylink.wiki/models\n\n`;
 
-> Browse ${MODEL_COUNT} Sunnypilot driving models, each with a unique personality and tuning.
+  for (const cat of categories) {
+    md += `## Category: ${cat.name}\n\n`;
+    for (const m of cat.models) {
+      md += `### ${m.name}\n`;
+      if (m.communityScore !== undefined) md += `- **Community Score:** ${m.communityScore}/100\n`;
+      if (m.bestFor) md += `- **Best For:** ${m.bestFor}\n`;
+      if (m.steeringFeel) md += `- **Steering Feel:** ${m.steeringFeel}\n`;
+      if (m.tags?.length) md += `- **Tags:** ${m.tags.join(', ')}\n`;
+      if (m.testedOn?.length) md += `- **Tested On:** ${m.testedOn.join(', ')}\n`;
+      if (m.consensus) md += `- **Consensus:** ${m.consensus}\n`;
+      if (m.positives?.length) md += `- **Positives:** ${m.positives.join('; ')}\n`;
+      if (m.negatives?.length) md += `- **Quirks/Negatives:** ${m.negatives.join('; ')}\n`;
+      md += `\n`;
+    }
+  }
 
-## Model Vibes
+  return md;
+}
 
-### WMI & 2026 World Series (Modern Standard)
-End-to-End intelligence. WMI V12 is the flagship for 2026. Best for daily driving including city streets, stop signs, and intersections.
+function generateCarsMarkdown(): string {
+  const vehicles = (carsData as { vehicles: Array<{ make: string; model: string; years?: string; package?: string; harness?: string; bestSettings?: Record<string, string> }> }).vehicles ?? [];
 
-### Aggressive Series
-High-performance for heavy traffic. Dark Souls v2 excels with trucks and SUVs. Firehose is the bleeding-edge SOTA development feed.
+  let md = `# Sunnylink Car Database — Supported Vehicles & Hardware Compatibility
 
-### Comfort & Smooth Series
-Passenger-friendly. Down to Ride (DTR) v6 is "wife-approved" — gentle braking, slow turns. Ideal for road trips.
+> Compatibility list of ${CAR_COUNT}+ vehicles supported by Sunnypilot with required harnesses and recommended settings. Base URL: https://www.sunnylink.wiki/cars\n\n`;
 
-### Precision & Sport Series
-Tight, responsive steering. Perfect for drivers who want the car planted firmly in the center of the lane.
+  const byMake = new Map<string, typeof vehicles>();
+  for (const v of vehicles) {
+    const list = byMake.get(v.make) ?? [];
+    list.push(v);
+    byMake.set(v.make, list);
+  }
 
-### Experimental & Research
-Cutting-edge research models. May be unstable; for advanced testers only.
+  for (const [make, cars] of byMake.entries()) {
+    md += `## ${make}\n\n`;
+    for (const car of cars) {
+      md += `### ${car.make} ${car.model} (${car.years ?? 'All'})\n`;
+      if (car.package) md += `- **Package/Trim:** ${car.package}\n`;
+      if (car.harness) md += `- **Required Harness:** ${car.harness}\n`;
+      if (car.bestSettings && Object.keys(car.bestSettings).length > 0) {
+        md += `- **Recommended Settings:**\n`;
+        for (const [k, v] of Object.entries(car.bestSettings)) {
+          md += `  - \`${k}\`: ${v}\n`;
+        }
+      }
+      md += `\n`;
+    }
+  }
 
-## How to Choose
+  return md;
+}
 
-1. **Daily city driving** → WMI V12
-2. **Truck/SUV in traffic** → Dark Souls v2
-3. **Passengers or road trips** → Down to Ride v6
-4. **Highway precision** → Precision Sport series
-5. **Testing latest tech** → Firehose
+function generateFeaturesMarkdown(): string {
+  const features = (featuresData as { features: Array<{ name: string; fullName: string; officialDefinition?: string; userTranslation?: string; category?: string }> }).features ?? [];
 
-Visit [sunnylink.wiki/models](/models) for the full interactive library with filtering.
-`,
-  '/features': `# Sunnylink Feature Guide
+  let md = `# Sunnylink Feature Guide — Sunnypilot ADAS Architecture
 
-> Detailed documentation for Sunnypilot's major features, enriched with community knowledge.
+> In-depth architectural and user reference for core Sunnypilot features (MADS, NNLC, Speed Limit Assist, Dynamic Lane Profile). Base URL: https://www.sunnylink.wiki/features\n\n`;
 
-## Major Features
+  for (const f of features) {
+    md += `## ${f.name} (${f.fullName})\n`;
+    if (f.category) md += `- **Category:** ${f.category}\n`;
+    if (f.officialDefinition) md += `- **Official Definition:** ${f.officialDefinition}\n`;
+    if (f.userTranslation) md += `- **User Translation / Plain English:** ${f.userTranslation}\n`;
+    md += `\n`;
+  }
 
-### MADS — Modular Assistive Driving System
-Decouples steering assist from adaptive cruise control. Lane keep active even when ACC is off.
+  return md;
+}
 
-### NNLC — Neural Network Lateral Control
-Vehicle-trained neural network that calculates steering commands. Requires a compatible torque-steering vehicle and an available trained model; configure while parked.
+function generateFullLlmsMarkdown(): string {
+  return `# Sunnylink Wiki — Complete Knowledge Base (LLMs Full Reference)
 
-### Speed Limit Assist (SLA)
-Off, Information, Warning, and Assist modes use map or vehicle-provided speed limits. Assist requires longitudinal control or ICBM and follows vehicle-specific confirmation rules. The separate Honda City 7G Auto SET mode in [PR #2042](https://github.com/sunnypilot/sunnypilot/pull/2042) remains an open proposal.
+> Complete concatenated documentation for Sunnypilot ADAS, settings, ${MODEL_COUNT}+ driving models, ${CAR_COUNT}+ compatible vehicles, and features.
+> Canonical base URL: https://www.sunnylink.wiki
 
-### Dynamic Experimental Mode
-Switches between openpilot's experimental E2E mode and classic mode based on road conditions.
+---
 
-### Personality Profiles
-Quick-switch between preset driving personalities (Relaxed, Standard, Aggressive) that adjust following distance and acceleration.
+${generateSettingsMarkdown()}
 
-### Custom Alerts
-Configurable driver alerts for various conditions — speed, lane departure, following distance.
+---
 
-Visit [sunnylink.wiki/features](/features) for the full feature guide.
-`,
-  '/cars': `# Sunnylink Car Database
+${generateModelsMarkdown()}
 
-> Vehicle compatibility and recommended settings for Sunnypilot.
+---
 
-## Supported Vehicles
+${generateCarsMarkdown()}
 
-The Sunnylink Car Database covers vehicles compatible with Sunnypilot across major manufacturers including:
+---
 
-- **Hyundai / Kia / Genesis** — Extensive support via HKG harnesses
-- **Toyota / Lexus** — Wide coverage with Toyota-specific harnesses
-- **Honda / Acura** — Supported via Honda Nidec/Bosch harnesses
-- **GM (Chevrolet, GMC, Cadillac, Buick)** — OBD-II based support
-- **Subaru** — Global-B harness
-- **Volkswagen / Audi / Seat / Skoda** — J533 harness
-- **Nissan / Infiniti** — Nissan harness variants
-
-## What the Database Provides
-
-For each vehicle:
-- Required hardware (device type, harness, radar)
-- Best settings (recommended driving model, torque tuning, lateral/longitudinal control)
-- Multiple configuration presets (smooth highway, performance, comfort)
-- Community consensus ratings
-
-Visit [sunnylink.wiki/cars](/cars) to search the full database.
-`,
-  '/wizard': `# Sunnylink Config Wizard
-
-> Interactive tool to build a personalized Sunnypilot configuration.
-
-## What the Wizard Does
-
-The Config Wizard guides you through selecting the optimal Sunnypilot settings for your vehicle, driving style, and use case. It asks questions about:
-
-1. **Your vehicle** — Make, model, year
-2. **Driving environment** — Mostly highway, city, or mixed
-3. **Passenger considerations** — Solo driving or passengers who get motion sick
-4. **Experience level** — New to sunnypilot or experienced user
-5. **Preferences** — Tight lane centering vs. relaxed, aggressive vs. gentle
-
-At the end, it recommends a specific driving model, key toggle settings, and tuning parameters.
-
-Visit [sunnylink.wiki/wizard](/wizard) to start the wizard.
-`,
-  '/stats': `# Sunnylink Live Stats
-
-> Real-time fleet statistics for the Sunnypilot community.
-
-## What Stats Are Tracked
-
-- Active fleet size (number of devices running Sunnypilot)
-- Most popular driving models in use
-- Model distribution by geography
-- Recent model adoption trends
-
-Stats are updated in real-time and reflect the global Sunnypilot community.
-
-Visit [sunnylink.wiki/stats](/stats) for live data.
-`,
-};
+${generateFeaturesMarkdown()}
+`;
+}
 
 function estimateTokens(text: string): number {
-  // Rough estimate: ~4 chars per token (GPT-style BPE approximation)
   return Math.ceil(text.length / 4);
 }
 
 export async function GET(request: NextRequest) {
   const path = request.nextUrl.searchParams.get('path') ?? '/';
-  const content = PAGE_MARKDOWN[path] ?? PAGE_MARKDOWN['/'];
+
+  let content: string;
+  switch (path) {
+    case '/models':
+      content = generateModelsMarkdown();
+      break;
+    case '/cars':
+      content = generateCarsMarkdown();
+      break;
+    case '/features':
+      content = generateFeaturesMarkdown();
+      break;
+    case '/llms-full.txt':
+    case '/full':
+      content = generateFullLlmsMarkdown();
+      break;
+    case '/wizard':
+      content = `# Sunnylink Config Wizard Reference\n\nInteractive vehicle config builder: https://www.sunnylink.wiki/wizard\n\nGuides users through choosing the ideal model, longitudinal mode, and lateral controls for their specific car.`;
+      break;
+    case '/stats':
+      content = `# Sunnylink Live Fleet Telemetry\n\nLive fleet stats: https://www.sunnylink.wiki/stats\n\nTracks real-time device counts, active driving models, and fleet miles across the global Sunnypilot community.`;
+      break;
+    case '/':
+    default:
+      content = generateSettingsMarkdown();
+      break;
+  }
+
   const tokens = estimateTokens(content);
 
   return new NextResponse(content, {

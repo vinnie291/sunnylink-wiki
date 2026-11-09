@@ -22,8 +22,11 @@ const pageTitles: Record<string, string> = {
 
 export default function LocalizedDocumentTitle() {
     const pathname = usePathname();
-    const { t, tx } = useLanguage();
+    const { t, tx, locale } = useLanguage();
     useEffect(() => {
+        // Preserve handcrafted, keyword-targeted server-rendered SEO titles for English
+        if (locale === 'en') return;
+
         const title = pageKeys[pathname] ? t(pageKeys[pathname]) : tx(pageTitles[pathname] ?? 'Sunnylink Wiki');
         const localized = `${title} | Sunnylink Wiki`;
         const update = () => { if (document.title !== localized) document.title = localized; };
@@ -32,6 +35,6 @@ export default function LocalizedDocumentTitle() {
         observer.observe(document.head, { childList: true, subtree: true, characterData: true });
         update();
         return () => observer.disconnect();
-    }, [pathname, t, tx]);
+    }, [pathname, t, tx, locale]);
     return null;
 }

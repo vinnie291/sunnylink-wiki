@@ -26,6 +26,13 @@ interface FeatureGuideProps {
     discourseFeatures?: Record<string, string>;
 }
 
+function safeSanitize(html: string): string {
+    if (typeof window !== 'undefined' && DOMPurify && typeof DOMPurify.sanitize === 'function') {
+        return DOMPurify.sanitize(html);
+    }
+    return html;
+}
+
 export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
   const tx = useTextTranslation();
     const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
@@ -181,66 +188,68 @@ export default function FeatureGuide({ discourseFeatures }: FeatureGuideProps) {
 
 
 
-                        {/* Expanded Content */}
-                        {expandedFeature === feature.id && (
-                            <div id={`feature-panel-${feature.id}`} className="px-4 pb-4 space-y-4 border-t border-slate-700/50 pt-4">
-                                {/* User Translation */}
-                                <div className="p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
-                                    <p className="text-emerald-400 text-sm">
-                                        <span className="font-semibold">{t('features.inPlainEnglish') || '🗣️ In Plain English:'}</span> <TranslatedText text={feature.userTranslation} />
-                                    </p>
-                                </div>
+                        {/* Expanded Content — rendered in DOM for SEO and AI crawler indexing */}
+                        <div
+                            id={`feature-panel-${feature.id}`}
+                            className={`px-4 pb-4 space-y-4 border-t border-slate-700/50 pt-4 ${expandedFeature === feature.id ? 'block' : 'hidden'}`}
+                        >
+                            {/* User Translation */}
+                            <div className="p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
+                                <p className="text-emerald-400 text-sm">
+                                    <span className="font-semibold">{t('features.inPlainEnglish') || '🗣️ In Plain English:'}</span> <TranslatedText text={feature.userTranslation} />
+                                </p>
+                            </div>
 
-                                {/* Official Definition */}
-                                <div className="p-3 rounded-lg bg-slate-900/50 border border-slate-700/30">
-                                    <div className="flex justify-between items-center mb-1">
-                                        <p className="text-xs text-slate-500 uppercase tracking-wide">{t('features.officialDefinition') || 'Official Definition'}</p>
-                                        {feature.docUrl && (
-                                            <a
-                                                href={feature.docUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-xs font-medium text-cyan-400 hover:text-cyan-300 flex items-center gap-1 transition-colors"
-                                                onClick={(e) => e.stopPropagation()}
-                                            >
-                                                <span>{t('features.readMore') || 'Read More'}</span>
-                                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                                </svg>
-                                            </a>
-                                        )}
-                                    </div>
-                                    <p className="text-sm text-slate-300 font-mono leading-relaxed">
-                                        <TranslatedText text={feature.officialDefinition} />
-                                    </p>
-                                    {feature.discourseHtml && (
-                                        <div className="mt-3 pt-3 border-t border-slate-700/30">
-                                            <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">{t('features.officialDocs') || 'Official Docs (Full)'}</p>
-                                            <div
-                                                className="discourse-content text-sm text-slate-300 leading-relaxed"
-                                                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(feature.discourseHtml) }}
-                                            />
-                                        </div>
+                            {/* Official Definition */}
+                            <div className="p-3 rounded-lg bg-slate-900/50 border border-slate-700/30">
+                                <div className="flex justify-between items-center mb-1">
+                                    <p className="text-xs text-slate-500 uppercase tracking-wide">{t('features.officialDefinition') || 'Official Definition'}</p>
+                                    {feature.docUrl && (
+                                        <a
+                                            href={feature.docUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-xs font-medium text-cyan-400 hover:text-cyan-300 flex items-center gap-1 transition-colors"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            <span>{t('features.readMore') || 'Read More'}</span>
+                                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                            </svg>
+                                        </a>
                                     )}
                                 </div>
-
-                                {/* Related Settings */}
-                                <div>
-                                    <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">{t('features.relatedSettings') || 'Related Settings'}</p>
-                                    <div className="flex flex-wrap gap-1.5">
-                                        {feature.settingsKeys.map((key) => (
-                                            <a
-                                                key={key}
-                                                href={`/#${key}`}
-                                                className="px-2 py-1 text-xs rounded-md bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 hover:bg-cyan-500/20 transition-colors"
-                                            >
-                                                <TranslatedText text={key} />
-                                            </a>
-                                        ))}
+                                <p className="text-sm text-slate-300 font-mono leading-relaxed">
+                                    <TranslatedText text={feature.officialDefinition} />
+                                </p>
+                                {feature.discourseHtml && (
+                                    <div className="mt-3 pt-3 border-t border-slate-700/30">
+                                        <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">{t('features.officialDocs') || 'Official Docs (Full)'}</p>
+                                        <div
+                                            className="discourse-content text-sm text-slate-300 leading-relaxed"
+                                            dangerouslySetInnerHTML={{ __html: safeSanitize(feature.discourseHtml) }}
+                                        />
                                     </div>
+                                )}
+                            </div>
+
+                            {/* Related Settings */}
+                            <div>
+                                <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">{t('features.relatedSettings') || 'Related Settings'}</p>
+                                <div className="flex flex-wrap gap-1.5">
+                                    {feature.settingsKeys.map((key) => (
+                                        <a
+                                            key={key}
+                                            href={`/#${key}`}
+                                            className="px-2 py-1 text-xs rounded-md bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 hover:bg-cyan-500/20 transition-colors"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            <TranslatedText text={key} />
+                                        </a>
+                                    ))}
                                 </div>
                             </div>
-                        )}
+                        </div>
                     </div>
                 ))}
             </div>
