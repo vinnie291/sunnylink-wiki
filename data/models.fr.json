@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 134,
-  "lastUpdated": "October 26, 2026",
+  "totalModels": 136,
+  "lastUpdated": "October 31, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "La série Chestnut GPU (grands modèles)",
@@ -291,11 +291,19 @@
             "Deep RL",
             "Experimental"
           ],
-          "consensus": "Un sujet et un sondage dédiés du mainteneur sont maintenant disponibles. Le sondage global compte zéro évaluation dans cet instantané : aucune conclusion de performance n’est établie.",
+          "consensus": "Un sujet et un sondage dédiés du mainteneur sont maintenant disponibles. Le sondage global compte une note de 5 – Excellent et un vote pour en faire le modèle par défaut. Une seule note ne suffit pas pour une conclusion générale sur les performances.",
           "note": "Basé sur le commit openpilot bf3e363 (PR #38932) ; comma l'a fusionné dans master le 18 septembre. Listé dans Model Manager sous « Master Models ». L'annonce (modifiée le 26 octobre) indique un comma four ou un comma 3X, plus comma chestnut. Les sondages du forum le comparent à Mountain Dew Model v3, le modèle par défaut actuel.",
           "bestFor": "Tests communautaires avec matériel et logiciel compatibles.",
           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-v3-model-september-17-2026/7608",
-          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json"
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
+          "communityScore": 100,
+          "totalVotes": 1,
+          "sentiment": {
+            "great": 100,
+            "good": 0,
+            "ok": 0,
+            "bad": 0
+          }
         },
         {
           "name": "Cinque Terre Model",
@@ -783,7 +791,7 @@
             "Chestnut",
             "Default"
           ],
-          "consensus": "L'actuel grand modèle par défaut de sunnypilot. Model Manager l'utilise si vous ne choisissez rien d'autre, et chaque nouveau grand modèle (Train Track, Flip Flop, Cinque Terre V3) est comparé à lui dans les sondages. comma l'a fusionné dans master le 14 octobre via la PR #39087. Son propre sondage n'a pas encore de notes. La seule comparaison directe à ce jour, sur Flip Flop, a jugé Flip Flop « à peu près pareil ».",
+          "consensus": "L'actuel grand modèle par défaut de sunnypilot. Model Manager l'utilise si vous ne choisissez rien d'autre ; les sondages comparent les grands modèles ultérieurs à lui. comma l'a fusionné dans master le 14 octobre via la PR #39087. Son sondage compte désormais une note de 3 – Correct ; un votant s’oppose à son adoption par défaut. Deux comparaisons jugent Flip Flop « à peu près pareil ».",
           "note": "Basé sur le commit openpilot 1e219d7 (PR #39087). Listé dans Model Manager sous « Master Models ». Nécessite un comma four ou un comma 3X, plus comma chestnut. Il a remplacé Cinque Terre Model v2 comme grand modèle par défaut, son sondage le compare donc à CTM v2.",
           "bestFor": "Référence des grands modèles : l'expérience Chestnut par défaut et le point de comparaison des nouvelles sorties.",
           "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
@@ -795,7 +803,15 @@
           "negatives": [],
           "modelRef": "1e219d7785cfb7b7343c7f2366347fc86e7ce5f2",
           "shortName": "MDMV3",
-          "minimumSelectorVersion": 21
+          "minimumSelectorVersion": 21,
+          "communityScore": 50,
+          "totalVotes": 1,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 100,
+            "bad": 0
+          }
         },
         {
           "name": "Train Track Model",
@@ -829,7 +845,7 @@
             "Deep RL",
             "Experimental"
           ],
-          "consensus": "Le plus récent grand modèle Deep RL, et le seul de ce lot avec de vrais retours de conduite. Un testeur sur Kia EV6 2022 l'a noté 3 – Correct, « à peu près pareil » que Mountain Dew Model v3, et a voté contre le passer par défaut. Il signale un effet ping-pong dans la voie au-delà de 120 km/h et des hésitations en virage nécessitant une intervention manuelle. Il considère toujours Cinque Terre V3 comme le meilleur choix au quotidien. Un seul testeur : à prendre comme un premier signal.",
+          "consensus": "Un grand modèle Deep RL expérimental avec de premiers retours de conduite. Un testeur sur Kia EV6 2022 l'a noté 3 – Correct, « à peu près pareil » que Mountain Dew Model v3, et a voté contre le passer par défaut. Il signale un effet ping-pong dans la voie au-delà de 120 km/h et des hésitations en virage nécessitant une intervention manuelle. Il considère toujours Cinque Terre V3 comme le meilleur choix au quotidien. Un seul testeur : à prendre comme un premier signal.",
           "note": "Basé sur le commit openpilot 35c5406. Listé dans Model Manager sous « 2026 Deep RL Models ». Nécessite un comma four ou un comma 3X, plus comma chestnut. Les sondages du forum le comparent à Mountain Dew Model v3. Sondage principal : un votant.",
           "bestFor": "Testeurs précoces uniquement ; pas encore recommandé pour l'autoroute à haute vitesse.",
           "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
@@ -857,6 +873,51 @@
             "Hésite en virage, intervention manuelle nécessaire",
             "Le premier testeur préfère toujours Cinque Terre V3 au quotidien"
           ]
+        },
+        {
+          "name": "Light Speed Model",
+          "date": "October 29, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "consensus": "Light Speed est un grand modèle Deep RL expérimental. Trois votants du forum lui ont donné chacun une note : 3 – Correct, 2 – Mauvais et 1 – Très mauvais. Deux premiers témoignages signalent des virages faibles ou des difficultés en courbe et lors des changements de voie ; un mentionne une accélération rapide. Ces retours limités ne constituent pas une conclusion générale.",
+          "note": "Basé sur le commit openpilot e4acf61 ; répertorié dans « 2026 Deep RL Models ». Selon le mainteneur, il faut un comma four ou un comma 3X avec comma chestnut. Sélecteur 21 ou plus récent requis.",
+          "bestFor": "Comparaison expérimentale avec Mountain Dew Model v3 ; reprendre la main si la direction hésite.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/e001cd183c66e144cd09fcc11f5019cd6185f000/docs/driving_models_chestnut_v28.json",
+          "modelRef": "e4acf619d4eb8b726fc405c264109310ac2951df",
+          "shortName": "LSM",
+          "minimumSelectorVersion": 21,
+          "testedOn": [
+            "Kia EV6 (year not specified)"
+          ],
+          "positives": [],
+          "negatives": [],
+          "forumUrl": "https://community.sunnypilot.ai/t/light-speed-model-october-29-2026/7645"
+        },
+        {
+          "name": "Light Speed Model v2",
+          "date": "October 29, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "consensus": "Un second build Light Speed figure dans le manifeste officiel Chestnut. Cette recherche n’a trouvé ni annonce dédiée du mainteneur, ni sondage, ni essai vérifié pour v2. Les retours sur le premier build ne prouvent pas les performances de v2.",
+          "note": "Basé sur le commit openpilot c7cbe5d ; artefact compilé le 30 octobre 2026. Répertorié dans « 2026 Deep RL Models » ; sélecteur 21 requis. Le manifeste seul ne confirme ni la compatibilité par appareil ni le statut par défaut.",
+          "bestFor": "Premiers essais expérimentaux ; performances non vérifiées.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/e001cd183c66e144cd09fcc11f5019cd6185f000/docs/driving_models_chestnut_v28.json",
+          "modelRef": "c7cbe5de6a9dae4bab032bc5faeb24a248c41f8f",
+          "shortName": "LSMV2",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
         }
       ]
     },

@@ -29,6 +29,15 @@
           "deviceAvailability": "config-hidden"
         },
         {
+          "key": "Blendful",
+          "label": "Blendful (Alpha)",
+          "type": "toggle",
+          "default": false,
+          "description": "車道線清楚時，在模型轉向上加入輕微的車道置中修正，遇到障礙物時減少介入。僅適用於已啟用的自訂模型；預設模型不可用。",
+          "userNote": "10 月 29 日透過 PR #2073 合併至 sunnypilot master。這是 Alpha 功能，尚未包含於最新標籤版本 v2026.002.002。",
+          "deepDive": "來源： https://github.com/sunnypilot/sunnypilot/pull/2073; https://github.com/sunnypilot/sunnypilot/blob/6f7a2c94c10dffcf9a83b120ab1e6985e4496868/openpilot/sunnypilot/sunnylink/settings_ui_src/pages/models.yaml. 已於 2026 年 10 月 31 日檢查 master 及開發分支狀態。"
+        },
+        {
           "key": "LaneTurnDesire",
           "label": "使用車道轉彎願望",
           "type": "toggle",
@@ -71,14 +80,14 @@
           "type": "dropdown",
           "description": "選擇AI駕駛模式。每個模型都有獨特的駕駛特性。",
           "useCase": "選擇適合您的駕駛風格和路況的車型。",
-          "userNote": "本維基記錄了 134 個模型。裝置可用性取決於硬體、選擇器版本及已安裝分支。",
+          "userNote": "本維基記錄了 136 個模型。裝置可用性取決於硬體、選擇器版本及已安裝分支。",
           "deviceAvailability": "config-hidden"
         },
         {
           "key": "ModelLibrary",
           "label": "模型庫",
           "type": "action",
-          "description": "瀏覽 134 個已記錄的駕駛模型。目錄中發布不代表每種裝置或舊分支均受支援。",
+          "description": "瀏覽 136 個已記錄的駕駛模型。目錄中發布不代表每種裝置或舊分支均受支援。",
           "useCase": "找到適合您駕駛風格的完美車型。",
           "userNote": "包括 WMI 系列、《黑暗之魂》、《Down to Ride》、《古墓麗影》和《Legacy》型號。",
           "deviceAvailability": "config-hidden"
@@ -1721,9 +1730,18 @@
           "useCase": "在 FCA 車輛緩慢行駛時啓用連續轉向輔助。",
           "safetyLevel": "safe",
           "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ToyotaTSS2Smooth",
+          "label": "Toyota TSS2 平順縱向控制（Alpha）",
+          "type": "toggle",
+          "default": false,
+          "description": "以隨車速變化的積分增益曲線，改善 Toyota TSS2 在車流中的縱向控制平順度。需要 TSS2 能力及 sunnypilot 縱向控制；行駛中或強制使用原廠縱向控制時不顯示。",
+          "userNote": "10 月 27 日透過 PR #1774 合併至 master。預設關閉，變更後需要新的行駛週期。這是 Alpha 功能，尚未包含於最新標籤版本 v2026.002.002。",
+          "deepDive": "來源： https://github.com/sunnypilot/sunnypilot/pull/1774; https://github.com/sunnypilot/sunnypilot/blob/6f7a2c94c10dffcf9a83b120ab1e6985e4496868/openpilot/sunnypilot/sunnylink/settings_ui_src/pages/vehicle.yaml. 已於 2026 年 10 月 31 日檢查 master 及開發分支狀態。"
         }
       ]
     }
   ],
-  "lastUpdated": "2026-10-25"
+  "lastUpdated": "2026-10-31"
 }

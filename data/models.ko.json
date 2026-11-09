@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 134,
-  "lastUpdated": "October 26, 2026",
+  "totalModels": 136,
+  "lastUpdated": "October 31, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "Chestnut GPU 시리즈(대형 모델)",
@@ -291,11 +291,19 @@
             "Deep RL",
             "Experimental"
           ],
-          "consensus": "관리자의 전용 포럼 글과 투표가 이제 공개되었습니다. 이 스냅샷의 종합 평가 투표는 0개이므로 성능 결론을 내릴 수 없습니다.",
+          "consensus": "관리자의 전용 포럼 글과 투표가 공개되었습니다. 전체 투표에는 5 – 매우 좋음 평가 1표와 기본 모델 지정 찬성 1표가 있습니다. 평가 1개만으로 일반적인 성능 결론을 내릴 수 없습니다.",
           "note": "openpilot 커밋 bf3e363(PR #38932) 기반이며 comma가 9월 18일 master에 병합했습니다. Model Manager의 'Master Models' 폴더에 있습니다. 공지(10월 26일 수정)에는 comma four 또는 comma 3X와 comma chestnut이 필요하다고 나와 있습니다. 포럼 투표는 현재 기본 모델인 Mountain Dew Model v3와 비교합니다.",
           "bestFor": "호환 하드웨어 및 소프트웨어에서의 커뮤니티 테스트.",
           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-v3-model-september-17-2026/7608",
-          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json"
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
+          "communityScore": 100,
+          "totalVotes": 1,
+          "sentiment": {
+            "great": 100,
+            "good": 0,
+            "ok": 0,
+            "bad": 0
+          }
         },
         {
           "name": "Cinque Terre Model",
@@ -783,7 +791,7 @@
             "Chestnut",
             "Default"
           ],
-          "consensus": "현재 sunnypilot의 기본 대형 모델입니다. 따로 선택하지 않으면 Model Manager가 이 모델을 사용하며, 이후 나온 대형 모델(Train Track, Flip Flop, Cinque Terre V3)은 모두 이 모델과 비교 투표됩니다. comma가 10월 14일 PR #39087을 통해 master에 병합했습니다. 자체 포럼 투표에는 아직 평점이 없으며, 지금까지 유일한 직접 비교(Flip Flop)에서는 Flip Flop이 '비슷함'으로 평가되었습니다.",
+          "consensus": "현재 sunnypilot의 기본 대형 모델입니다. 따로 선택하지 않으면 Model Manager가 이 모델을 사용하며, 이후 나온 대형 모델을 이 모델과 비교합니다. comma가 10월 14일 PR #39087을 통해 master에 병합했습니다. 자체 포럼 투표에는 3 – 보통 평가 1표가 있으며, 기본 모델 지정에는 반대 1표가 있습니다. Flip Flop 비교 투표 2표는 Flip Flop을 ‘비슷함’으로 평가했습니다.",
           "note": "openpilot 커밋 1e219d7(PR #39087) 기반. Model Manager의 'Master Models' 폴더에 있습니다. comma four 또는 comma 3X와 comma chestnut이 필요합니다. Cinque Terre Model v2를 대신해 기본 대형 모델이 되었으므로 포럼 투표는 CTM v2와 비교합니다.",
           "bestFor": "대형 모델 기준점: 기본 Chestnut 경험이자 새 모델을 평가하는 기준입니다.",
           "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
@@ -795,7 +803,15 @@
           "negatives": [],
           "modelRef": "1e219d7785cfb7b7343c7f2366347fc86e7ce5f2",
           "shortName": "MDMV3",
-          "minimumSelectorVersion": 21
+          "minimumSelectorVersion": 21,
+          "communityScore": 50,
+          "totalVotes": 1,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 100,
+            "bad": 0
+          }
         },
         {
           "name": "Train Track Model",
@@ -829,7 +845,7 @@
             "Deep RL",
             "Experimental"
           ],
-          "consensus": "가장 최신 Deep RL 대형 모델이며, 이번 4개 모델 중 유일하게 실제 주행 후기가 있습니다. Kia EV6 2022 테스터는 3 – 보통으로 평가했고 Mountain Dew Model v3와 '비슷함'이라고 답했으며, 기본 모델 전환에는 반대표를 던졌습니다. 시속 120 km 이상 순항 시 차선 내 핑퐁 현상과, 회전 시 머뭇거려 수동 개입이 필요했다고 보고했습니다. 이 테스터는 여전히 Cinque Terre V3가 일상 주행에 가장 적합하다고 봅니다. 테스터 1명의 의견이므로 초기 신호로만 참고하세요.",
+          "consensus": "초기 주행 후기가 있는 실험적인 Deep RL 대형 모델입니다. Kia EV6 2022 테스터는 3 – 보통으로 평가했고 Mountain Dew Model v3와 '비슷함'이라고 답했으며, 기본 모델 전환에는 반대표를 던졌습니다. 시속 120 km 이상 순항 시 차선 내 핑퐁 현상과, 회전 시 머뭇거려 수동 개입이 필요했다고 보고했습니다. 이 테스터는 여전히 Cinque Terre V3가 일상 주행에 가장 적합하다고 봅니다. 테스터 1명의 의견이므로 초기 신호로만 참고하세요.",
           "note": "openpilot 커밋 35c5406 기반. Model Manager의 '2026 Deep RL Models' 폴더에 있습니다. comma four 또는 comma 3X와 comma chestnut이 필요합니다. 포럼 투표는 Mountain Dew Model v3와 비교합니다. 대표 투표 참여자: 1명.",
           "bestFor": "얼리 테스터 전용이며, 아직 고속도로 고속 주행에는 권장하지 않습니다.",
           "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
@@ -857,6 +873,51 @@
             "회전 시 머뭇거려 수동 개입 필요",
             "첫 테스터는 여전히 일상 주행에 Cinque Terre V3를 선호"
           ]
+        },
+        {
+          "name": "Light Speed Model",
+          "date": "October 29, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "consensus": "Light Speed는 실험적인 Deep RL 대형 모델입니다. 포럼 투표자 3명이 각각 3 – 보통, 2 – 나쁨, 1 – 매우 나쁨으로 평가했습니다. 초기 댓글 2개는 회전, 곡선 또는 차선 변경 문제를 보고했고, 한 명은 빠른 가속을 언급했습니다. 이는 소수의 사용자 경험이며 일반적인 성능 결론이 아닙니다.",
+          "note": "openpilot 커밋 e4acf61 기반이며 「2026 Deep RL Models」에 등록되어 있습니다. 관리자에 따르면 comma chestnut을 장착한 comma four 또는 comma 3X가 필요합니다. 선택기 21 이상이 필요합니다.",
+          "bestFor": "Mountain Dew Model v3와 비교하는 실험용 모델입니다. 조향이 머뭇거리면 직접 개입하세요.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/e001cd183c66e144cd09fcc11f5019cd6185f000/docs/driving_models_chestnut_v28.json",
+          "modelRef": "e4acf619d4eb8b726fc405c264109310ac2951df",
+          "shortName": "LSM",
+          "minimumSelectorVersion": 21,
+          "testedOn": [
+            "Kia EV6 (year not specified)"
+          ],
+          "positives": [],
+          "negatives": [],
+          "forumUrl": "https://community.sunnypilot.ai/t/light-speed-model-october-29-2026/7645"
+        },
+        {
+          "name": "Light Speed Model v2",
+          "date": "October 29, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "consensus": "두 번째 Light Speed 빌드가 공식 Chestnut 목록에 등록되었습니다. 이번 조사에서는 v2 전용 관리자 게시물, 투표 또는 확인된 주행 후기를 찾지 못했습니다. 첫 빌드의 후기로 v2 성능을 판단할 수 없습니다.",
+          "note": "openpilot 커밋 c7cbe5d 기반이며 아티팩트는 2026년 10월 30일 빌드되었습니다. 「2026 Deep RL Models」에 등록되었고 선택기 21이 필요합니다. 목록만으로 기기별 호환성이나 기본 모델 여부는 확인되지 않습니다.",
+          "bestFor": "초기 실험 테스트용이며 성능은 아직 검증되지 않았습니다.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/e001cd183c66e144cd09fcc11f5019cd6185f000/docs/driving_models_chestnut_v28.json",
+          "modelRef": "c7cbe5de6a9dae4bab032bc5faeb24a248c41f8f",
+          "shortName": "LSMV2",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
         }
       ]
     },

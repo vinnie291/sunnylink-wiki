@@ -1,0 +1,151 @@
+{
+  "batch": "2026-10-31",
+  "savedAt": "2026-10-31T19:07:37.957343Z",
+  "timezone": "America/New_York",
+  "previousSuccessfulScan": "2026-10-16",
+  "baseCommit": "293fd059d3db8810fda48a858099073be2d0e7d4",
+  "scope": "Catch-up weekly audit: current forum latest/model category/selected topic polls, upstream release/branches/merged and open PRs/issues, model manifests, documentation repository, and vehicle source tables. Not an exhaustive review of all historical discussions or poll topics.",
+  "sourceHeads": {
+    "sunnypilotMaster": "6f7a2c94c10dffcf9a83b120ab1e6985e4496868",
+    "sunnypilotDev": "557fd80d98b504b361522d3d6ae1b1e1c3c11037",
+    "sunnypilotStaging": "024a5e1c2adc3400e9b9a7af2e7c0426f7158386",
+    "modelRepository": "e001cd183c66e144cd09fcc11f5019cd6185f000",
+    "documentation": "c34b63208cdb7bcbef389cf90b3c15e38221a8bc"
+  },
+  "latestTaggedRelease": {
+    "tag": "v2026.002.002",
+    "publishedAt": "2026-08-07T00:37:37Z",
+    "url": "https://github.com/sunnypilot/sunnypilot/releases/tag/v2026.002.002"
+  },
+  "modelManifest": {
+    "url": "https://github.com/sunnypilot/sunnypilot-models/blob/e001cd183c66e144cd09fcc11f5019cd6185f000/docs/driving_models_chestnut_v28.json",
+    "sha": "e001cd183c66e144cd09fcc11f5019cd6185f000",
+    "committedAt": "2026-10-30T09:00:46Z",
+    "entriesChecked": 105,
+    "newEntries": [
+      {
+        "name": "Light Speed Model",
+        "shortName": "LSM",
+        "index": 18,
+        "ref": "e4acf619d4eb8b726fc405c264109310ac2951df",
+        "builtAt": "2026-10-29T12:51:19Z",
+        "minimumSelectorVersion": 21
+      },
+      {
+        "name": "Light Speed Model v2",
+        "shortName": "LSMV2",
+        "index": 19,
+        "ref": "c7cbe5de6a9dae4bab032bc5faeb24a248c41f8f",
+        "builtAt": "2026-10-30T08:59:39Z",
+        "minimumSelectorVersion": 21
+      }
+    ]
+  },
+  "forum": {
+    "lightSpeed": {
+      "url": "https://community.sunnypilot.ai/t/7645",
+      "topicId": 7645,
+      "createdAt": "2026-10-29T13:57:58.409Z",
+      "author": "sunnyhaibin",
+      "capturedAt": "2026-10-31T19:07:37.957343Z",
+      "overallVoters": 3,
+      "overallOptions": {
+        "Great": 0,
+        "Good": 0,
+        "Ok": 1,
+        "Bad": 1,
+        "Poor": 1
+      },
+      "replies": 2,
+      "hardware": "Maintainer says comma four or comma 3X plus chestnut."
+    },
+    "updatedPollTopics": [
+      {
+        "url": "https://community.sunnypilot.ai/t/7620",
+        "model": "Mountain Dew Model v3",
+        "overallVoters": 1
+      },
+      {
+        "url": "https://community.sunnypilot.ai/t/7608",
+        "model": "Cinque Terre V3 Model",
+        "overallVoters": 1
+      },
+      {
+        "url": "https://community.sunnypilot.ai/t/7622",
+        "model": "Flip Flop Model",
+        "overallVoters": 1,
+        "comparisonVoters": 2
+      }
+    ],
+    "v2Topic": null,
+    "v2Uncertainty": "Scanner search falsely associated Light Speed v2 with Off Policy Model v2 topic #3162; excluded that match and did not assign v2 feedback or rating."
+  },
+  "mergedChanges": [
+    {
+      "pr": 2073,
+      "url": "https://github.com/sunnypilot/sunnypilot/pull/2073",
+      "mergedAt": "2026-10-29T00:02:56Z",
+      "base": "master",
+      "claim": "Blendful Alpha setting, custom-model gate; default model unavailable."
+    },
+    {
+      "pr": 1774,
+      "url": "https://github.com/sunnypilot/sunnypilot/pull/1774",
+      "mergedAt": "2026-10-27T04:43:21Z",
+      "base": "master",
+      "claim": "Toyota TSS2 Smooth Alpha toggle, TSS2 capability and longitudinal gates; disabled by default."
+    }
+  ],
+  "settingsSources": [
+    "https://github.com/sunnypilot/sunnypilot/blob/6f7a2c94c10dffcf9a83b120ab1e6985e4496868/openpilot/sunnypilot/sunnylink/settings_ui_src/pages/models.yaml",
+    "https://github.com/sunnypilot/sunnypilot/blob/6f7a2c94c10dffcf9a83b120ab1e6985e4496868/openpilot/sunnypilot/sunnylink/settings_ui_src/pages/vehicle.yaml"
+  ],
+  "documentation": {
+    "repository": "https://github.com/sunnypilot/user-docs",
+    "sha": "c34b63208cdb7bcbef389cf90b3c15e38221a8bc",
+    "changedSincePreviousScan": false,
+    "site": "https://docs.sunnypilot.ai",
+    "note": "Docs root redirects to community documentation; repository remains unchanged."
+  },
+  "vehicleSources": {
+    "sunnypilot": "https://github.com/sunnypilot/sunnypilot/blob/6f7a2c94c10dffcf9a83b120ab1e6985e4496868/docs/CARS.md",
+    "sunnypilotSupportedCarHeading": 351,
+    "previousSunnypilotSupportedCarHeading": 345,
+    "comma": "https://github.com/commaai/openpilot/blob/master/docs/CARS.md",
+    "commaSupportedCarHeading": 335,
+    "wikiSource": "data/supported-cars.json",
+    "wikiVehicleRows": 334,
+    "decision": "Retain the wiki’s documented commaai/openpilot source: its 334 vehicle rows are unchanged. Flag sunnypilot-specific table difference for a separate supported-car policy review; do not silently conflate the two tables."
+  },
+  "discord": {
+    "used": false,
+    "availableArchiveEnds": "2026-04-05",
+    "note": "Local archive predates October models by about seven months."
+  },
+  "deployedComparison": {
+    "site": "https://sunnylink.wiki",
+    "runtimeModelCount": 134,
+    "localModelCountAfterPreparation": 136,
+    "newToggles": [
+      "Blendful",
+      "ToyotaTSS2Smooth"
+    ],
+    "deploymentRevision": "sunnylink-wiki-service-refresh-20261025-47b520"
+  },
+  "review": {
+    "patch": "docs/weekly-audits/2026-10-31.patch",
+    "patchSha256": "7b1f2a1e33f1703112f77e77220496fd42cc590dde31682d27e903c4a76fb28c",
+    "sourceFiles": 19,
+    "status": "prepared_unapproved",
+    "deployed": false
+  },
+  "checks": {
+    "scanner": "105/105 remote model entries matched",
+    "tests": "51 passed",
+    "build": "passed, TypeScript and 21 pages; unsandboxed network needed for existing Google Font",
+    "i18n": "all five locales 3847 keys; 4 pre-existing untranslated strings in untouched ModelDetailModal.tsx",
+    "lint": "34 errors and 40 warnings, pre-existing code diagnostics; no modified code files",
+    "data": "136 unique IDs/names and locale parity; poll vote totals consistent; no v2 rating fabricated",
+    "patch": "git diff --check passed"
+  }
+}

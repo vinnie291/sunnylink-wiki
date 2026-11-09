@@ -29,6 +29,15 @@
           "deviceAvailability": "config-hidden"
         },
         {
+          "key": "Blendful",
+          "label": "Blendful (Alpha)",
+          "type": "toggle",
+          "default": false,
+          "description": "Adds a gentle lane-centering nudge to the model steering when lane lines are clear, and yields around obstacles. Available only with an active custom model; unavailable with the Default model.",
+          "userNote": "Merged to sunnypilot master October 29 in PR #2073. Alpha control, not part of the latest tagged v2026.002.002 release.",
+          "deepDive": "Source: https://github.com/sunnypilot/sunnypilot/pull/2073; https://github.com/sunnypilot/sunnypilot/blob/6f7a2c94c10dffcf9a83b120ab1e6985e4496868/openpilot/sunnypilot/sunnylink/settings_ui_src/pages/models.yaml. Master/development status checked October 31, 2026."
+        },
+        {
           "key": "LaneTurnDesire",
           "label": "Use Lane Turn Desires",
           "type": "toggle",
@@ -71,14 +80,14 @@
           "type": "dropdown",
           "description": "Select the AI driving model. Each model has unique driving characteristics.",
           "useCase": "Choose a model that matches your driving style and road conditions.",
-          "userNote": "The wiki documents 134 models. Device availability depends on hardware, selector version and installed branch.",
+          "userNote": "The wiki documents 136 models. Device availability depends on hardware, selector version and installed branch.",
           "deviceAvailability": "config-hidden"
         },
         {
           "key": "ModelLibrary",
           "label": "Model Library",
           "type": "action",
-          "description": "Browse 134 documented driving models. A published catalog entry does not establish support on every device or older branch.",
+          "description": "Browse 136 documented driving models. A published catalog entry does not establish support on every device or older branch.",
           "useCase": "Find the perfect model for your driving style.",
           "userNote": "Includes WMI Series, Dark Souls, Down to Ride, Tomb Raider, and Legacy models.",
           "deviceAvailability": "config-hidden"
@@ -1721,9 +1730,18 @@
           "useCase": "Enabling continuous steering assist during slow-moving traffic on FCA vehicles.",
           "safetyLevel": "safe",
           "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ToyotaTSS2Smooth",
+          "label": "Toyota TSS2 Smooth Longitudinal (Alpha)",
+          "type": "toggle",
+          "default": false,
+          "description": "Uses a custom speed-dependent integral gain curve for smoother Toyota TSS2 traffic driving. Requires supported TSS2 capability and sunnypilot longitudinal control; hidden while engaged or when stock longitudinal is enforced.",
+          "userNote": "Merged to master October 27 in PR #1774. Disabled by default, requires an onroad cycle after changing it. Alpha feature, not part of the latest tagged v2026.002.002 release.",
+          "deepDive": "Source: https://github.com/sunnypilot/sunnypilot/pull/1774; https://github.com/sunnypilot/sunnypilot/blob/6f7a2c94c10dffcf9a83b120ab1e6985e4496868/openpilot/sunnypilot/sunnylink/settings_ui_src/pages/vehicle.yaml. Master/development status checked October 31, 2026."
         }
       ]
     }
   ],
-  "lastUpdated": "2026-10-25"
+  "lastUpdated": "2026-10-31"
 }

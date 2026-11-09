@@ -1,0 +1,60 @@
+name: Weekly Models Sync & Deploy
+
+on:
+  schedule:
+    # Friday at 5:00 PM Pacific Time (01:00 UTC Saturday)
+    - cron: '0 1 * * 6'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.SUNNYLINKWIKI_SUNNYTUNE_GITWORKFLOW || secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          pip install requests google-auth
+
+      - name: Sync discourse polls and models
+        run: |
+          npm run polls:sync || true
+          npm run ratings:audit || true
+
+      - name: Run test suite
+        run: npm test
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A data/ docs/
+          git diff --cached --quiet && echo "No changes to commit" || git commit -m "chore(models): weekly models and polls sync [skip ci]"
+          git push || echo "Push skipped or failed"
+
+      - name: Deploy to Cloud Run
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+        run: |
+          mkdir -p ~/.config/gcp
+          echo "$GCP_SA_KEY" > ~/.config/gcp/sunnylink-wiki-key.json
+          python3 scripts/deploy.py

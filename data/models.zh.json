@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 134,
-  "lastUpdated": "October 26, 2026",
+  "totalModels": 136,
+  "lastUpdated": "October 31, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "Chestnut GPU 系列（大型號）",
@@ -291,11 +291,19 @@
             "Deep RL",
             "Experimental"
           ],
-          "consensus": "維護者的專屬論壇文章與投票現已公開。此快照的整體評分投票為零，因此尚無法得出效能結論。",
+          "consensus": "維護者的專屬論壇文章與投票現已公開。整體投票現有一票 5－很好評分及一票贊成設為預設。只有一票不足以得出普遍性能結論。",
           "note": "基於 openpilot 提交 bf3e363（PR #38932）；comma 於 9 月 18 日合併至 master。位於 Model Manager 的「Master Models」資料夾。公告（10 月 26 日修訂）列出需要 comma four 或 comma 3X，並搭配 comma chestnut。論壇投票以目前的預設模型 Mountain Dew Model v3 作為比較對象。",
           "bestFor": "使用兼容硬件和軟件進行社羣測試。",
           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-v3-model-september-17-2026/7608",
-          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json"
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
+          "communityScore": 100,
+          "totalVotes": 1,
+          "sentiment": {
+            "great": 100,
+            "good": 0,
+            "ok": 0,
+            "bad": 0
+          }
         },
         {
           "name": "Cinque Terre Model",
@@ -783,7 +791,7 @@
             "Chestnut",
             "Default"
           ],
-          "consensus": "sunnypilot 目前的預設大型模型。若未另行選擇，Model Manager 就會使用它，之後推出的大型模型（Train Track、Flip Flop、Cinque Terre V3）都以它為比較基準。comma 於 10 月 14 日透過 PR #39087 合併至 master。其論壇投票尚無評分；目前唯一的直接比較（Flip Flop）將 Flip Flop 評為「差不多」。",
+          "consensus": "sunnypilot 目前的預設大型模型。若未另行選擇，Model Manager 就會使用它；較新的大型模型投票都以它為比較基準。comma 於 10 月 14 日透過 PR #39087 合併至 master。其論壇投票現有一票 3－普通評分；一人反對將其設為預設模型。Flip Flop 的兩票比較均認為它與預設模型「差不多」。",
           "note": "基於 openpilot 提交 1e219d7（PR #39087）。位於 Model Manager 的「Master Models」資料夾。需要 comma four 或 comma 3X，並搭配 comma chestnut。它取代 Cinque Terre Model v2 成為預設大型模型，因此其論壇投票以 CTM v2 為比較對象。",
           "bestFor": "大型模型基準：預設的 Chestnut 體驗，也是評估新模型的參考。",
           "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
@@ -795,7 +803,15 @@
           "negatives": [],
           "modelRef": "1e219d7785cfb7b7343c7f2366347fc86e7ce5f2",
           "shortName": "MDMV3",
-          "minimumSelectorVersion": 21
+          "minimumSelectorVersion": 21,
+          "communityScore": 50,
+          "totalVotes": 1,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 100,
+            "bad": 0
+          }
         },
         {
           "name": "Train Track Model",
@@ -829,7 +845,7 @@
             "Deep RL",
             "Experimental"
           ],
-          "consensus": "最新的 Deep RL 大型模型，也是這批模型中目前唯一有實際駕駛回饋的。一位 Kia EV6 2022 測試者評為 3 – 普通，認為與 Mountain Dew Model v3「差不多」，並投票反對將其設為預設。他回報在時速 120 公里以上巡航時會在車道內左右擺盪（ping-pong），轉彎時也會猶豫而需要手動介入。他仍認為 Cinque Terre V3 最適合日常使用。這僅是一位測試者的意見，請視為早期訊號。",
+          "consensus": "有早期駕駛回饋的實驗性 Deep RL 大型模型。一位 Kia EV6 2022 測試者評為 3 – 普通，認為與 Mountain Dew Model v3「差不多」，並投票反對將其設為預設。他回報在時速 120 公里以上巡航時會在車道內左右擺盪（ping-pong），轉彎時也會猶豫而需要手動介入。他仍認為 Cinque Terre V3 最適合日常使用。這僅是一位測試者的意見，請視為早期訊號。",
           "note": "基於 openpilot 提交 35c5406。位於 Model Manager 的「2026 Deep RL Models」資料夾。需要 comma four 或 comma 3X，並搭配 comma chestnut。論壇投票以 Mountain Dew Model v3 作為比較對象。主要投票：1 位投票者。",
           "bestFor": "僅限早期測試者；目前不建議用於高速公路高速行駛。",
           "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
@@ -857,6 +873,51 @@
             "轉彎時猶豫，需要手動介入",
             "第一位測試者仍偏好以 Cinque Terre V3 作日常使用"
           ]
+        },
+        {
+          "name": "Light Speed Model",
+          "date": "October 29, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "consensus": "Light Speed 是實驗性的 Deep RL 大型模型。論壇三位投票者分別給出 3－普通、2－差及 1－很差，各一票。兩則早期回覆提到轉彎、彎道或變換車道表現不佳；其中一人提到加速快。這些只是少量用戶回報，不能當作整體性能結論。",
+          "note": "基於 openpilot 提交 e4acf61，列於「2026 Deep RL Models」。維護者表示需要配備 comma chestnut 的 comma four 或 comma 3X，並需要選擇器 21 或更新版本。",
+          "bestFor": "與 Mountain Dew Model v3 比較的實驗模型；轉向遲疑時請接管。",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/e001cd183c66e144cd09fcc11f5019cd6185f000/docs/driving_models_chestnut_v28.json",
+          "modelRef": "e4acf619d4eb8b726fc405c264109310ac2951df",
+          "shortName": "LSM",
+          "minimumSelectorVersion": 21,
+          "testedOn": [
+            "Kia EV6 (year not specified)"
+          ],
+          "positives": [],
+          "negatives": [],
+          "forumUrl": "https://community.sunnypilot.ai/t/light-speed-model-october-29-2026/7645"
+        },
+        {
+          "name": "Light Speed Model v2",
+          "date": "October 29, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "consensus": "第二個 Light Speed 版本出現在官方 Chestnut 清單中。本次掃描未找到 v2 專屬維護者公告、投票或可核實的駕駛回報。第一個版本的回饋不能證明 v2 的性能。",
+          "note": "基於 openpilot 提交 c7cbe5d，模型檔於 2026 年 10 月 30 日建立。列於「2026 Deep RL Models」，需要選擇器 21。單憑清單無法確認各裝置相容性或預設模型狀態。",
+          "bestFor": "早期實驗測試；性能尚未核實。",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/e001cd183c66e144cd09fcc11f5019cd6185f000/docs/driving_models_chestnut_v28.json",
+          "modelRef": "c7cbe5de6a9dae4bab032bc5faeb24a248c41f8f",
+          "shortName": "LSMV2",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
         }
       ]
     },

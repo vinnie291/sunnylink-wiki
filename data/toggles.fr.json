@@ -29,6 +29,15 @@
           "deviceAvailability": "config-hidden"
         },
         {
+          "key": "Blendful",
+          "label": "Blendful (Alpha)",
+          "type": "toggle",
+          "default": false,
+          "description": "Ajoute une légère correction vers le centre de la voie à la direction du modèle lorsque les lignes sont nettes, et cède près des obstacles. Disponible uniquement avec un modèle personnalisé actif ; indisponible avec le modèle par défaut.",
+          "userNote": "Fusionné dans master de sunnypilot le 29 octobre via la PR #2073. Fonction alpha, absente de la dernière version étiquetée v2026.002.002.",
+          "deepDive": "Source : https://github.com/sunnypilot/sunnypilot/pull/2073; https://github.com/sunnypilot/sunnypilot/blob/6f7a2c94c10dffcf9a83b120ab1e6985e4496868/openpilot/sunnypilot/sunnylink/settings_ui_src/pages/models.yaml. Statut sur master et les branches de développement vérifié le 31 octobre 2026."
+        },
+        {
           "key": "LaneTurnDesire",
           "label": "Utiliser les désirs de changement de voie",
           "type": "toggle",
@@ -71,14 +80,14 @@
           "type": "dropdown",
           "description": "Sélectionnez le modèle de conduite AI. Chaque modèle possède des caractéristiques de conduite uniques.",
           "useCase": "Choisissez un modèle qui correspond à votre style de conduite et aux conditions routières.",
-          "userNote": "Le wiki documente 134 modèles. Leur disponibilité dépend du matériel, de la version du sélecteur et de la branche installée.",
+          "userNote": "Le wiki documente 136 modèles. Leur disponibilité dépend du matériel, de la version du sélecteur et de la branche installée.",
           "deviceAvailability": "config-hidden"
         },
         {
           "key": "ModelLibrary",
           "label": "Bibliothèque de modèles",
           "type": "action",
-          "description": "Parcourez 134 modèles de conduite documentés. Une publication dans le catalogue ne prouve pas la prise en charge sur chaque appareil ou ancienne branche.",
+          "description": "Parcourez 136 modèles de conduite documentés. Une publication dans le catalogue ne prouve pas la prise en charge sur chaque appareil ou ancienne branche.",
           "useCase": "Trouvez le modèle parfait pour votre style de conduite.",
           "userNote": "Comprend les modèles WMI Series, Dark Souls, Down to Ride, Tomb Raider et Legacy.",
           "deviceAvailability": "config-hidden"
@@ -1721,9 +1730,18 @@
           "useCase": "Activation d'une assistance de direction continue pendant la circulation lente sur les véhicules FCA.",
           "safetyLevel": "safe",
           "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ToyotaTSS2Smooth",
+          "label": "Toyota TSS2 : contrôle longitudinal doux (Alpha)",
+          "type": "toggle",
+          "default": false,
+          "description": "Utilise une courbe de gain intégral adaptée à la vitesse pour une conduite plus douce dans le trafic Toyota TSS2. Nécessite la capacité TSS2 et le contrôle longitudinal sunnypilot ; masqué pendant la conduite ou si le contrôle longitudinal d’origine est imposé.",
+          "userNote": "Fusionné dans master le 27 octobre via la PR #1774. Désactivé par défaut ; un cycle de conduite est nécessaire après modification. Fonction alpha, absente de la dernière version étiquetée v2026.002.002.",
+          "deepDive": "Source : https://github.com/sunnypilot/sunnypilot/pull/1774; https://github.com/sunnypilot/sunnypilot/blob/6f7a2c94c10dffcf9a83b120ab1e6985e4496868/openpilot/sunnypilot/sunnylink/settings_ui_src/pages/vehicle.yaml. Statut sur master et les branches de développement vérifié le 31 octobre 2026."
         }
       ]
     }
   ],
-  "lastUpdated": "2026-10-25"
+  "lastUpdated": "2026-10-31"
 }

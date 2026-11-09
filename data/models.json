@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 134,
-  "lastUpdated": "October 26, 2026",
+  "totalModels": 136,
+  "lastUpdated": "October 31, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "The Chestnut GPU Series (Big Models)",
@@ -291,11 +291,19 @@
             "Deep RL",
             "Experimental"
           ],
-          "consensus": "A dedicated maintainer forum topic and poll are now available. The overall poll has zero ratings in this snapshot, so no performance conclusion is established.",
+          "consensus": "A dedicated maintainer forum topic and poll are now available. The overall poll has one 5 – Great rating and one vote for making it the default. One rating is too little for a broad performance conclusion.",
           "note": "Built from openpilot commit bf3e363 (PR #38932); comma merged it to master on September 18. Listed in Model Manager under 'Master Models'. The announcement (edited October 26) lists a comma four or a comma 3X, plus comma chestnut. Forum polls compare it against Mountain Dew Model v3, the current default.",
           "bestFor": "Community testing with compatible hardware and software.",
           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-v3-model-september-17-2026/7608",
-          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json"
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
+          "communityScore": 100,
+          "totalVotes": 1,
+          "sentiment": {
+            "great": 100,
+            "good": 0,
+            "ok": 0,
+            "bad": 0
+          }
         },
         {
           "name": "Cinque Terre Model",
@@ -783,7 +791,7 @@
             "Chestnut",
             "Default"
           ],
-          "consensus": "The current default big model in sunnypilot. Model Manager uses it unless you pick something else, and every newer big-model drop (Train Track, Flip Flop, Cinque Terre V3) is polled against it. comma merged it to master on October 14 from PR #39087. Its own forum poll has no ratings yet. The one direct comparison so far, on Flip Flop, rated Flip Flop 'about the same'.",
+          "consensus": "The current default big model in sunnypilot. Model Manager uses it unless you pick something else, and later big-model drops are polled against it. comma merged it to master on October 14 from PR #39087. Its own forum poll now has one 3 – Ok rating; one voter opposed making it the default. Two Flip Flop comparisons rate Flip Flop “about the same”.",
           "note": "Built from openpilot commit 1e219d7 (PR #39087). Listed in Model Manager under 'Master Models'. Needs a comma four or a comma 3X, plus comma chestnut. It replaced Cinque Terre Model v2 as the default big model, so its forum poll compares it against CTM v2.",
           "bestFor": "Big-model baseline: the default Chestnut experience and the reference for judging newer drops.",
           "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
@@ -795,7 +803,15 @@
           "positives": [
             "Current default big model; it's what you get in Model Manager without changing anything"
           ],
-          "negatives": []
+          "negatives": [],
+          "communityScore": 50,
+          "totalVotes": 1,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 100,
+            "bad": 0
+          }
         },
         {
           "name": "Train Track Model",
@@ -837,7 +853,7 @@
             "ok": 100,
             "bad": 0
           },
-          "consensus": "The newest Deep RL big model, and the only one of this batch with real driving feedback so far. A Kia EV6 2022 tester rated it 3 – Ok and 'about the same' as Mountain Dew Model v3, and voted against making it the default. They report ping-pong in the lane at cruising speeds above 120 km/h, and hesitation when turning that needed manual intervention. They still consider Cinque Terre V3 the best choice for daily use. That is one tester, so treat it as an early signal.",
+          "consensus": "An experimental Deep RL big model with early driving feedback. A Kia EV6 2022 tester rated it 3 – Ok and 'about the same' as Mountain Dew Model v3, and voted against making it the default. They report ping-pong in the lane at cruising speeds above 120 km/h, and hesitation when turning that needed manual intervention. They still consider Cinque Terre V3 the best choice for daily use. That is one tester, so treat it as an early signal.",
           "note": "Built from openpilot commit 35c5406. Listed in Model Manager under '2026 Deep RL Models'. Needs a comma four or a comma 3X, plus comma chestnut. Forum polls compare it against Mountain Dew Model v3. Headline poll: one voter.",
           "bestFor": "Early testers only; not yet recommended for high-speed highway driving.",
           "steeringFeel": "Ping-pongs above ~120 km/h",
@@ -857,6 +873,51 @@
             "Hesitates when turning, requiring manual intervention",
             "First tester still prefers Cinque Terre V3 for daily use"
           ]
+        },
+        {
+          "name": "Light Speed Model",
+          "date": "October 29, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "consensus": "Light Speed is an experimental Deep RL big model. Three forum voters rated it 3 – Ok, 2 – Bad and 1 – Poor, one vote each. Two early replies report weak turning or curve and lane-change behavior; one reports quick acceleration. These are limited user reports, not a broad performance finding.",
+          "note": "Built from openpilot commit e4acf61; listed under 2026 Deep RL Models. The maintainer says comma four or comma 3X plus comma chestnut is needed. Selector 21 or later is required.",
+          "bestFor": "Experimental comparison with Mountain Dew Model v3; take over if steering is hesitant.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/e001cd183c66e144cd09fcc11f5019cd6185f000/docs/driving_models_chestnut_v28.json",
+          "modelRef": "e4acf619d4eb8b726fc405c264109310ac2951df",
+          "shortName": "LSM",
+          "minimumSelectorVersion": 21,
+          "testedOn": [
+            "Kia EV6 (year not specified)"
+          ],
+          "positives": [],
+          "negatives": [],
+          "forumUrl": "https://community.sunnypilot.ai/t/light-speed-model-october-29-2026/7645"
+        },
+        {
+          "name": "Light Speed Model v2",
+          "date": "October 29, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "consensus": "A second Light Speed build appears in the official Chestnut manifest. No dedicated maintainer topic, poll or verified driving report for v2 was found in this scan. Feedback on the first Light Speed build does not establish v2 performance.",
+          "note": "Built from openpilot commit c7cbe5d; artifact built October 30, 2026. Listed under 2026 Deep RL Models and requires selector 21. The manifest alone does not establish device-specific compatibility or default status.",
+          "bestFor": "Early experimental testing; performance is not yet verified.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/e001cd183c66e144cd09fcc11f5019cd6185f000/docs/driving_models_chestnut_v28.json",
+          "modelRef": "c7cbe5de6a9dae4bab032bc5faeb24a248c41f8f",
+          "shortName": "LSMV2",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
         }
       ]
     },

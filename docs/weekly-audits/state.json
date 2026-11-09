@@ -1,28 +1,37 @@
 {
-  "lastScanAt": "2026-10-16T19:10:49.199Z",
+  "lastScanAt": "2026-10-31T19:07:37.957343Z",
   "timezone": "America/New_York",
-  "lastReport": "docs/weekly-audits/2026-10-16.md",
-  "status": "deployed_verified",
-  "deployed": true,
+  "lastReport": "docs/weekly-audits/2026-10-31.md",
+  "status": "approved",
+  "deployed": false,
   "baselineScope": "Latest forum and documentation indexes, selected recent discussions, model manifest and poll snapshots, GitHub release/PR/issue/commit indexes, and upstream vehicle table",
   "sourceHeads": {
-    "sunnypilotMaster": "27c132984df60e9ef42ebd1a805738b8c851356f",
-    "sunnypilotDev": "a77bb6660ae19e12ef0313b0599934eb391e3f35",
-    "sunnypilotStaging": "5fb421d045b6fd1f862886c00b1ad8ab939202bc",
-    "modelRepository": "da2d8dac5f77e3a6f72fefbfb14edea3555f05f6",
+    "sunnypilotMaster": "6f7a2c94c10dffcf9a83b120ab1e6985e4496868",
+    "sunnypilotDev": "557fd80d98b504b361522d3d6ae1b1e1c3c11037",
+    "sunnypilotStaging": "024a5e1c2adc3400e9b9a7af2e7c0426f7158386",
+    "modelRepository": "e001cd183c66e144cd09fcc11f5019cd6185f000",
     "documentation": "c34b63208cdb7bcbef389cf90b3c15e38221a8bc"
   },
-  "pendingBatches": [],
-  "nextRunNotes": [
-    "October 16 plus October 25 model batch deployed and verified at revision sunnylink-wiki-service-refresh-20261025-47b520. Use the October 25 deployment patch and build source as the production baseline; other local user changes remain unpublished. Future batches require fresh approval.",
-    "DEC was removed from master and inspected dev by #2056; inspected staging still retains it. Preserve older-build context and do not automatically recommend DEC without knowing the branch.",
-    "Audio proposal commaai/agnos-builder#633 is open; no universal released fix established.",
-    "Discord archive ends April 5, 2026; it is not current feedback.",
-    "Car table from upstream is byte-identical to the previous scan; do not convert experimental ccNC reports into stable support claims.",
-    "Model-only scan October 25: inspected master/dev/staging now selector 21, Chestnut v28, Qualcomm v25; default big model Mountain Dew v3. The broad weekly scan date remains October 16.",
-    "Train Track and Flip Flop bring the local catalog to 134. Newly verified maintainer topics 7608/7619/7620 have zero overall votes and explicitly require comma four plus Chestnut, excluding comma 3X for now. Do not invent performance evidence."
+  "pendingBatches": [
+    {
+      "id": "2026-10-31",
+      "report": "docs/weekly-audits/2026-10-31.md",
+      "patch": "docs/weekly-audits/2026-10-31.patch",
+      "sources": "docs/weekly-audits/2026-10-31.sources.json",
+      "patchSha256": "7b1f2a1e33f1703112f77e77220496fd42cc590dde31682d27e903c4a76fb28c",
+      "fileCount": 19,
+      "status": "approved",
+      "requiresSpecificApproval": true,
+      "deployed": false
+    }
   ],
-  "approval": "User instruction: deploy, approving the combined October 16 and October 25 batch",
+  "nextRunNotes": [
+    "October 31 model/settings batch is prepared and requires specific approval before deployment. Keep October 25 deployment as the last production record.",
+    "Light Speed v2 has no verified dedicated announcement or feedback; do not reuse unrelated Off Policy Model v2 topic #3162.",
+    "Compare sunnypilot 351-car table with wiki commaai 335-car source before changing supported-car claims.",
+    "Local Discord archive ends April 5, 2026; it is not current feedback."
+  ],
+  "approval": "User instruction: do all steps and ensure its all connected and the scheduled job will work",
   "deploymentBaseline": {
     "revision": "sunnylink-wiki-service-refresh-20261003-ed9f9f",
     "buildId": "ed9f9f44-4ed4-486a-afc4-9435c03c3f6c",
@@ -393,21 +402,18 @@
   },
   "lastDeploymentRecord": "docs/weekly-audits/2026-10-25.deployment.json",
   "lastSuccessfulCoverage": {
-    "date": "2026-10-16",
-    "sources": "docs/weekly-audits/2026-10-16.sources.json",
-    "requests": 138,
-    "successfulRequests": 137,
-    "pollTopics": 50,
-    "scope": "Current indexes, changes since October 9, selected relevant PRs/settings/vehicle discussions, all 50 stored model poll topics; not an exhaustive historical review"
+    "date": "2026-10-31",
+    "sources": "docs/weekly-audits/2026-10-31.sources.json",
+    "scope": "Catch-up weekly audit: current forum latest/model category/selected topic polls, upstream release/branches/merged and open PRs/issues, model manifests, documentation repository, and vehicle source tables. Not an exhaustive review of all historical discussions or poll topics."
   },
-  "lastModelScanAt": "2026-10-26T00:39:15.663Z",
-  "lastModelReport": "docs/weekly-audits/2026-10-25-models.md",
+  "lastModelScanAt": "2026-10-31T19:07:37.957343Z",
+  "lastModelReport": "docs/weekly-audits/2026-10-31.md",
   "modelSourceHeads": {
-    "modelRepository": "022c30df830b8336b64b06e094058e2237b0db2a",
+    "modelRepository": "e001cd183c66e144cd09fcc11f5019cd6185f000",
     "branches": {
-      "master": "861fd118a1fe4ffec2283208456032b3616da968",
-      "dev": "3ca46d505ced38802e2fa084bedd5a26e8eab308",
-      "staging": "2cd73045c072695780f699c9167f1870f6309ac4"
+      "master": "6f7a2c94c10dffcf9a83b120ab1e6985e4496868",
+      "dev": "557fd80d98b504b361522d3d6ae1b1e1c3c11037",
+      "staging": "024a5e1c2adc3400e9b9a7af2e7c0426f7158386"
     }
   },
   "previousDeployment": {

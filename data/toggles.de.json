@@ -29,6 +29,15 @@
           "deviceAvailability": "config-hidden"
         },
         {
+          "key": "Blendful",
+          "label": "Blendful (Alpha)",
+          "type": "toggle",
+          "default": false,
+          "description": "Fügt bei klaren Fahrbahnmarkierungen eine sanfte Korrektur zur Spurmitte zur Modelllenkung hinzu und gibt bei Hindernissen nach. Nur mit einem aktiven benutzerdefinierten Modell verfügbar; nicht mit dem Standardmodell.",
+          "userNote": "Am 29. Oktober mit PR #2073 in sunnypilot master übernommen. Alpha-Funktion, nicht Teil der neuesten markierten Version v2026.002.002.",
+          "deepDive": "Quelle: https://github.com/sunnypilot/sunnypilot/pull/2073; https://github.com/sunnypilot/sunnypilot/blob/6f7a2c94c10dffcf9a83b120ab1e6985e4496868/openpilot/sunnypilot/sunnylink/settings_ui_src/pages/models.yaml. Status auf master und Entwicklungszweigen am 31. Oktober 2026 geprüft."
+        },
+        {
           "key": "LaneTurnDesire",
           "label": "Nutzen Sie Spurwechselwünsche",
           "type": "toggle",
@@ -71,14 +80,14 @@
           "type": "dropdown",
           "description": "Wählen Sie das KI-Fahrmodell aus. Jedes Modell verfügt über einzigartige Fahreigenschaften.",
           "useCase": "Wählen Sie ein Modell, das Ihrem Fahrstil und den Straßenverhältnissen entspricht.",
-          "userNote": "Das Wiki dokumentiert 134 Modelle. Die Verfügbarkeit hängt von Hardware, Selector-Version und installiertem Branch ab.",
+          "userNote": "Das Wiki dokumentiert 136 Modelle. Die Verfügbarkeit hängt von Hardware, Selector-Version und installiertem Branch ab.",
           "deviceAvailability": "config-hidden"
         },
         {
           "key": "ModelLibrary",
           "label": "Modellbibliothek",
           "type": "action",
-          "description": "134 dokumentierte Fahrmodelle durchsuchen. Ein veröffentlichter Katalogeintrag belegt keine Unterstützung für jedes Gerät oder jeden älteren Branch.",
+          "description": "136 dokumentierte Fahrmodelle durchsuchen. Ein veröffentlichter Katalogeintrag belegt keine Unterstützung für jedes Gerät oder jeden älteren Branch.",
           "useCase": "Finden Sie das perfekte Modell für Ihren Fahrstil.",
           "userNote": "Enthält die Modelle WMI Series, Dark Souls, Down to Ride, Tomb Raider und Legacy.",
           "deviceAvailability": "config-hidden"
@@ -1721,9 +1730,18 @@
           "useCase": "Ermöglicht eine kontinuierliche Lenkunterstützung bei langsamem Verkehr bei FCA-Fahrzeugen.",
           "safetyLevel": "safe",
           "deviceAvailability": "config-hidden"
+        },
+        {
+          "key": "ToyotaTSS2Smooth",
+          "label": "Toyota TSS2: Sanfte Längsregelung (Alpha)",
+          "type": "toggle",
+          "default": false,
+          "description": "Nutzt eine angepasste geschwindigkeitsabhängige Integralkurve für sanfteres Fahren im Toyota-TSS2-Verkehr. Erfordert TSS2-Fähigkeit und sunnypilot-Längsregelung; bei aktiver Fahrt oder erzwungener Serienregelung ausgeblendet.",
+          "userNote": "Am 27. Oktober mit PR #1774 in master übernommen. Standardmäßig aus; nach einer Änderung ist ein Fahrzyklus nötig. Alpha-Funktion, nicht Teil der neuesten markierten Version v2026.002.002.",
+          "deepDive": "Quelle: https://github.com/sunnypilot/sunnypilot/pull/1774; https://github.com/sunnypilot/sunnypilot/blob/6f7a2c94c10dffcf9a83b120ab1e6985e4496868/openpilot/sunnypilot/sunnylink/settings_ui_src/pages/vehicle.yaml. Status auf master und Entwicklungszweigen am 31. Oktober 2026 geprüft."
         }
       ]
     }
   ],
-  "lastUpdated": "2026-10-25"
+  "lastUpdated": "2026-10-31"
 }
