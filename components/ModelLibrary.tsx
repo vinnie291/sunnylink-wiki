@@ -200,9 +200,12 @@ function SkillRatingsGrid({ detail }: { detail: SkillRatingsDetail }) {
         { key: 'comfort' as const, color: 'from-sky-400 to-indigo-500 shadow-[0_0_8px_rgba(56,189,248,0.3)]' },
     ];
 
+    const visibleSkills = skills.filter((skill) => detail.ratedAxes.includes(skill.key));
+    if (!detail.hasSufficientEvidence || visibleSkills.length === 0) return null;
+
     return (
         <div className="grid grid-cols-2 gap-x-3 gap-y-2.5 my-3.5 bg-slate-950/20 backdrop-blur-md p-3 rounded-lg border border-slate-800/40">
-            {skills.map((skill) => (
+            {visibleSkills.map((skill) => (
                 <SkillBar
                     key={skill.key}
                     label={tx(labels[skill.key])}

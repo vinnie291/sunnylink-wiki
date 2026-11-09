@@ -82,12 +82,18 @@ test('native fleet tables exclude pivot subtotals and localize every column', as
 test('rating evidence localizes its source and matched signal without changing ratings', async () => {
     const models = ENGLISH_CONTENT.models.categories.flatMap<{ name: string }>(category => category.models);
     const sources = new Set(models.flatMap(model => deriveSkillRatingsDetail(model).evidence.filter(evidence => evidence.delta !== 0).map(evidence => evidence.source)));
+    assert.equal(deriveSkillRatingsDetail({ name: 'Train Track Model' }).hasSufficientEvidence, false);
+    assert.equal(deriveSkillRatingsDetail({ name: 'Mountain Dew Model' }).hasSufficientEvidence, false);
     for (const locale of locales.filter(locale => locale !== 'en')) {
         const content = await loadLocalizedContent(locale);
         for (const source of sources) assert.notEqual(translateText(source, content.messages, locale), source, `${locale}: ${source}`);
         for (const model of content.models.categories.flatMap<{ name: string }>(category => category.models)) {
             const canonical = models.find(original => original.name === model.name)!;
-            assert.deepEqual(deriveSkillRatingsDetail(model).ratings, deriveSkillRatingsDetail(canonical).ratings);
+            const localizedDetail = deriveSkillRatingsDetail(model);
+            const canonicalDetail = deriveSkillRatingsDetail(canonical);
+            assert.deepEqual(localizedDetail.ratings, canonicalDetail.ratings);
+            assert.deepEqual(localizedDetail.ratedAxes, canonicalDetail.ratedAxes);
+            assert.equal(localizedDetail.hasSufficientEvidence, canonicalDetail.hasSufficientEvidence);
         }
     }
 });

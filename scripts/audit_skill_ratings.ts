@@ -15,8 +15,8 @@ import models from '../data/models.json';
 import {
     deriveSkillRatingsDetail,
     SKILL_AXES,
-    SkillAxis,
-    RatableModel,
+    type SkillAxis,
+    type RatableModel,
 } from '../lib/skillRatings';
 
 interface Row extends RatableModel {
@@ -68,14 +68,22 @@ const polarityOf = (model: RatableModel) => {
 };
 
 const details = rows.map((model) => ({ model, detail: deriveSkillRatingsDetail(model) }));
+const evidencedDetails = details.filter((d) => d.detail.hasSufficientEvidence);
+const hiddenDetails = details.filter((d) => !d.detail.hasSufficientEvidence);
 
-console.log(`\n=== Skill ratings audit — ${rows.length} models ===\n`);
+console.log(
+    `\n=== Skill ratings audit — ${rows.length} models ` +
+    `(${evidencedDetails.length} shown, ${hiddenDetails.length} hidden due to insufficient evidence) ===\n`,
+);
 
-console.log('Per-axis distribution');
+console.log('Per-axis distribution (across evidenced bars shown in UI)');
 for (const axis of SKILL_AXES) {
-    const s = stats(details.map((d) => d.detail.ratings[axis]));
+    const values = evidencedDetails
+        .filter((d) => d.detail.ratedAxes.includes(axis))
+        .map((d) => d.detail.ratings[axis]);
+    const s = stats(values);
     console.log(
-        `  ${axis.padEnd(10)} min ${String(s.min).padStart(2)}  p25 ${String(s.p25).padStart(2)}` +
+        `  ${axis.padEnd(10)} (n=${String(values.length).padStart(2)}) min ${String(s.min).padStart(2)}  p25 ${String(s.p25).padStart(2)}` +
         `  med ${String(s.median).padStart(2)}  p75 ${String(s.p75).padStart(2)}  max ${String(s.max).padStart(2)}` +
         `  mean ${s.mean.toFixed(1)}  sd ${s.sd.toFixed(1)}`,
     );
@@ -127,18 +135,19 @@ if (contradictions === 0) console.log('  none');
 console.log('\nCalibration constants vs. current data');
 const polStats = stats(polarity);
 const scoreStats = stats(communityScore);
-console.log(`  polarity       mean ${polStats.mean.toFixed(1)}  sd ${polStats.sd.toFixed(1)}   (lib: 59.2 / 17.3)`);
-console.log(`  communityScore mean ${scoreStats.mean.toFixed(1)}  sd ${scoreStats.sd.toFixed(1)}   (lib: 54.3 / 11.5)`);
+console.log(`  polarity       mean ${polStats.mean.toFixed(1)}  sd ${polStats.sd.toFixed(1)}   (lib: 61.4 / 19.5)`);
+console.log(`  communityScore mean ${scoreStats.mean.toFixed(1)}  sd ${scoreStats.sd.toFixed(1)}   (lib: 55.9 / 13.9)`);
 console.log(`  ok%% vs log(votes) correlation ${corr(logVotes, details.map((d) => d.model.sentiment?.ok ?? 50)).toFixed(2)} ` +
     '(the sample-size bias that keeps communityScore out of the anchor)');
 
 if (process.argv.includes('full')) {
     console.log('\n=== Per-model detail ===');
     for (const { model, detail } of details) {
-        const bars = SKILL_AXES.map((a) => `${a}=${detail.ratings[a]}`).join(' ');
+        const status = detail.hasSufficientEvidence ? `shown (${detail.ratedAxes.join(',')})` : 'HIDDEN';
+        const bars = SKILL_AXES.map((a) => `${a}=${detail.ratedAxes.includes(a) ? detail.ratings[a] : '—'}`).join(' ');
         console.log(
-            `\n[${model.name}] ${model.categoryId} · polarity ${detail.polarity.toFixed(0)} · ` +
-            `anchor ${detail.anchor.toFixed(0)} · confidence ${detail.confidence.toFixed(2)} · votes ${model.totalVotes}`,
+            `\n[${model.name}] ${model.categoryId} · ${status} · polarity ${detail.polarity.toFixed(0)} · ` +
+            `anchor ${detail.anchor.toFixed(0)} · confidence ${detail.confidence.toFixed(2)} · votes ${model.totalVotes ?? 0}`,
         );
         console.log(`  ${bars}`);
         const top = detail.evidence

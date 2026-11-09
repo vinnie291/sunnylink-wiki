@@ -605,38 +605,44 @@ export default function ModelDetailModal({
                                     <h3 className="text-xs font-bold uppercase tracking-widest text-slate-300 flex items-center gap-1.5">
                                         <span>📊</span> {t('models.skillRatings') || 'Skill Attributes'}
                                     </h3>
-                                    <span className="text-[10px] text-slate-500 uppercase tracking-wider font-mono">
-                                         <TranslatedText text={"0–99 Scale"} /> </span>
+                                    {skillDetail.hasSufficientEvidence && skillDetail.ratedAxes.length > 0 && (
+                                        <span className="text-[10px] text-slate-500 uppercase tracking-wider font-mono">
+                                             <TranslatedText text={"0–99 Scale"} /> </span>
+                                    )}
                                 </div>
 
-                                <div className="space-y-3 bg-slate-950/30 p-3.5 rounded-xl border border-slate-800/50">
-                                    {skills.map((skill) => {
-                                        const value = ratings[skill.key];
-                                        const evidence = describeAxisEvidence(skillDetail, skill.key);
-                                        return (
-                                            <div
-                                                key={skill.key}
-                                                className="space-y-1"
-                                                title={tx(evidence ? `${labels[skill.key]} — ${value}/99\n${evidence}` : undefined)}
-                                            >
-                                                <div className="flex justify-between items-center text-xs">
-                                                    <span className="text-slate-300 font-medium truncate pr-2"><TranslatedText text={labels[skill.key]} /></span>
-                                                    <span className="text-cyan-400 font-bold font-mono text-xs bg-slate-800/60 px-1.5 py-0.5 rounded border border-slate-700/30 shrink-0">
-                                                        {value}/99
-                                                    </span>
-                                                </div>
-                                                <div className="h-2 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-800 relative">
+                                {skillDetail.hasSufficientEvidence && skillDetail.ratedAxes.length > 0 && (
+                                    <div className="space-y-3 bg-slate-950/30 p-3.5 rounded-xl border border-slate-800/50 mb-3.5">
+                                        {skills
+                                            .filter((skill) => skillDetail.ratedAxes.includes(skill.key))
+                                            .map((skill) => {
+                                                const value = ratings[skill.key];
+                                                const evidence = describeAxisEvidence(skillDetail, skill.key);
+                                                return (
                                                     <div
-                                                        style={{ width: `${(value / 99) * 100}%` }}
-                                                        className={`h-full rounded-full transition-all duration-700 ease-out bg-gradient-to-r ${skill.color}`}
-                                                    />
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
+                                                        key={skill.key}
+                                                        className="space-y-1"
+                                                        title={tx(evidence ? `${labels[skill.key]} — ${value}/99\n${evidence}` : undefined)}
+                                                    >
+                                                        <div className="flex justify-between items-center text-xs">
+                                                            <span className="text-slate-300 font-medium truncate pr-2"><TranslatedText text={labels[skill.key]} /></span>
+                                                            <span className="text-cyan-400 font-bold font-mono text-xs bg-slate-800/60 px-1.5 py-0.5 rounded border border-slate-700/30 shrink-0">
+                                                                {value}/99
+                                                            </span>
+                                                        </div>
+                                                        <div className="h-2 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-800 relative">
+                                                            <div
+                                                                style={{ width: `${(value / 99) * 100}%` }}
+                                                                className={`h-full rounded-full transition-all duration-700 ease-out bg-gradient-to-r ${skill.color}`}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                    </div>
+                                )}
 
-                                <div className="mt-3.5">
+                                <div>
                                     <ModelDomainRatings
                                         modelName={model.name}
                                         skills={ratings}
