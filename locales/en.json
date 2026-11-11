@@ -3829,8 +3829,8 @@
   "content.c98ae1d47d6c": "Model management (October 25): inspected master, dev and staging use selector 21, Chestnut v28 and Qualcomm v25. Mountain Dew Model v3 is their default big model. These development snapshots do not establish availability in older tagged releases. PRs #2015, #2044 and #1999 remain closed without merging.",
   "content.940def03d2a7": "Inspected master, dev and staging now use selector 21, Chestnut v28 and Qualcomm v25, with Mountain Dew Model v3 as the default big model. Older builds use different catalogs. Check hardware and branch compatibility; refresh while parked with no download running. Clear Cache removes downloaded models.",
   "content.acb24bbbc07c": "Inspected master/dev/staging now consume selector-21 catalogs: Chestnut v28 and Qualcomm v25. Older selector-20 builds use different catalogs. Check your installed version before refreshing. Source: https://github.com/sunnypilot/sunnypilot/blob/861fd118a1fe4ffec2283208456032b3616da968/openpilot/sunnypilot/models/fetcher.py.",
-  "content.5ce6409c775b": "The wiki documents 136 models. Device availability depends on hardware, selector version and installed branch.",
-  "content.d49b775b36e4": "Browse 136 documented driving models. A published catalog entry does not establish support on every device or older branch.",
+  "content.5ce6409c775b": "The wiki documents 137 models. Device availability depends on hardware, selector version and installed branch.",
+  "content.d49b775b36e4": "Browse 137 documented driving models. A published catalog entry does not establish support on every device or older branch.",
   "content.2523a7f769bd": "The maintainer announcement requires comma four plus Chestnut and explicitly excludes comma 3X for now. Inspected master/dev/staging use selector 21 and Chestnut v28; Mountain Dew Model v3 is the default big model. Check your installed build and hardware.",
   "content.61b629644d41": "A dedicated maintainer forum topic and poll are now available. The overall poll has zero ratings in this snapshot, so no performance conclusion is established.",
   "content.6a170c189509": "Published in Chestnut v28 with selector 21 and generation 12; included in the inspected master/dev/staging catalog. No model-specific comma 3X compatibility was verified. Confirm hardware and runtime support before use.",
@@ -3845,5 +3845,12 @@
   "content.e789cb717a3c": "Current default big model; it's what you get in Model Manager without changing anything",
   "content.5147a0958611": "They report ping-pong in the lane at cruising speeds above 120 km/h, and hesitation when turning that needed manual intervention.",
   "content.241829130a70": "Two early replies report weak turning or curve and lane-change behavior; one reports quick acceleration.",
-  "content.e4948e4230d3": "consensus: quick acceleration"
+  "content.e4948e4230d3": "consensus: quick acceleration",
+  "content.0c87f96a6b1a": "An experimental Deep RL small model built by YassineYousfi and polled against the CD210 Model default. The forum overall poll has 9 ratings (four Great, two Good, one Ok, one Bad, and one Poor), while 8 of 13 comparison voters rate it better than CD210 and 4 of 9 support making it the default. Feedback splits by setup: a 2024 Hyundai Ioniq 5 (HDA2) tester reports less aggressive behavior than TSFDOM with better stopping and a pleasant drive with Blendful and Alpha longitudinal, whereas a 2026 Hyundai Ioniq 5 (angle steering) tester reports very slow lane changes and giving up when a single lane splits into multiple turn lanes at a stop light.",
+  "content.87e1e8dbb21e": "Built from openpilot commit 875a6b7 (originally listed as CH Driving / CHD before being renamed to Cheddar / CHEDDAR). Listed in Model Manager under '2026 Deep RL Models' with selector 21 and default overrides lat .0 / long .3. Requires a comma four or a comma 3X.",
+  "content.47ee52aeb56e": "Rated better than the CD210 default by 8 of 13 comparison voters",
+  "content.e4805a72c472": "Better stopping and less aggressive feel than TSFDOM on 2024 Ioniq 5 (HDA2)",
+  "content.470d5a2e2785": "Pairs well with Blendful and Alpha longitudinal in Experimental Mode",
+  "content.6d3788b49362": "Slow, sometimes incomplete lane changes reported on 2026 Ioniq 5 (angle steering)",
+  "content.91410ca7825c": "Continues straight across lane lines when a lane splits into multiple lanes at a stop light"
 }

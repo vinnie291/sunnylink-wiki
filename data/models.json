@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 136,
-  "lastUpdated": "November 09, 2026",
+  "totalModels": 137,
+  "lastUpdated": "November 11, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "The Chestnut GPU Series (Big Models)",
@@ -1813,6 +1813,45 @@
           ],
           "routesDriven": 3248,
           "fleetRank": 7
+        },
+        {
+          "name": "Cheddar Model",
+          "date": "November 05, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Deep RL",
+            "Experimental"
+          ],
+          "communityScore": 66,
+          "totalVotes": 9,
+          "sentiment": {
+            "great": 44,
+            "good": 22,
+            "ok": 11,
+            "bad": 23
+          },
+          "consensus": "An experimental Deep RL small model built by YassineYousfi and polled against the CD210 Model default. The forum overall poll has 9 ratings (four Great, two Good, one Ok, one Bad, and one Poor), while 8 of 13 comparison voters rate it better than CD210 and 4 of 9 support making it the default. Feedback splits by setup: a 2024 Hyundai Ioniq 5 (HDA2) tester reports less aggressive behavior than TSFDOM with better stopping and a pleasant drive with Blendful and Alpha longitudinal, whereas a 2026 Hyundai Ioniq 5 (angle steering) tester reports very slow lane changes and giving up when a single lane splits into multiple turn lanes at a stop light.",
+          "note": "Built from openpilot commit 875a6b7 (originally listed as CH Driving / CHD before being renamed to Cheddar / CHEDDAR). Listed in Model Manager under '2026 Deep RL Models' with selector 21 and default overrides lat .0 / long .3. Requires a comma four or a comma 3X.",
+          "bestFor": "Mixed Driving",
+          "steeringFeel": "Balanced",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/fd27fc7/docs/driving_models_v26.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/cheddar-model-november-05-2026/7723",
+          "modelRef": "875a6b7e1e59a76e1c5d9972371564a4feb1deb9",
+          "shortName": "CHEDDAR",
+          "minimumSelectorVersion": 21,
+          "testedOn": [
+            "2024 Hyundai Ioniq 5 (HDA2)",
+            "2026 Hyundai Ioniq 5 (Angle Steering)"
+          ],
+          "positives": [
+            "Rated better than the CD210 default by 8 of 13 comparison voters",
+            "Better stopping and less aggressive feel than TSFDOM on 2024 Ioniq 5 (HDA2)",
+            "Pairs well with Blendful and Alpha longitudinal in Experimental Mode"
+          ],
+          "negatives": [
+            "Slow, sometimes incomplete lane changes reported on 2026 Ioniq 5 (angle steering)",
+            "Continues straight across lane lines when a lane splits into multiple lanes at a stop light"
+          ]
         }
       ]
     },

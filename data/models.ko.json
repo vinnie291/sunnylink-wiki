@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 136,
-  "lastUpdated": "November 09, 2026",
+  "totalModels": 137,
+  "lastUpdated": "November 11, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "Chestnut GPU 시리즈(대형 모델)",
@@ -869,7 +869,7 @@
             "첫 테스터가 Mountain Dew Model v3 기본 모델과 '비슷함'으로 평가"
           ],
           "negatives": [
-            "시속 120 km 이상 순항 시 차선 내 핑퐁",
+            "시속 120 km 이상 순항 시 차선 내 핑퐁 현상 발생",
             "회전 시 머뭇거려 수동 개입 필요",
             "첫 테스터는 여전히 일상 주행에 Cinque Terre V3를 선호"
           ]
@@ -1813,6 +1813,45 @@
           ],
           "routesDriven": 3248,
           "fleetRank": 7
+        },
+        {
+          "name": "Cheddar Model",
+          "date": "November 05, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Deep RL",
+            "Experimental"
+          ],
+          "communityScore": 66,
+          "totalVotes": 9,
+          "sentiment": {
+            "great": 44,
+            "good": 22,
+            "ok": 11,
+            "bad": 23
+          },
+          "consensus": "YassineYousfi가 제작하고 기본 소형 모델인 CD210 Model과 비교 투표를 진행 중인 실험적 Deep RL 소형 모델입니다. 포럼 종합 투표에는 9명(Great 4표, Good 2표, Ok 1표, Bad 1표, Poor 1표)이 참여했으며, 비교 투표에서는 13명 중 8명이 CD210보다 낫다고 평가했고 9명 중 4명이 기본 모델 지정을 찬성했습니다. 차량 설정에 따라 평가가 갈리는데, 2024년형 현대 아이오닉 5(HDA2) 테스터는 TSFDOM보다 덜 공격적이면서 정지 제동이 더 자연스럽고 Blendful 및 Alpha 종방향 제어와 잘 어울린다고 보고한 반면, 2026년형 현대 아이오닉 5(조향각 제어) 테스터는 차선 변경이 매우 느리고 신호등 앞에서 차선이 여러 갈래로 나뉠 때 차선을 포기하고 직진한다고 보고했습니다.",
+          "note": "openpilot 커밋 875a6b7에서 빌드되었습니다(초기에는 CH Driving / CHD로 등록되었다가 Cheddar / CHEDDAR로 이름이 변경됨). Model Manager의 '2026 Deep RL Models' 폴더에 선택기 21 및 기본 오버라이드 lat .0 / long .3 설정으로 등재되어 있습니다. comma four 또는 comma 3X가 필요합니다.",
+          "bestFor": "혼합 운전",
+          "steeringFeel": "Balanced",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/fd27fc7/docs/driving_models_v26.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/cheddar-model-november-05-2026/7723",
+          "modelRef": "875a6b7e1e59a76e1c5d9972371564a4feb1deb9",
+          "shortName": "CHEDDAR",
+          "minimumSelectorVersion": 21,
+          "testedOn": [
+            "2024 Hyundai Ioniq 5 (HDA2)",
+            "2026 Hyundai Ioniq 5 (Angle Steering)"
+          ],
+          "positives": [
+            "비교 투표 참여자 13명 중 8명이 기본 모델인 CD210보다 우수하다고 평가",
+            "2024 아이오닉 5(HDA2)에서 TSFDOM보다 덜 공격적인 주행감과 개선된 정지 제어 보고",
+            "Experimental Mode에서 Blendful 및 Alpha 종방향 제어와 좋은 궁합"
+          ],
+          "negatives": [
+            "2026 아이오닉 5(조향각 제어)에서 느리고 때때로 완료되지 않는 차선 변경 보고",
+            "신호등 앞에서 한 차선이 여러 차선으로 갈라질 때 차선을 넘어 그대로 직진함"
+          ]
         }
       ]
     },

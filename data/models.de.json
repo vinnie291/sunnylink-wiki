@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 136,
-  "lastUpdated": "November 09, 2026",
+  "totalModels": 137,
+  "lastUpdated": "November 11, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "Die Chestnut GPU-Serie (große Modelle)",
@@ -798,7 +798,7 @@
           "forumUrl": "https://community.sunnypilot.ai/t/mountain-dew-model-v3-october-14-2026/7620",
           "testedOn": [],
           "positives": [
-            "Aktuelles Standard-Big-Model; das bekommst du in Model Manager, ohne etwas zu ändern"
+            "Aktuelles Standard-Big-Model; das bekommt man in Model Manager, ohne etwas zu ändern"
           ],
           "negatives": [],
           "modelRef": "1e219d7785cfb7b7343c7f2366347fc86e7ce5f2",
@@ -869,9 +869,9 @@
             "Vom ersten Tester als „ungefähr gleich“ wie der Standard Mountain Dew Model v3 bewertet"
           ],
           "negatives": [
-            "Ping-Pong in der Spur bei Reisegeschwindigkeiten über 120 km/h",
-            "Zögert beim Abbiegen, manuelles Eingreifen nötig",
-            "Der erste Tester bevorzugt im Alltag weiterhin Cinque Terre V3"
+            "Ping-Pong in der Fahrspur bei Reisegeschwindigkeiten über 120 km/h",
+            "Zögert beim Abbiegen, erfordert manuelles Eingreifen",
+            "Erster Tester bevorzugt im Alltag weiterhin Cinque Terre V3"
           ]
         },
         {
@@ -1813,6 +1813,45 @@
           ],
           "routesDriven": 3248,
           "fleetRank": 7
+        },
+        {
+          "name": "Cheddar Model",
+          "date": "November 05, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Deep RL",
+            "Experimental"
+          ],
+          "communityScore": 66,
+          "totalVotes": 9,
+          "sentiment": {
+            "great": 44,
+            "good": 22,
+            "ok": 11,
+            "bad": 23
+          },
+          "consensus": "Ein experimentelles Deep-RL-Small-Model von YassineYousfi, das im Forum gegen das Standardmodell CD210 Model abgestimmt wird. Die Gesamtumfrage hat 9 Bewertungen (viermal Great, zweimal Good, einmal Ok, einmal Bad und einmal Poor), während 8 von 13 Teilnehmern der Vergleichsumfrage es besser als CD210 einstufen und 4 von 9 es als neuen Standard befürworten. Das Feedback fällt je nach Setup unterschiedlich aus: Ein Tester auf einem 2024 Hyundai Ioniq 5 (HDA2) berichtet von weniger aggressivem Verhalten als TSFDOM, besserem Anhalten und einer angenehmen Fahrt mit Blendful und Alpha-Längsregelung, während ein Tester auf einem 2026 Hyundai Ioniq 5 (Winkellenkung) sehr langsame Spurwechsel meldet und angibt, dass das Modell aufgibt, wenn sich eine Spur an einer Ampel in mehrere Abbiegespuren aufteilt.",
+          "note": "Gebaut aus openpilot-Commit 875a6b7 (ursprünglich als CH Driving / CHD geführt, bevor es in Cheddar / CHEDDAR umbenannt wurde). In Model Manager unter ‚2026 Deep RL Models‘ mit Selector 21 und Standard-Overrides lat .0 / long .3 gelistet. Erfordert ein comma four oder ein comma 3X.",
+          "bestFor": "Gemischtes Fahren",
+          "steeringFeel": "Balanced",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/fd27fc7/docs/driving_models_v26.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/cheddar-model-november-05-2026/7723",
+          "modelRef": "875a6b7e1e59a76e1c5d9972371564a4feb1deb9",
+          "shortName": "CHEDDAR",
+          "minimumSelectorVersion": 21,
+          "testedOn": [
+            "2024 Hyundai Ioniq 5 (HDA2)",
+            "2026 Hyundai Ioniq 5 (Angle Steering)"
+          ],
+          "positives": [
+            "Von 8 der 13 Abstimmenden im Vergleich besser als der Standard CD210 bewertet",
+            "Besseres Anhalteverhalten und weniger aggressives Fahrgefühl als TSFDOM auf dem 2024 Ioniq 5 (HDA2)",
+            "Harmoniert im Experimental Mode gut mit Blendful und Alpha-Längsregelung"
+          ],
+          "negatives": [
+            "Langsame, teils unvollständige Spurwechsel auf dem 2026 Ioniq 5 (Winkellenkung) gemeldet",
+            "Fährt geradeaus über Fahrbahnmarkierungen, wenn sich eine Spur an einer Ampel in mehrere Spuren aufteilt"
+          ]
         }
       ]
     },

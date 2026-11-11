@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 136,
-  "lastUpdated": "November 09, 2026",
+  "totalModels": 137,
+  "lastUpdated": "November 11, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "La série Chestnut GPU (grands modèles)",
@@ -866,12 +866,12 @@
           "forumUrl": "https://community.sunnypilot.ai/t/flip-flop-model-october-23-2026/7622",
           "steeringFeel": "Ping-pongs above ~120 km/h",
           "positives": [
-            "Jugé « à peu près pareil » que la Mountain Dew Model v3 par défaut par son premier testeur"
+            "Évalué « à peu près pareil » que le modèle par défaut Mountain Dew Model v3 par son premier testeur"
           ],
           "negatives": [
-            "Ping-pong dans la voie au-delà de 120 km/h",
-            "Hésite en virage, intervention manuelle nécessaire",
-            "Le premier testeur préfère toujours Cinque Terre V3 au quotidien"
+            "Effet de ping-pong dans la voie à des vitesses de croisière supérieures à 120 km/h",
+            "Hésitation en virage, nécessitant une intervention manuelle",
+            "Le premier testeur préfère toujours Cinque Terre V3 pour un usage quotidien"
           ]
         },
         {
@@ -1813,6 +1813,45 @@
           ],
           "routesDriven": 3248,
           "fleetRank": 7
+        },
+        {
+          "name": "Cheddar Model",
+          "date": "November 05, 2026",
+          "badge": "NEW",
+          "tags": [
+            "Deep RL",
+            "Experimental"
+          ],
+          "communityScore": 66,
+          "totalVotes": 9,
+          "sentiment": {
+            "great": 44,
+            "good": 22,
+            "ok": 11,
+            "bad": 23
+          },
+          "consensus": "Un petit modèle expérimental Deep RL conçu par YassineYousfi et évalué par sondage face au modèle par défaut CD210 Model. Le sondage général du forum compte 9 évaluations (quatre Great, deux Good, une Ok, une Bad et une Poor), tandis que 8 votants sur 13 le jugent meilleur que CD210 et que 4 sur 9 soutiennent son adoption par défaut. Les retours divergent selon la configuration : un testeur sur Hyundai Ioniq 5 2024 (HDA2) signale un comportement moins agressif que TSFDOM avec de meilleurs arrêts et une conduite agréable avec Blendful et le contrôle longitudinal Alpha, tandis qu’un testeur sur Hyundai Ioniq 5 2026 (direction par angle) rapporte des changements de voie très lents et un abandon lorsqu’une voie se divise en plusieurs voies à un feu rouge.",
+          "note": "Compilé à partir du commit openpilot 875a6b7 (initialement répertorié sous le nom CH Driving / CHD avant d’être renommé Cheddar / CHEDDAR). Répertorié dans Model Manager sous « 2026 Deep RL Models » avec le sélecteur 21 et les valeurs par défaut lat .0 / long .3. Nécessite un comma four ou un comma 3X.",
+          "bestFor": "Conduite mixte",
+          "steeringFeel": "Balanced",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/fd27fc7/docs/driving_models_v26.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/cheddar-model-november-05-2026/7723",
+          "modelRef": "875a6b7e1e59a76e1c5d9972371564a4feb1deb9",
+          "shortName": "CHEDDAR",
+          "minimumSelectorVersion": 21,
+          "testedOn": [
+            "2024 Hyundai Ioniq 5 (HDA2)",
+            "2026 Hyundai Ioniq 5 (Angle Steering)"
+          ],
+          "positives": [
+            "Jugé meilleur que le modèle par défaut CD210 par 8 des 13 votants du sondage comparatif",
+            "Meilleurs arrêts et comportement moins agressif que TSFDOM sur Ioniq 5 2024 (HDA2)",
+            "Se marie bien avec Blendful et le contrôle longitudinal Alpha en Experimental Mode"
+          ],
+          "negatives": [
+            "Changements de voie lents et parfois incomplets signalés sur Ioniq 5 2026 (direction par angle)",
+            "Continue tout droit sur les lignes de voie lorsqu’une voie se divise en plusieurs voies à un feu tricolore"
+          ]
         }
       ]
     },

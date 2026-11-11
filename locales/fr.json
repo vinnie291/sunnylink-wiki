@@ -3829,8 +3829,8 @@
   "content.c98ae1d47d6c": "Gestion des modèles (25 octobre) : master, dev et staging inspectés utilisent le sélecteur 21, Chestnut v28 et Qualcomm v25. Mountain Dew Model v3 est leur grand modèle par défaut. Ces instantanés de développement ne prouvent pas la disponibilité dans les anciennes versions étiquetées. Les PR #2015, #2044 et #1999 restent fermés sans fusion.",
   "content.940def03d2a7": "Master, dev et staging inspectés utilisent maintenant le sélecteur 21, Chestnut v28 et Qualcomm v25, avec Mountain Dew Model v3 comme grand modèle par défaut. Les anciennes versions utilisent d’autres catalogues. Vérifiez matériel et branche ; actualisez à l’arrêt sans téléchargement. Clear Cache supprime les modèles téléchargés.",
   "content.acb24bbbc07c": "Master/dev/staging inspectés utilisent les catalogues du sélecteur 21 : Chestnut v28 et Qualcomm v25. Les anciennes versions au sélecteur 20 utilisent d’autres catalogues. Vérifiez votre version avant d’actualiser. Source : https://github.com/sunnypilot/sunnypilot/blob/861fd118a1fe4ffec2283208456032b3616da968/openpilot/sunnypilot/models/fetcher.py.",
-  "content.5ce6409c775b": "Le wiki documente 136 modèles. Leur disponibilité dépend du matériel, de la version du sélecteur et de la branche installée.",
-  "content.d49b775b36e4": "Parcourez 136 modèles de conduite documentés. Une publication dans le catalogue ne prouve pas la prise en charge sur chaque appareil ou ancienne branche.",
+  "content.5ce6409c775b": "Le wiki documente 137 modèles. Leur disponibilité dépend du matériel, de la version du sélecteur et de la branche installée.",
+  "content.d49b775b36e4": "Parcourez 137 modèles de conduite documentés. Une publication dans le catalogue ne prouve pas la prise en charge sur chaque appareil ou ancienne branche.",
   "content.2523a7f769bd": "L’annonce du mainteneur exige comma four avec Chestnut et exclut explicitement comma 3X pour le moment. Master/dev/staging inspectés utilisent le sélecteur 21 et Chestnut v28 ; Mountain Dew Model v3 est le grand modèle par défaut. Vérifiez votre version et votre matériel.",
   "content.61b629644d41": "Un sujet et un sondage dédiés du mainteneur sont maintenant disponibles. Le sondage global compte zéro évaluation dans cet instantané : aucune conclusion de performance n’est établie.",
   "content.6a170c189509": "Publié dans Chestnut v28 avec le sélecteur 21 et la génération 12 ; présent dans le catalogue master/dev/staging inspecté. Aucune compatibilité comma 3X propre à ce modèle n’a été vérifiée. Confirmez matériel et runtime avant utilisation.",
@@ -3845,5 +3845,12 @@
   "content.e789cb717a3c": "Grand modèle par défaut actuel ; c'est celui que vous obtenez dans Model Manager sans rien changer",
   "content.5147a0958611": "Signalement d'un effet de ping-pong dans la voie à plus de 120 km/h et d'hésitations en virage nécessitant une intervention manuelle.",
   "content.241829130a70": "Deux premiers retours signalent des virages faibles ou des problèmes en courbe et lors des changements de voie ; un mentionne une accélération rapide.",
-  "content.e4948e4230d3": "retour : accélération rapide"
+  "content.e4948e4230d3": "retour : accélération rapide",
+  "content.0c87f96a6b1a": "Un petit modèle expérimental Deep RL conçu par YassineYousfi et évalué par sondage face au modèle par défaut CD210 Model. Le sondage général du forum compte 9 évaluations (quatre Great, deux Good, une Ok, une Bad et une Poor), tandis que 8 votants sur 13 le jugent meilleur que CD210 et que 4 sur 9 soutiennent son adoption par défaut. Les retours divergent selon la configuration : un testeur sur Hyundai Ioniq 5 2024 (HDA2) signale un comportement moins agressif que TSFDOM avec de meilleurs arrêts et une conduite agréable avec Blendful et le contrôle longitudinal Alpha, tandis qu’un testeur sur Hyundai Ioniq 5 2026 (direction par angle) rapporte des changements de voie très lents et un abandon lorsqu’une voie se divise en plusieurs voies à un feu rouge.",
+  "content.87e1e8dbb21e": "Compilé à partir du commit openpilot 875a6b7 (initialement répertorié sous le nom CH Driving / CHD avant d’être renommé Cheddar / CHEDDAR). Répertorié dans Model Manager sous « 2026 Deep RL Models » avec le sélecteur 21 et les valeurs par défaut lat .0 / long .3. Nécessite un comma four ou un comma 3X.",
+  "content.47ee52aeb56e": "Jugé meilleur que le modèle par défaut CD210 par 8 des 13 votants du sondage comparatif",
+  "content.e4805a72c472": "Meilleurs arrêts et comportement moins agressif que TSFDOM sur Ioniq 5 2024 (HDA2)",
+  "content.470d5a2e2785": "Se marie bien avec Blendful et le contrôle longitudinal Alpha en Experimental Mode",
+  "content.6d3788b49362": "Changements de voie lents et parfois incomplets signalés sur Ioniq 5 2026 (direction par angle)",
+  "content.91410ca7825c": "Continue tout droit sur les lignes de voie lorsqu’une voie se divise en plusieurs voies à un feu tricolore"
 }

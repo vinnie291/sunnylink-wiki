@@ -3829,8 +3829,8 @@
   "content.c98ae1d47d6c": "모델 관리(10월 25일): 확인한 master, dev, staging은 선택기 21, Chestnut v28, Qualcomm v25를 사용합니다. 기본 대형 모델은 Mountain Dew Model v3입니다. 이 개발 스냅샷이 이전 태그 릴리스의 사용 가능 여부를 보장하지는 않습니다. PR #2015, #2044, #1999는 여전히 병합 없이 닫힌 상태입니다.",
   "content.940def03d2a7": "확인한 master, dev, staging은 이제 선택기 21, Chestnut v28, Qualcomm v25를 사용하며 기본 대형 모델은 Mountain Dew Model v3입니다. 이전 빌드는 다른 카탈로그를 사용합니다. 하드웨어와 브랜치 호환성을 확인하고 다운로드 중이 아닐 때 주차 상태에서 새로고침하세요. Clear Cache는 다운로드한 모델을 삭제합니다.",
   "content.acb24bbbc07c": "확인한 master/dev/staging은 이제 선택기 21용 Chestnut v28 및 Qualcomm v25 카탈로그를 사용합니다. 이전 선택기 20 빌드는 다른 카탈로그를 사용합니다. 새로고침 전에 설치 버전을 확인하세요. 출처: https://github.com/sunnypilot/sunnypilot/blob/861fd118a1fe4ffec2283208456032b3616da968/openpilot/sunnypilot/models/fetcher.py.",
-  "content.5ce6409c775b": "위키에는 모델 136개가 문서화되어 있습니다. 기기에서의 사용 가능 여부는 하드웨어, 선택기 버전 및 설치된 브랜치에 따라 달라집니다.",
-  "content.d49b775b36e4": "문서화된 주행 모델 136개를 살펴보세요. 카탈로그에 공개되었다고 모든 기기나 이전 브랜치에서 지원되는 것은 아닙니다.",
+  "content.5ce6409c775b": "위키에는 모델 137개가 문서화되어 있습니다. 기기에서의 사용 가능 여부는 하드웨어, 선택기 버전 및 설치된 브랜치에 따라 달라집니다.",
+  "content.d49b775b36e4": "문서화된 주행 모델 137개를 살펴보세요. 카탈로그에 공개되었다고 모든 기기나 이전 브랜치에서 지원되는 것은 아닙니다.",
   "content.2523a7f769bd": "관리자의 공지는 comma four와 Chestnut이 필요하며 현재 comma 3X는 지원하지 않는다고 명시합니다. 확인한 master/dev/staging은 선택기 21과 Chestnut v28을 사용하고 기본 대형 모델은 Mountain Dew Model v3입니다. 설치된 빌드와 하드웨어를 확인하세요.",
   "content.61b629644d41": "관리자의 전용 포럼 글과 투표가 이제 공개되었습니다. 이 스냅샷의 종합 평가 투표는 0개이므로 성능 결론을 내릴 수 없습니다.",
   "content.6a170c189509": "선택기 21 및 세대 12용 Chestnut v28에 공개되었으며 확인한 master/dev/staging 카탈로그에 포함됩니다. 이 모델의 comma 3X 호환성은 확인되지 않았습니다. 사용 전에 하드웨어와 런타임 지원을 확인하세요.",
@@ -3845,5 +3845,12 @@
   "content.e789cb717a3c": "현재 기본 대형 모델로, Model Manager에서 아무것도 바꾸지 않으면 이 모델이 사용됩니다",
   "content.5147a0958611": "시속 120 km 이상 순항 시 차선 내 핑퐁 현상과, 회전 시 머뭇거려 수동 개입이 필요했다고 보고했습니다.",
   "content.241829130a70": "초기 댓글 두 개는 회전, 곡선 주행 또는 차선 변경 문제를 보고했으며, 한 명은 빠른 가속을 언급했습니다.",
-  "content.e4948e4230d3": "주행 후기: 빠른 가속"
+  "content.e4948e4230d3": "주행 후기: 빠른 가속",
+  "content.0c87f96a6b1a": "YassineYousfi가 제작하고 기본 소형 모델인 CD210 Model과 비교 투표를 진행 중인 실험적 Deep RL 소형 모델입니다. 포럼 종합 투표에는 9명(Great 4표, Good 2표, Ok 1표, Bad 1표, Poor 1표)이 참여했으며, 비교 투표에서는 13명 중 8명이 CD210보다 낫다고 평가했고 9명 중 4명이 기본 모델 지정을 찬성했습니다. 차량 설정에 따라 평가가 갈리는데, 2024년형 현대 아이오닉 5(HDA2) 테스터는 TSFDOM보다 덜 공격적이면서 정지 제동이 더 자연스럽고 Blendful 및 Alpha 종방향 제어와 잘 어울린다고 보고한 반면, 2026년형 현대 아이오닉 5(조향각 제어) 테스터는 차선 변경이 매우 느리고 신호등 앞에서 차선이 여러 갈래로 나뉠 때 차선을 포기하고 직진한다고 보고했습니다.",
+  "content.87e1e8dbb21e": "openpilot 커밋 875a6b7에서 빌드되었습니다(초기에는 CH Driving / CHD로 등록되었다가 Cheddar / CHEDDAR로 이름이 변경됨). Model Manager의 '2026 Deep RL Models' 폴더에 선택기 21 및 기본 오버라이드 lat .0 / long .3 설정으로 등재되어 있습니다. comma four 또는 comma 3X가 필요합니다.",
+  "content.47ee52aeb56e": "비교 투표 참여자 13명 중 8명이 기본 모델인 CD210보다 우수하다고 평가",
+  "content.e4805a72c472": "2024 아이오닉 5(HDA2)에서 TSFDOM보다 덜 공격적인 주행감과 개선된 정지 제어 보고",
+  "content.470d5a2e2785": "Experimental Mode에서 Blendful 및 Alpha 종방향 제어와 좋은 궁합",
+  "content.6d3788b49362": "2026 아이오닉 5(조향각 제어)에서 느리고 때때로 완료되지 않는 차선 변경 보고",
+  "content.91410ca7825c": "신호등 앞에서 한 차선이 여러 차선으로 갈라질 때 차선을 넘어 그대로 직진함"
 }
