@@ -19,7 +19,9 @@ const num = (v: string | number | undefined, fallback = 0) => {
 // Dropdown label → device enum maps (labels from data/toggles.json)
 const MADS_STEERING_MODE: Record<string, number> = {
     'Default': 0,
-    'Remain Active': 1,
+    'Remain Active': 0,
+    'Pause': 1,
+    'Disengage': 2,
 };
 
 const AUTO_LANE_CHANGE_TIMER: Record<string, number> = {
@@ -54,6 +56,10 @@ const SPEED_LIMIT_MODE: Record<string, number> = {
 };
 
 const SPEED_LIMIT_POLICY: Record<string, number> = {
+    'Car Only': 0,
+    'Map Only': 1,
+    'Car First': 2,
+    'Map First': 3,
     'Car State': 2,
     'Map Data': 3,
     'Combined': 4,
@@ -84,9 +90,10 @@ export function buildSunnylinkExport(config: ConfigValues) {
     const mapEnabled = bool(config.MapBasedTurnSpeedControl);
     const e2eEnabled = bool(config.ExperimentalMode);
     const offsetValue = num(config.SpeedLimitOffsetValue, 0);
-    const offsetType = offsetValue === 0
+    const rawOffsetType = String(config.SpeedLimitOffsetType);
+    const offsetType = offsetValue === 0 || rawOffsetType === 'None'
         ? 'none'
-        : String(config.SpeedLimitOffsetType) === 'Percentage' ? 'percentage' : 'fixed';
+        : (rawOffsetType === 'Percentage' || rawOffsetType === '%') ? 'percentage' : 'fixed';
     const drivingModel = String(config.DrivingModel || '');
     // -0.35..0.35 m is the device-accepted camera offset range
     const cameraOffset = Math.max(-0.35, Math.min(0.35, num(config.CameraOffset, 0)));

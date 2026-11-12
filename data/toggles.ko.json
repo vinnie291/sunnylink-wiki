@@ -154,7 +154,7 @@
           "safetyLevel": "safe",
           "useCase": "주차 중에 설정 변경, 업데이트 다운로드, 유지 관리 수행을 위해 사용합니다.",
           "userNote": "'정차 모드'는 주차된/운전하지 않는 것을 의미합니다. 온로드(Onroad)는 운전을 뜻한다. 정차 모드에서만 사용할 수 있습니다.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DeviceBootMode",
@@ -168,7 +168,7 @@
           "description": "기기가 부팅되거나 절전 모드에서 해제될 때 기기가 수행하는 작업을 제어합니다. 기본값: 정상적으로 부팅되고 참여할 준비가 되었습니다. 정차 모드: 부팅하거나 깨울 때마다 자동으로 항상 정차 모드를 활성화합니다.",
           "useCase": "장치가 기본적으로 구성/유지 관리 모드에서 시작되도록 하려면 Offroad로 설정하십시오.",
           "userNote": "이 설정은 재부팅 후에도 유지됩니다.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UseMetricUnits",
@@ -188,7 +188,7 @@
           "description": "모든 안전 관련 경고를 유지하면서 중요하지 않은 소리를 억제합니다. 안전 경고(부드러운 경고, 즉각적인 경고, 주의를 산만하게 하는 메시지, 반복적인 주의 메시지)가 항상 재생됩니다. 무음 모드에서 음소거: 참여음, 분리음, 거절음, 표준 프롬프트.",
           "useCase": "안전 경고를 활성화하는 동시에 보다 조용한 운전 경험을 위해 중요하지 않은 오디오를 줄입니다.",
           "userNote": "운전 중에 전환할 수 있습니다.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "OnroadUploads",
@@ -198,7 +198,7 @@
           "description": "운전 중 데이터 업로드를 전환합니다. 활성화되면 장치는 운전 중에 셀룰러 또는 Wi-Fi 연결을 통해 운전 구간을 업로드합니다. 비활성화하면 차량이 주차되고 장치가 정차 모드에 있을 때까지 업로드가 연기됩니다.",
           "useCase": "측정되거나 제한된 데이터 연결에서 대역폭을 보존하려면 비활성화합니다.",
           "userNote": "기본적으로 활성화되어 있습니다. 유료 모바일 핫스팟을 사용하는 경우 비활성화합니다.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "Language",
@@ -214,7 +214,7 @@
           "description": "UI 언어 선택.",
           "useCase": "원하는 표시 언어를 선택하세요.",
           "userNote": "인터페이스에 대해 선호하는 언어를 선택하십시오.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RecordUploadDriverCamera",
@@ -228,7 +228,7 @@
             "추가 저장 공간과 대역폭을 사용합니다."
           ],
           "userNote": "이 토글을 변경하려면 기기가 정차 모드 상태여야 합니다.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "RecordUploadMicAudio",
@@ -242,7 +242,7 @@
             "추가 저장 공간과 대역폭을 사용합니다."
           ],
           "userNote": "이 토글을 변경하려면 기기가 정차 모드 상태여야 합니다.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "GsmMetered",
@@ -472,6 +472,59 @@
           "description": "Open PR #1741은 구성 가능한 정차 모드 종료 전압을 제안하며 2026.003.000 마일스톤을 유지합니다.",
           "userNote": "기준점과 UI는 아직 검토 중입니다. 마일스톤 할당은 모든 스테이징 빌드에서 가용성을 설정하지 않습니다.",
           "deepDive": "출처: https://github.com/sunnypilot/sunnypilot/pull/1741. 2026년 10월 2일에 확인된 상태. 이 위키 항목은 개발 작업을 설명합니다. 이는 내보낸 장치 매개변수가 아닙니다."
+        },
+        {
+          "key": "PairDevice",
+          "label": "기기 페어링",
+          "type": "action",
+          "description": "주행 경로 확인, 원격 기기 관리 및 블랙박스 영상 접근을 위해 comma 기기를 comma connect 계정에 연결합니다.",
+          "useCase": "원격 경로 및 블랙박스 확인을 위해 기기를 comma connect에 연결합니다.",
+          "userNote": "comma 3X/3, comma four 및 sunnylink에서 사용할 수 있습니다.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "ResetCalibration",
+          "label": "캘리브레이션 초기화",
+          "type": "action",
+          "description": "기기의 캘리브레이션 데이터를 초기화합니다. 초기화 후 다음 주행 중 카메라 장착 위치를 다시 학습합니다.",
+          "useCase": "기기를 다시 장착했거나 차선 중앙 유지가 한쪽으로 치우칠 때 실행하세요.",
+          "userNote": "현재 캘리브레이션 상태는 기기 설명 텍스트에 표시됩니다.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "DriverCameraPreview",
+          "label": "운전자 카메라 미리보기",
+          "type": "action",
+          "description": "운전자 모니터링 카메라의 위치와 각도를 확인할 수 있도록 실시간 미리보기를 엽니다.",
+          "useCase": "주행 전 운전자 카메라 화각을 확인합니다.",
+          "userNote": "주행 중(onroad)에는 비활성화됩니다.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "TrainingGuide",
+          "label": "트레이닝 가이드",
+          "type": "action",
+          "description": "시스템의 규칙, 기능 및 제한 사항을 안내하는 sunnypilot 트레이닝 가이드를 엽니다.",
+          "useCase": "언제든지 안전 수칙과 시스템 동작을 다시 확인합니다.",
+          "userNote": "주행 중(onroad)에는 비활성화됩니다.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "Regulatory",
+          "label": "규제 정보",
+          "type": "action",
+          "description": "기기의 FCC 규제 정보를 표시합니다.",
+          "userNote": "주행 중(onroad)에는 비활성화됩니다.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "ResetSettings",
+          "label": "설정 초기화",
+          "type": "action",
+          "description": "2단계 확인 후 모든 sunnypilot 설정을 기본값으로 초기화하고 기기를 재부팅합니다.",
+          "warning": "이 작업은 되돌릴 수 없으며 모든 사용자 설정이 삭제됩니다.",
+          "userNote": "주행 중에는 비활성화됩니다. comma four 기기 화면에는 표시되지 않습니다.",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
@@ -630,10 +683,11 @@
           "label": "MADS 조향 모드",
           "type": "dropdown",
           "options": [
-            "Default",
-            "Remain Active"
+            "Remain Active",
+            "Pause",
+            "Disengage"
           ],
-          "default": "Default",
+          "default": "Remain Active",
           "description": "크루즈가 취소될 때 동작을 제어합니다. '활성 상태 유지'는 제동 후에도 스티어링을 계속 작동시킵니다.",
           "recommended": "Remain Active",
           "dependencies": [
@@ -972,11 +1026,13 @@
           "label": "속도 제한 소스",
           "type": "dropdown",
           "options": [
-            "Map Data",
-            "Car State",
+            "Car Only",
+            "Map Only",
+            "Car First",
+            "Map First",
             "Combined"
           ],
-          "default": "Map Data",
+          "default": "Car First",
           "description": "자동차가 속도 데이터를 가져오는 위치(지도 데이터, 자동차 상태 또는 결합)",
           "recommended": "Map Data",
           "useCase": "귀하의 운전 지역에 가장 신뢰할 수 있는 소스를 선택하십시오.",
@@ -993,10 +1049,11 @@
           "label": "속도 제한 오프셋 유형",
           "type": "dropdown",
           "options": [
+            "None",
             "Fixed",
-            "Percentage"
+            "%"
           ],
-          "default": "Fixed",
+          "default": "None",
           "description": "고정된 숫자(예: +5 mph) 또는 백분율(예: +10%) 중에서 선택합니다.",
           "useCase": "일관된 과속을 위해 수정되었습니다. 비례 조정을 위한 백분율입니다.",
           "userNote": "일정한 속도를 유지하려면 '고정'으로 설정하세요.",
@@ -1011,7 +1068,9 @@
           "description": "제한을 초과하는 실제 속도입니다.",
           "useCase": "지역 교통 흐름을 일치시킵니다(대부분의 미국 지역에서는 일반적으로 5-10 mph 이상).",
           "userNote": "편안한 수준으로 설정하세요(예: 5-10 mph 이상).",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "config-hidden",
+          "min": -30,
+          "max": 30
         },
         {
           "key": "AutoLaneChangeTimer",
@@ -1097,10 +1156,8 @@
         {
           "key": "CustomAccLongPressIncrement",
           "label": "사용자 정의 ACC 길게 누르기 증분",
-          "type": "slider",
-          "default": 5,
-          "min": 1,
-          "max": 10,
+          "type": "dropdown",
+          "default": "5",
           "unit": "mph/kph",
           "helpText": "범위: 1 - 10 mph/kph",
           "dependencies": [
@@ -1112,7 +1169,12 @@
           "description": "크루즈 버튼을 길게 누르면 속도가 변경됩니다.",
           "useCase": "버튼을 길게 누르면 더 큰 속도 조정이 가능합니다.",
           "userNote": "크루즈 버튼을 누른 상태에서 속도 변경을 설정합니다.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "config-hidden",
+          "options": [
+            "1",
+            "5",
+            "10"
+          ]
         },
         {
           "key": "IntelligentCruiseButtonManagement",
@@ -1229,12 +1291,12 @@
           "label": "온로드 밝기",
           "type": "dropdown",
           "options": [
-            "Auto",
-            "Low",
-            "Medium",
-            "High"
+            "Auto (Default)",
+            "Auto (Dark)",
+            "Screen Off",
+            "5% - 100%"
           ],
-          "default": "Auto",
+          "default": "Auto (Default)",
           "description": "운전할 때 밝기를 구체적으로 설정합니다.",
           "recommended": "Auto",
           "deviceAvailability": "config-hidden"
@@ -1341,8 +1403,8 @@
           "label": "상호작용 시간 초과",
           "type": "slider",
           "default": 10,
-          "min": 3,
-          "max": 30,
+          "min": 10,
+          "max": 120,
           "unit": "seconds",
           "helpText": "범위: 3~30초",
           "description": "운전 중 온로드 화면이 어두워지거나 절전 모드로 들어가기 전 터치 비활성 시간(초)을 설정합니다.",
@@ -1426,7 +1488,7 @@
             "릴리스 또는 개발 분기에 있어서는 안 됩니다."
           ],
           "warning": "고급 컨트롤 표시가 활성화되고 업데이트 비활성화가 활성화된 경우에만 나타납니다.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CopypartyService",
@@ -1456,7 +1518,7 @@
           "description": "가속 및 제동 조작을 테스트하기 위한 종방향 디버그 모드를 활성화합니다.",
           "useCase": "가속 및 제동 동작을 테스트합니다.",
           "userNote": "릴리스 브랜치에 숨겨져 있습니다. 종방향 제어가 필요하며 장치는 정차 모드에 있어야 합니다.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "AlphaLongitudinal",
@@ -1471,7 +1533,7 @@
           ],
           "warning": "이를 활성화하면 AEB(자동 긴급 제동)가 비활성화됩니다. 활성화하기 전에 확인 대화 상자가 나타납니다.",
           "userNote": "릴리스 브랜치에 숨겨져 있습니다. 차량이 알파 세로 제어를 지원하는 경우에만 나타납니다.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "GithubRunnerService",
@@ -1501,7 +1563,7 @@
           "description": "터치 표시기, FPS 카운터 및 마우스 좌표를 화면에 표시합니다. UI 개발 및 디스플레이 문제 해결에 유용합니다.",
           "useCase": "UI에 디버그 오버레이를 표시합니다.",
           "userNote": "개발자 전용입니다.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "DisableLogging",
@@ -1542,6 +1604,23 @@
           "userNote": "sunnypilot 2026에서 공식 지원이 도입되었습니다. 무제한 Wi-Fi에 연결된 동안에만 업로드됩니다.",
           "safetyLevel": "safe",
           "deviceAvailability": "full"
+        },
+        {
+          "key": "LateralManeuverMode",
+          "label": "조향 기동 디버그 모드 (Lateral Maneuver Mode)",
+          "type": "toggle",
+          "default": false,
+          "description": "조향 기동을 테스트하기 위한 횡방향 디버그 모드를 활성화합니다.",
+          "warning": "릴리즈 브랜치에서는 숨겨집니다. 오프로드(offroad) 상태에서만 변경할 수 있습니다.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "ErrorLog",
+          "label": "오류 로그",
+          "type": "action",
+          "description": "뷰어에서 sunnypilot 충돌 오류 로그를 엽니다. 닫을 때 로그 삭제 옵션을 제공합니다.",
+          "userNote": "릴리즈 브랜치에서는 숨겨집니다. comma four 기기 화면에는 표시되지 않습니다.",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
@@ -1743,5 +1822,5 @@
       ]
     }
   ],
-  "lastUpdated": "2026-10-31"
+  "lastUpdated": "2026-11-12"
 }

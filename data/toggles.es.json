@@ -154,7 +154,7 @@
           "safetyLevel": "safe",
           "useCase": "Úselo cuando esté estacionado para cambiar la configuración, descargar actualizaciones o realizar mantenimiento.",
           "userNote": "'Offroad' significa estacionado/no conduciendo. 'Onroad' significa conducir. Sólo disponible en estacionado.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DeviceBootMode",
@@ -168,7 +168,7 @@
           "description": "Controla lo que hace el dispositivo cuando arranca o sale del modo de suspensión. Valor predeterminado: arranca normalmente y está listo para activarse. Offroad: habilita automáticamente Always Offroad en cada arranque o activación.",
           "useCase": "Configúrelo en Offroad si desea que el dispositivo se inicie en modo de configuración/mantenimiento de forma predeterminada.",
           "userNote": "Esta configuración persiste tras los reinicios.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UseMetricUnits",
@@ -188,7 +188,7 @@
           "description": "Suprime los sonidos no críticos al tiempo que conserva todas las alertas relacionadas con la seguridad. Las alertas de seguridad (advertencias suaves, advertencias inmediatas, indicaciones de distracción, indicaciones de atención repetidas) siempre se reproducen. Silenciado en modo silencioso: sonido de activación, sonido de desconexión, sonido de rechazo, indicaciones estándar.",
           "useCase": "Reduzca el audio no crítico para una experiencia de conducción más silenciosa mientras mantiene activas las alertas de seguridad.",
           "userNote": "Se puede alternar mientras se conduce.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "OnroadUploads",
@@ -198,7 +198,7 @@
           "description": "Alterna la carga de datos mientras conduce. Cuando está habilitado, el dispositivo carga segmentos de conducción a través de una conexión celular o Wi-Fi durante su viaje. Cuando está deshabilitado, las cargas se posponen hasta que el vehículo esté estacionado y el dispositivo esté en modo estacionado.",
           "useCase": "Desactívelo para conservar el ancho de banda en conexiones de datos medidas o limitadas.",
           "userNote": "Habilitado de forma predeterminada. Desactívelo si utiliza un punto de acceso móvil con medidor.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "Language",
@@ -214,7 +214,7 @@
           "description": "Selección de idioma de la interfaz de usuario.",
           "useCase": "Elija su idioma de visualización preferido.",
           "userNote": "Seleccione su idioma preferido para la interfaz.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RecordUploadDriverCamera",
@@ -228,7 +228,7 @@
             "Utiliza almacenamiento y ancho de banda adicionales."
           ],
           "userNote": "Cambiar esta opción requiere que el dispositivo esté en modo estacionado.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "RecordUploadMicAudio",
@@ -242,7 +242,7 @@
             "Utiliza almacenamiento y ancho de banda adicionales."
           ],
           "userNote": "Cambiar esta opción requiere que el dispositivo esté en modo estacionado.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "GsmMetered",
@@ -472,6 +472,59 @@
           "description": "Open PR #1741 propone un voltaje de apagado estacionado configurable y se mantiene en el hito 2026.003.000.",
           "userNote": "Los umbrales y la interfaz de usuario aún están bajo revisión. La asignación de hitos no establece la disponibilidad en cada compilación provisional.",
           "deepDive": "Fuente: https://github.com/sunnypilot/sunnypilot/pull/1741. Estado verificado el 2 de octubre de 2026. Esta entrada wiki describe el trabajo de desarrollo; no es un parámetro del dispositivo exportado."
+        },
+        {
+          "key": "PairDevice",
+          "label": "Vincular dispositivo",
+          "type": "action",
+          "description": "Vincula tu dispositivo comma con tu cuenta de comma connect para ver rutas, gestionar el dispositivo de forma remota y acceder a grabaciones de dashcam.",
+          "useCase": "Vincula tu dispositivo a comma connect para acceso remoto a rutas y dashcam.",
+          "userNote": "Disponible en comma 3X/3, comma four y sunnylink.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "ResetCalibration",
+          "label": "Restablecer calibración",
+          "type": "action",
+          "description": "Restablece los datos de calibración del dispositivo. Tras restablecer, el sistema volverá a aprender la posición de montaje de la cámara en tu próximo viaje.",
+          "useCase": "Úsalo después de volver a montar el dispositivo o si el centrado de carril está desplazado.",
+          "userNote": "El estado actual de calibración se muestra en el dispositivo.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "DriverCameraPreview",
+          "label": "Vista previa de cámara del conductor",
+          "type": "action",
+          "description": "Abre una vista previa en vivo de la cámara orientada al conductor para verificar su posición y ángulo.",
+          "useCase": "Comprobar el encuadre de la cámara de monitoreo antes de conducir.",
+          "userNote": "Deshabilitado mientras el vehículo está en marcha (onroad).",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "TrainingGuide",
+          "label": "Guía de entrenamiento",
+          "type": "action",
+          "description": "Abre la guía de entrenamiento de sunnypilot, que explica las reglas, funciones y limitaciones del sistema.",
+          "useCase": "Revisar las reglas de seguridad y el comportamiento del sistema en cualquier momento.",
+          "userNote": "Deshabilitado mientras el vehículo está en marcha (onroad).",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "Regulatory",
+          "label": "Información regulatoria",
+          "type": "action",
+          "description": "Muestra la información regulatoria de la FCC para el dispositivo.",
+          "userNote": "Deshabilitado mientras el vehículo está en marcha (onroad).",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "ResetSettings",
+          "label": "Restablecer ajustes",
+          "type": "action",
+          "description": "Restablece todos los ajustes de sunnypilot a sus valores predeterminados tras una confirmación en dos pasos y reinicia el dispositivo.",
+          "warning": "Esta acción no se puede deshacer. Se perderán todos los ajustes personalizados.",
+          "userNote": "Deshabilitado en marcha (onroad). No se muestra en la pantalla del comma four.",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
@@ -630,10 +683,11 @@
           "label": "Modo de dirección MADS",
           "type": "dropdown",
           "options": [
-            "Default",
-            "Remain Active"
+            "Remain Active",
+            "Pause",
+            "Disengage"
           ],
-          "default": "Default",
+          "default": "Remain Active",
           "description": "Controla el comportamiento cuando se cancela el crucero. 'Remain Active' mantiene la dirección activada después de frenar.",
           "recommended": "Remain Active",
           "dependencies": [
@@ -972,11 +1026,13 @@
           "label": "Fuente del límite de velocidad",
           "type": "dropdown",
           "options": [
-            "Map Data",
-            "Car State",
+            "Car Only",
+            "Map Only",
+            "Car First",
+            "Map First",
             "Combined"
           ],
-          "default": "Map Data",
+          "default": "Car First",
           "description": "De dónde obtiene el automóvil los datos de velocidad (datos de mapa, estado del automóvil o combinados).",
           "recommended": "Map Data",
           "useCase": "Elija la fuente más confiable para su área de conducción.",
@@ -993,10 +1049,11 @@
           "label": "Tipo de compensación del límite de velocidad",
           "type": "dropdown",
           "options": [
+            "None",
             "Fixed",
-            "Percentage"
+            "%"
           ],
-          "default": "Fixed",
+          "default": "None",
           "description": "Elija entre un número fijo (por ejemplo, +5 mph) o un porcentaje (por ejemplo, +10%).",
           "useCase": "Corregido para exceso de velocidad constante; Porcentaje para ajustes proporcionales.",
           "userNote": "Establezca en 'Fijo' para un exceso de velocidad constante.",
@@ -1011,7 +1068,9 @@
           "description": "La cantidad real a acelerar por encima del límite.",
           "useCase": "Haga coincidir el flujo de tráfico local (comúnmente 5-10 mph más en la mayoría de las áreas de EE. UU.).",
           "userNote": "Ajústelo a su nivel de comodidad (por ejemplo, 5-10 mph más).",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "config-hidden",
+          "min": -30,
+          "max": 30
         },
         {
           "key": "AutoLaneChangeTimer",
@@ -1097,10 +1156,8 @@
         {
           "key": "CustomAccLongPressIncrement",
           "label": "Incremento de pulsación larga personalizado ACC",
-          "type": "slider",
-          "default": 5,
-          "min": 1,
-          "max": 10,
+          "type": "dropdown",
+          "default": "5",
           "unit": "mph/kph",
           "helpText": "Rango: 1 - 10 mph/kph",
           "dependencies": [
@@ -1112,7 +1169,12 @@
           "description": "Cambio de velocidad al presionar prolongadamente los botones de crucero.",
           "useCase": "Ajustes de velocidad más grandes con el botón mantenido.",
           "userNote": "Configure el cambio de velocidad para mantener presionados los botones de crucero.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "config-hidden",
+          "options": [
+            "1",
+            "5",
+            "10"
+          ]
         },
         {
           "key": "IntelligentCruiseButtonManagement",
@@ -1229,12 +1291,12 @@
           "label": "Brillo en carretera",
           "type": "dropdown",
           "options": [
-            "Auto",
-            "Low",
-            "Medium",
-            "High"
+            "Auto (Default)",
+            "Auto (Dark)",
+            "Screen Off",
+            "5% - 100%"
           ],
-          "default": "Auto",
+          "default": "Auto (Default)",
           "description": "Establece el brillo específicamente al conducir.",
           "recommended": "Auto",
           "deviceAvailability": "config-hidden"
@@ -1341,8 +1403,8 @@
           "label": "Tiempo de espera de interactividad",
           "type": "slider",
           "default": 10,
-          "min": 3,
-          "max": 30,
+          "min": 10,
+          "max": 120,
           "unit": "seconds",
           "helpText": "Rango: 3 a 30 segundos",
           "description": "Establece la cantidad de segundos de inactividad táctil antes de que la pantalla de carretera se atenúe o entre en modo de ahorro de energía mientras conduce.",
@@ -1426,7 +1488,7 @@
             "No debe estar en una rama de lanzamiento o desarrollo."
           ],
           "warning": "Solo aparece cuando Mostrar controles avanzados está habilitado y Desactivar actualizaciones está activo.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CopypartyService",
@@ -1456,7 +1518,7 @@
           "description": "Habilita un modo de depuración longitudinal para probar maniobras de aceleración y frenado.",
           "useCase": "Prueba del comportamiento de aceleración y frenado.",
           "userNote": "Oculto en las ramas de liberación. Requiere control longitudinal y el dispositivo debe ser estacionado.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "AlphaLongitudinal",
@@ -1471,7 +1533,7 @@
           ],
           "warning": "Al habilitar esto se desactiva AEB (frenado automático de emergencia). Aparece un cuadro de diálogo de confirmación antes de la activación.",
           "userNote": "Oculto en las ramas de liberación. Solo aparece si su vehículo admite control longitudinal alfa.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "GithubRunnerService",
@@ -1501,7 +1563,7 @@
           "description": "Muestra indicadores táctiles, contador FPS y coordenadas del mouse en la pantalla. Útil para el desarrollo de la interfaz de usuario y la resolución de problemas de visualización.",
           "useCase": "Muestra superposiciones de depuración en la interfaz de usuario.",
           "userNote": "Uso exclusivo del desarrollador.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "DisableLogging",
@@ -1542,6 +1604,23 @@
           "userNote": "Soporte oficial introducido en sunnypilot 2026. Solo carga mientras está conectado a Wi-Fi no medido.",
           "safetyLevel": "safe",
           "deviceAvailability": "full"
+        },
+        {
+          "key": "LateralManeuverMode",
+          "label": "Modo de maniobra lateral",
+          "type": "toggle",
+          "default": false,
+          "description": "Activa un modo de depuración lateral para probar maniobras de dirección.",
+          "warning": "Oculto en ramas release. Solo se puede cambiar con el dispositivo offroad.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "ErrorLog",
+          "label": "Registro de errores",
+          "type": "action",
+          "description": "Abre el registro de errores de sunnypilot en un visor. Al cerrar, ofrece la opción de eliminar el registro.",
+          "userNote": "Oculto en ramas release. No se muestra en comma four.",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
@@ -1743,5 +1822,5 @@
       ]
     }
   ],
-  "lastUpdated": "2026-10-31"
+  "lastUpdated": "2026-11-12"
 }

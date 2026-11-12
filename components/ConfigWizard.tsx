@@ -114,7 +114,7 @@ const DEFAULT_CONFIG: ConfigValues = {
     VisionBasedTurnSpeedControl: 'True',
     MapBasedTurnSpeedControl: 'False',
     SpeedLimitAssistMode: 'Information',
-    SpeedLimitSource: 'Map Data',
+    SpeedLimitSource: 'Car First',
     SpeedLimitOffsetType: 'Fixed',
     SpeedLimitOffsetValue: 0,
     MapAdvisorySpeedLimit: 'True',

@@ -154,7 +154,7 @@
           "safetyLevel": "safe",
           "useCase": "Use when parked to change settings, download updates, or perform maintenance.",
           "userNote": "'Offroad' means parked/not driving. 'Onroad' means driving. Only available while offroad.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DeviceBootMode",
@@ -168,7 +168,7 @@
           "description": "Controls what the device does when it boots or wakes from sleep. Default: boots normally and is ready to engage. Offroad: automatically enables Always Offroad on each boot or wake-up.",
           "useCase": "Set to Offroad if you want the device to start in configuration/maintenance mode by default.",
           "userNote": "This setting persists across reboots.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UseMetricUnits",
@@ -188,7 +188,7 @@
           "description": "Suppresses non-critical sounds while preserving all safety-related alerts. Safety alerts (soft warnings, immediate warnings, distraction prompts, repeated attention prompts) always play. Muted in Quiet Mode: engagement sound, disengagement sound, refusal sound, standard prompts.",
           "useCase": "Reduce non-critical audio for a quieter driving experience while keeping safety alerts active.",
           "userNote": "Can be toggled while driving.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "OnroadUploads",
@@ -198,7 +198,7 @@
           "description": "Toggles data uploads while driving. When enabled, the device uploads driving segments over a cellular or Wi-Fi connection during your drive. When disabled, uploads are deferred until the vehicle is parked and the device is offroad.",
           "useCase": "Disable to conserve bandwidth on metered or limited data connections.",
           "userNote": "Enabled by default. Disable if using a metered mobile hotspot.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "Language",
@@ -214,7 +214,7 @@
           "description": "UI language selection.",
           "useCase": "Choose your preferred display language.",
           "userNote": "Select your preferred language for the interface.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RecordUploadDriverCamera",
@@ -228,7 +228,7 @@
             "Uses additional storage and bandwidth."
           ],
           "userNote": "Changing this toggle requires the device to be offroad.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "RecordUploadMicAudio",
@@ -242,7 +242,7 @@
             "Uses additional storage and bandwidth."
           ],
           "userNote": "Changing this toggle requires the device to be offroad.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "GsmMetered",
@@ -472,6 +472,59 @@
           "description": "Open PR #1741 proposes a configurable offroad shutdown voltage and remains in the 2026.003.000 milestone.",
           "userNote": "Thresholds and UI are still under review. Milestone assignment does not establish availability in every staging build.",
           "deepDive": "Source: https://github.com/sunnypilot/sunnypilot/pull/1741. Status checked October 2, 2026. This wiki entry describes development work; it is not an exported device parameter."
+        },
+        {
+          "key": "PairDevice",
+          "label": "Pair Device",
+          "type": "action",
+          "description": "Pairs your comma device with your comma connect account so you can view driving routes, manage the device remotely, and access dashcam footage.",
+          "useCase": "Link your device to comma connect for remote route access and dashcam viewing.",
+          "userNote": "Available on comma 3X/3, comma four, and sunnylink.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "ResetCalibration",
+          "label": "Reset Calibration",
+          "type": "action",
+          "description": "Resets the device's calibration data. After reset, the system will re-learn the camera's mounting position during your next drive.",
+          "useCase": "Run after remounting the device or if lane centering feels consistently biased.",
+          "userNote": "Current calibration status is shown in the description text on device.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "DriverCameraPreview",
+          "label": "Driver Camera Preview",
+          "type": "action",
+          "description": "Opens a live preview of the driver-facing camera so you can verify its position and angle.",
+          "useCase": "Check driver monitoring camera framing before driving.",
+          "userNote": "Disabled while the vehicle is onroad.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "TrainingGuide",
+          "label": "Training Guide",
+          "type": "action",
+          "description": "Opens the sunnypilot training guide, which walks through the system's rules, features, and limitations.",
+          "useCase": "Review safety rules and system behavior at any time.",
+          "userNote": "Disabled while the vehicle is onroad.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "Regulatory",
+          "label": "Regulatory",
+          "type": "action",
+          "description": "Displays FCC regulatory information for the device.",
+          "userNote": "Disabled while the vehicle is onroad.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "ResetSettings",
+          "label": "Reset Settings",
+          "type": "action",
+          "description": "Resets all sunnypilot settings to their defaults using a two-step confirmation, then reboots the device.",
+          "warning": "This action cannot be undone. All custom settings will be lost.",
+          "userNote": "Disabled while the vehicle is onroad. Not shown on comma four on-device UI.",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
@@ -630,10 +683,11 @@
           "label": "MADS Steering Mode",
           "type": "dropdown",
           "options": [
-            "Default",
-            "Remain Active"
+            "Remain Active",
+            "Pause",
+            "Disengage"
           ],
-          "default": "Default",
+          "default": "Remain Active",
           "description": "Controls behavior when cruise is canceled. 'Remain Active' keeps steering engaged after braking.",
           "recommended": "Remain Active",
           "dependencies": [
@@ -972,11 +1026,13 @@
           "label": "Speed Limit Source",
           "type": "dropdown",
           "options": [
-            "Map Data",
-            "Car State",
+            "Car Only",
+            "Map Only",
+            "Car First",
+            "Map First",
             "Combined"
           ],
-          "default": "Map Data",
+          "default": "Car First",
           "description": "Where the car gets speed data (Map Data, Car State, or Combined).",
           "recommended": "Map Data",
           "useCase": "Choose the most reliable source for your driving area.",
@@ -993,10 +1049,11 @@
           "label": "Speed Limit Offset Type",
           "type": "dropdown",
           "options": [
+            "None",
             "Fixed",
-            "Percentage"
+            "%"
           ],
-          "default": "Fixed",
+          "default": "None",
           "description": "Choose between a fixed number (e.g., +5 mph) or a percentage (e.g., +10%).",
           "useCase": "Fixed for consistent speeding; Percentage for proportional adjustments.",
           "userNote": "Set to 'Fixed' for consistent speeding.",
@@ -1007,11 +1064,13 @@
           "label": "Speed Limit Offset Value",
           "type": "slider",
           "default": 0,
-          "helpText": "Recommended: 5-10 mph over limit to match traffic flow",
+          "helpText": "Range: -30 to +30 (only shown when Speed Limit Offset is Fixed or %).",
           "description": "The actual amount to speed over the limit.",
           "useCase": "Match local traffic flow (commonly 5-10 mph over in most US areas).",
           "userNote": "Set to your comfort level (e.g., 5-10 mph over).",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "config-hidden",
+          "min": -30,
+          "max": 30
         },
         {
           "key": "AutoLaneChangeTimer",
@@ -1097,10 +1156,8 @@
         {
           "key": "CustomAccLongPressIncrement",
           "label": "Custom ACC Long Press Increment",
-          "type": "slider",
-          "default": 5,
-          "min": 1,
-          "max": 10,
+          "type": "dropdown",
+          "default": "5",
           "unit": "mph/kph",
           "helpText": "Range: 1 - 10 mph/kph",
           "dependencies": [
@@ -1112,7 +1169,12 @@
           "description": "Speed change on long press of cruise buttons.",
           "useCase": "Larger speed adjustments with held button.",
           "userNote": "Set the speed change for holding cruise buttons.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "config-hidden",
+          "options": [
+            "1",
+            "5",
+            "10"
+          ]
         },
         {
           "key": "IntelligentCruiseButtonManagement",
@@ -1229,12 +1291,12 @@
           "label": "Onroad Brightness",
           "type": "dropdown",
           "options": [
-            "Auto",
-            "Low",
-            "Medium",
-            "High"
+            "Auto (Default)",
+            "Auto (Dark)",
+            "Screen Off",
+            "5% - 100%"
           ],
-          "default": "Auto",
+          "default": "Auto (Default)",
           "description": "Sets brightness specifically when driving.",
           "recommended": "Auto",
           "deviceAvailability": "config-hidden"
@@ -1333,7 +1395,7 @@
           "default": false,
           "description": "Shows the steering arc overlay on the driving screen when lateral (steering) control is active. This arc illustrates the path sunnypilot is steering toward.",
           "useCase": "Visual feedback of steering path.",
-          "userNote": "Supported on all devices. On comma four, the steering arc is always displayed.",
+          "userNote": "On comma four, the steering arc is always displayed and cannot be toggled off.",
           "deviceAvailability": "config-hidden"
         },
         {
@@ -1341,10 +1403,10 @@
           "label": "Interactivity Timeout",
           "type": "slider",
           "default": 10,
-          "min": 3,
-          "max": 30,
+          "min": 10,
+          "max": 120,
           "unit": "seconds",
-          "helpText": "Range: 3 to 30 seconds",
+          "helpText": "Options: Default, 10s - 120s (10-second increments), 1m / 2m.",
           "description": "Sets the number of seconds of touch inactivity before the onroad screen dims or enters power-saving mode while driving.",
           "useCase": "Reducing cabin glare at night and managing device thermal dissipation.",
           "safetyLevel": "safe",
@@ -1426,7 +1488,7 @@
             "Must not be on a release or development branch."
           ],
           "warning": "Only appears when Show Advanced Controls is enabled and Disable Updates is active.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CopypartyService",
@@ -1456,7 +1518,7 @@
           "description": "Enables a longitudinal debug mode for testing acceleration and braking maneuvers.",
           "useCase": "Testing acceleration and braking behavior.",
           "userNote": "Hidden on release branches. Requires longitudinal control and the device must be offroad.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "AlphaLongitudinal",
@@ -1471,7 +1533,7 @@
           ],
           "warning": "Enabling this disables AEB (Automatic Emergency Braking). A confirmation dialog appears before activation.",
           "userNote": "Hidden on release branches. Only appears if your vehicle supports alpha longitudinal control.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "GithubRunnerService",
@@ -1501,7 +1563,7 @@
           "description": "Shows touch indicators, FPS counter, and mouse coordinates on screen. Useful for UI development and troubleshooting display issues.",
           "useCase": "Show debug overlays on the UI.",
           "userNote": "Developer use only.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "DisableLogging",
@@ -1542,6 +1604,23 @@
           "userNote": "Official support introduced in sunnypilot 2026. Only uploads while connected to unmetered Wi-Fi.",
           "safetyLevel": "safe",
           "deviceAvailability": "full"
+        },
+        {
+          "key": "LateralManeuverMode",
+          "label": "Lateral Maneuver Mode",
+          "type": "toggle",
+          "default": false,
+          "description": "Enables a lateral debug mode for testing steering maneuvers.",
+          "warning": "Hidden on release branches. Can only be changed while the device is offroad.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "ErrorLog",
+          "label": "Error Log",
+          "type": "action",
+          "description": "Opens the sunnypilot crash error log in a viewer. On close, you are offered the option to delete the log.",
+          "userNote": "Hidden on release branches. Not shown on comma four on-device UI.",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
@@ -1743,5 +1822,5 @@
       ]
     }
   ],
-  "lastUpdated": "2026-10-31"
+  "lastUpdated": "2026-11-12"
 }

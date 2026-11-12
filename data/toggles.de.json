@@ -154,7 +154,7 @@
           "safetyLevel": "safe",
           "useCase": "Im geparkten Zustand verwenden, um Einstellungen zu ändern, Updates herunterzuladen oder Wartungsarbeiten durchzuführen.",
           "userNote": "„Standmodus“ bedeutet geparkt/nicht fahrend. „Onroad“ bedeutet Fahren. Nur im Stand verfügbar.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DeviceBootMode",
@@ -168,7 +168,7 @@
           "description": "Steuert, was das Gerät tut, wenn es startet oder aus dem Ruhezustand aufwacht. Standard: bootet normal und ist einsatzbereit. Standmodus: Aktiviert Always Standmodus automatisch bei jedem Start oder Aufwachen.",
           "useCase": "Stellen Sie „Standmodus“ ein, wenn das Gerät standardmäßig im Konfigurations-/Wartungsmodus starten soll.",
           "userNote": "Diese Einstellung bleibt über Neustarts hinweg bestehen.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UseMetricUnits",
@@ -188,7 +188,7 @@
           "description": "Unterdrückt unkritische Geräusche und behält gleichzeitig alle sicherheitsrelevanten Warnungen bei. Sicherheitswarnungen (sanfte Warnungen, sofortige Warnungen, Aufforderungen zur Ablenkung, Aufforderungen zur wiederholten Aufmerksamkeit) werden immer abgespielt. Im Ruhemodus stumm geschaltet: Einschaltton, Ausschaltton, Ablehnungston, Standardansagen.",
           "useCase": "Reduzieren Sie unkritische Audiosignale für ein leiseres Fahrerlebnis, während die Sicherheitswarnungen aktiv bleiben.",
           "userNote": "Kann während der Fahrt umgeschaltet werden.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "OnroadUploads",
@@ -198,7 +198,7 @@
           "description": "Schaltet das Hochladen von Daten während der Fahrt um. Wenn diese Option aktiviert ist, lädt das Gerät während der Fahrt Fahrabschnitte über eine Mobilfunk- oder WLAN-Verbindung hoch. Wenn die Funktion deaktiviert ist, werden Uploads zurückgestellt, bis das Fahrzeug geparkt und das Gerät im Stand unterwegs ist.",
           "useCase": "Deaktivieren Sie diese Option, um bei getakteten oder begrenzten Datenverbindungen Bandbreite zu sparen.",
           "userNote": "Standardmäßig aktiviert. Deaktivieren Sie diese Option, wenn Sie einen kostenpflichtigen mobilen Hotspot verwenden.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "Language",
@@ -214,7 +214,7 @@
           "description": "Auswahl der UI-Sprache.",
           "useCase": "Wählen Sie Ihre bevorzugte Anzeigesprache.",
           "userNote": "Wählen Sie Ihre bevorzugte Sprache für die Benutzeroberfläche aus.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RecordUploadDriverCamera",
@@ -228,7 +228,7 @@
             "Verbraucht zusätzlichen Speicher und Bandbreite."
           ],
           "userNote": "Um diesen Schalter zu ändern, muss sich das Gerät im Stand befinden.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "RecordUploadMicAudio",
@@ -242,7 +242,7 @@
             "Verbraucht zusätzlichen Speicher und Bandbreite."
           ],
           "userNote": "Um diesen Schalter zu ändern, muss sich das Gerät im Stand befinden.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "GsmMetered",
@@ -472,6 +472,59 @@
           "description": "Open PR #1741 schlägt eine konfigurierbare Standmodus-Abschaltspannung vor und bleibt im Meilenstein von 2026.003.000.",
           "userNote": "Schwellenwerte und Benutzeroberfläche werden noch überprüft. Die Meilensteinzuweisung stellt nicht in jedem Staging-Build die Verfügbarkeit her.",
           "deepDive": "Quelle: https://github.com/sunnypilot/sunnypilot/pull/1741. Status überprüft am 2. Oktober 2026. Dieser Wiki-Eintrag beschreibt die Entwicklungsarbeit; Es handelt sich nicht um einen exportierten Geräteparameter."
+        },
+        {
+          "key": "PairDevice",
+          "label": "Gerät koppeln",
+          "type": "action",
+          "description": "Koppelt Ihr comma-Gerät mit Ihrem comma connect-Konto, um Fahrrouten anzuzeigen, das Gerät fernzusteuern und auf Dashcam-Aufnahmen zuzugreifen.",
+          "useCase": "Verknüpfen Sie Ihr Gerät mit comma connect für Fernzugriff auf Routen und Dashcam.",
+          "userNote": "Verfügbar auf comma 3X/3, comma four und sunnylink.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "ResetCalibration",
+          "label": "Kalibrierung zurücksetzen",
+          "type": "action",
+          "description": "Setzt die Kalibrierungsdaten des Geräts zurück. Nach dem Zurücksetzen lernt das System die Kameraposition bei der nächsten Fahrt neu.",
+          "useCase": "Nach Neumontage des Geräts oder bei dauerhaft versetzter Spurführung ausführen.",
+          "userNote": "Der aktuelle Kalibrierungsstatus wird auf dem Gerät angezeigt.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "DriverCameraPreview",
+          "label": "Fahrerkamera-Vorschau",
+          "type": "action",
+          "description": "Öffnet eine Live-Vorschau der Fahrerkamera, um Position und Winkel zu überprüfen.",
+          "useCase": "Ausrichtung der Fahrerüberwachungskamera vor Fahrtantritt prüfen.",
+          "userNote": "Während der Fahrt (onroad) deaktiviert.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "TrainingGuide",
+          "label": "Trainingsleitfaden",
+          "type": "action",
+          "description": "Öffnet den sunnypilot-Trainingsleitfaden, der Regeln, Funktionen und Grenzen des Systems erklärt.",
+          "useCase": "Sicherheitsregeln und Systemverhalten jederzeit nachlesen.",
+          "userNote": "Während der Fahrt (onroad) deaktiviert.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "Regulatory",
+          "label": "Regulatorische Hinweise",
+          "type": "action",
+          "description": "Zeigt FCC-Zulassungsinformationen für das Gerät an.",
+          "userNote": "Während der Fahrt (onroad) deaktiviert.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "ResetSettings",
+          "label": "Einstellungen zurücksetzen",
+          "type": "action",
+          "description": "Setzt alle sunnypilot-Einstellungen nach zweistufiger Bestätigung auf die Standardwerte zurück und startet das Gerät neu.",
+          "warning": "Diese Aktion kann nicht rückgängig gemacht werden. Alle benutzerdefinierten Einstellungen gehen verloren.",
+          "userNote": "Während der Fahrt deaktiviert. Nicht auf der comma four-Oberfläche angezeigt.",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
@@ -630,10 +683,11 @@
           "label": "MADS Lenkmodus",
           "type": "dropdown",
           "options": [
-            "Default",
-            "Remain Active"
+            "Remain Active",
+            "Pause",
+            "Disengage"
           ],
-          "default": "Default",
+          "default": "Remain Active",
           "description": "Steuert das Verhalten, wenn die Kreuzfahrt abgebrochen wird. „Remain Active“ sorgt dafür, dass die Lenkung nach dem Bremsen aktiviert bleibt.",
           "recommended": "Remain Active",
           "dependencies": [
@@ -972,11 +1026,13 @@
           "label": "Quelle für Geschwindigkeitsbegrenzung",
           "type": "dropdown",
           "options": [
-            "Map Data",
-            "Car State",
+            "Car Only",
+            "Map Only",
+            "Car First",
+            "Map First",
             "Combined"
           ],
-          "default": "Map Data",
+          "default": "Car First",
           "description": "Wo das Auto Geschwindigkeitsdaten erhält (Kartendaten, Fahrzeugstatus oder kombiniert).",
           "recommended": "Map Data",
           "useCase": "Wählen Sie die zuverlässigste Quelle für Ihr Fahrgebiet.",
@@ -993,10 +1049,11 @@
           "label": "Geschwindigkeitsbegrenzungs-Offsettyp",
           "type": "dropdown",
           "options": [
+            "None",
             "Fixed",
-            "Percentage"
+            "%"
           ],
-          "default": "Fixed",
+          "default": "None",
           "description": "Wählen Sie zwischen einer festen Zahl (z. B. +5 mph) oder einem Prozentsatz (z. B. +10 %).",
           "useCase": "Behoben für konstante Geschwindigkeitsüberschreitung; Prozentsatz für proportionale Anpassungen.",
           "userNote": "Für konstante Geschwindigkeitsüberschreitungen auf „Fest“ einstellen.",
@@ -1011,7 +1068,9 @@
           "description": "Die tatsächliche Geschwindigkeitsüberschreitung.",
           "useCase": "Passen Sie den lokalen Verkehrsfluss an (üblicherweise 5–10 mph über in den meisten US-Gebieten).",
           "userNote": "Stellen Sie Ihr Komfortniveau ein (z. B. 5-10 mph über).",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "config-hidden",
+          "min": -30,
+          "max": 30
         },
         {
           "key": "AutoLaneChangeTimer",
@@ -1097,10 +1156,8 @@
         {
           "key": "CustomAccLongPressIncrement",
           "label": "Benutzerdefinierte ACC Inkrementierung durch langes Drücken",
-          "type": "slider",
-          "default": 5,
-          "min": 1,
-          "max": 10,
+          "type": "dropdown",
+          "default": "5",
           "unit": "mph/kph",
           "helpText": "Bereich: 1 - 10 mph/km/h",
           "dependencies": [
@@ -1112,7 +1169,12 @@
           "description": "Geschwindigkeitsänderung durch langes Drücken der Kreuzfahrttasten.",
           "useCase": "Größere Geschwindigkeitsanpassungen bei gehaltener Taste.",
           "userNote": "Stellen Sie die Geschwindigkeitsänderung für das Halten der Tempomattasten ein.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "config-hidden",
+          "options": [
+            "1",
+            "5",
+            "10"
+          ]
         },
         {
           "key": "IntelligentCruiseButtonManagement",
@@ -1229,12 +1291,12 @@
           "label": "Onroad-Helligkeit",
           "type": "dropdown",
           "options": [
-            "Auto",
-            "Low",
-            "Medium",
-            "High"
+            "Auto (Default)",
+            "Auto (Dark)",
+            "Screen Off",
+            "5% - 100%"
           ],
-          "default": "Auto",
+          "default": "Auto (Default)",
           "description": "Stellt die Helligkeit gezielt beim Fahren ein.",
           "recommended": "Auto",
           "deviceAvailability": "config-hidden"
@@ -1341,8 +1403,8 @@
           "label": "Interaktivitäts-Timeout",
           "type": "slider",
           "default": 10,
-          "min": 3,
-          "max": 30,
+          "min": 10,
+          "max": 120,
           "unit": "seconds",
           "helpText": "Bereich: 3 bis 30 Sekunden",
           "description": "Legt die Anzahl der Sekunden der Touch-Inaktivität fest, bevor der Onroad-Bildschirm während der Fahrt abgedunkelt wird oder in den Energiesparmodus wechselt.",
@@ -1426,7 +1488,7 @@
             "Darf sich nicht in einem Release- oder Entwicklungszweig befinden."
           ],
           "warning": "Wird nur angezeigt, wenn „Erweiterte Steuerelemente anzeigen“ aktiviert und „Updates deaktivieren“ aktiv ist.",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CopypartyService",
@@ -1456,7 +1518,7 @@
           "description": "Aktiviert einen longitudinalen Debug-Modus zum Testen von Beschleunigungs- und Bremsmanövern.",
           "useCase": "Beschleunigungs- und Bremsverhalten testen.",
           "userNote": "Versteckt in Release-Zweigen. Erfordert Längskontrolle und das Gerät muss geländegängig sein.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "AlphaLongitudinal",
@@ -1471,7 +1533,7 @@
           ],
           "warning": "Durch die Aktivierung wird AEB (Automatische Notbremsung) deaktiviert. Vor der Aktivierung erscheint ein Bestätigungsdialog.",
           "userNote": "Versteckt in Release-Zweigen. Erscheint nur, wenn Ihr Fahrzeug die Alpha-Längsregelung unterstützt.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "GithubRunnerService",
@@ -1501,7 +1563,7 @@
           "description": "Zeigt Berührungsindikatoren, FPS-Zähler und Mauskoordinaten auf dem Bildschirm an. Nützlich für die UI-Entwicklung und die Fehlerbehebung bei Anzeigeproblemen.",
           "useCase": "Debug-Overlays auf der Benutzeroberfläche anzeigen.",
           "userNote": "Nur zur Verwendung durch Entwickler.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "DisableLogging",
@@ -1542,6 +1604,23 @@
           "userNote": "Offizieller Support eingeführt in sunnypilot 2026. Uploads nur bei Verbindung mit nicht gemessenem WLAN.",
           "safetyLevel": "safe",
           "deviceAvailability": "full"
+        },
+        {
+          "key": "LateralManeuverMode",
+          "label": "Lateraler Manöver-Modus",
+          "type": "toggle",
+          "default": false,
+          "description": "Aktiviert einen lateralen Debug-Modus zum Testen von Lenkmanövern.",
+          "warning": "Auf Release-Branches ausgeblendet. Nur im Offroad-Zustand änderbar.",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "ErrorLog",
+          "label": "Fehlerprotokoll",
+          "type": "action",
+          "description": "Öffnet das sunnypilot-Absturzprotokoll. Beim Schließen wird angeboten, das Protokoll zu löschen.",
+          "userNote": "Auf Release-Branches ausgeblendet. Nicht auf comma four angezeigt.",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
@@ -1743,5 +1822,5 @@
       ]
     }
   ],
-  "lastUpdated": "2026-10-31"
+  "lastUpdated": "2026-11-12"
 }

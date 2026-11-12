@@ -1,0 +1,81 @@
+name: Upstream Docs Sync & Auto Deploy
+
+on:
+  schedule:
+    # Check sunnypilot/user-docs and sunnypilot/sunnylink-frontend every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      force_sync:
+        description: 'Force sync and deploy even if upstream SHAs have not changed'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  sync-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          npm ci --ignore-scripts
+          pip install requests google-auth
+
+      - name: Sync upstream sunnypilot & sunnylink docs
+        id: sync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${{ inputs.force_sync }}" = "true" ]; then
+            node scripts/sync_upstream_docs.mjs --force
+          else
+            node scripts/sync_upstream_docs.mjs
+          fi
+          if git status --porcelain data/ | grep -q .; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run test suite
+        if: steps.sync.outputs.changed == 'true'
+        run: npm test
+
+      - name: Commit and push updates
+        if: steps.sync.outputs.changed == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "chore(docs): sync upstream sunnypilot & sunnylink docs [skip ci]"
+          git push
+
+      - name: Deploy to Cloud Run
+        if: steps.sync.outputs.changed == 'true' || inputs.force_sync == true
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+        run: |
+          mkdir -p ~/.config/gcp
+          echo "$GCP_SA_KEY" > ~/.config/gcp/sunnylink-wiki-key.json
+          python3 scripts/deploy.py

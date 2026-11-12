@@ -154,7 +154,7 @@
           "safetyLevel": "safe",
           "useCase": "停車時使用以更改設置、下載更新或執行維護。",
           "userNote": "“停車模式”是指停車/不行駛。 “Onroad”的意思是駕駛。僅在停車模式時可用。",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "DeviceBootMode",
@@ -168,7 +168,7 @@
           "description": "控制設備啓動或從睡眠狀態喚醒時執行的操作。默認：正常啓動並準備就緒。停車模式：每次啓動或喚醒時自動啓用“始終停車模式”。",
           "useCase": "如果您希望設備默認以配置/維護模式啓動，請設置爲 Offroad。",
           "userNote": "此設置在重新啓動後仍然存在。",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "UseMetricUnits",
@@ -188,7 +188,7 @@
           "description": "抑制非關鍵聲音，同時保留所有與安全相關的警報。安全警報（軟警告、立即警告、分散注意力提示、重複注意提示）始終播放。靜音模式靜音：接合聲、脫離聲、拒絕聲、標準提示音。",
           "useCase": "減少非關鍵音頻以獲得更安靜的駕駛體驗，同時保持安全警報處於活動狀態。",
           "userNote": "可以在駕駛時切換。",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "OnroadUploads",
@@ -198,7 +198,7 @@
           "description": "駕駛時切換數據上傳。啓用後，設備會在您駕駛期間通過蜂窩網絡或 Wi-Fi 連接上傳駕駛片段。禁用後，上傳將推遲到車輛停放且設備停車模式時。",
           "useCase": "禁用以節省按流量計費或有限數據連接的帶寬。",
           "userNote": "默認啓用。如果使用按流量計費的移動熱點，請禁用。",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "Language",
@@ -214,7 +214,7 @@
           "description": "用戶界面語言選擇。",
           "useCase": "選擇您喜歡的顯示語言。",
           "userNote": "選擇您喜歡的界面語言。",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "RecordUploadDriverCamera",
@@ -228,7 +228,7 @@
             "使用額外的存儲和帶寬。"
           ],
           "userNote": "更改此開關需要設備處於停車模式狀態。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "RecordUploadMicAudio",
@@ -242,7 +242,7 @@
             "使用額外的存儲和帶寬。"
           ],
           "userNote": "更改此開關需要設備處於停車模式狀態。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "GsmMetered",
@@ -472,6 +472,59 @@
           "description": "Open PR #1741 提出了可配置的停車模式關閉電壓，並保持在 2026.003.000 里程碑。",
           "userNote": "閾值和用戶界面仍在審查中。里程碑分配並不會在每個暫存版本中建立可用性。",
           "deepDive": "來源：https://github.com/sunnypilot/sunnypilot/pull/1741. 狀態檢查於 2026 年 10 月 2 日。此 wiki 條目描述了開發工作；它不是導出的設備參數。"
+        },
+        {
+          "key": "PairDevice",
+          "label": "配对设备",
+          "type": "action",
+          "description": "将您的 comma 设备与 comma connect 账户配对，以便查看行车路线、远程管理设备并访问行车记录仪视频。",
+          "useCase": "将设备链接到 comma connect 以远程访问路线和行车记录仪。",
+          "userNote": "在 comma 3X/3、comma four 和 sunnylink 上均可使用。",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "ResetCalibration",
+          "label": "重置校准",
+          "type": "action",
+          "description": "重置设备的校准数据。重置后，系统将在您下次驾驶时重新学习摄像头的安装位置。",
+          "useCase": "在重新安装设备或车道居中持续偏向一侧时运行。",
+          "userNote": "当前校准状态显示在设备说明文本中。",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "DriverCameraPreview",
+          "label": "驾驶员摄像头预览",
+          "type": "action",
+          "description": "打开面向驾驶员摄像头的实时预览，以便您验证其位置和角度。",
+          "useCase": "在驾驶前检查驾驶员监控摄像头的取景角度。",
+          "userNote": "车辆行驶中（onroad）时禁用。",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "TrainingGuide",
+          "label": "培训指南",
+          "type": "action",
+          "description": "打开 sunnypilot 培训指南，介绍系统的规则、功能和限制。",
+          "useCase": "随时查看安全规则和系统行为。",
+          "userNote": "车辆行驶中（onroad）时禁用。",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "Regulatory",
+          "label": "监管信息",
+          "type": "action",
+          "description": "显示设备的 FCC 监管信息。",
+          "userNote": "车辆行驶中（onroad）时禁用。",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "ResetSettings",
+          "label": "重置设置",
+          "type": "action",
+          "description": "通过两步确认将所有 sunnypilot 设置重置为默认值，然后重启设备。",
+          "warning": "此操作无法撤销，所有自定义设置都将丢失。",
+          "userNote": "行驶中（onroad）时禁用。comma four 设备屏幕上不显示。",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
@@ -630,10 +683,11 @@
           "label": "MADS 轉向方式",
           "type": "dropdown",
           "options": [
-            "Default",
-            "Remain Active"
+            "Remain Active",
+            "Pause",
+            "Disengage"
           ],
-          "default": "Default",
+          "default": "Remain Active",
           "description": "控制取消巡航時的行爲。 “保持活動”可在制動後保持轉向。",
           "recommended": "Remain Active",
           "dependencies": [
@@ -972,11 +1026,13 @@
           "label": "限速源",
           "type": "dropdown",
           "options": [
-            "Map Data",
-            "Car State",
+            "Car Only",
+            "Map Only",
+            "Car First",
+            "Map First",
             "Combined"
           ],
-          "default": "Map Data",
+          "default": "Car First",
           "description": "汽車獲取速度數據的位置（地圖數據、汽車狀態或組合數據）。",
           "recommended": "Map Data",
           "useCase": "選擇適合您駕駛區域的最可靠的來源。",
@@ -993,10 +1049,11 @@
           "label": "限速偏移類型",
           "type": "dropdown",
           "options": [
+            "None",
             "Fixed",
-            "Percentage"
+            "%"
           ],
-          "default": "Fixed",
+          "default": "None",
           "description": "選擇固定數字（例如，+5 mph）或百分比（例如，+10%）。",
           "useCase": "固定超速；比例調整的百分比。",
           "userNote": "設置爲“固定”以保持一致的超速。",
@@ -1011,7 +1068,9 @@
           "description": "實際超速量。",
           "useCase": "匹配當地交通流量（在美國大多數地區通常爲 5-10 mph）。",
           "userNote": "設置爲您的舒適度（例如 5-10 mph 以上）。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "config-hidden",
+          "min": -30,
+          "max": 30
         },
         {
           "key": "AutoLaneChangeTimer",
@@ -1097,10 +1156,8 @@
         {
           "key": "CustomAccLongPressIncrement",
           "label": "定製ACC長按增量",
-          "type": "slider",
-          "default": 5,
-          "min": 1,
-          "max": 10,
+          "type": "dropdown",
+          "default": "5",
           "unit": "mph/kph",
           "helpText": "範圍：1 - 10 mph/kph",
           "dependencies": [
@@ -1112,7 +1169,12 @@
           "description": "長按巡航按鈕可改變速度。",
           "useCase": "通過按住按鈕進行更大的速度調整。",
           "userNote": "設置按住巡航按鈕時的速度變化。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "config-hidden",
+          "options": [
+            "1",
+            "5",
+            "10"
+          ]
         },
         {
           "key": "IntelligentCruiseButtonManagement",
@@ -1229,12 +1291,12 @@
           "label": "道路亮度",
           "type": "dropdown",
           "options": [
-            "Auto",
-            "Low",
-            "Medium",
-            "High"
+            "Auto (Default)",
+            "Auto (Dark)",
+            "Screen Off",
+            "5% - 100%"
           ],
-          "default": "Auto",
+          "default": "Auto (Default)",
           "description": "專門設置駕駛時的亮度。",
           "recommended": "Auto",
           "deviceAvailability": "config-hidden"
@@ -1341,8 +1403,8 @@
           "label": "交互超時",
           "type": "slider",
           "default": 10,
-          "min": 3,
-          "max": 30,
+          "min": 10,
+          "max": 120,
           "unit": "seconds",
           "helpText": "範圍：3 至 30 秒",
           "description": "設置駕駛時道路屏幕變暗或進入省電模式之前觸摸不活動的秒數。",
@@ -1426,7 +1488,7 @@
             "不得位於發佈或開發分支上。"
           ],
           "warning": "僅當啓用“顯示高級控件”且“禁用更新”處於活動狀態時纔會出現。",
-          "deviceAvailability": "full"
+          "deviceAvailability": "config-hidden"
         },
         {
           "key": "CopypartyService",
@@ -1456,7 +1518,7 @@
           "description": "啓用縱向調試模式來測試加速和制動操作。",
           "useCase": "測試加速和制動行爲。",
           "userNote": "隱藏在發佈分支上。需要縱向控制並且設備必須是停車狀態的。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "AlphaLongitudinal",
@@ -1471,7 +1533,7 @@
           ],
           "warning": "啓用此功能會禁用 AEB（自動緊急制動）。激活前會出現一個確認對話框。",
           "userNote": "隱藏在發佈分支上。僅當您的車輛支持 alpha 縱向控制時纔會出現。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "GithubRunnerService",
@@ -1501,7 +1563,7 @@
           "description": "在屏幕上顯示觸摸指示器、FPS 計數器和鼠標座標。對於 UI 開發和顯示問題故障排除很有用。",
           "useCase": "在 UI 上顯示調試疊加層。",
           "userNote": "僅供開發人員使用。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "DisableLogging",
@@ -1542,6 +1604,23 @@
           "userNote": "sunnypilot 2026 中引入了官方支持。僅在連接到不限流量的 Wi-Fi 時上傳。",
           "safetyLevel": "safe",
           "deviceAvailability": "full"
+        },
+        {
+          "key": "LateralManeuverMode",
+          "label": "横向机动模式",
+          "type": "toggle",
+          "default": false,
+          "description": "启用用于测试转向机动的横向调试模式。",
+          "warning": "在 release 分支上隐藏。仅可在设备处于 offroad 状态时更改。",
+          "deviceAvailability": "full"
+        },
+        {
+          "key": "ErrorLog",
+          "label": "错误日志",
+          "type": "action",
+          "description": "在查看器中打开 sunnypilot 崩溃错误日志。关闭时可选择删除日志。",
+          "userNote": "在 release 分支上隐藏。comma four 设备屏幕上不显示。",
+          "deviceAvailability": "config-hidden"
         }
       ]
     },
@@ -1743,5 +1822,5 @@
       ]
     }
   ],
-  "lastUpdated": "2026-10-31"
+  "lastUpdated": "2026-11-12"
 }
