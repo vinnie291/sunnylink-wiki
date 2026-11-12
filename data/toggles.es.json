@@ -168,7 +168,7 @@
           "description": "Controla lo que hace el dispositivo cuando arranca o sale del modo de suspensión. Valor predeterminado: arranca normalmente y está listo para activarse. Offroad: habilita automáticamente Always Offroad en cada arranque o activación.",
           "useCase": "Configúrelo en Offroad si desea que el dispositivo se inicie en modo de configuración/mantenimiento de forma predeterminada.",
           "userNote": "Esta configuración persiste tras los reinicios.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "UseMetricUnits",
@@ -188,7 +188,7 @@
           "description": "Suprime los sonidos no críticos al tiempo que conserva todas las alertas relacionadas con la seguridad. Las alertas de seguridad (advertencias suaves, advertencias inmediatas, indicaciones de distracción, indicaciones de atención repetidas) siempre se reproducen. Silenciado en modo silencioso: sonido de activación, sonido de desconexión, sonido de rechazo, indicaciones estándar.",
           "useCase": "Reduzca el audio no crítico para una experiencia de conducción más silenciosa mientras mantiene activas las alertas de seguridad.",
           "userNote": "Se puede alternar mientras se conduce.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "OnroadUploads",
@@ -198,7 +198,7 @@
           "description": "Alterna la carga de datos mientras conduce. Cuando está habilitado, el dispositivo carga segmentos de conducción a través de una conexión celular o Wi-Fi durante su viaje. Cuando está deshabilitado, las cargas se posponen hasta que el vehículo esté estacionado y el dispositivo esté en modo estacionado.",
           "useCase": "Desactívelo para conservar el ancho de banda en conexiones de datos medidas o limitadas.",
           "userNote": "Habilitado de forma predeterminada. Desactívelo si utiliza un punto de acceso móvil con medidor.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "Language",
@@ -333,7 +333,7 @@
             "Always On mantiene el dispositivo encendido hasta que se apaga manualmente o la batería baja demasiado."
           ],
           "userNote": "Por defecto 30 horas.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "ForcePowerDown",
@@ -524,7 +524,7 @@
           "description": "Restablece todos los ajustes de sunnypilot a sus valores predeterminados tras una confirmación en dos pasos y reinicia el dispositivo.",
           "warning": "Esta acción no se puede deshacer. Se perderán todos los ajustes personalizados.",
           "userNote": "Deshabilitado en marcha (onroad). No se muestra en la pantalla del comma four.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         }
       ]
     },
@@ -651,7 +651,7 @@
             "Puede volverse incompatible con los servicios Sunnylink con el tiempo."
           ],
           "userNote": "Úsala si encuentras una versión que te encanta y no quieres que cambie. Problema conocido n.º 2020: iniciar el encendido antes de tocar Instalar ahora puede descartar una actualización preparada. Instálelo mientras está estacionado y permita que finalice la instalación/reinicio antes de iniciar el encendido. Si el mensaje desaparece, regrese en modo estacionado con Wi-Fi no medido y deje que el actualizador busque/prepare nuevamente; las conexiones medidas pueden retrasar la recuperación.",
-          "deviceAvailability": "full",
+          "deviceAvailability": "config-hidden",
           "deepDive": "Aviso de problema abierto, no una solución confirmada: https://github.com/sunnypilot/sunnypilot/issues/2020."
         }
       ]
@@ -1429,7 +1429,7 @@
           "recommended": true,
           "useCase": "Accede a todas las opciones de configuración disponibles.",
           "userNote": "Manténgalo activado para ver todas las configuraciones disponibles.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "EnableAdb",
@@ -1488,7 +1488,7 @@
             "No debe estar en una rama de lanzamiento o desarrollo."
           ],
           "warning": "Solo aparece cuando Mostrar controles avanzados está habilitado y Desactivar actualizaciones está activo.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "CopypartyService",
@@ -1498,7 +1498,7 @@
           "description": "Habilita un servidor de archivos en el dispositivo para descargar rutas de conducción y registros desde un navegador web a través de la dirección IP local del dispositivo.",
           "useCase": "Descargue videos y registros de unidades sobre WiFi sin SSH.",
           "userNote": "Solo aparece cuando Mostrar controles avanzados está habilitado.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "EnableSunnylinkUploader",
@@ -1543,7 +1543,7 @@
           "description": "Habilita el servicio de ejecución autohospedado de acciones GitHub en el dispositivo. Esto permite que el dispositivo ejecute trabajos de CI/CD desde su repositorio.",
           "useCase": "Ejecuta el ejecutor de acciones GitHub en el dispositivo.",
           "userNote": "Solo aparece cuando Mostrar controles avanzados está habilitado. Oculto en las ramas de liberación.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "GithubRunnerSufficientVoltage",
@@ -1620,7 +1620,7 @@
           "type": "action",
           "description": "Abre el registro de errores de sunnypilot en un visor. Al cerrar, ofrece la opción de eliminar el registro.",
           "userNote": "Oculto en ramas release. No se muestra en comma four.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         }
       ]
     },

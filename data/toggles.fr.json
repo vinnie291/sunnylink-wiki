@@ -168,7 +168,7 @@
           "description": "Contrôle ce que fait l'appareil lorsqu'il démarre ou sort du mode veille. Par défaut : démarre normalement et est prêt à s’engager. Offroad : active automatiquement Always Offroad à chaque démarrage ou réveil.",
           "useCase": "Réglez sur Offroad si vous souhaitez que l'appareil démarre en mode configuration/maintenance par défaut.",
           "userNote": "Ce paramètre persiste lors des redémarrages.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "UseMetricUnits",
@@ -188,7 +188,7 @@
           "description": "Supprime les sons non critiques tout en préservant toutes les alertes liées à la sécurité. Les alertes de sécurité (avertissements doux, avertissements immédiats, invites de distraction, invites d'attention répétées) sont toujours diffusées. Muet en mode silencieux : son d'engagement, son de désengagement, son de refus, invites standard.",
           "useCase": "Réduisez le son non critique pour une expérience de conduite plus silencieuse tout en gardant les alertes de sécurité actives.",
           "userNote": "Peut être activé pendant la conduite.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "OnroadUploads",
@@ -198,7 +198,7 @@
           "description": "Active/désactive le téléchargement de données pendant la conduite. Lorsqu'il est activé, l'appareil télécharge des segments de conduite via une connexion cellulaire ou Wi-Fi pendant votre trajet. Lorsqu'ils sont désactivés, les téléchargements sont différés jusqu'à ce que le véhicule soit garé et que l'appareil soit en mode stationné.",
           "useCase": "Désactivez-le pour conserver la bande passante sur les connexions de données limitées ou mesurées.",
           "userNote": "Activé par défaut. Désactivez si vous utilisez un point d’accès mobile avec compteur.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "Language",
@@ -333,7 +333,7 @@
             "Always On maintient l'appareil allumé jusqu'à ce qu'il soit éteint manuellement ou que la batterie soit trop faible."
           ],
           "userNote": "Par défaut 30 heures.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "ForcePowerDown",
@@ -524,7 +524,7 @@
           "description": "Réinitialise tous les paramètres sunnypilot aux valeurs par défaut après une double confirmation, puis redémarre l'appareil.",
           "warning": "Action irréversible. Tous les paramètres personnalisés seront perdus.",
           "userNote": "Désactivé sur route (onroad). Non affiché sur l'interface du comma four.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         }
       ]
     },
@@ -651,7 +651,7 @@
             "Peut devenir incompatible avec les services Sunnylink au fil du temps."
           ],
           "userNote": "À utiliser si vous trouvez une version que vous aimez et que vous ne souhaitez pas qu'elle change. Problème connu n° 2020 : démarrer le démarrage avant d'appuyer sur Installer maintenant peut supprimer une mise à jour préparée. Installez en stationnement et laissez l'installation/redémarrage se terminer avant de démarrer le contact. Si l'invite disparaît, retournez en mode stationné avec une connexion Wi-Fi illimitée et laissez le programme de mise à jour récupérer/préparer à nouveau ; les connexions mesurées peuvent retarder la récupération.",
-          "deviceAvailability": "full",
+          "deviceAvailability": "config-hidden",
           "deepDive": "Avis de problème ouvert, pas de correctif confirmé : https://github.com/sunnypilot/sunnypilot/issues/2020."
         }
       ]
@@ -1429,7 +1429,7 @@
           "recommended": true,
           "useCase": "Accédez à toutes les options de configuration disponibles.",
           "userNote": "Maintenez ON pour voir tous les paramètres disponibles.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "EnableAdb",
@@ -1488,7 +1488,7 @@
             "Ne doit pas être sur une branche de version ou de développement."
           ],
           "warning": "Apparaît uniquement lorsque Afficher les contrôles avancés est activé et que Désactiver les mises à jour est actif.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "CopypartyService",
@@ -1498,7 +1498,7 @@
           "description": "Active un serveur de fichiers sur l'appareil pour télécharger des itinéraires de conduite et des journaux à partir d'un navigateur Web via l'adresse IP locale de l'appareil.",
           "useCase": "Téléchargez des vidéos de lecteur et des journaux sur WiFi sans SSH.",
           "userNote": "Apparaît uniquement lorsque Afficher les contrôles avancés est activé.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "EnableSunnylinkUploader",
@@ -1543,7 +1543,7 @@
           "description": "Active le service d’exécution auto-hébergé GitHub Actions sur l’appareil. Cela permet à l'appareil d'exécuter des tâches CI/CD à partir de votre référentiel.",
           "useCase": "Exécute le coureur d’actions GitHub sur l’appareil.",
           "userNote": "Apparaît uniquement lorsque Afficher les contrôles avancés est activé. Caché sur les branches de version.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "GithubRunnerSufficientVoltage",
@@ -1620,7 +1620,7 @@
           "type": "action",
           "description": "Ouvre le journal des plantages sunnypilot dans une visionneuse. À la fermeture, propose de supprimer le journal.",
           "userNote": "Masqué sur les branches release. Non affiché sur comma four.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         }
       ]
     },

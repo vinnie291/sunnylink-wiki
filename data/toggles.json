@@ -168,7 +168,7 @@
           "description": "Controls what the device does when it boots or wakes from sleep. Default: boots normally and is ready to engage. Offroad: automatically enables Always Offroad on each boot or wake-up.",
           "useCase": "Set to Offroad if you want the device to start in configuration/maintenance mode by default.",
           "userNote": "This setting persists across reboots.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "UseMetricUnits",
@@ -188,7 +188,7 @@
           "description": "Suppresses non-critical sounds while preserving all safety-related alerts. Safety alerts (soft warnings, immediate warnings, distraction prompts, repeated attention prompts) always play. Muted in Quiet Mode: engagement sound, disengagement sound, refusal sound, standard prompts.",
           "useCase": "Reduce non-critical audio for a quieter driving experience while keeping safety alerts active.",
           "userNote": "Can be toggled while driving.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "OnroadUploads",
@@ -198,7 +198,7 @@
           "description": "Toggles data uploads while driving. When enabled, the device uploads driving segments over a cellular or Wi-Fi connection during your drive. When disabled, uploads are deferred until the vehicle is parked and the device is offroad.",
           "useCase": "Disable to conserve bandwidth on metered or limited data connections.",
           "userNote": "Enabled by default. Disable if using a metered mobile hotspot.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "Language",
@@ -333,7 +333,7 @@
             "Always On keeps device on until manually powered off or battery drops too low."
           ],
           "userNote": "Default 30 hours.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "ForcePowerDown",
@@ -524,7 +524,7 @@
           "description": "Resets all sunnypilot settings to their defaults using a two-step confirmation, then reboots the device.",
           "warning": "This action cannot be undone. All custom settings will be lost.",
           "userNote": "Disabled while the vehicle is onroad. Not shown on comma four on-device UI.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         }
       ]
     },
@@ -651,7 +651,7 @@
             "May become incompatible with Sunnylink services over time."
           ],
           "userNote": "Use if you find a version you love and don't want it to change. Known issue #2020: starting ignition before tapping Install Now can discard a prepared update. Install while parked and allow the installation/reboot to finish before starting ignition. If the prompt disappears, return offroad on unmetered Wi-Fi and let the updater fetch/prepare again; metered connections may delay recovery.",
-          "deviceAvailability": "full",
+          "deviceAvailability": "config-hidden",
           "deepDive": "Open issue advisory, not a confirmed fix: https://github.com/sunnypilot/sunnypilot/issues/2020."
         }
       ]
@@ -1429,7 +1429,7 @@
           "recommended": true,
           "useCase": "Access all available configuration options.",
           "userNote": "Keep ON to see all available settings.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "EnableAdb",
@@ -1488,7 +1488,7 @@
             "Must not be on a release or development branch."
           ],
           "warning": "Only appears when Show Advanced Controls is enabled and Disable Updates is active.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "CopypartyService",
@@ -1498,7 +1498,7 @@
           "description": "Enables a file server on the device for downloading driving routes and logs from a web browser via the device's local IP address.",
           "useCase": "Download drive videos and logs over WiFi without SSH.",
           "userNote": "Only appears when Show Advanced Controls is enabled.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "EnableSunnylinkUploader",
@@ -1543,7 +1543,7 @@
           "description": "Enables the GitHub Actions self-hosted runner service on the device. This allows the device to execute CI/CD jobs from your repository.",
           "useCase": "Runs GitHub Actions runner on the device.",
           "userNote": "Only appears when Show Advanced Controls is enabled. Hidden on release branches.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "GithubRunnerSufficientVoltage",
@@ -1620,7 +1620,7 @@
           "type": "action",
           "description": "Opens the sunnypilot crash error log in a viewer. On close, you are offered the option to delete the log.",
           "userNote": "Hidden on release branches. Not shown on comma four on-device UI.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         }
       ]
     },

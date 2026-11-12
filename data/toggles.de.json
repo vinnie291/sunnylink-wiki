@@ -168,7 +168,7 @@
           "description": "Steuert, was das Gerät tut, wenn es startet oder aus dem Ruhezustand aufwacht. Standard: bootet normal und ist einsatzbereit. Standmodus: Aktiviert Always Standmodus automatisch bei jedem Start oder Aufwachen.",
           "useCase": "Stellen Sie „Standmodus“ ein, wenn das Gerät standardmäßig im Konfigurations-/Wartungsmodus starten soll.",
           "userNote": "Diese Einstellung bleibt über Neustarts hinweg bestehen.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "UseMetricUnits",
@@ -188,7 +188,7 @@
           "description": "Unterdrückt unkritische Geräusche und behält gleichzeitig alle sicherheitsrelevanten Warnungen bei. Sicherheitswarnungen (sanfte Warnungen, sofortige Warnungen, Aufforderungen zur Ablenkung, Aufforderungen zur wiederholten Aufmerksamkeit) werden immer abgespielt. Im Ruhemodus stumm geschaltet: Einschaltton, Ausschaltton, Ablehnungston, Standardansagen.",
           "useCase": "Reduzieren Sie unkritische Audiosignale für ein leiseres Fahrerlebnis, während die Sicherheitswarnungen aktiv bleiben.",
           "userNote": "Kann während der Fahrt umgeschaltet werden.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "OnroadUploads",
@@ -198,7 +198,7 @@
           "description": "Schaltet das Hochladen von Daten während der Fahrt um. Wenn diese Option aktiviert ist, lädt das Gerät während der Fahrt Fahrabschnitte über eine Mobilfunk- oder WLAN-Verbindung hoch. Wenn die Funktion deaktiviert ist, werden Uploads zurückgestellt, bis das Fahrzeug geparkt und das Gerät im Stand unterwegs ist.",
           "useCase": "Deaktivieren Sie diese Option, um bei getakteten oder begrenzten Datenverbindungen Bandbreite zu sparen.",
           "userNote": "Standardmäßig aktiviert. Deaktivieren Sie diese Option, wenn Sie einen kostenpflichtigen mobilen Hotspot verwenden.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "Language",
@@ -333,7 +333,7 @@
             "Always On hält das Gerät eingeschaltet, bis es manuell ausgeschaltet wird oder der Akku zu schwach wird."
           ],
           "userNote": "Standardmäßig 30 Stunden.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "ForcePowerDown",
@@ -524,7 +524,7 @@
           "description": "Setzt alle sunnypilot-Einstellungen nach zweistufiger Bestätigung auf die Standardwerte zurück und startet das Gerät neu.",
           "warning": "Diese Aktion kann nicht rückgängig gemacht werden. Alle benutzerdefinierten Einstellungen gehen verloren.",
           "userNote": "Während der Fahrt deaktiviert. Nicht auf der comma four-Oberfläche angezeigt.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         }
       ]
     },
@@ -651,7 +651,7 @@
             "Kann im Laufe der Zeit mit den Sunnylink-Diensten inkompatibel werden."
           ],
           "userNote": "Verwenden Sie diese Option, wenn Sie eine Version finden, die Ihnen gefällt, und nicht möchten, dass sie sich ändert. Bekanntes Problem Nr. 2020: Wenn Sie die Zündung starten, bevor Sie auf „Jetzt installieren“ tippen, kann ein vorbereitetes Update verworfen werden. Installieren Sie es im geparkten Zustand und warten Sie, bis die Installation/der Neustart abgeschlossen ist, bevor Sie mit der Zündung beginnen. Wenn die Aufforderung verschwindet, kehren Sie über nicht gemessenes WLAN zurück und lassen Sie den Updater erneut abrufen/vorbereiten. Getaktete Verbindungen können die Wiederherstellung verzögern.",
-          "deviceAvailability": "full",
+          "deviceAvailability": "config-hidden",
           "deepDive": "Hinweis zu offenem Problem, kein bestätigter Fix: https://github.com/sunnypilot/sunnypilot/issues/2020."
         }
       ]
@@ -1429,7 +1429,7 @@
           "recommended": true,
           "useCase": "Greifen Sie auf alle verfügbaren Konfigurationsoptionen zu.",
           "userNote": "Bleiben Sie eingeschaltet, um alle verfügbaren Einstellungen anzuzeigen.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "EnableAdb",
@@ -1488,7 +1488,7 @@
             "Darf sich nicht in einem Release- oder Entwicklungszweig befinden."
           ],
           "warning": "Wird nur angezeigt, wenn „Erweiterte Steuerelemente anzeigen“ aktiviert und „Updates deaktivieren“ aktiv ist.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "CopypartyService",
@@ -1498,7 +1498,7 @@
           "description": "Aktiviert einen Dateiserver auf dem Gerät zum Herunterladen von Fahrtrouten und Protokollen von einem Webbrowser über die lokale IP-Adresse des Geräts.",
           "useCase": "Laden Sie Fahrvideos und Protokolle über WiFi ohne SSH herunter.",
           "userNote": "Wird nur angezeigt, wenn „Erweiterte Steuerelemente anzeigen“ aktiviert ist.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "EnableSunnylinkUploader",
@@ -1543,7 +1543,7 @@
           "description": "Aktiviert den selbstgehosteten Runner-Dienst GitHub Actions auf dem Gerät. Dadurch kann das Gerät CI/CD-Jobs aus Ihrem Repository ausführen.",
           "useCase": "Führt den GitHub Actions Runner auf dem Gerät aus.",
           "userNote": "Wird nur angezeigt, wenn „Erweiterte Steuerelemente anzeigen“ aktiviert ist. Versteckt in Release-Zweigen.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "GithubRunnerSufficientVoltage",
@@ -1620,7 +1620,7 @@
           "type": "action",
           "description": "Öffnet das sunnypilot-Absturzprotokoll. Beim Schließen wird angeboten, das Protokoll zu löschen.",
           "userNote": "Auf Release-Branches ausgeblendet. Nicht auf comma four angezeigt.",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         }
       ]
     },

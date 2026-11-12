@@ -168,7 +168,7 @@
           "description": "控制設備啓動或從睡眠狀態喚醒時執行的操作。默認：正常啓動並準備就緒。停車模式：每次啓動或喚醒時自動啓用“始終停車模式”。",
           "useCase": "如果您希望設備默認以配置/維護模式啓動，請設置爲 Offroad。",
           "userNote": "此設置在重新啓動後仍然存在。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "UseMetricUnits",
@@ -188,7 +188,7 @@
           "description": "抑制非關鍵聲音，同時保留所有與安全相關的警報。安全警報（軟警告、立即警告、分散注意力提示、重複注意提示）始終播放。靜音模式靜音：接合聲、脫離聲、拒絕聲、標準提示音。",
           "useCase": "減少非關鍵音頻以獲得更安靜的駕駛體驗，同時保持安全警報處於活動狀態。",
           "userNote": "可以在駕駛時切換。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "OnroadUploads",
@@ -198,7 +198,7 @@
           "description": "駕駛時切換數據上傳。啓用後，設備會在您駕駛期間通過蜂窩網絡或 Wi-Fi 連接上傳駕駛片段。禁用後，上傳將推遲到車輛停放且設備停車模式時。",
           "useCase": "禁用以節省按流量計費或有限數據連接的帶寬。",
           "userNote": "默認啓用。如果使用按流量計費的移動熱點，請禁用。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "Language",
@@ -333,7 +333,7 @@
             "始終開啓使設備保持開啓狀態，直到手動關閉電源或電池電量過低爲止。"
           ],
           "userNote": "默認 30 小時。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "ForcePowerDown",
@@ -524,7 +524,7 @@
           "description": "通过两步确认将所有 sunnypilot 设置重置为默认值，然后重启设备。",
           "warning": "此操作无法撤销，所有自定义设置都将丢失。",
           "userNote": "行驶中（onroad）时禁用。comma four 设备屏幕上不显示。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         }
       ]
     },
@@ -651,7 +651,7 @@
             "隨着時間的推移，可能會與 Sunnylink 服務不兼容。"
           ],
           "userNote": "如果您找到自己喜歡的版本並且不想更改它，請使用它。已知問題 #2020：在點擊“立即安裝”之前啓動點火可能會放棄準備好的更新。停車時安裝，並在開始點火之前完成安裝/重新啓動。如果提示消失，請使用不限流量的 Wi-Fi 返回停車模式狀態，並讓更新程序再次獲取/準備；按流量計費的連接可能會延遲恢復。",
-          "deviceAvailability": "full",
+          "deviceAvailability": "config-hidden",
           "deepDive": "開放問題諮詢，未確認修復：https://github.com/sunnypilot/sunnypilot/issues/2020."
         }
       ]
@@ -1429,7 +1429,7 @@
           "recommended": true,
           "useCase": "訪問所有可用的配置選項。",
           "userNote": "保持打開可查看所有可用設置。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "EnableAdb",
@@ -1488,7 +1488,7 @@
             "不得位於發佈或開發分支上。"
           ],
           "warning": "僅當啓用“顯示高級控件”且“禁用更新”處於活動狀態時纔會出現。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "CopypartyService",
@@ -1498,7 +1498,7 @@
           "description": "啓用設備上的文件服務器，以便通過設備的本地 IP 地址從 Web 瀏覽器下載行駛路線和日誌。",
           "useCase": "通過 WiFi 下載駕駛視頻和日誌，無需 SSH。",
           "userNote": "僅當啓用“顯示高級控件”時纔會出現。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "EnableSunnylinkUploader",
@@ -1543,7 +1543,7 @@
           "description": "在設備上啓用 GitHub Actions 自託管運行器服務。這允許設備從您的存儲庫執行 CI/CD 作業。",
           "useCase": "在設備上運行 GitHub 操作運行程序。",
           "userNote": "僅當啓用“顯示高級控件”時纔會出現。隱藏在發佈分支上。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         },
         {
           "key": "GithubRunnerSufficientVoltage",
@@ -1620,7 +1620,7 @@
           "type": "action",
           "description": "在查看器中打开 sunnypilot 崩溃错误日志。关闭时可选择删除日志。",
           "userNote": "在 release 分支上隐藏。comma four 设备屏幕上不显示。",
-          "deviceAvailability": "config-hidden"
+          "deviceAvailability": "full"
         }
       ]
     },
