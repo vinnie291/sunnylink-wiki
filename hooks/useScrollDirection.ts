@@ -1,31 +1,48 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export function useScrollDirection() {
     const [scrollDirection, setScrollDirection] = useState<'up' | 'down' | null>(null);
+    const directionRef = useRef<'up' | 'down' | null>(null);
 
     useEffect(() => {
         let lastScrollY = window.scrollY;
+        let rafId = 0;
 
         const updateScrollDirection = () => {
+            rafId = 0;
             const scrollY = window.scrollY;
-            const direction = scrollY > lastScrollY ? 'down' : 'up';
+            const currentDirection = directionRef.current;
 
-            // Allow direction change if scroll difference > 5px or if at the top
-            if (direction !== scrollDirection && (Math.abs(scrollY - lastScrollY) > 5 || scrollY <= 0)) {
+            if (scrollY <= 0) {
+                if (currentDirection !== 'up') {
+                    directionRef.current = 'up';
+                    setScrollDirection('up');
+                }
+                lastScrollY = 0;
+                return;
+            }
+
+            const direction = scrollY > lastScrollY ? 'down' : 'up';
+            if (direction !== currentDirection && Math.abs(scrollY - lastScrollY) > 5) {
+                directionRef.current = direction;
                 setScrollDirection(direction);
             }
 
-            // Force "up" state if scrolled near the top edge
-            if (scrollY <= 0 && scrollDirection !== 'up') {
-                setScrollDirection('up');
-            }
-
-            lastScrollY = scrollY > 0 ? scrollY : 0;
+            lastScrollY = scrollY;
         };
 
-        window.addEventListener('scroll', updateScrollDirection, { passive: true });
-        return () => window.removeEventListener('scroll', updateScrollDirection);
-    }, [scrollDirection]);
+        const onScroll = () => {
+            if (!rafId) {
+                rafId = requestAnimationFrame(updateScrollDirection);
+            }
+        };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+            if (rafId) cancelAnimationFrame(rafId);
+        };
+    }, []);
 
     return scrollDirection;
 }

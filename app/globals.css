@@ -172,6 +172,31 @@ html {
   animation: fade-in-up 0.5s ease-out forwards;
 }
 
+/* Defer offscreen rendering and isolate layout/paint on below-the-fold cards */
+.cv-auto-card {
+  content-visibility: auto;
+  contain-intrinsic-size: auto none auto 38rem;
+}
+
+.cv-auto-item {
+  content-visibility: auto;
+  contain-intrinsic-size: auto none auto 16rem;
+}
+
+@supports not (content-visibility: auto) {
+  .cv-auto-card,
+  .cv-auto-item {
+    contain: layout style paint;
+  }
+}
+
+/* GPU-friendly ambient glow replacing fixed blur-3xl filter surfaces */
+.ambient-bg {
+  background-image:
+    radial-gradient(24rem 24rem at 25% 0%, rgba(6, 182, 212, 0.06), transparent 70%),
+    radial-gradient(24rem 24rem at 75% 100%, rgba(139, 92, 246, 0.06), transparent 70%);
+}
+
 /* Focus visible styles */
 *:focus-visible {
   outline: 2px solid rgba(6, 182, 212, 0.5);

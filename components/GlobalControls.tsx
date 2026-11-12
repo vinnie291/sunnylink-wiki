@@ -51,16 +51,25 @@ export default function GlobalControls() {
     // On mobile (<1024px), fade out earlier (60px) before the filter bar reaches its sticky position (top-16 = 64px)
     // On desktop, fade out once past the header (300px)
     useEffect(() => {
-        const handleScroll = () => {
+        let rafId = 0;
+        const updateScrollState = () => {
+            rafId = 0;
             const isMobile = window.innerWidth < 1024;
-            setScrolledPastHeader(window.scrollY > (isMobile ? 60 : 300));
+            const next = window.scrollY > (isMobile ? 60 : 300);
+            setScrolledPastHeader(prev => (prev === next ? prev : next));
         };
-        handleScroll();
+        const handleScroll = () => {
+            if (!rafId) {
+                rafId = requestAnimationFrame(updateScrollState);
+            }
+        };
+        updateScrollState();
         window.addEventListener('scroll', handleScroll, { passive: true });
         window.addEventListener('resize', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('resize', handleScroll);
+            if (rafId) cancelAnimationFrame(rafId);
         };
     }, []);
 

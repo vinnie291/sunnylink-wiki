@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react';
 
 export function useSemanticSearch(query: string, candidateIds: string[], enabled: boolean, locale: string, allowedIds?: string[]) {
     const trimmed = query.trim();
-    const requestKey = JSON.stringify([trimmed, candidateIds.slice(0, 12), locale, allowedIds]);
+    const eligible = enabled && trimmed.length >= 3 && trimmed.length <= 200;
+    const requestKey = eligible ? JSON.stringify([trimmed, candidateIds.slice(0, 12), locale, allowedIds]) : '';
     const [result, setResult] = useState<{ key: string; ids: string[] } | null>(null);
 
     useEffect(() => {
-        if (!enabled || trimmed.length < 3 || trimmed.length > 200) return;
+        if (!eligible) return;
         const controller = new AbortController();
         const timer = setTimeout(async () => {
             let ids: string[] = [];
@@ -33,12 +34,11 @@ export function useSemanticSearch(query: string, candidateIds: string[], enabled
             }
         }, 350);
         return () => { clearTimeout(timer); controller.abort(); };
-    }, [enabled, trimmed, requestKey]);
+    }, [eligible, requestKey]);
 
-    const eligible = enabled && trimmed.length >= 3 && trimmed.length <= 200;
-    const settled = result?.key === requestKey;
+    const settled = eligible && result?.key === requestKey;
     return {
-        ids: eligible && settled ? result.ids : [],
+        ids: settled ? result.ids : [],
         // Include the debounce period so an empty-state message never flashes first.
         isLoading: eligible && !settled,
     };

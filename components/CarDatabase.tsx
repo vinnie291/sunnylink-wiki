@@ -9,7 +9,6 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { motion, AnimatePresence } from 'framer-motion';
 import Fuse from 'fuse.js';
 import { useLanguage } from '../lib/i18n';
 import { useTranslatedCars } from '../lib/useTranslatedData';
@@ -945,15 +944,10 @@ export default function CarDatabase() {
                     </div>
 
                     {filteredVehicles.length > 0 && (
-                        <AnimatePresence mode="popLayout">
-                            {filteredVehicles.map((vehicle) => (
-                                <motion.div
+                        <>
+                            {filteredVehicles.map((vehicle, index) => (
+                                <div
                                     key={vehicle.id}
-                                    layout
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.95 }}
-                                    whileHover={{ y: -4 }}
                                     role="button"
                                     tabIndex={0}
                                     aria-haspopup="dialog"
@@ -967,7 +961,9 @@ export default function CarDatabase() {
                                             handleOpenVehicle(vehicle);
                                         }
                                     }}
-                                    className={`bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl cursor-pointer hover:border-cyan-500/50 transition-all group relative overflow-hidden ${
+                                    className={`bg-slate-900/80 border border-slate-700/50 rounded-2xl cursor-pointer hover:border-cyan-500/50 hover:-translate-y-1 transition-[transform,border-color] duration-200 group relative overflow-hidden ${
+                                        index >= 6 ? 'cv-auto-item' : ''
+                                    } ${
                                         viewMode === 'grid' ? 'p-6' : 'p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6'
                                     }`}
                                 >
@@ -1140,9 +1136,9 @@ export default function CarDatabase() {
                                             {t('cars.viewDetails') || 'View Details'}
                                         </span>
                                     </div>
-                                </motion.div>
+                                </div>
                             ))}
-                        </AnimatePresence>
+                        </>
                     )}
                 </div>
 

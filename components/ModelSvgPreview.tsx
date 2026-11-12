@@ -38,7 +38,11 @@ export default function ModelSvgPreview({ modelName, votes }: { modelName: strin
   const scenery = useRef<SVGGElement>(null);
   const laneLines = useRef<SVGGElement>(null), curveFill = useRef<SVGPathElement>(null);
   const settings = useRef({ playing, speed, unit, followDistance });
-  useEffect(() => { settings.current = { playing, speed, unit, followDistance }; }, [playing, speed, unit, followDistance]);
+  const syncLoopRef = useRef<(() => void) | null>(null);
+  useEffect(() => {
+    settings.current = { playing, speed, unit, followDistance };
+    syncLoopRef.current?.();
+  }, [playing, speed, unit, followDistance]);
 
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -54,56 +58,120 @@ export default function ModelSvgPreview({ modelName, votes }: { modelName: strin
   useEffect(() => {
     const sim = new Simulation({ ...DEFAULT_OPTIONS, scenario, density: 45, previewTraffic: true, speed: settings.current.speed, followDistance: settings.current.followDistance, modelId: model.id },
       scenario === 'city' ? 'signal' : scenario === 'curves' ? model.rollingStop ? 'stop' : 'bend' : 'start', model);
-    let visible = false, frame = 0, last = 0, accumulator = 0, lastPaint = 0, lastReadout = 0;
+    let visible = false, contentSkipped = false, frame = 0, last = 0, accumulator = 0, lastPaint = 0, lastReadout = 0;
     let previousCutIns = 0, lastCutInTime = -10;
+    let prevRoad = '', prevShoulder = '', prevPath = '', prevIntersections = '', prevMarkings = '', prevLaneLines = '';
+    let prevTraffic = '', prevFurniture = '', prevPathFade = '', prevLeadArrow = '', prevScenery = '', prevWheel = '', prevCurve = '';
+
     const draw = () => {
       const svg = renderSvgFrame(sim);
-      road.current?.setAttribute('d', svg.road); shoulder.current?.setAttribute('d', svg.shoulder); path.current?.setAttribute('d', svg.path);
+      if (svg.road !== prevRoad) { road.current?.setAttribute('d', svg.road); prevRoad = svg.road; }
+      if (svg.shoulder !== prevShoulder) { shoulder.current?.setAttribute('d', svg.shoulder); prevShoulder = svg.shoulder; }
+      if (svg.path !== prevPath) { path.current?.setAttribute('d', svg.path); prevPath = svg.path; }
       // Only numeric geometry and fixed literals enter these groups; no feedback text is HTML.
-      if (intersections.current) intersections.current.innerHTML = svg.intersections;
-      if (markings.current) markings.current.innerHTML = svg.markings;
-      if (laneLines.current) laneLines.current.innerHTML = svg.laneLines;
-      if (traffic.current) traffic.current.innerHTML = svg.traffic;
-      if (furniture.current) furniture.current.innerHTML = svg.furniture;
-      if (pathFade.current) pathFade.current.innerHTML = svg.pathFade;
-      if (leadArrow.current) leadArrow.current.innerHTML = svg.leadArrow;
-      if (scenery.current) scenery.current.innerHTML = svg.scenery;
-      wheel.current?.setAttribute('transform', `translate(27 238) rotate(${-sim.ego.steeringAngle * 180 / Math.PI})`);
+      // Skip innerHTML assignments when unchanged to avoid unnecessary XML fragment parsing in Firefox.
+      if (svg.intersections !== prevIntersections && intersections.current) { intersections.current.innerHTML = svg.intersections; prevIntersections = svg.intersections; }
+      if (svg.markings !== prevMarkings && markings.current) { markings.current.innerHTML = svg.markings; prevMarkings = svg.markings; }
+      if (svg.laneLines !== prevLaneLines && laneLines.current) { laneLines.current.innerHTML = svg.laneLines; prevLaneLines = svg.laneLines; }
+      if (svg.traffic !== prevTraffic && traffic.current) { traffic.current.innerHTML = svg.traffic; prevTraffic = svg.traffic; }
+      if (svg.furniture !== prevFurniture && furniture.current) { furniture.current.innerHTML = svg.furniture; prevFurniture = svg.furniture; }
+      if (svg.pathFade !== prevPathFade && pathFade.current) { pathFade.current.innerHTML = svg.pathFade; prevPathFade = svg.pathFade; }
+      if (svg.leadArrow !== prevLeadArrow && leadArrow.current) { leadArrow.current.innerHTML = svg.leadArrow; prevLeadArrow = svg.leadArrow; }
+      if (svg.scenery !== prevScenery && scenery.current) { scenery.current.innerHTML = svg.scenery; prevScenery = svg.scenery; }
+      const nextWheel = `translate(27 238) rotate(${(-sim.ego.steeringAngle * 180 / Math.PI).toFixed(2)})`;
+      if (nextWheel !== prevWheel) { wheel.current?.setAttribute('transform', nextWheel); prevWheel = nextWheel; }
       // Fill from centre using actual front-wheel steering, positive = left.
       // 0.12 radians fills one half; stronger turns saturate at the bar's edge.
       const displacement = -Math.max(-1, Math.min(1, sim.ego.steeringAngle / .12)) * 74;
       const end = 240 + displacement;
       const endY = 251 + 4 * (displacement / 74) ** 2;
-      curveFill.current?.setAttribute('d', `M240 251 Q${240 + displacement / 2} 251 ${end} ${endY}`);
+      const nextCurve = `M240 251 Q${(240 + displacement / 2).toFixed(2)} 251 ${end.toFixed(2)} ${endY.toFixed(2)}`;
+      if (nextCurve !== prevCurve) { curveFill.current?.setAttribute('d', nextCurve); prevCurve = nextCurve; }
     };
     const updateReadout = () => {
       const lead = sim.lead(sim.ego), offset = Math.round(Math.abs(sim.ego.lateral) * 100);
       if (sim.cutIns !== previousCutIns) { previousCutIns = sim.cutIns; lastCutInTime = sim.time; }
-      setReadout({ speed: Math.round(toDisplaySpeed(sim.ego.speed / .44704, settings.current.unit)),
-        gap: lead.gap < 150 ? `${Math.round(lead.gap)} m` : '—',
-        offset: offset < 2 ? 'Centred' : `${offset} cm ${sim.ego.lateral > 0 ? 'L' : 'R'}`,
-        status: sim.time - lastCutInTime < 4 ? 'Cut-in · adjusting gap' : sim.ego.speed < .2 ? 'Stopped' : sim.ego.braking ? 'Braking' : Math.abs(sim.road.curvatureSigned(sim.ego.s)) > .004 ? 'Following bend' : 'Following road',
-        corrections: sim.interventions, cutIns: sim.cutIns, laneChanges: sim.laneChanges });
+      const nextSpeed = Math.round(toDisplaySpeed(sim.ego.speed / .44704, settings.current.unit));
+      const nextGap = lead.gap < 150 ? `${Math.round(lead.gap)} m` : '—';
+      const nextOffset = offset < 2 ? 'Centred' : `${offset} cm ${sim.ego.lateral > 0 ? 'L' : 'R'}`;
+      const nextStatus = sim.time - lastCutInTime < 4 ? 'Cut-in · adjusting gap' : sim.ego.speed < .2 ? 'Stopped' : sim.ego.braking ? 'Braking' : Math.abs(sim.road.curvatureSigned(sim.ego.s)) > .004 ? 'Following bend' : 'Following road';
+      setReadout(prev => (
+        prev.speed === nextSpeed &&
+        prev.gap === nextGap &&
+        prev.offset === nextOffset &&
+        prev.status === nextStatus &&
+        prev.corrections === sim.interventions &&
+        prev.cutIns === sim.cutIns &&
+        prev.laneChanges === sim.laneChanges
+      ) ? prev : {
+        speed: nextSpeed,
+        gap: nextGap,
+        offset: nextOffset,
+        status: nextStatus,
+        corrections: sim.interventions,
+        cutIns: sim.cutIns,
+        laneChanges: sim.laneChanges,
+      });
     };
+    const shouldRun = () => visible && !contentSkipped && settings.current.playing && !document.hidden;
     const tick = (now: number) => {
+      if (!shouldRun()) {
+        frame = 0;
+        last = 0;
+        return;
+      }
       frame = requestAnimationFrame(tick);
-      if (!visible || document.hidden) { last = 0; return; }
       const dt = last ? Math.min(.1, (now - last) / 1000) : 0;
       last = now;
       sim.options.speed = settings.current.speed;
       sim.options.followDistance = settings.current.followDistance;
-      if (settings.current.playing) {
-        accumulator += dt;
-        while (accumulator >= FIXED_STEP) { sim.step(); accumulator -= FIXED_STEP; }
-      } else accumulator = 0;
+      accumulator += dt;
+      while (accumulator >= FIXED_STEP) { sim.step(); accumulator -= FIXED_STEP; }
       // Physics remains at 60 Hz; small cards only need 30 visual updates per second.
-      if (settings.current.playing && now - lastPaint >= 1000 / 30) { draw(); lastPaint = now; }
+      if (now - lastPaint >= 1000 / 30) { draw(); lastPaint = now; }
       if (now - lastReadout >= 200) { updateReadout(); lastReadout = now; }
     };
-    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; last = 0; }, { rootMargin: '40px' });
-    if (root.current) observer.observe(root.current);
-    draw(); updateReadout(); frame = requestAnimationFrame(tick);
-    return () => { cancelAnimationFrame(frame); observer.disconnect(); };
+    const syncLoop = () => {
+      if (shouldRun()) {
+        if (!frame) {
+          last = 0;
+          frame = requestAnimationFrame(tick);
+        }
+      } else if (frame) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+        last = 0;
+      }
+    };
+    syncLoopRef.current = syncLoop;
+
+    const el = root.current;
+    const cvContainer = el?.closest('.cv-auto-card') ?? el;
+    const onContentVisibility = (event: Event) => {
+      contentSkipped = Boolean((event as Event & { skipped?: boolean }).skipped);
+      syncLoop();
+    };
+    cvContainer?.addEventListener('contentvisibilityautostatechange', onContentVisibility);
+
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      syncLoop();
+    }, { rootMargin: '40px' });
+    if (el) observer.observe(el);
+
+    const onVisibilityChange = () => syncLoop();
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    draw();
+    updateReadout();
+    syncLoop();
+    return () => {
+      syncLoopRef.current = null;
+      if (frame) cancelAnimationFrame(frame);
+      observer.disconnect();
+      cvContainer?.removeEventListener('contentvisibilityautostatechange', onContentVisibility);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+    };
   }, [model, scenario, restart]);
 
   const changeScenario = (next: Scenario) => { setSpeed(SCENARIOS[next].limit); setScenario(next); };
@@ -113,17 +181,17 @@ export default function ModelSvgPreview({ modelName, votes }: { modelName: strin
       <svg viewBox="0 0 480 270" className="absolute inset-0 h-full w-full" role="img" aria-label={tx(`${modelName}: illustrative ${SCENARIOS[scenario].name.toLowerCase()} driving preview`)}>
         <defs>
           <linearGradient id={`${id}-sky`} x2="0" y2="1"><stop stopColor="#0b192e"/><stop offset="1" stopColor="#24465a"/></linearGradient>
-          <linearGradient id={`${id}-fade`} x2="0" y2="1"><stop offset=".28" stopColor="white" stopOpacity="0"/><stop offset=".48" stopColor="white"/></linearGradient>
-          <mask id={`${id}-mask`}><rect width="480" height="270" fill={`url(#${id}-fade)`}/></mask>
+          <linearGradient id={`${id}-fade`} x2="0" y2="1"><stop offset="0" stopColor="#132c2b" stopOpacity=".82"/><stop offset="1" stopColor="#132c2b" stopOpacity="0"/></linearGradient>
         </defs>
         <rect width="480" height="270" fill={`url(#${id}-sky)`}/>
         <path d="M0 87 L37 75 L62 83 L99 66 L139 85 L183 76 L233 86 L285 70 L328 85 L371 74 L421 83 L459 69 L480 79 V110 H0Z" fill="#243e4c"/>
         <rect y="86" width="480" height="184" fill="#132c2b"/>
-        <g mask={`url(#${id}-mask)`}>
+        <g>
           <path ref={shoulder} fill="#354447"/><path ref={road} fill="#27323f"/>
           <g ref={intersections}/><g ref={markings}/><path ref={path} fill="#2ddc73" fillOpacity=".28"/><g ref={pathFade}/>
           <g ref={laneLines}/>
         </g>
+        <rect y="86" width="480" height="44" fill={`url(#${id}-fade)`} pointerEvents="none"/>
         <g ref={scenery}/>
         <g ref={traffic}/>
         <g ref={leadArrow}/>

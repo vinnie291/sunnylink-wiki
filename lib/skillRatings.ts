@@ -624,6 +624,8 @@ export function deriveSkillRatings(model: RatableModel): SkillRatings {
     return deriveSkillRatingsDetail(model).ratings;
 }
 
+const canonicalDetailCache = new Map<string, SkillRatingsDetail>();
+
 /** Same derivation, with the anchor and per-axis evidence kept for tooltips. */
 export function deriveSkillRatingsDetail(model: RatableModel): SkillRatingsDetail {
     const canonical = canonicalByName.get(model.name);
@@ -638,6 +640,11 @@ export function deriveSkillRatingsDetail(model: RatableModel): SkillRatingsDetai
             confidence: 1,
             evidence: [{ source: 'catalogue: explicit skillRatings', axis: 'lat', delta: 0 }],
         };
+    }
+
+    if (canonical) {
+        const cached = canonicalDetailCache.get(canonical.name);
+        if (cached) return cached;
     }
 
     const { polarity, opinionated } = computePolarity(source);
@@ -700,7 +707,11 @@ export function deriveSkillRatingsDetail(model: RatableModel): SkillRatingsDetai
         ratings[axis] = Math.round(clamp(anchor + total, MIN_RATING, MAX_RATING));
     }
 
-    return { ratings, anchor, polarity, confidence, evidence };
+    const result: SkillRatingsDetail = { ratings, anchor, polarity, confidence, evidence };
+    if (canonical) {
+        canonicalDetailCache.set(canonical.name, result);
+    }
+    return result;
 }
 
 /** Top evidence for one axis, phrased for a bar tooltip. */

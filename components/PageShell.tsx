@@ -24,11 +24,8 @@ export default function PageShell({ children, showFooter = true, showHeader = tr
     return (
         <>
         <main className="relative min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
-            {/* Decorative background elements */}
-            <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl" />
-                <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-violet-500/5 rounded-full blur-3xl" />
-            </div>
+            {/* Decorative background elements (radial gradient avoids full-viewport blur-3xl filter compositing in Firefox) */}
+            <div className="fixed inset-0 overflow-hidden pointer-events-none ambient-bg" />
 
             {/* Extra Top Left Content (if any) */}
             {extraTopLeftContent && (
