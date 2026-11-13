@@ -4,7 +4,7 @@ import { getPublicFleetCharts } from '@/lib/metabase';
 
 export const revalidate = 300;
 
-const SITE_URL = 'https://www.sunnylink.wiki';
+const SITE_URL = 'https://sunnylink.wiki';
 const PAGE_URL = `${SITE_URL}/stats`;
 
 export const metadata: Metadata = {

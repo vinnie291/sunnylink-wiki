@@ -2,7 +2,7 @@ import PageShell from '@/components/PageShell';
 import ModelQuiz from '@/components/ModelQuiz';
 import type { Metadata } from 'next';
 
-const SITE_URL = 'https://www.sunnylink.wiki';
+const SITE_URL = 'https://sunnylink.wiki';
 const PAGE_URL = `${SITE_URL}/quiz`;
 
 export const metadata: Metadata = {

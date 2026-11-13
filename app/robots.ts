@@ -54,7 +54,7 @@ export default function robots(): MetadataRoute.Robots {
             { userAgent: 'ImagesiftBot', disallow: '/' },
             { userAgent: 'PetalBot', disallow: '/' },
         ],
-        sitemap: 'https://www.sunnylink.wiki/sitemap.xml',
-        host: 'https://www.sunnylink.wiki',
+        sitemap: 'https://sunnylink.wiki/sitemap.xml',
+        host: 'https://sunnylink.wiki',
     };
 }

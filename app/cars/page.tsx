@@ -4,7 +4,7 @@ import PageShell from '../../components/PageShell';
 import CarDatabase from '../../components/CarDatabase';
 import carsData from '@/data/cars.json';
 
-const SITE_URL = 'https://www.sunnylink.wiki';
+const SITE_URL = 'https://sunnylink.wiki';
 const PAGE_URL = `${SITE_URL}/cars`;
 const vehiclesList = (carsData as { vehicles?: Array<{ id: string; make: string; model: string; years?: string; harness?: string }> }).vehicles ?? [];
 const VEHICLE_COUNT = vehiclesList.length;

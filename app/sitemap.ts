@@ -5,7 +5,7 @@ import carsData from '@/data/cars.json';
 import featuresData from '@/data/features.json';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://www.sunnylink.wiki';
+    const baseUrl = 'https://sunnylink.wiki';
 
     // Surface real dataset timestamps so search engines and AI crawlers
     // can trust lastModified headers and only re-crawl updated content.

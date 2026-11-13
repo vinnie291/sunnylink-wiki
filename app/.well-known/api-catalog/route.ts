@@ -5,45 +5,45 @@ import { NextResponse } from 'next/server';
 const catalog = {
   linkset: [
     {
-      anchor: 'https://www.sunnylink.wiki/',
+      anchor: 'https://sunnylink.wiki/',
       'service-doc': [
-        { href: 'https://www.sunnylink.wiki/features', type: 'text/html' },
-        { href: 'https://www.sunnylink.wiki/api/markdown?path=/', type: 'text/markdown' },
+        { href: 'https://sunnylink.wiki/features', type: 'text/html' },
+        { href: 'https://sunnylink.wiki/api/markdown?path=/', type: 'text/markdown' },
       ],
       describedby: [
-        { href: 'https://www.sunnylink.wiki/.well-known/api-catalog', type: 'application/linkset+json' },
-        { href: 'https://www.sunnylink.wiki/.well-known/agent-skills/index.json', type: 'application/json' },
+        { href: 'https://sunnylink.wiki/.well-known/api-catalog', type: 'application/linkset+json' },
+        { href: 'https://sunnylink.wiki/.well-known/agent-skills/index.json', type: 'application/json' },
       ],
     },
     {
-      anchor: 'https://www.sunnylink.wiki/api/wiki-data',
+      anchor: 'https://sunnylink.wiki/api/wiki-data',
       'service-desc': [
-        { href: 'https://www.sunnylink.wiki/.well-known/api-catalog', type: 'application/linkset+json' },
+        { href: 'https://sunnylink.wiki/.well-known/api-catalog', type: 'application/linkset+json' },
       ],
       'service-doc': [
-        { href: 'https://www.sunnylink.wiki/features', type: 'text/html' },
+        { href: 'https://sunnylink.wiki/features', type: 'text/html' },
       ],
       // Query parameters: type=(settings|models|cars), search=<query>, vibe=<vibe>, make=<make>, model=<model>
     },
     {
-      anchor: 'https://www.sunnylink.wiki/models',
+      anchor: 'https://sunnylink.wiki/models',
       'service-doc': [
-        { href: 'https://www.sunnylink.wiki/models', type: 'text/html' },
-        { href: 'https://www.sunnylink.wiki/api/markdown?path=/models', type: 'text/markdown' },
+        { href: 'https://sunnylink.wiki/models', type: 'text/html' },
+        { href: 'https://sunnylink.wiki/api/markdown?path=/models', type: 'text/markdown' },
       ],
     },
     {
-      anchor: 'https://www.sunnylink.wiki/cars',
+      anchor: 'https://sunnylink.wiki/cars',
       'service-doc': [
-        { href: 'https://www.sunnylink.wiki/cars', type: 'text/html' },
-        { href: 'https://www.sunnylink.wiki/api/markdown?path=/cars', type: 'text/markdown' },
+        { href: 'https://sunnylink.wiki/cars', type: 'text/html' },
+        { href: 'https://sunnylink.wiki/api/markdown?path=/cars', type: 'text/markdown' },
       ],
     },
     {
-      anchor: 'https://www.sunnylink.wiki/features',
+      anchor: 'https://sunnylink.wiki/features',
       'service-doc': [
-        { href: 'https://www.sunnylink.wiki/features', type: 'text/html' },
-        { href: 'https://www.sunnylink.wiki/api/markdown?path=/features', type: 'text/markdown' },
+        { href: 'https://sunnylink.wiki/features', type: 'text/html' },
+        { href: 'https://sunnylink.wiki/api/markdown?path=/features', type: 'text/markdown' },
       ],
     },
   ],

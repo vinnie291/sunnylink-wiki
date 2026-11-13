@@ -94,8 +94,8 @@ Disallow: /
 # Permits real-time search & citation input (RAG/grounding) while opting out of pretraining scrapers.
 Content-Signal: search=yes, ai-train=no, ai-input=yes
 
-Sitemap: https://www.sunnylink.wiki/sitemap.xml
-Host: https://www.sunnylink.wiki
+Sitemap: https://sunnylink.wiki/sitemap.xml
+Host: https://sunnylink.wiki
 `;
 
 // Pages that support text/markdown content negotiation

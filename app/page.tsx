@@ -4,7 +4,7 @@ import { mapDiscourseContent } from '../lib/discourse-mapper';
 import HomeClient from '../components/HomeClient';
 import togglesData from '@/data/toggles.json';
 
-const SITE_URL = 'https://www.sunnylink.wiki';
+const SITE_URL = 'https://sunnylink.wiki';
 
 export const metadata: Metadata = {
   title: 'Sunnypilot Settings Database | Sunnylink Wiki',

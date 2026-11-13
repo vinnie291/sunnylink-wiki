@@ -5,7 +5,7 @@ import { mapDiscourseContent } from '@/lib/discourse-mapper';
 import featuresData from '@/data/features.json';
 import type { Metadata } from 'next';
 
-const SITE_URL = 'https://www.sunnylink.wiki';
+const SITE_URL = 'https://sunnylink.wiki';
 const PAGE_URL = `${SITE_URL}/features`;
 
 export const metadata: Metadata = {

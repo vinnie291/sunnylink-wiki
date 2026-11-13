@@ -15,7 +15,7 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const SITE_URL = 'https://www.sunnylink.wiki';
+const SITE_URL = 'https://sunnylink.wiki';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

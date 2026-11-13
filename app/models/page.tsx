@@ -18,7 +18,7 @@ export const revalidate = 604800; // 7 days (604800 seconds)
 // the bottom, and JSON-LD (BreadcrumbList + FAQPage + WebPage).
 // ──────────────────────────────────────────────────────────────────────
 
-const SITE_URL = 'https://www.sunnylink.wiki';
+const SITE_URL = 'https://sunnylink.wiki';
 const PAGE_URL = `${SITE_URL}/models`;
 
 // Pull the live model count straight from the dataset so the SEO copy

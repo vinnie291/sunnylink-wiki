@@ -6,6 +6,9 @@ export const metadata: Metadata = {
     title: 'Classic Setup Wizard | Sunnylink',
     description: 'Interactive wizard to generate the perfect Sunnypilot configuration based on your car, driving style, and expertise.',
     keywords: ['sunnylink', 'sunnylink wizard', 'sunnypilot', 'sunnypilot setup wizard'],
+    alternates: {
+        canonical: 'https://sunnylink.wiki/wizard/classic',
+    },
     openGraph: {
         title: 'Sunnylink Classic Setup Wizard',
         description: 'Get a personalized Sunnypilot configuration in minutes.',

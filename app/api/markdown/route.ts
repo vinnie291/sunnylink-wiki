@@ -12,7 +12,7 @@ function generateSettingsMarkdown(): string {
 
   let md = `# Sunnylink Wiki — Sunnypilot Settings & Configuration Database
 
-> The complete, searchable reference for Sunnypilot ADAS settings, toggles, parameters, defaults, and community guidance. Base URL: https://www.sunnylink.wiki
+> The complete, searchable reference for Sunnypilot ADAS settings, toggles, parameters, defaults, and community guidance. Base URL: https://sunnylink.wiki
 
 ## Overview
 Sunnypilot is an open-source driving assistance system built on comma.ai's openpilot. It adds customizable controls, expanded vehicle compatibility, and community driving models.
@@ -41,7 +41,7 @@ function generateModelsMarkdown(): string {
 
   let md = `# Sunnylink Model Library — openpilot & Sunnypilot Driving Models
 
-> Comprehensive comparison of ${MODEL_COUNT}+ neural network driving models from comma.ai and sunnypilot with community ratings, steering profiles, and vehicle reports. Base URL: https://www.sunnylink.wiki/models\n\n`;
+> Comprehensive comparison of ${MODEL_COUNT}+ neural network driving models from comma.ai and sunnypilot with community ratings, steering profiles, and vehicle reports. Base URL: https://sunnylink.wiki/models\n\n`;
 
   for (const cat of categories) {
     md += `## Category: ${cat.name}\n\n`;
@@ -67,7 +67,7 @@ function generateCarsMarkdown(): string {
 
   let md = `# Sunnylink Car Database — Supported Vehicles & Hardware Compatibility
 
-> Compatibility list of ${CAR_COUNT}+ vehicles supported by Sunnypilot with required harnesses and recommended settings. Base URL: https://www.sunnylink.wiki/cars\n\n`;
+> Compatibility list of ${CAR_COUNT}+ vehicles supported by Sunnypilot with required harnesses and recommended settings. Base URL: https://sunnylink.wiki/cars\n\n`;
 
   const byMake = new Map<string, typeof vehicles>();
   for (const v of vehicles) {
@@ -100,7 +100,7 @@ function generateFeaturesMarkdown(): string {
 
   let md = `# Sunnylink Feature Guide — Sunnypilot ADAS Architecture
 
-> In-depth architectural and user reference for core Sunnypilot features (MADS, NNLC, Speed Limit Assist, Dynamic Lane Profile). Base URL: https://www.sunnylink.wiki/features\n\n`;
+> In-depth architectural and user reference for core Sunnypilot features (MADS, NNLC, Speed Limit Assist, Dynamic Lane Profile). Base URL: https://sunnylink.wiki/features\n\n`;
 
   for (const f of features) {
     md += `## ${f.name} (${f.fullName})\n`;
@@ -117,7 +117,7 @@ function generateFullLlmsMarkdown(): string {
   return `# Sunnylink Wiki — Complete Knowledge Base (LLMs Full Reference)
 
 > Complete concatenated documentation for Sunnypilot ADAS, settings, ${MODEL_COUNT}+ driving models, ${CAR_COUNT}+ compatible vehicles, and features.
-> Canonical base URL: https://www.sunnylink.wiki
+> Canonical base URL: https://sunnylink.wiki
 
 ---
 
@@ -160,10 +160,10 @@ export async function GET(request: NextRequest) {
       content = generateFullLlmsMarkdown();
       break;
     case '/wizard':
-      content = `# Sunnylink Config Wizard Reference\n\nInteractive vehicle config builder: https://www.sunnylink.wiki/wizard\n\nGuides users through choosing the ideal model, longitudinal mode, and lateral controls for their specific car.`;
+      content = `# Sunnylink Config Wizard Reference\n\nInteractive vehicle config builder: https://sunnylink.wiki/wizard\n\nGuides users through choosing the ideal model, longitudinal mode, and lateral controls for their specific car.`;
       break;
     case '/stats':
-      content = `# Sunnylink Live Fleet Telemetry\n\nLive fleet stats: https://www.sunnylink.wiki/stats\n\nTracks real-time device counts, active driving models, and fleet miles across the global Sunnypilot community.`;
+      content = `# Sunnylink Live Fleet Telemetry\n\nLive fleet stats: https://sunnylink.wiki/stats\n\nTracks real-time device counts, active driving models, and fleet miles across the global Sunnypilot community.`;
       break;
     case '/':
     default:
