@@ -177,20 +177,31 @@ export async function syncDiscoursePolls(options = { fetchRemote: true }) {
                 };
             });
 
+            const prevEntry = existingPolls[item.name];
+            const prevPollsJson = prevEntry?.polls ? JSON.stringify(prevEntry.polls) : null;
+            const nextPollsJson = JSON.stringify(formattedPolls);
+            const pollsChanged = prevPollsJson !== nextPollsJson;
+
             updatedPolls[item.name] = {
                 topicId: item.topicId,
                 title: data.title,
                 polls: formattedPolls,
-                updatedAt: new Date().toISOString(),
+                updatedAt: pollsChanged ? new Date().toISOString() : (prevEntry?.updatedAt || new Date().toISOString()),
             };
 
-            console.log(`[${i + 1}/${topicMap.length}] ✓ ${item.name} (${formattedPolls.length} polls, max voters: ${formattedPolls.reduce((m, p) => Math.max(m, p.voters), 0)})`);
+            console.log(`[${i + 1}/${topicMap.length}] ✓ ${item.name} (${formattedPolls.length} polls, max voters: ${formattedPolls.reduce((m, p) => Math.max(m, p.voters), 0)}${pollsChanged ? ', UPDATED' : ''})`);
             await new Promise(r => setTimeout(r, 600)); // Rate limit protection
         }
     }
 
-    fs.writeFileSync(DISCOURSE_POLLS_FILE, JSON.stringify(updatedPolls, null, 2), 'utf8');
-    console.log(`💾 Saved ${Object.keys(updatedPolls).length} model polls to ${DISCOURSE_POLLS_FILE}`);
+    const nextPollsFileContent = JSON.stringify(updatedPolls, null, 2);
+    const prevPollsFileContent = fs.existsSync(DISCOURSE_POLLS_FILE) ? fs.readFileSync(DISCOURSE_POLLS_FILE, 'utf8').trimEnd() : '';
+    if (nextPollsFileContent !== prevPollsFileContent) {
+        fs.writeFileSync(DISCOURSE_POLLS_FILE, nextPollsFileContent + '\n', 'utf8');
+        console.log(`💾 Saved ${Object.keys(updatedPolls).length} model polls to ${DISCOURSE_POLLS_FILE}`);
+    } else {
+        console.log(`ℹ️ Discourse polls unchanged (${Object.keys(updatedPolls).length} models).`);
+    }
 
     // Update models.json with Discourse baseline score and sentiment
     for (const cat of modelsData.categories) {
@@ -203,30 +214,39 @@ export async function syncDiscoursePolls(options = { fetchRemote: true }) {
                 const ratingPoll = pollInfo.polls.find(p => p.name === 'overall' || p.name === 'poll') || pollInfo.polls[0];
                 const stats = calculateSentimentAndScore(ratingPoll);
                 if (stats && stats.totalVotes > 0) {
-                    m.communityScore = stats.score;
-                    m.totalVotes = stats.totalVotes;
-                    m.sentiment = stats.sentiment;
-                    modelsUpdated++;
+                    const scoreChanged = m.communityScore !== stats.score;
+                    const votesChanged = m.totalVotes !== stats.totalVotes;
+                    const sentimentChanged = JSON.stringify(m.sentiment) !== JSON.stringify(stats.sentiment);
+                    if (scoreChanged || votesChanged || sentimentChanged) {
+                        m.communityScore = stats.score;
+                        m.totalVotes = stats.totalVotes;
+                        m.sentiment = stats.sentiment;
+                        modelsUpdated++;
+                    }
                 }
             }
         }
     }
 
-    modelsData.lastUpdated = new Date().toLocaleDateString('en-US', {
-        month: 'long',
-        day: '2-digit',
-        year: 'numeric'
-    });
+    if (modelsUpdated > 0) {
+        modelsData.lastUpdated = new Date().toLocaleDateString('en-US', {
+            month: 'long',
+            day: '2-digit',
+            year: 'numeric'
+        });
 
-    fs.writeFileSync(MODELS_FILE, JSON.stringify(modelsData, null, 2) + '\n', 'utf8');
-    console.log(`💾 Updated models.json with parity data for ${modelsUpdated} models.`);
+        fs.writeFileSync(MODELS_FILE, JSON.stringify(modelsData, null, 2) + '\n', 'utf8');
+        console.log(`💾 Updated models.json with parity data for ${modelsUpdated} models.`);
+    } else {
+        console.log(`ℹ️ No model score/sentiment changes detected in models.json.`);
+    }
 
-    // Run sync_models.mjs to propagate to localized models files
+    // Run sync_models.mjs to propagate any structural updates to localized models files
     try {
         const syncScript = path.join(process.cwd(), 'scripts', 'sync_models.mjs');
         if (fs.existsSync(syncScript)) {
             await import('./sync_models.mjs');
-            console.log('✓ Propagated updates to localized models.*.json files.');
+            console.log('✓ Checked/propagated updates to localized models.*.json files.');
         }
     } catch (e) {
         console.error('Error running sync_models.mjs:', e);

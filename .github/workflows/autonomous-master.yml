@@ -1,22 +1,31 @@
-name: Upstream Docs Sync & Auto Deploy
+name: Autonomous Website Sync & Auto Deploy
 
 on:
   schedule:
-    # Check sunnypilot/user-docs and sunnypilot/sunnylink-frontend every 6 hours
+    # Run every 6 hours to scan SunnyLink, SunnyPilot, GitHub manifests, and Discourse/Discord sentiment
     - cron: '0 */6 * * *'
   workflow_dispatch:
     inputs:
       force_sync:
-        description: 'Force sync and deploy even if upstream SHAs have not changed'
+        description: 'Force full upstream resync even if cached SHAs match'
         required: false
         default: false
         type: boolean
+      force_deploy:
+        description: 'Force Cloud Run deployment even if no data files changed'
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: autonomous-website-sync
+  cancel-in-progress: false
 
 permissions:
   contents: write
 
 jobs:
-  sync-and-deploy:
+  autonomous-sync-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -41,38 +50,36 @@ jobs:
           npm ci --ignore-scripts
           pip install requests google-auth
 
-      - name: Sync upstream sunnypilot & sunnylink docs
+      - name: Run Master Autonomous Sync Pipeline
         id: sync
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ "${{ inputs.force_sync }}" = "true" ]; then
-            node scripts/sync_upstream_docs.mjs --force
+            node scripts/autonomous_sync.mjs --force
           else
-            node scripts/sync_upstream_docs.mjs
-          fi
-          if git status --porcelain data/ | grep -q .; then
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "changed=false" >> "$GITHUB_OUTPUT"
+            node scripts/autonomous_sync.mjs
           fi
 
-      - name: Run test suite
-        if: steps.sync.outputs.changed == 'true'
-        run: npm test
+      - name: Run verification and localization integrity tests
+        if: steps.sync.outputs.changed == 'true' || inputs.force_deploy == true
+        run: |
+          npm test
+          node scripts/check-i18n.mjs --data-only
 
-      - name: Commit and push updates
+      - name: Commit and push updated datasets
         if: steps.sync.outputs.changed == 'true'
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/
+          git add data/ locales/
           git diff --cached --quiet && echo "No changes to commit" && exit 0
-          git commit -m "chore(docs): sync upstream sunnypilot & sunnylink docs [skip ci]"
+          git commit -m "chore(autonomy): sync upstream settings, models, and community sentiment [skip ci]"
+          git pull --rebase origin main || true
           git push
 
       - name: Deploy to Cloud Run
-        if: steps.sync.outputs.changed == 'true' || inputs.force_sync == true
+        if: steps.sync.outputs.deploy_needed == 'true' || inputs.force_deploy == true
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
         run: |

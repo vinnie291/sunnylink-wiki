@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 137,
-  "lastUpdated": "November 11, 2026",
+  "totalModels": 139,
+  "lastUpdated": "November 13, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "Die Chestnut GPU-Serie (große Modelle)",
@@ -918,10 +918,57 @@
           ],
           "consensus": "Ein zweiter Light-Speed-Build steht im offiziellen Chestnut-Manifest. Bei diesem Scan wurde kein eigener Entwicklerbeitrag, keine Umfrage und kein verifizierter Fahrbericht für v2 gefunden. Rückmeldungen zum ersten Build belegen nicht die Leistung von v2.",
           "note": "Basiert auf openpilot-Commit c7cbe5d; Artefakt erstellt am 30. Oktober 2026. Unter „2026 Deep RL Models“ gelistet; benötigt Selektor 21. Das Manifest allein belegt weder die Gerätekompatibilität noch einen Standardstatus.",
-          "bestFor": "Frühe experimentelle Tests; die Leistung ist noch nicht verifiziert.",
+          "bestFor": "Frühe experimentelle Tests; Die Leistung ist noch nicht überprüft.",
           "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/e001cd183c66e144cd09fcc11f5019cd6185f000/docs/driving_models_chestnut_v28.json",
           "modelRef": "c7cbe5de6a9dae4bab032bc5faeb24a248c41f8f",
           "shortName": "LSMV2",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Light Speed 2",
+          "date": "November 04, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "communityScore": 93,
+          "totalVotes": 7,
+          "sentiment": {
+            "great": 71,
+            "good": 29,
+            "ok": 0,
+            "bad": 0
+          },
+          "bestFor": "Frühe experimentelle Tests; Die Leistung ist noch nicht überprüft.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "b92fc4828664f8767bce5e92f1630ed319cbe509",
+          "shortName": "LS2",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": [],
+          "forumUrl": "https://community.sunnypilot.ai/t/7722"
+        },
+        {
+          "name": "Fidx Driving Model",
+          "date": "November 08, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "bestFor": "Frühe experimentelle Tests; Die Leistung ist noch nicht überprüft.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "3471915de772c645d60a563cc3c335b17da1fe0b",
+          "shortName": "FDM",
           "minimumSelectorVersion": 21,
           "testedOn": [],
           "positives": [],
@@ -1499,13 +1546,13 @@
           ],
           "consensus": "Verfügt über eine erweiterte neuronale Netzwerkarchitektur in der OP-Modellreihe. Bietet eine überlegene räumliche Wahrnehmung bei chaotischem Stadtverkehr und mehrspurigen Kreuzungen, erfordert jedoch moderne comma 4-Hardware für optimale Rechenlatenz.",
           "note": "Optimiert für Comma 4. Empfohlen für dichte Vorstadt- und Stadtumgebungen.",
-          "communityScore": 17,
-          "totalVotes": 3,
+          "communityScore": 38,
+          "totalVotes": 4,
           "sentiment": {
-            "great": 0,
+            "great": 25,
             "good": 0,
-            "ok": 33,
-            "bad": 67
+            "ok": 25,
+            "bad": 50
           },
           "bestFor": "Stadt-/gemischtes Fahren",
           "steeringFeel": "Confident",
@@ -1782,12 +1829,12 @@
           ],
           "consensus": "Von Yassine/MVL abgestimmt mit spürbaren Längsgewinnen gegenüber POP und CD210. Bietet eine reibungslose Stop-and-Go-Geschwindigkeitsanpassung und sichere Kurvenverfolgung auf weitläufigen Autobahnen. Einige Benutzer berichten von leichten seitlichen Wackelbewegungen bei niedriger Geschwindigkeit und einem verringerten Drehmoment in Kurven mit hohem Winkel bei bestimmten Lenkeinstellungen.",
           "note": "Kombinieren Sie es mit aktuellen MVL-Tunings, wenn Sie Honda/Hyundai-Plattformen fahren. Sehr solide Längskontrolle im experimentellen Modus.",
-          "communityScore": 76,
-          "totalVotes": 47,
+          "communityScore": 75,
+          "totalVotes": 48,
           "sentiment": {
-            "great": 32,
-            "good": 43,
-            "ok": 23,
+            "great": 31,
+            "good": 42,
+            "ok": 25,
             "bad": 2
           },
           "bestFor": "Autobahn / Stop & Go",
@@ -1822,12 +1869,12 @@
             "Deep RL",
             "Experimental"
           ],
-          "communityScore": 66,
-          "totalVotes": 9,
+          "communityScore": 67,
+          "totalVotes": 13,
           "sentiment": {
-            "great": 44,
-            "good": 22,
-            "ok": 11,
+            "great": 46,
+            "good": 23,
+            "ok": 8,
             "bad": 23
           },
           "consensus": "Ein experimentelles Deep-RL-Small-Model von YassineYousfi, das im Forum gegen das Standardmodell CD210 Model abgestimmt wird. Die Gesamtumfrage hat 9 Bewertungen (viermal Great, zweimal Good, einmal Ok, einmal Bad und einmal Poor), während 8 von 13 Teilnehmern der Vergleichsumfrage es besser als CD210 einstufen und 4 von 9 es als neuen Standard befürworten. Das Feedback fällt je nach Setup unterschiedlich aus: Ein Tester auf einem 2024 Hyundai Ioniq 5 (HDA2) berichtet von weniger aggressivem Verhalten als TSFDOM, besserem Anhalten und einer angenehmen Fahrt mit Blendful und Alpha-Längsregelung, während ein Tester auf einem 2026 Hyundai Ioniq 5 (Winkellenkung) sehr langsame Spurwechsel meldet und angibt, dass das Modell aufgibt, wenn sich eine Spur an einer Ampel in mehrere Abbiegespuren aufteilt.",

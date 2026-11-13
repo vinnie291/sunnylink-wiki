@@ -64,6 +64,14 @@ function parsePlatformDifferences(userDocsDir) {
   return { comma3xOnlyTitles };
 }
 
+function normalizeTitle(title) {
+  return title
+    .toLowerCase()
+    .replace(/\s*\((?:alpha|beta|experimental|infrastructure test)\)\s*/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 function parseUserDocsSettings(userDocsDir) {
   const settingsDir = path.join(userDocsDir, 'docs', 'settings');
   const files = walkMarkdown(settingsDir);
@@ -105,10 +113,11 @@ function parseUserDocsSettings(userDocsDir) {
         if (line.includes('available and configurable on all devices')) avail = 'full';
         else if (line.includes('comma four users must use sunnylink')) avail = 'config-hidden';
         else if (line.includes('comma 3x/3 only')) avail = 'comma-3x-only';
-      } else if (comma3xOnlyTitles.has(heading.toLowerCase())) {
+      } else if (comma3xOnlyTitles.has(heading.toLowerCase()) || comma3xOnlyTitles.has(normalizeTitle(heading))) {
         avail = 'comma-3x-only';
       }
       availabilityByTitle.set(heading.toLowerCase(), avail);
+      availabilityByTitle.set(normalizeTitle(heading), avail);
     }
   }
 
@@ -173,14 +182,17 @@ async function main() {
       for (const s of cat.settings) {
         knownKeys.add(s.key);
         knownLabels.add(s.label.toLowerCase());
-        const matchedAvail = availabilityByTitle.get(s.label.toLowerCase());
+        knownLabels.add(normalizeTitle(s.label));
+        const matchedAvail =
+          availabilityByTitle.get(s.label.toLowerCase()) ||
+          availabilityByTitle.get(normalizeTitle(s.label));
         if (matchedAvail && s.deviceAvailability && s.deviceAvailability !== matchedAvail) {
           availabilityUpdates.set(s.key, matchedAvail);
         }
       }
     }
 
-    // Apply availability & lastUpdated across all locales
+    // Apply availability & lastUpdated across all locales ONLY when settings actually changed
     let changedCount = 0;
     for (const loc of LOCALES) {
       const file = path.join(ROOT, 'data', loc === 'en' ? 'toggles.json' : `toggles.${loc}.json`);
@@ -198,25 +210,32 @@ async function main() {
         }
       }
 
-      if (fileChanged || FORCE) {
+      if (fileChanged) {
         data.lastUpdated = today;
         fs.writeFileSync(file, JSON.stringify(data, null, 2) + '\n');
       }
     }
 
     const unmappedHeadings = documentedHeadings
-      .filter(h => !knownLabels.has(h.heading.toLowerCase()))
+      .filter(h => !knownLabels.has(h.heading.toLowerCase()) && !knownLabels.has(normalizeTitle(h.heading)))
       .map(h => `${h.rel}: ${h.heading}`);
 
-    const nextState = {
-      lastSyncedAt: new Date().toISOString(),
-      repos: latestShas,
-      availabilityUpdatesApplied: changedCount,
-      unmappedUpstreamHeadings: unmappedHeadings,
-      sunnylinkKeysCount: sunnylinkKeys.length,
-    };
+    const stateChanged =
+      hasUpdates ||
+      changedCount > 0 ||
+      JSON.stringify(state.unmappedUpstreamHeadings) !== JSON.stringify(unmappedHeadings) ||
+      state.sunnylinkKeysCount !== sunnylinkKeys.length;
 
-    fs.writeFileSync(STATE_FILE, JSON.stringify(nextState, null, 2) + '\n');
+    if (stateChanged) {
+      const nextState = {
+        lastSyncedAt: new Date().toISOString(),
+        repos: latestShas,
+        availabilityUpdatesApplied: changedCount,
+        unmappedUpstreamHeadings: unmappedHeadings,
+        sunnylinkKeysCount: sunnylinkKeys.length,
+      };
+      fs.writeFileSync(STATE_FILE, JSON.stringify(nextState, null, 2) + '\n');
+    }
     console.log(`[upstream-sync] Sync complete. Availability updates: ${changedCount}, unmapped headings: ${unmappedHeadings.length}`);
   } finally {
     fs.rmSync(tmpDir, { recursive: true, force: true });

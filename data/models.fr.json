@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 137,
-  "lastUpdated": "November 11, 2026",
+  "totalModels": 139,
+  "lastUpdated": "November 13, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "La série Chestnut GPU (grands modèles)",
@@ -918,10 +918,57 @@
           ],
           "consensus": "Un second build Light Speed figure dans le manifeste officiel Chestnut. Cette recherche n’a trouvé ni annonce dédiée du mainteneur, ni sondage, ni essai vérifié pour v2. Les retours sur le premier build ne prouvent pas les performances de v2.",
           "note": "Basé sur le commit openpilot c7cbe5d ; artefact compilé le 30 octobre 2026. Répertorié dans « 2026 Deep RL Models » ; sélecteur 21 requis. Le manifeste seul ne confirme ni la compatibilité par appareil ni le statut par défaut.",
-          "bestFor": "Premiers essais expérimentaux ; performances non vérifiées.",
+          "bestFor": "Premiers tests expérimentaux ; les performances ne sont pas encore vérifiées.",
           "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/e001cd183c66e144cd09fcc11f5019cd6185f000/docs/driving_models_chestnut_v28.json",
           "modelRef": "c7cbe5de6a9dae4bab032bc5faeb24a248c41f8f",
           "shortName": "LSMV2",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Light Speed 2",
+          "date": "November 04, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "communityScore": 93,
+          "totalVotes": 7,
+          "sentiment": {
+            "great": 71,
+            "good": 29,
+            "ok": 0,
+            "bad": 0
+          },
+          "bestFor": "Premiers tests expérimentaux ; les performances ne sont pas encore vérifiées.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "b92fc4828664f8767bce5e92f1630ed319cbe509",
+          "shortName": "LS2",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": [],
+          "forumUrl": "https://community.sunnypilot.ai/t/7722"
+        },
+        {
+          "name": "Fidx Driving Model",
+          "date": "November 08, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "bestFor": "Premiers tests expérimentaux ; les performances ne sont pas encore vérifiées.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "3471915de772c645d60a563cc3c335b17da1fe0b",
+          "shortName": "FDM",
           "minimumSelectorVersion": 21,
           "testedOn": [],
           "positives": [],
@@ -1499,13 +1546,13 @@
           ],
           "consensus": "Présente une architecture de réseau neuronal étendue dans la gamme de modèles OP. Offre une perception spatiale supérieure dans les conduites urbaines désordonnées et les intersections à plusieurs voies, mais nécessite un matériel comma 4 moderne pour une latence de calcul optimale.",
           "note": "Optimisé pour Comma 4. Recommandé pour les environnements suburbains et urbains denses.",
-          "communityScore": 17,
-          "totalVotes": 3,
+          "communityScore": 38,
+          "totalVotes": 4,
           "sentiment": {
-            "great": 0,
+            "great": 25,
             "good": 0,
-            "ok": 33,
-            "bad": 67
+            "ok": 25,
+            "bad": 50
           },
           "bestFor": "Conduite Urbaine / Mixte",
           "steeringFeel": "Confident",
@@ -1782,12 +1829,12 @@
           ],
           "consensus": "Ajusté par Yassine/MVL avec des gains longitudinaux notables par rapport au POP et au CD210. Offre une adaptation fluide de la vitesse d'arrêt et de départ et un suivi affirmé des courbes sur les grandes autoroutes. Certains utilisateurs signalent de légères vibrations latérales à basse vitesse et un couple réduit dans les courbes à angle élevé pour certaines configurations de direction.",
           "note": "Associez-le aux réglages récents du MVL si vous conduisez des plates-formes Honda/Hyundai. Contrôle longitudinal très solide en mode expérimental.",
-          "communityScore": 76,
-          "totalVotes": 47,
+          "communityScore": 75,
+          "totalVotes": 48,
           "sentiment": {
-            "great": 32,
-            "good": 43,
-            "ok": 23,
+            "great": 31,
+            "good": 42,
+            "ok": 25,
             "bad": 2
           },
           "bestFor": "Autoroute/Stop & Go",
@@ -1822,12 +1869,12 @@
             "Deep RL",
             "Experimental"
           ],
-          "communityScore": 66,
-          "totalVotes": 9,
+          "communityScore": 67,
+          "totalVotes": 13,
           "sentiment": {
-            "great": 44,
-            "good": 22,
-            "ok": 11,
+            "great": 46,
+            "good": 23,
+            "ok": 8,
             "bad": 23
           },
           "consensus": "Un petit modèle expérimental Deep RL conçu par YassineYousfi et évalué par sondage face au modèle par défaut CD210 Model. Le sondage général du forum compte 9 évaluations (quatre Great, deux Good, une Ok, une Bad et une Poor), tandis que 8 votants sur 13 le jugent meilleur que CD210 et que 4 sur 9 soutiennent son adoption par défaut. Les retours divergent selon la configuration : un testeur sur Hyundai Ioniq 5 2024 (HDA2) signale un comportement moins agressif que TSFDOM avec de meilleurs arrêts et une conduite agréable avec Blendful et le contrôle longitudinal Alpha, tandis qu’un testeur sur Hyundai Ioniq 5 2026 (direction par angle) rapporte des changements de voie très lents et un abandon lorsqu’une voie se divise en plusieurs voies à un feu rouge.",

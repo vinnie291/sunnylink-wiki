@@ -28,9 +28,24 @@ for (const line of markdown.split('\n')) {
 const expected = Number(markdown.match(/# (\d+) Supported Cars/)?.[1]);
 if (vehicles.length !== expected - 1) throw new Error(`Incomplete vehicle import: ${vehicles.length}/${expected}`);
 if (new Set(vehicles.map(car => car.id)).size !== vehicles.length) throw new Error('Duplicate vehicle entries');
-await writeFile(new URL('../data/supported-cars.json', import.meta.url), JSON.stringify({
-    sourceUrl, updatedAt: new Date().toISOString().slice(0, 10),
-    marketNote: 'US-market vehicles unless otherwise specified. Equipment requirements and source footnotes apply.',
-    vehicles,
-}, null, 2) + '\n');
-console.log(`Imported ${vehicles.length} supported vehicles.`);
+const targetUrl = new URL('../data/supported-cars.json', import.meta.url);
+const marketNote = 'US-market vehicles unless otherwise specified. Equipment requirements and source footnotes apply.';
+let existing = null;
+try {
+    existing = JSON.parse(await readFile(targetUrl, 'utf8'));
+} catch {}
+
+const force = process.argv.includes('--force');
+const sameVehicles = existing && JSON.stringify(existing.vehicles) === JSON.stringify(vehicles);
+if (sameVehicles && !force) {
+    console.log(`Supported vehicles up-to-date (${vehicles.length} vehicles). No changes.`);
+} else {
+    await writeFile(targetUrl, JSON.stringify({
+        sourceUrl,
+        updatedAt: new Date().toISOString().slice(0, 10),
+        marketNote,
+        vehicles,
+    }, null, 2) + '\n');
+    console.log(`Imported ${vehicles.length} supported vehicles.`);
+}
+

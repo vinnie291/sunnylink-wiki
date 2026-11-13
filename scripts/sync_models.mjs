@@ -56,18 +56,17 @@ function syncFiles() {
                     return { ...baseModel };
                 }
 
-                // If model exists, merge structural fields but keep translations.
-                // Hard data carries no prose, so it always tracks the base file.
+                // Hard/canonical data always tracks the base file (matches check-i18n.mjs canonical set).
                 const dataFields = [
-                    'badge', 'tags', 'communityScore', 'totalVotes',
-                    'sentiment', 'testedOn', 'forumUrl',
-                    'manifestUrl', 'modelRef', 'shortName', 'minimumSelectorVersion'
+                    'date', 'badge', 'tags', 'communityScore', 'totalVotes',
+                    'sentiment', 'testedOn', 'forumUrl', 'steeringFeel',
+                    'manifestUrl', 'modelRef', 'shortName', 'minimumSelectorVersion',
+                    'routesDriven', 'fleetRank'
                 ];
-                // These read as prose once localized (dates are written in the
-                // locale's own format), so only fill them in when the locale has
-                // nothing yet — overwriting would clobber existing translations.
+                // Prose fields keep their localized translations once translated,
+                // and only seed from the base file when unset.
                 const localizedFields = [
-                    'date', 'bestFor', 'steeringFeel', 'positives', 'negatives'
+                    'bestFor', 'positives', 'negatives', 'consensus', 'note'
                 ];
 
                 const updatedModel = { ...existingModel };
@@ -97,8 +96,12 @@ function syncFiles() {
 
         localeContent.categories = syncedCategories;
 
-        fs.writeFileSync(localePath, JSON.stringify(localeContent, null, 2) + '\n', 'utf8');
-        console.log(`✓ Synchronized ${localeFile}`);
+        const nextRaw = JSON.stringify(localeContent, null, 2) + '\n';
+        const prevRaw = fs.readFileSync(localePath, 'utf8');
+        if (nextRaw !== prevRaw) {
+            fs.writeFileSync(localePath, nextRaw, 'utf8');
+            console.log(`✓ Synchronized ${localeFile}`);
+        }
     }
 }
 

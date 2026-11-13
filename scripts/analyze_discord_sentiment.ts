@@ -236,7 +236,18 @@ function main() {
 
     const matchedFilesTracker = new Set<string>();
 
+    // Load discourse_polls.json so we don't clobber explicit Discourse poll ratings with Discord keyword heuristics
+    const discoursePollsPath = path.join(DATA_DIR, 'discourse_polls.json');
+    const discoursePolls: Record<string, { polls?: Array<{ voters?: number }> }> = fs.existsSync(discoursePollsPath)
+        ? JSON.parse(fs.readFileSync(discoursePollsPath, 'utf-8'))
+        : {};
+
     for (const model of allModels) {
+        const hasDiscourseVotes = (discoursePolls[model.name]?.polls || []).some(p => (p.voters || 0) > 0);
+        if (hasDiscourseVotes) {
+            continue;
+        }
+
         const matchedFiles = discordFiles.filter(file => {
             // Match model, ensuring we don't double-match files if they are already precisely mapped
             return matchesModel(model.name, file);
@@ -246,9 +257,7 @@ function main() {
             continue;
         }
 
-        console.log(`🔍 Model: "${model.name}" matches ${matchedFiles.length} file(s):`);
         for (const file of matchedFiles) {
-            console.log(`   └─ 📄 ${file}`);
             matchedFilesTracker.add(file);
         }
 
@@ -289,50 +298,52 @@ function main() {
             const goodPct = Math.round((goodCount / total) * 100);
             const okPct = Math.round((okCount / total) * 100);
             // Ensure percentages sum exactly to 100
-            const badPct = 100 - (greatPct + goodPct + okPct);
+            const badPct = Math.max(0, 100 - (greatPct + goodPct + okPct));
 
             const score = Math.round(
                 greatPct * 1.0 +
                 goodPct * 0.75 +
                 okPct * 0.50 +
-                Math.max(0, badPct) * 0.0
+                badPct * 0.0
             );
 
-            // Update model in memory
-            model.totalVotes = messagesAnalyzed;
-            model.communityScore = score;
-            model.sentiment = {
+            const nextSentiment = {
                 great: greatPct,
                 good: goodPct,
                 ok: okPct,
-                bad: Math.max(0, badPct)
+                bad: badPct
             };
 
-            console.log(`   📊 Calculated Sentiment: Great ${greatPct}%, Good ${goodPct}%, OK ${okPct}%, Bad ${Math.max(0, badPct)}%`);
-            console.log(`   📈 Total Messages: ${messagesAnalyzed} | Community Score: ${score}\n`);
-            totalUpdatedModels++;
-        } else {
-            console.log(`   ⚠️  No user messages found to analyze.\n`);
+            const changed =
+                model.totalVotes !== messagesAnalyzed ||
+                model.communityScore !== score ||
+                JSON.stringify(model.sentiment) !== JSON.stringify(nextSentiment);
+
+            if (changed) {
+                model.totalVotes = messagesAnalyzed;
+                model.communityScore = score;
+                model.sentiment = nextSentiment;
+                console.log(`🔍 Updated "${model.name}" (${messagesAnalyzed} msgs, score ${score})`);
+                totalUpdatedModels++;
+            }
         }
     }
 
-    // Write updated models.json back to disk
-    fs.writeFileSync(MODELS_FILE, JSON.stringify(modelsData, null, 4), 'utf-8');
-    console.log(`💾 Successfully updated data/models.json with Discord sentiment data.`);
-    console.log(`📈 Summary: Updated ${totalUpdatedModels} models using ${matchedFilesTracker.size} unique feedback files.`);
+    if (totalUpdatedModels > 0) {
+        fs.writeFileSync(MODELS_FILE, JSON.stringify(modelsData, null, 2) + '\n', 'utf-8');
+        console.log(`💾 Successfully updated data/models.json with Discord sentiment data (${totalUpdatedModels} models changed).`);
 
-    // Run localization sync
-    console.log(`\n🔄 Propagating updates to localized models file via sync script...`);
-    try {
-        if (fs.existsSync(path.join(process.cwd(), 'scripts/sync_models.mjs'))) {
-            execSync('node scripts/sync_models.mjs', { stdio: 'inherit' });
-            console.log('✓ Localization models successfully synced!');
-        } else if (fs.existsSync(path.join(process.cwd(), 'scripts/sync_models.py'))) {
-            execSync('python3 scripts/sync_models.py', { stdio: 'inherit' });
-            console.log('✓ Localization models successfully synced!');
+        console.log(`\n🔄 Propagating updates to localized models file via sync script...`);
+        try {
+            if (fs.existsSync(path.join(process.cwd(), 'scripts/sync_models.mjs'))) {
+                execSync('node scripts/sync_models.mjs', { stdio: 'inherit' });
+                console.log('✓ Localization models successfully synced!');
+            }
+        } catch (err) {
+            console.error('❌ Failed to run localization sync script:', err);
         }
-    } catch (err) {
-        console.error('❌ Failed to run localization sync script:', err);
+    } else {
+        console.log(`ℹ️ Discord sentiment already up-to-date across all ${matchedFilesTracker.size} feedback files.`);
     }
 
     console.log(`\n🎉 Discord sentiment analysis sync completed successfully!`);

@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 137,
-  "lastUpdated": "November 11, 2026",
+  "totalModels": 139,
+  "lastUpdated": "November 13, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "The Chestnut GPU Series (Big Models)",
@@ -926,6 +926,53 @@
           "testedOn": [],
           "positives": [],
           "negatives": []
+        },
+        {
+          "name": "Light Speed 2",
+          "date": "November 04, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "communityScore": 93,
+          "totalVotes": 7,
+          "sentiment": {
+            "great": 71,
+            "good": 29,
+            "ok": 0,
+            "bad": 0
+          },
+          "bestFor": "Early experimental testing; performance is not yet verified.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "b92fc4828664f8767bce5e92f1630ed319cbe509",
+          "shortName": "LS2",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": [],
+          "forumUrl": "https://community.sunnypilot.ai/t/7722"
+        },
+        {
+          "name": "Fidx Driving Model",
+          "date": "November 08, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "bestFor": "Early experimental testing; performance is not yet verified.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "3471915de772c645d60a563cc3c335b17da1fe0b",
+          "shortName": "FDM",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
         }
       ]
     },
@@ -1499,13 +1546,13 @@
           ],
           "consensus": "Features an expanded neural network architecture in the OP model lineup. Offers superior spatial perception in messy city driving and multi-lane intersections, though requires modern comma 4 hardware for optimal compute latency.",
           "note": "Optimized for Comma 4. Recommended for dense suburban and urban environments.",
-          "communityScore": 17,
-          "totalVotes": 3,
+          "communityScore": 38,
+          "totalVotes": 4,
           "sentiment": {
-            "great": 0,
+            "great": 25,
             "good": 0,
-            "ok": 33,
-            "bad": 67
+            "ok": 25,
+            "bad": 50
           },
           "bestFor": "Urban / Mixed Driving",
           "steeringFeel": "Confident",
@@ -1782,12 +1829,12 @@
           ],
           "consensus": "Tuned by Yassine/MVL with noticeable longitudinal gains over POP and CD210. Offers smooth stop-and-go speed matching and assertive curve tracking on sweeping highways. Some users report slight low-speed lateral wiggles and reduced torque on high-angle curves for certain steer setups.",
           "note": "Pair with recent MVL tunings if driving Honda/Hyundai platforms. Very solid longitudinal control in experimental mode.",
-          "communityScore": 76,
-          "totalVotes": 47,
+          "communityScore": 75,
+          "totalVotes": 48,
           "sentiment": {
-            "great": 32,
-            "good": 43,
-            "ok": 23,
+            "great": 31,
+            "good": 42,
+            "ok": 25,
             "bad": 2
           },
           "bestFor": "Highway / Stop & Go",
@@ -1822,12 +1869,12 @@
             "Deep RL",
             "Experimental"
           ],
-          "communityScore": 66,
-          "totalVotes": 9,
+          "communityScore": 67,
+          "totalVotes": 13,
           "sentiment": {
-            "great": 44,
-            "good": 22,
-            "ok": 11,
+            "great": 46,
+            "good": 23,
+            "ok": 8,
             "bad": 23
           },
           "consensus": "An experimental Deep RL small model built by YassineYousfi and polled against the CD210 Model default. The forum overall poll has 9 ratings (four Great, two Good, one Ok, one Bad, and one Poor), while 8 of 13 comparison voters rate it better than CD210 and 4 of 9 support making it the default. Feedback splits by setup: a 2024 Hyundai Ioniq 5 (HDA2) tester reports less aggressive behavior than TSFDOM with better stopping and a pleasant drive with Blendful and Alpha longitudinal, whereas a 2026 Hyundai Ioniq 5 (angle steering) tester reports very slow lane changes and giving up when a single lane splits into multiple turn lanes at a stop light.",

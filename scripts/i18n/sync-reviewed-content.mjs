@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const read = file => JSON.parse(readFileSync(file, 'utf8'));
 const english = read('locales/en.json');
 const sourceKeys = new Map(Object.entries(english).map(([key, value]) => [value, key]));
-const canonicalFields = new Set(['id', 'key', 'type', 'make', 'model', 'date', 'version', 'lastUpdated', 'schemaVersion', 'deviceAvailability', 'forumUrl', 'docUrl', 'device', 'harness', 'radar', 'drivingModel', 'torqueTuning', 'lateralControl', 'longitudinalControl', 'mads', 'experimentalMode', 'badge', 'category', 'unit', 'years', 'user', 'icon', 'options', 'default', 'recommended', 'settingsKeys', 'tags', 'testedOn', 'includes', 'steeringFeel']);
+const canonicalFields = new Set(['id', 'key', 'type', 'make', 'model', 'date', 'version', 'lastUpdated', 'schemaVersion', 'deviceAvailability', 'forumUrl', 'docUrl', 'device', 'harness', 'radar', 'drivingModel', 'torqueTuning', 'lateralControl', 'longitudinalControl', 'mads', 'experimentalMode', 'badge', 'category', 'unit', 'years', 'user', 'icon', 'options', 'default', 'recommended', 'settingsKeys', 'tags', 'testedOn', 'includes', 'steeringFeel', 'manifestUrl', 'modelRef', 'shortName', 'minimumSelectorVersion']);
 const deviceText = new Set();
 function collect(value) {
     if (typeof value === 'string') deviceText.add(value);
@@ -26,7 +26,9 @@ function correctOffroad(source, value, locale) {
 }
 
 for (const locale of ['ko', 'zh', 'fr', 'de', 'es']) {
-    const messages = read(`locales/${locale}.json`);
+    const messagesPath = `locales/${locale}.json`;
+    const prevMessagesRaw = readFileSync(messagesPath, 'utf8');
+    const messages = JSON.parse(prevMessagesRaw);
     for (const [key, source] of Object.entries(english)) {
         let value = correctOffroad(source, messages[key], locale);
         // comma is the device maker; forks are software derivatives.
@@ -53,11 +55,18 @@ for (const locale of ['ko', 'zh', 'fr', 'de', 'es']) {
         }
         messages[key] = value;
     }
-    writeFileSync(`locales/${locale}.json`, JSON.stringify(messages, null, 2) + '\n');
+    const nextMessagesRaw = JSON.stringify(messages, null, 2) + '\n';
+    if (nextMessagesRaw !== prevMessagesRaw) writeFileSync(messagesPath, nextMessagesRaw);
+
     for (const kind of ['cars', 'features', 'models', 'toggles']) {
         const source = read(`data/${kind}.json`);
-        const target = read(`data/${kind}.${locale}.json`);
+        const targetPath = `data/${kind}.${locale}.json`;
+        const prevTargetRaw = readFileSync(targetPath, 'utf8');
+        const target = JSON.parse(prevTargetRaw);
         function sync(from, to) {
+            if (Array.isArray(from) && Array.isArray(to)) {
+                to.length = from.length;
+            }
             for (const [key, value] of Object.entries(from)) {
                 if (canonicalFields.has(key) || (key === 'name' && 'date' in from)) {
                     to[key] = structuredClone(value);
@@ -67,11 +76,20 @@ for (const locale of ['ko', 'zh', 'fr', 'de', 'es']) {
                     const lookup = sourceKeys.get(value);
                     // Canonical enum values and identifiers stay serialized unchanged.
                     if (lookup && !canonicalFields.has(key) && !(key === 'name' && 'date' in from)) to[key] = messages[lookup];
-                } else if (value && typeof value === 'object') sync(value, to[key]);
+                    else if (to[key] === undefined) to[key] = value;
+                } else if (value && typeof value === 'object') {
+                    if (!to[key] || typeof to[key] !== 'object' || Array.isArray(value) !== Array.isArray(to[key])) {
+                        to[key] = Array.isArray(value) ? [] : {};
+                    }
+                    sync(value, to[key]);
+                } else {
+                    to[key] = value;
+                }
             }
         }
         sync(source, target);
-        writeFileSync(`data/${kind}.${locale}.json`, JSON.stringify(target, null, 2) + '\n');
+        const nextTargetRaw = JSON.stringify(target, null, 2) + '\n';
+        if (nextTargetRaw !== prevTargetRaw) writeFileSync(targetPath, nextTargetRaw);
     }
 }
 console.log('Synchronized reviewed data translations and parked-state terminology.');

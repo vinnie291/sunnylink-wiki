@@ -19,9 +19,16 @@ interface ModelManifestBundle {
     index: number | string;
     short_name: string;
     display_name: string;
+    ref?: string;
+    minimum_selector_version?: number | string;
     generation?: number | string;
     environment?: string;
     is_20hz?: boolean;
+    overrides?: {
+        folder?: string;
+        lat?: string;
+        long?: string;
+    };
     models?: Array<{
         type?: string;
         artifact?: {
@@ -44,12 +51,18 @@ interface LocalModel {
         ok: number;
         bad: number;
     };
+    consensus?: string;
+    note?: string;
     bestFor?: string;
     steeringFeel?: string;
     positives?: string[];
     negatives?: string[];
     testedOn?: string[];
     forumUrl?: string;
+    manifestUrl?: string;
+    modelRef?: string;
+    shortName?: string;
+    minimumSelectorVersion?: number;
     [key: string]: unknown;
 }
 
@@ -73,11 +86,15 @@ interface LocalModelsData {
 interface ScannedModel {
     sourceId: string;
     sourceName: string;
+    manifestFile: string;
     targetCategory: string;
     rawDisplayName: string;
     cleanName: string;
     extractedDate?: string;
     shortName: string;
+    modelRef?: string;
+    minimumSelectorVersion?: number;
+    folder?: string;
     index: number | string;
     generation?: number | string;
     isNew: boolean;
@@ -159,13 +176,24 @@ const KNOWN_ALIASES: Record<string, string> = {
     'downtoride6': 'downtoridev6',
     'downtoriderevision6': 'downtoridev6',
     'popmodel': 'popmodel',
+    'lightspeedmodelv11': 'lightspeedmodelv2',
 };
 
 function normalize(s: string): string {
     return s.toLowerCase().replace(/[^a-z0-9]/g, '');
 }
 
-function matchesLocalModel(remoteCleanName: string, localName: string): boolean {
+function matchesLocalModel(
+    remoteCleanName: string,
+    localName: string,
+    remoteRef?: string,
+    localRef?: string,
+    remoteShort?: string,
+    localShort?: string
+): boolean {
+    if (remoteRef && localRef && remoteRef === localRef) return true;
+    if (remoteShort && localShort && remoteShort.toUpperCase() === localShort.toUpperCase()) return true;
+
     const normRemote = normalize(remoteCleanName);
     const normLocal = normalize(localName);
 
@@ -252,7 +280,7 @@ function loadLocalModels(): LocalModelsData {
 /**
  * Fetch and scan GitHub manifests.
  */
-async function scanGitHubManifests(localData: LocalModelsData): Promise<ScannedModel[]> {
+async function scanGitHubManifests(localData: LocalModelsData, includeCustomUploads = false): Promise<ScannedModel[]> {
     const results: ScannedModel[] = [];
     const indexResponse = await fetch(MANIFEST_INDEX, { signal: AbortSignal.timeout(30000) });
     if (!indexResponse.ok) throw new Error(`Manifest discovery failed: HTTP ${indexResponse.status}`);
@@ -278,11 +306,12 @@ async function scanGitHubManifests(localData: LocalModelsData): Promise<ScannedM
 
             for (const bundle of bundles) {
                 const { cleanName, extractedDate } = parseDisplayName(bundle.display_name);
+                const folder = bundle.overrides?.folder?.trim();
 
                 let match: { categoryId: string; model: LocalModel } | undefined;
                 for (const cat of localData.categories) {
                     for (const m of cat.models) {
-                        if (matchesLocalModel(cleanName, m.name)) {
+                        if (matchesLocalModel(cleanName, m.name, bundle.ref, m.modelRef, bundle.short_name, m.shortName)) {
                             match = { categoryId: cat.id, model: m };
                             break;
                         }
@@ -290,14 +319,23 @@ async function scanGitHubManifests(localData: LocalModelsData): Promise<ScannedM
                     if (match) break;
                 }
 
+                // Skip uncurated user hash uploads (folder starting with "custom") unless already in catalog or explicitly requested
+                if (!match && !includeCustomUploads && folder && /^custom\b/i.test(folder)) {
+                    continue;
+                }
+
                 results.push({
                     sourceId: source.id,
                     sourceName: source.name,
+                    manifestFile: source.file,
                     targetCategory: source.targetCategory,
                     rawDisplayName: bundle.display_name,
                     cleanName,
                     extractedDate,
                     shortName: bundle.short_name,
+                    modelRef: bundle.ref,
+                    minimumSelectorVersion: bundle.minimum_selector_version ? Number(bundle.minimum_selector_version) : undefined,
+                    folder,
                     index: bundle.index,
                     generation: bundle.generation,
                     isNew: !match,
@@ -318,49 +356,60 @@ async function scanGitHubManifests(localData: LocalModelsData): Promise<ScannedM
  */
 async function researchDiscourse(modelName: string): Promise<DiscourseResearchResult | null> {
     try {
-        const cleanQuery = modelName.replace(/\s+Model$/i, '').trim();
+        const cleanQuery = modelName.replace(/\s*\b(?:driving\s+)?model\b\s*/gi, ' ').replace(/\s+/g, ' ').trim();
         const query = encodeURIComponent(cleanQuery);
-        const searchUrl = `${DISCOURSE_BASE}/search.json?q=${query}`;
-        const searchResp = await fetch(searchUrl);
-        if (!searchResp.ok) return null;
+        const topicById = new Map<number, { id: number; title: string; created_at: string; posts_count: number }>();
 
-        const searchData = await searchResp.json() as { topics?: Array<{ id: number; title: string; created_at: string; posts_count: number }> };
-        let topics = searchData.topics || [];
+        // Always check Category 9 (Official Model Drops) + search endpoint
+        const [catResp, searchResp] = await Promise.allSettled([
+            fetch(`${DISCOURSE_BASE}/c/9.json`, { signal: AbortSignal.timeout(10000) }),
+            fetch(`${DISCOURSE_BASE}/search.json?q=${query}`, { signal: AbortSignal.timeout(10000) })
+        ]);
 
-        if (topics.length === 0) {
-            // Fallback to Category 9 (Model drops)
-            const catResp = await fetch(`${DISCOURSE_BASE}/c/9.json`);
-            if (catResp.ok) {
-                const catData = await catResp.json() as { topic_list?: { topics?: Array<{ id: number; title: string; created_at: string; posts_count: number }> } };
-                topics = catData.topic_list?.topics || [];
-            }
+        if (catResp.status === 'fulfilled' && catResp.value.ok) {
+            const catData = await catResp.value.json() as { topic_list?: { topics?: Array<{ id: number; title: string; created_at: string; posts_count: number }> } };
+            for (const t of catData.topic_list?.topics || []) topicById.set(t.id, t);
+        }
+        if (searchResp.status === 'fulfilled' && searchResp.value.ok) {
+            const searchData = await searchResp.value.json() as { topics?: Array<{ id: number; title: string; created_at: string; posts_count: number }> };
+            for (const t of searchData.topics || []) topicById.set(t.id, t);
         }
 
+        const topics = [...topicById.values()];
         if (topics.length === 0) return null;
 
         // Rank topics by matching precision
         const lowerName = cleanQuery.toLowerCase();
-        const tokens = lowerName.split(/\s+/).filter(t => t.length > 1);
+        const genericWords = new Set(['model', 'driving', 'the', 'new', 'custom', 'sp']);
+        const distinctiveTokens = lowerName.split(/\s+/).filter(t => t.length > 1 && !genericWords.has(t));
 
         const scoredTopics = topics.map(t => {
             const lowerTitle = t.title.toLowerCase();
+            const titleBeforeDate = lowerTitle
+                .replace(/\s*\([^)]*\)\s*$/, '')
+                .replace(/\s*\b(?:driving\s+)?model\b\s*/gi, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
             let score = 0;
-            if (lowerTitle.includes(lowerName)) score += 50;
-            // Version match check (e.g. "v6", "v4")
-            const vMatch = lowerName.match(/\bv(\d+)\b/);
+            if (titleBeforeDate === lowerName || lowerTitle.startsWith(lowerName + ' (')) score += 80;
+            else if (lowerTitle.includes(lowerName)) score += 50;
+
+            // Version match check (e.g. "v6", "v1.1", "2")
+            const vMatch = lowerName.match(/\bv?(\d+(?:\.\d+)?)\b/);
             if (vMatch) {
-                if (lowerTitle.includes(vMatch[0])) score += 30;
-                else score -= 20;
+                if (lowerTitle.includes(vMatch[0])) score += 25;
+                else score -= 30;
             }
-            for (const token of tokens) {
-                if (lowerTitle.includes(token)) score += 10;
+            for (const token of distinctiveTokens) {
+                if (lowerTitle.includes(token)) score += 15;
+                else score -= 15;
             }
             return { topic: t, score };
         });
 
         scoredTopics.sort((a, b) => b.score - a.score);
         const bestMatch = scoredTopics[0];
-        if (!bestMatch || bestMatch.score < 10) return null;
+        if (!bestMatch || bestMatch.score < 35) return null;
 
         const topic = bestMatch.topic;
         const topicUrl = `${DISCOURSE_BASE}/t/${topic.id}.json`;
@@ -536,68 +585,121 @@ function researchDiscord(modelName: string): DiscordResearchResult | null {
 }
 
 /**
- * Apply newly discovered models to data/models.json and sync translations.
+ * Apply newly discovered models (and newly discovered forum links for unlinked models)
+ * to data/models.json and sync translations.
  */
 function applyNewModels(
     localData: LocalModelsData,
-    newModelsWithResearch: Array<{
+    researchedModels: Array<{
         scanned: ScannedModel;
         discourse: DiscourseResearchResult | null;
         discord: DiscordResearchResult | null;
     }>
 ) {
     let addedCount = 0;
+    let enrichedCount = 0;
 
-    for (const item of newModelsWithResearch) {
+    for (const item of researchedModels) {
         const { scanned, discourse, discord } = item;
+
+        // If this is an existing model that lacked a forumUrl, enrich it when a Discourse topic is found
+        if (!scanned.isNew && scanned.matchedLocalModel) {
+            const existing = scanned.matchedLocalModel;
+            if ((!existing.forumUrl || existing.forumUrl === 'https://community.sunnypilot.ai') && discourse?.forumUrl) {
+                existing.forumUrl = discourse.forumUrl;
+                if (discourse.pollVoters && discourse.pollVoters > 0 && discourse.pollScore !== undefined && discourse.sentiment) {
+                    existing.communityScore = discourse.pollScore;
+                    existing.totalVotes = discourse.pollVoters;
+                    existing.sentiment = discourse.sentiment;
+                }
+                enrichedCount++;
+                console.log(` 🔗 Linked "${existing.name}" to Discourse topic ${discourse.forumUrl}`);
+            }
+            continue;
+        }
+
+        if (!scanned.isNew) continue;
+
+        // Qualcomm standard manifest includes self-serve user builds; only auto-add when backed by Discourse/Discord thread
+        if (scanned.sourceId === 'qcom' && !discourse && !discord) {
+            console.log(` ⏭️  Skipping unannounced Qualcomm build "${scanned.cleanName}" (no Discourse/Discord thread yet)`);
+            continue;
+        }
+
         const targetCat = localData.categories.find(c => c.id === scanned.targetCategory);
         if (!targetCat) {
             console.warn(`Target category ${scanned.targetCategory} not found for ${scanned.cleanName}`);
             continue;
         }
 
-        const score = discourse?.pollScore ?? discord?.communityScore ?? 75;
         const votes = (discourse?.pollVoters || 0) + (discord?.messagesAnalyzed || 0);
+        const score = discourse?.pollScore ?? discord?.communityScore;
+        const sentiment = discourse?.sentiment || discord?.sentiment;
+        const isChestnut = scanned.sourceId === 'chestnut' || scanned.sourceId === 'usbgpu';
+        const isDeepRl = /deep rl/i.test(scanned.folder || '');
+
+        const tags = [
+            ...(isChestnut ? ['Big Model', 'Chestnut'] : []),
+            ...(isDeepRl ? ['Deep RL'] : ['2026']),
+            'Experimental'
+        ];
 
         const newModelEntry: LocalModel = {
             name: scanned.cleanName,
             date: scanned.extractedDate || discourse?.createdAt?.slice(0, 10) || new Date().toISOString().slice(0, 10),
-            badge: 'New Release',
-            tags: [scanned.sourceId === 'chestnut' ? 'Chestnut eGPU' : '2026', 'Experimental'],
-            communityScore: score,
-            totalVotes: votes > 0 ? votes : 10,
-            sentiment: discourse?.sentiment || discord?.sentiment || { great: 45, good: 35, ok: 15, bad: 5 },
-            bestFor: 'Testing the latest sunnypilot training release.',
-            steeringFeel: discourse?.extractedSteering || 'Active community testing; consult forum thread for impressions.',
+            badge: 'EXPERIMENTAL',
+            tags,
+            ...(votes > 0 && score !== undefined && sentiment ? {
+                communityScore: score,
+                totalVotes: votes,
+                sentiment
+            } : {}),
+            bestFor: 'Early experimental testing; performance is not yet verified.',
+            ...(discourse?.extractedSteering ? { steeringFeel: discourse.extractedSteering } : {}),
+            manifestUrl: `https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/${scanned.manifestFile}`,
+            ...(scanned.modelRef ? { modelRef: scanned.modelRef } : {}),
+            shortName: scanned.shortName,
+            ...(scanned.minimumSelectorVersion ? { minimumSelectorVersion: scanned.minimumSelectorVersion } : {}),
+            testedOn: [],
             positives: (discourse?.extractedPositives && discourse.extractedPositives.length > 0)
                 ? discourse.extractedPositives
-                : ['Latest model architecture updates from comma.ai', 'Improved training dataset'],
+                : [],
             negatives: (discourse?.extractedNegatives && discourse.extractedNegatives.length > 0)
                 ? discourse.extractedNegatives
-                : ['May exhibit early-run quirks; verify on vehicle with disengage hand ready'],
-            testedOn: ['Community Fleet'],
-            forumUrl: discourse?.forumUrl || 'https://community.sunnypilot.ai'
+                : [],
+            ...(discourse?.forumUrl ? { forumUrl: discourse.forumUrl } : {})
         };
 
-        targetCat.models.unshift(newModelEntry);
+        targetCat.models.push(newModelEntry);
         addedCount++;
-        console.log(` Added "${scanned.cleanName}" to category [${targetCat.name}]`);
+        console.log(` ➕ Added "${scanned.cleanName}" to category [${targetCat.name}]`);
     }
 
-    if (addedCount > 0) {
+    if (addedCount > 0 || enrichedCount > 0) {
         localData.totalModels = localData.categories.reduce((acc, c) => acc + c.models.length, 0);
-        localData.lastUpdated = new Date().toISOString().slice(0, 10);
+        localData.lastUpdated = new Date().toLocaleDateString('en-US', {
+            month: 'long',
+            day: '2-digit',
+            year: 'numeric'
+        });
         fs.writeFileSync(MODELS_FILE, JSON.stringify(localData, null, 2) + '\n', 'utf-8');
-        console.log(`\n Successfully updated ${MODELS_FILE} (Total models: ${localData.totalModels})`);
+        console.log(`\n💾 Updated ${MODELS_FILE} (+${addedCount} new, ${enrichedCount} enriched; Total models: ${localData.totalModels})`);
 
-        // Propagate to localized models
+        // Propagate structural changes to localized models
         const syncScript = path.join(process.cwd(), 'scripts', 'sync_models.mjs');
         if (fs.existsSync(syncScript)) {
             console.log('🔄 Running sync_models.mjs to update localized JSON catalogs...');
             execSync(`node "${syncScript}"`, { stdio: 'inherit' });
         }
+
+        // Auto-translate any newly introduced strings and sync reviewed content
+        const autoTranslateScript = path.join(process.cwd(), 'scripts', 'i18n', 'auto-translate-missing.mjs');
+        if (fs.existsSync(autoTranslateScript)) {
+            console.log('🌐 Running auto-translate-missing.mjs to localize new strings...');
+            execSync(`node "${autoTranslateScript}"`, { stdio: 'inherit' });
+        }
     } else {
-        console.log('ℹ️ No new models to add.');
+        console.log('ℹ️ No new models or forum links to apply.');
     }
 }
 
@@ -606,8 +708,11 @@ async function main() {
     const isCheckOnly = args.includes('--check');
     const isApply = args.includes('--apply');
     const isJson = args.includes('--json');
+    const includeCustomUploads = args.includes('--include-custom-uploads');
     const researchArgIndex = args.indexOf('--research');
-    const specificQuery = researchArgIndex !== -1 ? args[researchArgIndex + 1] : undefined;
+    const specificQuery = researchArgIndex !== -1 && args[researchArgIndex + 1] && !args[researchArgIndex + 1].startsWith('--')
+        ? args[researchArgIndex + 1]
+        : undefined;
 
     console.log('🚀 Sunnypilot Model Scanner & Researcher\n');
 
@@ -615,10 +720,13 @@ async function main() {
     console.log(` Local catalog loaded: ${localData.totalModels} models across ${localData.categories.length} categories.`);
 
     console.log('🌐 Fetching GitHub manifests (sunnypilot/sunnypilot-models:gh-pages)...');
-    const scanned = await scanGitHubManifests(localData);
+    const scanned = await scanGitHubManifests(localData, includeCustomUploads);
 
     const newModels = Array.from(new Map(scanned.filter(m => m.isNew).map(m => [normalize(m.cleanName), m])).values());
     const existingModels = scanned.filter(m => !m.isNew);
+    const unlinkedRecentExisting = existingModels.filter(
+        m => m.matchedLocalModel && (!m.matchedLocalModel.forumUrl || m.matchedLocalModel.forumUrl === 'https://community.sunnypilot.ai')
+    ).slice(-5);
 
     if (isCheckOnly) {
         console.log(`\n📊 Scan Summary:`);
@@ -641,7 +749,14 @@ async function main() {
     // Research mode
     const modelsToResearch = specificQuery
         ? scanned.filter(m => m.cleanName.toLowerCase().includes(specificQuery.toLowerCase()))
-        : (newModels.length > 0 ? newModels : scanned.slice(-3));
+        : isApply
+            ? [...newModels, ...unlinkedRecentExisting]
+            : (newModels.length > 0 ? newModels : scanned.slice(-3));
+
+    if (modelsToResearch.length === 0) {
+        console.log('\n✅ All remote models and forum links are up-to-date. Nothing to research.');
+        return;
+    }
 
     console.log(`\n🔬 Conducting research on ${modelsToResearch.length} model(s)...`);
 
@@ -686,7 +801,7 @@ async function main() {
 
     if (isApply) {
         console.log('\n💾 Applying updates to models.json...');
-        applyNewModels(localData, researchResults.filter(r => r.scanned.isNew));
+        applyNewModels(localData, researchResults);
     } else {
         console.log('\n✅ Research complete! Use `--apply` to automatically save changes to models.json.');
     }

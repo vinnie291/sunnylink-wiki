@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 137,
-  "lastUpdated": "November 11, 2026",
+  "totalModels": 139,
+  "lastUpdated": "November 13, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "La serie Chestnut GPU (modelos grandes)",
@@ -918,10 +918,57 @@
           ],
           "consensus": "Una segunda compilación de Light Speed aparece en el manifiesto oficial de Chestnut. Esta revisión no encontró un tema propio del responsable, encuesta ni experiencia de conducción verificada para v2. Los comentarios sobre la primera versión no prueban el rendimiento de v2.",
           "note": "Basado en el commit c7cbe5d de openpilot; artefacto compilado el 30 de octubre de 2026. Figura en «2026 Deep RL Models» y requiere selector 21. El manifiesto por sí solo no confirma compatibilidad con cada dispositivo ni que sea predeterminado.",
-          "bestFor": "Pruebas experimentales tempranas; rendimiento aún sin verificar.",
+          "bestFor": "Pruebas experimentales tempranas; El rendimiento aún no se ha verificado.",
           "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/e001cd183c66e144cd09fcc11f5019cd6185f000/docs/driving_models_chestnut_v28.json",
           "modelRef": "c7cbe5de6a9dae4bab032bc5faeb24a248c41f8f",
           "shortName": "LSMV2",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Light Speed 2",
+          "date": "November 04, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "communityScore": 93,
+          "totalVotes": 7,
+          "sentiment": {
+            "great": 71,
+            "good": 29,
+            "ok": 0,
+            "bad": 0
+          },
+          "bestFor": "Pruebas experimentales tempranas; El rendimiento aún no se ha verificado.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "b92fc4828664f8767bce5e92f1630ed319cbe509",
+          "shortName": "LS2",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": [],
+          "forumUrl": "https://community.sunnypilot.ai/t/7722"
+        },
+        {
+          "name": "Fidx Driving Model",
+          "date": "November 08, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "bestFor": "Pruebas experimentales tempranas; El rendimiento aún no se ha verificado.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "3471915de772c645d60a563cc3c335b17da1fe0b",
+          "shortName": "FDM",
           "minimumSelectorVersion": 21,
           "testedOn": [],
           "positives": [],
@@ -1499,13 +1546,13 @@
           ],
           "consensus": "Presenta una arquitectura de red neuronal ampliada en la línea de modelos OP. Ofrece una percepción espacial superior en conducción urbana desordenada e intersecciones de varios carriles, aunque requiere hardware comma 4 moderno para una latencia informática óptima.",
           "note": "Optimizado para Comma 4. Recomendado para entornos suburbanos y urbanos densos.",
-          "communityScore": 17,
-          "totalVotes": 3,
+          "communityScore": 38,
+          "totalVotes": 4,
           "sentiment": {
-            "great": 0,
+            "great": 25,
             "good": 0,
-            "ok": 33,
-            "bad": 67
+            "ok": 25,
+            "bad": 50
           },
           "bestFor": "Conducción Urbana/Mixta",
           "steeringFeel": "Confident",
@@ -1782,12 +1829,12 @@
           ],
           "consensus": "Afinado por Yassine/MVL con notables ganancias longitudinales sobre POP y CD210. Ofrece un ajuste suave de la velocidad con paradas y arranques y un seguimiento asertivo de las curvas en carreteras amplias. Algunos usuarios informan ligeros movimientos laterales a baja velocidad y torsión reducida en curvas de ángulo alto para ciertas configuraciones de dirección.",
           "note": "Combínelo con ajustes recientes de MVL si conduce plataformas Honda/Hyundai. Control longitudinal muy sólido en modo experimental.",
-          "communityScore": 76,
-          "totalVotes": 47,
+          "communityScore": 75,
+          "totalVotes": 48,
           "sentiment": {
-            "great": 32,
-            "good": 43,
-            "ok": 23,
+            "great": 31,
+            "good": 42,
+            "ok": 25,
             "bad": 2
           },
           "bestFor": "Autopista/Para y sigue",
@@ -1822,12 +1869,12 @@
             "Deep RL",
             "Experimental"
           ],
-          "communityScore": 66,
-          "totalVotes": 9,
+          "communityScore": 67,
+          "totalVotes": 13,
           "sentiment": {
-            "great": 44,
-            "good": 22,
-            "ok": 11,
+            "great": 46,
+            "good": 23,
+            "ok": 8,
             "bad": 23
           },
           "consensus": "Un modelo pequeño experimental de Deep RL creado por YassineYousfi y comparado en encuesta con el modelo predeterminado CD210 Model. La encuesta general del foro cuenta con 9 valoraciones (cuatro Great, dos Good, una Ok, una Bad y una Poor), mientras que 8 de 13 votantes de comparación lo califican mejor que CD210 y 4 de 9 apoyan convertirlo en predeterminado. Las opiniones se dividen según la configuración: un probador en un Hyundai Ioniq 5 2024 (HDA2) informa un comportamiento menos agresivo que TSFDOM con mejor detención y una conducción agradable con Blendful y control longitudinal Alpha, mientras que un probador en un Hyundai Ioniq 5 2026 (dirección por ángulo) reporta cambios de carril muy lentos y que el modelo se rinde cuando un carril se divide en varios carriles en un semáforo.",

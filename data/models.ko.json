@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 137,
-  "lastUpdated": "November 11, 2026",
+  "totalModels": 139,
+  "lastUpdated": "November 13, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "Chestnut GPU 시리즈(대형 모델)",
@@ -918,10 +918,57 @@
           ],
           "consensus": "두 번째 Light Speed 빌드가 공식 Chestnut 목록에 등록되었습니다. 이번 조사에서는 v2 전용 관리자 게시물, 투표 또는 확인된 주행 후기를 찾지 못했습니다. 첫 빌드의 후기로 v2 성능을 판단할 수 없습니다.",
           "note": "openpilot 커밋 c7cbe5d 기반이며 아티팩트는 2026년 10월 30일 빌드되었습니다. 「2026 Deep RL Models」에 등록되었고 선택기 21이 필요합니다. 목록만으로 기기별 호환성이나 기본 모델 여부는 확인되지 않습니다.",
-          "bestFor": "초기 실험 테스트용이며 성능은 아직 검증되지 않았습니다.",
+          "bestFor": "초기 실험 테스트; 성능은 아직 검증되지 않았습니다.",
           "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/e001cd183c66e144cd09fcc11f5019cd6185f000/docs/driving_models_chestnut_v28.json",
           "modelRef": "c7cbe5de6a9dae4bab032bc5faeb24a248c41f8f",
           "shortName": "LSMV2",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Light Speed 2",
+          "date": "November 04, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "communityScore": 93,
+          "totalVotes": 7,
+          "sentiment": {
+            "great": 71,
+            "good": 29,
+            "ok": 0,
+            "bad": 0
+          },
+          "bestFor": "초기 실험 테스트; 성능은 아직 검증되지 않았습니다.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "b92fc4828664f8767bce5e92f1630ed319cbe509",
+          "shortName": "LS2",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": [],
+          "forumUrl": "https://community.sunnypilot.ai/t/7722"
+        },
+        {
+          "name": "Fidx Driving Model",
+          "date": "November 08, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "bestFor": "초기 실험 테스트; 성능은 아직 검증되지 않았습니다.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "3471915de772c645d60a563cc3c335b17da1fe0b",
+          "shortName": "FDM",
           "minimumSelectorVersion": 21,
           "testedOn": [],
           "positives": [],
@@ -1499,13 +1546,13 @@
           ],
           "consensus": "OP 모델 라인업에 확장된 신경망 아키텍처가 특징입니다. 혼잡한 도시 주행 및 다중 차선 교차로에서 뛰어난 공간 인식을 제공하지만 최적의 컴퓨팅 대기 시간을 위해서는 최신 comma 4 하드웨어가 필요합니다.",
           "note": "Comma 4에 최적화되었습니다. 밀집된 교외 및 도시 환경에 권장됩니다.",
-          "communityScore": 17,
-          "totalVotes": 3,
+          "communityScore": 38,
+          "totalVotes": 4,
           "sentiment": {
-            "great": 0,
+            "great": 25,
             "good": 0,
-            "ok": 33,
-            "bad": 67
+            "ok": 25,
+            "bad": 50
           },
           "bestFor": "도시/혼합 운전",
           "steeringFeel": "Confident",
@@ -1782,12 +1829,12 @@
           ],
           "consensus": "Yassine/MVL로 튜닝되었으며 POP 및 CD210에 비해 눈에 띄는 세로 방향 이득이 있습니다. 넓은 고속도로에서 부드러운 정지 및 이동 속도 일치와 확실한 곡선 추적을 제공합니다. 일부 사용자는 특정 조향 설정에 대해 고각 곡선에서 약간의 저속 측면 흔들림과 토크 감소를 보고합니다.",
           "note": "Honda/Hyundai 플랫폼을 구동하는 경우 최신 MVL 튜닝과 페어링하세요. 실험 모드에서 매우 견고한 종방향 제어.",
-          "communityScore": 76,
-          "totalVotes": 47,
+          "communityScore": 75,
+          "totalVotes": 48,
           "sentiment": {
-            "great": 32,
-            "good": 43,
-            "ok": 23,
+            "great": 31,
+            "good": 42,
+            "ok": 25,
             "bad": 2
           },
           "bestFor": "고속도로 / Stop & Go",
@@ -1822,12 +1869,12 @@
             "Deep RL",
             "Experimental"
           ],
-          "communityScore": 66,
-          "totalVotes": 9,
+          "communityScore": 67,
+          "totalVotes": 13,
           "sentiment": {
-            "great": 44,
-            "good": 22,
-            "ok": 11,
+            "great": 46,
+            "good": 23,
+            "ok": 8,
             "bad": 23
           },
           "consensus": "YassineYousfi가 제작하고 기본 소형 모델인 CD210 Model과 비교 투표를 진행 중인 실험적 Deep RL 소형 모델입니다. 포럼 종합 투표에는 9명(Great 4표, Good 2표, Ok 1표, Bad 1표, Poor 1표)이 참여했으며, 비교 투표에서는 13명 중 8명이 CD210보다 낫다고 평가했고 9명 중 4명이 기본 모델 지정을 찬성했습니다. 차량 설정에 따라 평가가 갈리는데, 2024년형 현대 아이오닉 5(HDA2) 테스터는 TSFDOM보다 덜 공격적이면서 정지 제동이 더 자연스럽고 Blendful 및 Alpha 종방향 제어와 잘 어울린다고 보고한 반면, 2026년형 현대 아이오닉 5(조향각 제어) 테스터는 차선 변경이 매우 느리고 신호등 앞에서 차선이 여러 갈래로 나뉠 때 차선을 포기하고 직진한다고 보고했습니다.",

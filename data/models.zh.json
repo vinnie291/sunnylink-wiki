@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 137,
-  "lastUpdated": "November 11, 2026",
+  "totalModels": 139,
+  "lastUpdated": "November 13, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "Chestnut GPU 系列（大型號）",
@@ -918,10 +918,57 @@
           ],
           "consensus": "第二個 Light Speed 版本出現在官方 Chestnut 清單中。本次掃描未找到 v2 專屬維護者公告、投票或可核實的駕駛回報。第一個版本的回饋不能證明 v2 的性能。",
           "note": "基於 openpilot 提交 c7cbe5d，模型檔於 2026 年 10 月 30 日建立。列於「2026 Deep RL Models」，需要選擇器 21。單憑清單無法確認各裝置相容性或預設模型狀態。",
-          "bestFor": "早期實驗測試；性能尚未核實。",
+          "bestFor": "早期實驗測試；性能尚未驗證。",
           "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/e001cd183c66e144cd09fcc11f5019cd6185f000/docs/driving_models_chestnut_v28.json",
           "modelRef": "c7cbe5de6a9dae4bab032bc5faeb24a248c41f8f",
           "shortName": "LSMV2",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Light Speed 2",
+          "date": "November 04, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "communityScore": 93,
+          "totalVotes": 7,
+          "sentiment": {
+            "great": 71,
+            "good": 29,
+            "ok": 0,
+            "bad": 0
+          },
+          "bestFor": "早期實驗測試；性能尚未驗證。",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "b92fc4828664f8767bce5e92f1630ed319cbe509",
+          "shortName": "LS2",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": [],
+          "forumUrl": "https://community.sunnypilot.ai/t/7722"
+        },
+        {
+          "name": "Fidx Driving Model",
+          "date": "November 08, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "bestFor": "早期實驗測試；性能尚未驗證。",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "3471915de772c645d60a563cc3c335b17da1fe0b",
+          "shortName": "FDM",
           "minimumSelectorVersion": 21,
           "testedOn": [],
           "positives": [],
@@ -1499,13 +1546,13 @@
           ],
           "consensus": "在 OP 模型系列中具有擴展的神經網絡架構。在混亂的城市駕駛和多車道交叉口提供卓越的空間感知，但需要現代 comma 4 硬件來實現最佳計算延遲。",
           "note": "針對 Comma 4 進行了優化。推薦用於人口稠密的郊區和城市環境。",
-          "communityScore": 17,
-          "totalVotes": 3,
+          "communityScore": 38,
+          "totalVotes": 4,
           "sentiment": {
-            "great": 0,
+            "great": 25,
             "good": 0,
-            "ok": 33,
-            "bad": 67
+            "ok": 25,
+            "bad": 50
           },
           "bestFor": "城市/混合駕駛",
           "steeringFeel": "Confident",
@@ -1782,12 +1829,12 @@
           ],
           "consensus": "由 Yassine/MVL 調校，與 POP 和 CD210 相比，縱向增益顯着。在寬闊的高速公路上提供平穩的走走停停的速度匹配和自信的曲線跟蹤。一些用戶報告說，在某些轉向設置下，高角度曲線上會出現輕微的低速橫向擺動和扭矩降低。",
           "note": "如果驅動 Honda/Hyundai 平臺，請與最近的 MVL 調音配對。實驗模式下的縱向控制非常可靠。",
-          "communityScore": 76,
-          "totalVotes": 47,
+          "communityScore": 75,
+          "totalVotes": 48,
           "sentiment": {
-            "great": 32,
-            "good": 43,
-            "ok": 23,
+            "great": 31,
+            "good": 42,
+            "ok": 25,
             "bad": 2
           },
           "bestFor": "高速公路/走走停停",
@@ -1822,12 +1869,12 @@
             "Deep RL",
             "Experimental"
           ],
-          "communityScore": 66,
-          "totalVotes": 9,
+          "communityScore": 67,
+          "totalVotes": 13,
           "sentiment": {
-            "great": 44,
-            "good": 22,
-            "ok": 11,
+            "great": 46,
+            "good": 23,
+            "ok": 8,
             "bad": 23
           },
           "consensus": "由 YassineYousfi 打造並與預設小型模型 CD210 Model 進行投票對比的實驗性 Deep RL 小型模型。論壇整體評分目前有 9 票（4 票 Great、2 票 Good、1 票 Ok、1 票 Bad、1 票 Poor），對比投票中有 8/13 認為優於 CD210，另有 4/9 支持將其設為預設。回饋依車型配置而異：一位 2024 Hyundai Ioniq 5（HDA2）測試者回報其風格不如 TSFDOM 激進、減速停車表現更好，搭配 Blendful 與 Alpha 縱向控制時相當舒適；而一位 2026 Hyundai Ioniq 5（角度轉向）測試者則回報變換車道極慢，且在紅綠燈前單一車道分岔為多車道時會放棄並直接壓線直行。",

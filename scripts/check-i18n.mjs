@@ -88,11 +88,14 @@ function checkSources(dir) {
         visit(source);
     }
 }
-checkSources('app');
-checkSources('components');
+if (!process.argv.includes('--data-only')) {
+    checkSources('app');
+    checkSources('components');
+}
 if (errors.length) {
     for (const error of errors) console.error(error);
     console.error(`${errors.length} localization errors.`);
     process.exit(1);
 }
 console.log('UI placeholders, translation calls, data structures, and canonical values match in every locale.');
+
