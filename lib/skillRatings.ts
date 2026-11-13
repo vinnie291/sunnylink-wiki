@@ -766,6 +766,8 @@ export function deriveSkillRatings(model: RatableModel): SkillRatings {
     return deriveSkillRatingsDetail(model).ratings;
 }
 
+const canonicalDetailCache = new Map<string, SkillRatingsDetail>();
+
 /** Same derivation, with the anchor, evidence, and sufficiency metadata kept for UI and tooltips. */
 export function deriveSkillRatingsDetail(model: RatableModel): SkillRatingsDetail {
     const canonical = canonicalByName.get(model.name);
@@ -781,6 +783,11 @@ export function deriveSkillRatingsDetail(model: RatableModel): SkillRatingsDetai
             ratedAxes: [...SKILL_AXES],
             hasSufficientEvidence: true,
         };
+    }
+
+    if (canonical) {
+        const cached = canonicalDetailCache.get(canonical.name);
+        if (cached) return cached;
     }
 
     const { polarity, opinionated } = computePolarity(source);
@@ -890,7 +897,7 @@ export function deriveSkillRatingsDetail(model: RatableModel): SkillRatingsDetai
     const isUnverifiedStub = (source.tags ?? []).includes('Unverified') || source.steeringFeel === 'TBD' || votes <= 1;
     const hasSufficientEvidence = !isUnverifiedStub && ratedAxes.length >= 2 && (hasProsCons || votes >= 4 || evidence.length >= 3);
 
-    return {
+    const result: SkillRatingsDetail = {
         ratings,
         anchor,
         polarity,
@@ -899,6 +906,10 @@ export function deriveSkillRatingsDetail(model: RatableModel): SkillRatingsDetai
         ratedAxes,
         hasSufficientEvidence,
     };
+    if (canonical) {
+        canonicalDetailCache.set(canonical.name, result);
+    }
+    return result;
 }
 
 /** Top evidence for one axis, phrased for a bar tooltip. */

@@ -428,7 +428,9 @@ export default function ToggleCard({
     }
   };
 
-  const hasRightColumn = setting.type === 'toggle' || setting.type === 'slider' || (setting.type === 'dropdown' && setting.options) || setting.useCase || getAlertBox() || (setting.tradeoffs && setting.tradeoffs.length > 0);
+  const simulatorNode = renderSimulator();
+  const alertBoxNode = getAlertBox();
+  const hasRightColumn = setting.type === 'toggle' || setting.type === 'slider' || (setting.type === 'dropdown' && setting.options) || setting.useCase || alertBoxNode || (setting.tradeoffs && setting.tradeoffs.length > 0);
 
   return (
     <div
@@ -436,10 +438,10 @@ export default function ToggleCard({
       id={setting.key}
       data-setting-key={setting.key}
       className={`
-        relative group rounded-2xl border backdrop-blur-sm transition-all duration-500 ease-out scroll-mt-32
+        relative group rounded-2xl border transition-colors duration-200 ease-out scroll-mt-32
         ${isHighlighted
           ? 'bg-cyan-500/10 border-cyan-500/50 shadow-lg shadow-cyan-500/20 ring-2 ring-cyan-500/30 animate-highlight'
-          : 'bg-slate-800/50 border-slate-700/50 hover:bg-slate-800/70 hover:border-slate-600/50'
+          : 'bg-slate-800/80 border-slate-700/50 hover:bg-slate-800/90 hover:border-slate-600/50'
         }
       `}
     >
@@ -623,9 +625,9 @@ export default function ToggleCard({
             )}
 
             {/* Control Simulator — placed under description / deep dive */}
-            {renderSimulator() && (
+            {simulatorNode && (
               <div className="mb-5">
-                {renderSimulator()}
+                {simulatorNode}
               </div>
             )}
 
@@ -685,7 +687,7 @@ export default function ToggleCard({
             <div className="lg:col-span-5 mt-5 lg:mt-0 space-y-4">
 
               {/* Alert Box — only for types not already showing status in their simulator */}
-              {setting.type !== 'toggle' && setting.type !== 'slider' && getAlertBox()}
+              {setting.type !== 'toggle' && setting.type !== 'slider' && alertBoxNode}
 
               {/* When to use */}
               {setting.useCase && (

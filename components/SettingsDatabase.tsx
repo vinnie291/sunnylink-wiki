@@ -378,7 +378,7 @@ export default function SettingsDatabase({
 
                                 {/* Card view fallback - mobile only when list mode is selected */}
                                 <div className="md:hidden grid gap-4">
-                                    {visibleSettings.map((setting) => {
+                                    {visibleSettings.map((setting, index) => {
                                         const isTarget = setting.key === highlightedKey;
                                         const card = (
                                             <ToggleCard
@@ -390,7 +390,7 @@ export default function SettingsDatabase({
                                             />
                                         );
                                         return (
-                                            <div key={setting.key}>
+                                            <div key={setting.key} className={index >= 4 && !highlightedKey ? 'cv-auto-item' : undefined}>
                                                 {highlightedKey ? card : <LazyReveal>{card}</LazyReveal>}
                                             </div>
                                         );
@@ -399,7 +399,7 @@ export default function SettingsDatabase({
                             </>
                         ) : (
                             <div className="grid gap-4">
-                                {visibleSettings.map((setting) => {
+                                {visibleSettings.map((setting, index) => {
                                     const isTarget = setting.key === highlightedKey;
                                     const card = (
                                         <ToggleCard
@@ -411,7 +411,7 @@ export default function SettingsDatabase({
                                         />
                                     );
                                     return (
-                                        <div key={setting.key}>
+                                        <div key={setting.key} className={index >= 4 && !highlightedKey ? 'cv-auto-item' : undefined}>
                                             {highlightedKey ? card : <LazyReveal>{card}</LazyReveal>}
                                         </div>
                                     );

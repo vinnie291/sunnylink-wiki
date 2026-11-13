@@ -177,5 +177,20 @@ export function withModelVotes(profile: ModelSimProfile, votes?: ModelVoteSummar
   if (!votes || votes.modelName.toLowerCase() !== profile.name.toLowerCase()) return profile;
   const raw = RAW_PROFILE_MAP.get(profile.id);
   if (!raw) return profile;
-  return applyTraitVotes({ ...profile, ...deriveFeedbackPhysics({ ...raw, ...votes.live }) }, votes.questions);
+  const updated = applyTraitVotes({ ...profile, ...deriveFeedbackPhysics({ ...raw, ...votes.live }) }, votes.questions);
+  if (
+    updated.headway === profile.headway &&
+    updated.departureLag === profile.departureLag &&
+    updated.jerkLimit === profile.jerkLimit &&
+    updated.laneWobble === profile.laneWobble &&
+    updated.wobbleSpeedBias === profile.wobbleSpeedBias &&
+    updated.curveLineBias === profile.curveLineBias &&
+    updated.rollingStop === profile.rollingStop &&
+    updated.creepTendency === profile.creepTendency &&
+    updated.evidence.length === profile.evidence.length &&
+    (updated.sentiment?.votes ?? 0) === (profile.sentiment?.votes ?? 0)
+  ) {
+    return profile;
+  }
+  return updated;
 }

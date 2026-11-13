@@ -21,6 +21,42 @@ interface ModelPollSurveyProps {
     }) => void;
 }
 
+let allVotesPromise: Promise<Record<string, ModelVoteSummary> | null> | null = null;
+const modelSummaryCache = new Map<string, ModelVoteSummary>();
+
+function getCachedModelSummary(modelName: string): ModelVoteSummary | null {
+    return modelSummaryCache.get(modelName.toLowerCase()) ?? null;
+}
+
+function fetchCachedModelSummary(modelName: string): Promise<ModelVoteSummary | null> {
+    const key = modelName.toLowerCase();
+    const cached = modelSummaryCache.get(key);
+    if (cached) return Promise.resolve(cached);
+
+    if (!allVotesPromise) {
+        allVotesPromise = fetch('/api/models/vote')
+            .then(async (res) => {
+                if (!res.ok) return null;
+                const json = await res.json();
+                if (json.success && json.data && typeof json.data === 'object') {
+                    const map = json.data as Record<string, ModelVoteSummary>;
+                    for (const [k, v] of Object.entries(map)) {
+                        modelSummaryCache.set(k.toLowerCase(), v);
+                    }
+                    return map;
+                }
+                return null;
+            })
+            .catch((err) => {
+                console.error('Failed to load model vote stats:', err);
+                allVotesPromise = null;
+                return null;
+            });
+    }
+
+    return allVotesPromise.then((map) => map?.[key] ?? modelSummaryCache.get(key) ?? null);
+}
+
 export default function ModelPollSurvey({
     modelName,
     baseScore,
@@ -32,47 +68,64 @@ export default function ModelPollSurvey({
 }: ModelPollSurveyProps) {
   const tx = useTextTranslation();
     const { t } = useLanguage();
+    const initialCached = initialVoteSummary || getCachedModelSummary(modelName);
     const [currentStep, setCurrentStep] = useState(0);
-    const [viewMode, setViewMode] = useState<'vote' | 'results'>('vote');
-    const [userAnswers, setUserAnswers] = useState<ModelSurveyAnswers>({});
-    const [summary, setSummary] = useState<ModelVoteSummary | null>(initialVoteSummary || null);
+    const [viewMode, setViewMode] = useState<'vote' | 'results'>(() => {
+        const firstQ = initialCached?.questions?.[0];
+        if (firstQ && initialCached?.userVote?.[firstQ.id] !== undefined) {
+            return 'results';
+        }
+        return 'vote';
+    });
+    const [userAnswers, setUserAnswers] = useState<ModelSurveyAnswers>(() => initialCached?.userVote || {});
+    const [summary, setSummary] = useState<ModelVoteSummary | null>(initialCached);
     const [loading, setLoading] = useState(false);
     const [justVoted, setJustVoted] = useState(false);
 
-    // Fetch live summary & user vote on mount
+    // Fetch live summary & user vote on mount (batched & cached across all cards)
     useEffect(() => {
         let mounted = true;
-        const fetchSummary = async () => {
-            try {
-                const res = await fetch(`/api/models/vote?model=${encodeURIComponent(modelName)}`);
-                if (!res.ok) return;
-                const json = await res.json();
-                if (mounted && json.success && json.data?.stats) {
-                    const stats: ModelVoteSummary = json.data.stats;
-                    setSummary(stats);
-                    onSummaryUpdate?.(stats);
-                    if (json.data.userVote) {
-                        setUserAnswers(json.data.userVote);
-                        // If user has already answered the first question, start in results mode
-                        const firstQ = stats.questions?.[0];
-                        if (firstQ && json.data.userVote[firstQ.id] !== undefined) {
-                            setViewMode('results');
-                        }
-                    }
-                    if (stats.live && onScoreUpdate) {
-                        onScoreUpdate(stats.live);
-                    }
+        const applyStats = (stats: ModelVoteSummary) => {
+            if (!mounted) return;
+            setSummary(prev => (prev === stats ? prev : stats));
+            onSummaryUpdate?.(stats);
+            if (stats.userVote) {
+                setUserAnswers(stats.userVote);
+                const firstQ = stats.questions?.[0];
+                if (firstQ && stats.userVote[firstQ.id] !== undefined) {
+                    setViewMode('results');
                 }
-            } catch (err) {
-                console.error('Failed to load model vote stats:', err);
+            }
+            if (stats.live && onScoreUpdate) {
+                const liveChanged =
+                    stats.live.totalVotes > 0 &&
+                    (stats.live.communityScore !== baseScore ||
+                        stats.live.totalVotes !== baseVotes ||
+                        stats.live.sentiment.great !== baseSentiment?.great ||
+                        stats.live.sentiment.good !== baseSentiment?.good ||
+                        stats.live.sentiment.ok !== baseSentiment?.ok ||
+                        stats.live.sentiment.bad !== baseSentiment?.bad);
+                if (liveChanged) {
+                    onScoreUpdate(stats.live);
+                }
             }
         };
 
-        fetchSummary();
+        const existing = getCachedModelSummary(modelName);
+        if (existing) {
+            applyStats(existing);
+            return () => {
+                mounted = false;
+            };
+        }
+
+        fetchCachedModelSummary(modelName).then((stats) => {
+            if (stats) applyStats(stats);
+        });
         return () => {
             mounted = false;
         };
-    }, [modelName, onScoreUpdate, onSummaryUpdate]);
+    }, [modelName, baseScore, baseVotes, baseSentiment, onScoreUpdate, onSummaryUpdate]);
 
     // Build question list dynamically from summary, or graceful default
     const questions: PollQuestionDef[] = useMemo(() => {
@@ -165,6 +218,10 @@ export default function ModelPollSurvey({
             if (res.ok) {
                 const json = await res.json();
                 if (json.success && json.stats) {
+                    modelSummaryCache.set(modelName.toLowerCase(), {
+                        ...json.stats,
+                        userVote: json.userVote ?? updated,
+                    });
                     setSummary(json.stats);
                     onSummaryUpdate?.(json.stats);
                     setJustVoted(true);
@@ -268,14 +325,14 @@ export default function ModelPollSurvey({
 
     return (
         <div
-            className="my-3.5 rounded-xl bg-slate-950/80 border border-slate-800/90 p-3.5 sm:p-4 text-slate-200 shadow-md backdrop-blur-md transition-all duration-300 relative group"
+            className="my-3.5 rounded-xl bg-slate-950/90 border border-slate-800/90 p-3.5 sm:p-4 text-slate-200 shadow-md transition-colors duration-200 relative group"
             onClick={(e) => e.stopPropagation()}
         >
             {/* Header pill / badge */}
             <div className="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-slate-800/70">
                 <div className="flex items-center gap-2">
                     <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-cyan-400 uppercase tracking-wider bg-cyan-950/50 px-2 py-0.5 rounded border border-cyan-500/30">
-                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
                         {t('models.poll.badge') || 'Community Poll'}
                     </span>
                     {justVoted && (

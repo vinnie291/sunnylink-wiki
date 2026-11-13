@@ -9,7 +9,7 @@ import ModelDetailModal from './ModelDetailModal';
 
 import { usePageSearch } from '../hooks/usePageSearch';
 
-import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Fuse from 'fuse.js';
 
@@ -177,7 +177,7 @@ function SkillBar({ label, value, colorClass, evidence }: { label: string; value
             <div className="h-1.5 w-full bg-slate-950/50 rounded-full overflow-hidden border border-slate-800/30 relative">
                 <div
                     style={{ width: `${(value / 99) * 100}%` }}
-                    className={`h-full rounded-full transition-all duration-1000 ease-out bg-gradient-to-r ${colorClass}`}
+                    className={`h-full rounded-full transition-[width] duration-500 ease-out bg-gradient-to-r ${colorClass}`}
                 />
             </div>
         </div>
@@ -192,19 +192,19 @@ function SkillRatingsGrid({ detail }: { detail: SkillRatingsDetail }) {
     const ratings = detail.ratings;
 
     const skills = [
-        { key: 'lat' as const, color: 'from-cyan-400 to-blue-500 shadow-[0_0_8px_rgba(34,211,238,0.3)]' },
-        { key: 'stability' as const, color: 'from-emerald-400 to-teal-500 shadow-[0_0_8px_rgba(52,211,153,0.3)]' },
-        { key: 'turns' as const, color: 'from-indigo-400 to-violet-500 shadow-[0_0_8px_rgba(129,140,248,0.3)]' },
-        { key: 'long' as const, color: 'from-amber-400 to-orange-500 shadow-[0_0_8px_rgba(251,191,36,0.3)]' },
-        { key: 'urban' as const, color: 'from-rose-400 to-pink-500 shadow-[0_0_8px_rgba(251,113,133,0.3)]' },
-        { key: 'comfort' as const, color: 'from-sky-400 to-indigo-500 shadow-[0_0_8px_rgba(56,189,248,0.3)]' },
+        { key: 'lat' as const, color: 'from-cyan-400 to-blue-500' },
+        { key: 'stability' as const, color: 'from-emerald-400 to-teal-500' },
+        { key: 'turns' as const, color: 'from-indigo-400 to-violet-500' },
+        { key: 'long' as const, color: 'from-amber-400 to-orange-500' },
+        { key: 'urban' as const, color: 'from-rose-400 to-pink-500' },
+        { key: 'comfort' as const, color: 'from-sky-400 to-indigo-500' },
     ];
 
     const visibleSkills = skills.filter((skill) => detail.ratedAxes.includes(skill.key));
     if (!detail.hasSufficientEvidence || visibleSkills.length === 0) return null;
 
     return (
-        <div className="grid grid-cols-2 gap-x-3 gap-y-2.5 my-3.5 bg-slate-950/20 backdrop-blur-md p-3 rounded-lg border border-slate-800/40">
+        <div className="grid grid-cols-2 gap-x-3 gap-y-2.5 my-3.5 bg-slate-950/50 p-3 rounded-lg border border-slate-800/40">
             {visibleSkills.map((skill) => (
                 <SkillBar
                     key={skill.key}
@@ -300,7 +300,7 @@ function ForumActivityPanel({ activity, forumUrl }: { activity?: ForumActivity; 
 }
 
 // Model Card Component
-function ModelCard({
+const ModelCard = memo(function ModelCard({
     model,
     onExpand,
     forumActivity,
@@ -323,6 +323,9 @@ function ModelCard({
     } | null>(null);
     const [simulationVotes, setSimulationVotes] = useState<ModelVoteSummary>();
     const [isPulsing, setIsPulsing] = useState(false);
+
+    const skillDetail = useMemo(() => deriveSkillRatingsDetail(model), [model]);
+    const routeCount = useMemo(() => getModelFleetStat(model.name)?.routes || 0, [model.name]);
 
     const liveVotes = userVoteData?.totalVotes ?? model.totalVotes;
     const hasRatingVotes = (liveVotes ?? 0) > 0;
@@ -407,7 +410,7 @@ function ModelCard({
         <div
             id={model.name}
             onClick={() => onDetails?.(model)}
-            className={`bg-slate-900/50 backdrop-blur-sm border rounded-xl overflow-hidden transition-all duration-300 group cursor-pointer ${
+            className={`bg-slate-900/80 border rounded-xl overflow-hidden transition-colors duration-200 group cursor-pointer ${
                 isHighlighted
                     ? 'border-cyan-400 ring-2 ring-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.45)] scale-[1.01]'
                     : 'border-slate-700/50 hover:border-cyan-500/50'
@@ -425,7 +428,7 @@ function ModelCard({
                         }}
                         aria-label={tx(`Try ${model.name} in simulator`)}
                         title={tx("Try in simulator")}
-                        className="absolute top-2 right-2 z-10 h-7 px-2 gap-1.5 text-[10px] rounded-lg bg-black/40 hover:bg-black/70 backdrop-blur-sm text-white flex items-center justify-center transition-colors border border-white/10"
+                        className="absolute top-2 right-2 z-10 h-7 px-2 gap-1.5 text-[10px] rounded-lg bg-black/60 hover:bg-black/80 text-white flex items-center justify-center transition-colors border border-white/10"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4h4m8 0h4v4m0 8v4h-4m-8 0H4v-4" />
@@ -450,7 +453,7 @@ function ModelCard({
                             )}
                             <ConfidencePill
                                 reviewCount={model.totalVotes || 0}
-                                routeCount={getModelFleetStat(model.name)?.routes || 0}
+                                routeCount={routeCount}
                             />
 
                             {/* Flag Button */}
@@ -548,7 +551,7 @@ function ModelCard({
             </p>
 
             {/* Skill Attributes Grid */}
-            <SkillRatingsGrid detail={deriveSkillRatingsDetail(model)} />
+            <SkillRatingsGrid detail={skillDetail} />
 
 
             {/* Interactive Discourse-Style Voting Survey */}
@@ -583,7 +586,7 @@ function ModelCard({
             </div>
         </div>
     );
-}
+});
 
 // Helper for Vibe Icons
 // Skeleton + lazy mount — keeps the model grid cheap while scrolling.
@@ -927,74 +930,60 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
         return baseModels;
     }, [baseModels, activeFilters]);
 
+    const modelFuse = useMemo(() => new Fuse(eligibleModels, {
+        keys: ['name', 'consensus', 'tags'],
+        threshold: 0.3,
+        includeScore: true,
+        ignoreLocation: true,
+        minMatchCharLength: 2,
+    }), [eligibleModels]);
+
     // Fuzzy search using Fuse.js for models (searches name, consensus, tags)
     const localModels = useMemo(() => {
-        const result = eligibleModels;
-
-        if (!searchQuery || searchQuery.trim().length === 0) return result;
-
-        const fuse = new Fuse(result, {
-            keys: ['name', 'consensus', 'tags'],
-            threshold: 0.3,
-            includeScore: true,
-            ignoreLocation: true,
-            minMatchCharLength: 2,
-        });
-
-        return fuse.search(searchQuery).map(r => r.item);
-    }, [eligibleModels, searchQuery]);
+        if (!searchQuery || searchQuery.trim().length === 0) return eligibleModels;
+        return modelFuse.search(searchQuery).map(r => r.item);
+    }, [eligibleModels, modelFuse, searchQuery]);
 
     const modelsToDisplay = usePageSearch(eligibleModels, localModels, searchQuery, item => ({ type: 'model', id: item.name, title: item.name }));
 
     const activeModels = useMemo(() => {
         if (searchQuery.trim()) return modelsToDisplay;
-        const sorted = [...modelsToDisplay].sort((a, b) => {
-            let diff = 0;
-            const dateA = new Date(a.date).getTime();
-            const dateB = new Date(b.date).getTime();
 
+        // Precompute sort keys once per model rather than inside the O(N log N) comparator
+        const enriched = modelsToDisplay.map(model => ({
+            model,
+            dateMs: new Date(model.date).getTime(),
+            confidence: (sortBy === 'confidence-desc' || sortBy === 'confidence-asc') ? getModelConfidence(model) : 0,
+            score: model.communityScore || 0,
+        }));
+
+        enriched.sort((a, b) => {
             switch (sortBy) {
                 case 'confidence-desc': {
-                    const scoreA = getModelConfidence(a);
-                    const scoreB = getModelConfidence(b);
-                    diff = scoreB - scoreA;
-                    if (diff === 0) {
-                        diff = (b.communityScore || 0) - (a.communityScore || 0);
-                    }
-                    break;
+                    const diff = b.confidence - a.confidence;
+                    return diff !== 0 ? diff : b.score - a.score;
                 }
                 case 'confidence-asc': {
-                    const scoreA = getModelConfidence(a);
-                    const scoreB = getModelConfidence(b);
-                    diff = scoreA - scoreB;
-                    if (diff === 0) {
-                        diff = (a.communityScore || 0) - (b.communityScore || 0);
-                    }
-                    break;
+                    const diff = a.confidence - b.confidence;
+                    return diff !== 0 ? diff : a.score - b.score;
                 }
                 case 'name-asc':
-                    diff = a.name.localeCompare(b.name);
-                    break;
+                    return a.model.name.localeCompare(b.model.name);
                 case 'name-desc':
-                    diff = b.name.localeCompare(a.name);
-                    break;
+                    return b.model.name.localeCompare(a.model.name);
                 case 'score-asc':
-                    diff = (a.communityScore || 0) - (b.communityScore || 0);
-                    break;
+                    return a.score - b.score;
                 case 'score-desc':
-                    diff = (b.communityScore || 0) - (a.communityScore || 0);
-                    break;
+                    return b.score - a.score;
                 case 'date-asc': // Oldest first
-                    diff = dateA - dateB;
-                    break;
+                    return a.dateMs - b.dateMs;
                 case 'date-desc': // Newest first
-                    diff = dateB - dateA;
-                    break;
-                default: diff = 0;
+                    return b.dateMs - a.dateMs;
+                default:
+                    return 0;
             }
-            return diff;
         });
-        return sorted;
+        return enriched.map(e => e.model);
     }, [modelsToDisplay, sortBy, searchQuery, getModelConfidence]);
 
     const handleSort = (key: 'name' | 'score' | 'date') => {
@@ -1329,16 +1318,18 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-800">
-                                            {activeModels.map((model) => {
+                                            {activeModels.map((model, index) => {
                                                 const isTargeted = highlightedModel === model.name;
                                                 const slug = modelNameToSlug(model.name);
                                                 return (
-                                                    <motion.tr
+                                                    <tr
                                                         key={model.name}
                                                         id={slug}
                                                         data-model-name={model.name}
                                                         data-model-slug={slug}
-                                                        className={`group transition-all duration-300 scroll-mt-32 ${
+                                                        className={`group transition-colors duration-200 scroll-mt-32 ${
+                                                            index >= 12 && !isTargeted ? 'cv-auto-item' : ''
+                                                        } ${
                                                             isTargeted
                                                                 ? 'bg-cyan-950/60 ring-2 ring-cyan-400 ring-inset shadow-[0_0_20px_rgba(6,182,212,0.3)]'
                                                                 : 'hover:bg-slate-800/50'
@@ -1372,7 +1363,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                                                 </span>
                                                             )}
                                                         </td>
-                                                    </motion.tr>
+                                                    </tr>
                                                 );
                                             })}
                                         </tbody>
@@ -1387,7 +1378,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                 exit={{ opacity: 0 }}
                                 className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-2"
                             >
-                                {activeModels.map((model) => {
+                                {activeModels.map((model, index) => {
                                     const topicId = model.forumUrl ? extractTopicId(model.forumUrl) : null;
                                     const activity = topicId && forumActivity ? forumActivity[topicId] : undefined;
                                     const isTargeted = highlightedModel === model.name;
@@ -1398,7 +1389,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                             id={slug}
                                             data-model-name={model.name}
                                             data-model-slug={slug}
-                                            className="h-full scroll-mt-32 transition-all duration-300"
+                                            className={`h-full scroll-mt-32 ${index >= 4 && !isTargeted ? 'cv-auto-card' : ''}`}
                                         >
                                             {model.name === 'Pop v2' && <span id="pop-model-v2" className="sr-only" />}
                                             <LazyModelCard forceShow={isTargeted}>
