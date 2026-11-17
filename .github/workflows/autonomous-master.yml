@@ -23,6 +23,7 @@ concurrency:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   autonomous-sync-and-deploy:
@@ -54,6 +55,7 @@ jobs:
         id: sync
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CLARITY_API_TOKEN: ${{ secrets.CLARITY_API_TOKEN }}
         run: |
           if [ "${{ inputs.force_sync }}" = "true" ]; then
             node scripts/autonomous_sync.mjs --force
@@ -67,14 +69,19 @@ jobs:
           npm test
           node scripts/check-i18n.mjs --data-only
 
-      - name: Commit and push updated datasets
+      - name: Sync Clarity UX alerts to GitHub Issues
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/sync_clarity_github_issues.mjs
+
+      - name: Commit and push updated datasets and auto-fixes
         if: steps.sync.outputs.changed == 'true'
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/ locales/
+          git add data/ locales/ app/ components/
           git diff --cached --quiet && echo "No changes to commit" && exit 0
-          git commit -m "chore(autonomy): sync upstream settings, models, and community sentiment [skip ci]"
+          git commit -m "chore(autonomy): sync upstream settings, models, clarity insights, and community sentiment [skip ci]"
           git pull --rebase origin main || true
           git push
 

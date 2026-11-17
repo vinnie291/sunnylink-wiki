@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import clarityRedirects from '@/data/clarity_redirects.json';
 
 const ROBOTS_CONTENT = `# AEO & SEO Policy: Allow search & citation-producing AI engines; block training-only scrapers.
 User-agent: *
@@ -100,6 +101,7 @@ Host: https://sunnylink.wiki
 
 // Pages that support text/markdown content negotiation
 const MARKDOWN_PAGES = new Set(['/', '/models', '/features', '/cars', '/wizard', '/stats', '/llms-full.txt']);
+const CLARITY_REDIRECT_MAP = (clarityRedirects?.redirects ?? {}) as Record<string, string>;
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -119,6 +121,14 @@ export function middleware(request: NextRequest) {
     return NextResponse.rewrite(url);
   }
 
+  // Apply automated Clarity-discovered redirects for broken/typo/deep-link paths
+  const redirectTarget =
+    CLARITY_REDIRECT_MAP[pathname] ??
+    CLARITY_REDIRECT_MAP[pathname.toLowerCase()];
+  if (redirectTarget && redirectTarget !== pathname) {
+    return NextResponse.redirect(new URL(redirectTarget, request.url), 308);
+  }
+
   // RFC 8288 / Cloudflare Markdown for Agents: return markdown when requested
   const accept = request.headers.get('accept') ?? '';
   if (MARKDOWN_PAGES.has(pathname) && accept.includes('text/markdown')) {
@@ -130,5 +140,9 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/robots.txt', '/llms-full.txt', '/', '/models', '/features', '/cars', '/wizard', '/stats'],
+  matcher: [
+    '/robots.txt',
+    '/llms-full.txt',
+    '/((?!_next/static|_next/image|favicon\\.ico|api/|\\.well-known/|.*\\.(?:png|jpg|jpeg|gif|webp|svg|ico|css|js|woff2?|json|xml|txt)$).*)',
+  ],
 };

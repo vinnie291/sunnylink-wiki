@@ -44,7 +44,7 @@ function runStep(name, cmd, args, { required = false } = {}) {
 
 function getModifiedFiles() {
     try {
-        const out = execFileSync('git', ['status', '--porcelain', 'data/', 'locales/'], {
+        const out = execFileSync('git', ['status', '--porcelain', 'data/', 'locales/', 'app/', 'components/'], {
             cwd: ROOT,
             encoding: 'utf8',
         });
@@ -55,6 +55,16 @@ function getModifiedFiles() {
             .map(l => l.replace(/^[A-Z?]+\s+/, ''));
     } catch {
         return [];
+    }
+}
+
+function readClaritySummary() {
+    try {
+        const p = path.join(ROOT, 'data', 'clarity_insights.json');
+        if (!fs.existsSync(p)) return null;
+        return JSON.parse(fs.readFileSync(p, 'utf8'));
+    } catch {
+        return null;
     }
 }
 
@@ -126,10 +136,25 @@ async function main() {
         )
     );
 
+    // 7. Microsoft Clarity Data Export & Automated UX Remediation
+    results.push(
+        runStep(
+            '7. Export Microsoft Clarity Insights & Auto-Remediate UX Issues',
+            'node',
+            [
+                'scripts/sync_clarity_insights.mjs',
+                ...(FORCE ? ['--force'] : []),
+                ...(OFFLINE ? ['--offline'] : []),
+            ]
+        )
+    );
+
     const modifiedFiles = getModifiedFiles();
-    const deployableFiles = modifiedFiles.filter(f => f !== 'data/upstream-docs-state.json');
+    const stateOnlyFiles = new Set(['data/upstream-docs-state.json', 'data/clarity_insights.json']);
+    const deployableFiles = modifiedFiles.filter(f => !stateOnlyFiles.has(f));
     const changed = modifiedFiles.length > 0;
     const deployNeeded = deployableFiles.length > 0 || FORCE;
+    const clarity = readClaritySummary();
 
     console.log(`\n================================================================`);
     console.log(`📊 Autonomous Sync Summary`);
@@ -148,6 +173,22 @@ async function main() {
     }
 
     if (process.env.GITHUB_STEP_SUMMARY) {
+        const clarityLines = [];
+        if (clarity) {
+            const issues = clarity.issues || [];
+            const fixes = clarity.autoFixesApplied || [];
+            clarityLines.push(
+                '### 🔍 Microsoft Clarity UX Health (Last 3 Days)',
+                '',
+                `- **Status:** \`${clarity.lastStatus}\`${clarity.summary ? ` | **Sessions:** ${clarity.summary.totalSessions} | **Script Errors:** ${clarity.summary.totalScriptErrors} | **Rage Clicks:** ${clarity.summary.totalRageClicks} | **Dead Clicks:** ${clarity.summary.totalDeadClicks}` : ''}`,
+                `- **Issues Detected:** ${issues.length} | **Auto-Fixes Applied:** ${fixes.length}`,
+                ...(issues.length > 0
+                    ? issues.map(i => `  - ${i.autoFixed ? '🛠️ Auto-fixed' : `⚠️ ${i.severity.toUpperCase()}`}: ${i.summary}`)
+                    : []),
+                ''
+            );
+        }
+
         const summaryLines = [
             '## 🤖 Autonomous Website Sync Summary',
             '',
@@ -155,6 +196,7 @@ async function main() {
             '| :--- | :---: | :---: |',
             ...results.map(r => `| ${r.name} | ${r.status === 'ok' ? '✅ OK' : '⚠️ Warning'} | ${r.elapsed}s |`),
             '',
+            ...clarityLines,
             `**Modified Files (${modifiedFiles.length}):** ${modifiedFiles.length ? modifiedFiles.map(f => `\`${f}\``).join(', ') : '_None_'}`,
             `**Deploy Triggered:** \`${deployNeeded}\``,
             '',
