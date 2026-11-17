@@ -181,33 +181,33 @@ export function normalizeClarityMetrics(rawMetrics, dimensionKey = 'URL') {
                     break;
                 case 'deadclickcount':
                     b.deadClicks = count;
-                    b.deadClickSessions = sessCount;
-                    b.deadClickRatePct = sessPct;
+                    b.deadClickSessions = count === 0 ? 0 : sessCount;
+                    b.deadClickRatePct = count === 0 ? 0 : sessPct;
                     break;
                 case 'rageclickcount':
                     b.rageClicks = count;
-                    b.rageClickSessions = sessCount;
-                    b.rageClickRatePct = sessPct;
+                    b.rageClickSessions = count === 0 ? 0 : sessCount;
+                    b.rageClickRatePct = count === 0 ? 0 : sessPct;
                     break;
                 case 'errorclickcount':
                     b.errorClicks = count;
-                    b.errorClickSessions = sessCount;
-                    b.errorClickRatePct = sessPct;
+                    b.errorClickSessions = count === 0 ? 0 : sessCount;
+                    b.errorClickRatePct = count === 0 ? 0 : sessPct;
                     break;
                 case 'scripterrorcount':
                     b.scriptErrors = count;
-                    b.scriptErrorSessions = sessCount;
-                    b.scriptErrorRatePct = sessPct;
+                    b.scriptErrorSessions = count === 0 ? 0 : sessCount;
+                    b.scriptErrorRatePct = count === 0 ? 0 : sessPct;
                     break;
                 case 'quickbackclick':
                 case 'quickbackclickcount':
                     b.quickbackClicks = count;
-                    b.quickbackRatePct = sessPct;
+                    b.quickbackRatePct = count === 0 ? 0 : sessPct;
                     break;
                 case 'excessivescroll':
                 case 'excessivescrollcount':
                     b.excessiveScrolls = count;
-                    b.excessiveScrollRatePct = sessPct;
+                    b.excessiveScrollRatePct = count === 0 ? 0 : sessPct;
                     break;
                 case 'popularpages':
                     b.sessions = Math.max(b.sessions, sessCount);
@@ -299,7 +299,10 @@ function loadModelAndCarLookup(rootDir = DEFAULT_ROOT) {
 
 export function resolveBrokenPathTarget(rawPathname, validRoutes, lookup) {
     if (!rawPathname || rawPathname === '/') return null;
-    const stripped = rawPathname.length > 1 ? rawPathname.replace(/\/+$/, '') : rawPathname;
+    const cleaned = rawPathname
+        .replace(/(?:&nbsp;?|&amp;?|%C2%A0|[.,;:!?)]+)+$/gi, '')
+        .trim();
+    const stripped = cleaned.length > 1 ? cleaned.replace(/\/+$/, '') : (cleaned || '/');
     if (validRoutes.has(stripped)) {
         return rawPathname !== stripped ? stripped : null;
     }
@@ -386,7 +389,7 @@ export function analyzeClarityIssues(pages = [], devices = [], rootDir = DEFAULT
         }
 
         // 2. JavaScript runtime errors on route
-        if (page.scriptErrors >= 3 || (page.sessions >= 20 && page.scriptErrorRatePct >= 2)) {
+        if (page.scriptErrors >= 3 || (page.scriptErrors >= 2 && page.sessions >= 20 && page.scriptErrorRatePct >= 2)) {
             issues.push({
                 id: `script_error:${cleanPath}`,
                 type: 'script_error',
@@ -403,7 +406,7 @@ export function analyzeClarityIssues(pages = [], devices = [], rootDir = DEFAULT
         }
 
         // 3. Error clicks (clicks triggering JS errors or failed interactions)
-        if (page.errorClicks >= 5 || (page.sessions >= 20 && page.errorClickRatePct >= 3)) {
+        if (page.errorClicks >= 5 || (page.errorClicks >= 2 && page.sessions >= 20 && page.errorClickRatePct >= 3)) {
             issues.push({
                 id: `error_click:${cleanPath}`,
                 type: 'error_click',

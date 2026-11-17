@@ -81,7 +81,8 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add data/ locales/ app/ components/
           git diff --cached --quiet && echo "No changes to commit" && exit 0
-          git commit -m "chore(autonomy): sync upstream settings, models, clarity insights, and community sentiment [skip ci]"
+          FIX_NOTES=$(node -e 'const fs=require("fs"); try{const d=JSON.parse(fs.readFileSync("data/clarity_insights.json","utf8")); const f=d.autoFixesApplied||[]; if(f.length){console.log("\nClarity Auto-Fixes Applied:\n"+f.map(x=>"- "+JSON.stringify(x)).join("\n"));}}catch{}')
+          git commit -m "chore(autonomy): sync upstream settings, models, clarity insights, and community sentiment [skip ci]" -m "$FIX_NOTES"
           git pull --rebase origin main || true
           git push
 

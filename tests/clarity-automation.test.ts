@@ -77,6 +77,18 @@ test('normalizeClarityMetrics parses Clarity API response fields accurately', ()
                 },
             ],
         },
+        {
+            metricName: 'ErrorClickCount',
+            information: [
+                {
+                    // Clarity returns sessionsWithMetricPercentage=100 when subTotal=0
+                    subTotal: '0',
+                    sessionsCount: '120',
+                    sessionsWithMetricPercentage: 100,
+                    URL: 'https://sunnylink.wiki/models',
+                },
+            ],
+        },
     ];
 
     const normalized = normalizeClarityMetrics(raw, 'URL');
@@ -88,6 +100,8 @@ test('normalizeClarityMetrics parses Clarity API response fields accurately', ()
     assert.equal(normalized[0].scriptErrorRatePct, 4.17);
     assert.equal(normalized[0].rageClicks, 12);
     assert.equal(normalized[0].rageClickRatePct, 7.5);
+    assert.equal(normalized[0].errorClicks, 0);
+    assert.equal(normalized[0].errorClickRatePct, 0);
 });
 
 test('syncClarityPipeline fetches Clarity insights, auto-fixes broken paths via redirects, and respects daily quota guard', async () => {
