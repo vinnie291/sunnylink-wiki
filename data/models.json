@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 139,
-  "lastUpdated": "November 17, 2026",
+  "totalModels": 140,
+  "lastUpdated": "November 19, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "The Chestnut GPU Series (Big Models)",
@@ -973,6 +973,25 @@
           "testedOn": [],
           "positives": [],
           "negatives": []
+        },
+        {
+          "name": "Fairy tale model",
+          "date": "November 18, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "bestFor": "Early experimental testing; performance is not yet verified.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "57a0a395cad83c026405fa460e5e542791d1ffd1",
+          "shortName": "FTM",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
         }
       ]
     },
@@ -1870,12 +1889,12 @@
             "Experimental"
           ],
           "communityScore": 68,
-          "totalVotes": 17,
+          "totalVotes": 18,
           "sentiment": {
-            "great": 47,
-            "good": 24,
+            "great": 44,
+            "good": 28,
             "ok": 6,
-            "bad": 23
+            "bad": 22
           },
           "consensus": "An experimental Deep RL small model built by YassineYousfi and polled against the CD210 Model default. The forum overall poll has 9 ratings (four Great, two Good, one Ok, one Bad, and one Poor), while 8 of 13 comparison voters rate it better than CD210 and 4 of 9 support making it the default. Feedback splits by setup: a 2024 Hyundai Ioniq 5 (HDA2) tester reports less aggressive behavior than TSFDOM with better stopping and a pleasant drive with Blendful and Alpha longitudinal, whereas a 2026 Hyundai Ioniq 5 (angle steering) tester reports very slow lane changes and giving up when a single lane splits into multiple turn lanes at a stop light.",
           "note": "Built from openpilot commit 875a6b7 (originally listed as CH Driving / CHD before being renamed to Cheddar / CHEDDAR). Listed in Model Manager under '2026 Deep RL Models' with selector 21 and default overrides lat .0 / long .3. Requires a comma four or a comma 3X.",

@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 139,
-  "lastUpdated": "November 17, 2026",
+  "totalModels": 140,
+  "lastUpdated": "November 19, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "Die Chestnut GPU-Serie (große Modelle)",
@@ -973,6 +973,25 @@
           "testedOn": [],
           "positives": [],
           "negatives": []
+        },
+        {
+          "name": "Fairy tale model",
+          "date": "November 18, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "bestFor": "Frühe experimentelle Tests; Die Leistung ist noch nicht überprüft.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "57a0a395cad83c026405fa460e5e542791d1ffd1",
+          "shortName": "FTM",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
         }
       ]
     },
@@ -1870,12 +1889,12 @@
             "Experimental"
           ],
           "communityScore": 68,
-          "totalVotes": 17,
+          "totalVotes": 18,
           "sentiment": {
-            "great": 47,
-            "good": 24,
+            "great": 44,
+            "good": 28,
             "ok": 6,
-            "bad": 23
+            "bad": 22
           },
           "consensus": "Ein experimentelles Deep-RL-Small-Model von YassineYousfi, das im Forum gegen das Standardmodell CD210 Model abgestimmt wird. Die Gesamtumfrage hat 9 Bewertungen (viermal Great, zweimal Good, einmal Ok, einmal Bad und einmal Poor), während 8 von 13 Teilnehmern der Vergleichsumfrage es besser als CD210 einstufen und 4 von 9 es als neuen Standard befürworten. Das Feedback fällt je nach Setup unterschiedlich aus: Ein Tester auf einem 2024 Hyundai Ioniq 5 (HDA2) berichtet von weniger aggressivem Verhalten als TSFDOM, besserem Anhalten und einer angenehmen Fahrt mit Blendful und Alpha-Längsregelung, während ein Tester auf einem 2026 Hyundai Ioniq 5 (Winkellenkung) sehr langsame Spurwechsel meldet und angibt, dass das Modell aufgibt, wenn sich eine Spur an einer Ampel in mehrere Abbiegespuren aufteilt.",
           "note": "Gebaut aus openpilot-Commit 875a6b7 (ursprünglich als CH Driving / CHD geführt, bevor es in Cheddar / CHEDDAR umbenannt wurde). In Model Manager unter ‚2026 Deep RL Models‘ mit Selector 21 und Standard-Overrides lat .0 / long .3 gelistet. Erfordert ein comma four oder ein comma 3X.",
