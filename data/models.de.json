@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 141,
-  "lastUpdated": "November 21, 2026",
+  "totalModels": 143,
+  "lastUpdated": "November 22, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "Die Chestnut GPU-Serie (große Modelle)",
@@ -1000,6 +1000,46 @@
           "testedOn": [],
           "positives": [],
           "negatives": []
+        },
+        {
+          "name": "Fairy Tale Model v1.1",
+          "date": "November 20, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "bestFor": "Frühe experimentelle Tests; Die Leistung ist noch nicht überprüft.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "be5faaedf153f7f1d1303d2b74f20b1b784605aa",
+          "shortName": "FTMV1.1",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": [],
+          "forumUrl": "https://community.sunnypilot.ai/t/7994"
+        },
+        {
+          "name": "ETCW Driving",
+          "date": "November 21, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Big Model",
+            "Chestnut",
+            "Deep RL",
+            "Experimental"
+          ],
+          "bestFor": "Frühe experimentelle Tests; Die Leistung ist noch nicht überprüft.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "f50b5f1923deb9cd553b91dfac8f52ffa9c3420b",
+          "shortName": "ED",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": [],
+          "forumUrl": "https://community.sunnypilot.ai/t/7992"
         }
       ]
     },
@@ -1542,10 +1582,10 @@
             "Highway"
           ],
           "communityScore": 87,
-          "totalVotes": 35,
+          "totalVotes": 36,
           "sentiment": {
-            "great": 69,
-            "good": 20,
+            "great": 67,
+            "good": 22,
             "ok": 6,
             "bad": 5
           },
@@ -1896,13 +1936,13 @@
             "Deep RL",
             "Experimental"
           ],
-          "communityScore": 69,
-          "totalVotes": 19,
+          "communityScore": 71,
+          "totalVotes": 20,
           "sentiment": {
-            "great": 47,
-            "good": 26,
+            "great": 50,
+            "good": 25,
             "ok": 5,
-            "bad": 22
+            "bad": 20
           },
           "consensus": "Ein experimentelles Deep-RL-Small-Model von YassineYousfi, das im Forum gegen das Standardmodell CD210 Model abgestimmt wird. Die Gesamtumfrage hat 9 Bewertungen (viermal Great, zweimal Good, einmal Ok, einmal Bad und einmal Poor), während 8 von 13 Teilnehmern der Vergleichsumfrage es besser als CD210 einstufen und 4 von 9 es als neuen Standard befürworten. Das Feedback fällt je nach Setup unterschiedlich aus: Ein Tester auf einem 2024 Hyundai Ioniq 5 (HDA2) berichtet von weniger aggressivem Verhalten als TSFDOM, besserem Anhalten und einer angenehmen Fahrt mit Blendful und Alpha-Längsregelung, während ein Tester auf einem 2026 Hyundai Ioniq 5 (Winkellenkung) sehr langsame Spurwechsel meldet und angibt, dass das Modell aufgibt, wenn sich eine Spur an einer Ampel in mehrere Abbiegespuren aufteilt.",
           "note": "Gebaut aus openpilot-Commit 875a6b7 (ursprünglich als CH Driving / CHD geführt, bevor es in Cheddar / CHEDDAR umbenannt wurde). In Model Manager unter ‚2026 Deep RL Models‘ mit Selector 21 und Standard-Overrides lat .0 / long .3 gelistet. Erfordert ein comma four oder ein comma 3X.",
