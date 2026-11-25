@@ -154,6 +154,57 @@ export default function ModelTrajectoryVisualizer({ modelName, votes }: { modelN
     const egoX = egoKind === 'plan' ? cur.plan : cur[egoKind];
     const egoVisualX = controller === 'compare' ? cur.torqueLimited : egoX;
 
+    const egoPathAt = (s: number) =>
+        controller === 'plan' ? run.planAt(s)
+        : controller === 'highTorque' ? run.execAt('highTorque', s)
+        : run.execAt('torqueLimited', s);
+
+    const visualHeadingDeg = (fn: (s: number) => number, s: number) => {
+        const dx = px(fn(s + 3)) - px(fn(s));
+        const dy = 3 * PX_PER_M_Y;
+        return Math.max(-18, Math.min(18, (Math.atan2(dx, dy) * 180) / Math.PI * 0.65));
+    };
+
+    // Keep sleek automotive aspect ratio (~1:1.75) inside the laterally exaggerated 48px lane,
+    // with front bumper anchored at exact longitudinal `frontY` (`CAR_Y` / `py(cur.lead)`).
+    const carW = 14.6;
+    const carH = 25.5;
+    const renderTopDownCar = (centerX: number, frontY: number, angleDeg: number, bodyFill: string, bodyStroke: string, isBraking: boolean) => {
+        const halfW = carW / 2;
+        const midY = frontY + carH / 2;
+        return (
+            <g transform={`translate(${centerX.toFixed(2)} ${midY.toFixed(2)}) rotate(${angleDeg.toFixed(2)}) translate(0 ${(-carH / 2).toFixed(2)})`}>
+                {/* Contact shadow */}
+                <ellipse cx="0" cy={carH * 0.52} rx={halfW + 1.8} ry={carH * 0.54} fill="#050b12" opacity="0.48" />
+                {/* Four wheels */}
+                <rect x={-halfW - 0.8} y={carH * 0.14} width="2.2" height={carH * 0.22} rx="0.9" fill="#0f172a" />
+                <rect x={halfW - 1.4} y={carH * 0.14} width="2.2" height={carH * 0.22} rx="0.9" fill="#0f172a" />
+                <rect x={-halfW - 0.8} y={carH * 0.66} width="2.2" height={carH * 0.22} rx="0.9" fill="#0f172a" />
+                <rect x={halfW - 1.4} y={carH * 0.66} width="2.2" height={carH * 0.22} rx="0.9" fill="#0f172a" />
+                {/* Sculpted body shell */}
+                <path
+                    d={`M${(-halfW + 2.2).toFixed(1)},0.4 Q0,-0.4 ${(halfW - 2.2).toFixed(1)},0.4 L${halfW.toFixed(1)},3.4 V${(carH - 2.6).toFixed(1)} Q${halfW.toFixed(1)},${carH.toFixed(1)} ${(halfW - 2.4).toFixed(1)},${carH.toFixed(1)} H${(-halfW + 2.4).toFixed(1)} Q${(-halfW).toFixed(1)},${carH.toFixed(1)} ${(-halfW).toFixed(1)},${(carH - 2.6).toFixed(1)} V3.4 Z`}
+                    fill={bodyFill}
+                    stroke={bodyStroke}
+                    strokeWidth="1"
+                />
+                {/* Side mirrors */}
+                <path d={`M${(-halfW).toFixed(1)},${(carH * 0.30).toFixed(1)} l-2.1,0.7 l0.4,1.3 l1.7,-0.3 Z M${halfW.toFixed(1)},${(carH * 0.30).toFixed(1)} l2.1,0.7 l-0.4,1.3 l-1.7,-0.3 Z`} fill={bodyFill} stroke={bodyStroke} strokeWidth="0.6" />
+                {/* Windshield, roof & rear glass */}
+                <path d={`M${(-halfW + 2.4).toFixed(1)},${(carH * 0.26).toFixed(1)} Q0,${(carH * 0.21).toFixed(1)} ${(halfW - 2.4).toFixed(1)},${(carH * 0.26).toFixed(1)} L${(halfW - 3.3).toFixed(1)},${(carH * 0.43).toFixed(1)} H${(-halfW + 3.3).toFixed(1)} Z`} fill="#132636" />
+                <rect x={-halfW + 3.3} y={carH * 0.43} width={(halfW - 3.3) * 2} height={carH * 0.27} rx="1.2" fill={bodyFill} opacity="0.92" />
+                <path d={`M${(-halfW + 3.3).toFixed(1)},${(carH * 0.70).toFixed(1)} H${(halfW - 3.3).toFixed(1)} L${(halfW - 2.5).toFixed(1)},${(carH * 0.84).toFixed(1)} H${(-halfW + 2.5).toFixed(1)} Z`} fill="#132636" />
+                {/* Headlights */}
+                <rect x={-halfW + 1.8} y="0.6" width="3.8" height="1.4" rx="0.7" fill="#fef9c3" />
+                <rect x={halfW - 5.6} y="0.6" width="3.8" height="1.4" rx="0.7" fill="#fef9c3" />
+                {/* Taillights / Brake glow */}
+                <rect x={-halfW + 1.6} y={carH - 1.7} width="4.4" height="1.5" rx="0.7" fill={isBraking ? '#ff3b3f' : '#991b1b'} />
+                <rect x={halfW - 6.0} y={carH - 1.7} width="4.4" height="1.5" rx="0.7" fill={isBraking ? '#ff3b3f' : '#991b1b'} />
+                {isBraking && <rect x="-3.4" y={carH - 3.3} width="6.8" height="1.0" rx="0.5" fill="#ff5252" />}
+            </g>
+        );
+    };
+
     const showHigh = controller === 'highTorque' || controller === 'compare';
     const showLimited = controller === 'torqueLimited' || controller === 'compare';
 
@@ -240,9 +291,9 @@ export default function ModelTrajectoryVisualizer({ modelName, votes }: { modelN
                         </linearGradient>
                     </defs>
                     <rect width={VIEW_W} height={VIEW_H} fill="#0f1b1a" />
-                    <polygon points={roadPoly} fill="#27323f" />
-                    <polyline points={offsetLine(-edge)} fill="none" stroke="#e2e8f0" strokeOpacity=".75" strokeWidth="1.6" />
-                    <polyline points={offsetLine(edge)} fill="none" stroke="#e2e8f0" strokeOpacity=".75" strokeWidth="1.6" />
+                    <polygon points={roadPoly} fill="#25303d" />
+                    <polyline points={offsetLine(-edge)} fill="none" stroke="#e2e8f0" strokeOpacity=".78" strokeWidth="1.6" />
+                    <polyline points={offsetLine(edge)} fill="none" stroke="#e2e8f0" strokeOpacity=".78" strokeWidth="1.6" />
                     <polyline points={offsetLine(-LANE_WIDTH_M / 2)} fill="none" stroke="#cbd5e1" strokeOpacity=".55" strokeWidth="1.4" strokeDasharray="10 9" />
                     <polyline points={offsetLine(LANE_WIDTH_M / 2)} fill="none" stroke="#cbd5e1" strokeOpacity=".55" strokeWidth="1.4" strokeDasharray="10 9" />
 
@@ -252,14 +303,23 @@ export default function ModelTrajectoryVisualizer({ modelName, votes }: { modelN
                                 x1={px(run.roadAt(run.stopLineS) - LANE_WIDTH_M / 2)} x2={px(run.roadAt(run.stopLineS) + LANE_WIDTH_M / 2)}
                                 y1={py(run.stopLineS)} y2={py(run.stopLineS)} stroke="#f8fafc" strokeWidth="4"
                             />
-                            <rect x={px(run.roadAt(run.stopLineS) - 0.95)} y={py(run.stopLineS + 13.5)} width={1.9 * PX_PER_M_X} height={4.5 * PX_PER_M_Y} rx="3" fill="#64748b" />
+                            {renderTopDownCar(
+                                px(run.roadAt(run.stopLineS + 11.2)),
+                                py(run.stopLineS + 13.5),
+                                visualHeadingDeg(run.roadAt, run.stopLineS + 11.2),
+                                '#64748b',
+                                '#cbd5e1',
+                                true,
+                            )}
                         </g>
                     )}
-                    {cur.lead !== undefined && (
-                        <rect
-                            x={px(run.roadAt(cur.lead)) - (0.95 * PX_PER_M_X)} y={py(cur.lead)}
-                            width={1.9 * PX_PER_M_X} height={4.5 * PX_PER_M_Y} rx="3" fill="#94a3b8"
-                        />
+                    {cur.lead !== undefined && renderTopDownCar(
+                        px(run.roadAt(cur.lead - 2.25)),
+                        py(cur.lead),
+                        visualHeadingDeg(run.roadAt, cur.lead - 2.25),
+                        '#94a3b8',
+                        '#e2e8f0',
+                        false,
                     )}
 
                     {/* Ideal plan — green/cyan spline */}
@@ -272,10 +332,14 @@ export default function ModelTrajectoryVisualizer({ modelName, votes }: { modelN
                     )}
 
                     {/* Ego vehicle (front bumper aligned at cur.s / CAR_Y so stop-line holds and 4.5m lead gaps match exact physical positions) */}
-                    <rect
-                        x={px(egoVisualX) - 0.95 * PX_PER_M_X} y={CAR_Y}
-                        width={1.9 * PX_PER_M_X} height={4.5 * PX_PER_M_Y} rx="4" fill="#38bdf8" stroke="#e0f2fe" strokeWidth="1.2"
-                    />
+                    {renderTopDownCar(
+                        px(egoVisualX),
+                        CAR_Y,
+                        visualHeadingDeg(egoPathAt, cur.s - 2.25),
+                        '#38bdf8',
+                        '#e0f2fe',
+                        cur.a < -0.2 || cur.v < 0.2,
+                    )}
                 </svg>
                 <div className="pointer-events-none absolute left-2 top-2 rounded bg-black/50 px-1.5 py-0.5 text-[9px] uppercase tracking-wider text-slate-300">
                     {run.fromReplay ? <TranslatedText text="modelV2 replay" /> : <TranslatedText text="Simulated · lateral axis exaggerated" />}

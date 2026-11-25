@@ -32,7 +32,7 @@ export default function WorldCanvas({ options, revision, chapter, theme, skipRef
     const canvas = canvasRef.current;
     if (!canvas) return;
     let view: DrivingScene;
-    const sim = new Simulation({ ...optionsRef.current, scenario: options.scenario, density: options.density }, chapter);
+    const sim = new Simulation({ ...optionsRef.current, scenario: options.scenario, density: options.density, richTraffic: true }, chapter);
     const voteRequest = new AbortController();
     fetch(`/api/models/vote?model=${encodeURIComponent(sim.model.name)}`, { signal: voteRequest.signal })
       .then(response => response.ok ? response.json() : null)

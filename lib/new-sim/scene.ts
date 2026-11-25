@@ -53,6 +53,9 @@ export class DrivingScene {
   private palette = PALETTES.city;
   private night = false;
   private glow?: THREE.Texture;
+  private shadowTex?: THREE.Texture;
+  private skyTex?: THREE.Texture;
+  private sky?: THREE.Mesh;
   private egoPaint: THREE.MeshStandardMaterial[] = [];
   private paintedColor = '';
   private labels: THREE.Texture[] = [];
@@ -74,6 +77,7 @@ export class DrivingScene {
     this.palette = (night ? NIGHT_PALETTES : PALETTES)[sim.options.scenario] ?? PALETTES.city;
     this.scene.background = new THREE.Color(this.palette.ground);
     this.scene.fog = new THREE.Fog(this.palette.ground, this.palette.fog[0], this.palette.fog[1]);
+    this.buildSky();
     // Night still needs enough sky and bounce light to read shapes and depth;
     // a literally dark scene is unusable, so this is dusk rather than midnight.
     this.scene.add(new THREE.HemisphereLight(night ? '#5c76a8' : '#e7f3ff', night ? '#2b3444' : '#a8ad9b', night ? 2.5 : 2.4));
@@ -88,12 +92,18 @@ export class DrivingScene {
     this.scene.add(this.sun, this.sun.target, this.root);
     this.buildRoad();
     this.buildEnvironment();
+    const trafficPaints = ['#7c929c', '#cfd5d7', '#5a7078', '#bebaa8', '#3c5d75', '#8d4347', '#4f6d66'];
     for (const car of sim.cars) {
-      const mesh = this.buildCar(car.kind, car.id === 0 ? sim.options.carColor : ['#899da4', '#c5c9c8', '#667b81', '#b6b6a5'][car.id % 4], car.id === 0);
+      const mesh = this.buildCar(
+        car.kind,
+        car.id === 0 ? sim.options.carColor : trafficPaints[car.id % trafficPaints.length],
+        car.id === 0,
+        car.id,
+      );
       this.cars.set(car.id, mesh); this.root.add(mesh);
     }
     for (const car of sim.crossCars) {
-      const mesh = this.buildCar(car.id % 3 === 0 ? 'suv' : 'sedan', '#a0afb2');
+      const mesh = this.buildCar(car.id % 3 === 0 ? 'suv' : 'sedan', trafficPaints[(car.id + 2) % trafficPaints.length], false, car.id);
       this.crossCars.set(car.id, mesh); this.root.add(mesh);
     }
     this.path = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial({ color: '#28b69a', transparent: true, opacity: 0.38, depthWrite: false, side: THREE.DoubleSide }));
@@ -104,6 +114,34 @@ export class DrivingScene {
     this.laneLines.renderOrder = 3; this.roadEdges.renderOrder = 3;
     this.root.add(this.laneLines, this.roadEdges);
     this.update(0, sim.options);
+  }
+  /** Atmospheric sky dome whose horizon matches `palette.ground` so distant fog blends seamlessly. */
+  private buildSky() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 16; canvas.height = 256;
+    const ctx = canvas.getContext('2d')!;
+    const grad = ctx.createLinearGradient(0, 0, 0, 256);
+    if (this.night) {
+      grad.addColorStop(0, '#070f1d');
+      grad.addColorStop(0.34, '#111e34');
+      grad.addColorStop(0.49, this.palette.ground);
+      grad.addColorStop(1, this.palette.ground);
+    } else {
+      grad.addColorStop(0, '#8fb9e0');
+      grad.addColorStop(0.32, '#bed6ec');
+      grad.addColorStop(0.49, this.palette.ground);
+      grad.addColorStop(1, this.palette.ground);
+    }
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 16, 256);
+    this.skyTex = new THREE.CanvasTexture(canvas);
+    this.skyTex.colorSpace = THREE.SRGBColorSpace;
+    this.sky = new THREE.Mesh(
+      new THREE.SphereGeometry(950, 24, 16),
+      new THREE.MeshBasicMaterial({ map: this.skyTex, side: THREE.BackSide, fog: false, depthWrite: false }),
+    );
+    this.sky.renderOrder = -1;
+    this.scene.add(this.sky);
   }
   /** Un-indexed copy of a shared geometry, cached: mergeGeometries needs a
    * consistent index across a batch, and re-converting per part is wasteful. */
@@ -126,6 +164,38 @@ export class DrivingScene {
       this.glow.colorSpace = THREE.SRGBColorSpace;
     }
     return this.glow;
+  }
+  /** Soft oval ambient-occlusion contact shadow beneath every vehicle chassis. */
+  private aoShadowTexture() {
+    if (!this.shadowTex) {
+      const canvas = document.createElement('canvas'); canvas.width = canvas.height = 128;
+      const ctx = canvas.getContext('2d')!;
+      const gradient = ctx.createRadialGradient(64, 64, 8, 64, 64, 62);
+      gradient.addColorStop(0, 'rgba(5,10,16,0.92)');
+      gradient.addColorStop(0.62, 'rgba(5,10,16,0.52)');
+      gradient.addColorStop(1, 'rgba(5,10,16,0)');
+      ctx.fillStyle = gradient; ctx.fillRect(0, 0, 128, 128);
+      this.shadowTex = new THREE.CanvasTexture(canvas);
+    }
+    return this.shadowTex;
+  }
+  private contactShadow(parent: THREE.Object3D, width: number, length: number, opacity: number) {
+    const mesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(width, length),
+      new THREE.MeshBasicMaterial({
+        map: this.aoShadowTexture(),
+        transparent: true,
+        opacity,
+        depthWrite: false,
+        polygonOffset: true,
+        polygonOffsetFactor: -3,
+        polygonOffsetUnits: -6,
+      }),
+    );
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.position.y = 0.048;
+    mesh.renderOrder = 1;
+    parent.add(mesh);
   }
   /** A pool of light lying on the road. Additive, so it brightens what it covers. */
   private pool(parent: THREE.Object3D, x: number, y: number, z: number, width: number, length: number, color: string, opacity: number) {
@@ -483,119 +553,453 @@ export class DrivingScene {
     }
   }
   /**
-   * Cars are merged down to one mesh per material. A rush-hour highway puts 145
-   * of them on screen, so a car built from ~28 separate meshes would cost
-   * thousands of draw calls a frame. Only the ego keeps steerable front wheels,
-   * wheel rims and mirrors; traffic uses the same silhouette without them.
+   * Vehicles are merged down to one mesh per material so even 145 rush-hour
+   * vehicles draw cleanly in a handful of batches. Each vehicle class (`sedan`,
+   * `suv`, `van`, `truck`, `motorcycle`) gets its own true-to-scale silhouette.
    */
-  private buildCar(kind: Vehicle['kind'], color: string, detailed = false) {
+  private buildCar(kind: Vehicle['kind'], color: string, detailed = false, seedId = 1) {
     const group = new THREE.Group();
     const body = new THREE.Group();
     body.name = 'bodyGroup';
     group.add(body);
 
-    const tall = kind === 'suv' ? 1.15 : kind === 'van' ? 1.4 : 1;
+    const isTruck = kind === 'truck';
+    const isMoto = kind === 'motorcycle';
+    const isSuv = kind === 'suv';
+    const isVan = kind === 'van';
+
+    const cabColors = ['#2d5270', '#873236', '#cdd4d9', '#345750', '#3d4c63'];
+    const bodyColor = isTruck ? cabColors[seedId % cabColors.length] : color;
     const paint = detailed
-      ? new THREE.MeshStandardMaterial({ color, roughness: 0.28, metalness: 0.22 })
-      : this.material(color, 0.28, 0.22);
+      ? new THREE.MeshStandardMaterial({ color: bodyColor, roughness: 0.25, metalness: 0.26 })
+      : this.material(bodyColor, 0.26, 0.24);
     if (detailed) { this.egoPaint.push(paint); this.paintedColor = color; }
+
     const brakeMaterial = new THREE.MeshStandardMaterial({
-      color: '#401311', emissive: '#ff2214', emissiveIntensity: 0, roughness: 0.25, metalness: 0.2,
+      color: this.night ? '#8f1b16' : '#4a1212',
+      emissive: '#ff2618',
+      emissiveIntensity: this.night ? 0.65 : 0.05,
+      roughness: 0.24,
+      metalness: 0.18,
     });
-    const glass = this.material(C.glass, 0.18, 0.35);
-    const under = this.material('#3b494b', 0.28, 0.22);
-    const trim = this.material('#586767', 0.28, 0.22);
-    // Headlights and tail lights are lit after dark, and throw a pool on the road.
-    const lamp = this.night ? this.emissive('#fff2cf', 2.2) : this.material('#f6fff9', 0.28, 0.22);
-    const tail = this.night ? this.emissive('#ff5a45', 0.9) : this.material('#e6e9e3', 0.28, 0.22);
+    const turnLMaterial = new THREE.MeshStandardMaterial({
+      color: '#4a3110', emissive: '#ffab24', emissiveIntensity: 0, roughness: 0.3,
+    });
+    const turnRMaterial = new THREE.MeshStandardMaterial({
+      color: '#4a3110', emissive: '#ffab24', emissiveIntensity: 0, roughness: 0.3,
+    });
+
+    const glass = this.material('#22343f', 0.14, 0.42);
+    const under = this.material('#1e282e', 0.65, 0.15);
+    const trim = this.material('#4b5961', 0.38, 0.28);
+    const chrome = this.material('#c4cfd6', 0.24, 0.68);
+    const lamp = this.night ? this.emissive('#fff2cf', 2.4) : this.material('#f8f6ea', 0.2, 0.25);
+    const plateMat = this.material('#dfe5e8', 0.45, 0.08);
+    const tireMaterial = this.material('#1d262b', 0.82, 0.05);
+    const rimMaterial = this.material('#9fb0ba', 0.28, 0.68);
 
     const parts = new Map<THREE.Material, THREE.BufferGeometry[]>();
     const push = (material: THREE.Material, geometry: THREE.BufferGeometry) => {
-      const list = parts.get(material) ?? []; list.push(geometry); parts.set(material, list);
+      const list = parts.get(material) ?? [];
+      list.push(geometry);
+      parts.set(material, list);
     };
-    const add = (material: THREE.Material, x: number, y: number, z: number, w: number, h: number, d: number) => {
-      const geometry = this.flat(this.rounded).clone();
-      geometry.scale(w, h, d); geometry.translate(x, y, z);
+    const add = (material: THREE.Material, x: number, y: number, z: number, w: number, h: number, d: number, round = true) => {
+      const geometry = this.flat(round ? this.rounded : this.unitBox).clone();
+      geometry.scale(w, h, d);
+      geometry.translate(x, y, z);
       push(material, geometry);
     };
+    /** Extrudes a side-elevation polygon `(z, y)` centered across `width` on the X axis. */
+    const extrudeSide = (material: THREE.Material, pts: [number, number][], width: number, bevel = 0.055) => {
+      const shape = new THREE.Shape();
+      shape.moveTo(pts[0][0], pts[0][1]);
+      for (let i = 1; i < pts.length; i++) shape.lineTo(pts[i][0], pts[i][1]);
+      shape.closePath();
+      const depth = Math.max(0.04, width - bevel * 2);
+      const raw = new THREE.ExtrudeGeometry(shape, {
+        depth,
+        bevelEnabled: bevel > 0,
+        bevelSegments: 2,
+        steps: 1,
+        bevelSize: bevel,
+        bevelThickness: bevel,
+      });
+      raw.rotateY(-Math.PI / 2);
+      raw.translate(depth / 2, 0, 0);
+      const flatGeom = raw.index ? raw.toNonIndexed() : raw;
+      if (flatGeom !== raw) raw.dispose();
+      push(material, flatGeom);
+    };
 
-    add(paint, 0, 0.57, 0, 1.88, 0.62, 4.65);
-    add(under, 0, 0.38, 0, 1.79, 0.16, 4.4);
-    add(paint, 0, 0.85, 1.52, 1.72, 0.2, 1.35);
-    // Sloped windshield, tapered pillars and a curved roof, rather than a box cabin.
-    const shape = new THREE.Shape();
-    shape.moveTo(-1.45, 0.8); shape.lineTo(-0.9, 1.42 * tall); shape.quadraticCurveTo(0, 1.6 * tall, 0.67, 1.43 * tall);
-    shape.lineTo(1.33, 0.82); shape.closePath();
-    const cabin = new THREE.ExtrudeGeometry(shape, { depth: 1.55, bevelEnabled: true, bevelSegments: 2, steps: 1, bevelSize: 0.06, bevelThickness: 0.06 });
-    cabin.rotateY(-Math.PI / 2); cabin.translate(0.775, 0, 0);
-    const cabinFlat = cabin.index ? cabin.toNonIndexed() : cabin;
-    if (cabinFlat !== cabin) cabin.dispose();
-    push(glass, cabinFlat);
-    for (const side of [-1, 1]) {
-      add(paint, side * 0.73, 1.49 * tall, -0.13, 0.07, 0.08, 1.45);
-      add(trim, side * 0.8, 1.14 * tall, -0.25, 0.055, 0.52 * tall, 0.09);
-      add(lamp, side * 0.66, 0.73, 2.26, 0.52, 0.095, 0.04);
-      add(brakeMaterial, side * 0.63, 0.77, -2.26, 0.57, 0.11, 0.05);
-      if (detailed) {
-        add(paint, side * 1.02, 1, 0.78, 0.28, 0.14, 0.35);
-        add(trim, side * 0.91, 0.84, -0.38, 0.025, 0.04, 0.28);
+    if (isTruck) {
+      // ── 17.0 m 18-Wheeler Tractor-Trailer (z = -8.5 .. +8.5) ──
+      this.contactShadow(group, 2.95, 17.6, this.night ? 0.42 : 0.34);
+      const trailerPaint = this.material('#e4e9ec', 0.36, 0.16);
+      const stripeRed = this.material('#c93838', 0.4, 0.1);
+      const markerAmber = this.night ? this.emissive('#ffae2b', 1.6) : this.material('#f59e0b', 0.3, 0.1);
+
+      // Chassis frame rails + fifth wheel coupling
+      add(under, 0, 0.78, 0.2, 1.56, 0.42, 15.6, false);
+      add(under, 0, 1.06, 3.85, 1.35, 0.16, 1.15, false);
+
+      // Aerodynamic sleeper cab + sloped hood (z = 4.65 .. 8.45)
+      extrudeSide(paint, [
+        [4.65, 0.98],
+        [4.65, 3.74],
+        [5.85, 3.58],
+        [6.55, 2.74],
+        [6.96, 1.90],
+        [8.42, 1.60],
+        [8.46, 0.52],
+        [6.85, 0.52],
+        [6.65, 0.98],
+      ], 2.40, 0.06);
+
+      // Cab dark raked windshield + side door windows
+      extrudeSide(glass, [
+        [5.90, 1.92],
+        [5.90, 2.66],
+        [6.56, 2.68],
+        [6.96, 1.93],
+      ], 2.28, 0.02);
+      // Cab front grille & heavy chrome bumper
+      add(chrome, 0, 1.16, 8.47, 1.24, 0.76, 0.05);
+      add(under, 0, 1.16, 8.485, 1.08, 0.62, 0.03, false);
+      add(chrome, 0, 0.56, 8.50, 2.38, 0.28, 0.12);
+
+      for (const side of [-1, 1]) {
+        // Headlights + front amber corner signals
+        add(lamp, side * 0.90, 0.88, 8.48, 0.38, 0.17, 0.04);
+        add(side > 0 ? turnLMaterial : turnRMaterial, side * 1.14, 0.88, 8.46, 0.10, 0.16, 0.05);
+        // Cylindrical aluminum fuel tanks + chrome exhaust stacks + mirrors
+        const tank = this.flat(this.tire).clone();
+        tank.rotateZ(Math.PI / 2);
+        tank.rotateY(Math.PI / 2);
+        tank.scale(0.82, 0.82, 5.4);
+        tank.translate(side * 1.06, 0.75, 5.75);
+        push(chrome, tank);
+        add(chrome, side * 1.12, 2.42, 4.58, 0.11, 2.55, 0.11);
+        add(trim, side * 1.30, 2.28, 6.72, 0.08, 0.46, 0.16);
+      }
+      for (const mx of [-0.9, -0.45, 0, 0.45, 0.9]) {
+        add(markerAmber, mx, 3.70, 5.95, 0.09, 0.06, 0.08);
+      }
+
+      // 53-ft Dry-Van Trailer (z = -8.50 .. +4.35)
+      add(trailerPaint, 0, 2.55, -2.075, 2.54, 2.79, 12.85);
+      // Trailer landing gear + rear Mansfield underride guard
+      add(under, 0, 0.82, 1.2, 1.95, 0.68, 0.22, false);
+      for (const sx of [-0.82, 0.82]) add(trim, sx, 0.86, -8.44, 0.10, 0.62, 0.08, false);
+      add(chrome, 0, 0.58, -8.48, 2.32, 0.15, 0.09);
+      // Rear barn-door locking rods & center split
+      for (const rx of [-0.48, 0, 0.48]) add(trim, rx, 2.54, -8.51, 0.035, 2.62, 0.02, false);
+      // Conspicuity stripe along trailer sides & rear
+      for (const side of [-1, 1]) {
+        for (let sz = -7.9; sz <= 3.6; sz += 1.45) {
+          add(stripeRed, side * 1.275, 1.24, sz, 0.015, 0.08, 0.82, false);
+        }
+        add(brakeMaterial, side * 0.94, 1.00, -8.51, 0.38, 0.14, 0.04);
+        add(side > 0 ? turnLMaterial : turnRMaterial, side * 1.18, 1.00, -8.51, 0.12, 0.14, 0.04);
+      }
+      add(brakeMaterial, 0, 3.88, -8.51, 0.56, 0.06, 0.03);
+    } else if (isMoto) {
+      // ── 2.20 m Sport-Touring Motorcycle + Rider ──
+      this.contactShadow(group, 0.85, 2.45, this.night ? 0.38 : 0.30);
+      const riderSuit = this.material('#2b3642', 0.72, 0.05);
+      const helmetMat = this.material(seedId % 2 ? '#e2e7eb' : '#2d4459', 0.22, 0.25);
+
+      extrudeSide(paint, [
+        [-0.84, 0.64],
+        [-0.80, 0.84],
+        [-0.12, 0.88],
+        [0.42, 1.05],
+        [0.86, 0.94],
+        [0.84, 0.68],
+        [0.35, 0.38],
+        [-0.32, 0.40],
+      ], 0.42, 0.04);
+      add(glass, 0, 1.12, 0.64, 0.32, 0.22, 0.28);
+      add(under, 0, 0.48, 0.02, 0.34, 0.32, 0.78);
+      // Front forks + handlebars + twin exhausts
+      for (const side of [-1, 1]) {
+        add(chrome, side * 0.11, 0.58, 0.66, 0.045, 0.56, 0.05, false);
+        add(chrome, side * 0.17, 0.46, -0.58, 0.07, 0.07, 0.54);
+        add(side > 0 ? turnLMaterial : turnRMaterial, side * 0.22, 0.76, -0.82, 0.06, 0.05, 0.04);
+      }
+      add(trim, 0, 1.02, 0.40, 0.68, 0.04, 0.05);
+      add(lamp, 0, 0.84, 0.88, 0.20, 0.12, 0.04);
+      add(brakeMaterial, 0, 0.78, -0.85, 0.18, 0.08, 0.04);
+      // Rider legs, torso & helmet
+      add(riderSuit, 0, 0.72, -0.14, 0.44, 0.36, 0.42);
+      add(riderSuit, 0, 1.12, -0.06, 0.42, 0.48, 0.34);
+      add(helmetMat, 0, 1.48, 0.05, 0.27, 0.28, 0.30);
+      add(glass, 0, 1.49, 0.19, 0.23, 0.10, 0.06);
+    } else {
+      // ── Sculpted Passenger Vehicles: Sedan (4.70 m), SUV (4.82 m), Van (5.15 m) ──
+      const halfL = isVan ? 2.55 : isSuv ? 2.40 : 2.34;
+      const bodyW = isVan ? 1.96 : isSuv ? 1.94 : 1.88;
+      this.contactShadow(group, bodyW + 0.38, halfL * 2 + 0.55, this.night ? 0.40 : 0.32);
+
+      if (isVan) {
+        // Tall continuous cargo/passenger van body + short sloped nose (bevel=0.06 -> outer Z = ±2.55)
+        extrudeSide(paint, [
+          [-2.48, 0.34],
+          [-2.46, 1.94],
+          [-2.34, 1.99],
+          [0.98, 1.98],
+          [1.72, 1.04],
+          [2.38, 0.88],
+          [2.48, 0.62],
+          [2.42, 0.30],
+          [-2.40, 0.30],
+        ], bodyW, 0.06);
+        // Side window glazing, flush front windshield, rear barn-door windows & seam
+        extrudeSide(glass, [
+          [-2.32, 1.12],
+          [-2.24, 1.88],
+          [0.95, 1.88],
+          [1.66, 1.10],
+        ], bodyW + 0.015, 0.015);
+        extrudeSide(glass, [
+          [0.96, 1.92],
+          [1.76, 1.07],
+          [1.68, 1.05],
+          [0.90, 1.89],
+        ], bodyW - 0.18, 0.02);
+        for (const side of [-1, 1]) {
+          add(glass, side * 0.42, 1.50, -2.545, 0.68, 0.56, 0.03);
+          add(paint, side * (bodyW * 0.5 - 0.01), 1.50, 0.18, 0.04, 0.86, 0.12, false);
+          add(paint, side * (bodyW * 0.5 - 0.01), 1.50, -1.15, 0.04, 0.86, 0.14, false);
+          add(trim, side * (bodyW * 0.5 + 0.005), 0.96, -0.65, 0.02, 0.035, 1.65, false);
+        }
+        add(trim, 0, 1.16, -2.555, 0.035, 1.62, 0.025, false);
+      } else if (isSuv) {
+        // Muscular SUV lower body + full wagon greenhouse to sloped D-pillar (bevel=0.06 -> outer Z = ±2.39)
+        extrudeSide(paint, [
+          [-2.32, 0.40],
+          [-2.30, 0.99],
+          [1.20, 0.97],
+          [2.20, 0.89],
+          [2.33, 0.65],
+          [2.26, 0.36],
+          [-2.24, 0.36],
+        ], bodyW, 0.06);
+        // Dark rugged lower cladding + silver front & rear skid plates
+        add(under, 0, 0.36, 0, bodyW - 0.02, 0.15, 4.46);
+        add(chrome, 0, 0.38, 2.35, 1.12, 0.12, 0.12);
+        add(chrome, 0, 0.40, -2.36, 1.18, 0.13, 0.12);
+        // Full-length SUV greenhouse + painted roof & tailgate spoiler
+        extrudeSide(glass, [
+          [-2.22, 1.00],
+          [-1.88, 1.70],
+          [0.52, 1.72],
+          [1.18, 1.00],
+        ], 1.62, 0.045);
+        add(paint, 0, 1.72, -0.68, 1.48, 0.06, 2.38);
+        add(paint, 0, 1.70, -1.94, 1.46, 0.07, 0.28);
+        for (const side of [-1, 1]) {
+          add(chrome, side * 0.66, 1.77, -0.68, 0.045, 0.055, 2.10);
+          add(trim, side * 0.81, 1.35, -0.10, 0.04, 0.68, 0.10, false);
+          add(paint, side * 0.80, 1.35, -1.18, 0.045, 0.68, 0.12, false);
+        }
+      } else {
+        // Sleek aerodynamic sedan wedge + tapered fastback greenhouse (bevel=0.055 -> outer Z = ±2.33)
+        extrudeSide(paint, [
+          [-2.26, 0.35],
+          [-2.24, 0.85],
+          [-1.60, 0.90],
+          [0.98, 0.84],
+          [2.10, 0.72],
+          [2.28, 0.54],
+          [2.20, 0.30],
+          [-2.18, 0.31],
+        ], bodyW, 0.055);
+        add(under, 0, 0.31, 0, bodyW - 0.08, 0.12, 4.38);
+        extrudeSide(glass, [
+          [-1.54, 0.88],
+          [-0.86, 1.42],
+          [0.44, 1.43],
+          [1.14, 0.85],
+        ], 1.54, 0.045);
+        add(paint, 0, 1.43, -0.22, 1.38, 0.055, 1.32);
+        // Shark-fin roof antenna
+        add(paint, 0, 1.48, -0.78, 0.05, 0.08, 0.18);
+        for (const side of [-1, 1]) {
+          add(paint, side * 0.72, 1.41, -0.20, 0.06, 0.06, 1.36);
+          add(trim, side * 0.77, 1.15, -0.18, 0.04, 0.52, 0.09, false);
+        }
+      }
+
+      // Dark wheel-well housings so tires sit cleanly inside sculpted arches
+      const axleF = isVan ? 1.58 : isSuv ? 1.48 : 1.44;
+      const axleR = isVan ? -1.56 : isSuv ? -1.46 : -1.46;
+      const wellR = isSuv ? 0.43 : 0.39;
+      for (const az of [axleF, axleR]) {
+        add(under, 0, wellR, az, bodyW - 0.03, wellR * 1.15, wellR * 2.05);
+      }
+
+      // Shared front & rear fascia details (grille, headlights, brake bar, CHMSL, plate, turn signals, mirrors)
+      const fz = halfL;
+      const rz = -halfL;
+      const lampY = isVan ? 0.80 : isSuv ? 0.84 : 0.69;
+      const tailY = isVan ? 1.10 : isSuv ? 0.92 : 0.78;
+      const chmslY = isVan ? 1.98 : isSuv ? 1.69 : 1.39;
+      const chmslZ = isVan ? -2.44 : isSuv ? -2.02 : -1.42;
+
+      add(under, 0, lampY - 0.14, fz + 0.01, 0.92, 0.22, 0.04);
+      add(plateMat, 0, isSuv ? 0.62 : 0.54, rz - 0.015, 0.40, 0.13, 0.025, false);
+      add(brakeMaterial, 0, chmslY, chmslZ, 0.44, 0.042, 0.05);
+      // Full-width rear lightbar accent on SUV/Sedan
+      if (!isVan) add(brakeMaterial, 0, tailY + 0.02, rz - 0.012, bodyW - 0.42, 0.038, 0.035);
+
+      for (const side of [-1, 1]) {
+        const turnMat = side > 0 ? turnLMaterial : turnRMaterial;
+        const lx = side * (bodyW * 0.5 - 0.24);
+        const tx = side * (bodyW * 0.5 - 0.22);
+        add(lamp, lx, lampY, fz + 0.01, 0.42, 0.11, 0.05);
+        add(turnMat, side * (bodyW * 0.5 - 0.08), lampY - 0.02, fz, 0.11, 0.08, 0.06);
+        add(brakeMaterial, isVan ? side * (bodyW * 0.5 - 0.09) : tx, tailY, rz - 0.015, isVan ? 0.13 : 0.44, isVan ? 0.46 : 0.12, 0.05);
+        add(turnMat, side * (bodyW * 0.5 - 0.09), tailY - (isVan ? 0.28 : 0.08), rz - 0.015, 0.13, 0.07, 0.05);
+        // Aerodynamic side mirrors & door handles
+        const mirrorY = isVan ? 1.18 : isSuv ? 1.12 : 0.98;
+        const mirrorZ = isVan ? 1.32 : 0.84;
+        add(paint, side * (bodyW * 0.5 + 0.09), mirrorY, mirrorZ, 0.22, 0.12, 0.26);
+        if (detailed) {
+          add(trim, side * (bodyW * 0.5 + 0.01), mirrorY - 0.16, 0.12, 0.025, 0.04, 0.22);
+          add(trim, side * (bodyW * 0.5 + 0.01), mirrorY - 0.15, -0.76, 0.025, 0.04, 0.22);
+        }
       }
     }
-    // High-mount center stop lamp (CHMSL) above rear windshield
-    add(brakeMaterial, 0, 1.45 * tall, -1.35, 0.44, 0.045, 0.05);
-    add(tail, 0, 0.48, -2.32, 0.53, 0.15, 0.02);
 
     for (const [material, list] of parts) {
       const merged = mergeGeometries(list);
       list.forEach(geometry => geometry.dispose());
       if (!merged) continue;
       const mesh = new THREE.Mesh(merged, material);
-      // Only the painted shell casts: the shadow pass runs over every car too.
-      mesh.castShadow = material === paint;
+      mesh.castShadow = material === paint || (isTruck && material !== glass);
+      mesh.receiveShadow = true;
       if (material === brakeMaterial) mesh.name = 'brake';
+      else if (material === turnLMaterial) mesh.name = 'signalL';
+      else if (material === turnRMaterial) mesh.name = 'signalR';
       body.add(mesh);
     }
 
     if (this.night) {
-      // Beam pools ride the car, not the body, so they do not pitch under braking.
-      this.pool(group, 0, 0.17, 11, 9, 20, '#ffe6b4', 0.5);
-      this.pool(group, 0, 0.17, -4.6, 4.5, 5, '#ff6a52', 0.28);
+      const frontPoolZ = isTruck ? 17 : isMoto ? 7.5 : 11;
+      const rearPoolZ = isTruck ? -11 : isMoto ? -2.8 : -4.6;
+      this.pool(group, 0, 0.17, frontPoolZ, isMoto ? 4.5 : 9, isMoto ? 13 : 20, '#ffe6b4', isMoto ? 0.36 : 0.5);
+      this.pool(group, 0, 0.17, rearPoolZ, isMoto ? 2.4 : 4.5, 5, '#ff6a52', 0.28);
     }
-    const tireMaterial = this.material('#263131');
-    // Front wheels sit at z = 1.45, rear drive wheels at z = -1.48.
-    for (const z of [1.45, -1.48]) {
-      const steerable = z > 0;
-      if (detailed) {
-        for (const side of [-1, 1]) {
-          const mount = new THREE.Group();
-          mount.name = steerable ? 'steerPivot' : 'wheelAxle';
-          mount.position.set(side * 0.91, 0.36, z);
-          group.add(mount);
 
-          const roll = new THREE.Group();
-          roll.name = 'wheelRoll';
-          mount.add(roll);
-
-          const tire = new THREE.Mesh(this.tire, tireMaterial);
-          tire.rotation.z = Math.PI / 2; tire.castShadow = true; roll.add(tire);
-
-          const rim = new THREE.Mesh(this.rim, this.material('#aebaba', 0.3, 0.7));
-          rim.rotation.z = Math.PI / 2; rim.position.x = side * 0.018; roll.add(rim);
-        }
-      } else {
-        // Both wheels on an axle share one roll axis, so they share one mesh.
+    // ── Rolling & Steerable Wheel Assemblies ──
+    if (isTruck) {
+      const wheelScale = 0.50 / 0.35;
+      for (const z of [7.2, 4.6, 3.3, -5.6, -6.9]) {
+        const isSteer = z > 6.5;
         const axle = new THREE.Group();
         axle.name = 'wheelRoll';
-        axle.position.set(0, 0.36, z);
+        axle.userData.radius = 0.50;
+        axle.position.set(0, 0.50, z);
         group.add(axle);
-        const tires = [-1, 1].map(side => {
-          const geometry = this.flat(this.tire).clone();
-          geometry.rotateZ(Math.PI / 2); geometry.translate(side * 0.91, 0, 0);
-          return geometry;
-        });
-        const merged = mergeGeometries(tires);
-        tires.forEach(geometry => geometry.dispose());
-        if (merged) { const mesh = new THREE.Mesh(merged, tireMaterial); mesh.castShadow = true; axle.add(mesh); }
+        const tireParts: THREE.BufferGeometry[] = [];
+        const rimParts: THREE.BufferGeometry[] = [];
+        for (const side of [-1, 1]) {
+          const g = this.flat(this.tire).clone();
+          g.rotateZ(Math.PI / 2);
+          g.scale(isSteer ? 1.15 : 1.95, wheelScale, wheelScale);
+          g.translate(side * (isSteer ? 1.08 : 1.02), 0, 0);
+          tireParts.push(g);
+          const r = this.flat(this.rim).clone();
+          r.rotateZ(Math.PI / 2);
+          r.scale(isSteer ? 1.16 : 1.98, wheelScale, wheelScale);
+          r.translate(side * (isSteer ? 1.09 : 1.03), 0, 0);
+          rimParts.push(r);
+        }
+        const mTire = mergeGeometries(tireParts);
+        const mRim = mergeGeometries(rimParts);
+        tireParts.forEach(g => g.dispose());
+        rimParts.forEach(g => g.dispose());
+        if (mTire) { const m = new THREE.Mesh(mTire, tireMaterial); m.castShadow = true; axle.add(m); }
+        if (mRim) axle.add(new THREE.Mesh(mRim, rimMaterial));
+      }
+    } else if (isMoto) {
+      const wheelScale = 0.31 / 0.35;
+      for (const z of [0.74, -0.72]) {
+        const axle = new THREE.Group();
+        axle.name = 'wheelRoll';
+        axle.userData.radius = 0.31;
+        axle.position.set(0, 0.31, z);
+        group.add(axle);
+        const tire = new THREE.Mesh(this.tire, tireMaterial);
+        tire.rotation.z = Math.PI / 2;
+        tire.scale.set(0.62, wheelScale, wheelScale);
+        tire.castShadow = true;
+        axle.add(tire);
+        const rim = new THREE.Mesh(this.rim, rimMaterial);
+        rim.rotation.z = Math.PI / 2;
+        rim.scale.set(0.64, wheelScale, wheelScale);
+        axle.add(rim);
+      }
+    } else {
+      const radius = isSuv ? 0.39 : 0.35;
+      const wheelScale = radius / 0.35;
+      const halfTrack = isVan ? 0.90 : isSuv ? 0.89 : 0.86;
+      const zFront = isVan ? 1.58 : isSuv ? 1.48 : 1.44;
+      const zRear = isVan ? -1.56 : isSuv ? -1.46 : -1.46;
+      for (const z of [zFront, zRear]) {
+        const steerable = z > 0;
+        if (detailed) {
+          for (const side of [-1, 1]) {
+            const mount = new THREE.Group();
+            mount.name = steerable ? 'steerPivot' : 'wheelAxle';
+            mount.position.set(side * halfTrack, radius + 0.01, z);
+            group.add(mount);
+
+            const roll = new THREE.Group();
+            roll.name = 'wheelRoll';
+            roll.userData.radius = radius;
+            mount.add(roll);
+
+            const tire = new THREE.Mesh(this.tire, tireMaterial);
+            tire.rotation.z = Math.PI / 2;
+            tire.scale.set(1, wheelScale, wheelScale);
+            tire.castShadow = true;
+            roll.add(tire);
+
+            const rim = new THREE.Mesh(this.rim, rimMaterial);
+            rim.rotation.z = Math.PI / 2;
+            rim.scale.set(1, wheelScale, wheelScale);
+            rim.position.x = side * 0.018;
+            roll.add(rim);
+          }
+        } else {
+          const axle = new THREE.Group();
+          axle.name = 'wheelRoll';
+          axle.userData.radius = radius;
+          axle.position.set(0, radius + 0.01, z);
+          group.add(axle);
+          const tireParts: THREE.BufferGeometry[] = [];
+          const rimParts: THREE.BufferGeometry[] = [];
+          for (const side of [-1, 1]) {
+            const gt = this.flat(this.tire).clone();
+            gt.rotateZ(Math.PI / 2);
+            gt.scale(1, wheelScale, wheelScale);
+            gt.translate(side * halfTrack, 0, 0);
+            tireParts.push(gt);
+            const gr = this.flat(this.rim).clone();
+            gr.rotateZ(Math.PI / 2);
+            gr.scale(1, wheelScale, wheelScale);
+            gr.translate(side * (halfTrack + 0.015), 0, 0);
+            rimParts.push(gr);
+          }
+          const mTire = mergeGeometries(tireParts);
+          const mRim = mergeGeometries(rimParts);
+          tireParts.forEach(g => g.dispose());
+          rimParts.forEach(g => g.dispose());
+          if (mTire) { const m = new THREE.Mesh(mTire, tireMaterial); m.castShadow = true; axle.add(m); }
+          if (mRim) axle.add(new THREE.Mesh(mRim, rimMaterial));
+        }
       }
     }
 
@@ -627,38 +1031,59 @@ export class DrivingScene {
     const across = (car: Vehicle) => sim.road.lanes.offsets[car.lane]
       + car.prevLateral + (car.lateral - car.prevLateral) * alpha;
     const egoS = at(sim.ego);
+    const egoHeading = sim.ego.prevHeading + (sim.ego.headingError - sim.ego.prevHeading) * alpha;
     if (options.carColor !== this.paintedColor) {
       this.paintedColor = options.carColor;
       for (const material of this.egoPaint) material.color.set(options.carColor);
     }
+    const blinkPhase = Math.floor(sim.time * 2.5) % 2 === 0;
     for (const car of sim.cars) {
       const group = this.cars.get(car.id)!;
       const s = at(car);
       group.position.copy(sim.road.point(s, across(car)));
       const tangent = sim.road.tangent(s).multiplyScalar(car.direction);
-      group.rotation.y = Math.atan2(tangent.x, tangent.z) + (car.id === 0 ? car.prevHeading + (car.headingError - car.prevHeading) * alpha : 0);
+
+      // Smooth steering heading yaw during lane changes for traffic vehicles
+      let mergeYaw = 0;
+      if (car.id !== 0 && car.laneChange && car.speed > 1) {
+        const t = Math.min(1, car.laneChange.elapsed / car.laneChange.duration);
+        const dEaseDt = (30 * t * t * (1 - t) * (1 - t)) / car.laneChange.duration;
+        const vLatLeft = -car.laneChange.offset * dEaseDt * car.direction;
+        mergeYaw = THREE.MathUtils.clamp(Math.atan2(vLatLeft, Math.max(3, car.speed)), -0.20, 0.20);
+      }
+      group.rotation.y = Math.atan2(tangent.x, tangent.z) + (car.id === 0 ? egoHeading : mergeYaw);
 
       // Physical steering angle for front wheels
-      const steerAngle = car.id === 0 ? car.prevSteering + (car.steeringAngle - car.prevSteering) * alpha : sim.computeSteerAngle(car);
-      const rollDelta = options.playing ? (car.speed * dt * options.rate) / 0.35 : 0;
+      const steerAngle = car.id === 0 ? car.prevSteering + (car.steeringAngle - car.prevSteering) * alpha : sim.computeSteerAngle(car) + mergeYaw * 0.5;
+      const blinkL = Boolean(car.laneChange && blinkPhase && car.lateral < 0);
+      const blinkR = Boolean(car.laneChange && blinkPhase && car.lateral > 0);
 
       // Realistic suspension pitch (brake dive / accel squat) and curve body roll
-      const targetPitch = THREE.MathUtils.clamp(-car.acceleration * 0.015, -0.05, 0.04);
+      const pitchScale = car.kind === 'truck' ? 0.006 : 0.015;
+      const targetPitch = THREE.MathUtils.clamp(-car.acceleration * pitchScale, -0.05, 0.04);
       const curvature = sim.road.curvature(s);
       const lateralG = car.id === 0 ? car.yawRate * car.speed : (car.speed ** 2) * curvature * Math.sign(steerAngle);
-      const targetRoll = THREE.MathUtils.clamp(lateralG * 0.012, -0.04, 0.04);
+      const targetRoll = THREE.MathUtils.clamp(lateralG * (car.kind === 'motorcycle' ? -0.032 : 0.012), -0.22, 0.22);
 
       group.traverse(o => {
         if (o.name === 'steerPivot') {
           o.rotation.y = steerAngle;
         } else if (o.name === 'wheelRoll') {
+          const r = (o.userData.radius as number) || 0.35;
+          const rollDelta = options.playing ? (car.speed * dt * options.rate) / r : 0;
           o.rotation.x = (o.rotation.x + rollDelta) % (Math.PI * 2);
         } else if (o.name === 'bodyGroup') {
           o.rotation.x = THREE.MathUtils.lerp(o.rotation.x, targetPitch, Math.min(1, dt * 8));
           o.rotation.z = THREE.MathUtils.lerp(o.rotation.z, targetRoll, Math.min(1, dt * 8));
         } else if (o.name === 'brake') {
-          const mat = (o as THREE.Mesh).material as THREE.MeshBasicMaterial;
-          mat.color.set(car.braking ? '#ff1e10' : '#320b0a');
+          const mat = (o as THREE.Mesh).material as THREE.MeshStandardMaterial;
+          mat.color.set(car.braking ? '#ff2a1f' : this.night ? '#8f1b16' : '#4a1212');
+          mat.emissiveIntensity = car.braking ? 2.6 : this.night ? 0.65 : 0.05;
+        } else if (o.name === 'signalL' || o.name === 'signalR') {
+          const on = o.name === 'signalL' ? blinkL : blinkR;
+          const mat = (o as THREE.Mesh).material as THREE.MeshStandardMaterial;
+          mat.color.set(on ? '#ffc043' : '#4a3110');
+          mat.emissiveIntensity = on ? 2.4 : 0;
         }
       });
     }
@@ -668,16 +1093,18 @@ export class DrivingScene {
       const x = car.prevX + (car.x - car.prevX) * alpha;
       group.position.copy(sim.road.point(junction.s + car.direction * 1.8, x * car.direction));
       const t = sim.road.tangent(junction.s); group.rotation.y = Math.atan2(t.z * car.direction, -t.x * car.direction);
-      const rollDelta = options.playing ? (car.speed * dt * options.rate) / 0.35 : 0;
       const allowed = sim.crossCanProceed(car.junction);
       const boundary = allowed || car.x > -13 ? 65 : -14;
       const isCrossBraking = car.x >= boundary - 0.5 || car.x < -68;
       group.traverse(o => {
         if (o.name === 'wheelRoll') {
+          const r = (o.userData.radius as number) || 0.35;
+          const rollDelta = options.playing ? (car.speed * dt * options.rate) / r : 0;
           o.rotation.x = (o.rotation.x + rollDelta) % (Math.PI * 2);
         } else if (o.name === 'brake') {
-          const mat = (o as THREE.Mesh).material as THREE.MeshBasicMaterial;
-          mat.color.set(isCrossBraking ? '#ff1e10' : '#320b0a');
+          const mat = (o as THREE.Mesh).material as THREE.MeshStandardMaterial;
+          mat.color.set(isCrossBraking ? '#ff2a1f' : this.night ? '#8f1b16' : '#4a1212');
+          mat.emissiveIntensity = isCrossBraking ? 2.6 : this.night ? 0.65 : 0.05;
         }
       });
     }
@@ -737,10 +1164,17 @@ export class DrivingScene {
     } else if (options.camera === 'overview') {
       desired.addScaledVector(tangent, -45).addScaledVector(right, 25); desired.y = 83;
       look = sim.road.point(egoS + 25, lane);
-    } else { desired.addScaledVector(tangent, 0.7); desired.y = 1.65; look.y = 1.35; }
-    const follow = this.lastCamera !== options.camera || dt === 0 ? 1 : 1 - Math.exp(-dt * 4);
+    } else {
+      // Driver camera rotates with the ego vehicle's actual heading yaw
+      const egoYaw = Math.atan2(tangent.x, tangent.z) + egoHeading;
+      const carFwd = new THREE.Vector3(Math.sin(egoYaw), 0, Math.cos(egoYaw));
+      desired.addScaledVector(carFwd, 0.38); desired.y = 1.38;
+      look = desired.clone().addScaledVector(carFwd, 24); look.y = 1.12;
+    }
+    const follow = this.lastCamera !== options.camera || dt === 0 ? 1 : 1 - Math.exp(-dt * (options.camera === 'driver' ? 14 : 4));
     this.camera.position.lerp(desired, follow); this.followTarget.lerp(look, follow);
     this.camera.lookAt(this.followTarget); this.lastCamera = options.camera;
+    if (this.sky) this.sky.position.copy(this.camera.position);
     this.sun.position.copy(ego.position).add(new THREE.Vector3(-45, 80, -30)); this.sun.target.position.copy(ego.position);
     this.renderer.render(this.scene, this.camera);
   }
@@ -754,7 +1188,8 @@ export class DrivingScene {
         for (const m of Array.isArray(o.material) ? o.material : [o.material]) materials.add(m);
       }
     });
-    geometries.forEach(g => g.dispose()); materials.forEach(m => m.dispose()); this.labels.forEach(t => t.dispose()); this.glow?.dispose();
+    geometries.forEach(g => g.dispose()); materials.forEach(m => m.dispose());
+    this.labels.forEach(t => t.dispose()); this.glow?.dispose(); this.shadowTex?.dispose(); this.skyTex?.dispose();
     this.sun.shadow.dispose(); this.renderer.dispose();
   }
 }

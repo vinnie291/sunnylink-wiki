@@ -98,21 +98,21 @@ test('Discourse trait poll labels adjust simulator physics and derived telemetry
         {
             id: 'lateral',
             title: 'Lateral',
-            type: 'multiple',
+            type: 'multi',
             voters: 20,
             options: [
-                { id: 'under', label: 'Understeers or gives up mid-turn', votes: 14 },
+                { key: 'under', label: 'Understeers or gives up mid-turn', votes: 14, percentage: 70 },
             ],
         },
         {
             id: 'longitudinal',
             title: 'Longitudinal',
-            type: 'multiple',
+            type: 'multi',
             voters: 20,
             options: [
-                { id: 'brake', label: 'Hard or late braking', votes: 14 },
-                { id: 'roll', label: 'Overshoots the stop line or rolls through', votes: 14 },
-                { id: 'speed', label: 'Does not hold the set speed', votes: 12 },
+                { key: 'brake', label: 'Hard or late braking', votes: 14, percentage: 70 },
+                { key: 'roll', label: 'Overshoots the stop line or rolls through', votes: 14, percentage: 70 },
+                { key: 'speed', label: 'Does not hold the set speed', votes: 12, percentage: 60 },
             ],
         },
     ]);
@@ -129,8 +129,10 @@ test('Discourse trait poll labels adjust simulator physics and derived telemetry
 test('skill ratings respect em-dash clause boundaries and keep Cheddar lateral below bad-lateral contradictions', async () => {
     const { ENGLISH_CONTENT } = await import('../lib/localizedContent');
     const { deriveSkillRatingsDetail } = await import('../lib/skillRatings');
+    type RatableModel = Parameters<typeof deriveSkillRatingsDetail>[0];
 
-    const models = ENGLISH_CONTENT.models.categories.flatMap(c => c.models);
+    const categories = (ENGLISH_CONTENT.models as { categories: { models: RatableModel[] }[] }).categories;
+    const models = categories.flatMap(c => c.models);
     const teeTime = models.find(m => m.name === 'Tee Time Model');
     const cheddar = models.find(m => m.name === 'Cheddar Model');
     assert.ok(teeTime && cheddar);

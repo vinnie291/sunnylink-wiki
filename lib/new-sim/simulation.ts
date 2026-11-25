@@ -23,6 +23,8 @@ export interface SimOptions {
   lighting: 'auto' | 'day' | 'night';
   /** A reproducible, more eventful traffic field for the compact model previews. */
   previewTraffic?: boolean;
+  /** Includes 18-wheeler freight trucks and motorcycles on highway in the 3D simulator. */
+  richTraffic?: boolean;
   /** Four following-gap levels; level 2 preserves the model baseline. */
   followDistance?: 1 | 2 | 3 | 4;
 }
@@ -391,9 +393,12 @@ export class Simulation {
       const desired = highway
         ? set * (1.05 - lane * 0.028) + (i % 5) * 0.12
         : set * (0.82 + (i % 5) * 0.045);
+      const kind: Vehicle['kind'] = options.previewTraffic
+        ? (i % 11 === 8 && highway ? 'truck' : i % 8 === 2 ? 'motorcycle' : i % 7 === 0 ? 'van' : i % 3 === 0 ? 'suv' : 'sedan')
+        : (options.richTraffic && highway && lane >= 3 && i % 11 === 4 ? 'truck' : options.richTraffic && highway && i % 17 === 6 ? 'motorcycle' : i % 7 === 0 ? 'van' : i % 3 === 0 ? 'suv' : 'sedan');
       this.cars.push({ id: i, s: mod(s, this.road.length), lane, direction: layout.directions[lane],
         speed: highway ? 22 + (i % 4) : 9 + (i % 4), acceleration: 0, desired,
-        stoppedAt: -1, dwell: 0, released: -1, kind: options.previewTraffic && i % 11 === 8 && highway ? 'truck' : options.previewTraffic && i % 8 === 2 ? 'motorcycle' : i % 7 === 0 ? 'van' : i % 3 === 0 ? 'suv' : 'sedan', braking: false,
+        stoppedAt: -1, dwell: 0, released: -1, kind, braking: false,
         lateral: 0, lateralRate: 0, creep: 0, holdUntil: 0, changeCooldown: 4 + hash(i * 17) * 8, prevS: mod(s, this.road.length), prevLateral: 0, headingError: 0, prevHeading: 0, steeringAngle: 0, prevSteering: 0, yawRate: 0, requestedAcceleration: 0, waitingForRelease: false });
     }
     if (options.previewTraffic && options.scenario === 'city') {
@@ -761,7 +766,7 @@ export class Simulation {
 
       // A cut-in: alongside the ego, slightly ahead, and feeling opportunistic.
       const gapToEgo = this.road.distance(this.ego.s, car.s, this.ego.direction);
-      if (car.direction === this.ego.direction && neighbours.includes(this.ego.lane)
+      if ((this.options.previewTraffic || car.kind !== 'truck') && car.direction === this.ego.direction && neighbours.includes(this.ego.lane)
         && gapToEgo > 9 && gapToEgo < 38 && this.time - this.cutInAt > 5
         && hash(car.id * 97 + Math.floor(this.time / 3)) < (this.options.previewTraffic ? 0.65 : 0.16)
         && this.roomIn(car, this.ego.lane, this.options.previewTraffic ? 0.85 : 0.55)) {
@@ -773,9 +778,9 @@ export class Simulation {
       const lead = this.lead(car);
       const held = lead.gap < car.speed * 1.15 + 8 && lead.speed < car.desired - 1.2;
       if (held) {
-        // Overtake toward the faster side of the carriageway (lower offset index).
+        // Overtake toward the faster side of the carriageway (lower offset index); heavy trucks stay in freight lanes >= 3.
         const overtaking = neighbours
-          .filter(lane => (offsets[lane] - offsets[car.lane]) * car.direction > 0)
+          .filter(lane => (offsets[lane] - offsets[car.lane]) * car.direction > 0 && (this.options.previewTraffic || car.kind !== 'truck' || lane >= 3))
           .sort((a, b) => Math.abs(offsets[a]) - Math.abs(offsets[b]));
         for (const lane of overtaking) {
           if (this.roomIn(car, lane)) { this.moveTo(car, lane, 8); break; }

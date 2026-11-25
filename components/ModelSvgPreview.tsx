@@ -30,7 +30,8 @@ export default function ModelSvgPreview({ modelName, votes }: { modelName: strin
   const [speed, setSpeed] = useState(SCENARIOS[suggestedScenario].limit);
   const [readout, setReadout] = useState({ speed: 0, gap: '—', offset: '0 cm', status: 'Preparing preview', corrections: 0, cutIns: 0, laneChanges: 0 });
   const root = useRef<HTMLDivElement>(null);
-  const road = useRef<SVGPathElement>(null), shoulder = useRef<SVGPathElement>(null), path = useRef<SVGPathElement>(null);
+  const road = useRef<SVGPathElement>(null), shoulder = useRef<SVGPathElement>(null), path = useRef<SVGPathElement>(null), pathEdge = useRef<SVGPathElement>(null);
+  const barrier = useRef<SVGGElement>(null), mountains = useRef<SVGGElement>(null);
   const intersections = useRef<SVGGElement>(null);
   const markings = useRef<SVGGElement>(null), traffic = useRef<SVGGElement>(null), furniture = useRef<SVGGElement>(null);
   const wheel = useRef<SVGGElement>(null);
@@ -60,16 +61,18 @@ export default function ModelSvgPreview({ modelName, votes }: { modelName: strin
       scenario === 'city' ? 'signal' : scenario === 'curves' ? model.rollingStop ? 'stop' : 'bend' : 'start', model);
     let visible = false, contentSkipped = false, frame = 0, last = 0, accumulator = 0, lastPaint = 0, lastReadout = 0;
     let previousCutIns = 0, lastCutInTime = -10;
-    let prevRoad = '', prevShoulder = '', prevPath = '', prevIntersections = '', prevMarkings = '', prevLaneLines = '';
-    let prevTraffic = '', prevFurniture = '', prevPathFade = '', prevLeadArrow = '', prevScenery = '', prevWheel = '', prevCurve = '';
+    let prevRoad = '', prevShoulder = '', prevBarrier = '', prevPath = '', prevPathEdge = '', prevIntersections = '', prevMarkings = '', prevLaneLines = '';
+    let prevTraffic = '', prevFurniture = '', prevPathFade = '', prevLeadArrow = '', prevScenery = '', prevWheel = '', prevCurve = '', prevHorizon = '';
 
     const draw = () => {
       const svg = renderSvgFrame(sim);
       if (svg.road !== prevRoad) { road.current?.setAttribute('d', svg.road); prevRoad = svg.road; }
       if (svg.shoulder !== prevShoulder) { shoulder.current?.setAttribute('d', svg.shoulder); prevShoulder = svg.shoulder; }
       if (svg.path !== prevPath) { path.current?.setAttribute('d', svg.path); prevPath = svg.path; }
+      if (svg.pathEdge !== prevPathEdge) { pathEdge.current?.setAttribute('d', svg.pathEdge); prevPathEdge = svg.pathEdge; }
       // Only numeric geometry and fixed literals enter these groups; no feedback text is HTML.
       // Skip innerHTML assignments when unchanged to avoid unnecessary XML fragment parsing in Firefox.
+      if (svg.barrier !== prevBarrier && barrier.current) { barrier.current.innerHTML = svg.barrier; prevBarrier = svg.barrier; }
       if (svg.intersections !== prevIntersections && intersections.current) { intersections.current.innerHTML = svg.intersections; prevIntersections = svg.intersections; }
       if (svg.markings !== prevMarkings && markings.current) { markings.current.innerHTML = svg.markings; prevMarkings = svg.markings; }
       if (svg.laneLines !== prevLaneLines && laneLines.current) { laneLines.current.innerHTML = svg.laneLines; prevLaneLines = svg.laneLines; }
@@ -78,6 +81,8 @@ export default function ModelSvgPreview({ modelName, votes }: { modelName: strin
       if (svg.pathFade !== prevPathFade && pathFade.current) { pathFade.current.innerHTML = svg.pathFade; prevPathFade = svg.pathFade; }
       if (svg.leadArrow !== prevLeadArrow && leadArrow.current) { leadArrow.current.innerHTML = svg.leadArrow; prevLeadArrow = svg.leadArrow; }
       if (svg.scenery !== prevScenery && scenery.current) { scenery.current.innerHTML = svg.scenery; prevScenery = svg.scenery; }
+      const nextHorizon = `translate(${(-svg.horizonShift).toFixed(2)} 0)`;
+      if (nextHorizon !== prevHorizon) { mountains.current?.setAttribute('transform', nextHorizon); prevHorizon = nextHorizon; }
       const nextWheel = `translate(27 238) rotate(${(-sim.ego.steeringAngle * 180 / Math.PI).toFixed(2)})`;
       if (nextWheel !== prevWheel) { wheel.current?.setAttribute('transform', nextWheel); prevWheel = nextWheel; }
       // Fill from centre using actual front-wheel steering, positive = left.
@@ -180,23 +185,49 @@ export default function ModelSvgPreview({ modelName, votes }: { modelName: strin
     <div className="relative aspect-video overflow-hidden">
       <svg viewBox="0 0 480 270" className="absolute inset-0 h-full w-full" role="img" aria-label={tx(`${modelName}: illustrative ${SCENARIOS[scenario].name.toLowerCase()} driving preview`)}>
         <defs>
-          <linearGradient id={`${id}-sky`} x2="0" y2="1"><stop stopColor="#0b192e"/><stop offset="1" stopColor="#24465a"/></linearGradient>
-          <linearGradient id={`${id}-fade`} x2="0" y2="1"><stop offset="0" stopColor="#132c2b" stopOpacity=".82"/><stop offset="1" stopColor="#132c2b" stopOpacity="0"/></linearGradient>
+          <linearGradient id={`${id}-sky`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#091526"/>
+            <stop offset="0.58" stopColor="#16324a"/>
+            <stop offset="1" stopColor="#2c5368"/>
+          </linearGradient>
+          <linearGradient id={`${id}-ground`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#173233"/>
+            <stop offset="0.35" stopColor="#122829"/>
+            <stop offset="1" stopColor="#0d1e21"/>
+          </linearGradient>
+          <linearGradient id={`${id}-asphalt`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#2c3948"/>
+            <stop offset="0.4" stopColor="#24303d"/>
+            <stop offset="1" stopColor="#1c2632"/>
+          </linearGradient>
+          <linearGradient id={`${id}-fade`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#1d3d47" stopOpacity=".76"/>
+            <stop offset="1" stopColor="#1d3d47" stopOpacity="0"/>
+          </linearGradient>
         </defs>
-        <rect width="480" height="270" fill={`url(#${id}-sky)`}/>
-        <path d="M0 87 L37 75 L62 83 L99 66 L139 85 L183 76 L233 86 L285 70 L328 85 L371 74 L421 83 L459 69 L480 79 V110 H0Z" fill="#243e4c"/>
-        <rect y="86" width="480" height="184" fill="#132c2b"/>
+        <rect width="480" height="86" fill={`url(#${id}-sky)`}/>
+        <g ref={mountains}>
+          <path d="M0 79 L42 68 L76 77 L118 61 L162 78 L208 69 L252 80 L298 64 L344 78 L392 67 L438 77 L480 79 L522 68 L556 77 L598 61 L642 78 L688 69 L732 80 L778 64 L824 78 L872 67 L918 77 L960 79 V90 H0Z" fill="#1e394a" opacity=".88"/>
+          <path d="M0 82 L54 75 L104 82 L156 73 L214 83 L268 74 L322 82 L378 75 L432 83 L480 82 L534 75 L584 82 L636 73 L694 83 L748 74 L802 82 L858 75 L912 83 L960 82 V90 H0Z" fill="#172f39"/>
+        </g>
+        <rect y="84" width="480" height="186" fill={`url(#${id}-ground)`}/>
         <g>
-          <path ref={shoulder} fill="#354447"/><path ref={road} fill="#27323f"/>
-          <g ref={intersections}/><g ref={markings}/><path ref={path} fill={model.pathColor || '#2ddc73'} fillOpacity=".28"/><g ref={pathFade}/>
+          <path ref={shoulder} fill="#334247"/>
+          <path ref={road} fill={`url(#${id}-asphalt)`}/>
+          <g ref={intersections}/>
+          <g ref={markings}/>
+          <g ref={barrier}/>
+          <path ref={path} fill={model.pathColor || '#2ddc73'} fillOpacity=".30"/>
+          <path ref={pathEdge} fill={model.pathColor || '#2ddc73'} fillOpacity=".68"/>
+          <g ref={pathFade}/>
           <g ref={laneLines}/>
         </g>
-        <rect y="86" width="480" height="44" fill={`url(#${id}-fade)`} pointerEvents="none"/>
+        <rect y="84" width="480" height="38" fill={`url(#${id}-fade)`} pointerEvents="none"/>
         <g ref={scenery}/>
+        {/* Roadside signs & signals sit outside the carriageway, behind foreground traffic */}
+        <g ref={furniture}/>
         <g ref={traffic}/>
         <g ref={leadArrow}/>
-        {/* Sign heads rise above the road horizon; the road fade would erase them. */}
-        <g ref={furniture}/>
         <g ref={wheel} transform="translate(27 238)" fill="#f1f3f3">
           <path fillRule="evenodd" d="M0-12a12 12 0 1 1 0 24a12 12 0 1 1 0-24Z M-7.4-6.8Q0-13 7.4-6.8Q9-4.8 7-4.7L-7-4.7Q-9-4.8-7.4-6.8Z M-8.8-1.8Q-5-2.4-3.2 1Q-1.4 5-3 8.6Q-9.8 6.6-8.8-1.8Z M8.8-1.8Q5-2.4 3.2 1Q1.4 5 3 8.6Q9.8 6.6 8.8-1.8Z"/>
         </g>

@@ -142,3 +142,34 @@ live.options.followDistance = 4;
 for (let i = 0; i < 60 * 40; i++) live.step();
 assert.ok(live.lead(live.ego).gap > closeGap + 8, 'Increasing bars live must open the actual gap');
 console.log('PASS live set-speed increase/decrease and live following-distance change');
+
+// 3D vehicle perspective & back-face culling checks:
+// 1. Left-lane vs right-lane vehicles must expose opposite 3D side panels rather than identical 2D billboards.
+const leftCarSvg = trafficCarSvg({ id: 0, kind: 'sedan', direction: 1, braking: false, lateral: 0 }, 0, {
+  center: { x: -3.6, z: 18 }, forward: { x: 0, z: 1 }, right: { x: 1, z: 0 },
+});
+const rightCarSvg = trafficCarSvg({ id: 0, kind: 'sedan', direction: 1, braking: false, lateral: 0 }, 0, {
+  center: { x: 3.6, z: 18 }, forward: { x: 0, z: 1 }, right: { x: 1, z: 0 },
+});
+assert.ok(leftCarSvg.includes('#aeb9c2') && !leftCarSvg.includes('#dde4e9'), 'Left-lane sedan must show right side panel and cull hidden left wall');
+assert.ok(rightCarSvg.includes('#dde4e9') && !rightCarSvg.includes('#aeb9c2'), 'Right-lane sedan must show left side panel and cull hidden right wall');
+assert.ok(leftCarSvg.includes('#eef2f5'), '1.44 m sedan roof below 1.65 m eye height must be visible');
+
+// 2. Semi-truck (3.95 m tall > 1.65 m camera height) must cull its overhead trailer roof and hidden opposite wall.
+const leftTruckSvg = trafficCarSvg({ id: 1, kind: 'truck', direction: 1, braking: false, lateral: 0 }, 0, {
+  center: { x: -3.6, z: 24 }, forward: { x: 0, z: 1 }, right: { x: 1, z: 0 },
+});
+const rightTruckSvg = trafficCarSvg({ id: 1, kind: 'truck', direction: 1, braking: false, lateral: 0 }, 0, {
+  center: { x: 3.6, z: 24 }, forward: { x: 0, z: 1 }, right: { x: 1, z: 0 },
+});
+assert.ok(!leftTruckSvg.includes('#eef1f2') && !rightTruckSvg.includes('#eef1f2'), '3.95 m trailer roof above 1.65 m eye level must be back-face culled');
+assert.ok(leftTruckSvg.includes('#bac4c8') && !leftTruckSvg.includes('#e3e8ea'), 'Left-lane truck must show right trailer wall and cull left wall');
+assert.ok(rightTruckSvg.includes('#e3e8ea') && !rightTruckSvg.includes('#bac4c8'), 'Right-lane truck must show left trailer wall and cull right wall');
+
+// 3. Oncoming truck must expose front headlights/grille and cull rear barn doors.
+const oncomingTruckSvg = trafficCarSvg({ id: 1, kind: 'truck', direction: -1, braking: false, lateral: 0 }, 0, {
+  center: { x: -3.6, z: 28 }, forward: { x: 0, z: -1 }, right: { x: -1, z: 0 },
+});
+assert.ok(oncomingTruckSvg.includes('#f6f1dd') && !oncomingTruckSvg.includes('#9e232a'), 'Oncoming truck must show headlights and cull rear tail-lamps');
+console.log('PASS 3D perspective foreshortening, side-panel visibility, overhead roof culling, and oncoming truck occlusion');
+
