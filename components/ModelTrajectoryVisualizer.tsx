@@ -1,10 +1,12 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Pause, Play, RotateCcw } from 'lucide-react';
 import TranslatedText from '@/components/TranslatedText';
 import { useTextTranslation } from '@/lib/i18n';
-import { resolveModelMetadata } from '@/lib/modelMetadata';
+import { resolveModelMetadata, telemetryProfileFromPhysics, type ModelTelemetryProfile } from '@/lib/modelMetadata';
+import type { ModelVoteSummary } from '@/lib/modelVotes';
+import { ALL_MODEL_PROFILES, withModelVotes } from '@/lib/new-sim/modelProfiles';
 import {
     LANE_WIDTH_M,
     TRAJECTORY_SCENARIOS,
@@ -45,10 +47,21 @@ function accelColor(a: number) {
     return a < 0 ? '#f87171' : '#4ade80';
 }
 
-export default function ModelTrajectoryVisualizer({ modelName }: { modelName: string }) {
+export default function ModelTrajectoryVisualizer({ modelName, votes }: { modelName: string; votes?: ModelVoteSummary }) {
     const tx = useTextTranslation();
+    const gradId = useId().replace(/:/g, '');
     const meta = useMemo(() => resolveModelMetadata(modelName), [modelName]);
-    const profile = meta.telemetryProfile;
+    const profile: ModelTelemetryProfile = useMemo(() => {
+        if (!votes) return meta.telemetryProfile;
+        const baseSim = ALL_MODEL_PROFILES.find(p => p.name === modelName);
+        if (!baseSim) return meta.telemetryProfile;
+        const votedSim = withModelVotes(baseSim, votes);
+        if (votedSim === baseSim) return meta.telemetryProfile;
+        return {
+            ...telemetryProfileFromPhysics(votedSim, votedSim.tags),
+            ...(meta.explicitTelemetryOverrides ?? {}),
+        } as ModelTelemetryProfile;
+    }, [meta, modelName, votes]);
     const estimated = meta.inferredFields.includes('telemetryProfile');
 
     const [scenario, setScenario] = useState<TrajectoryScenario>('scurve');
@@ -221,7 +234,7 @@ export default function ModelTrajectoryVisualizer({ modelName }: { modelName: st
                     aria-label={tx(`${modelName}: ${TRAJECTORY_SCENARIOS[scenario].label} trajectory, viewed from above. Lateral bias ${profile.lateralBias.toFixed(2)}, turn-in timing ${profile.turnInTiming.toFixed(2)}.`)}
                 >
                     <defs>
-                        <linearGradient id="traj-plan" x1="0" y1="1" x2="0" y2="0">
+                        <linearGradient id={`${gradId}-traj-plan`} x1="0" y1="1" x2="0" y2="0">
                             <stop offset="0" stopColor={COLORS.planAlt} />
                             <stop offset="1" stopColor={COLORS.plan} />
                         </linearGradient>
@@ -239,18 +252,18 @@ export default function ModelTrajectoryVisualizer({ modelName }: { modelName: st
                                 x1={px(run.roadAt(run.stopLineS) - LANE_WIDTH_M / 2)} x2={px(run.roadAt(run.stopLineS) + LANE_WIDTH_M / 2)}
                                 y1={py(run.stopLineS)} y2={py(run.stopLineS)} stroke="#f8fafc" strokeWidth="4"
                             />
-                            <rect x={px(run.roadAt(run.stopLineS) - 0.95)} y={py(run.stopLineS + 9)} width={1.9 * PX_PER_M_X} height={4.5 * PX_PER_M_Y} rx="3" fill="#64748b" />
+                            <rect x={px(run.roadAt(run.stopLineS) - 0.95)} y={py(run.stopLineS + 13.5)} width={1.9 * PX_PER_M_X} height={4.5 * PX_PER_M_Y} rx="3" fill="#64748b" />
                         </g>
                     )}
                     {cur.lead !== undefined && (
                         <rect
-                            x={px(run.roadAt(cur.lead)) - (0.95 * PX_PER_M_X)} y={py(cur.lead) - 4.5 * PX_PER_M_Y}
+                            x={px(run.roadAt(cur.lead)) - (0.95 * PX_PER_M_X)} y={py(cur.lead)}
                             width={1.9 * PX_PER_M_X} height={4.5 * PX_PER_M_Y} rx="3" fill="#94a3b8"
                         />
                     )}
 
                     {/* Ideal plan — green/cyan spline */}
-                    <polyline points={aheadPoly(run.planAt)} fill="none" stroke="url(#traj-plan)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity=".8" />
+                    <polyline points={aheadPoly(run.planAt)} fill="none" stroke={`url(#${gradId}-traj-plan)`} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity=".8" />
                     {showHigh && (
                         <polyline points={poly(s => run.execAt('highTorque', s))} fill="none" stroke={COLORS.high} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     )}
@@ -258,9 +271,9 @@ export default function ModelTrajectoryVisualizer({ modelName }: { modelName: st
                         <polyline points={poly(s => run.execAt('torqueLimited', s))} fill="none" stroke={COLORS.limited} strokeWidth="2.4" strokeDasharray="6 4" strokeLinecap="round" strokeLinejoin="round" />
                     )}
 
-                    {/* Ego vehicle */}
+                    {/* Ego vehicle (front bumper aligned at cur.s / CAR_Y so stop-line holds and 4.5m lead gaps match exact physical positions) */}
                     <rect
-                        x={px(egoVisualX) - 0.95 * PX_PER_M_X} y={CAR_Y - 2.25 * PX_PER_M_Y}
+                        x={px(egoVisualX) - 0.95 * PX_PER_M_X} y={CAR_Y}
                         width={1.9 * PX_PER_M_X} height={4.5 * PX_PER_M_Y} rx="4" fill="#38bdf8" stroke="#e0f2fe" strokeWidth="1.2"
                     />
                 </svg>

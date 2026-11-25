@@ -13,6 +13,7 @@ export interface ModelSimProfile extends FeedbackPhysics {
   badge?: string;
   steeringFeel: string;
   communityScore: number;
+  hasScore: boolean;
   tags: string[];
   bestFor: string;
   consensus: string;
@@ -63,7 +64,8 @@ export function deriveModelSimProfile(
   const id = slugify(rawModel.name);
   const tags = rawModel.tags || [];
   const feel = rawModel.steeringFeel || 'Balanced';
-  const score = rawModel.communityScore ?? 50;
+  const hasScore = typeof rawModel.communityScore === 'number' && (rawModel.totalVotes ?? 0) > 0;
+  const score = hasScore ? rawModel.communityScore! : 50;
   const consensus = rawModel.consensus || '';
   const physics = deriveFeedbackPhysics(rawModel);
   const laneWobble = physics.laneWobble;
@@ -80,13 +82,13 @@ export function deriveModelSimProfile(
     pathColor = '#f59e0b'; // amber
   } else if (feel === 'Ultra-Smooth' || rawModel.name.includes('TCPm')) {
     pathColor = '#10b981'; // emerald
-  } else if (score < 45 || laneWobble > 0.25) {
+  } else if ((hasScore && score < 45) || laneWobble > 0.12) {
     pathColor = '#eab308'; // yellow
   }
 
   const vibeSummary = rawModel.bestFor
     ? `${rawModel.bestFor} · ${feel}`
-    : `${feel} feel with ${score}/100 score`;
+    : hasScore ? `${feel} feel with ${score}/100 score` : `${feel} feel`;
 
   return {
     id,
@@ -98,6 +100,7 @@ export function deriveModelSimProfile(
     badge: rawModel.badge,
     steeringFeel: feel,
     communityScore: score,
+    hasScore,
     tags,
     bestFor: rawModel.bestFor || 'General driving',
     consensus: consensus || 'Limited descriptive feedback; unspecified traits use neutral defaults.',
@@ -177,16 +180,30 @@ export function withModelVotes(profile: ModelSimProfile, votes?: ModelVoteSummar
   if (!votes || votes.modelName.toLowerCase() !== profile.name.toLowerCase()) return profile;
   const raw = RAW_PROFILE_MAP.get(profile.id);
   if (!raw) return profile;
-  const updated = applyTraitVotes({ ...profile, ...deriveFeedbackPhysics({ ...raw, ...votes.live }) }, votes.questions);
+  const hasLiveVotes = votes.live.totalVotes > 0;
+  const mergedRaw = hasLiveVotes ? { ...raw, ...votes.live } : raw;
+  const updated = applyTraitVotes(
+    {
+      ...profile,
+      ...(hasLiveVotes ? { communityScore: votes.live.communityScore, hasScore: true } : {}),
+      ...deriveFeedbackPhysics(mergedRaw),
+    },
+    votes.questions,
+  );
   if (
     updated.headway === profile.headway &&
     updated.departureLag === profile.departureLag &&
     updated.jerkLimit === profile.jerkLimit &&
+    updated.comfortDecel === profile.comfortDecel &&
+    updated.cruiseFactor === profile.cruiseFactor &&
+    updated.stopOffset === profile.stopOffset &&
     updated.laneWobble === profile.laneWobble &&
     updated.wobbleSpeedBias === profile.wobbleSpeedBias &&
     updated.curveLineBias === profile.curveLineBias &&
     updated.rollingStop === profile.rollingStop &&
     updated.creepTendency === profile.creepTendency &&
+    updated.communityScore === profile.communityScore &&
+    updated.hasScore === profile.hasScore &&
     updated.evidence.length === profile.evidence.length &&
     (updated.sentiment?.votes ?? 0) === (profile.sentiment?.votes ?? 0)
   ) {

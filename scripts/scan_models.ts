@@ -450,7 +450,7 @@ async function researchDiscourse(modelName: string): Promise<DiscourseResearchRe
 
         if (op.polls && op.polls.length > 0) {
             for (const poll of op.polls) {
-                if (poll.name === 'overall') {
+                if (poll.name === 'overall' || poll.name === 'poll') {
                     pollVoters = poll.voters;
                     let greatVotes = 0;
                     let goodVotes = 0;
@@ -458,12 +458,12 @@ async function researchDiscourse(modelName: string): Promise<DiscourseResearchRe
                     let badVotes = 0;
 
                     for (const opt of poll.options) {
-                        const h = opt.html.toLowerCase();
+                        const h = stripHtml(opt.html).toLowerCase();
                         const v = opt.votes || 0;
-                        if (h.includes('great') || h.includes('5')) greatVotes += v;
-                        else if (h.includes('good') || h.includes('4')) goodVotes += v;
-                        else if (h.includes('ok') || h.includes('3')) okVotes += v;
-                        else if (h.includes('bad') || h.includes('poor') || h.includes('2') || h.includes('1')) badVotes += v;
+                        if (h.includes('great') || h.startsWith('5')) greatVotes += v;
+                        else if (h.includes('good') || h.startsWith('4')) goodVotes += v;
+                        else if (h.includes('ok') || h.startsWith('3')) okVotes += v;
+                        else if (h.includes('bad') || h.includes('horrible') || h.includes('poor') || h.startsWith('2') || h.startsWith('1')) badVotes += v;
                     }
 
                     const total = greatVotes + goodVotes + okVotes + badVotes;

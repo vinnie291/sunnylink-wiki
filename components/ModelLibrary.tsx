@@ -26,6 +26,7 @@ import { getModelFleetStat } from '@/lib/fleetStats';
 import { calculateConfidenceScore, computeGlobalMean, scoreToStars } from '@/lib/ranking';
 import SimulatorCTA from './new-sim/SimulatorCTA';
 import { modelNameToSlug, findModelBySlugOrName } from '../lib/modelSlug';
+import { parseModelDate } from '../lib/modelMetadata';
 import { useViewMode } from '../hooks/useViewMode';
 import { useStickySearch } from '../hooks/useStickySearch';
 import { useDesktopSidebarSticky } from '../hooks/useDesktopSidebarSticky';
@@ -324,22 +325,30 @@ const ModelCard = memo(function ModelCard({
     const [simulationVotes, setSimulationVotes] = useState<ModelVoteSummary>();
     const [isPulsing, setIsPulsing] = useState(false);
 
-    const skillDetail = useMemo(() => deriveSkillRatingsDetail(model), [model]);
-    const routeCount = useMemo(() => getModelFleetStat(model.name)?.routes || 0, [model.name]);
-
     const liveVotes = userVoteData?.totalVotes ?? model.totalVotes;
     const hasRatingVotes = (liveVotes ?? 0) > 0;
     const liveScore = hasRatingVotes ? userVoteData?.communityScore ?? model.communityScore : undefined;
     const liveSentiment = hasRatingVotes ? userVoteData?.sentiment ?? model.sentiment : undefined;
 
-    const handleScoreUpdate = useCallback((liveData: {
-        communityScore: number;
-        totalVotes: number;
-        sentiment: SentimentData;
-    }) => {
+    const skillDetail = useMemo(
+        () => deriveSkillRatingsDetail(userVoteData ? { ...model, ...userVoteData } : model),
+        [model, userVoteData]
+    );
+    const routeCount = useMemo(() => getModelFleetStat(model.name)?.routes || 0, [model.name]);
+
+    const handleScoreUpdate = useCallback((
+        liveData: {
+            communityScore: number;
+            totalVotes: number;
+            sentiment: SentimentData;
+        },
+        isUserAction?: boolean
+    ) => {
         setUserVoteData(liveData);
-        setIsPulsing(true);
-        setTimeout(() => setIsPulsing(false), 1500);
+        if (isUserAction) {
+            setIsPulsing(true);
+            setTimeout(() => setIsPulsing(false), 1500);
+        }
     }, []);
 
     const handleCopyLink = async (e: React.MouseEvent) => {
@@ -382,7 +391,7 @@ const ModelCard = memo(function ModelCard({
     };
 
     const getScoreColor = (score?: number) => {
-        if (!score) return 'text-slate-400';
+        if (score === undefined) return 'text-slate-400';
         if (score >= 80) return 'text-emerald-400';
         if (score >= 60) return 'text-blue-400';
         if (score >= 40) return 'text-yellow-400';
@@ -443,7 +452,7 @@ const ModelCard = memo(function ModelCard({
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
                             <h3 className="text-lg font-bold text-slate-100 break-words">
-                                {onDetails ? <button type="button" onClick={() => onDetails(model)} className="text-left hover:text-cyan-400 focus-visible:outline-cyan-400">{model.name}</button> : model.name}
+                                {onDetails ? <button type="button" onClick={(e) => { e.stopPropagation(); onDetails(model); }} className="text-left hover:text-cyan-400 focus-visible:outline-cyan-400">{model.name}</button> : model.name}
                             </h3>
                             <ModelMetaBadges modelName={model.name} />
                             {model.badge && (
@@ -452,7 +461,7 @@ const ModelCard = memo(function ModelCard({
                                 </span>
                             )}
                             <ConfidencePill
-                                reviewCount={model.totalVotes || 0}
+                                reviewCount={liveVotes ?? model.totalVotes ?? 0}
                                 routeCount={routeCount}
                             />
 
@@ -497,7 +506,7 @@ const ModelCard = memo(function ModelCard({
                             <span className={`text-2xl font-bold transition-transform duration-300 ${getScoreColor(liveScore)} ${isPulsing ? 'scale-110 text-cyan-400' : ''}`}>
                                 {liveScore}%
                             </span>
-                            {liveVotes && (
+                            {hasRatingVotes && (
                                 <span className="text-[10px] text-slate-500">{liveVotes} {t('models.votes') || 'votes'}</span>
                             )}
                         </div>
@@ -694,11 +703,17 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
     });
 
     const openModelDetails = useCallback((model: Model) => {
+        const slug = modelNameToSlug(model.name);
         const url = new URL(window.location.href);
-        url.searchParams.set('model', modelNameToSlug(model.name));
+        const alreadyOnModel = url.searchParams.get('model') === slug && !url.searchParams.has('sim');
+        url.searchParams.set('model', slug);
         url.searchParams.delete('sim');
         url.hash = '';
-        window.history.pushState(window.history.state, '', url);
+        if (alreadyOnModel) {
+            window.history.replaceState(window.history.state, '', url);
+        } else {
+            window.history.pushState(window.history.state, '', url);
+        }
         setDetailModel(model);
     }, []);
     const closeModelDetails = useCallback(() => {
@@ -784,16 +799,21 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
 
     const globalModelMean = useMemo(() => {
         const allModelsList = categories[0]?.models || [];
-        const items = allModelsList.map(m => ({
-            rating: scoreToStars(m.communityScore || 0),
-            reviewCount: m.totalVotes || 0,
-        }));
+        const items = allModelsList.map(m => {
+            const reviewCount = m.totalVotes || 0;
+            return {
+                rating: reviewCount > 0 && m.communityScore !== undefined ? scoreToStars(m.communityScore) : 0,
+                reviewCount,
+            };
+        });
         return computeGlobalMean(items);
     }, [categories]);
 
     const getModelConfidence = useCallback((m: Model) => {
-        const rating = scoreToStars(m.communityScore || 0);
         const reviewCount = m.totalVotes || 0;
+        const rating = reviewCount > 0 && m.communityScore !== undefined
+            ? scoreToStars(m.communityScore)
+            : globalModelMean;
         const routeCount = getModelFleetStat(m.name)?.routes || 0;
         return calculateConfidenceScore(rating, reviewCount, routeCount, globalModelMean);
     }, [globalModelMean]);
@@ -950,12 +970,16 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
         if (searchQuery.trim()) return modelsToDisplay;
 
         // Precompute sort keys once per model rather than inside the O(N log N) comparator
-        const enriched = modelsToDisplay.map(model => ({
-            model,
-            dateMs: new Date(model.date).getTime(),
-            confidence: (sortBy === 'confidence-desc' || sortBy === 'confidence-asc') ? getModelConfidence(model) : 0,
-            score: model.communityScore || 0,
-        }));
+        const enriched = modelsToDisplay.map(model => {
+            const hasScore = (model.totalVotes ?? 0) > 0 && model.communityScore !== undefined;
+            return {
+                model,
+                dateMs: parseModelDate(model.date)?.getTime() ?? 0,
+                confidence: (sortBy === 'confidence-desc' || sortBy === 'confidence-asc') ? getModelConfidence(model) : 0,
+                score: hasScore ? model.communityScore! : -1,
+                hasScore,
+            };
+        });
 
         enriched.sort((a, b) => {
             switch (sortBy) {
@@ -972,6 +996,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                 case 'name-desc':
                     return b.model.name.localeCompare(a.model.name);
                 case 'score-asc':
+                    if (a.hasScore !== b.hasScore) return a.hasScore ? -1 : 1;
                     return a.score - b.score;
                 case 'score-desc':
                     return b.score - a.score;
@@ -1346,10 +1371,16 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                                         <td className="p-3 md:p-4 text-slate-400 text-xs md:text-sm whitespace-nowrap"><TranslatedText text={model.date} /></td>
                                                         <td className="p-3 md:p-4">
                                                             <div className="flex items-center gap-2">
-                                                                <span className="text-cyan-400 font-bold text-sm">{model.communityScore}</span>
-                                                                <div className="hidden sm:block w-16 h-1.5 bg-slate-700 rounded-full overflow-hidden">
-                                                                    <div className="h-full bg-cyan-500" style={{ width: `${(model.communityScore || 0) * 10}%` }} />
-                                                                </div>
+                                                                {(model.totalVotes ?? 0) > 0 && model.communityScore !== undefined ? (
+                                                                    <>
+                                                                        <span className="text-cyan-400 font-bold text-sm tabular-nums">{model.communityScore}%</span>
+                                                                        <div className="hidden sm:block w-16 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                                                            <div className="h-full bg-cyan-500" style={{ width: `${Math.min(100, Math.max(0, model.communityScore))}%` }} />
+                                                                        </div>
+                                                                    </>
+                                                                ) : (
+                                                                    <span className="text-slate-500 text-sm">—</span>
+                                                                )}
                                                                 <ConfidencePill
                                                                     reviewCount={model.totalVotes || 0}
                                                                     routeCount={getModelFleetStat(model.name)?.routes || 0}

@@ -5,6 +5,7 @@ import TranslatedText from '@/components/TranslatedText';
 import { useTextTranslation } from '@/lib/i18n';
 import type { ModelVoteSummary } from '@/lib/modelVotes';
 import type { SkillRatings } from '@/lib/skillRatings';
+import { updateCachedModelSummary } from './ModelPollSurvey';
 import {
     DOMAIN_INFO,
     DOMAIN_KEYS,
@@ -22,6 +23,7 @@ import {
 interface Props {
     modelName: string;
     skills: SkillRatings;
+    hasEvidence?: boolean;
     summary?: ModelVoteSummary;
     onSummaryUpdate?: (summary: ModelVoteSummary) => void;
     /** Compact = bars only (model cards). Full adds the reviewer form. */
@@ -29,15 +31,19 @@ interface Props {
 }
 
 function StarBar({ label, hint, value, caption, gradient, compact }: {
-    label: string; hint: string; value: number; caption: string; gradient: string; compact?: boolean;
+    label: string; hint: string; value: number | null; caption: string; gradient: string; compact?: boolean;
 }) {
     const tx = useTextTranslation();
     return (
-        <div className="space-y-1" title={tx(`${hint} ${caption}`)}>
+        <div className="space-y-1" title={`${tx(hint)} ${tx(caption)}`}>
             <div className="flex items-center justify-between gap-2 text-[10px]">
                 <span className="truncate font-medium text-slate-300"><TranslatedText text={label} /></span>
                 <span className="shrink-0 rounded border border-slate-700/30 bg-slate-800/60 px-1 py-0.5 font-mono font-bold text-slate-200">
-                    {value.toFixed(1)}<span aria-hidden="true" className="text-yellow-400"> ★</span>
+                    {value !== null ? (
+                        <>{value.toFixed(1)}<span aria-hidden="true" className="text-yellow-400"> ★</span></>
+                    ) : (
+                        <span className="text-slate-400">—</span>
+                    )}
                 </span>
             </div>
             <div
@@ -45,10 +51,12 @@ function StarBar({ label, hint, value, caption, gradient, compact }: {
                 aria-label={tx(label)}
                 aria-valuemin={1}
                 aria-valuemax={5}
-                aria-valuenow={Number(value.toFixed(1))}
+                aria-valuenow={value !== null ? Number(value.toFixed(1)) : 1}
                 className={`w-full overflow-hidden rounded-full border border-slate-800/40 bg-slate-950/60 ${compact ? 'h-1.5' : 'h-2'}`}
             >
-                <div style={{ width: `${((value - 1) / 4) * 100}%` }} className={`h-full rounded-full bg-gradient-to-r transition-all duration-700 ${gradient}`} />
+                {value !== null && (
+                    <div style={{ width: `${((value - 1) / 4) * 100}%` }} className={`h-full rounded-full bg-gradient-to-r transition-all duration-700 ${gradient}`} />
+                )}
             </div>
             {!compact && <div className="text-[10px] text-slate-500"><TranslatedText text={caption} /></div>}
         </div>
@@ -86,7 +94,7 @@ const selectClass = 'w-full rounded-md border border-slate-700 bg-slate-900 px-2
  * Until reviewers rate a domain the bar shows a prior derived from the
  * existing skill bars; reviewer ratings then take over by sample size.
  */
-export default function ModelDomainRatings({ modelName, skills, summary, onSummaryUpdate, variant = 'full' }: Props) {
+export default function ModelDomainRatings({ modelName, skills, hasEvidence = true, summary, onSummaryUpdate, variant = 'full' }: Props) {
     const tx = useTextTranslation();
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState(false);
@@ -106,14 +114,22 @@ export default function ModelDomainRatings({ modelName, skills, summary, onSumma
                 body: JSON.stringify({ modelName, answers }),
             });
             const json = res.ok ? await res.json() : null;
-            if (json?.success && json.stats) onSummaryUpdate?.(json.stats);
-            else setError(true);
+            if (json?.success && json.stats) {
+                const mergedStats: ModelVoteSummary = {
+                    ...json.stats,
+                    userVote: json.userVote ?? { ...userVote, ...answers },
+                };
+                updateCachedModelSummary(modelName, mergedStats);
+                onSummaryUpdate?.(mergedStats);
+            } else {
+                setError(true);
+            }
         } catch {
             setError(true);
         } finally {
             setSaving(false);
         }
-    }, [modelName, onSummaryUpdate]);
+    }, [modelName, onSummaryUpdate, userVote]);
 
     const selectValue = (key: string) => (typeof userVote[key] === 'string' ? (userVote[key] as string) : '');
 
@@ -128,10 +144,19 @@ export default function ModelDomainRatings({ modelName, skills, summary, onSumma
             <div className={compact ? 'space-y-2' : 'space-y-3'}>
                 {DOMAIN_KEYS.map((key: DomainKey) => {
                     const stat = summary?.domains?.[key] ?? { count: 0, average: null };
-                    const value = blendDomainRating(priors[key], stat);
+                    const hasDomainData = hasEvidence || stat.count > 0;
+                    const value = !hasDomainData
+                        ? null
+                        : hasEvidence
+                            ? blendDomainRating(priors[key], stat)
+                            : stat.average;
                     const caption = stat.count > 0
-                        ? `${stat.count} reviewer ${stat.count === 1 ? 'rating' : 'ratings'}, blended with the derived estimate.`
-                        : 'Derived estimate from feedback — no reviewer ratings yet.';
+                        ? (hasEvidence
+                            ? `${stat.count} reviewer ${stat.count === 1 ? 'rating' : 'ratings'}, blended with the derived estimate.`
+                            : `${stat.count} reviewer ${stat.count === 1 ? 'rating' : 'ratings'}.`)
+                        : hasEvidence
+                            ? 'Derived estimate from feedback — no reviewer ratings yet.'
+                            : 'No feedback or reviewer ratings yet.';
                     return (
                         <StarBar
                             key={key}

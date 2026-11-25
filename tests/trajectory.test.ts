@@ -86,3 +86,61 @@ test('malformed replay arrays fall back to simulation', () => {
     const run = buildTrajectoryRun('highway', profile(), { x: [0, 1], y: [0], v: [1, 2], a: [0, 0] });
     assert.equal(run.fromReplay, false);
 });
+
+test('Discourse trait poll labels adjust simulator physics and derived telemetry profiles', async () => {
+    const { getModelProfile } = await import('../lib/new-sim/modelProfiles');
+    const { applyTraitVotes } = await import('../lib/new-sim/traitVotes');
+    const { telemetryProfileFromPhysics } = await import('../lib/modelMetadata');
+
+    const base = getModelProfile('TCPmV3 (The Cool Peoples Model)');
+    const baseTel = telemetryProfileFromPhysics(base);
+    const voted = applyTraitVotes(base, [
+        {
+            id: 'lateral',
+            title: 'Lateral',
+            type: 'multiple',
+            voters: 20,
+            options: [
+                { id: 'under', label: 'Understeers or gives up mid-turn', votes: 14 },
+            ],
+        },
+        {
+            id: 'longitudinal',
+            title: 'Longitudinal',
+            type: 'multiple',
+            voters: 20,
+            options: [
+                { id: 'brake', label: 'Hard or late braking', votes: 14 },
+                { id: 'roll', label: 'Overshoots the stop line or rolls through', votes: 14 },
+                { id: 'speed', label: 'Does not hold the set speed', votes: 12 },
+            ],
+        },
+    ]);
+    const votedTel = telemetryProfileFromPhysics(voted);
+    assert.ok(voted.curveLineBias < base.curveLineBias, 'understeer votes should swing curveLineBias wider');
+    assert.ok(voted.stopOffset > base.stopOffset, 'overshoot votes should increase stopOffset');
+    assert.equal(voted.creepTendency, true);
+    assert.equal(voted.rollingStop, true);
+    assert.ok(voted.cruiseFactor < base.cruiseFactor, 'speed-hold votes should reduce cruiseFactor');
+    assert.ok(votedTel.turnInTiming > baseTel.turnInTiming, 'understeer votes should shift turnInTiming later');
+    assert.ok(votedTel.stopLineCreep > baseTel.stopLineCreep, 'overshoot votes should increase stopLineCreep');
+});
+
+test('skill ratings respect em-dash clause boundaries and keep Cheddar lateral below bad-lateral contradictions', async () => {
+    const { ENGLISH_CONTENT } = await import('../lib/localizedContent');
+    const { deriveSkillRatingsDetail } = await import('../lib/skillRatings');
+
+    const models = ENGLISH_CONTENT.models.categories.flatMap(c => c.models);
+    const teeTime = models.find(m => m.name === 'Tee Time Model');
+    const cheddar = models.find(m => m.name === 'Cheddar Model');
+    assert.ok(teeTime && cheddar);
+
+    const teeDetail = deriveSkillRatingsDetail(teeTime);
+    assert.ok(
+        teeDetail.evidence.some(e => e.axis === 'lat' && e.delta < 0),
+        'em-dash after "No positive lateral votes at all" must not negate ping-pong in Tee Time Model',
+    );
+    const cheddarDetail = deriveSkillRatingsDetail(cheddar);
+    assert.ok(cheddarDetail.ratings.lat <= 68, `Cheddar lat (${cheddarDetail.ratings.lat}) should reflect lane-split/lane-change negatives`);
+});
+

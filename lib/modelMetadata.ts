@@ -12,7 +12,7 @@
  */
 import modelsData from '../data/models.json';
 import curatedData from '../data/model_metadata.json';
-import { deriveFeedbackPhysics, type FeedbackModel } from './new-sim/feedback';
+import { deriveFeedbackPhysics, type FeedbackModel, type FeedbackPhysics } from './new-sim/feedback';
 import { modelNameToSlug } from './modelSlug';
 
 // ─── Schema (matches the architecture plan) ───────────────────────────────
@@ -68,6 +68,8 @@ export interface ResolvedModelMetadata extends DrivingModelMetadata {
     aliasNote?: string;
     /** Slugs of other models that are aliases of this one (or share its weights hash). */
     aliases: string[];
+    /** Explicit telemetry overrides from model_metadata.json or inline metadata, preserved over live votes. */
+    explicitTelemetryOverrides?: Partial<ModelTelemetryProfile>;
 }
 
 /** Minimal model shape the resolver needs. Matches entries in data/models.json. */
@@ -224,12 +226,11 @@ function inferCompute(m: MetadataSourceModel, categoryId: string, date: Date | n
 }
 
 /**
- * Converts the existing feedback→physics mapping into the normalized telemetry
- * profile. These are feedback-derived estimates, not measured model outputs.
+ * Maps a FeedbackPhysics state (catalog-derived or live-vote-blended) onto the
+ * normalized ModelTelemetryProfile used by the trajectory visualizer.
  */
-export function inferTelemetryProfile(m: MetadataSourceModel): ModelTelemetryProfile {
-    const p = deriveFeedbackPhysics(m);
-    const tags = (m.tags ?? []).join(' ').toLowerCase();
+export function telemetryProfileFromPhysics(p: FeedbackPhysics, rawTags?: string[]): ModelTelemetryProfile {
+    const tags = (rawTags ?? []).join(' ').toLowerCase();
 
     // laneOffset is ±0.28 m when hugging is reported (negative = left).
     let lateralBias = clamp(p.laneOffset / 0.28 * 0.55, -1, 1);
@@ -271,6 +272,14 @@ export function inferTelemetryProfile(m: MetadataSourceModel): ModelTelemetryPro
         profile.recommendedCameraOffset = c4Only ? { c4: magnitude } : { c3x: magnitude, c4: magnitude };
     }
     return profile;
+}
+
+/**
+ * Converts the existing feedback→physics mapping into the normalized telemetry
+ * profile. These are feedback-derived estimates, not measured model outputs.
+ */
+export function inferTelemetryProfile(m: MetadataSourceModel): ModelTelemetryProfile {
+    return telemetryProfileFromPhysics(deriveFeedbackPhysics(m), m.tags);
 }
 
 function mergeInput(target: DrivingModelMetadataInput, src?: DrivingModelMetadataInput): DrivingModelMetadataInput {
@@ -337,6 +346,7 @@ export function resolveModelMetadata(modelOrName: MetadataSourceModel | string):
         trainingParadigm,
         supportedCompute,
         telemetryProfile,
+        explicitTelemetryOverrides: explicitProfile,
         inferredFields,
         inferenceNotes,
         aliases: ALIAS_INDEX.get(id) ?? [],

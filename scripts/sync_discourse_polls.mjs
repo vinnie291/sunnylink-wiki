@@ -211,7 +211,8 @@ export async function syncDiscoursePolls(options = { fetchRemote: true }) {
             );
 
             if (pollInfo && pollInfo.polls && pollInfo.polls.length > 0) {
-                const ratingPoll = pollInfo.polls.find(p => p.name === 'overall' || p.name === 'poll') || pollInfo.polls[0];
+                const ratingPoll = pollInfo.polls.find(p => p.name === 'overall' || p.name === 'poll')
+                    || pollInfo.polls.find(p => p.name !== 'vs_default' && p.name !== 'would_merge' && (p.options || []).some(o => /\b(?:great|good|poor|horrible)\b/i.test(o.html || '')));
                 const stats = calculateSentimentAndScore(ratingPoll);
                 if (stats && stats.totalVotes > 0) {
                     const scoreChanged = m.communityScore !== stats.score;

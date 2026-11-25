@@ -6,6 +6,7 @@ import {
     getConfidenceInfo,
     scoreToStars,
 } from '../lib/ranking';
+import { getModelFleetStat } from '../lib/fleetStats';
 
 test('a single 5-star review does not outrank a well-tested 4.6', () => {
     const single = calculateConfidenceScore(5, 1, 20);
@@ -13,9 +14,18 @@ test('a single 5-star review does not outrank a well-tested 4.6', () => {
     assert.ok(proven > single, `${proven} should exceed ${single}`);
 });
 
-test('items with no evidence fall back to the global mean', () => {
+test('items with no evidence fall back to the global mean even when fleet route volume exists', () => {
     assert.equal(calculateConfidenceScore(5, 0, 0, 3.5), 3.5);
     assert.equal(calculateConfidenceScore(1, 0, 0, 4.1), 4.1);
+    assert.equal(calculateConfidenceScore(1, 0, 5000, 4.1), 4.1);
+    assert.equal(calculateConfidenceScore(Number.NaN, 10, 500, 3.9), 3.9);
+});
+
+test('fleet stats keep Pop Model distinct from Pop v2 and resolve parenthetical catalog names', () => {
+    assert.equal(getModelFleetStat('Pop Model')?.routes, 398);
+    assert.equal(getModelFleetStat('Pop v2')?.routes, 7902);
+    assert.equal(getModelFleetStat('TCPmV3 (The Cool Peoples Model)')?.routes, 1690);
+    assert.equal(getModelFleetStat('GWM v9 (GWM9)')?.routes, 478);
 });
 
 test('more evidence moves the score toward the item rating', () => {

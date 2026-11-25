@@ -14,18 +14,31 @@ interface ModelPollSurveyProps {
     baseSentiment?: { great: number; good: number; ok: number; bad: number };
     initialVoteSummary?: ModelVoteSummary;
     onSummaryUpdate?: (summary: ModelVoteSummary) => void;
-    onScoreUpdate?: (liveData: {
-        communityScore: number;
-        totalVotes: number;
-        sentiment: { great: number; good: number; ok: number; bad: number };
-    }) => void;
+    onScoreUpdate?: (
+        liveData: {
+            communityScore: number;
+            totalVotes: number;
+            sentiment: { great: number; good: number; ok: number; bad: number };
+        },
+        isUserAction?: boolean
+    ) => void;
 }
 
 let allVotesPromise: Promise<Record<string, ModelVoteSummary> | null> | null = null;
 const modelSummaryCache = new Map<string, ModelVoteSummary>();
 
+export function updateCachedModelSummary(modelName: string, summary: ModelVoteSummary): void {
+    modelSummaryCache.set(modelName.toLowerCase(), summary);
+}
+
 function getCachedModelSummary(modelName: string): ModelVoteSummary | null {
     return modelSummaryCache.get(modelName.toLowerCase()) ?? null;
+}
+
+function hasAnsweredAnyPollQuestion(stats?: ModelVoteSummary | null): boolean {
+    if (!stats?.userVote) return false;
+    if (stats.userVote.rating !== undefined) return true;
+    return (stats.questions ?? []).some(q => stats.userVote?.[q.id] !== undefined);
 }
 
 function fetchCachedModelSummary(modelName: string): Promise<ModelVoteSummary | null> {
@@ -70,17 +83,22 @@ export default function ModelPollSurvey({
     const { t } = useLanguage();
     const initialCached = initialVoteSummary || getCachedModelSummary(modelName);
     const [currentStep, setCurrentStep] = useState(0);
-    const [viewMode, setViewMode] = useState<'vote' | 'results'>(() => {
-        const firstQ = initialCached?.questions?.[0];
-        if (firstQ && initialCached?.userVote?.[firstQ.id] !== undefined) {
-            return 'results';
-        }
-        return 'vote';
-    });
+    const [viewMode, setViewMode] = useState<'vote' | 'results'>(() =>
+        hasAnsweredAnyPollQuestion(initialCached) ? 'results' : 'vote'
+    );
     const [userAnswers, setUserAnswers] = useState<ModelSurveyAnswers>(() => initialCached?.userVote || {});
     const [summary, setSummary] = useState<ModelVoteSummary | null>(initialCached);
     const [loading, setLoading] = useState(false);
     const [justVoted, setJustVoted] = useState(false);
+
+    useEffect(() => {
+        if (initialVoteSummary && initialVoteSummary.modelName.toLowerCase() === modelName.toLowerCase()) {
+            setSummary(prev => (prev === initialVoteSummary ? prev : initialVoteSummary));
+            if (initialVoteSummary.userVote) {
+                setUserAnswers(initialVoteSummary.userVote);
+            }
+        }
+    }, [initialVoteSummary, modelName]);
 
     // Fetch live summary & user vote on mount (batched & cached across all cards)
     useEffect(() => {
@@ -91,8 +109,7 @@ export default function ModelPollSurvey({
             onSummaryUpdate?.(stats);
             if (stats.userVote) {
                 setUserAnswers(stats.userVote);
-                const firstQ = stats.questions?.[0];
-                if (firstQ && stats.userVote[firstQ.id] !== undefined) {
+                if (hasAnsweredAnyPollQuestion(stats)) {
                     setViewMode('results');
                 }
             }
@@ -106,7 +123,7 @@ export default function ModelPollSurvey({
                         stats.live.sentiment.ok !== baseSentiment?.ok ||
                         stats.live.sentiment.bad !== baseSentiment?.bad);
                 if (liveChanged) {
-                    onScoreUpdate(stats.live);
+                    onScoreUpdate(stats.live, false);
                 }
             }
         };
@@ -227,7 +244,7 @@ export default function ModelPollSurvey({
                     setJustVoted(true);
                     setTimeout(() => setJustVoted(false), 2000);
                     if (json.stats.live && onScoreUpdate) {
-                        onScoreUpdate(json.stats.live);
+                        onScoreUpdate(json.stats.live, true);
                     }
                 }
             }

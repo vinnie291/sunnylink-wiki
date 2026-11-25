@@ -112,11 +112,11 @@ export interface SkillRatingsDetail {
 // `npm run ratings:audit` after a sentiment sync to check these still hold.
 
 /** Mean polarity among opinionated votes across the catalogue. */
-const CORPUS_POLARITY_MEAN = 61.4;
+const CORPUS_POLARITY_MEAN = 62.0;
 const CORPUS_POLARITY_SD = 19.5;
 /** Mean and spread of the displayed communityScore, used to rescale it. */
-const CORPUS_SCORE_MEAN = 55.9;
-const CORPUS_SCORE_SD = 13.9;
+const CORPUS_SCORE_MEAN = 56.8;
+const CORPUS_SCORE_SD = 14.2;
 
 /**
  * Opinionated votes a model needs before its own polarity outweighs the corpus
@@ -250,7 +250,7 @@ const VIRTUES: Array<[string[], AxisDelta]> = [
     // Longitudinal
     [['smooth stops', 'consistent braking', 'smooth braking', 'braking transitions', 'stopping comfortably', 'stops smoothly', 'decelerating'], { long: 10, comfort: 6 }],
     [['longitudinal', 'longitudinal control', 'better longitudinal', 'smooth highway longitudinal', 'smooth longitudinal', 'scc v'], { long: 8 }],
-    [['braking', 'improved stopping'], { long: 6 }],
+    [['braking', 'improved stopping', 'better stopping'], { long: 6 }],
     [['acceleration', 'accelerates', 'back on the gas'], { long: 6 }],
     [['follow distance', 'lead gap', 'following distance', 'lead car following'], { long: 6 }],
     [['reaches cruise speed', 'set speeds'], { long: 6 }],
@@ -294,9 +294,9 @@ const DEFECTS: Array<[string[], AxisDelta]> = [
     [['unstable', 'big model error', 'scary'], { lat: 13, stability: 14, comfort: 10 }],
     [['loose', 'wiggly', 'wiggle', 'floaty'], { lat: 9, stability: 9 }],
     [['hugs left', 'left hugging', 'left lane hugging', 'hugs right', 'right hugging', 'lane hugging', 'riding the left', 'riding the right', 'left lane line'], { lat: 13, stability: 4 }],
-    [['crosses lines', 'outside the painted lane', 'drives outside', 'close to line markings', 'close approaches to lane lines', 'wandering close to the lane line'], { lat: 14, stability: 10 }],
+    [['crosses lines', 'across lane lines', 'outside the painted lane', 'drives outside', 'close to line markings', 'close approaches to lane lines', 'wandering close to the lane line', 'drifts toward exits'], { lat: 14, stability: 10 }],
     [['late corrections', 'late lane corrections', 'snaps', 'hard snaps', 'larger steering corrections'], { lat: 14, stability: 10, comfort: 12 }],
-    [['struggles to maintain lane', 'poor low speed lane commitment', 'requires fine tuning'], { lat: 13, stability: 8, urban: 6 }],
+    [['struggles to maintain lane', 'poor low speed lane commitment', 'requires fine tuning', 'incomplete lane changes', 'slow lane changes'], { lat: 13, stability: 8, urban: 6 }],
     [['deadzone', 'steering deadzone'], { lat: 9 }],
     [['slow to straighten', 'slow wheel return', 'sluggish wheel return'], { lat: 10, turns: 9 }],
     // Turning
@@ -318,7 +318,7 @@ const DEFECTS: Array<[string[], AxisDelta]> = [
     [['afraid of green'], { urban: 13, long: 5 }],
     [['fails to stay stopped', 'runs stop signs', 'ignores lights', 'bad at stop signs', 'roll stop signs', 'rolling stops', 'california stop', 'california stops', 'misses some stop signs', 'cannot see stop signs', 'too fast to stop', 'inconsistent stopping', 'city stop', 'achilles heel', 'too far forward', 'overshoots the stop line'], { urban: 15, long: 7 }],
     [['inconsistent city speed', 'slows for cross roads', 'bad stop go traffic'], { urban: 11, long: 7 }],
-    [['requires driver interventions', 'driver interventions', 'interventions', 'needed intervention', 'manual intervention', 'driver takeover', 'prompting disengagement', 'late reaction', 'caution needed', 'lane markings split'], { urban: 10, long: 8, stability: 6, lat: 8 }],
+    [['requires driver interventions', 'driver interventions', 'interventions', 'needed intervention', 'manual intervention', 'driver takeover', 'prompting disengagement', 'late reaction', 'caution needed', 'lane markings split', 'lane splits'], { urban: 10, long: 8, stability: 6, lat: 8 }],
     // Comfort
     [['jerky', 'jerkiness', 'jerk'], { comfort: 13, long: 7, lat: 6 }],
     [['motion sickness', 'uncomfortable'], { comfort: 15, lat: 6 }],
@@ -661,7 +661,7 @@ function scanProse(acc: Accumulator, raw: string, weight: number, label: string)
 
     // Strip conditional comparisons to other models ("if V12 feels too jittery", "If WMI V12 feels too 'wiggly'")
     const cleaned = raw.replace(/\bif\s+(?:wmi\s+)?v\d+\s+feels\s+[^.,;!?]+/gi, '');
-    const sentences = cleaned.split(/[.;!?]+/);
+    const sentences = cleaned.split(/[.;!?—–]+/);
     for (const sentence of sentences) {
         const normSentence = normalize(sentence);
         if (!normSentence) continue;
@@ -727,6 +727,9 @@ function applyDiscoursePolls(modelName: string, acc: Accumulator): void {
                 } else if (text.includes('over-steer') || text.includes('cuts corners')) {
                     acc.add('turns', -10 * share, 'con: cut urban corners', 'poll');
                     acc.add('urban', -5 * share, 'con: cut urban corners', 'poll');
+                } else if (text.includes('drifts') || text.includes('lane splits')) {
+                    acc.add('lat', -10 * share, 'con: crosses lines', 'poll');
+                    acc.add('urban', -6 * share, 'con: lane markings split', 'poll');
                 }
             }
         } else if (poll.name === 'longitudinal' || poll.name === 'poll5') {
@@ -749,6 +752,9 @@ function applyDiscoursePolls(modelName: string, acc: Accumulator): void {
                 } else if (text.includes('stop & go') || text.includes('stop and go')) {
                     acc.add('urban', -8 * share, 'con: sluggish', 'poll');
                     acc.add('long', -7 * share, 'con: sluggish', 'poll');
+                } else if (text.includes('set speed')) {
+                    acc.add('long', -8 * share, 'con: drives too slow', 'poll');
+                    acc.add('stability', -5 * share, 'con: drives too slow', 'poll');
                 }
             }
         }
@@ -771,7 +777,22 @@ const canonicalDetailCache = new Map<string, SkillRatingsDetail>();
 /** Same derivation, with the anchor, evidence, and sufficiency metadata kept for UI and tooltips. */
 export function deriveSkillRatingsDetail(model: RatableModel): SkillRatingsDetail {
     const canonical = canonicalByName.get(model.name);
-    const source: RatableModel = canonical ?? model;
+    const hasLiveVoteOverride = Boolean(
+        canonical &&
+        model.totalVotes !== undefined &&
+        model.totalVotes !== canonical.totalVotes &&
+        model.sentiment !== undefined
+    );
+    const source: RatableModel = canonical
+        ? (hasLiveVoteOverride
+            ? {
+                ...canonical,
+                communityScore: model.communityScore,
+                totalVotes: model.totalVotes,
+                sentiment: model.sentiment,
+            }
+            : canonical)
+        : model;
 
     if (model.skillRatings) {
         return {
@@ -785,7 +806,7 @@ export function deriveSkillRatingsDetail(model: RatableModel): SkillRatingsDetai
         };
     }
 
-    if (canonical) {
+    if (canonical && !hasLiveVoteOverride) {
         const cached = canonicalDetailCache.get(canonical.name);
         if (cached) return cached;
     }
@@ -829,10 +850,14 @@ export function deriveSkillRatingsDetail(model: RatableModel): SkillRatingsDetai
     };
 
     for (const entry of source.positives ?? []) {
-        scanText(phraseAcc, normalize(entry), 'positive', 1.0, 'pro');
+        for (const clause of entry.split(/[—–;]+/)) {
+            scanText(phraseAcc, normalize(clause), 'positive', 1.0, 'pro');
+        }
     }
     for (const entry of source.negatives ?? []) {
-        scanText(phraseAcc, normalize(entry), 'negative', 1.35, 'con');
+        for (const clause of entry.split(/[—–;]+/)) {
+            scanText(phraseAcc, normalize(clause), 'negative', 1.35, 'con');
+        }
     }
     scanProse(phraseAcc, source.consensus ?? '', 0.75, 'consensus');
     scanProse(phraseAcc, source.note ?? '', 0.6, 'note');

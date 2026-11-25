@@ -231,10 +231,21 @@ export function calculateBlendedModelStats(
 
     const discourseData = findDiscourseForModel(modelName);
     const questions: PollQuestionDef[] = [];
+    const localVotersByQuestion = new Map<string, number>();
+    let hasDiscoursePolls = false;
+    let recordedBaseVotes = 0;
 
     if (discourseData?.polls && Array.isArray(discourseData.polls) && discourseData.polls.length > 0) {
+        hasDiscoursePolls = true;
+        // Put the primary rating poll ('overall' / 'poll') first so step 1 is consistent across all cards
+        const orderedPolls = [...discourseData.polls].sort((a, b) => {
+            const aIsRating = a.name === 'overall' || a.name === 'poll' ? 0 : 1;
+            const bIsRating = b.name === 'overall' || b.name === 'poll' ? 0 : 1;
+            return aIsRating - bIsRating;
+        });
+
         // Build questions based on Discourse polls
-        for (const p of discourseData.polls) {
+        for (const p of orderedPolls) {
             const qId = p.name || 'poll';
             const isMulti = p.type === 'multiple';
             const baseVoters = typeof p.voters === 'number' ? p.voters : 0;
@@ -288,6 +299,7 @@ export function calculateBlendedModelStats(
                 }
             }
 
+            localVotersByQuestion.set(qId, localVoterHashes.size);
             const totalQustionVoters = baseVoters + localVoterHashes.size;
 
             let totalVoteEntries = 0;
@@ -334,6 +346,7 @@ export function calculateBlendedModelStats(
         const baseVotes = Number.isInteger(baseTotalVotes) && baseTotalVotes! > 0
             && weights.every(weight => Number.isFinite(weight) && weight >= 0) && weightTotal > 0
             ? baseTotalVotes! : 0;
+        recordedBaseVotes = baseVotes;
         // Only use an explicitly recorded baseline. Allocate its rounded counts
         // together so option totals cannot exceed the recorded voter count.
         const exactCounts = weights.map(weight => baseVotes > 0 ? baseVotes * weight / weightTotal : 0);
@@ -366,6 +379,7 @@ export function calculateBlendedModelStats(
             }
         }
 
+        localVotersByQuestion.set(qId, localVoterHashes.size);
         const totalQustionVoters = baseVotes + localVoterHashes.size;
 
         const finalOptions: PollOptionDef[] = defaultOptions.map(opt => {
@@ -388,15 +402,31 @@ export function calculateBlendedModelStats(
         });
     }
 
-    // Compute live blended overall community score and sentiment breakdown
-    // Identify rating poll: first poll named 'overall' or 'poll', or questions[0]
-    const ratingQ = questions.find(q => q.id === 'overall' || q.id === 'poll') || questions[0];
+    // Compute live blended overall community score and sentiment breakdown.
+    // Only treat a question as a rating poll if it is explicitly 'overall'/'poll' or has rating options
+    // (never vs_default or would_merge).
+    const ratingQ = questions.find(q => q.id === 'overall' || q.id === 'poll')
+        || questions.find(q => q.id !== 'vs_default' && q.id !== 'would_merge' && q.options.some(o => /\b(?:great|good|poor|horrible)\b/i.test(o.key)));
 
-    let liveScore = baseCommunityScore ?? 0;
-    let liveSentiment = baseSentiment ?? { great: 0, good: 0, ok: 0, bad: 0 };
+    let liveScore = 0;
+    let liveSentiment = { great: 0, good: 0, ok: 0, bad: 0 };
     let liveTotalVotes = 0;
 
-    if (ratingQ && ratingQ.options.length > 0) {
+    const localRatingVoters = ratingQ ? (localVotersByQuestion.get(ratingQ.id) ?? 0) : 0;
+
+    if (!hasDiscoursePolls && localRatingVoters === 0) {
+        // Preserve exact recorded baseline when no Discourse poll or local wiki votes exist,
+        // avoiding integer-rounding quantization drift and preserving curated scores.
+        if (recordedBaseVotes > 0 && baseSentiment) {
+            liveTotalVotes = recordedBaseVotes;
+            liveSentiment = { ...baseSentiment };
+            liveScore = baseCommunityScore !== undefined
+                ? baseCommunityScore
+                : Math.min(100, Math.max(0, Math.round(
+                    baseSentiment.great * 1.0 + baseSentiment.good * 0.75 + baseSentiment.ok * 0.50
+                )));
+        }
+    } else if (ratingQ && ratingQ.options.length > 0) {
         let greatVotes = 0;
         let goodVotes = 0;
         let okVotes = 0;

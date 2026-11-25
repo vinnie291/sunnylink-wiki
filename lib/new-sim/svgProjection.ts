@@ -176,10 +176,11 @@ export function renderSvgFrame(sim: Simulation): SvgFrame {
     pathElement(strip(0, 95, laneCentre + edge - .045, laneCentre + edge + .045), '#ffffff', .95)).join('');
   const fadeLength = visibleLead && Math.abs(pathDistance - visibleLead.distance) < .01 ? Math.min(2, pathDistance * .15) : 0;
   const path = strip(0, pathDistance - fadeLength, -0.75, 0.75, d => sim.plannedLaneOffset(d));
+  const pathColor = sim.model.pathColor || '#2ddc73';
   let pathFade = '';
-  for (let i = 0; fadeLength && i < 12; i++) {
+  for (let i = 0; i < 12 && fadeLength; i++) {
     pathFade += pathElement(strip(pathDistance - fadeLength + fadeLength * i / 12,
-      pathDistance - fadeLength + fadeLength * (i + 1) / 12, -.75, .75, d => sim.plannedLaneOffset(d)), '#2ddc73', .28 * (1 - (i + .5) / 12));
+      pathDistance - fadeLength + fadeLength * (i + 1) / 12, -.75, .75, d => sim.plannedLaneOffset(d)), pathColor, .28 * (1 - (i + .5) / 12));
   }
   let leadArrow = '';
   if (visibleLead) {

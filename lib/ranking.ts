@@ -38,6 +38,7 @@ export function calculateConfidenceScore(
     globalMeanRating = DEFAULT_GLOBAL_MEAN_RATING,
     minConfidenceThreshold = DEFAULT_MIN_CONFIDENCE_THRESHOLD,
 ): number {
+    if (!(reviewCount > 0) || !Number.isFinite(rating)) return globalMeanRating;
     const effectiveWeight = effectiveSampleWeight(reviewCount, routeCount);
     const denominator = effectiveWeight + minConfidenceThreshold;
     if (denominator <= 0) return globalMeanRating;

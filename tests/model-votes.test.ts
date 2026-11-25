@@ -20,6 +20,10 @@ test('model ratings require recorded evidence and retain real votes without crea
             'Forum Model': { polls: [{ name: 'overall', voters: 2, options: [
                 { html: '5 - Great', votes: 1 }, { html: '1 - Poor', votes: 1 },
             ] }] },
+            'Reversed Polls': { polls: [
+                { name: 'vs_default', voters: 4, options: [{ html: 'Better', votes: 3 }, { html: 'Worse', votes: 1 }] },
+                { name: 'overall', voters: 2, options: [{ html: '5 - Great', votes: 2 }] },
+            ] },
         }));
         const modulePath = fileURLToPath(new URL('../lib/modelVotes.ts', import.meta.url));
         const script = `const { calculateBlendedModelStats: stats } = require(${JSON.stringify(modulePath)});
@@ -27,7 +31,9 @@ test('model ratings require recorded evidence and retain real votes without crea
                 empty: stats('No Evidence'),
                 local: stats('Local Only'),
                 forum: stats('Forum Model'),
+                reversed: stats('Reversed Polls'),
                 baseline: stats('Explicit Baseline', 75, 10, {great:45,good:35,ok:15,bad:5}),
+                curated45: stats('Curated Quantized', 45, 12, {great:20,good:25,ok:40,bad:15}),
                 partial: stats('Missing Distribution', undefined, 10),
             }));`;
         const output = execFileSync(process.execPath, ['--import', require.resolve('tsx'), '-e', script], {
@@ -37,13 +43,19 @@ test('model ratings require recorded evidence and retain real votes without crea
         assert.equal(results.empty.live.totalVotes, 0);
         assert.equal(results.empty.totalVoters, 0);
         assert.equal(results.empty.questions[0].options.reduce((sum: number, o: {votes: number}) => sum + o.votes, 0), 0);
-        assert.deepEqual(results.empty.live.sentiment, { great: 0, good: 0, ok: 0, bad: 0 });
+        assert.deepEqual(results.empty.live.sentiment, { great: 0, good: 0, bad: 0, ok: 0 });
         assert.equal(results.local.live.totalVotes, 1);
         assert.equal(results.local.live.communityScore, 100);
         assert.equal(results.forum.live.totalVotes, 2);
         assert.equal(results.forum.live.communityScore, 50);
+        assert.equal(results.reversed.questions[0].id, 'overall');
+        assert.equal(results.reversed.live.totalVotes, 2);
+        assert.equal(results.reversed.live.communityScore, 100);
         assert.equal(results.baseline.live.totalVotes, 10);
         assert.equal(results.baseline.questions[0].options.reduce((sum: number, o: {votes: number}) => sum + o.votes, 0), 10);
+        assert.equal(results.curated45.live.communityScore, 45);
+        assert.equal(results.curated45.live.totalVotes, 12);
+        assert.deepEqual(results.curated45.live.sentiment, { great: 20, good: 25, ok: 40, bad: 15 });
         assert.equal(results.partial.questions[0].voters, 0);
         assert.equal(results.partial.live.totalVotes, 0);
     } finally {

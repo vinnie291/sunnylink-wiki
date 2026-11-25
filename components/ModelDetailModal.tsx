@@ -170,7 +170,7 @@ function getBadgeColor(badge?: string) {
 }
 
 function getScoreColor(score?: number) {
-    if (!score) return 'text-slate-400';
+    if (score === undefined) return 'text-slate-400';
     if (score >= 80) return 'text-emerald-400';
     if (score >= 60) return 'text-blue-400';
     if (score >= 40) return 'text-yellow-400';
@@ -227,18 +227,29 @@ export default function ModelDetailModal({
     const [simView, setSimView] = useState<'perspective' | 'trajectory'>('perspective');
     const [isPulsing, setIsPulsing] = useState(false);
 
-    const liveScore = userVoteData?.modelName === model.name ? userVoteData.communityScore : model.communityScore;
-    const liveVotes = userVoteData?.modelName === model.name ? userVoteData.totalVotes : model.totalVotes;
-    const liveSentiment = userVoteData?.modelName === model.name ? userVoteData.sentiment : model.sentiment;
+    const rawLiveVotes = userVoteData?.modelName === model.name ? userVoteData.totalVotes : model.totalVotes;
+    const hasRatingVotes = (rawLiveVotes ?? 0) > 0;
+    const liveVotes = hasRatingVotes ? rawLiveVotes : undefined;
+    const liveScore = hasRatingVotes
+        ? (userVoteData?.modelName === model.name ? userVoteData.communityScore : model.communityScore)
+        : undefined;
+    const liveSentiment = hasRatingVotes
+        ? (userVoteData?.modelName === model.name ? userVoteData.sentiment : model.sentiment)
+        : undefined;
 
-    const handleScoreUpdate = useCallback((liveData: {
-        communityScore: number;
-        totalVotes: number;
-        sentiment: SentimentData;
-    }) => {
+    const handleScoreUpdate = useCallback((
+        liveData: {
+            communityScore: number;
+            totalVotes: number;
+            sentiment: SentimentData;
+        },
+        isUserAction?: boolean
+    ) => {
         setUserVoteData({ modelName: model.name, ...liveData });
-        setIsPulsing(true);
-        setTimeout(() => setIsPulsing(false), 1500);
+        if (isUserAction) {
+            setIsPulsing(true);
+            setTimeout(() => setIsPulsing(false), 1500);
+        }
     }, [model.name]);
 
     const handleCopyLink = async () => {
@@ -308,7 +319,9 @@ export default function ModelDetailModal({
     if (typeof document === 'undefined') return null;
 
     const labels = SKILL_LABELS[locale as Locale] || SKILL_LABELS.en;
-    const skillDetail: SkillRatingsDetail = deriveSkillRatingsDetail(model);
+    const skillDetail: SkillRatingsDetail = deriveSkillRatingsDetail(
+        userVoteData?.modelName === model.name ? { ...model, ...userVoteData } : model
+    );
     const ratings = skillDetail.ratings;
 
     const skills = [
@@ -372,7 +385,7 @@ export default function ModelDetailModal({
                                     <span className={`text-xl sm:text-2xl font-bold transition-transform duration-300 ${getScoreColor(liveScore)} ${isPulsing ? 'scale-110 text-cyan-400' : ''}`}>
                                         {liveScore}%
                                     </span>
-                                    {liveVotes && (
+                                    {hasRatingVotes && (
                                         <div className="text-[10px] text-slate-400 leading-tight">
                                             <div className="font-semibold">{t('models.rating') || 'Rating'}</div>
                                             <div>{liveVotes} {t('models.votes') || 'votes'}</div>
@@ -499,7 +512,7 @@ export default function ModelDetailModal({
                                     {simView === 'perspective' ? (
                                         <ModelSvgPreview modelName={model.name} votes={simulationVotes} />
                                     ) : (
-                                        <ModelTrajectoryVisualizer modelName={model.name} />
+                                        <ModelTrajectoryVisualizer modelName={model.name} votes={simulationVotes} />
                                     )}
                                 </div>
                             </section>
@@ -646,6 +659,7 @@ export default function ModelDetailModal({
                                     <ModelDomainRatings
                                         modelName={model.name}
                                         skills={ratings}
+                                        hasEvidence={skillDetail.hasSufficientEvidence}
                                         summary={simulationVotes}
                                         onSummaryUpdate={setSimulationVotes}
                                     />
@@ -686,6 +700,7 @@ export default function ModelDetailModal({
                                     baseScore={model.communityScore}
                                     baseVotes={model.totalVotes}
                                     baseSentiment={model.sentiment}
+                                    initialVoteSummary={simulationVotes}
                                     onScoreUpdate={handleScoreUpdate}
                                     onSummaryUpdate={setSimulationVotes}
                                 />

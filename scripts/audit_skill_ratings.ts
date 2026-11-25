@@ -135,8 +135,8 @@ if (contradictions === 0) console.log('  none');
 console.log('\nCalibration constants vs. current data');
 const polStats = stats(polarity);
 const scoreStats = stats(communityScore);
-console.log(`  polarity       mean ${polStats.mean.toFixed(1)}  sd ${polStats.sd.toFixed(1)}   (lib: 61.4 / 19.5)`);
-console.log(`  communityScore mean ${scoreStats.mean.toFixed(1)}  sd ${scoreStats.sd.toFixed(1)}   (lib: 55.9 / 13.9)`);
+console.log(`  polarity       mean ${polStats.mean.toFixed(1)}  sd ${polStats.sd.toFixed(1)}   (lib: 62.0 / 19.5)`);
+console.log(`  communityScore mean ${scoreStats.mean.toFixed(1)}  sd ${scoreStats.sd.toFixed(1)}   (lib: 56.8 / 14.2)`);
 console.log(`  ok%% vs log(votes) correlation ${corr(logVotes, details.map((d) => d.model.sentiment?.ok ?? 50)).toFixed(2)} ` +
     '(the sample-size bias that keeps communityScore out of the anchor)');
 

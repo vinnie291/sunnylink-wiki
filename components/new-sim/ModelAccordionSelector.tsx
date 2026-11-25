@@ -89,7 +89,7 @@ export default function ModelAccordionSelector({ activeModelId, onSelectModel }:
         <div className={styles.activeTop}>
           <span className={styles.dot} style={{ backgroundColor: activeModel.pathColor }} />
           <strong><TranslatedText text={activeModel.name} /></strong>
-          <span className={styles.score}>{activeModel.communityScore}</span>
+          <span className={styles.score}>{activeModel.hasScore ? activeModel.communityScore : '—'}</span>
         </div>
         <p className={styles.activeTraits}>
           <TranslatedText text={activeModel.headway.toFixed(1)} /><TranslatedText text={"s gap"} /> <i /> <TranslatedText text={curvePace(activeModel.lateralPatience)} />  <TranslatedText text={"curves"} /> <i /> <TranslatedText text={activeModel.steeringFeel} />  <TranslatedText text={"steering"} /> </p>
@@ -174,7 +174,7 @@ export default function ModelAccordionSelector({ activeModelId, onSelectModel }:
                             <span className={styles.rowTop}>
                               <b>{model.name}</b>
                               {model.badge && <em><TranslatedText text={model.badge} /></em>}
-                              <span className={styles.score}>{model.communityScore}</span>
+                              <span className={styles.score}>{model.hasScore ? model.communityScore : '—'}</span>
                             </span>
                             <span className={styles.rowTraits}>
                               <TranslatedText text={model.bestFor} />

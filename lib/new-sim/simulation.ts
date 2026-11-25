@@ -640,7 +640,7 @@ export class Simulation {
             ? `${profile.name} · Queued in traffic (${headway.toFixed(1)}s gap)`
             : `${profile.name} · Following lead (${Math.round(lead.gap)}m, ${headway.toFixed(1)}s)`;
         } else if (desired < this.options.speed * 0.44704 - 1) {
-          this.modelReaction = profile.curveLineBias > 0.3 ? 'Hugging curve apex' : 'Adapting speed for bend';
+          this.modelReaction = profile.curveLineBias >= 0.25 ? 'Hugging curve apex' : 'Adapting speed for bend';
           this.status = `${profile.name} · Speed adaptation for curve`;
         } else {
           this.modelReaction = `${profile.steeringFeel} centering`;

@@ -41,12 +41,12 @@ FLEET_STATS.models.forEach(model => {
     lookupMap.set(normalize(model.slug), model);
 });
 
-// Custom alias definitions
+// Custom alias definitions (never overwrite an exact fleet entry key)
 const aliases: Record<string, string> = {
     'dtrv6': 'down to ride v6',
     'dtr v6': 'down to ride v6',
     'wmiv12': 'wmi v12',
-    'pop model': 'pop model v2',
+    'pop v2': 'pop model v2',
     'pop model (v1)': 'pop model',
     'pop model v1': 'pop model',
     'cd210': 'cd210 model',
@@ -56,15 +56,24 @@ const aliases: Record<string, string> = {
     'kumar\'s vibe': 'kumars vibe',
     'kumars vibe': 'kumars vibe',
     'tcpmv3': 'the cool peoples model v3',
+    'tcpmv3 (the cool peoples model)': 'the cool peoples model v3',
     'tcp v3': 'the cool peoples model v3',
+    'gwm v9 (gwm9)': 'gwm v9',
+    'neurips driving model': 'neurips driving model v1',
+    'tee time model': 'tee time',
+    'los angeles v2 (la2)': 'lav2',
+    'gwm7': 'gwm v7',
     'off-policy model v5 (angle)': 'off-policy model v5',
     'off policy v3': 'op model 10 v3',
 };
 
+const directKeys = new Set(lookupMap.keys());
 Object.entries(aliases).forEach(([alias, target]) => {
+    const aliasKey = normalize(alias);
+    if (directKeys.has(aliasKey)) return;
     const targetStat = lookupMap.get(normalize(target));
     if (targetStat) {
-        lookupMap.set(normalize(alias), targetStat);
+        lookupMap.set(aliasKey, targetStat);
     }
 });
 

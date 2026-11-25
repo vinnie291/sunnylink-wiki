@@ -21,12 +21,37 @@ stats.models.forEach(m => {
   lookup.set(normalize(m.slug), m);
 });
 
-// Aliases
-lookup.set(normalize('dtrv6'), lookup.get(normalize('down to ride v6')));
-lookup.set(normalize('wmiv12'), lookup.get(normalize('wmi v12')));
-lookup.set(normalize('tcpmv3 (the cool peoples model)'), lookup.get(normalize('the cool peoples model v3')));
-lookup.set(normalize('tcpmv3'), lookup.get(normalize('the cool peoples model v3')));
-lookup.set(normalize('pop model'), lookup.get(normalize('pop model v2')));
+// Aliases (never overwrite an exact fleet entry key)
+const aliases = {
+  'dtrv6': 'down to ride v6',
+  'dtr v6': 'down to ride v6',
+  'wmiv12': 'wmi v12',
+  'pop v2': 'pop model v2',
+  'pop model (v1)': 'pop model',
+  'pop model v1': 'pop model',
+  'cd210': 'cd210 model',
+  'dark souls v2': 'dark souls model v2',
+  'opm10v3': 'op model 10 v3',
+  'op model 10': 'op model 10 v3',
+  'tcpmv3': 'the cool peoples model v3',
+  'tcpmv3 (the cool peoples model)': 'the cool peoples model v3',
+  'tcp v3': 'the cool peoples model v3',
+  'gwm v9 (gwm9)': 'gwm v9',
+  'neurips driving model': 'neurips driving model v1',
+  'tee time model': 'tee time',
+  'los angeles v2 (la2)': 'lav2',
+  'gwm7': 'gwm v7',
+  'off-policy model v5 (angle)': 'off-policy model v5',
+  'off policy v3': 'op model 10 v3',
+};
+
+const directKeys = new Set(lookup.keys());
+for (const [alias, target] of Object.entries(aliases)) {
+  const aliasKey = normalize(alias);
+  if (directKeys.has(aliasKey)) continue;
+  const targetStat = lookup.get(normalize(target));
+  if (targetStat) lookup.set(aliasKey, targetStat);
+}
 
 const modelFiles = [
   'data/models.json',
@@ -59,6 +84,6 @@ modelFiles.forEach(file => {
     });
   }
 
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2) + '\n', 'utf8');
   console.log(`Updated ${matched} models in ${file}`);
 });

@@ -188,7 +188,7 @@ export default function ModelSvgPreview({ modelName, votes }: { modelName: strin
         <rect y="86" width="480" height="184" fill="#132c2b"/>
         <g>
           <path ref={shoulder} fill="#354447"/><path ref={road} fill="#27323f"/>
-          <g ref={intersections}/><g ref={markings}/><path ref={path} fill="#2ddc73" fillOpacity=".28"/><g ref={pathFade}/>
+          <g ref={intersections}/><g ref={markings}/><path ref={path} fill={model.pathColor || '#2ddc73'} fillOpacity=".28"/><g ref={pathFade}/>
           <g ref={laneLines}/>
         </g>
         <rect y="86" width="480" height="44" fill={`url(#${id}-fade)`} pointerEvents="none"/>
