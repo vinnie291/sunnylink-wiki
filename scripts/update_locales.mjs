@@ -56,7 +56,7 @@ const newKeys = {
     "donate.title": "Has this site helped you setup your sunnypilot?",
     "donate.desc": "If the wiki saved you some time, consider buying me a coffee or using my comma referral link — it keeps this site alive!",
     "donate.coffee": "Buy me a coffee",
-    "donate.comma": "Save $50 on a comma four",
+    "donate.comma": "Save $200 on a comma four",
     "donate.noThanks": "No thanks",
     "quiz.title": "Model Finder Quiz",
     "quiz.comingSoon": "Coming soon — find your perfect driving model in 3 questions."
@@ -115,7 +115,7 @@ const newKeys = {
     "donate.title": "Hat Ihnen diese Seite bei der Einrichtung von sunnypilot geholfen?",
     "donate.desc": "Wenn Ihnen das Wiki Zeit gespart hat, spendieren Sie mir gerne einen Kaffee oder nutzen Sie meinen comma-Empfehlungslink – das hält diese Website am Leben!",
     "donate.coffee": "Spendier mir einen Kaffee",
-    "donate.comma": "Sparen Sie 50 $ bei einem comma 4",
+    "donate.comma": "Sparen Sie 200 $ bei einem comma 4",
     "donate.noThanks": "Nein danke",
     "quiz.title": "Modell-Finder Quiz",
     "quiz.comingSoon": "Demnächst verfügbar – finden Sie Ihr perfektes Fahrmodell in nur 3 Fragen."
@@ -174,7 +174,7 @@ const newKeys = {
     "donate.title": "¿Le ha ayudado este sitio a configurar su sunnypilot?",
     "donate.desc": "Si la wiki le ahorró tiempo, considere invitarme a un café o usar mi enlace de referido de comma; ¡esto mantiene vivo el sitio!",
     "donate.coffee": "Invítame a un café",
-    "donate.comma": "Ahorre $50 en un comma four",
+    "donate.comma": "Ahorre $200 en un comma four",
     "donate.noThanks": "No, gracias",
     "quiz.title": "Cuestionario para Encontrar su Modelo",
     "quiz.comingSoon": "Próximamente: encuentre su modelo de conducción perfecto en 3 preguntas."
@@ -233,7 +233,7 @@ const newKeys = {
     "donate.title": "Ce site vous a-t-il aidé à configurer votre sunnypilot ?",
     "donate.desc": "Si le wiki vous a fait gagner du temps, pensez à m'offrir un café ou à utiliser mon lien de parrainage comma — cela permet au site de continuer à vivre !",
     "donate.coffee": "M'offrir un café",
-    "donate.comma": "Économisez 50 $ sur un comma four",
+    "donate.comma": "Économisez 200 $ sur un comma four",
     "donate.noThanks": "Non merci",
     "quiz.title": "Quiz pour Trouver Votre Modèle",
     "quiz.comingSoon": "Bientôt disponible — trouvez votre modèle de conduite idéal en 3 questions."
@@ -292,7 +292,7 @@ const newKeys = {
     "donate.title": "이 사이트가 sunnypilot 설정에 도움이 되셨나요?",
     "donate.desc": "이 위키가 도움이 되었다면 커피 한 잔 후원하거나 comma 추천 링크를 사용해 보세요 — 사이트 유지에 큰 도움이 됩니다!",
     "donate.coffee": "커피 한 잔 후원하기",
-    "donate.comma": "comma four 구매 시 $50 할인",
+    "donate.comma": "comma four 구매 시 $200 할인",
     "donate.noThanks": "괜찮습니다",
     "quiz.title": "모델 찾기 퀴즈",
     "quiz.comingSoon": "출시 예정 — 단 3개의 질문으로 완벽한 주행 모델을 찾아보세요."
@@ -351,7 +351,7 @@ const newKeys = {
     "donate.title": "這個網站對您設定 sunnypilot 有幫助嗎？",
     "donate.desc": "如果這個 Wiki 為您節省了時間，請考慮請我喝杯咖啡或使用我的 comma 推薦連結——這能讓本網站持續運作！",
     "donate.coffee": "請我喝杯咖啡",
-    "donate.comma": "購買 comma four 立省 $50",
+    "donate.comma": "購買 comma four 立省 $200",
     "donate.noThanks": "暫時不用",
     "quiz.title": "模型配對問答",
     "quiz.comingSoon": "即將推出 — 只需 3 個問題，為您推薦最合適的駕駛模型。"
