@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 143,
-  "lastUpdated": "November 24, 2026",
+  "totalModels": 144,
+  "lastUpdated": "November 25, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "Die Chestnut GPU-Serie (große Modelle)",
@@ -353,13 +353,13 @@
             "Experimental",
             "Stop Line Tuning"
           ],
-          "communityScore": 80,
-          "totalVotes": 6,
+          "communityScore": 82,
+          "totalVotes": 7,
           "sentiment": {
-            "great": 67,
-            "good": 17,
+            "great": 71,
+            "good": 14,
             "ok": 0,
-            "bad": 16
+            "bad": 15
           },
           "consensus": "Direkter Nachfolger von BMRLNAP Model v4 (v5 wurde übersprungen). Erstes Community-Feedback berichtet, dass sich die Längsverzögerung und das Bremsverhalten an Ampeln im Vergleich zu Version 4 leicht verbessert haben, obwohl Fahrzeuge immer noch leicht über die Ziellinie kriechen können. Durch die Seitenstabilität bleibt das Fahrgefühl auf der Autobahn des V4 erhalten.",
           "note": "Großes Modell der Chestnut-Klasse, gebaut aus 9d683c0 in Kommaai/openpilot. Von sunnypilot selbst gebaut. Direkter Vergleich mit BMRLNAP v4 zur Bewertung der Stopplinienpräzision und der Verzögerungsabstimmung.",
@@ -933,7 +933,16 @@
           "minimumSelectorVersion": 21,
           "testedOn": [],
           "positives": [],
-          "negatives": []
+          "negatives": [],
+          "communityScore": 75,
+          "totalVotes": 1,
+          "sentiment": {
+            "great": 0,
+            "good": 100,
+            "ok": 0,
+            "bad": 0
+          },
+          "forumUrl": "https://community.sunnypilot.ai/t/7717"
         },
         {
           "name": "Light Speed 2",
@@ -980,7 +989,16 @@
           "minimumSelectorVersion": 21,
           "testedOn": [],
           "positives": [],
-          "negatives": []
+          "negatives": [],
+          "communityScore": 25,
+          "totalVotes": 2,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 50,
+            "bad": 50
+          },
+          "forumUrl": "https://community.sunnypilot.ai/t/7959"
         },
         {
           "name": "Fairy tale model",
@@ -999,7 +1017,16 @@
           "minimumSelectorVersion": 21,
           "testedOn": [],
           "positives": [],
-          "negatives": []
+          "negatives": [],
+          "communityScore": 50,
+          "totalVotes": 1,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 100,
+            "bad": 0
+          },
+          "forumUrl": "https://community.sunnypilot.ai/t/7961"
         },
         {
           "name": "Fairy Tale Model v1.1",
@@ -2000,6 +2027,23 @@
           "positives": [],
           "negatives": [],
           "forumUrl": "https://community.sunnypilot.ai/t/7960"
+        },
+        {
+          "name": "Shredded cheddar",
+          "date": "November 24, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Deep RL",
+            "Experimental"
+          ],
+          "bestFor": "Frühe experimentelle Tests; Die Leistung ist noch nicht überprüft.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v26.json",
+          "modelRef": "2a63be39e4a243a53f6bacf3b0bee27a4eb7b973",
+          "shortName": "SC",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
         }
       ]
     },

@@ -191,8 +191,9 @@ function matchesLocalModel(
     remoteShort?: string,
     localShort?: string
 ): boolean {
-    if (remoteRef && localRef && remoteRef === localRef) return true;
-    if (remoteShort && localShort && remoteShort.toUpperCase() === localShort.toUpperCase()) return true;
+    if (remoteRef && localRef) {
+        if (remoteRef === localRef) return true;
+    }
 
     const normRemote = normalize(remoteCleanName);
     const normLocal = normalize(localName);
@@ -212,6 +213,20 @@ function matchesLocalModel(
     // Local names often have suffix like "(gWM9)" or "(LA2)"
     const localNoParens = normalize(localName.replace(/\s*\([^)]*\)/g, ''));
     if (normRemote === localNoParens || strippedRemote === localNoParens) return true;
+
+    // Only fall back to shortName matching if neither side has a conflicting modelRef
+    // and the normalized name is a plausible abbreviation/match (prevents e.g. "Sharp Cheddar" [SC]
+    // from colliding with "Shredded cheddar" [SC])
+    if (
+        remoteShort &&
+        localShort &&
+        remoteShort.toUpperCase() === localShort.toUpperCase() &&
+        (!remoteRef || !localRef)
+    ) {
+        if (normRemote.includes(normLocal) || normLocal.includes(normRemote)) {
+            return true;
+        }
+    }
 
     return false;
 }
@@ -584,6 +599,17 @@ function researchDiscord(modelName: string): DiscordResearchResult | null {
     };
 }
 
+const CURATED_QCOM_FOLDERS = new Set([
+    '2026 deep rl models',
+    'master models',
+    'release models',
+]);
+
+function isCuratedQualcommDrop(scanned: ScannedModel): boolean {
+    const folder = (scanned.folder || '').trim().toLowerCase();
+    return CURATED_QCOM_FOLDERS.has(folder);
+}
+
 /**
  * Apply newly discovered models (and newly discovered forum links for unlinked models)
  * to data/models.json and sync translations.
@@ -620,9 +646,10 @@ function applyNewModels(
 
         if (!scanned.isNew) continue;
 
-        // Qualcomm standard manifest includes self-serve user builds; only auto-add when backed by Discourse/Discord thread
-        if (scanned.sourceId === 'qcom' && !discourse && !discord) {
-            console.log(` ⏭️  Skipping unannounced Qualcomm build "${scanned.cleanName}" (no Discourse/Discord thread yet)`);
+        // Qualcomm standard manifest includes self-serve user builds; auto-add curated release/Deep RL folders
+        // or any model backed by an active Discourse/Discord thread
+        if (scanned.sourceId === 'qcom' && !isCuratedQualcommDrop(scanned) && !discourse && !discord) {
+            console.log(` ⏭️  Skipping unannounced Qualcomm build "${scanned.cleanName}" (folder: "${scanned.folder || 'none'}", no Discourse/Discord thread yet)`);
             continue;
         }
 
@@ -724,9 +751,19 @@ async function main() {
 
     const newModels = Array.from(new Map(scanned.filter(m => m.isNew).map(m => [normalize(m.cleanName), m])).values());
     const existingModels = scanned.filter(m => !m.isNew);
-    const unlinkedRecentExisting = existingModels.filter(
-        m => m.matchedLocalModel && (!m.matchedLocalModel.forumUrl || m.matchedLocalModel.forumUrl === 'https://community.sunnypilot.ai')
-    ).slice(-5);
+    const unlinkedByFamily = MANIFEST_FAMILIES.flatMap(family =>
+        existingModels
+            .filter(
+                m =>
+                    m.sourceId === family.id &&
+                    m.matchedLocalModel &&
+                    (!m.matchedLocalModel.forumUrl || m.matchedLocalModel.forumUrl === 'https://community.sunnypilot.ai')
+            )
+            .slice(-5)
+    );
+    const unlinkedRecentExisting = Array.from(
+        new Map(unlinkedByFamily.map(m => [normalize(m.cleanName), m])).values()
+    );
 
     if (isCheckOnly) {
         console.log(`\n📊 Scan Summary:`);
@@ -807,7 +844,16 @@ async function main() {
     }
 }
 
-main().catch(err => {
-    console.error('Fatal error running model scanner:', err);
-    process.exit(1);
-});
+export {
+    matchesLocalModel,
+    isCuratedQualcommDrop,
+    parseDisplayName,
+    normalize,
+};
+
+if (process.argv[1]?.endsWith('scan_models.ts')) {
+    main().catch(err => {
+        console.error('Fatal error running model scanner:', err);
+        process.exit(1);
+    });
+}

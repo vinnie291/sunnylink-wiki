@@ -4,6 +4,8 @@ on:
   schedule:
     # Run every 6 hours to scan SunnyLink, SunnyPilot, GitHub manifests, and Discourse/Discord sentiment
     - cron: '0 */6 * * *'
+  repository_dispatch:
+    types: [models-updated, upstream-updated]
   workflow_dispatch:
     inputs:
       force_sync:

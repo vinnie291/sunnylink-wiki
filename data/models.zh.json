@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 143,
-  "lastUpdated": "November 24, 2026",
+  "totalModels": 144,
+  "lastUpdated": "November 25, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "Chestnut GPU 系列（大型號）",
@@ -353,13 +353,13 @@
             "Experimental",
             "Stop Line Tuning"
           ],
-          "communityScore": 80,
-          "totalVotes": 6,
+          "communityScore": 82,
+          "totalVotes": 7,
           "sentiment": {
-            "great": 67,
-            "good": 17,
+            "great": 71,
+            "good": 14,
             "ok": 0,
-            "bad": 16
+            "bad": 15
           },
           "consensus": "BMRLNAP Model v4 的直接後繼者（v5 被跳過）。早期的社羣反饋報告稱，與 v4 相比，縱向減速和紅綠燈處的停車行爲略有改善，但車輛仍然會稍微緩慢地越過線路。橫向穩定性保留了 v4 的公路巡航感覺。",
           "note": "Chestnut級大型號，由commaai/openpilot中的9d683c0構建。由 sunnypilot 內部構建。直接與 BMRLNAP v4 進行比較，以評估停止線精度和減速度調整。",
@@ -933,7 +933,16 @@
           "minimumSelectorVersion": 21,
           "testedOn": [],
           "positives": [],
-          "negatives": []
+          "negatives": [],
+          "communityScore": 75,
+          "totalVotes": 1,
+          "sentiment": {
+            "great": 0,
+            "good": 100,
+            "ok": 0,
+            "bad": 0
+          },
+          "forumUrl": "https://community.sunnypilot.ai/t/7717"
         },
         {
           "name": "Light Speed 2",
@@ -980,7 +989,16 @@
           "minimumSelectorVersion": 21,
           "testedOn": [],
           "positives": [],
-          "negatives": []
+          "negatives": [],
+          "communityScore": 25,
+          "totalVotes": 2,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 50,
+            "bad": 50
+          },
+          "forumUrl": "https://community.sunnypilot.ai/t/7959"
         },
         {
           "name": "Fairy tale model",
@@ -999,7 +1017,16 @@
           "minimumSelectorVersion": 21,
           "testedOn": [],
           "positives": [],
-          "negatives": []
+          "negatives": [],
+          "communityScore": 50,
+          "totalVotes": 1,
+          "sentiment": {
+            "great": 0,
+            "good": 0,
+            "ok": 100,
+            "bad": 0
+          },
+          "forumUrl": "https://community.sunnypilot.ai/t/7961"
         },
         {
           "name": "Fairy Tale Model v1.1",
@@ -2000,6 +2027,23 @@
           "positives": [],
           "negatives": [],
           "forumUrl": "https://community.sunnypilot.ai/t/7960"
+        },
+        {
+          "name": "Shredded cheddar",
+          "date": "November 24, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Deep RL",
+            "Experimental"
+          ],
+          "bestFor": "早期實驗測試；性能尚未驗證。",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v26.json",
+          "modelRef": "2a63be39e4a243a53f6bacf3b0bee27a4eb7b973",
+          "shortName": "SC",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
         }
       ]
     },

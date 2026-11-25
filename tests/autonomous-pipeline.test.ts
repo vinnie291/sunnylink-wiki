@@ -62,3 +62,48 @@ test('autonomous_sync.mjs --offline runs end-to-end and writes GITHUB_OUTPUT and
         fs.rmSync(tmpDir, { recursive: true, force: true });
     }
 });
+
+test('model scanner does not conflate distinct models sharing the same shortName and auto-ingests curated Deep RL drops', async () => {
+    const { matchesLocalModel, isCuratedQualcommDrop } = await import('../scripts/scan_models');
+
+    // "Shredded cheddar" (SC) and "Sharp Cheddar" (SC) have different names and refs -> must NOT match
+    assert.equal(
+        matchesLocalModel(
+            'Shredded cheddar',
+            'Sharp Cheddar',
+            '2a63be39e4a243a53f6bacf3b0bee27a4eb7b973',
+            'da491579b8ea8be37c8f14e79beb1d87ead5dbb6',
+            'SC',
+            'SC'
+        ),
+        false,
+        'distinct models with colliding short_name must not be treated as duplicates'
+    );
+
+    // Same modelRef always matches even if display_name changed
+    assert.equal(
+        matchesLocalModel(
+            'Cheddar Model',
+            'CH Driving',
+            '875a6b7e1e59a76e1c5d9972371564a4feb1deb9',
+            '875a6b7e1e59a76e1c5d9972371564a4feb1deb9',
+            'CHEDDAR',
+            'CHD'
+        ),
+        true,
+        'identical modelRef should match across renames'
+    );
+
+    // Curated Qualcomm folders (like 2026 Deep RL Models) should auto-ingest immediately on push
+    assert.equal(
+        isCuratedQualcommDrop({ folder: '2026 Deep RL Models' } as never),
+        true,
+        '2026 Deep RL Models folder should auto-ingest on manifest push'
+    );
+    assert.equal(
+        isCuratedQualcommDrop({ folder: 'custom' } as never),
+        false,
+        'custom folder should not auto-ingest without community thread'
+    );
+});
+
