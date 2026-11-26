@@ -61,15 +61,20 @@ export default function ModelSvgPreview({ modelName, votes }: { modelName: strin
       scenario === 'city' ? 'signal' : scenario === 'curves' ? model.rollingStop ? 'stop' : 'bend' : 'start', model);
     let visible = false, contentSkipped = false, frame = 0, last = 0, accumulator = 0, lastPaint = 0, lastReadout = 0;
     let previousCutIns = 0, lastCutInTime = -10;
-    let prevRoad = '', prevShoulder = '', prevBarrier = '', prevPath = '', prevPathEdge = '', prevIntersections = '', prevMarkings = '', prevLaneLines = '';
-    let prevTraffic = '', prevFurniture = '', prevPathFade = '', prevLeadArrow = '', prevScenery = '', prevWheel = '', prevCurve = '', prevHorizon = '';
+    // Sentinels start at null (never '') so switching routes immediately clears
+    // any layer whose new frame is '' (e.g. Highway markings/barrier -> Curves, or City intersections -> Highway).
+    let prevRoad: string | null = null, prevShoulder: string | null = null, prevBarrier: string | null = null;
+    let prevPath: string | null = null, prevPathEdge: string | null = null, prevIntersections: string | null = null;
+    let prevMarkings: string | null = null, prevLaneLines: string | null = null, prevTraffic: string | null = null;
+    let prevFurniture: string | null = null, prevPathFade: string | null = null, prevLeadArrow: string | null = null;
+    let prevScenery: string | null = null, prevWheel: string | null = null, prevCurve: string | null = null, prevHorizon: string | null = null;
 
     const draw = () => {
       const svg = renderSvgFrame(sim);
-      if (svg.road !== prevRoad) { road.current?.setAttribute('d', svg.road); prevRoad = svg.road; }
-      if (svg.shoulder !== prevShoulder) { shoulder.current?.setAttribute('d', svg.shoulder); prevShoulder = svg.shoulder; }
-      if (svg.path !== prevPath) { path.current?.setAttribute('d', svg.path); prevPath = svg.path; }
-      if (svg.pathEdge !== prevPathEdge) { pathEdge.current?.setAttribute('d', svg.pathEdge); prevPathEdge = svg.pathEdge; }
+      if (svg.road !== prevRoad && road.current) { road.current.setAttribute('d', svg.road); prevRoad = svg.road; }
+      if (svg.shoulder !== prevShoulder && shoulder.current) { shoulder.current.setAttribute('d', svg.shoulder); prevShoulder = svg.shoulder; }
+      if (svg.path !== prevPath && path.current) { path.current.setAttribute('d', svg.path); prevPath = svg.path; }
+      if (svg.pathEdge !== prevPathEdge && pathEdge.current) { pathEdge.current.setAttribute('d', svg.pathEdge); prevPathEdge = svg.pathEdge; }
       // Only numeric geometry and fixed literals enter these groups; no feedback text is HTML.
       // Skip innerHTML assignments when unchanged to avoid unnecessary XML fragment parsing in Firefox.
       if (svg.barrier !== prevBarrier && barrier.current) { barrier.current.innerHTML = svg.barrier; prevBarrier = svg.barrier; }
@@ -82,16 +87,16 @@ export default function ModelSvgPreview({ modelName, votes }: { modelName: strin
       if (svg.leadArrow !== prevLeadArrow && leadArrow.current) { leadArrow.current.innerHTML = svg.leadArrow; prevLeadArrow = svg.leadArrow; }
       if (svg.scenery !== prevScenery && scenery.current) { scenery.current.innerHTML = svg.scenery; prevScenery = svg.scenery; }
       const nextHorizon = `translate(${(-svg.horizonShift).toFixed(2)} 0)`;
-      if (nextHorizon !== prevHorizon) { mountains.current?.setAttribute('transform', nextHorizon); prevHorizon = nextHorizon; }
+      if (nextHorizon !== prevHorizon && mountains.current) { mountains.current.setAttribute('transform', nextHorizon); prevHorizon = nextHorizon; }
       const nextWheel = `translate(27 238) rotate(${(-sim.ego.steeringAngle * 180 / Math.PI).toFixed(2)})`;
-      if (nextWheel !== prevWheel) { wheel.current?.setAttribute('transform', nextWheel); prevWheel = nextWheel; }
+      if (nextWheel !== prevWheel && wheel.current) { wheel.current.setAttribute('transform', nextWheel); prevWheel = nextWheel; }
       // Fill from centre using actual front-wheel steering, positive = left.
       // 0.12 radians fills one half; stronger turns saturate at the bar's edge.
       const displacement = -Math.max(-1, Math.min(1, sim.ego.steeringAngle / .12)) * 74;
       const end = 240 + displacement;
       const endY = 251 + 4 * (displacement / 74) ** 2;
       const nextCurve = `M240 251 Q${(240 + displacement / 2).toFixed(2)} 251 ${end.toFixed(2)} ${endY.toFixed(2)}`;
-      if (nextCurve !== prevCurve) { curveFill.current?.setAttribute('d', nextCurve); prevCurve = nextCurve; }
+      if (nextCurve !== prevCurve && curveFill.current) { curveFill.current.setAttribute('d', nextCurve); prevCurve = nextCurve; }
     };
     const updateReadout = () => {
       const lead = sim.lead(sim.ego), offset = Math.round(Math.abs(sim.ego.lateral) * 100);
@@ -214,9 +219,9 @@ export default function ModelSvgPreview({ modelName, votes }: { modelName: strin
         <g>
           <path ref={shoulder} fill="#334247"/>
           <path ref={road} fill={`url(#${id}-asphalt)`}/>
-          <g ref={intersections}/>
-          <g ref={markings}/>
-          <g ref={barrier}/>
+          <g ref={intersections} data-layer="intersections"/>
+          <g ref={markings} data-layer="markings"/>
+          <g ref={barrier} data-layer="barrier"/>
           <path ref={path} fill={model.pathColor || '#2ddc73'} fillOpacity=".30"/>
           <path ref={pathEdge} fill={model.pathColor || '#2ddc73'} fillOpacity=".68"/>
           <g ref={pathFade}/>
