@@ -28,20 +28,23 @@ let allVotesPromise: Promise<Record<string, ModelVoteSummary> | null> | null = n
 const modelSummaryCache = new Map<string, ModelVoteSummary>();
 
 export function updateCachedModelSummary(modelName: string, summary: ModelVoteSummary): void {
+    if (!modelName) return;
     modelSummaryCache.set(modelName.toLowerCase(), summary);
 }
 
 function getCachedModelSummary(modelName: string): ModelVoteSummary | null {
+    if (!modelName) return null;
     return modelSummaryCache.get(modelName.toLowerCase()) ?? null;
 }
 
 function hasAnsweredAnyPollQuestion(stats?: ModelVoteSummary | null): boolean {
     if (!stats?.userVote) return false;
     if (stats.userVote.rating !== undefined) return true;
-    return (stats.questions ?? []).some(q => stats.userVote?.[q.id] !== undefined);
+    return (stats.questions ?? []).some(q => q?.id && stats.userVote?.[q.id] !== undefined);
 }
 
 function fetchCachedModelSummary(modelName: string): Promise<ModelVoteSummary | null> {
+    if (!modelName) return Promise.resolve(null);
     const key = modelName.toLowerCase();
     const cached = modelSummaryCache.get(key);
     if (cached) return Promise.resolve(cached);
@@ -51,10 +54,10 @@ function fetchCachedModelSummary(modelName: string): Promise<ModelVoteSummary | 
             .then(async (res) => {
                 if (!res.ok) return null;
                 const json = await res.json();
-                if (json.success && json.data && typeof json.data === 'object') {
+                if (json && json.success && json.data && typeof json.data === 'object') {
                     const map = json.data as Record<string, ModelVoteSummary>;
                     for (const [k, v] of Object.entries(map)) {
-                        modelSummaryCache.set(k.toLowerCase(), v);
+                        if (k && v) modelSummaryCache.set(k.toLowerCase(), v);
                     }
                     return map;
                 }
@@ -67,7 +70,9 @@ function fetchCachedModelSummary(modelName: string): Promise<ModelVoteSummary | 
             });
     }
 
-    return allVotesPromise.then((map) => map?.[key] ?? modelSummaryCache.get(key) ?? null);
+    return allVotesPromise
+        .then((map) => map?.[key] ?? modelSummaryCache.get(key) ?? null)
+        .catch(() => null);
 }
 
 export default function ModelPollSurvey({
@@ -92,7 +97,12 @@ export default function ModelPollSurvey({
     const [justVoted, setJustVoted] = useState(false);
 
     useEffect(() => {
-        if (initialVoteSummary && initialVoteSummary.modelName.toLowerCase() === modelName.toLowerCase()) {
+        if (
+            initialVoteSummary &&
+            initialVoteSummary.modelName &&
+            modelName &&
+            initialVoteSummary.modelName.toLowerCase() === modelName.toLowerCase()
+        ) {
             setSummary(prev => (prev === initialVoteSummary ? prev : initialVoteSummary));
             if (initialVoteSummary.userVote) {
                 setUserAnswers(initialVoteSummary.userVote);
@@ -104,7 +114,7 @@ export default function ModelPollSurvey({
     useEffect(() => {
         let mounted = true;
         const applyStats = (stats: ModelVoteSummary) => {
-            if (!mounted) return;
+            if (!mounted || !stats) return;
             setSummary(prev => (prev === stats ? prev : stats));
             onSummaryUpdate?.(stats);
             if (stats.userVote) {
@@ -113,15 +123,16 @@ export default function ModelPollSurvey({
                     setViewMode('results');
                 }
             }
-            if (stats.live && onScoreUpdate) {
+            if (stats.live && stats.live.sentiment && onScoreUpdate) {
+                const liveSentiment = stats.live.sentiment;
                 const liveChanged =
                     stats.live.totalVotes > 0 &&
                     (stats.live.communityScore !== baseScore ||
                         stats.live.totalVotes !== baseVotes ||
-                        stats.live.sentiment.great !== baseSentiment?.great ||
-                        stats.live.sentiment.good !== baseSentiment?.good ||
-                        stats.live.sentiment.ok !== baseSentiment?.ok ||
-                        stats.live.sentiment.bad !== baseSentiment?.bad);
+                        liveSentiment.great !== baseSentiment?.great ||
+                        liveSentiment.good !== baseSentiment?.good ||
+                        liveSentiment.ok !== baseSentiment?.ok ||
+                        liveSentiment.bad !== baseSentiment?.bad);
                 if (liveChanged) {
                     onScoreUpdate(stats.live, false);
                 }
@@ -136,9 +147,11 @@ export default function ModelPollSurvey({
             };
         }
 
-        fetchCachedModelSummary(modelName).then((stats) => {
-            if (stats) applyStats(stats);
-        });
+        fetchCachedModelSummary(modelName)
+            .then((stats) => {
+                if (stats) applyStats(stats);
+            })
+            .catch(() => {});
         return () => {
             mounted = false;
         };
@@ -146,8 +159,9 @@ export default function ModelPollSurvey({
 
     // Build question list dynamically from summary, or graceful default
     const questions: PollQuestionDef[] = useMemo(() => {
-        if (summary?.questions && summary.questions.length > 0) {
-            return summary.questions;
+        if (Array.isArray(summary?.questions) && summary.questions.length > 0) {
+            const valid = summary.questions.filter((item) => item && Array.isArray(item.options) && item.options.length > 0);
+            if (valid.length > 0) return valid;
         }
         return [
             {
@@ -174,7 +188,7 @@ export default function ModelPollSurvey({
 
     // Check if an option is currently selected by the user
     const isOptionSelected = useCallback((optKey: string): boolean => {
-        if (!q) return false;
+        if (!q || !optKey) return false;
         const val = userAnswers[q.id];
         if (val === undefined || val === null) {
             // Check legacy rating answer key
@@ -316,7 +330,8 @@ export default function ModelPollSurvey({
 
     // Translate option label if common key exists
     const formatOptionLabel = (label: string): string => {
-        const lower = label.toLowerCase().trim();
+        const safe = String(label || '');
+        const lower = safe.toLowerCase().trim();
         if (lower === 'great') return t('models.sentimentGreat') || 'Great';
         if (lower === 'good') return t('models.sentimentGood') || 'Good';
         if (lower === 'ok') return t('models.sentimentOk') || 'OK';
@@ -327,17 +342,18 @@ export default function ModelPollSurvey({
         if (lower === '2 - bad') return `2 - ${t('models.sentimentBad') || 'Bad'}`;
         if (lower === '1 - poor') return `1 - ${t('models.poll.q3.opt1') || 'Poor'}`;
         if (lower === '1 - horrible') return `1 - ${tx('Horrible')}`;
-        return tx(label);
+        return tx(safe);
     };
 
     // Format question title
     const formatQuestionTitle = (title: string): string => {
-        if (title === 'How is this model?') return t('models.poll.q3.title') || 'How is this model?';
-        if (title.startsWith('Lateral (steering)')) return t('models.poll.q4.title') || 'Lateral (steering):';
-        if (title.startsWith('Longitudinal used')) return t('models.poll.q5.title') || 'Longitudinal used:';
-        if (title.startsWith('Longitudinal (acceleration and braking)')) return t('models.poll.q6.title') || 'Longitudinal (acceleration and braking):';
-        if (title.startsWith('Steering control')) return t('models.poll.q7.title') || 'Steering control:';
-        return tx(title);
+        const safe = String(title || '');
+        if (safe === 'How is this model?') return t('models.poll.q3.title') || 'How is this model?';
+        if (safe.startsWith('Lateral (steering)')) return t('models.poll.q4.title') || 'Lateral (steering):';
+        if (safe.startsWith('Longitudinal used')) return t('models.poll.q5.title') || 'Longitudinal used:';
+        if (safe.startsWith('Longitudinal (acceleration and braking)')) return t('models.poll.q6.title') || 'Longitudinal (acceleration and braking):';
+        if (safe.startsWith('Steering control')) return t('models.poll.q7.title') || 'Steering control:';
+        return tx(safe);
     };
 
     return (

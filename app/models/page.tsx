@@ -3,6 +3,7 @@ import TranslatedText from '@/components/TranslatedText';
 import { Suspense } from 'react';
 import PageShell from '@/components/PageShell';
 import ModelLibrary from '@/components/ModelLibrary';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import type { Metadata } from 'next';
 import modelsData from '@/data/models.json';
 import { fetchModelForumActivity, type ForumActivityMap } from '@/lib/discourse-models-sync';
@@ -284,9 +285,11 @@ export default async function ModelsPage() {
                 </header>
 
                 <section id="openpilot-models-library" aria-labelledby="models-library-heading">
-                    <Suspense fallback={<div className="min-h-96" />}>
-                        <ModelLibrary forumActivity={forumActivity} />
-                    </Suspense>
+                    <ErrorBoundary>
+                        <Suspense fallback={<div className="min-h-96" />}>
+                            <ModelLibrary forumActivity={forumActivity} />
+                        </Suspense>
+                    </ErrorBoundary>
                 </section>
 
                 {/* Long-form FAQ — visible content, matched 1:1 by the FAQPage

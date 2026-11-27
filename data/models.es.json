@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 144,
-  "lastUpdated": "November 25, 2026",
+  "totalModels": 146,
+  "lastUpdated": "November 26, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "La serie Chestnut GPU (modelos grandes)",
@@ -278,7 +278,22 @@
           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-v2-september-08-2026/7096",
           "testedOn": [
             "Kia EV6",
-            "2026 Honda Civic Hybrid"
+            "2026 Honda Civic Hybrid",
+            "2022 Rivian R1T"
+          ],
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "37bfa1413edcdc2e8844984b83727c33f81d8f46",
+          "shortName": "CTMV2",
+          "minimumSelectorVersion": 21,
+          "positives": [
+            "Se detiene por completo en las señales de alto y se detiene suavemente en las barras de alto en los semáforos en rojo para varios evaluadores.",
+            "Reconoce los topes de velocidad y reduce la velocidad suavemente para los autos que van delante",
+            "Calificado como mejor o igual que Cinque Terre v1 por los 7 votantes de comparación que probaron ambos, con 8 de 10 apoyando la promoción predeterminada."
+          ],
+          "negatives": [
+            "La oscilación de la dirección a baja velocidad sigue siendo perceptible en varios vehículos",
+            "Subvira en curvas cerradas y se desvía cerca de las líneas interiores en las curvas.",
+            "Aceleración lenta desde parado incluso cuando se sigue a un vehículo líder"
           ]
         },
         {
@@ -303,7 +318,10 @@
             "good": 0,
             "ok": 0,
             "bad": 0
-          }
+          },
+          "modelRef": "bf3e3631b3f91d92a1020a5e0dd4298b93ff4244",
+          "shortName": "CTV3M",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Cinque Terre Model",
@@ -341,7 +359,11 @@
           "negatives": [
             "Algunos conductores siguen informando de oscilaciones a baja velocidad o dificultades en curvas.",
             "Las opiniones varían por vehículo y rama; no extrapoles los resultados de una configuración a todos los coches."
-          ]
+          ],
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "68b5f8e48602f4f88041efd7de6c99e97fda454e",
+          "shortName": "CTM",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "BMRLNAP Model v6",
@@ -378,7 +400,11 @@
           "negatives": [
             "Todavía tiende a cruzar ligeramente la línea de alto en los semáforos.",
             "El control lateral requiere un ajuste fino en versiones seleccionadas de Honda"
-          ]
+          ],
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "9d683c06518c0358fb402f38468a7030700c38ac",
+          "shortName": "BMV6",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "BMRLNAP Model v4",
@@ -419,7 +445,11 @@
             "Subvira o se da por vencido a mitad de una curva cerrada de 90 grados en una intersección",
             "Aceleración lenta fuera de la línea cuando una luz roja se vuelve verde",
             "Sensibilidad grave del controlador informada en Toyota con controlador de par v1"
-          ]
+          ],
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "f877d7a0ccc3cce943c76e285214c020cd65c899",
+          "shortName": "BMV4",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Sad Model",
@@ -499,7 +529,11 @@
             "Tiende a hacer rodar las señales de alto cuando California se detiene"
           ],
           "routesDriven": 54,
-          "fleetRank": 53
+          "fleetRank": 53,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "47377ac2f726651fc1470eb725cf73418307e5aa",
+          "shortName": "BMV3",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "BMRLNAP Model v2",
@@ -539,7 +573,11 @@
             "Regresión notable en la coherencia de las paradas en la ciudad en comparación con la v1"
           ],
           "routesDriven": 19,
-          "fleetRank": 63
+          "fleetRank": 63,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "ba37c02c7c64225b8aec79411d1a8c2f5c1aa343",
+          "shortName": "BMV2",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Happy Birthday Model",
@@ -660,7 +698,11 @@
             "Un poco de desvío, con poca conducción demasiado cerca del límite izquierdo del carril actual en carreteras más estrechas."
           ],
           "routesDriven": 15,
-          "fleetRank": 65
+          "fleetRank": 65,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "7e3ff7e914a40ac25399a2caedbce3580fdde6a2",
+          "shortName": "BM",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Tee Time Model",
@@ -1679,7 +1721,11 @@
             "Puede frenar bruscamente si hay peatones cerca de la acera."
           ],
           "routesDriven": 468,
-          "fleetRank": 30
+          "fleetRank": 30,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "f02d134f40f5e7be22b182af21b438915a47600e",
+          "shortName": "OPM16D",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Michael RL V2",
@@ -1719,7 +1765,11 @@
             "Vacilación ocasional cuando las marcas de carril se dividen o terminan abruptamente"
           ],
           "routesDriven": 361,
-          "fleetRank": 34
+          "fleetRank": 34,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "37b38bf738edfb1daa6875255f581e5fc9b0a258",
+          "shortName": "MRLV2",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Rebel Legion Model",
@@ -1760,7 +1810,11 @@
             "Aceleración relativamente conservadora desde paradas completas"
           ],
           "routesDriven": 35,
-          "fleetRank": 58
+          "fleetRank": 58,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "2895346746634d7eec0ee749f946c87039948a25",
+          "shortName": "RLM",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Get Your Hopes Up Model",
@@ -1783,10 +1837,11 @@
           },
           "bestFor": "Curvas y experimentación",
           "steeringFeel": "Firm",
-          "forumUrl": "https://community.sunnypilot.ai/tag/model-drop/155",
+          "forumUrl": "https://community.sunnypilot.ai/t/get-your-hopes-up-model-july-25-2026/6761",
           "testedOn": [
             "comma 4",
-            "Hyundai Ioniq 5"
+            "Hyundai Ioniq 5",
+            "2024 Ford Escape"
           ],
           "positives": [
             "Buena entrada en curva",
@@ -1796,7 +1851,11 @@
             "Deambular a baja velocidad en algunos vehículos"
           ],
           "routesDriven": 207,
-          "fleetRank": 41
+          "fleetRank": 41,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "574735edc6e1aafdc2a69395f9a32e7f5cc4b62b",
+          "shortName": "GYHUM",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Rebellious Hope Model",
@@ -1836,7 +1895,11 @@
             "Transición ligeramente entrecortada cuando el conductor interviene en curvas con par limitado"
           ],
           "routesDriven": 893,
-          "fleetRank": 22
+          "fleetRank": 22,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "93f5aa469a72b7621aef7da7901c100e0113e4d9",
+          "shortName": "RHM",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Terrible Super Fantastic Do Over Model",
@@ -1921,7 +1984,11 @@
             "good": 43,
             "ok": 5,
             "bad": 28
-          }
+          },
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "35703097905a122c9f3ddf0d12889b4873d7e2a2",
+          "shortName": "RDFMV2",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "RDF Model",
@@ -1965,7 +2032,11 @@
             "El tráfico perpendicular que cruza el camino puede provocar una desaceleración abrupta"
           ],
           "routesDriven": 3248,
-          "fleetRank": 7
+          "fleetRank": 7,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "a95e2c25cae5fbf1afba7628bfb7acc4af59e0cc",
+          "shortName": "RDFM",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Cheddar Model",
@@ -2044,6 +2115,47 @@
           "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v26.json",
           "modelRef": "2a63be39e4a243a53f6bacf3b0bee27a4eb7b973",
           "shortName": "SC",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Crumbly Cheddar Model",
+          "date": "November 24, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Deep RL",
+            "Experimental"
+          ],
+          "consensus": "Lanzamiento experimental de modelo pequeño de Deep RL en la serie Cheddar de noviembre de 2026, incluido en 'Modelos de Deep RL 2026' en el Administrador de modelos y encuestado directamente con el modelo CD210 predeterminado. Lanzado junto con el modelo Cheddar ahumado; Aún se están recopilando calificaciones de encuestas comunitarias e informes de vehículos.",
+          "note": "Construido a partir del compromiso openpilot 8892f17 (nombre corto CCM). Incluido en el Administrador de modelos en 'Modelos RL profundos 2026' con el selector 21. Requiere un comma four o un comma 3X.",
+          "bestFor": "Pruebas experimentales tempranas; El rendimiento aún no se ha verificado.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/crumbly-cheddar-model-november-24-2026/8555",
+          "modelRef": "8892f177ea11a9e20e5afba4cb88802b161eaf49",
+          "shortName": "CCM",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Smoked Cheddar Model",
+          "date": "November 24, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "2026",
+            "Master",
+            "Experimental"
+          ],
+          "consensus": "Lanzamiento oficial de modelos pequeños en la serie Cheddar de noviembre de 2026, enumerados en 'Modelos maestros' en Model Manager y encuestados directamente contra el modelo CD210 predeterminado. Publicado junto con Crumbly Cheddar Model; Aún se están recopilando calificaciones de encuestas comunitarias e informes de vehículos.",
+          "note": "Construido a partir del compromiso openpilot e170f08 (nombre corto SCM). Incluido en Model Manager en 'Modelos maestros' con el selector 21. Requiere un comma four o un comma 3X.",
+          "bestFor": "Pruebas experimentales tempranas; El rendimiento aún no se ha verificado.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/smoked-cheddar-model-november-24-2026/8556",
+          "modelRef": "e170f08049b4d91f595a0a11378b0cf030f3afb1",
+          "shortName": "SCM",
           "minimumSelectorVersion": 21,
           "testedOn": [],
           "positives": [],
@@ -3761,7 +3873,11 @@
             "Most vehicles"
           ],
           "routesDriven": 195,
-          "fleetRank": 43
+          "fleetRank": 43,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "375978d40b976bf9e82ab74f267846a56b7656a6",
+          "shortName": "NDV2",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "WD40",

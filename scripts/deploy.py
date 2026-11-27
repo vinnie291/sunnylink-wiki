@@ -10,9 +10,8 @@ Optional service account key override: set GCP_KEY_FILE env var or place key at
 ~/.config/gcp/sunnylink-wiki-key.json
 """
 
-import json
+import fnmatch
 import os
-import subprocess
 import sys
 import tarfile
 import tempfile
@@ -26,14 +25,40 @@ KEY_FILE = os.environ.get(
     os.path.expanduser("~/.config/gcp/sunnylink-wiki-key.json")
 )
 PROJECT_ID = "sunnylink-wiki"
+SERVICE_NAME = "sunnylink-wiki-service"
 REGION = os.environ.get("GCP_REGION", "us-central1")
 GOOGLE_SCRIPT_URL = os.environ.get("NEXT_PUBLIC_GOOGLE_SCRIPT_URL", "")
 GCS_BUCKET = f"{PROJECT_ID}_cloudbuild"
 BASE_URL = f"https://cloudbuild.googleapis.com/v1/projects/{PROJECT_ID}"
 
 EXCLUDE = {
-    "node_modules", ".git", ".next", "out", ".env", ".env.local",
-    "__pycache__", ".DS_Store",
+    "node_modules",
+    ".git",
+    ".github",
+    ".next",
+    "out",
+    "build",
+    "coverage",
+    ".env",
+    ".env.*",
+    "__pycache__",
+    ".DS_Store",
+    ".claude",
+    ".agent",
+    ".agents",
+    ".codex",
+    ".kiro",
+    ".vercel",
+    "tmp",
+    "tests",
+    "docs/weekly-audits",
+    "data/discord_feedback",
+    "DiscordChatExporter*",
+    "*.log",
+    "*.bak",
+    "*.pem",
+    "*.tsbuildinfo",
+    "* (1).*",
 }
 
 
@@ -58,9 +83,16 @@ def _headers(token):
 
 def _make_tarball(repo_root, dest):
     def _filter(info):
-        parts = info.name.split("/")
-        if any(p in EXCLUDE for p in parts):
-            return None
+        if info.name in (".", "./"):
+            return info
+        rel_path = info.name.removeprefix("./")
+        parts = rel_path.split("/")
+        for pattern in EXCLUDE:
+            if "/" in pattern:
+                if rel_path == pattern or rel_path.startswith(f"{pattern}/"):
+                    return None
+            elif any(fnmatch.fnmatch(part, pattern) for part in parts):
+                return None
         return info
 
     with tarfile.open(dest, "w:gz") as tar:
@@ -95,7 +127,7 @@ def deploy():
     image = f"gcr.io/{PROJECT_ID}/wiki-app"
     image_tag = f"{image}:{timestamp}"
 
-    print(f"Deploying sunnylink-wiki → Cloud Run ({REGION})")
+    print(f"Deploying sunnylink-wiki → Cloud Run ({SERVICE_NAME} in {REGION})")
     print(f"Project: {PROJECT_ID}\n")
 
     token = _get_token()
@@ -142,13 +174,14 @@ def deploy():
                 "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
                 "entrypoint": "gcloud",
                 "args": [
-                    "run", "deploy", "sunnylink-wiki-service",
+                    "run", "deploy", SERVICE_NAME,
                     "--image", image_tag,
                     "--region", REGION,
                     "--platform", "managed",
                     "--allow-unauthenticated",
                     "--port", "3000",
                     "--memory", "512Mi",
+                    "--cpu", "1",
                     "--min-instances", "0",
                     "--max-instances", "3",
                 ],
@@ -175,6 +208,7 @@ def deploy():
     # 4. Poll
     terminal = {"SUCCESS", "FAILURE", "CANCELLED", "TIMEOUT", "INTERNAL_ERROR"}
     last_status = ""
+    status = "UNKNOWN"
     while True:
         try:
             token = _get_token()

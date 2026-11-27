@@ -5,6 +5,7 @@ import path from 'node:path';
 import os from 'node:os';
 import {
     CLARITY_ENDPOINT,
+    ROUTE_SOURCE_MAP,
     normalizeClarityMetrics,
     analyzeClarityIssues,
     remediateClarityIssues,
@@ -315,3 +316,14 @@ test('autonomous-master.yml wires CLARITY_API_TOKEN and GitHub issue sync', () =
     assert.match(workflow, /CLARITY_API_TOKEN:\s*\$\{\{\s*secrets\.CLARITY_API_TOKEN\s*\}\}/);
     assert.match(workflow, /node scripts\/sync_clarity_github_issues\.mjs/);
 });
+
+test('every source file referenced in ROUTE_SOURCE_MAP exists in the repository', () => {
+    for (const [route, files] of Object.entries(ROUTE_SOURCE_MAP)) {
+        assert.ok(Array.isArray(files) && files.length > 0, `Route ${route} should map to at least one source file`);
+        for (const relPath of files) {
+            const fullPath = path.join(ROOT, relPath);
+            assert.ok(fs.existsSync(fullPath), `Missing mapped source file for ${route}: ${relPath}`);
+        }
+    }
+});
+

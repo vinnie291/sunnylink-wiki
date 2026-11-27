@@ -45,6 +45,96 @@ interface HomeClientProps {
     discourseSettings?: Record<string, string>;
 }
 
+function safeDecodeURIComponent(raw: string): string {
+    try {
+        return decodeURIComponent(raw);
+    } catch {
+        return raw;
+    }
+}
+
+function slugifySetting(value: string): string {
+    return value
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
+const SETTING_KEY_ALIASES: Record<string, string> = {
+    cameraoffset: 'AdjustCameraOffset',
+    'camera-offset': 'AdjustCameraOffset',
+    adjustcameraoffset: 'AdjustCameraOffset',
+    'adjust-camera-offset': 'AdjustCameraOffset',
+    'lane-hugging': 'AdjustCameraOffset',
+    lanehugging: 'AdjustCameraOffset',
+    mads: 'MadsEnabled',
+    enablemads: 'MadsEnabled',
+    nnlc: 'NeuralNetworkLateralControl',
+    dec: 'DynamicExperimentalControl',
+    sccv: 'VisionBasedTurnSpeedControl',
+    'scc-v': 'VisionBasedTurnSpeedControl',
+    sla: 'SpeedLimitAssistMode',
+    speedlimitassist: 'SpeedLimitAssistMode',
+    model: 'DrivingModel',
+    drivingmodel: 'DrivingModel',
+    experimental: 'ExperimentalMode',
+    experimentalmode: 'ExperimentalMode',
+    torquetuning: 'EnableCustomTorqueTuning',
+    longitudinal: 'AlphaLongitudinal',
+};
+
+export function resolveSettingKey<T extends { key: string; label: string }>(
+    settings: T[],
+    rawQuery: string | null | undefined
+): T | null {
+    if (!rawQuery) return null;
+    const decoded = safeDecodeURIComponent(rawQuery).trim();
+    if (!decoded) return null;
+
+    // 1. Exact key match
+    const exact = settings.find((s) => s.key === decoded);
+    if (exact) return exact;
+
+    const lower = decoded.toLowerCase();
+    const slug = slugifySetting(decoded);
+    const compact = lower.replace(/[^a-z0-9]/g, '');
+
+    // 2. Alias lookup (e.g. CameraOffset / camera-offset -> AdjustCameraOffset)
+    const aliasKey = SETTING_KEY_ALIASES[lower] || SETTING_KEY_ALIASES[slug] || SETTING_KEY_ALIASES[compact];
+    if (aliasKey) {
+        const aliased = settings.find((s) => s.key === aliasKey);
+        if (aliased) return aliased;
+    }
+
+    // 3. Case-insensitive key or label slug match
+    const byKeyOrLabel = settings.find((s) => {
+        const keyLower = s.key.toLowerCase();
+        const keySlug = slugifySetting(s.key);
+        const labelSlug = slugifySetting(s.label);
+        return (
+            keyLower === lower ||
+            keySlug === slug ||
+            labelSlug === slug ||
+            keyLower.replace(/[^a-z0-9]/g, '') === compact ||
+            labelSlug.replace(/-/g, '') === compact
+        );
+    });
+    if (byKeyOrLabel) return byKeyOrLabel;
+
+    // 4. Substring match on key/label for multi-char deep links (e.g. "camera-offset")
+    if (compact.length >= 5) {
+        const partial = settings.find(
+            (s) =>
+                s.key.toLowerCase().includes(compact) ||
+                slugifySetting(s.label).includes(slug)
+        );
+        if (partial) return partial;
+    }
+
+    return null;
+}
+
 export default function HomeClient({ discourseSettings }: HomeClientProps) {
     const { t, tx, locale } = useLanguage();
     const togglesData = useTranslatedToggles();
@@ -53,39 +143,6 @@ export default function HomeClient({ discourseSettings }: HomeClientProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategories, setActiveCategories] = useState<string[]>([]);
     const [highlightedKey, setHighlightedKey] = useState<string | null>(null);
-
-    // Watch for URL hash to highlight specific settings
-    useEffect(() => {
-        const handleHashChange = () => {
-            const hash = window.location.hash;
-            if (hash) {
-                const key = decodeURIComponent(hash.slice(1));
-                setHighlightedKey(key);
-
-                // Scroll to the anchored setting card.
-                // LazyReveal is disabled when highlightedKey is set, so all cards
-                // render at full height and layout is stable.
-                let attempts = 0;
-                const tryScroll = () => {
-                    const el = document.getElementById(key);
-                    if (el) {
-                        // Wait for progressive rendering to finish, then scroll
-                        requestAnimationFrame(() => {
-                            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        });
-                    } else if (attempts < 10) {
-                        attempts++;
-                        setTimeout(tryScroll, 60);
-                    }
-                };
-                // Wait for hydration + progressive render expansion
-                setTimeout(tryScroll, 150);
-            }
-        };
-        handleHashChange();
-        window.addEventListener('hashchange', handleHashChange);
-        return () => window.removeEventListener('hashchange', handleHashChange);
-    }, []);
 
     const categories = togglesData.categories as Category[];
 
@@ -124,10 +181,130 @@ export default function HomeClient({ discourseSettings }: HomeClientProps) {
         );
     }, [categories, discourseSettings, locale]);
 
-    // The saved car controls the entire settings pipeline, including search and counts.
-    const applicableSettings = useMemo(() =>
-        allSettings.filter(setting => isSettingApplicableToMake(setting.key, selectedMake)),
-    [allSettings, selectedMake]);
+    const scrollToSettingElement = useCallback((canonicalKey: string) => {
+        let attempts = 0;
+        const tryScroll = () => {
+            const el = document.getElementById(canonicalKey);
+            if (el) {
+                requestAnimationFrame(() => {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            } else if (attempts < 15) {
+                attempts++;
+                setTimeout(tryScroll, 60);
+            }
+        };
+        setTimeout(tryScroll, 120);
+    }, []);
+
+    // Watch for URL ?setting=, ?search=, ?category=, and #hash deep links
+    useEffect(() => {
+        const syncFromLocation = () => {
+            if (typeof window === 'undefined') return;
+            const params = new URLSearchParams(window.location.search);
+            const settingParam = params.get('setting') || params.get('toggle');
+            const searchParam = params.get('search') || params.get('q');
+            const categoryParam = params.get('category');
+            const rawHash = window.location.hash ? safeDecodeURIComponent(window.location.hash.slice(1)) : '';
+
+            const targetRaw = settingParam || rawHash;
+            if (targetRaw) {
+                const resolved = resolveSettingKey(allSettings, targetRaw);
+                const canonicalKey = resolved ? resolved.key : targetRaw;
+                setHighlightedKey(canonicalKey);
+                if (resolved) {
+                    setActiveCategories((prev) => {
+                        if (prev.length === 0) return prev;
+                        const standard = prev.filter((id) => id !== 'recommended');
+                        const recOnly = prev.includes('recommended');
+                        if (
+                            (standard.length > 0 && !standard.includes(resolved.categoryId)) ||
+                            (recOnly && !resolved.recommended)
+                        ) {
+                            return [];
+                        }
+                        return prev;
+                    });
+                    setSearchQuery((prev) => {
+                        if (!prev) return prev;
+                        const qLower = prev.toLowerCase();
+                        if (
+                            !resolved.label.toLowerCase().includes(qLower) &&
+                            !resolved.key.toLowerCase().includes(qLower)
+                        ) {
+                            return '';
+                        }
+                        return prev;
+                    });
+                }
+                scrollToSettingElement(canonicalKey);
+                return;
+            }
+
+            if (categoryParam && categories.some((c) => c.id === categoryParam)) {
+                setActiveCategories([categoryParam]);
+            }
+            if (searchParam) {
+                setSearchQuery(searchParam);
+            }
+        };
+
+        syncFromLocation();
+        window.addEventListener('hashchange', syncFromLocation);
+        window.addEventListener('popstate', syncFromLocation);
+        return () => {
+            window.removeEventListener('hashchange', syncFromLocation);
+            window.removeEventListener('popstate', syncFromLocation);
+        };
+    }, [allSettings, categories, scrollToSettingElement]);
+
+    const handleSelectSetting = useCallback(
+        (rawKey: string, shouldScroll = true) => {
+            const resolved = resolveSettingKey(allSettings, rawKey);
+            const canonicalKey = resolved ? resolved.key : rawKey;
+            setHighlightedKey(canonicalKey);
+            if (resolved) {
+                setActiveCategories((prev) => {
+                    if (prev.length === 0) return prev;
+                    const standard = prev.filter((id) => id !== 'recommended');
+                    const recOnly = prev.includes('recommended');
+                    if (
+                        (standard.length > 0 && !standard.includes(resolved.categoryId)) ||
+                        (recOnly && !resolved.recommended)
+                    ) {
+                        return [];
+                    }
+                    return prev;
+                });
+                setSearchQuery('');
+            }
+            if (typeof window !== 'undefined') {
+                try {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('setting', canonicalKey);
+                    url.hash = encodeURIComponent(canonicalKey);
+                    window.history.replaceState(null, '', url.pathname + url.search + url.hash);
+                } catch {
+                    // Ignore history state errors in restricted webviews
+                }
+            }
+            if (shouldScroll) {
+                scrollToSettingElement(canonicalKey);
+            }
+        },
+        [allSettings, scrollToSettingElement]
+    );
+
+    // The saved car controls the entire settings pipeline, including search and counts,
+    // while always keeping an explicitly deep-linked setting reachable.
+    const applicableSettings = useMemo(
+        () =>
+            allSettings.filter(
+                (setting) =>
+                    setting.key === highlightedKey || isSettingApplicableToMake(setting.key, selectedMake)
+            ),
+        [allSettings, selectedMake, highlightedKey]
+    );
 
     // Category metadata for filter
     const categoryMeta = useMemo(() => {
@@ -212,6 +389,7 @@ export default function HomeClient({ discourseSettings }: HomeClientProps) {
                     onClearCategories={handleClearAll}
                     categoryMeta={categoryMeta}
                     highlightedKey={highlightedKey}
+                    onSelectSetting={handleSelectSetting}
                     selectedVehicle={myCar ? `${myCar.year} ${myCar.vehicle.make} ${vehicleModelLabel(myCar.vehicle.model, tx)}` : null}
                 />
 

@@ -6,6 +6,7 @@ import { useTextTranslation } from '@/lib/i18n';
 import { useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import ModelDetailModal from './ModelDetailModal';
+import ErrorBoundary from './ErrorBoundary';
 
 import { usePageSearch } from '../hooks/usePageSearch';
 
@@ -220,18 +221,23 @@ function SkillRatingsGrid({ detail }: { detail: SkillRatingsDetail }) {
 }
 
 function relativeTime(iso: string, locale: string): string {
+    if (!iso) return '';
     const timestamp = new Date(iso).getTime();
     if (!Number.isFinite(timestamp)) return '';
-    const minutes = Math.max(1, Math.round((Date.now() - timestamp) / 60000));
-    const formatter = new Intl.RelativeTimeFormat(locale, { numeric: 'auto', style: 'short' });
-    if (minutes < 60) return formatter.format(-minutes, 'minute');
-    const hours = Math.round(minutes / 60);
-    if (hours < 24) return formatter.format(-hours, 'hour');
-    const days = Math.round(hours / 24);
-    if (days < 30) return formatter.format(-days, 'day');
-    const months = Math.round(days / 30);
-    if (months < 12) return formatter.format(-months, 'month');
-    return formatter.format(-Math.round(months / 12), 'year');
+    try {
+        const minutes = Math.max(1, Math.round((Date.now() - timestamp) / 60000));
+        const formatter = new Intl.RelativeTimeFormat(locale || 'en', { numeric: 'auto', style: 'short' });
+        if (minutes < 60) return formatter.format(-minutes, 'minute');
+        const hours = Math.round(minutes / 60);
+        if (hours < 24) return formatter.format(-hours, 'hour');
+        const days = Math.round(hours / 24);
+        if (days < 30) return formatter.format(-days, 'day');
+        const months = Math.round(days / 30);
+        if (months < 12) return formatter.format(-months, 'month');
+        return formatter.format(-Math.round(months / 12), 'year');
+    } catch {
+        return '';
+    }
 }
 
 function ForumActivityPanel({ activity, forumUrl }: { activity?: ForumActivity; forumUrl: string }) {
@@ -307,12 +313,14 @@ const ModelCard = memo(function ModelCard({
     forumActivity,
     isHighlighted,
     onDetails,
+    onFilterByTag,
 }: {
     model: Model;
     onExpand?: (modelName: string) => void;
     forumActivity?: ForumActivity;
     isHighlighted?: boolean;
     onDetails?: (model: Model) => void;
+    onFilterByTag?: (tag: string) => void;
 }) {
   const tx = useTextTranslation();
     const { t } = useLanguage();
@@ -368,9 +376,11 @@ const ModelCard = memo(function ModelCard({
             }
         }
         try {
-            await navigator.clipboard.writeText(url);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
+            if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(url);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            }
         } catch (err) {
             console.error('Failed to copy:', err);
         }
@@ -467,6 +477,7 @@ const ModelCard = memo(function ModelCard({
 
                             {/* Flag Button */}
                             <button
+                                type="button"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     const title = encodeURIComponent(`Issue with Model: ${model.name}`);
@@ -483,6 +494,7 @@ const ModelCard = memo(function ModelCard({
 
                             {/* Share Button */}
                             <button
+                                type="button"
                                 onClick={handleCopyLink}
                                 className="p-1 rounded-lg text-slate-500 hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors"
                                 title={tx(copied ? 'Copied!' : 'Share this model')}
@@ -530,13 +542,28 @@ const ModelCard = memo(function ModelCard({
             {((model.tags && model.tags.length > 0) || model.bestFor || model.steeringFeel) && (
                 <div className="flex flex-wrap gap-1.5 mb-3">
                     {model.tags?.map((tag) => (
-                        <span
-                            key={tag}
-                            className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-slate-800/60 text-slate-300 border border-slate-700/50"
-                        >
-                            <span><TranslatedText text={getTagIcon(tag)} /></span>
-                            <span><TranslatedText text={tag} /></span>
-                        </span>
+                        onFilterByTag ? (
+                            <button
+                                key={tag}
+                                type="button"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onFilterByTag(tag);
+                                }}
+                                className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-slate-800/60 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-300 border border-slate-700/50 hover:border-cyan-500/40 transition-colors cursor-pointer"
+                            >
+                                <span><TranslatedText text={getTagIcon(tag)} /></span>
+                                <span><TranslatedText text={tag} /></span>
+                            </button>
+                        ) : (
+                            <span
+                                key={tag}
+                                className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-slate-800/60 text-slate-300 border border-slate-700/50"
+                            >
+                                <span><TranslatedText text={getTagIcon(tag)} /></span>
+                                <span><TranslatedText text={tag} /></span>
+                            </span>
+                        )
                     ))}
                     {model.bestFor && (
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">
@@ -564,14 +591,16 @@ const ModelCard = memo(function ModelCard({
 
 
             {/* Interactive Discourse-Style Voting Survey */}
-            <ModelPollSurvey
-                modelName={model.name}
-                baseScore={model.communityScore}
-                baseVotes={model.totalVotes}
-                baseSentiment={model.sentiment}
-                onScoreUpdate={handleScoreUpdate}
-                onSummaryUpdate={setSimulationVotes}
-            />
+            <div onClick={(e) => e.stopPropagation()}>
+                <ModelPollSurvey
+                    modelName={model.name}
+                    baseScore={model.communityScore}
+                    baseVotes={model.totalVotes}
+                    baseSentiment={model.sentiment}
+                    onScoreUpdate={handleScoreUpdate}
+                    onSummaryUpdate={setSimulationVotes}
+                />
+            </div>
 
             {/* Tested On — always visible */}
             {model.testedOn && model.testedOn.length > 0 && (
@@ -736,17 +765,35 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
     const vibeGuideRef = useRef<HTMLDivElement>(null);
     const [vibeGuideHeight, setVibeGuideHeight] = useState(0);
 
+    const handleFilterByTag = useCallback((tag: string) => {
+        setDetailModel(null);
+        setActiveCategory('all');
+        setSearchQuery(tag);
+        if (typeof window !== 'undefined') {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('model');
+            url.searchParams.delete('m');
+            url.searchParams.set('q', tag);
+            window.history.replaceState(window.history.state, '', url);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }, []);
+
     const scrollToModel = useCallback((targetNameOrSlug: string) => {
         let attempts = 0;
         const maxAttempts = 20;
+        const safeEscape = (val: string) =>
+            typeof CSS !== 'undefined' && typeof CSS.escape === 'function'
+                ? CSS.escape(val)
+                : val.replace(/(["\\])/g, '\\$1');
 
         const performScroll = () => {
             attempts++;
             const slug = modelNameToSlug(targetNameOrSlug);
             const el = document.getElementById(slug)
                 || document.getElementById(targetNameOrSlug)
-                || document.querySelector(`[data-model-name="${CSS.escape(targetNameOrSlug)}"]`)
-                || document.querySelector(`[data-model-slug="${CSS.escape(slug)}"]`);
+                || document.querySelector(`[data-model-name="${safeEscape(targetNameOrSlug)}"]`)
+                || document.querySelector(`[data-model-slug="${safeEscape(slug)}"]`);
 
             if (el) {
                 const rect = el.getBoundingClientRect();
@@ -827,6 +874,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
         if (!el) return;
         const measure = () => setVibeGuideHeight(el.scrollHeight);
         measure();
+        if (typeof ResizeObserver === 'undefined') return;
         const ro = new ResizeObserver(measure);
         ro.observe(el);
         return () => ro.disconnect();
@@ -840,9 +888,15 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
             const simParam = params.get('sim');
             const queryModel = params.get('model') || params.get('m');
             const searchParam = params.get('search') || params.get('q');
-            const hashModel = window.location.hash && window.location.hash.length > 1
-                ? decodeURIComponent(window.location.hash.slice(1))
-                : null;
+            let hashModel: string | null = null;
+            if (window.location.hash && window.location.hash.length > 1) {
+                const rawHash = window.location.hash.slice(1);
+                try {
+                    hashModel = decodeURIComponent(rawHash);
+                } catch {
+                    hashModel = rawHash;
+                }
+            }
 
             // 1. Simulator deep link
             if (simParam && categories[0]?.models) {
@@ -1428,6 +1482,7 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
                                                     model={model}
                                                     onDetails={openModelDetails}
                                                     onExpand={handleOpenVisualizer}
+                                                    onFilterByTag={handleFilterByTag}
                                                     forumActivity={activity}
                                                     isHighlighted={isTargeted}
                                                 />
@@ -1450,22 +1505,29 @@ export default function ModelLibrary({ forumActivity }: { forumActivity?: ForumA
             </div>
 
             {detailModel && (
-                <ModelDetailModal
-                    model={rawCategories.flatMap(category => category.models).find(model => model.name === detailModel.name) ?? detailModel}
-                    onClose={closeModelDetails}
-                    onExpandVisualizer={handleOpenVisualizer}
-                    forumActivity={detailModel.forumUrl ? forumActivity?.[extractTopicId(detailModel.forumUrl) || 0] : undefined}
-                />
+                <ErrorBoundary onReset={closeModelDetails}>
+                    <ModelDetailModal
+                        model={rawCategories.flatMap(category => category.models).find(model => model.name === detailModel.name) ?? detailModel}
+                        onClose={closeModelDetails}
+                        onExpandVisualizer={handleOpenVisualizer}
+                        onFilterByTag={handleFilterByTag}
+                        forumActivity={detailModel.forumUrl ? forumActivity?.[extractTopicId(detailModel.forumUrl) || 0] : undefined}
+                    />
+                </ErrorBoundary>
             )}
-            {visualizerModelName !== null && <SimulatorModal
-                initialModelId={modelNameToSlug(visualizerModelName)}
-                onClose={handleCloseVisualizer}
-                onModelChange={id => {
-                    const url = new URL(window.location.href);
-                    url.searchParams.set('sim', id);
-                    window.history.replaceState(window.history.state, '', url.toString());
-                }}
-            />}
+            {visualizerModelName !== null && (
+                <ErrorBoundary onReset={handleCloseVisualizer}>
+                    <SimulatorModal
+                        initialModelId={modelNameToSlug(visualizerModelName)}
+                        onClose={handleCloseVisualizer}
+                        onModelChange={id => {
+                            const url = new URL(window.location.href);
+                            url.searchParams.set('sim', id);
+                            window.history.replaceState(window.history.state, '', url.toString());
+                        }}
+                    />
+                </ErrorBoundary>
+            )}
         </div>
     );
 }

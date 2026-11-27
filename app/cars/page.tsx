@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { Suspense } from 'react';
 import PageShell from '../../components/PageShell';
 import CarDatabase from '../../components/CarDatabase';
+import TranslatedText from '@/components/TranslatedText';
 import carsData from '@/data/cars.json';
 
 const SITE_URL = 'https://sunnylink.wiki';
@@ -56,7 +57,7 @@ const carsJsonLd = {
         position: idx + 1,
         name: `${car.make} ${car.model} (${car.years ?? 'All years'})`,
         description: `Required harness: ${car.harness ?? 'Standard harness'}`,
-        url: `${PAGE_URL}?make=${encodeURIComponent(car.make)}&model=${encodeURIComponent(car.model)}`,
+        url: `${PAGE_URL}?vehicle=${encodeURIComponent(car.id)}`,
     })),
 };
 
@@ -70,10 +71,10 @@ export default function CarsPage() {
             <div>
                 <header className="mb-8">
                     <h1 id="cars-database-heading" className="text-2xl md:text-3xl font-bold text-slate-100 mb-2 leading-tight">
-                        Sunnypilot Supported Cars &amp; Compatibility Database
+                        <TranslatedText text="Sunnypilot Supported Cars & Compatibility Database" />
                     </h1>
                     <p className="text-slate-400 text-sm leading-relaxed">
-                        Explore hardware compatibility, required wiring harnesses, and community-verified configuration presets for {VEHICLE_COUNT}+ vehicles supported by Sunnypilot across Toyota, Hyundai, Honda, Subaru, GM, Volkswagen, and more.
+                        <TranslatedText text={`Explore hardware compatibility, required wiring harnesses, and community-verified configuration presets for ${VEHICLE_COUNT}+ vehicles supported by Sunnypilot across Toyota, Hyundai, Honda, Subaru, GM, Volkswagen, and more.`} />
                     </p>
                 </header>
                 <Suspense fallback={<div className="h-screen bg-slate-950" />}>

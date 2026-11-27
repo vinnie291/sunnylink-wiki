@@ -14,7 +14,10 @@ for (const car of read('data/cars.json').vehicles) { properNames.add(car.make); 
 const locales = ['ko', 'zh', 'fr', 'de', 'es'];
 const errors = [];
 const fail = message => errors.push(message);
-const placeholders = value => [...value.matchAll(/\{\{([^}]+)\}\}/g)].map(match => match[1]).sort().join(',');
+const placeholders = value => [
+    ...[...value.matchAll(/\{\{([^}]+)\}\}/g)].map(match => `{{${match[1].trim()}}}`),
+    ...[...value.matchAll(/(?<!\{)\{([A-Za-z0-9_]+)\}(?!\})/g)].map(match => `{${match[1]}}`),
+].sort().join(',');
 
 for (const locale of locales) {
     const messages = read(`locales/${locale}.json`);
@@ -22,7 +25,7 @@ for (const locale of locales) {
         const value = messages[key];
         if (typeof value !== 'string' || !value.trim()) fail(`${locale}: missing/empty ${key}`);
         else if (placeholders(value) !== placeholders(english[key])) fail(`${locale}: interpolation mismatch ${key}`);
-        if (typeof value === 'string' && /ZXQ\d+QXZ|\uFFFD/.test(value)) fail(`${locale}: damaged translation ${key}`);
+        if (typeof value === 'string' && /ZXQ\d+QXZ|\uFFFD|⟦T\d+⟧/.test(value)) fail(`${locale}: damaged translation ${key}`);
     }
     for (const key of Object.keys(messages)) if (!(key in english)) fail(`${locale}: unexpected ${key}`);
     console.log(`${locale}: ${Object.keys(messages).length} UI keys checked`);
@@ -30,7 +33,7 @@ for (const locale of locales) {
     for (const kind of ['cars', 'features', 'models', 'toggles']) {
         const source = read(`data/${kind}.json`);
         const target = read(`data/${kind}.${locale}.json`);
-        const canonical = new Set(['id', 'key', 'type', 'make', 'model', 'date', 'version', 'lastUpdated', 'schemaVersion', 'deviceAvailability', 'forumUrl', 'docUrl', 'device', 'harness', 'drivingModel', 'torqueTuning', 'lateralControl', 'longitudinalControl', 'mads', 'experimentalMode', 'badge', 'category', 'unit', 'years', 'user', 'icon', 'options', 'default', 'recommended', 'settingsKeys', 'tags', 'testedOn', 'includes', 'steeringFeel']);
+        const canonical = new Set(['id', 'key', 'type', 'make', 'model', 'date', 'version', 'lastUpdated', 'schemaVersion', 'deviceAvailability', 'forumUrl', 'docUrl', 'device', 'harness', 'drivingModel', 'torqueTuning', 'lateralControl', 'longitudinalControl', 'mads', 'experimentalMode', 'badge', 'category', 'unit', 'years', 'user', 'icon', 'options', 'default', 'recommended', 'settingsKeys', 'tags', 'testedOn', 'includes', 'steeringFeel', 'manifestUrl', 'modelRef', 'shortName', 'minimumSelectorVersion']);
         function walk(from, to, location, field = '') {
             if (Array.isArray(from)) {
                 if (!Array.isArray(to) || from.length !== to.length) { fail(`${locale} ${location}: array topology differs`); return; }
@@ -55,6 +58,7 @@ function checkSources(dir) {
     for (const name of readdirSync(dir)) {
         const file = path.join(dir, name);
         if (name.includes(' (1)')) continue;
+        if (/^(?:opengraph-image|twitter-image|icon|apple-icon)\.[jt]sx?$/.test(name)) continue;
         if (!path.extname(name)) { checkSources(file); continue; }
         if (!/\.tsx?$/.test(name)) continue;
         const source = ts.createSourceFile(file, readFileSync(file, 'utf8'), ts.ScriptTarget.Latest, true);

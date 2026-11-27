@@ -60,6 +60,17 @@ const initialTelemetry: Telemetry = {
   model: defaultProfile,
   modelReaction: 'Ultra-Smooth centering',
   lateralAcceleration: 0, laneErrorRms: 0, peakJerk: 0, interventions: 0,
+  yieldingToPedestrian: false,
+  activePedestrians: 0,
+  turnIntent: {
+    kind: 'straight',
+    direction: 'none',
+    label: 'Straight ahead',
+    lookaheadMeters: 80,
+    peakCurvature: 0,
+    advisorySpeedMph: null,
+    blinker: 'none',
+  },
 };
 
 const RATES = [0.5, 1, 2];

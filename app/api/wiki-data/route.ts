@@ -173,8 +173,9 @@ function searchModels(query?: string, vibe?: string) {
         })),
       };
     }
+    const safeVibe = vibeKey.replace(/[^a-z0-9_-]/gi, '').slice(0, 50);
     return {
-      error: `Vibe '${vibe}' not found. Available vibes: ${Object.keys(vibeGuide).join(', ')}`,
+      error: `Vibe '${safeVibe}' not found. Available vibes: ${Object.keys(vibeGuide).join(', ')}`,
       availableVibes: Object.keys(vibeGuide),
     };
   }
@@ -240,27 +241,32 @@ function searchCars(make?: string, model?: string, query?: string) {
 const ALLOWED_TYPES = new Set(['settings', 'models', 'cars']);
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = request.nextUrl;
-  const rawType = searchParams.get('type') ?? 'settings';
-  const type = ALLOWED_TYPES.has(rawType) ? rawType : 'settings';
-  const query = (searchParams.get('search') ?? searchParams.get('query') ?? '').slice(0, 200);
-  const vibe = searchParams.get('vibe')?.slice(0, 50) ?? undefined;
-  const make = searchParams.get('make')?.slice(0, 100) ?? undefined;
-  const model = searchParams.get('model')?.slice(0, 100) ?? undefined;
+  try {
+    const { searchParams } = request.nextUrl;
+    const rawType = searchParams.get('type') ?? 'settings';
+    const type = ALLOWED_TYPES.has(rawType) ? rawType : 'settings';
+    const query = (searchParams.get('search') ?? searchParams.get('query') ?? '').slice(0, 200);
+    const vibe = searchParams.get('vibe')?.slice(0, 50) ?? undefined;
+    const make = searchParams.get('make')?.slice(0, 100) ?? undefined;
+    const model = searchParams.get('model')?.slice(0, 100) ?? undefined;
 
-  let data;
-  switch (type) {
-    case 'models':
-      data = searchModels(query || undefined, vibe);
-      break;
-    case 'cars':
-      data = searchCars(make, model, query || undefined);
-      break;
-    default:
-      data = query ? searchSettings(query) : { error: 'Provide a search query or set type=models / type=cars' };
+    let data;
+    switch (type) {
+      case 'models':
+        data = searchModels(query || undefined, vibe);
+        break;
+      case 'cars':
+        data = searchCars(make, model, query || undefined);
+        break;
+      default:
+        data = query ? searchSettings(query) : { error: 'Provide a search query or set type=models / type=cars' };
+    }
+
+    return NextResponse.json({ type, results: data }, {
+      headers: { 'Cache-Control': 'public, max-age=300' },
+    });
+  } catch (err: unknown) {
+    console.error('[API /api/wiki-data GET] Error:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-
-  return NextResponse.json({ type, results: data }, {
-    headers: { 'Cache-Control': 'public, max-age=300' },
-  });
 }

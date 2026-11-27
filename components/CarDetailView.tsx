@@ -156,6 +156,14 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                 <div className="p-6 pr-16 sm:p-8 sm:pr-20 border-b border-slate-800 shrink-0">
                     <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
                         <div>
+                            <button
+                                type="button"
+                                onClick={onClose}
+                                className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-cyan-400 transition-colors mb-2 cursor-pointer"
+                            >
+                                <span aria-hidden="true">←</span>
+                                <span>{t('cars.title') || 'Supported Cars'}</span>
+                            </button>
                             <div className="text-sm font-bold text-cyan-500 uppercase tracking-widest mb-1">{vehicle.make}</div>
                             <h2 id={titleId} className="text-4xl font-bold text-slate-100">{vehicle.make} {vehicle.model}</h2>
                             {vehicle.variants.length > 1 ? (
@@ -330,20 +338,27 @@ export default function CarDetailView({ vehicle, onClose }: CarDetailViewProps) 
                                         );
                                     })()}
 
-                                    {[
-                                        { label: t('cars.setting.torque') || 'Torque Tuning', value: currentConfig.settings.torqueTuning, icon: '🔒' },
-                                        { label: t('cars.setting.lateral') || 'Lateral Control', value: currentConfig.settings.lateralControl, icon: '🔄' },
-                                        { label: t('cars.setting.longitudinal') || 'Longitudinal', value: currentConfig.settings.longitudinalControl, icon: '🚀' },
-                                        { label: t('cars.setting.mads') || 'MADS', value: currentConfig.settings.mads, icon: '🛡️' },
-                                        { label: t('cars.setting.exp') || 'Experimental', value: currentConfig.settings.experimentalMode, icon: '🧪' }
+                                     {[
+                                        { label: t('cars.setting.torque') || 'Torque Tuning', value: currentConfig.settings.torqueTuning, icon: '🔒', href: '/?q=torque' },
+                                        { label: t('cars.setting.lateral') || 'Lateral Control', value: currentConfig.settings.lateralControl, icon: '🔄', href: '/features#nnlc' },
+                                        { label: t('cars.setting.longitudinal') || 'Longitudinal', value: currentConfig.settings.longitudinalControl, icon: '🚀', href: '/?q=longitudinal' },
+                                        { label: t('cars.setting.mads') || 'MADS', value: currentConfig.settings.mads, icon: '🛡️', href: '/features#mads' },
+                                        { label: t('cars.setting.exp') || 'Experimental', value: currentConfig.settings.experimentalMode, icon: '🧪', href: '/?q=experimental' }
                                     ].map((s, idx) => (
-                                        <div key={idx} className="p-4 rounded-2xl bg-slate-800/30 border border-slate-700/50 flex items-center justify-between">
+                                        <Link
+                                            key={idx}
+                                            href={s.href}
+                                            className="p-4 rounded-2xl bg-slate-800/30 hover:bg-slate-800/60 border border-slate-700/50 hover:border-cyan-500/40 flex items-center justify-between transition-colors group/setting"
+                                        >
                                             <div>
-                                                <div className="text-xs text-slate-500 mb-0.5"><TranslatedText text={s.label} /></div>
+                                                <div className="text-xs text-slate-500 group-hover/setting:text-cyan-400 transition-colors mb-0.5 flex items-center gap-1">
+                                                    <TranslatedText text={s.label} />
+                                                    <span className="text-[10px] opacity-60 group-hover/setting:opacity-100">↗</span>
+                                                </div>
                                                 <div className="font-bold text-slate-100"><TranslatedText text={s.value} /></div>
                                             </div>
                                             <span className="text-2xl"><TranslatedText text={s.icon} /></span>
-                                        </div>
+                                        </Link>
                                     ))}
                                 </div>
                             </section>

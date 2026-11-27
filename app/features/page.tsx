@@ -1,5 +1,6 @@
 import PageShell from '@/components/PageShell';
 import FeatureGuide from '@/components/FeatureGuide';
+import TranslatedText from '@/components/TranslatedText';
 import { fetchAllDiscourseContent } from '@/lib/discourse-sync';
 import { mapDiscourseContent } from '@/lib/discourse-mapper';
 import featuresData from '@/data/features.json';
@@ -76,10 +77,10 @@ export default async function FeaturesPage() {
             <div className="max-w-4xl mx-auto">
                 <header className="mb-8">
                     <h1 id="features-guide-heading" className="text-2xl md:text-3xl font-bold text-slate-100 mb-2 leading-tight">
-                        Sunnypilot Features &amp; ADAS Architecture Guide
+                        <TranslatedText text="Sunnypilot Features & ADAS Architecture Guide" />
                     </h1>
                     <p className="text-slate-400 text-sm leading-relaxed">
-                        Detailed guide to Sunnypilot features, architecture, and capabilities. Learn how Modular Assistive Driving System (MADS), Neural Network Lateral Control (NNLC), Speed Limit Assist (SLA), and Dynamic Lane Profile optimize your driving experience.
+                        <TranslatedText text="Detailed guide to Sunnypilot features, architecture, and capabilities. Learn how Modular Assistive Driving System (MADS), Neural Network Lateral Control (NNLC), Speed Limit Assist (SLA), and Dynamic Lane Profile optimize your driving experience." />
                     </p>
                 </header>
                 <FeatureGuide discourseFeatures={discourseFeatures} />

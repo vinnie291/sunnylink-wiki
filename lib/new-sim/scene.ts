@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { Simulation, type SimOptions, type Vehicle } from './simulation';
+import { Simulation, type SimOptions, type Vehicle, type Pedestrian } from './simulation';
 
 const C = { green: '#189a79', glass: '#34474e', tree: '#9cafa0' };
 /** Each layout gets its own ground, asphalt, verge and haze. */
@@ -39,6 +39,7 @@ export class DrivingScene {
   root = new THREE.Group();
   private cars = new Map<number, THREE.Group>();
   private crossCars = new Map<number, THREE.Group>();
+  private pedestrians = new Map<number, THREE.Group>();
   private signals: { id: number; cross: boolean; lights: THREE.Mesh[] }[] = [];
   private path: THREE.Mesh;
   private laneLines: THREE.Mesh;
@@ -47,6 +48,7 @@ export class DrivingScene {
   private unitBox = new THREE.BoxGeometry(1, 1, 1);
   private rounded = new RoundedBoxGeometry(1, 1, 1, 3, 0.15);
   private tire = new THREE.CylinderGeometry(0.35, 0.35, 0.24, 14);
+  private headSphere = new THREE.SphereGeometry(0.13, 10, 8);
   private flatCache = new Map<THREE.BufferGeometry, THREE.BufferGeometry>();
   private rim = new THREE.CylinderGeometry(0.23, 0.23, 0.255, 10);
   private materials = new Map<string, THREE.MeshStandardMaterial>();
@@ -105,6 +107,10 @@ export class DrivingScene {
     for (const car of sim.crossCars) {
       const mesh = this.buildCar(car.id % 3 === 0 ? 'suv' : 'sedan', trafficPaints[(car.id + 2) % trafficPaints.length], false, car.id);
       this.crossCars.set(car.id, mesh); this.root.add(mesh);
+    }
+    for (const ped of sim.pedestrians) {
+      const mesh = this.buildPedestrian(ped);
+      this.pedestrians.set(ped.id, mesh); this.root.add(mesh);
     }
     this.path = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial({ color: '#28b69a', transparent: true, opacity: 0.38, depthWrite: false, side: THREE.DoubleSide }));
     this.path.renderOrder = 2;
@@ -339,6 +345,16 @@ export class DrivingScene {
       this.box(street, 0, 2.6, 0, 0.08, 5.2, 0.08, paved ? '#778785' : '#7a6a52');
       street.rotation.y += Math.PI;
       this.label(street, j.name.toUpperCase(), 0, 4.8, 0, 4.1, 0.8, '#ffffff', paved ? '#4d7167' : '#5a5136');
+    }
+    for (const cw of this.sim.road.crosswalks) {
+      if (cw.junctionId !== null) continue;
+      const crossing = this.atRoad(cw.s);
+      for (let x = -(w - 0.55); x <= w - 0.55; x += 1.15) {
+        this.box(crossing, x, 0.075, 0, 0.55, 0.03, 2.3, this.palette.line);
+      }
+      for (const side of [-1, 1]) {
+        this.box(crossing, -side * (w / 2), 0.075, -side * 3.4, w - 0.2, 0.03, 0.36, this.palette.line);
+      }
     }
   }
   /** Continuous concrete median barrier along the left edge of a highway. */
@@ -1005,6 +1021,37 @@ export class DrivingScene {
 
     return group;
   }
+  private buildPedestrian(ped: Pedestrian) {
+    const group = new THREE.Group();
+    this.contactShadow(group, 0.72, 0.72, this.night ? 0.52 : 0.36);
+
+    const coatMat = this.material(ped.coatColor, 0.62, 0.04);
+    const trouserMat = this.material(ped.trouserColor, 0.72, 0.02);
+    const skinMat = this.material('#e0b899', 0.68, 0);
+
+    const head = new THREE.Mesh(this.headSphere, skinMat);
+    head.position.set(0, 1.62, 0);
+    head.castShadow = true;
+    group.add(head);
+
+    this.box(group, 0, 1.18, 0, 0.36, 0.56, 0.22, coatMat, true);
+
+    for (const [side, name] of [[-1, 'legL'], [1, 'legR']] as const) {
+      const hip = new THREE.Group();
+      hip.name = name;
+      hip.position.set(side * 0.095, 0.88, 0);
+      this.box(hip, 0, -0.42, 0, 0.13, 0.84, 0.14, trouserMat, true);
+      group.add(hip);
+    }
+    for (const [side, name] of [[-1, 'armL'], [1, 'armR']] as const) {
+      const shoulder = new THREE.Group();
+      shoulder.name = name;
+      shoulder.position.set(side * 0.23, 1.40, 0);
+      this.box(shoulder, 0, -0.28, 0, 0.10, 0.56, 0.11, coatMat, true);
+      group.add(shoulder);
+    }
+    return group;
+  }
   resize(width: number, height: number) {
     if (!width || !height) return;
     this.width = width; this.height = height;
@@ -1037,6 +1084,7 @@ export class DrivingScene {
       for (const material of this.egoPaint) material.color.set(options.carColor);
     }
     const blinkPhase = Math.floor(sim.time * 2.5) % 2 === 0;
+    const egoIntentBlinker = sim.computeTurnIntent().blinker;
     for (const car of sim.cars) {
       const group = this.cars.get(car.id)!;
       const s = at(car);
@@ -1055,8 +1103,12 @@ export class DrivingScene {
 
       // Physical steering angle for front wheels
       const steerAngle = car.id === 0 ? car.prevSteering + (car.steeringAngle - car.prevSteering) * alpha : sim.computeSteerAngle(car) + mergeYaw * 0.5;
-      const blinkL = Boolean(car.laneChange && blinkPhase && car.lateral < 0);
-      const blinkR = Boolean(car.laneChange && blinkPhase && car.lateral > 0);
+      const blinkL = car.id === 0
+        ? Boolean(blinkPhase && egoIntentBlinker === 'left')
+        : Boolean(car.laneChange && blinkPhase && car.lateral < 0);
+      const blinkR = car.id === 0
+        ? Boolean(blinkPhase && egoIntentBlinker === 'right')
+        : Boolean(car.laneChange && blinkPhase && car.lateral > 0);
 
       // Realistic suspension pitch (brake dive / accel squat) and curve body roll
       const pitchScale = car.kind === 'truck' ? 0.006 : 0.015;
@@ -1108,6 +1160,22 @@ export class DrivingScene {
         }
       });
     }
+    for (const ped of sim.pedestrians) {
+      const group = this.pedestrians.get(ped.id);
+      if (!group) continue;
+      const offset = ped.prevOffset + (ped.offset - ped.prevOffset) * alpha;
+      group.position.copy(sim.road.point(ped.s, offset));
+      const t = sim.road.tangent(ped.s);
+      // Road +offset points left of tangent: (t.z, 0, -t.x)
+      group.rotation.y = Math.atan2(t.z * ped.direction, -t.x * ped.direction);
+      const swing = ped.phase === 'crossing' ? Math.sin(ped.stridePhase) * 0.45 : 0;
+      group.traverse(o => {
+        if (o.name === 'legL') o.rotation.x = swing;
+        else if (o.name === 'legR') o.rotation.x = -swing;
+        else if (o.name === 'armL') o.rotation.x = -swing * 0.7;
+        else if (o.name === 'armR') o.rotation.x = swing * 0.7;
+      });
+    }
     for (const signal of this.signals) {
       const phase = signal.cross ? sim.crossCanProceed(signal.id) ? 'green' : 'red' : sim.signal(signal.id);
       signal.lights.forEach((light, i) => (light.material as THREE.MeshBasicMaterial).color.set(
@@ -1140,8 +1208,10 @@ export class DrivingScene {
       (this.path.material as THREE.MeshBasicMaterial).color.set(sim.model.pathColor);
       const lead = sim.lead(sim.ego);
       const next = sim.nextJunction(sim.ego);
+      const cwHazard = sim.crosswalkHazard(sim.ego);
       let distance = Math.min(85, Math.max(4, lead.gap));
       if (next && ((next.kind === 'stop' && sim.ego.released !== next.id) || (next.kind === 'signal' && sim.signal(next.id) !== 'green'))) distance = Math.min(distance, next.distance - 1);
+      if (cwHazard) distance = Math.min(distance, cwHazard.distance - 1);
       this.path.geometry.dispose();
       this.path.geometry = this.ribbon(egoS + 2.4, egoS + Math.max(3, distance), -0.75, 0.75, 0.09, 1.5, s => sim.plannedLaneOffset(s - egoS));
     }
@@ -1180,7 +1250,7 @@ export class DrivingScene {
   }
   dispose() {
     this.disposed = true;
-    const geometries = new Set<THREE.BufferGeometry>([this.unitBox, this.rounded, this.tire, this.rim, ...this.flatCache.values()]);
+    const geometries = new Set<THREE.BufferGeometry>([this.unitBox, this.rounded, this.tire, this.headSphere, this.rim, ...this.flatCache.values()]);
     const materials = new Set<THREE.Material>(this.materials.values());
     this.scene.traverse(o => {
       if (o instanceof THREE.Mesh || o instanceof THREE.LineSegments) {

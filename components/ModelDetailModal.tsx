@@ -87,6 +87,7 @@ interface ModelDetailModalProps {
     model: Model;
     onClose: () => void;
     onExpandVisualizer?: (modelName: string) => void;
+    onFilterByTag?: (tag: string) => void;
     forumActivity?: ForumActivity;
 }
 
@@ -209,6 +210,7 @@ export default function ModelDetailModal({
     model,
     onClose,
     onExpandVisualizer,
+    onFilterByTag,
     forumActivity,
 }: ModelDetailModalProps) {
   const tx = useTextTranslation();
@@ -268,9 +270,28 @@ export default function ModelDetailModal({
             }
         }
         try {
-            await navigator.clipboard.writeText(url);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
+            if (typeof navigator !== 'undefined' && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                await navigator.clipboard.writeText(url);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+                return;
+            }
+        } catch {
+            // Fall through to execCommand fallback
+        }
+        try {
+            const textarea = document.createElement('textarea');
+            textarea.value = url;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            if (document.execCommand('copy')) {
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            }
+            document.body.removeChild(textarea);
         } catch (err) {
             console.error('Failed to copy:', err);
         }
@@ -552,13 +573,25 @@ export default function ModelDetailModal({
                                             </div>
                                             <div className="flex flex-wrap gap-1.5">
                                                 {model.tags.map((tag) => (
-                                                    <span
-                                                        key={tag}
-                                                        className="inline-flex items-center gap-1 px-2.5 py-1 text-xs rounded-full bg-slate-800/80 text-slate-200 border border-slate-700/60"
-                                                    >
-                                                        <span><TranslatedText text={getTagIcon(tag)} /></span>
-                                                        <span><TranslatedText text={tag} /></span>
-                                                    </span>
+                                                    onFilterByTag ? (
+                                                        <button
+                                                            key={tag}
+                                                            type="button"
+                                                            onClick={() => onFilterByTag(tag)}
+                                                            className="inline-flex items-center gap-1 px-2.5 py-1 text-xs rounded-full bg-slate-800/80 hover:bg-cyan-500/20 text-slate-200 hover:text-cyan-300 border border-slate-700/60 hover:border-cyan-500/40 transition-colors cursor-pointer"
+                                                        >
+                                                            <span><TranslatedText text={getTagIcon(tag)} /></span>
+                                                            <span><TranslatedText text={tag} /></span>
+                                                        </button>
+                                                    ) : (
+                                                        <span
+                                                            key={tag}
+                                                            className="inline-flex items-center gap-1 px-2.5 py-1 text-xs rounded-full bg-slate-800/80 text-slate-200 border border-slate-700/60"
+                                                        >
+                                                            <span><TranslatedText text={getTagIcon(tag)} /></span>
+                                                            <span><TranslatedText text={tag} /></span>
+                                                        </span>
+                                                    )
                                                 ))}
                                             </div>
                                         </div>

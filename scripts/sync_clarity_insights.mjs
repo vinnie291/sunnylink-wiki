@@ -47,17 +47,17 @@ const ROUTE_ALIASES = {
     '/feature': '/features',
 };
 
-const ROUTE_SOURCE_MAP = {
-    '/': ['app/page.tsx', 'components/HomeClient.tsx'],
-    '/models': ['app/models/page.tsx', 'components/ModelDatabase.tsx'],
-    '/cars': ['app/cars/page.tsx', 'components/CarDatabase.tsx'],
-    '/features': ['app/features/page.tsx', 'components/FeaturesClient.tsx'],
-    '/wizard': ['app/wizard/page.tsx'],
-    '/wizard/classic': ['app/wizard/classic/page.tsx'],
-    '/quiz': ['app/quiz/page.tsx'],
+export const ROUTE_SOURCE_MAP = {
+    '/': ['app/page.tsx', 'components/HomeClient.tsx', 'components/SettingsDatabase.tsx', 'components/ToggleCard.tsx'],
+    '/models': ['app/models/page.tsx', 'components/ModelLibrary.tsx', 'components/ModelDetailModal.tsx'],
+    '/cars': ['app/cars/page.tsx', 'components/CarDatabase.tsx', 'components/CarDetailView.tsx'],
+    '/features': ['app/features/page.tsx', 'components/FeatureGuide.tsx'],
+    '/wizard': ['app/wizard/page.tsx', 'components/ConfigWizard.tsx'],
+    '/wizard/classic': ['app/wizard/classic/page.tsx', 'components/SetupWizard.tsx'],
+    '/quiz': ['app/quiz/page.tsx', 'components/ModelQuiz.tsx'],
     '/stats': ['app/stats/page.tsx', 'app/stats/StatsClient.tsx'],
     '/model-replay': ['app/model-replay/page.tsx', 'app/model-replay/ModelReplayClient.tsx'],
-    '/new-sim': ['app/new-sim/page.tsx'],
+    '/new-sim': ['app/new-sim/page.tsx', 'components/new-sim/SimulatorLab.tsx'],
 };
 
 function toNumber(val, fallback = 0) {

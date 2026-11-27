@@ -1,4 +1,5 @@
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 import crypto from 'crypto';
 import {
@@ -26,7 +27,7 @@ export interface PollOptionDef {
 }
 
 export interface PollQuestionDef {
-    id: string; // Poll name (e.g. 'poll', 'overall', 'vs_default', 'lateral', etc.)
+    id: string; // Poll name (e.g. 'overall', 'poll', 'vs_default', 'lateral', etc.)
     title: string;
     type: 'single' | 'multi';
     maxChoices?: number;
@@ -58,25 +59,91 @@ export interface ModelVoteSummary {
 }
 
 const DATA_DIR = path.join(process.cwd(), 'data');
-const VOTES_FILE = path.join(DATA_DIR, 'model_votes.json');
+const REPO_VOTES_FILE = path.join(DATA_DIR, 'model_votes.json');
+const FALLBACK_VOTES_FILE = path.join(os.tmpdir(), 'sunnylink-model-votes.json');
 const DISCOURSE_POLLS_FILE = path.join(DATA_DIR, 'discourse_polls.json');
 const SALT = process.env.VOTE_SALT || 'sunnylink-wiki-voter-secret-salt-2026';
 
-// In-memory rate limiting map: voterHash -> timestamps array
+const FORBIDDEN_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+const RATE_LIMIT_WINDOW_MS = 60_000;
+export const MAX_RATE_LIMIT_KEYS = 5_000;
+
+const VOTER_UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+const VOTER_SIG_REGEX = /^[0-9a-f]{24}$/;
+
+// Bounded in-memory rate limiting map: voterHash -> timestamps array
 const rateLimitMap = new Map<string, number[]>();
+
+export function getRateLimitMapSize(): number {
+    return rateLimitMap.size;
+}
+
+function signVoterUuid(uuid: string): string {
+    return crypto.createHmac('sha256', SALT).update(uuid).digest('hex').slice(0, 24);
+}
+
+export function createSignedVoterToken(): string {
+    const uuid = crypto.randomUUID().toLowerCase();
+    return `${uuid}.${signVoterUuid(uuid)}`;
+}
+
+export function verifySignedVoterToken(raw?: string | null): boolean {
+    if (typeof raw !== 'string' || raw.length !== 61) {
+        return false;
+    }
+    const dotIndex = raw.indexOf('.');
+    if (dotIndex !== 36 || raw.indexOf('.', dotIndex + 1) !== -1) {
+        return false;
+    }
+    const uuid = raw.slice(0, 36);
+    const sig = raw.slice(37);
+    if (!VOTER_UUID_REGEX.test(uuid) || !VOTER_SIG_REGEX.test(sig)) {
+        return false;
+    }
+    const expected = signVoterUuid(uuid);
+    return crypto.timingSafeEqual(Buffer.from(sig, 'utf8'), Buffer.from(expected, 'utf8'));
+}
 
 export function generateVoterHash(ip: string, clientToken?: string): string {
     const raw = `${ip.trim()}_${clientToken || ''}_${SALT}`;
     return crypto.createHash('sha256').update(raw).digest('hex').slice(0, 20);
 }
 
+function evictStaleAndCapRateLimitMap(now: number): void {
+    for (const [key, ts] of rateLimitMap.entries()) {
+        const fresh = ts.filter(t => now - t < RATE_LIMIT_WINDOW_MS);
+        if (fresh.length === 0) {
+            rateLimitMap.delete(key);
+        } else if (fresh.length !== ts.length) {
+            rateLimitMap.set(key, fresh);
+        }
+    }
+    while (rateLimitMap.size >= MAX_RATE_LIMIT_KEYS) {
+        const oldestKey = rateLimitMap.keys().next().value;
+        if (oldestKey === undefined) break;
+        rateLimitMap.delete(oldestKey);
+    }
+}
+
 export function checkRateLimit(voterHash: string, maxVotesPerMinute = 30): boolean {
     const now = Date.now();
-    const timestamps = (rateLimitMap.get(voterHash) || []).filter(t => now - t < 60000);
+    const existing = rateLimitMap.get(voterHash);
+    const timestamps = existing ? existing.filter(t => now - t < RATE_LIMIT_WINDOW_MS) : [];
+
     if (timestamps.length >= maxVotesPerMinute) {
+        if (existing) {
+            rateLimitMap.set(voterHash, timestamps);
+        }
         return false;
     }
+
+    if (!rateLimitMap.has(voterHash) && rateLimitMap.size >= MAX_RATE_LIMIT_KEYS) {
+        evictStaleAndCapRateLimitMap(now);
+    }
+
     timestamps.push(now);
+    // Re-insert so active keys stay freshest in Map iteration order
+    rateLimitMap.delete(voterHash);
     rateLimitMap.set(voterHash, timestamps);
     return true;
 }
@@ -103,41 +170,329 @@ interface DiscourseModelData {
     polls?: DiscoursePoll[];
 }
 
-// In-memory cache with file persistence
+// In-memory cache with two-tier persistence (atomic local + optional Cloud Run GCS sync)
 let cachedVotes: Record<string, ModelVoteRecord> | null = null;
+let cachedVotesSourcePath: string | null = null;
+let forceTmpFallback = false;
 let cachedDiscoursePolls: Record<string, DiscourseModelData> | null = null;
 
-function loadVotes(): Record<string, ModelVoteRecord> {
-    if (cachedVotes !== null) {
-        return cachedVotes;
-    }
+let gcsHydrated = false;
+let gcsLastAttemptAt = 0;
+let gcsHydrationPromise: Promise<void> | null = null;
+let gcsUploadTimer: ReturnType<typeof setTimeout> | null = null;
+let cachedMetadataToken: { token: string; expiresAt: number } | null = null;
 
+function isWritableTarget(dirPath: string, filePath: string): boolean {
     try {
-        if (fs.existsSync(VOTES_FILE)) {
-            const content = fs.readFileSync(VOTES_FILE, 'utf-8');
-            cachedVotes = JSON.parse(content);
-            return cachedVotes || {};
+        if (fs.existsSync(dirPath)) {
+            fs.accessSync(dirPath, fs.constants.W_OK);
+            if (fs.existsSync(filePath)) {
+                fs.accessSync(filePath, fs.constants.W_OK);
+            }
+            return true;
+        }
+        fs.accessSync(process.cwd(), fs.constants.W_OK);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+function resolveVotesFilePath(): { path: string; isFallback: boolean } {
+    const envPath = process.env.VOTES_FILE_PATH?.trim();
+    if (envPath) {
+        return { path: path.resolve(envPath), isFallback: false };
+    }
+    if (!forceTmpFallback && isWritableTarget(DATA_DIR, REPO_VOTES_FILE)) {
+        return { path: REPO_VOTES_FILE, isFallback: false };
+    }
+    return { path: FALLBACK_VOTES_FILE, isFallback: true };
+}
+
+function sanitizeVoteMap(raw: unknown): Record<string, ModelVoteRecord> {
+    const clean: Record<string, ModelVoteRecord> = {};
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+        return clean;
+    }
+    for (const key of Object.getOwnPropertyNames(raw)) {
+        if (FORBIDDEN_KEYS.has(key)) continue;
+        const rec = (raw as Record<string, unknown>)[key];
+        if (!rec || typeof rec !== 'object' || Array.isArray(rec)) continue;
+        const { voterHash, modelName, answers, updatedAt } = rec as Partial<ModelVoteRecord>;
+        if (typeof voterHash !== 'string' || typeof modelName !== 'string') continue;
+        if (!answers || typeof answers !== 'object' || Array.isArray(answers)) continue;
+        const safeAnswers: ModelSurveyAnswers = {};
+        for (const aKey of Object.getOwnPropertyNames(answers)) {
+            if (!FORBIDDEN_KEYS.has(aKey)) {
+                safeAnswers[aKey] = (answers as Record<string, unknown>)[aKey];
+            }
+        }
+        clean[key] = {
+            voterHash,
+            modelName,
+            answers: safeAnswers,
+            updatedAt: typeof updatedAt === 'string' ? updatedAt : '',
+        };
+    }
+    return clean;
+}
+
+function readVotesFileSafe(filePath: string): Record<string, ModelVoteRecord> | null {
+    try {
+        if (fs.existsSync(filePath)) {
+            const content = fs.readFileSync(filePath, 'utf-8');
+            return sanitizeVoteMap(JSON.parse(content));
         }
     } catch (err) {
         console.error('[modelVotes] Failed to read votes file:', err);
     }
+    return null;
+}
+
+function writeVotesAtomically(targetPath: string, serialized: string): void {
+    const dir = path.dirname(targetPath);
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+    }
+    const tempPath = `${targetPath}.tmp.${process.pid}.${Date.now()}.${crypto.randomBytes(4).toString('hex')}`;
+    try {
+        fs.writeFileSync(tempPath, serialized, 'utf-8');
+        try {
+            fs.renameSync(tempPath, targetPath);
+        } catch {
+            // Safe fallback if rename across special mounts fails
+            fs.copyFileSync(tempPath, targetPath);
+        }
+    } finally {
+        try {
+            if (fs.existsSync(tempPath)) {
+                fs.unlinkSync(tempPath);
+            }
+        } catch {
+            // Ignore temp cleanup errors
+        }
+    }
+}
+
+function persistLocalVotes(votes: Record<string, ModelVoteRecord>): void {
+    const serialized = JSON.stringify(votes, null, 2);
+    const resolved = resolveVotesFilePath();
+    try {
+        writeVotesAtomically(resolved.path, serialized);
+        cachedVotesSourcePath = resolved.path;
+    } catch (err) {
+        if (!process.env.VOTES_FILE_PATH?.trim() && resolved.path !== FALLBACK_VOTES_FILE) {
+            forceTmpFallback = true;
+            try {
+                writeVotesAtomically(FALLBACK_VOTES_FILE, serialized);
+                cachedVotesSourcePath = FALLBACK_VOTES_FILE;
+                return;
+            } catch (fallbackErr) {
+                console.error('[modelVotes] Failed to write fallback votes file:', fallbackErr);
+                return;
+            }
+        }
+        console.error('[modelVotes] Failed to write votes file:', err);
+    }
+}
+
+function loadVotes(): Record<string, ModelVoteRecord> {
+    const { path: activePath, isFallback } = resolveVotesFilePath();
+    if (cachedVotes !== null && cachedVotesSourcePath === activePath) {
+        return cachedVotes;
+    }
+
+    const loaded = readVotesFileSafe(activePath);
+    if (loaded !== null) {
+        cachedVotes = loaded;
+        cachedVotesSourcePath = activePath;
+        return cachedVotes;
+    }
+
+    // Seed tmpdir fallback from repo baseline data/model_votes.json when available
+    if (isFallback) {
+        const seeded = readVotesFileSafe(REPO_VOTES_FILE);
+        if (seeded !== null) {
+            cachedVotes = seeded;
+            persistLocalVotes(seeded);
+            cachedVotesSourcePath = activePath;
+            return cachedVotes;
+        }
+    }
 
     cachedVotes = {};
+    cachedVotesSourcePath = activePath;
     return cachedVotes;
+}
+
+function getGcsConfig(): { bucket: string; object: string } | null {
+    if (process.env.VOTES_GCS_DISABLED === '1') {
+        return null;
+    }
+    const explicitBucket = process.env.VOTES_GCS_BUCKET?.trim();
+    const bucket = explicitBucket || (process.env.K_SERVICE ? 'sunnylink-wiki_cloudbuild' : '');
+    if (!bucket) {
+        return null;
+    }
+    const object = process.env.VOTES_GCS_OBJECT?.trim() || 'state/model_votes.json';
+    return { bucket, object };
+}
+
+async function fetchMetadataAccessToken(): Promise<string | null> {
+    const now = Date.now();
+    if (cachedMetadataToken && cachedMetadataToken.expiresAt - now > 60_000) {
+        return cachedMetadataToken.token;
+    }
+    const metadataUrl =
+        process.env.VOTES_GCS_METADATA_URL?.trim() ||
+        'http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token';
+    try {
+        const res = await fetch(metadataUrl, {
+            headers: { 'Metadata-Flavor': 'Google' },
+            signal: AbortSignal.timeout(1500),
+        });
+        if (!res.ok) return null;
+        const json = (await res.json()) as { access_token?: unknown; expires_in?: unknown };
+        if (typeof json.access_token !== 'string' || !json.access_token) {
+            return null;
+        }
+        const ttlSec = typeof json.expires_in === 'number' && json.expires_in > 0 ? json.expires_in : 300;
+        cachedMetadataToken = {
+            token: json.access_token,
+            expiresAt: now + ttlSec * 1000,
+        };
+        return cachedMetadataToken.token;
+    } catch {
+        return null;
+    }
+}
+
+function parseTimestamp(iso?: string): number {
+    if (!iso) return 0;
+    const parsed = Date.parse(iso);
+    return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function mergeVoteRecords(
+    localVotes: Record<string, ModelVoteRecord>,
+    remoteVotes: Record<string, ModelVoteRecord>
+): Record<string, ModelVoteRecord> {
+    const merged: Record<string, ModelVoteRecord> = { ...remoteVotes };
+    for (const [key, localRec] of Object.entries(localVotes)) {
+        if (FORBIDDEN_KEYS.has(key)) continue;
+        const remoteRec = merged[key];
+        if (!remoteRec || parseTimestamp(localRec.updatedAt) >= parseTimestamp(remoteRec.updatedAt)) {
+            merged[key] = localRec;
+        }
+    }
+    return merged;
+}
+
+async function hydrateFromGcsInternal(): Promise<void> {
+    const cfg = getGcsConfig();
+    if (!cfg || gcsHydrated) return;
+
+    const now = Date.now();
+    if (gcsLastAttemptAt > 0 && now - gcsLastAttemptAt < 30_000) {
+        return;
+    }
+    gcsLastAttemptAt = now;
+
+    try {
+        const token = await fetchMetadataAccessToken();
+        if (!token) return;
+
+        const apiBase = process.env.VOTES_GCS_API_BASE?.trim() || 'https://storage.googleapis.com';
+        const url = `${apiBase}/storage/v1/b/${encodeURIComponent(cfg.bucket)}/o/${encodeURIComponent(cfg.object)}?alt=media`;
+        const res = await fetch(url, {
+            headers: { Authorization: `Bearer ${token}` },
+            signal: AbortSignal.timeout(1500),
+        });
+
+        if (res.status === 404) {
+            gcsHydrated = true;
+            return;
+        }
+        if (!res.ok) {
+            return;
+        }
+
+        const remoteRaw = await res.json();
+        const remoteVotes = sanitizeVoteMap(remoteRaw);
+        const currentLocal = loadVotes();
+        const merged = mergeVoteRecords(currentLocal, remoteVotes);
+        cachedVotes = merged;
+        persistLocalVotes(merged);
+        gcsHydrated = true;
+    } catch {
+        // Fail silently when metadata server or GCS is unreachable (local dev / CI / tests)
+    }
+}
+
+export async function ensureCloudVotesHydrated(): Promise<void> {
+    const cfg = getGcsConfig();
+    if (!cfg || gcsHydrated) return;
+
+    if (!gcsHydrationPromise) {
+        gcsHydrationPromise = hydrateFromGcsInternal().finally(() => {
+            gcsHydrationPromise = null;
+        });
+    }
+
+    // Bound await time so API handlers stay responsive even on cold network hiccups
+    await Promise.race([
+        gcsHydrationPromise,
+        new Promise<void>(resolve => {
+            const t = setTimeout(resolve, 1600);
+            t.unref();
+        }),
+    ]);
+}
+
+async function uploadVotesToGcs(): Promise<void> {
+    const cfg = getGcsConfig();
+    if (!cfg) return;
+
+    try {
+        if (!gcsHydrated) {
+            await hydrateFromGcsInternal();
+        }
+        const token = await fetchMetadataAccessToken();
+        if (!token) return;
+
+        const votesSnapshot = loadVotes();
+        const apiBase = process.env.VOTES_GCS_API_BASE?.trim() || 'https://storage.googleapis.com';
+        const url = `${apiBase}/upload/storage/v1/b/${encodeURIComponent(cfg.bucket)}/o?uploadType=media&name=${encodeURIComponent(cfg.object)}`;
+        await fetch(url, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(votesSnapshot, null, 2),
+            signal: AbortSignal.timeout(2500),
+        });
+    } catch {
+        // Fail silently so GCS hiccups never affect user voting
+    }
+}
+
+function scheduleCloudVotesSync(): void {
+    if (!getGcsConfig()) return;
+    if (gcsUploadTimer) {
+        clearTimeout(gcsUploadTimer);
+    }
+    gcsUploadTimer = setTimeout(() => {
+        gcsUploadTimer = null;
+        void uploadVotesToGcs();
+    }, 250);
+    gcsUploadTimer.unref();
 }
 
 function saveVotes(votes: Record<string, ModelVoteRecord>) {
     cachedVotes = votes;
-    try {
-        if (!fs.existsSync(DATA_DIR)) {
-            fs.mkdirSync(DATA_DIR, { recursive: true });
-        }
-        const tempPath = `${VOTES_FILE}.tmp.${Date.now()}`;
-        fs.writeFileSync(tempPath, JSON.stringify(votes, null, 2), 'utf-8');
-        fs.renameSync(tempPath, VOTES_FILE);
-    } catch (err) {
-        console.error('[modelVotes] Failed to write votes file:', err);
-    }
+    persistLocalVotes(votes);
+    scheduleCloudVotesSync();
 }
 
 function loadDiscoursePolls(): Record<string, DiscourseModelData> {
@@ -496,9 +851,16 @@ export function recordVote(
     const key = `${voterHash}:::${modelName.toLowerCase()}`;
     const existing = allVotes[key];
 
+    const filteredPartial: Record<string, unknown> = {};
+    for (const pKey of Object.getOwnPropertyNames(partialAnswers)) {
+        if (!FORBIDDEN_KEYS.has(pKey)) {
+            filteredPartial[pKey] = (partialAnswers as Record<string, unknown>)[pKey];
+        }
+    }
+
     const updatedAnswers: ModelSurveyAnswers = {
         ...(existing ? existing.answers : {}),
-        ...sanitizeStackAnswers(partialAnswers as Record<string, unknown>),
+        ...sanitizeStackAnswers(filteredPartial),
     };
 
     allVotes[key] = {

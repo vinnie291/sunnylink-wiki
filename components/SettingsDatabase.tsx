@@ -3,7 +3,7 @@ import TranslatedText from '@/components/TranslatedText';
 import { useTextTranslation } from '@/lib/i18n';
 
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, Fragment } from 'react';
 import dynamic from 'next/dynamic';
 import ToggleCard from './ToggleCard';
 import LazyReveal from './LazyReveal';
@@ -46,6 +46,7 @@ interface SettingsDatabaseProps {
     onClearCategories: () => void;
     categoryMeta: { id: string; name: string; icon: string; description?: string; count: number }[];
     highlightedKey: string | null;
+    onSelectSetting?: (key: string, shouldScroll?: boolean) => void;
     selectedVehicle: string | null;
 }
 
@@ -75,6 +76,7 @@ export default function SettingsDatabase({
     onClearCategories,
     categoryMeta,
     highlightedKey,
+    onSelectSetting,
     selectedVehicle
 }: SettingsDatabaseProps) {
   const tx = useTextTranslation();
@@ -85,6 +87,15 @@ export default function SettingsDatabase({
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [sortBy, setSortBy] = useState<string>('name-asc');
     const [renderCount, setRenderCount] = useState(INITIAL_RENDER_COUNT);
+    const [expandedListKey, setExpandedListKey] = useState<string | null>(highlightedKey);
+    const [prevHighlightedKey, setPrevHighlightedKey] = useState<string | null>(highlightedKey);
+
+    if (highlightedKey !== prevHighlightedKey) {
+        setPrevHighlightedKey(highlightedKey);
+        if (highlightedKey) {
+            setExpandedListKey(highlightedKey);
+        }
+    }
 
     const sortedSettings = useMemo(() => {
         // If there is a search query, we want to maintain the relevance-based sorting
@@ -117,15 +128,11 @@ export default function SettingsDatabase({
 
     // Progressive rendering: render first batch immediately, rest after idle
     useEffect(() => {
-        setRenderCount(INITIAL_RENDER_COUNT);
-
-        if (sortedSettings.length <= INITIAL_RENDER_COUNT) return;
-
-        const id = requestAnimationFrame(() => {
-            setRenderCount(sortedSettings.length);
+        const resetId = requestAnimationFrame(() => {
+            setRenderCount(sortedSettings.length <= INITIAL_RENDER_COUNT ? INITIAL_RENDER_COUNT : sortedSettings.length);
         });
 
-        return () => cancelAnimationFrame(id);
+        return () => cancelAnimationFrame(resetId);
     }, [sortedSettings.length, sortBy, searchQuery, activeCategories]);
 
     const visibleSettings = useMemo(() => {
@@ -349,28 +356,85 @@ export default function SettingsDatabase({
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-slate-800">
-                                                {visibleSettings.map((setting) => (
-                                                    <tr
-                                                        key={setting.key}
-                                                        className={`group hover:bg-slate-800/50 transition-colors ${highlightedKey === setting.key ? 'bg-cyan-500/10' : ''}`}
-                                                    >
-                                                        <td className="p-4">
-                                                            <div className="font-medium text-slate-100"><TranslatedText text={setting.label} /></div>
-                                                            <div className="text-xs text-slate-400 font-mono mt-0.5"><TranslatedText text={setting.key} /></div>
-                                                        </td>
-                                                        <td className="p-4">
-                                                            <span className={`text-sm font-medium ${hasDefaultValue(setting.default) ? 'text-emerald-400' : 'text-slate-400'}`}>
-                                                                <TranslatedText text={formatDefaultValue(setting.default)} />
-                                                            </span>
-                                                        </td>
-                                                        <td className="p-4">
-                                                            <div className="flex items-center gap-1.5 text-sm text-slate-400">
-                                                                <span><TranslatedText text={setting.categoryIcon} /></span>
-                                                                <span className="hidden sm:inline"><TranslatedText text={setting.categoryName} /></span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                ))}
+                                                {visibleSettings.map((setting) => {
+                                                    const isExpanded = expandedListKey === setting.key;
+                                                    return (
+                                                        <Fragment key={setting.key}>
+                                                            <tr
+                                                                id={isExpanded ? undefined : setting.key}
+                                                                role="button"
+                                                                tabIndex={0}
+                                                                aria-expanded={isExpanded}
+                                                                onClick={() => {
+                                                                    const next = isExpanded ? null : setting.key;
+                                                                    setExpandedListKey(next);
+                                                                    if (next) onSelectSetting?.(setting.key, false);
+                                                                }}
+                                                                onKeyDown={(e) => {
+                                                                    if (e.key === 'Enter' || e.key === ' ') {
+                                                                        e.preventDefault();
+                                                                        const next = isExpanded ? null : setting.key;
+                                                                        setExpandedListKey(next);
+                                                                        if (next) onSelectSetting?.(setting.key, false);
+                                                                    }
+                                                                }}
+                                                                className={`group cursor-pointer hover:bg-slate-800/50 transition-colors scroll-mt-32 ${highlightedKey === setting.key || isExpanded ? 'bg-cyan-500/10' : ''}`}
+                                                            >
+                                                                <td className="p-4">
+                                                                    <div className="flex items-center gap-2">
+                                                                        <svg
+                                                                            className={`w-4 h-4 text-slate-400 group-hover:text-cyan-400 transition-transform shrink-0 ${isExpanded ? 'rotate-90 text-cyan-400' : ''}`}
+                                                                            fill="none"
+                                                                            stroke="currentColor"
+                                                                            viewBox="0 0 24 24"
+                                                                            aria-hidden="true"
+                                                                        >
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                                        </svg>
+                                                                        <div>
+                                                                            <div className="font-medium text-slate-100 group-hover:text-cyan-400 transition-colors"><TranslatedText text={setting.label} /></div>
+                                                                            <div className="text-xs text-slate-400 font-mono mt-0.5"><TranslatedText text={setting.key} /></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td className="p-4">
+                                                                    <span className={`text-sm font-medium ${hasDefaultValue(setting.default) ? 'text-emerald-400' : 'text-slate-400'}`}>
+                                                                        <TranslatedText text={formatDefaultValue(setting.default)} />
+                                                                    </span>
+                                                                </td>
+                                                                <td className="p-4">
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            if (setting.categoryId) onToggleCategory(setting.categoryId);
+                                                                        }}
+                                                                        className="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer"
+                                                                        title={tx(setting.categoryName || 'Filter')}
+                                                                    >
+                                                                        <span><TranslatedText text={setting.categoryIcon} /></span>
+                                                                        <span className="hidden sm:inline"><TranslatedText text={setting.categoryName} /></span>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                            {isExpanded && (
+                                                                <tr className="bg-slate-950/60">
+                                                                    <td colSpan={3} className="p-4">
+                                                                        <ToggleCard
+                                                                            setting={setting}
+                                                                            categoryName={setting.categoryName || ''}
+                                                                            categoryIcon={setting.categoryIcon || ''}
+                                                                            categoryId={setting.categoryId || ''}
+                                                                            isHighlighted={highlightedKey === setting.key}
+                                                                            onFilterCategory={onToggleCategory}
+                                                                            onSelectSetting={onSelectSetting}
+                                                                        />
+                                                                    </td>
+                                                                </tr>
+                                                            )}
+                                                        </Fragment>
+                                                    );
+                                                })}
                                             </tbody>
                                         </table>
                                     </div>
@@ -387,6 +451,8 @@ export default function SettingsDatabase({
                                                 categoryIcon={setting.categoryIcon || ''}
                                                 categoryId={setting.categoryId || ''}
                                                 isHighlighted={isTarget}
+                                                onFilterCategory={onToggleCategory}
+                                                onSelectSetting={onSelectSetting}
                                             />
                                         );
                                         return (
@@ -408,6 +474,8 @@ export default function SettingsDatabase({
                                             categoryIcon={setting.categoryIcon || ''}
                                             categoryId={setting.categoryId || ''}
                                             isHighlighted={isTarget}
+                                            onFilterCategory={onToggleCategory}
+                                            onSelectSetting={onSelectSetting}
                                         />
                                     );
                                     return (

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTextTranslation } from '@/lib/i18n';
 import TranslatedText from '@/components/TranslatedText';
 import { modelNameToSlug } from '@/lib/modelSlug';
@@ -21,38 +21,49 @@ import {
  */
 export default function ModelMetaBadges({ modelName, className = '' }: { modelName: string; className?: string }) {
     const tx = useTextTranslation();
-    const meta = useMemo(() => resolveModelMetadata(modelName), [modelName]);
-    const paradigm = TRAINING_PARADIGM_INFO[meta.trainingParadigm];
-    const paradigmInferred = meta.inferredFields.includes('trainingParadigm');
-    const computeInferred = meta.inferredFields.includes('supportedCompute');
-    const notes = useMemo(() => getNamingNotes(modelName), [modelName]);
+    const [noteExpanded, setNoteExpanded] = useState(false);
+    const meta = useMemo(() => resolveModelMetadata(modelName || ''), [modelName]);
+    const paradigm = TRAINING_PARADIGM_INFO[meta.trainingParadigm] ?? {
+        label: String(meta.trainingParadigm || 'Model'),
+        description: '',
+        className: 'border-slate-600/60 bg-slate-800/70 text-slate-300',
+    };
+    const inferredFields = meta.inferredFields ?? [];
+    const paradigmInferred = inferredFields.includes('trainingParadigm');
+    const computeInferred = inferredFields.includes('supportedCompute');
+    const notes = useMemo(() => getNamingNotes(modelName || ''), [modelName]);
     const canonical = getCanonicalAlias(meta);
     const canonicalName = canonical ? getModelDisplayName(canonical) : undefined;
     const estimate = ' (estimated from release date and tags — not independently verified)';
 
     return (
-        <div className={`flex flex-wrap items-center gap-1.5 ${className}`} onClick={e => e.stopPropagation()}>
+        <div className={`flex flex-wrap items-center gap-1.5 ${className}`}>
             <span
-                className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-semibold ${paradigm.className} ${paradigmInferred ? 'border-dashed' : ''}`}
+                className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-semibold select-none ${paradigm.className} ${paradigmInferred ? 'border-dashed' : ''}`}
                 title={tx(`Training paradigm: ${paradigm.description}${paradigmInferred ? estimate : ''}`)}
             >
                 <span aria-hidden="true">{paradigmInferred ? '≈' : '✓'}</span>
                 <TranslatedText text={paradigm.label} />
             </span>
 
-            {meta.supportedCompute.map(tier => (
-                <span
-                    key={tier}
-                    className={`inline-flex items-center rounded-full border border-slate-600/60 bg-slate-800/70 px-2 py-0.5 text-[10px] font-semibold text-slate-200 ${computeInferred ? 'border-dashed' : ''}`}
-                    title={tx(`${COMPUTE_TIER_INFO[tier].description}${computeInferred ? estimate : ''}`)}
-                >
-                    {COMPUTE_TIER_INFO[tier].label}
-                </span>
-            ))}
+            {(meta.supportedCompute ?? []).map(tier => {
+                const tierInfo = COMPUTE_TIER_INFO[tier];
+                if (!tierInfo) return null;
+                return (
+                    <span
+                        key={tier}
+                        className={`inline-flex items-center rounded-full border border-slate-600/60 bg-slate-800/70 px-2 py-0.5 text-[10px] font-semibold text-slate-200 select-none ${computeInferred ? 'border-dashed' : ''}`}
+                        title={tx(`${tierInfo.description}${computeInferred ? estimate : ''}`)}
+                    >
+                        {tierInfo.label}
+                    </span>
+                );
+            })}
 
             {canonical && canonicalName && (
                 <Link
                     href={`/models?model=${modelNameToSlug(canonicalName)}`}
+                    onClick={e => e.stopPropagation()}
                     className="inline-flex items-center gap-1 rounded-full border border-fuchsia-500/30 bg-fuchsia-500/10 px-2 py-0.5 text-[10px] font-medium text-fuchsia-200 hover:bg-fuchsia-500/20"
                     title={tx(meta.aliasNote ?? `Identical weights to ${canonicalName}. This entry is a re-export or alias of that build.`)}
                 >
@@ -60,9 +71,9 @@ export default function ModelMetaBadges({ modelName, className = '' }: { modelNa
                     <TranslatedText text="Alias of" /> {canonicalName}
                 </Link>
             )}
-            {!canonical && meta.aliases.length > 0 && (
+            {!canonical && (meta.aliases?.length ?? 0) > 0 && (
                 <span
-                    className="inline-flex items-center gap-1 rounded-full border border-fuchsia-500/20 bg-fuchsia-500/5 px-2 py-0.5 text-[10px] text-fuchsia-300/90"
+                    className="inline-flex items-center gap-1 rounded-full border border-fuchsia-500/20 bg-fuchsia-500/5 px-2 py-0.5 text-[10px] text-fuchsia-300/90 select-none"
                     title={tx(`Also listed as: ${meta.aliases.map(getModelDisplayName).join(', ')}`)}
                 >
                     <span aria-hidden="true">⧉</span>
@@ -75,6 +86,7 @@ export default function ModelMetaBadges({ modelName, className = '' }: { modelNa
                     href={meta.upstreamPrUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={e => e.stopPropagation()}
                     className="inline-flex items-center gap-1 rounded-full border border-slate-600/60 bg-slate-800/60 px-2 py-0.5 text-[10px] text-slate-300 hover:text-cyan-300"
                     title={tx('Upstream pull request for this model')}
                 >
@@ -85,12 +97,28 @@ export default function ModelMetaBadges({ modelName, className = '' }: { modelNa
             {notes.length > 0 && (
                 <button
                     type="button"
-                    className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-slate-600 text-[9px] font-bold text-slate-400 hover:text-cyan-300 focus-visible:outline-2 focus-visible:outline-cyan-300"
+                    onClick={e => {
+                        e.stopPropagation();
+                        setNoteExpanded(prev => !prev);
+                    }}
+                    aria-expanded={noteExpanded}
+                    className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-slate-600 text-[9px] font-bold text-slate-400 hover:text-cyan-300 focus-visible:outline-2 focus-visible:outline-cyan-300 cursor-pointer"
                     title={tx(notes.join('\n\n'))}
                     aria-label={tx(`Naming note: ${notes.join(' ')}`)}
                 >
                     i
                 </button>
+            )}
+
+            {noteExpanded && notes.length > 0 && (
+                <div
+                    onClick={e => e.stopPropagation()}
+                    className="basis-full mt-1 rounded-lg border border-slate-700/70 bg-slate-950/90 px-2.5 py-1.5 text-[11px] text-slate-300 leading-snug"
+                >
+                    {notes.map((n, idx) => (
+                        <p key={idx}><TranslatedText text={n} /></p>
+                    ))}
+                </div>
             )}
         </div>
     );

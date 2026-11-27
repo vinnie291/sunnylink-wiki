@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 144,
-  "lastUpdated": "November 25, 2026",
+  "totalModels": 146,
+  "lastUpdated": "November 26, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "The Chestnut GPU Series (Big Models)",
@@ -275,10 +275,25 @@
           "consensus": "The forum overall poll has 10 voters: four Great, four Good, one OK, and one Bad. Drivers report improved stopping, but also low-speed oscillation, understeer, close approaches to lane lines, and slow acceleration. Feedback is mixed and vehicle-specific.",
           "note": "Cinque Terre Model v2 was the default big model before Mountain Dew Model v3 replaced it. Listed in Model Manager under '2026 Deep RL Models'. The announcement lists a comma four or a comma 3X, plus comma chestnut. Hardware and branch compatibility still apply.",
           "bestFor": "Community testing with compatible hardware and software.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-v2-september-08-2026/7096",
+          "modelRef": "37bfa1413edcdc2e8844984b83727c33f81d8f46",
+          "shortName": "CTMV2",
+          "minimumSelectorVersion": 21,
           "testedOn": [
             "Kia EV6",
-            "2026 Honda Civic Hybrid"
+            "2026 Honda Civic Hybrid",
+            "2022 Rivian R1T"
+          ],
+          "positives": [
+            "Comes to a full stop at stop signs and stops smoothly at red-light stop bars for several testers",
+            "Recognizes speed bumps and slows smoothly for cars ahead",
+            "Rated better than or equal to Cinque Terre v1 by all 7 comparison voters who tested both, with 8 of 10 supporting default promotion"
+          ],
+          "negatives": [
+            "Low-speed steering oscillation remains noticeable on several vehicles",
+            "Understeers on sharp turns and drifts close to inside lines on curves",
+            "Sluggish acceleration from a stop even when following a lead vehicle"
           ]
         },
         {
@@ -296,6 +311,9 @@
           "bestFor": "Community testing with compatible hardware and software.",
           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-v3-model-september-17-2026/7608",
           "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/022c30df830b8336b64b06e094058e2237b0db2a/docs/driving_models_chestnut_v28.json",
+          "modelRef": "bf3e3631b3f91d92a1020a5e0dd4298b93ff4244",
+          "shortName": "CTV3M",
+          "minimumSelectorVersion": 21,
           "communityScore": 100,
           "totalVotes": 1,
           "sentiment": {
@@ -327,7 +345,11 @@
           "note": "Chestnut big model CTM. Requires comma four or comma 3X plus a Chestnut eGPU and a compatible build. In the comparison poll, 7 of 9 voters prefer it to the reference model; 8 of 10 voters support making it the default. These are separate polls, not a unanimous recommendation.",
           "bestFor": "Experimental Mode / Daily Driving / Lateral Stability",
           "steeringFeel": "Solid / On Rails",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-september-04-2026/7046",
+          "modelRef": "68b5f8e48602f4f88041efd7de6c99e97fda454e",
+          "shortName": "CTM",
+          "minimumSelectorVersion": 21,
           "testedOn": [
             "2023 Hyundai Elantra HEV",
             "2025 Honda Accord Hybrid",
@@ -365,7 +387,11 @@
           "note": "Chestnut-class big model, built from 9d683c0 in commaai/openpilot. Built in-house by sunnypilot. Compares directly against BMRLNAP v4 to evaluate stop-line precision and deceleration tuning.",
           "bestFor": "Testing / Big Model Comparison",
           "steeringFeel": "Smooth",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v6-september-01-2026-big-model/7004",
+          "modelRef": "9d683c06518c0358fb402f38468a7030700c38ac",
+          "shortName": "BMV6",
+          "minimumSelectorVersion": 21,
           "testedOn": [
             "Toyota",
             "Honda Civic"
@@ -402,7 +428,11 @@
           "note": "Chestnut-class big model, built from f877d7a in commaai/openpilot. High engagement across Discord and Discourse. Community reports highlight significant vehicle controller sensitivity on Toyotas (Torque v0 vs v1).",
           "bestFor": "Highway Cruising / Cut-in Handling",
           "steeringFeel": "Smooth",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v4-august-30-2026-big-model/6971",
+          "modelRef": "f877d7a0ccc3cce943c76e285214c020cd65c899",
+          "shortName": "BMV4",
+          "minimumSelectorVersion": 21,
           "testedOn": [
             "Kia EV6",
             "2023 Hyundai Elantra HEV",
@@ -482,7 +512,11 @@
           "note": "Chestnut-class big model, built from 47377ac in commaai/openpilot. High-speed highway cruising is acceptable, but low-speed oscillation makes it unsuitable as a daily driver.",
           "bestFor": "Testing / High-Speed Comparison Only",
           "steeringFeel": "Oscillating",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v3-august-26-2026-big-model/6917",
+          "modelRef": "47377ac2f726651fc1470eb725cf73418307e5aa",
+          "shortName": "BMV3",
+          "minimumSelectorVersion": 21,
           "testedOn": [
             "2021 Toyota Prius Prime",
             "2025 Honda Accord Hybrid",
@@ -522,7 +556,11 @@
           "note": "Chestnut-class big model, tied to comma's new GPU add-on. Tested across Kia EV6, 2022 Hyundai Elantra, and 2023 Camry XSE.",
           "bestFor": "Testing / Big Model Comparison",
           "steeringFeel": "Smooth",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-v2-august-24-2026-big-model/6878",
+          "modelRef": "ba37c02c7c64225b8aec79411d1a8c2f5c1aa343",
+          "shortName": "BMV2",
+          "minimumSelectorVersion": 21,
           "testedOn": [
             "2023 Camry XSE",
             "Kia EV6",
@@ -641,7 +679,11 @@
           "note": "Chestnut-class model, tied to comma's new GPU add-on. The score comes from a unanimous but two-vote poll, so it is provisional and not comparable with the larger-sample entries — the detail polls have the same two voters. The fullest report is a 2023 Camry, whose driver planned to daily-drive it despite the dusk-drive stop-sign rolling.",
           "bestFor": "All-Around",
           "steeringFeel": "Smooth",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
           "forumUrl": "https://community.sunnypilot.ai/t/bmrlnap-model-august-20-2026-big-model/6828",
+          "modelRef": "7e3ff7e914a40ac25399a2caedbce3580fdde6a2",
+          "shortName": "BM",
+          "minimumSelectorVersion": 21,
           "testedOn": [
             "2023 Camry"
           ],
@@ -1662,7 +1704,11 @@
           },
           "bestFor": "Urban / Mixed Driving",
           "steeringFeel": "Confident",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
           "forumUrl": "https://community.sunnypilot.ai/t/op-model-16-deep-june-03-2026/6557",
+          "modelRef": "f02d134f40f5e7be22b182af21b438915a47600e",
+          "shortName": "OPM16D",
+          "minimumSelectorVersion": 21,
           "testedOn": [
             "2025 Kia K4",
             "2024 Honda Civic",
@@ -1702,7 +1748,11 @@
           },
           "bestFor": "Natural Human-Like Driving",
           "steeringFeel": "Natural",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
           "forumUrl": "https://community.sunnypilot.ai/t/michael-rl-v2-july-18-2026/6558",
+          "modelRef": "37b38bf738edfb1daa6875255f581e5fc9b0a258",
+          "shortName": "MRLV2",
+          "minimumSelectorVersion": 21,
           "testedOn": [
             "comma 4",
             "Toyota Corolla",
@@ -1742,7 +1792,11 @@
           },
           "bestFor": "Highway Commutes",
           "steeringFeel": "Balanced",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
           "forumUrl": "https://community.sunnypilot.ai/t/rebel-legion-model-july-22-2026/6559",
+          "modelRef": "2895346746634d7eec0ee749f946c87039948a25",
+          "shortName": "RLM",
+          "minimumSelectorVersion": 21,
           "testedOn": [
             "Hyundai Ioniq 5",
             "Kia EV6",
@@ -1783,10 +1837,15 @@
           },
           "bestFor": "Curves & Experimentation",
           "steeringFeel": "Firm",
-          "forumUrl": "https://community.sunnypilot.ai/tag/model-drop/155",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/get-your-hopes-up-model-july-25-2026/6761",
+          "modelRef": "574735edc6e1aafdc2a69395f9a32e7f5cc4b62b",
+          "shortName": "GYHUM",
+          "minimumSelectorVersion": 21,
           "testedOn": [
             "comma 4",
-            "Hyundai Ioniq 5"
+            "Hyundai Ioniq 5",
+            "2024 Ford Escape"
           ],
           "positives": [
             "Good curve turn-in",
@@ -1819,7 +1878,11 @@
           },
           "bestFor": "Curved Roads / Assisted Cornering",
           "steeringFeel": "Firm",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
           "forumUrl": "https://community.sunnypilot.ai/t/rebellious-hope-model-july-27-2026/6560",
+          "modelRef": "93f5aa469a72b7621aef7da7901c100e0113e4d9",
+          "shortName": "RHM",
+          "minimumSelectorVersion": 21,
           "testedOn": [
             "2023 Lexus RC 350",
             "Hyundai Ioniq 5",
@@ -1908,7 +1971,11 @@
             "Experimental"
           ],
           "consensus": "Follow-up to the August 5 RDF Model. Second iteration of the same line on standard hardware.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
           "forumUrl": "https://community.sunnypilot.ai/t/rdf-model-v2-august-11-2026/6763",
+          "modelRef": "35703097905a122c9f3ddf0d12889b4873d7e2a2",
+          "shortName": "RDFMV2",
+          "minimumSelectorVersion": 21,
           "testedOn": [],
           "positives": [],
           "negatives": [],
@@ -1945,7 +2012,11 @@
           },
           "bestFor": "Highway / Stop & Go",
           "steeringFeel": "Assertive",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
           "forumUrl": "https://community.sunnypilot.ai/t/rdf-model-august-5-2026/6569",
+          "modelRef": "a95e2c25cae5fbf1afba7628bfb7acc4af59e0cc",
+          "shortName": "RDFM",
+          "minimumSelectorVersion": 21,
           "testedOn": [
             "2022 Honda Civic",
             "2024 Ioniq 5 (HDA2)",
@@ -2044,6 +2115,47 @@
           "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v26.json",
           "modelRef": "2a63be39e4a243a53f6bacf3b0bee27a4eb7b973",
           "shortName": "SC",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Crumbly Cheddar Model",
+          "date": "November 24, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Deep RL",
+            "Experimental"
+          ],
+          "consensus": "Experimental Deep RL small-model drop in the November 2026 Cheddar series, listed under '2026 Deep RL Models' in Model Manager and polled directly against the CD210 Model default. Released alongside Smoked Cheddar Model; community poll ratings and vehicle reports are still being collected.",
+          "note": "Built from openpilot commit 8892f17 (short name CCM). Listed in Model Manager under '2026 Deep RL Models' with selector 21. Requires a comma four or a comma 3X.",
+          "bestFor": "Early experimental testing; performance is not yet verified.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/crumbly-cheddar-model-november-24-2026/8555",
+          "modelRef": "8892f177ea11a9e20e5afba4cb88802b161eaf49",
+          "shortName": "CCM",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Smoked Cheddar Model",
+          "date": "November 24, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "2026",
+            "Master",
+            "Experimental"
+          ],
+          "consensus": "Official small-model drop in the November 2026 Cheddar series, listed under 'Master Models' in Model Manager and polled directly against the CD210 Model default. Released alongside Crumbly Cheddar Model; community poll ratings and vehicle reports are still being collected.",
+          "note": "Built from openpilot commit e170f08 (short name SCM). Listed in Model Manager under 'Master Models' with selector 21. Requires a comma four or a comma 3X.",
+          "bestFor": "Early experimental testing; performance is not yet verified.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/smoked-cheddar-model-november-24-2026/8556",
+          "modelRef": "e170f08049b4d91f595a0a11378b0cf030f3afb1",
+          "shortName": "SCM",
           "minimumSelectorVersion": 21,
           "testedOn": [],
           "positives": [],
@@ -3757,6 +3869,10 @@
           "note": "Can feel robotic but incredibly stable.",
           "bestFor": "Highway",
           "steeringFeel": "Heavy",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "375978d40b976bf9e82ab74f267846a56b7656a6",
+          "shortName": "NDV2",
+          "minimumSelectorVersion": 21,
           "testedOn": [
             "Most vehicles"
           ],

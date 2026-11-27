@@ -1,141 +1,76 @@
 # Security Policy
 
+## Overview
+
+**Sunnylink Wiki** (`https://sunnylink.wiki`) is an open-source Next.js 16 reference application for the Sunnypilot and openpilot community, deployed as a stateless container on **Google Cloud Run**.
+
+The application serves curated vehicle, toggle, and driving-model datasets (`data/*.json`), an in-browser openpilot `rlog`/`qlog` replay viewer (`capnp-es` + `fzstd`, parsed strictly client-side with zero telemetry file uploads), and anonymous community driving-model polls.
+
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+Sunnylink Wiki follows continuous deployment from the `main` branch. Security fixes land directly on `main` and are rolled out to the live Cloud Run service (`sunnylink-wiki-service`).
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| Target | Supported | Notes |
+| --- | --- | --- |
+| `main` (`https://sunnylink.wiki`) | Yes | Active production branch on Next.js 16 / Node.js 22 |
+| Older commits / unmaintained forks | No | Sync with `main` to receive security patches |
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+Please **do not** open a public GitHub issue for security vulnerabilities.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+Report vulnerabilities privately through **GitHub Security Advisories**:
 
+- **Report URL**: <https://github.com/vinnie291/sunnylink-wiki/security/advisories/new>
 
-### Vulnerability Disclosure Process
+Include in your report:
 
-We follow a coordinated disclosure process:
+1. Affected route, component, or file path (for example `/api/models/vote` or `middleware.ts`).
+2. Minimal reproduction steps, request payload, or proof-of-concept.
+3. Assessment of practical impact (data integrity, XSS, DoS, spoofing, or information disclosure).
 
-1. **Initial Report**: Email your vulnerability report to security@sunnylink.dev with:
-   - Detailed description of the vulnerability
-   - Steps to reproduce (if applicable)
-   - Potential impact assessment
-   - Your contact information
+### Response Targets
 
-2. **Acknowledgment**: We acknowledge receipt of your report within 48 hours
+- **Initial acknowledgment**: within 48 hours
+- **Triage & severity assessment**: within 5 business days
+- **Remediation target**: within 7 days for Critical/High issues and within 30 days for Medium/Low issues
 
-3. **Investigation**: We investigate and determine severity within 5 business days
+We practice coordinated disclosure and happily credit researchers in release advisories upon fix deployment.
 
-4. **Timeline**: 
-   - **Critical (CVSS 9.0-10.0)**: Fixed and released within 7 days
-   - **High (CVSS 7.0-8.9)**: Fixed and released within 14 days
-   - **Medium (CVSS 4.0-6.9)**: Fixed and released within 30 days
-   - **Low (CVSS 0.1-3.9)**: Fixed in next scheduled release
+## Architecture & Security Controls
 
-5. **Coordination**: We'll keep you informed throughout the process and request you keep the vulnerability confidential until we've released a fix
+### 1. Anonymous HMAC-Signed Community Voting (`/api/models/vote`)
 
-6. **Credit**: With your permission, we'll acknowledge your contribution in release notes
+- **Zero PII Storage**: Raw IP addresses and cookies are never written to disk or Cloud Storage. Voter deduplication keys are one-way salted SHA-256 digests (`20` hex chars).
+- **HMAC-Signed Voter Tokens**: Voter tokens (`sl_voter_token`) follow `<uuid>.<hmac_sha256_24>` signed with `VOTE_SALT`, verified in constant time via `crypto.timingSafeEqual`, and issued as `HttpOnly; SameSite=Lax; Secure` cookies (`Max-Age=31536000`). Unsigned or tampered `voterToken` values in request bodies or cookies are rejected.
+- **Google Front End IP Extraction**: `X-Forwarded-For` headers are length-bounded (`<= 512` bytes), validated with `net.isIP`, and resolved using the rightmost client IP appended by Google Front End when running on Cloud Run (`K_SERVICE`).
+- **Strict Payload Validation**: `POST /api/models/vote` enforces a `16 KiB` body cap (`413 Payload Too Large`), verifies `modelName` against the canonical `data/models.json` catalog (`404` on unknown models), caps answer keys (`<= 25`) and primitive/string-array lengths, and rejects prototype-pollution keys (`__proto__`, `constructor`, `prototype`).
+- **Bounded Memory Rate Limiting**: Sliding-window per-voter and per-IP rate limits (`rateLimitMap`) evict stale entries older than 60 seconds and enforce a hard `5,000`-key ceiling to prevent memory exhaustion under IP/token rotation floods.
+- **Resilient Two-Tier Persistence**: Local writes use atomic temp-file + `fs.renameSync` operations (falling back cleanly to `os.tmpdir()` on read-only container layers) paired with non-blocking Cloud Storage state hydration/sync via Cloud Run workload metadata tokens.
 
-## Supported Versions
+### 2. Read-Only Catalog & Agent APIs (`/api/wiki-data`, `/api/markdown`)
 
-Only the following versions receive security updates:
+- Query strings (`search`, `vibe`, `make`, `model`) are strictly length-bounded and restricted to allowlisted catalog types (`settings`, `models`, `cars`).
+- API handlers catch unexpected runtime exceptions server-side and return generic `500` responses without leaking internal error messages or stack traces.
 
-| Version | Status              | Support Until  |
-|---------|---------------------|----------------|
-| 5.1.x   | Active Support      | -              |
-| 5.0.x   | Security Fixes Only | 2024-12-31     |
-| 4.x.x   | Unsupported         | 2024-06-30     |
-| < 4.0   | Unsupported         | End of Life    |
+### 3. HTTP Security Headers (`next.config.ts`)
 
-## Security Best Practices
+All routes emit hardened transport and browser isolation headers:
 
-### For Users
-
-- Always update to the latest supported version
-- Use HTTPS for all connections
-- Keep your API keys and credentials secure
-- Use strong, unique passwords
-- Enable multi-factor authentication where available
-- Monitor your account activity regularly
-- Don't share credentials via email or insecure channels
-
-### For Developers
-
-- Follow OWASP Top 10 guidelines
-- Perform regular code reviews
-- Use dependency scanning tools (e.g., npm audit, Dependabot)
-- Keep dependencies up to date
-- Use static code analysis
-- Implement proper input validation
-- Use parameterized queries to prevent SQL injection
-- Implement rate limiting and DDOS protection
-- Encrypt sensitive data at rest and in transit
-- Use secure defaults
-- Log and monitor security events
-
-## Security Headers
-
-All responses from SunnyLink include the following security headers:
-
-```
+```http
 Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-DNS-Prefetch-Control: on
+X-Frame-Options: SAMEORIGIN
 X-Content-Type-Options: nosniff
-X-Frame-Options: DENY
-X-XSS-Protection: 1; mode=block
-Content-Security-Policy: default-src 'self'
 Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+Content-Security-Policy: default-src 'self'; ... object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'
 ```
 
-## Dependencies
+### 4. Crawler & AI Content-Signal Governance (`middleware.ts`, `app/robots.ts`)
 
-We maintain a list of dependencies in `package.json` and `requirements.txt`. Regular security audits are performed to ensure:
+`robots.txt` enforces `Content-Signal: search=yes, ai-train=no, ai-input=yes` alongside explicit user-agent rules: citation-producing search and real-time grounding crawlers (`Googlebot`, `Bingbot`, `OAI-SearchBot`, `PerplexityBot`, user-initiated fetchers) are permitted, while unattributed training-corpus scrapers (`GPTBot`, `ClaudeBot`, `CCBot`, `Bytespider`, `Google-Extended`) are disallowed.
 
-- No known vulnerabilities exist in dependencies
-- Dependencies are kept up to date
-- Unused dependencies are removed
-- License compliance is maintained
+## Dependency & Supply-Chain Hygiene
 
-## Incident Response
-
-If we detect a security incident:
-
-1. We immediately assess the scope and impact
-2. We contain the incident
-3. We notify affected users within 24 hours
-4. We provide guidance on remediation steps
-5. We release security updates as needed
-6. We conduct a post-incident review
-7. We implement preventive measures
-
-## Compliance
-
-SunnyLink is committed to compliance with:
-
-- GDPR (General Data Protection Regulation)
-- CCPA (California Consumer Privacy Act)
-- OWASP guidelines
-- CWE/SANS Top 25 mitigation
-- Industry security standards
-
-## Acknowledgments
-
-We are grateful to security researchers and the community who report vulnerabilities responsibly. Your contributions help make SunnyLink more secure for everyone.
-
-## Contact
-
-- **Security Issues**: security@sunnylink.dev
-- **General Questions**: support@sunnylink.dev
-- **Website**: https://sunnylink.dev
-
----
-
-*Last Updated: January 2026*
+Runtime and build dependencies are tracked solely in `package.json` and `package-lock.json`. Contributors should avoid introducing unnecessary native or runtime packages when Node.js built-ins suffice and verify changes with `npm test` and `npm run lint`.

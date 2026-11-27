@@ -15,13 +15,13 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', '--all-tags', 'gcr.io/$PROJECT_ID/wiki-app']
 
-  # 3. Deploy to Cloud Run
+  # 3. Deploy to Cloud Run (canonical production service: sunnylink-wiki-service)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
       - 'run'
       - 'deploy'
-      - 'wiki-app'
+      - 'sunnylink-wiki-service'
       - '--image'
       - 'gcr.io/$PROJECT_ID/wiki-app:$COMMIT_SHA'
       - '--region'
@@ -39,7 +39,7 @@ steps:
       - '0'
       - '--max-instances'
       - '3'
-      - '--set-env-vars'
+      - '--update-env-vars'
       - 'NEXT_PUBLIC_GOOGLE_SCRIPT_URL=${_NEXT_PUBLIC_GOOGLE_SCRIPT_URL}'
 
 images:

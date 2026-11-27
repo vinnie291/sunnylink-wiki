@@ -249,14 +249,61 @@ export default function CarDatabase() {
         }
     }, []);
 
-    // Auto-open modal if vehicle ID is in URL or popstate
+    // Auto-open modal if vehicle ID is in URL or popstate, with year-range & make/model fallback
     useEffect(() => {
+        const matchYearInRange = (yearsStr: string, targetYear: number): boolean => {
+            const singleMatches = yearsStr.match(/\b(19|20)\d{2}\b/g)?.map(Number) || [];
+            if (singleMatches.includes(targetYear)) return true;
+            const rangeRegex = /\b((?:19|20)\d{2})\s*[-–]\s*(\d{2,4})\b/g;
+            let m: RegExpExecArray | null;
+            while ((m = rangeRegex.exec(yearsStr)) !== null) {
+                const start = Number(m[1]);
+                const rawEnd = m[2];
+                const end = rawEnd.length === 2 ? Math.floor(start / 100) * 100 + Number(rawEnd) : Number(rawEnd);
+                if (targetYear >= start && targetYear <= end) return true;
+            }
+            if (/\bpresent\b|\+/i.test(yearsStr) && singleMatches.length > 0 && targetYear >= Math.min(...singleMatches)) {
+                return true;
+            }
+            return false;
+        };
+
+        const resolveVehicle = (rawId: string): Vehicle | undefined => {
+            const needle = rawId.trim().toLowerCase();
+            const exact = vehicles.find(v => v.id.toLowerCase() === needle);
+            if (exact) return exact;
+
+            const yearMatch = needle.match(/-((?:19|20)\d{2})$/);
+            const prefix = yearMatch ? needle.slice(0, -yearMatch[0].length) : needle;
+            const targetYear = yearMatch ? Number(yearMatch[1]) : null;
+
+            return vehicles.find(v => {
+                const baseSlug = `${v.make}-${v.model.replace(/\s*\(.*?\)/g, '').trim()}`
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/^-|-$/g, '');
+                if (baseSlug !== prefix && !v.id.toLowerCase().startsWith(`${prefix}-`)) return false;
+                return targetYear ? matchYearInRange(v.years || '', targetYear) : true;
+            });
+        };
+
         const syncVehicleFromUrl = () => {
             if (typeof window === 'undefined') return;
             const params = new URLSearchParams(window.location.search);
             const vehicleId = params.get('vehicle');
+            const makeParam = params.get('make');
+            const modelParam = params.get('model');
+
+            if (makeParam) {
+                const matchedMake = CAR_MAKES.find(m => m.toLowerCase() === makeParam.toLowerCase());
+                if (matchedMake) setSelectedMake(matchedMake);
+            }
+            if (modelParam && !vehicleId) {
+                setSearchQuery(modelParam);
+            }
+
             if (vehicleId && vehicles.length > 0) {
-                const vehicle = vehicles.find(v => v.id === vehicleId);
+                const vehicle = resolveVehicle(vehicleId);
                 if (vehicle) {
                     const normalizedModel = vehicle.model.replace(/\s*\(.*?\)/g, '').trim();
                     const group = groupedVehicles.find(g =>

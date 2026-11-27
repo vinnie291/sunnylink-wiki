@@ -227,3 +227,49 @@ const a = new Simulation(DEFAULT_OPTIONS), b = new Simulation(DEFAULT_OPTIONS);
 run(a, 10); for (let frame = 0; frame < 300; frame++) { b.step(); b.step(); }
 assert.equal(a.ego.s, b.ego.s); assert.equal(a.ego.speed, b.ego.speed);
 console.log('PASS deterministic fixed-step replay at 30/60 fps');
+
+// Phase 2: Crosswalk pedestrians trigger smooth ego yielding with zero collisions, and replay deterministically.
+{
+  const cwSim = new Simulation({ ...DEFAULT_OPTIONS, scenario: 'city', speed: 35, density: 40 }, 'crosswalk');
+  assert.ok(cwSim.road.crosswalks.length > 0 && cwSim.pedestrians.length > 0, 'City crosswalk chapter must spawn crosswalks and pedestrians');
+  let sawYield = false;
+  let sawCrossing = false;
+  run(cwSim, 30, () => {
+    const tel = cwSim.telemetry();
+    if (tel.yieldingToPedestrian) sawYield = true;
+    if (tel.activePedestrians > 0) sawCrossing = true;
+    for (const ped of cwSim.pedestrians) {
+      if (ped.phase !== 'crossing') continue;
+      for (const car of cwSim.cars) {
+        const ds = Math.min(cwSim.road.distance(car.s, ped.s), cwSim.road.distance(ped.s, car.s));
+        const dLat = Math.abs(cwSim.laneOffset(car) - ped.offset);
+        assert.ok(!(ds < 2.2 && dLat < 1.15), `Vehicle ${car.id} collided with crossing pedestrian ${ped.id} (ds=${ds.toFixed(2)}m, dLat=${dLat.toFixed(2)}m)`);
+      }
+    }
+  });
+  assert.ok(sawCrossing, 'Pedestrian never entered crossing phase in crosswalk chapter');
+  assert.ok(sawYield, 'Ego never yielded for featured crosswalk pedestrian');
+  assert.ok(cwSim.distance > 60, 'Ego failed to resume driving after pedestrian cleared crosswalk');
+
+  const cwA = new Simulation({ ...DEFAULT_OPTIONS, scenario: 'city', density: 40 }, 'crosswalk');
+  const cwB = new Simulation({ ...DEFAULT_OPTIONS, scenario: 'city', density: 40 }, 'crosswalk');
+  run(cwA, 12);
+  for (let i = 0; i < 12 / FIXED_STEP; i++) cwB.step();
+  assert.deepEqual(cwA.pedestrians.map(p => p.offset), cwB.pedestrians.map(p => p.offset));
+  console.log('PASS crosswalk pedestrian yielding, zero-conflict safety, and determinism');
+}
+
+// Phase 2: Turn-intent lookahead reports directional curvature on bends and straight on straightaways.
+{
+  const bendSim = new Simulation({ ...DEFAULT_OPTIONS, scenario: 'curves', speed: 40, density: 0 }, 'bend');
+  bendSim.cars = [bendSim.ego];
+  let sawDirectionalIntent = false;
+  run(bendSim, 25, () => {
+    const intent = bendSim.telemetry().turnIntent;
+    assert.ok(intent.label.length > 0 && Number.isFinite(intent.lookaheadMeters));
+    if (intent.direction !== 'none') sawDirectionalIntent = true;
+  });
+  assert.ok(sawDirectionalIntent, 'Turn-intent lookahead never detected upcoming bend direction on winding road');
+  console.log('PASS route-level turn-intent lookahead');
+}
+

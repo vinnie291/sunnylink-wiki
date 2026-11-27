@@ -143,9 +143,10 @@ interface LongResult { s: number[]; v: number[]; a: number[]; lead?: number[]; s
 function simulateLongitudinal(scenario: TrajectoryScenario, p: ModelTelemetryProfile): LongResult {
     const agg = clamp(p.longitudinalAggressiveness, 0, 1);
     const creep = clamp(p.stopLineCreep, 0, 1);
-    const tau = 0.9 - 0.5 * agg;                 // response filter (s)
-    const maxBrake = 2.6 + 1.4 * agg;
-    const maxAccel = 1.3 + 1.1 * agg;
+    const tau = 0.75 - 0.42 * agg;               // actuator & planner response filter (s)
+    const maxBrake = 2.4 + 1.45 * agg;
+    const maxAccel = 1.3 + 1.05 * agg;
+    const maxJerk = 1.65 + 2.35 * agg;           // m/s³ S-curve longitudinal jerk envelope
 
     const s: number[] = [], v: number[] = [], a: number[] = [], lead: number[] = [];
     let pos = 0, vel = scenario === 'intersection' ? 13.4 : scenario === 'scurve' ? 19 : 28;
@@ -164,7 +165,7 @@ function simulateLongitudinal(scenario: TrajectoryScenario, p: ModelTelemetryPro
     let creepTarget = 0;
 
     // Speed limit through curves (comfortable lateral acceleration grows with aggressiveness).
-    const aLatComfort = 1.0 + 0.9 * agg;
+    const aLatComfort = 0.92 + 0.88 * agg;
     const kappaPeak = CURVE_AMPLITUDE * CURVE_K * CURVE_K;
     const vCurve = Math.sqrt(aLatComfort / kappaPeak);
     const lookDist = 25 + 30 * (1 - agg);
@@ -191,20 +192,33 @@ function simulateLongitudinal(scenario: TrajectoryScenario, p: ModelTelemetryPro
             leadPos += leadVel * DT;
             const gap = leadPos - pos - 4.5;
             minGap = Math.min(minGap, gap);
-            const headway = 2.1 - 0.9 * agg;
+            // Openpilot personality time-gap envelope: 1.15s (Aggressive) to 2.20s (Relaxed)
+            const headway = 2.2 - 1.05 * agg;
             const desiredGap = headway * vel + 4;
-            aDes = 0.8 * (leadVel - vel) + 0.12 * (gap - desiredGap);
+            aDes = 0.82 * (leadVel - vel) + 0.13 * (gap - desiredGap);
             if (gap > desiredGap * 2.2) aDes = Math.max(aDes, 0.4); // free-flow catch-up
         } else if (scenario === 'scurve') {
             aDes = clamp(0.8 * (vLimitAt(pos) - vel), -maxBrake, maxAccel);
         } else {
-            const remaining = stopLineS - pos - (1 - agg) * 6;
-            const required = vel > 0.2 && remaining > 0.5 ? (vel * vel) / (2 * remaining) : 0;
-            const threshold = 0.5 + 2.4 * agg;
-            if (vel > 0.15) {
-                aDes = required >= threshold ? -Math.min(maxBrake, required * (1 + 0.15 * agg)) : 0;
-                if (remaining <= 0.5) aDes = -maxBrake;
-            } else {
+            // S-curve stop-line planner: stop cushion scales from early/chill to late/assertive
+            // while feathering brake pressure smoothly near standstill without overshooting stopLineS.
+            const stopCushion = 1.4 + (1 - agg) * 5.2;
+            const remaining = stopLineS - stopCushion - pos;
+            const threshold = 0.65 + 2.15 * agg;
+            if (vel > 0.12 && creepTarget === 0) {
+                if (remaining > 0.35) {
+                    const required = (vel * vel) / (2 * remaining);
+                    // Smoothly blend onset around threshold so deceleration ramps in rather than stepping
+                    const engage = clamp((required - threshold * 0.78) / Math.max(0.25, threshold * 0.32), 0, 1);
+                    const smoothEngage = engage * engage * (3 - 2 * engage);
+                    // Feather deceleration gently below 1.6 m/s as long as ample stopping margin remains
+                    const feather = vel < 1.6 && remaining > 0.9 ? 0.55 + 0.45 * (vel / 1.6) : 1;
+                    aDes = -Math.min(maxBrake, required * (1.04 + 0.12 * agg)) * smoothEngage * feather;
+                } else {
+                    const guardDist = Math.max(0.2, stopLineS - 0.35 - pos);
+                    aDes = -Math.min(maxBrake, Math.max(0.8, (vel * vel) / (2 * guardDist)));
+                }
+            } else if (creepTarget === 0) {
                 stoppedFor += DT;
                 aDes = 0;
                 // Red-light creep: after a pause, inch forward past the line.
@@ -217,8 +231,14 @@ function simulateLongitudinal(scenario: TrajectoryScenario, p: ModelTelemetryPro
             }
         }
 
-        aDes = clamp(aDes, -maxBrake - 0.6, maxAccel);
-        aOut += (aDes - aOut) * Math.min(1, DT / tau);
+        aDes = clamp(aDes, -maxBrake - 0.5, maxAccel);
+        const filtered = aOut + (aDes - aOut) * Math.min(1, DT / tau);
+        const maxDeltaA = maxJerk * DT;
+        aOut += clamp(filtered - aOut, -maxDeltaA * 1.25, maxDeltaA);
+        if (scenario === 'intersection' && creepTarget === 0 && vel < 0.08 && aDes <= 0) {
+            vel = 0;
+            aOut = 0;
+        }
         s.push(pos); v.push(vel); a.push(aOut); lead.push(leadPos);
 
         vel = Math.max(0, vel + aOut * DT);
@@ -249,6 +269,7 @@ function trackPlan(
     // Begin already moving with the plan; a zero-velocity start on a sloped plan
     // would be an unrealistic transient that saturates the limited executor.
     let xv = Math.max(v[0], 0.01) * (planAt(s[0] + 1) - planAt(s[0] - 1)) / 2;
+    let prevLatAccel = Math.max(v[0], 0.01) ** 2 * (planAt(s[0] + 1) - 2 * planAt(s[0]) + planAt(s[0] - 1));
     const kp = omega * omega;
     const kd = 2 * omega;
     for (let i = 0; i < s.length; i++) {
@@ -260,8 +281,11 @@ function trackPlan(
         const eps = 1;
         const pV = speed * (planAt(sT + eps) - planAt(sT - eps)) / (2 * eps);
         const pA = speed * speed * (planAt(sT + eps) - 2 * pT + planAt(sT - eps)) / (eps * eps);
-        const cmd = pA + kp * (pT - x) + kd * (pV - xv);
-        const a = clamp(cmd, -aMax, aMax);
+        const cmd = clamp(pA + kp * (pT - x) + kd * (pV - xv), -aMax, aMax);
+        // Speed-dependent EPS lateral-jerk envelope: prevents instantaneous single-step reversals at highway speed.
+        const latJerkBound = aMax * (6.0 + 40 / Math.max(8, speed));
+        const a = prevLatAccel + clamp(cmd - prevLatAccel, -latJerkBound * DT, latJerkBound * DT);
+        prevLatAccel = a;
         xv += a * DT;
         // Anti-windup: a saturated rack lags the plan but cannot run away from it.
         xv = pV + clamp(xv - pV, -MAX_REL_LATERAL_SPEED, MAX_REL_LATERAL_SPEED);

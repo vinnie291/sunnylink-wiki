@@ -1,174 +1,161 @@
 # ☀️ Sunnylink Wiki
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Status: Alpha](https://img.shields.io/badge/Status-Alpha-orange.svg)]()
-[![Stack: Next.js 14](https://img.shields.io/badge/Tech-Next.js%2014-black)]()
+[![Status: Live](https://img.shields.io/badge/Status-Live%20Production-emerald)](https://sunnylink.wiki)
+[![Next.js 16](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
+[![React 19](https://img.shields.io/badge/React-19-149eca?logo=react)](https://react.dev/)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8?logo=tailwindcss)](https://tailwindcss.com/)
+[![Three.js](https://img.shields.io/badge/Three.js-3D_Sim-black?logo=threedotjs)](https://threejs.org/)
 
-**The "Missing Manual" for Sunnypilot.** A community-driven database decoding the complex settings, toggles, and driving models of the [sunnypilot](https://github.com/sunnypilot/sunnypilot) ecosystem.
+**The "Missing Manual" for Sunnypilot.** A community-driven encyclopedia, interactive 3D driving simulator, telemetry replay analyzer, and configuration consultant decoding the settings, toggles, supported cars, and driving models of the [sunnypilot](https://github.com/sunnypilot/sunnypilot) ecosystem.
 
-<img width="1448" height="1142" alt="vwEIcgLrhY" src="https://github.com/user-attachments/assets/c4dc3055-df88-4b39-8b28-56a512f5c067" />
+<img width="1448" height="1142" alt="Sunnylink Wiki Home" src="https://github.com/user-attachments/assets/c4dc3055-df88-4b39-8b28-56a512f5c067" />
 
-### Check it out here: https://sunnylink.wiki
+### 🌐 Live App: [https://sunnylink.wiki](https://sunnylink.wiki)
 
 ---
 
 ## 🚀 Overview
 
-Sunnypilot (a fork of openpilot) offers incredible customization, with over **100+ toggles** and **60+ driving models**. However, for new users, understanding the difference between *"MADS"* and *"NNLC"* or choosing between *"WMI v12"* and *"Recertified Herbalist"* can be overwhelming.
+Sunnypilot (an advanced community fork of openpilot) offers **100+ customizable toggles**, **130+ catalogued driving models**, and broad vehicle compatibility across dozens of makes. Understanding the interplay between *MADS*, *NNLC*, and *Dynamic Experimental Control*—or choosing between *WMI v12*, *Down to Ride v6*, and *Recertified Herbalist*—can be overwhelming for new and veteran drivers alike.
 
-**Sunnylink Database** solves this by acting as the single source of truth. It is a mobile-first web app that translates technical settings into plain English, helping drivers configure their Comma devices with confidence.
+**Sunnylink Wiki** translates low-level parameters and scattered forum threads into an interactive, mobile-first reference optimized for both desktop exploration and in-car setup.
 
 ### ✨ Key Features
 
-* **🎛️ Toggle Encyclopedia:** A searchable wiki for every setting (MADS, Dynamic Experimental Control, etc.) with definitions, safety warnings, and dependencies.
-* **🧠 Model "Vibe Check" Explorer:** A breakdown of driving models not just by version, but by *feel* (e.g., "Aggressive," "Comfort," "Legacy").
-* **📱 Mobile-First Design:** Optimized for in-car reference, allowing you to look up settings while sitting in your driver's seat.
-* **🔌 Antigravity Ready:** All data is stored in structured JSON, serving as the backend for the Sunnylink "Antigravity" app ecosystem.
+* **🎛️ Toggle Encyclopedia (`/`) & Deep-Dive Features (`/features`):** Searchable documentation for every sunnypilot setting with plain-English explanations, trade-offs, safety warnings, and toggle dependencies.
+* **🧠 Driving Model Explorer (`/models`):** 130+ driving models organized by architecture and era, complete with "Vibe Check" tags, Discourse community poll tallies, Discord sentiment scores, live community voting, and multi-domain skill ratings (lateral centering, chill longitudinal, E2E longitudinal).
+* **🛣️ 3D Driving Lab (`/new-sim`):** Interactive **Three.js** procedural multi-lane highway simulation modeling synthetic driver profiles derived from community telemetry and consensus traits in `data/models.json`.
+* **📼 Openpilot `rlog` Replay (`/model-replay`):** Client-side Cap'n Proto (`capnp-es` + `fzstd`) log decoder and trajectory visualizer for inspecting real openpilot `rlog` / `.zst` route segments directly in the browser.
+* **🚗 Supported Vehicles (`/cars`) & Setup Wizard (`/wizard`, `/quiz`):** Filterable vehicle harness & longitudinal support matrix paired with an interactive "My Car" handshake and step-by-step build-sheet consultant.
+* **📊 Fleet Telemetry & Stats (`/stats`):** Interactive **Recharts** dashboards visualizing real-world driving model popularity, vehicle brand market share, and sunnypilot branch adoption.
+* **🔍 Hybrid Jev Semantic Search (`Cmd/Ctrl+K`):** Instant client-side lexical matching (`Fuse.js`) augmented by server-side **TypeSafe Jev** semantic re-ranking (`/api/search`) so natural-language questions like *"steering stays on when I brake"* surface `MADS` immediately.
+* **🌍 6-Locale Internationalization (`i18n`):** Complete UI and dataset translations across **English (`en`)**, **Chinese (`zh`)**, **Spanish (`es`)**, **French (`fr`)**, **German (`de`)**, and **Korean (`ko`)**.
+* **🤖 Autonomous Sync & Auto-Deploy Pipeline:** Every 6 hours, GitHub Actions (`.github/workflows/autonomous-master.yml`) scans upstream sunnypilot repositories, Discourse polls, Discord feedback, and Clarity UX telemetry, validates i18n parity and tests, and auto-deploys to Google Cloud Run.
+* **🔌 AI Agent & Markdown Discovery:** Ships with `/llms.txt`, RFC 8288 `Link` headers, `.well-known` MCP/agent skill manifests, and `/api/markdown` content negotiation.
 
 ---
 
-## 🧠 The Models Page (Model Explorer)
-Navigating the dozens of available driving models can be confusing. Names like "WMI v12" or "Dark Souls" don't explain how the car will actually behave. The Models Page solves this by shifting the focus from version numbers to Driving Vibes.
+## 🧠 Model Explorer & Community Consensus
 
-<img width="1348" height="1003" alt="cmhcB6JybV" src="https://github.com/user-attachments/assets/6a0af72a-3feb-42cb-a704-dadf7ac80600" />
+<img width="1348" height="1003" alt="Sunnylink Model Explorer" src="https://github.com/user-attachments/assets/6a0af72a-3feb-42cb-a704-dadf7ac80600" />
 
-Instead of a dry list of files, users are presented with a rich "Model Explorer" that answers the most critical question: "How does it feel to drive?"
-
-### Key Features
-✨ The "Vibe Check" System: Every model is tagged with human-readable attributes (e.g., Aggressive, Limo Driver, On Rails, Wife Approved) so you know what to expect before you download.
-
-### 📊 Community Consensus: 
-We aggregate real feedback from the Sunnypilot Discord and forums to provide a "Truth Score" for each model.
-
-Example: "WMI v12 is great at intersections but can feel 'loose' on straight highways."
-
-### 🗂️ Smart Categorization: Models are grouped by their architecture and era:
-
-- 2026 World Models: The latest "End-to-End" AI that understands 3D scenes.
-- Legacy / Stable: Older, robotic models (like Recertified Herbalist) that are less smart but rock-solid on highways.
-- Experimental: "Bleeding edge" builds (like Firehose) for testers.
-
-### 🏎️ Hardware Context: 
-Notes on which models perform best on specific vehicle types (e.g., "Best for heavy steering racks" or "Optimized for Hyundai/Kia").
-
-### Data Source
-This page is powered by data/models.json, ensuring that as new models are released or community sentiment shifts, the database can be updated instantly via a simple Pull Request.
+Instead of a raw list of model weights, `/models` answers *"How does it actually feel to drive?"*:
+* **Vibe Check Attributes:** Human-readable tags (*Smooth*, *Aggressive*, *On Rails*, *Wife Approved*) distilled from driver reports.
+* **Blended Community Consensus:** Combines structured [Sunnypilot Discourse](https://community.sunnypilot.ai) model polls (`data/discourse_polls.json`), Discord thread sentiment (`scripts/analyze_discord_sentiment.ts`), and direct in-app survey votes (`data/model_votes.json`).
+* **Smart Era Categorization:** Groups models across 2026 World Models, End-to-End experimental drops, and rock-solid highway classics.
 
 ---
 
-### 🧙‍♂️ The Setup Wizard
-"Like TurboTax for your sunnylink configuration."
+## 🧙‍♂️ Interactive Setup Wizard
 
-![comet_dgWzKlbboj](https://github.com/user-attachments/assets/abbd31e8-ad72-4bbf-8fec-b49e3237f9b1)
+![Sunnylink Setup Wizard](https://github.com/user-attachments/assets/abbd31e8-ad72-4bbf-8fec-b49e3237f9b1)
 
-Configuring Sunnypilot involves over 100+ variables, from Neural Network Lateral Control to Dynamic Experimental Control. Instead of forcing users to guess what these mean, the Setup Wizard acts as an expert consultant that interviews the driver.
-
-🚀 Why we built this
-We intentionally moved away from a "JSON Config Generator" to avoid the risk of corrupting device files or breaking hardware fingerprints. Instead, the Wizard focuses on education and safety.
-
-✨ How it works
-Hardware Handshake: Filters settings based on the user's specific device (C3/C3X/C4) and vehicle make (e.g., hiding Hyundai-only toggles for Toyota drivers).
-
-Psychographic Profiling: Asks plain-English questions like "Do you drive like a Limo Driver or a Commuter?" to map vague preferences into concrete settings (e.g., DrivingPersonality: Relaxed, Model: Down To Ride).
-
-The "Build Sheet": Generates a mobile-optimized, interactive checklist. Users mount their phone in the car and toggle settings manually, learning what they are changing and why.
+Rather than generating raw device config blobs that risk corrupting hardware fingerprints, the **Setup Wizard (`/wizard`)** interviews the driver:
+1. **Hardware & Vehicle Handshake:** Filters toggles based on Comma device (`Comma 3`, `Comma 3X`, `Comma 4`) and vehicle make/model.
+2. **Driving Style Profiling:** Maps plain-English preferences (*Limo Driver*, *Commuter*, *Sporty*) to recommended models and longitudinal personalities.
+3. **Interactive In-Car Build Sheet:** Produces a mobile-friendly checklist you can follow directly from the driver's seat.
 
 ---
 
 ## 🛠️ Tech Stack
 
-* **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
-* **Styling:** [Tailwind CSS](https://tailwindcss.com/)
-* **Data:** Local JSON (No database required for local dev)
-* **Icons:** [Lucide React](https://lucide.dev/)
+| Layer | Technologies |
+| :--- | :--- |
+| **Framework** | [Next.js 16](https://nextjs.org/) (App Router, Standalone Output), [React 19](https://react.dev/), TypeScript 5 |
+| **Styling & Motion** | [Tailwind CSS v4](https://tailwindcss.com/), [Framer Motion 12](https://www.framer.com/motion/), [Lucide React](https://lucide.dev/) |
+| **3D & Telemetry** | [Three.js](https://threejs.org/), [Recharts 3](https://recharts.org/), `capnp-es`, `fzstd` |
+| **Search** | `fuse.js` + [TypeSafe Jev](https://docs.typesafe.ai) semantic scoring ([docs/semantic-search.md](docs/semantic-search.md)) |
+| **Data & i18n** | Structured JSON datasets (`data/*.json`) + 6-locale dictionaries (`locales/*.json`) |
+| **Infrastructure** | Docker (`node:22-alpine`), Google Cloud Build (`cloudbuild.yaml`), Google Cloud Run (`sunnylink-wiki-service`) |
 
 ---
 
 ## 🏁 Getting Started
 
-This is a standard Next.js project. You can have it running locally in minutes.
-
 ### Prerequisites
-* Node.js 18+
-* npm or yarn
+* **Node.js 22+**
+* **npm**
 
-### Installation
+### Local Development
 
-1.  **Clone the repository:**
-    ```bash
-    git clone [https://github.com/your-username/sunnylink-database.git](https://github.com/your-username/sunnylink-database.git)
-    cd sunnylink-database
-    ```
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/vinnie291/sunnylink-wiki.git
+   cd sunnylink-wiki
+   ```
 
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
+2. **Install dependencies:**
+   ```bash
+   npm ci --ignore-scripts
+   ```
 
-3.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-4.  **Open your browser:**
-    Navigate to `http://localhost:3000` to see the wiki live.
+4. **Enable Jev semantic search (optional):**
+   Add `TYPESAFE_API_KEY` to `.env.local` and restart `npm run dev`. Without a key, search gracefully uses local `Fuse.js` ranking. See [docs/semantic-search.md](docs/semantic-search.md) for details.
 
-5.  **Enable Jev semantic ranking (optional):**
-    Set `TYPESAFE_API_KEY` in `.env.local` and restart the server. See
-    [Jev search setup and verification](docs/semantic-search.md).
+### Useful Scripts
+
+| Command | Description |
+| :--- | :--- |
+| `npm run dev` | Start local Next.js 16 dev server |
+| `npm run build` | Build standalone production bundle |
+| `npm test` | Run TypeScript unit & integration test suite (`tsx --test`) |
+| `npm run lint` | Run ESLint 9 checks |
+| `npm run i18n:check` | Verify translation key & dataset parity across all 6 locales |
+| `npm run autonomy:sync` | Run master upstream sync pipeline (`scripts/autonomous_sync.mjs`) |
 
 ---
 
-## 💾 Data Structure
+## 📂 Project Architecture
 
-The heart of this project lies in the `data/` directory. We strictly separate content from code to allow non-developers to contribute easily.
-
-### `data/toggles.json`
-Stores the definitions for system settings.
-```json
-{
-  "key": "mads_enabled",
-  "label": "MADS Enabled",
-  "category": "steering",
-  "description": "Decouples steering from gas/brake...",
-  "safety_level": "safe"
-}
-data/models.json
-Stores the "Vibe Check" data for driving models.
-
-JSON
-
-{
-  "name": "WMI V12",
-  "tags": ["Flagship", "Smart"],
-  "consensus": "Current daily driver. Best for intersections.",
-  "vibe": "Modern & Smart"
-}
-🤝 Contributing
-We welcome contributions from the community! Whether you are a React developer or just a driver who wants to fix a typo in a model description.
-
-How to help:
-Verify Data: If you see a model description that doesn't match reality, submit a PR to update models.json.
-
-Add Examples: We need more "Real World Scenarios" for the Toggle Wiki.
-
-Code: Check the Issues tab for open tasks.
-
-Please read our CONTRIBUTING.md for details on our code of conduct and submission process.
-
-📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-🙏 Acknowledgments
-Sunnyhaibin & the Sunnypilot Team: For building the incredible software this wiki documents.
-
-Comma.ai: For the openpilot platform that started it all.
-
-The Sunnypilot Discord Community: For the endless testing and feedback that powers our "Community Consensus" data.
+```text
+sunnylink-wiki/
+├── app/                  # Next.js 16 App Router pages & API routes
+│   ├── cars/             # Supported vehicles matrix (/cars)
+│   ├── features/         # Deep-dive Sunnypilot feature guides (/features)
+│   ├── model-replay/     # Openpilot rlog Cap'n Proto trajectory viewer (/model-replay)
+│   ├── models/           # Driving Model Explorer & community polls (/models)
+│   ├── new-sim/          # Three.js 3D procedural driving simulator (/new-sim)
+│   ├── quiz/ & wizard/   # Interactive configuration consultant (/wizard, /quiz)
+│   ├── stats/            # Fleet usage & model telemetry charts (/stats)
+│   └── api/              # Jev search, live model voting, wiki-data & markdown endpoints
+├── components/           # Modular React 19 UI, simulator, & visualization components
+├── data/                 # Canonical English & localized JSON datasets (models, toggles, cars, stats)
+├── lib/                  # Search, skill ratings, rlog parser, i18n, & telemetry utilities
+├── locales/              # UI translation dictionaries (en, zh, es, fr, de, ko)
+├── scripts/              # Autonomous sync, i18n checks, sentiment analysis, & Cloud Run deploy.py
+└── tests/                # Automated test suite
 ```
 
 ---
 
-### Disclaimer: This whole thing was vibecoded with Antigravity using Gemini 3 Pro & Opus 4.5
+## ☁️ Deployment
 
-<img width="281" height="179" alt="image" src="https://github.com/user-attachments/assets/3998bb44-998e-49c3-b299-0a36498eef5f" />
+Production runs on **Google Cloud Run** (`sunnylink-wiki-service` in `us-central1`, image `gcr.io/sunnylink-wiki/wiki-app`). See [DEPLOYMENT.md](DEPLOYMENT.md) for full details on automated GitHub Actions CI/CD, `python3 scripts/deploy.py`, and `cloudbuild.yaml`.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome—whether you're a developer improving the 3D simulator or a driver updating a model's consensus notes!
+
+* **Update Model or Toggle Data:** Submit a Pull Request updating `data/models.json` or `data/toggles.json` and run `npm run i18n:check`.
+* **Code & Bug Fixes:** Run `npm test` and `npm run lint` before opening a PR.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+* **Sunnyhaibin & the Sunnypilot Team:** For building and maintaining the sunnypilot ecosystem.
+* **Comma.ai:** For pioneering openpilot.
+* **The Sunnypilot Discourse & Discord Community:** For the thousands of miles of road testing, poll votes, and feedback that power our community consensus data.

@@ -1,8 +1,8 @@
 {
   "appName": "Sunnylink Model Database",
   "version": "8.4",
-  "totalModels": 144,
-  "lastUpdated": "November 25, 2026",
+  "totalModels": 146,
+  "lastUpdated": "November 26, 2026",
   "vibeGuide": {
     "chestnut_gpu": {
       "title": "Chestnut GPU 시리즈(대형 모델)",
@@ -278,7 +278,22 @@
           "forumUrl": "https://community.sunnypilot.ai/t/cinque-terre-model-v2-september-08-2026/7096",
           "testedOn": [
             "Kia EV6",
-            "2026 Honda Civic Hybrid"
+            "2026 Honda Civic Hybrid",
+            "2022 Rivian R1T"
+          ],
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "37bfa1413edcdc2e8844984b83727c33f81d8f46",
+          "shortName": "CTMV2",
+          "minimumSelectorVersion": 21,
+          "positives": [
+            "여러 테스터를 위해 정지 신호에서 완전 정지하고 적색 신호등 정지 바에서 부드럽게 정지합니다.",
+            "과속 방지턱을 인식하고 앞차를 위해 부드럽게 감속합니다.",
+            "두 가지를 모두 테스트한 7명의 비교 유권자 모두가 Cinque Terre v1보다 높거나 동등하다고 평가했으며, 10명 중 8명은 기본 프로모션을 지원합니다."
+          ],
+          "negatives": [
+            "여러 차량에서 저속 스티어링 진동이 눈에 띄게 나타납니다.",
+            "급커브에서 언더스티어가 발생하고 커브에서 안쪽 라인에 가깝게 드리프트합니다.",
+            "앞차를 따라가도 정차 후 가속이 느리다"
           ]
         },
         {
@@ -303,7 +318,10 @@
             "good": 0,
             "ok": 0,
             "bad": 0
-          }
+          },
+          "modelRef": "bf3e3631b3f91d92a1020a5e0dd4298b93ff4244",
+          "shortName": "CTV3M",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Cinque Terre Model",
@@ -341,7 +359,11 @@
           "negatives": [
             "일부 운전자는 여전히 저속 조향 진동이나 부족한 코너링을 보고합니다.",
             "차량과 브랜치별 평가가 엇갈리므로 한 구성의 결과를 모든 차량에 일반화하지 마세요."
-          ]
+          ],
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "68b5f8e48602f4f88041efd7de6c99e97fda454e",
+          "shortName": "CTM",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "BMRLNAP Model v6",
@@ -378,7 +400,11 @@
           "negatives": [
             "여전히 신호등에서 정지선을 살짝 넘어가는 경향이 있습니다.",
             "측면 제어에는 일부 Honda 빌드에 대한 미세 조정이 필요합니다."
-          ]
+          ],
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "9d683c06518c0358fb402f38468a7030700c38ac",
+          "shortName": "BMV6",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "BMRLNAP Model v4",
@@ -419,7 +445,11 @@
             "급격한 90도 교차로 회전을 중간에 언더스티어하거나 포기함",
             "빨간불이 녹색으로 바뀔 때 라인에서 느린 가속",
             "Torque 컨트롤러 v1을 사용하는 Toyota에서 심각한 컨트롤러 감도가 보고되었습니다."
-          ]
+          ],
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "f877d7a0ccc3cce943c76e285214c020cd65c899",
+          "shortName": "BMV4",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Sad Model",
@@ -499,7 +529,11 @@
             "캘리포니아가 정지할 때 정지 신호를 굴리는 경향이 있음"
           ],
           "routesDriven": 54,
-          "fleetRank": 53
+          "fleetRank": 53,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "47377ac2f726651fc1470eb725cf73418307e5aa",
+          "shortName": "BMV3",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "BMRLNAP Model v2",
@@ -539,7 +573,11 @@
             "v1에 비해 도시 정류장 일관성이 눈에 띄게 회귀함"
           ],
           "routesDriven": 19,
-          "fleetRank": 63
+          "fleetRank": 63,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "ba37c02c7c64225b8aec79411d1a8c2f5c1aa343",
+          "shortName": "BMV2",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Happy Birthday Model",
@@ -660,7 +698,11 @@
             "약간의 방황, 좁은 도로에서 현재 차선의 왼쪽 경계에 너무 가까운 작은 운전"
           ],
           "routesDriven": 15,
-          "fleetRank": 65
+          "fleetRank": 65,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_chestnut_v28.json",
+          "modelRef": "7e3ff7e914a40ac25399a2caedbce3580fdde6a2",
+          "shortName": "BM",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Tee Time Model",
@@ -1679,7 +1721,11 @@
             "연석에 가까운 보행자를 위해 급제동 가능"
           ],
           "routesDriven": 468,
-          "fleetRank": 30
+          "fleetRank": 30,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "f02d134f40f5e7be22b182af21b438915a47600e",
+          "shortName": "OPM16D",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Michael RL V2",
@@ -1719,7 +1765,11 @@
             "차선 표시가 갑자기 갈라지거나 끝날 때 가끔 머뭇거림"
           ],
           "routesDriven": 361,
-          "fleetRank": 34
+          "fleetRank": 34,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "37b38bf738edfb1daa6875255f581e5fc9b0a258",
+          "shortName": "MRLV2",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Rebel Legion Model",
@@ -1760,7 +1810,11 @@
             "완전 정지 시 상대적으로 보수적인 가속"
           ],
           "routesDriven": 35,
-          "fleetRank": 58
+          "fleetRank": 58,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "2895346746634d7eec0ee749f946c87039948a25",
+          "shortName": "RLM",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Get Your Hopes Up Model",
@@ -1783,10 +1837,11 @@
           },
           "bestFor": "곡선 및 실험",
           "steeringFeel": "Firm",
-          "forumUrl": "https://community.sunnypilot.ai/tag/model-drop/155",
+          "forumUrl": "https://community.sunnypilot.ai/t/get-your-hopes-up-model-july-25-2026/6761",
           "testedOn": [
             "comma 4",
-            "Hyundai Ioniq 5"
+            "Hyundai Ioniq 5",
+            "2024 Ford Escape"
           ],
           "positives": [
             "좋은 곡선 회전",
@@ -1796,7 +1851,11 @@
             "일부 차량에서 저속 방황"
           ],
           "routesDriven": 207,
-          "fleetRank": 41
+          "fleetRank": 41,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "574735edc6e1aafdc2a69395f9a32e7f5cc4b62b",
+          "shortName": "GYHUM",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Rebellious Hope Model",
@@ -1836,7 +1895,11 @@
             "운전자가 토크 제한 회전에 개입할 때 약간 갑작스러운 전환"
           ],
           "routesDriven": 893,
-          "fleetRank": 22
+          "fleetRank": 22,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "93f5aa469a72b7621aef7da7901c100e0113e4d9",
+          "shortName": "RHM",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Terrible Super Fantastic Do Over Model",
@@ -1921,7 +1984,11 @@
             "good": 43,
             "ok": 5,
             "bad": 28
-          }
+          },
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "35703097905a122c9f3ddf0d12889b4873d7e2a2",
+          "shortName": "RDFMV2",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "RDF Model",
@@ -1965,7 +2032,11 @@
             "경로를 가로지르는 수직 교통 절단으로 인해 급격한 감속이 발생할 수 있습니다."
           ],
           "routesDriven": 3248,
-          "fleetRank": 7
+          "fleetRank": 7,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "a95e2c25cae5fbf1afba7628bfb7acc4af59e0cc",
+          "shortName": "RDFM",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "Cheddar Model",
@@ -2044,6 +2115,47 @@
           "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v26.json",
           "modelRef": "2a63be39e4a243a53f6bacf3b0bee27a4eb7b973",
           "shortName": "SC",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Crumbly Cheddar Model",
+          "date": "November 24, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "Deep RL",
+            "Experimental"
+          ],
+          "consensus": "2026년 11월 Cheddar 시리즈의 실험적 Deep RL 소형 모델 드롭은 모델 관리자의 '2026 Deep RL 모델' 아래에 나열되고 CD210 모델 기본값에 대해 직접 폴링됩니다. 훈제 체다 모델과 함께 출시되었습니다. 지역 사회 여론 조사 평가 및 차량 보고서는 여전히 수집 중입니다.",
+          "note": "openpilot 커밋 8892f17(약칭 CCM)에서 빌드되었습니다. 선택기 21을 사용하여 모델 관리자의 '2026 Deep RL Models'에 나열됩니다. comma four 또는 comma 3X가 필요합니다.",
+          "bestFor": "초기 실험 테스트; 성능은 아직 검증되지 않았습니다.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/crumbly-cheddar-model-november-24-2026/8555",
+          "modelRef": "8892f177ea11a9e20e5afba4cb88802b161eaf49",
+          "shortName": "CCM",
+          "minimumSelectorVersion": 21,
+          "testedOn": [],
+          "positives": [],
+          "negatives": []
+        },
+        {
+          "name": "Smoked Cheddar Model",
+          "date": "November 24, 2026",
+          "badge": "EXPERIMENTAL",
+          "tags": [
+            "2026",
+            "Master",
+            "Experimental"
+          ],
+          "consensus": "2026년 11월 체다 시리즈의 공식 소형 모델 드롭은 모델 관리자의 '마스터 모델' 아래에 나열되고 CD210 모델 기본값에 대해 직접 폴링됩니다. Crumbly Cheddar Model과 함께 출시되었습니다. 지역 사회 여론 조사 평가 및 차량 보고서는 여전히 수집 중입니다.",
+          "note": "openpilot 커밋 e170f08(약칭 SCM)에서 구축되었습니다. 선택기 21을 사용하여 '마스터 모델' 아래의 모델 관리자에 나열됩니다. comma four 또는 comma 3X가 필요합니다.",
+          "bestFor": "초기 실험 테스트; 성능은 아직 검증되지 않았습니다.",
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "forumUrl": "https://community.sunnypilot.ai/t/smoked-cheddar-model-november-24-2026/8556",
+          "modelRef": "e170f08049b4d91f595a0a11378b0cf030f3afb1",
+          "shortName": "SCM",
           "minimumSelectorVersion": 21,
           "testedOn": [],
           "positives": [],
@@ -3761,7 +3873,11 @@
             "Most vehicles"
           ],
           "routesDriven": 195,
-          "fleetRank": 43
+          "fleetRank": 43,
+          "manifestUrl": "https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/driving_models_v25.json",
+          "modelRef": "375978d40b976bf9e82ab74f267846a56b7656a6",
+          "shortName": "NDV2",
+          "minimumSelectorVersion": 21
         },
         {
           "name": "WD40",

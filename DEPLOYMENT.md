@@ -1,51 +1,86 @@
 # Deploying to Google Cloud Run
 
-Based on your project settings, here is how to deploy this application.
+This guide covers automated and manual deployment of **Sunnylink Wiki** (`sunnylink.wiki`) to Google Cloud Run.
 
-## Prerequisites
+## Canonical Production Configuration
 
-Since `gcloud` is not installed on your system, you need to install the **Google Cloud SDK**:
-1. [Download Google Cloud SDK Installer](https://cloud.google.com/sdk/docs/install#windows)
-2. Run the installer and follow the instructions.
-3. Make sure to check the box **"Start Google Cloud SDK Shell"** at the end, or open a new PowerShell window after installation.
+All deployment paths (`scripts/deploy.py`, `cloudbuild.yaml`, and `.github/workflows/autonomous-master.yml`) share a single canonical configuration:
 
-## Deployment Steps
+| Setting | Value |
+| :--- | :--- |
+| **GCP Project ID** | `sunnylink-wiki` |
+| **Cloud Run Service** | `sunnylink-wiki-service` |
+| **Container Image** | `gcr.io/sunnylink-wiki/wiki-app` |
+| **Region** | `us-central1` |
+| **Container Port** | `3000` |
+| **Resources & Scaling** | `512Mi` memory, `1` vCPU, `--min-instances 0`, `--max-instances 3` |
 
-Run these commands in your project folder (`sunnylink-wiki`):
+---
 
-### 1. Login to Google Cloud
-```powershell
-gcloud auth login
+## Option 1: Automated CI/CD (GitHub Actions)
+
+In production, `.github/workflows/autonomous-master.yml` runs on a 6-hour schedule (and via manual **Workflow Dispatch** in GitHub Actions with `force_deploy: true`):
+1. Runs `scripts/autonomous_sync.mjs` to sync upstream models, toggles, supported cars, Discourse polls, and sentiment.
+2. Runs `npm test` and `node scripts/check-i18n.mjs --data-only`.
+3. Invokes `python3 scripts/deploy.py` using the `GCP_SA_KEY` repository secret to package source, build `gcr.io/sunnylink-wiki/wiki-app`, and deploy `sunnylink-wiki-service`.
+
+---
+
+## Option 2: Scripted Local Deploy (`scripts/deploy.py`)
+
+If you have Python 3 (`pip install requests google-auth`) and Application Default Credentials configured:
+
+```bash
+gcloud auth application-default login
+python3 scripts/deploy.py
 ```
-*A browser window will open. Sign in with your Google account.*
 
-### 2. Set Project ID
-```powershell
+`scripts/deploy.py` packages a slim source tarball (excluding `node_modules`, `.next`, `tests`, `docs/weekly-audits`, `data/discord_feedback`, logs, and backups), uploads it to `gs://sunnylink-wiki_cloudbuild`, triggers Cloud Build, and deploys `sunnylink-wiki-service`.
+
+---
+
+## Option 3: Manual `gcloud` CLI Deployment
+
+### Prerequisites
+Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/install) so `gcloud` is available in your shell.
+
+### 1. Authenticate & Set Project
+```bash
+gcloud auth login
 gcloud config set project sunnylink-wiki
 ```
 
-### 3. Enable Required Services
-Enable Cloud Build and Cloud Run APIs:
-```powershell
+### 2. Enable Required Services (First-Time Setup)
+```bash
 gcloud services enable cloudbuild.googleapis.com run.googleapis.com artifactregistry.googleapis.com
 ```
 
-### 4. Build the Container (in the Cloud)
-This uploads your source code to Google Cloud Build and creates a Docker container image.
-```powershell
+### 3. Build & Deploy via `cloudbuild.yaml` (Single Command)
+```bash
+gcloud builds submit --config cloudbuild.yaml --substitutions=COMMIT_SHA=$(git rev-parse --short HEAD) .
+```
+
+### 4. Or Build & Deploy Step-by-Step
+```bash
+# Build and push image in Cloud Build
 gcloud builds submit --tag gcr.io/sunnylink-wiki/wiki-app:latest .
-```
-*Note: This might take 2-3 minutes.*
 
-### 5. Deploy to Cloud Run
-This deploys the container to a live URL.
-```powershell
-gcloud run deploy sunnylink-wiki-service --image gcr.io/sunnylink-wiki/wiki-app:latest --platform managed --region us-central1 --allow-unauthenticated --port 3000
+# Deploy to the canonical Cloud Run service
+gcloud run deploy sunnylink-wiki-service \
+  --image gcr.io/sunnylink-wiki/wiki-app:latest \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --port 3000 \
+  --memory 512Mi \
+  --cpu 1 \
+  --min-instances 0 \
+  --max-instances 3
 ```
 
-## Success!
-Once the command finishes, it will print a **Service URL** (e.g., `https://sunnylink-wiki-service-xyz.a.run.app`).
-Click that link to see your live app!
+Once finished, `gcloud` prints the live Cloud Run service URL (`https://sunnylink-wiki-service-xyz.a.run.app`, mapped to `https://sunnylink.wiki`).
+
+---
 
 ## Cloud Storage (GCS) Note
 Per Google Cloud's CLI deprecation timeline (March 2027), always use `gcloud storage` instead of `gsutil`:
@@ -53,4 +88,3 @@ Per Google Cloud's CLI deprecation timeline (March 2027), always use `gcloud sto
 - Upload file: `gcloud storage cp <local-file> gs://<bucket>/`
 - Download file: `gcloud storage cp gs://<bucket>/<file> .`
 - Sync directories: `gcloud storage rsync -r <local-dir> gs://<bucket>/<dir>`
-

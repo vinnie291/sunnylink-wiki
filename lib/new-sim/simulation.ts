@@ -6,7 +6,24 @@ export type Scenario = 'city' | 'boulevard' | 'curves' | 'highway';
 export type CameraMode = 'follow' | 'overview' | 'driver';
 export type SignalPhase = 'green' | 'amber' | 'red';
 export type Behavior = 'relaxed' | 'balanced' | 'responsive';
-export type Chapter = 'start' | 'signal' | 'stop' | 'bend';
+export type Chapter = 'start' | 'signal' | 'stop' | 'bend' | 'crosswalk';
+export type ManeuverKind =
+  | 'straight'
+  | 'sweeping-left'
+  | 'sweeping-right'
+  | 'sharp-left'
+  | 'sharp-right'
+  | 'intersection-stop'
+  | 'pedestrian-yield';
+export interface TurnIntent {
+  kind: ManeuverKind;
+  direction: 'left' | 'right' | 'none';
+  label: string;
+  lookaheadMeters: number;
+  peakCurvature: number;
+  advisorySpeedMph: number | null;
+  blinker: 'left' | 'right' | 'none';
+}
 export interface SimOptions {
   scenario: Scenario;
   density: number;
@@ -48,15 +65,15 @@ export const DEFAULT_OPTIONS: SimOptions = {
 export const SCENARIOS: Record<Scenario, {
   name: string; subtitle: string; limit: number; maxSpeed: number; chapters: Chapter[];
 }> = {
-  city: { name: 'City streets', subtitle: 'Tight blocks, signals & stop signs', limit: 35, maxSpeed: 55, chapters: ['start', 'signal', 'bend', 'stop'] },
-  boulevard: { name: 'Open boulevard', subtitle: 'Divided avenue, palms & long sweeps', limit: 45, maxSpeed: 55, chapters: ['start', 'signal', 'bend'] },
-  curves: { name: 'Winding road', subtitle: 'Single-track forest lane, tight bends', limit: 40, maxSpeed: 55, chapters: ['start', 'bend', 'stop'] },
+  city: { name: 'City streets', subtitle: 'Tight blocks, signals, crosswalks & stop signs', limit: 35, maxSpeed: 55, chapters: ['start', 'signal', 'crosswalk', 'bend', 'stop'] },
+  boulevard: { name: 'Open boulevard', subtitle: 'Divided avenue, palms, crosswalks & long sweeps', limit: 45, maxSpeed: 55, chapters: ['start', 'signal', 'crosswalk', 'bend'] },
+  curves: { name: 'Winding road', subtitle: 'Single-track forest lane, trees & linked bends', limit: 40, maxSpeed: 55, chapters: ['start', 'bend', 'stop'] },
   highway: { name: 'Highway', subtitle: '5 lanes, no junctions, sustained speed', limit: 65, maxSpeed: 85, chapters: ['start', 'bend'] },
 };
 export const BEHAVIORS = {
-  relaxed: { name: 'Relaxed', headway: 2.3, acceleration: 1.3, lateral: 1.6 },
-  balanced: { name: 'Balanced', headway: 1.7, acceleration: 1.8, lateral: 2.1 },
-  responsive: { name: 'Responsive', headway: 1.3, acceleration: 2.3, lateral: 2.5 },
+  relaxed: { name: 'Relaxed', headway: 2.15, acceleration: 1.3, lateral: 1.6 },
+  balanced: { name: 'Balanced', headway: 1.65, acceleration: 1.8, lateral: 2.1 },
+  responsive: { name: 'Responsive', headway: 1.25, acceleration: 2.3, lateral: 2.5 },
 };
 export const mod = (n: number, m: number) => ((n % m) + m) % m;
 export const clamp = (n: number, a: number, b: number) => Math.min(b, Math.max(a, n));
@@ -69,6 +86,31 @@ const CURVATURE_STEP = 2;
 const hash = (n: number) => Math.abs(Math.sin(n * 12.9898) * 43758.5453) % 1;
 
 export interface Junction { id: number; s: number; kind: 'signal' | 'stop'; name: string; }
+export interface Crosswalk {
+  id: number;
+  s: number;
+  name: string;
+  kind: 'signal' | 'stop' | 'midblock';
+  junctionId: number | null;
+  curbOffset: number;
+  dividedMedian: boolean;
+}
+export interface Pedestrian {
+  id: number;
+  crosswalkId: number;
+  s: number;
+  offset: number;
+  prevOffset: number;
+  targetOffset: number;
+  direction: 1 | -1;
+  speed: number;
+  phase: 'waiting' | 'approaching' | 'crossing';
+  stridePhase: number;
+  coatColor: string;
+  trouserColor: string;
+  cyclePeriod: number;
+  cycleOffset: number;
+}
 /**
  * Lane geometry for a layout. Offsets are metres from the centreline, positive
  * to the left of travel, so a two-way street keeps opposing lanes at +offset.
@@ -141,6 +183,7 @@ export class Road {
   curve: CatmullRomCurve3;
   length: number;
   junctions: Junction[];
+  crosswalks: Crosswalk[];
   lanes: LaneLayout;
   bendStart: number;
   private curvatureTable: Float64Array;
@@ -183,6 +226,46 @@ export class Road {
     // Junctions belong on straight sections: a crossing laid over a tight bend
     // reads as broken geometry and makes the stop line impossible to judge.
     this.junctions = junctions.map(j => ({ ...j, s: this.straightest(j.s, 34) }));
+
+    // Crosswalks sit at urban signals/stops and rural crossings — never on highway.
+    const w = this.lanes.surface;
+    const curb = w + 0.7;
+    const divided = this.lanes.median !== null;
+    if (scenario === 'highway' || scenario === 'curves') {
+      this.crosswalks = [];
+    } else {
+      const junctionCrosswalks: Crosswalk[] = this.junctions.map((j, idx) => ({
+        id: 100 + idx * 2,
+        s: mod(j.s - (w + 2.1), this.length),
+        name: `${j.name} crosswalk`,
+        kind: j.kind,
+        junctionId: j.id,
+        curbOffset: curb,
+        dividedMedian: divided,
+      }));
+      if (scenario === 'city') {
+        junctionCrosswalks.push({
+          id: 150,
+          s: this.straightest(272, 22),
+          name: 'Oak Walk',
+          kind: 'midblock',
+          junctionId: null,
+          curbOffset: curb,
+          dividedMedian: false,
+        });
+      } else if (scenario === 'boulevard') {
+        junctionCrosswalks.push({
+          id: 250,
+          s: this.straightest(this.length * 0.38, 30),
+          name: 'Palm Promenade',
+          kind: 'midblock',
+          junctionId: null,
+          curbOffset: curb,
+          dividedMedian: true,
+        });
+      }
+      this.crosswalks = junctionCrosswalks.sort((a, b) => a.s - b.s);
+    }
   }
   /** The lowest-curvature point within `range` metres of `s`. */
   private straightest(s: number, range: number) {
@@ -265,17 +348,24 @@ export interface Telemetry {
   speed: number; acceleration: number; gap: number | null; steering: number;
   brake: boolean;
   elapsed: number; distance: number; progress: number; status: string;
-  nextName: string; nextKind: 'signal' | 'stop' | 'none'; nextDistance: number; phase: SignalPhase | 'stop' | 'none'; remaining: number;
+  nextName: string; nextKind: 'signal' | 'stop' | 'crosswalk' | 'none'; nextDistance: number; phase: SignalPhase | 'stop' | 'walk' | 'none'; remaining: number;
   lane: number; laneCount: number; lanePosition: number;
   vehicles: number; stops: number; laneChanges: number; cutIns: number; history: number[];
   model: ModelSimProfile;
   modelReaction: string;
   lateralAcceleration: number; laneErrorRms: number; peakJerk: number; interventions: number;
+  yieldingToPedestrian: boolean;
+  activePedestrians: number;
+  turnIntent: TurnIntent;
 }
+const PED_COATS = ['#e05a47', '#2b8cbe', '#f59e0b', '#10b981', '#e2e8f0', '#8b5cf6'];
+const PED_TROUSERS = ['#1e293b', '#334155', '#3f3f46', '#1f2937'];
+
 export class Simulation {
   road: Road;
   cars: Vehicle[] = [];
   crossCars: CrossVehicle[] = [];
+  pedestrians: Pedestrian[] = [];
   cyclists: { id: number; s: number; speed: number; dwell: number; released: number }[] = [];
   time = 0;
   distance = 0;
@@ -287,6 +377,8 @@ export class Simulation {
   private rowSpacing = 0;
   status = 'Following the route';
   modelReaction = 'Ready to drive';
+  yieldingToPedestrian = false;
+  private yieldingCrosswalkDistance = 0;
   laneChanges = 0;
   cutIns = 0;
   private cutInAt = -99;
@@ -300,7 +392,9 @@ export class Simulation {
     this.road = new Road(options.scenario);
     const stopJunction = this.road.junctions.find(j => j.kind === 'stop');
     const signalJunction = this.road.junctions.find(j => j.kind === 'signal');
+    const featuredCrosswalk = this.road.crosswalks.find(cw => cw.kind === 'midblock') ?? this.road.crosswalks[0];
     const start = chapter === 'stop' && stopJunction ? mod(stopJunction.s - 65, this.road.length)
+      : chapter === 'crosswalk' && featuredCrosswalk ? mod(featuredCrosswalk.s - 56, this.road.length)
       : chapter === 'bend' ? this.road.bendStart
         : chapter === 'signal' && signalJunction ? mod(signalJunction.s - 75, this.road.length) : 45;
     const layout = this.road.lanes;
@@ -338,7 +432,7 @@ export class Simulation {
       laneCounts[lane]++;
     }
 
-    const leadClearance = highway ? 70 : 34;
+    const leadClearance = highway ? 70 : chapter === 'crosswalk' ? 68 : 34;
     const rearClearance = highway ? 50 : 35;
     const laneAssigned = new Array(lanes).fill(0);
 
@@ -426,6 +520,40 @@ export class Simulation {
       car.prevS = car.s;
       if (car.kind === 'truck') { car.desired *= .88; car.speed = Math.min(car.speed, car.desired); }
     }
+    if (this.road.crosswalks.length > 0 && (options.density > 0 || chapter === 'crosswalk')) {
+      let pedId = 1;
+      for (const [cwIdx, cw] of this.road.crosswalks.entries()) {
+        const isFeatured = chapter === 'crosswalk' && featuredCrosswalk?.id === cw.id;
+        const countForCw = options.scenario === 'curves' ? 1 : 2;
+        for (let slot = 0; slot < countForCw; slot++) {
+          const startRight = slot === 0;
+          const initOffset = startRight ? -cw.curbOffset : cw.curbOffset;
+          const targetOffset = cw.dividedMedian ? 0 : (startRight ? cw.curbOffset : -cw.curbOffset);
+          const cyclePeriod = cw.kind === 'signal' ? 36 : 36;
+          // In 'crosswalk' chapter, trigger the featured crossing ~1.0s after start so ego smoothly yields.
+          const defaultOffset = cw.kind === 'signal'
+            ? slot * 0.7
+            : (18 + cwIdx * 7 + slot * 17) % cyclePeriod;
+          const cycleOffset = isFeatured && slot === 0 ? cyclePeriod - 1.0 : defaultOffset;
+          this.pedestrians.push({
+            id: pedId++,
+            crosswalkId: cw.id,
+            s: mod(cw.s + (slot === 0 ? -0.42 : 0.42), this.road.length),
+            offset: initOffset,
+            prevOffset: initOffset,
+            targetOffset,
+            direction: initOffset < targetOffset ? 1 : -1,
+            speed: 1.44 + (pedId % 3) * 0.08,
+            phase: 'waiting',
+            stridePhase: hash(pedId * 13) * Math.PI * 2,
+            coatColor: PED_COATS[(pedId - 1) % PED_COATS.length],
+            trouserColor: PED_TROUSERS[(pedId - 1) % PED_TROUSERS.length],
+            cyclePeriod,
+            cycleOffset,
+          });
+        }
+      }
+    }
     this.modelReaction = `${this.model.steeringFeel} tracking`;
     this.ego.steeringAngle = Math.atan(2.93 * this.road.curvatureSigned(start));
     this.ego.prevSteering = this.ego.steeringAngle;
@@ -487,7 +615,13 @@ export class Simulation {
     this.steeringCommands.push({ at: this.time, value: desired });
     while (this.steeringCommands.length > 1 && this.steeringCommands[1].at <= this.time - p.steeringDelay) this.steeringCommands.shift();
     const command = this.steeringCommands[0].value;
-    car.steeringAngle += clamp((command - car.steeringAngle) / p.steeringTimeConstant, -p.steeringRateLimit, p.steeringRateLimit) * dt;
+    // Speed-dependent front-wheel steering rate & lateral-jerk bound (openpilot EPS / ModelDataV2 envelope):
+    // full rack agility through low-speed city corners, smooth jerk-bounded tracking at highway speeds.
+    const speedRateBound = Math.min(
+      p.steeringRateLimit,
+      (2.93 * (4.2 + p.lateralJerkLimit * 1.45)) / Math.max(25, car.speed * car.speed),
+    );
+    car.steeringAngle += clamp((command - car.steeringAngle) / p.steeringTimeConstant, -speedRateBound, speedRateBound) * dt;
     car.steeringAngle = clamp(car.steeringAngle, -0.58, 0.58);
     car.yawRate = car.speed / 2.93 * Math.tan(car.steeringAngle);
     if (car.speed < 0.05) { car.yawRate = 0; car.lateralRate = 0; return; }
@@ -513,6 +647,196 @@ export class Simulation {
     return this.road.junctions.map(j => ({ ...j, distance: this.road.distance(car.s, j.s - car.direction * 12, car.direction) }))
       .sort((a, b) => a.distance - b.distance)[0] ?? null;
   }
+  /** Yield line position for a crosswalk: before the junction stop bar when attached to a junction, or 3.4m before a standalone crosswalk. */
+  private crosswalkYieldS(cw: Crosswalk, direction: number): number {
+    if (cw.junctionId !== null) {
+      const j = this.road.junctions.find(item => item.id === cw.junctionId);
+      if (j) return mod(j.s - direction * 12, this.road.length);
+    }
+    return mod(cw.s - direction * 3.4, this.road.length);
+  }
+  /** Checks whether a pedestrian waiting at the curb can safely step onto the asphalt. */
+  private canStepIntoRoad(cw: Crosswalk, ped: Pedestrian): boolean {
+    const spanMin = Math.min(ped.offset, ped.targetOffset) - 1.5;
+    const spanMax = Math.max(ped.offset, ped.targetOffset) + 1.5;
+    for (const car of this.cars) {
+      const across = this.laneOffset(car);
+      if (across < spanMin || across > spanMax) continue;
+      const yieldS = this.crosswalkYieldS(cw, car.direction);
+      const clearPastS = mod(cw.s + car.direction * 4.2, this.road.length);
+      const boxSpan = this.road.distance(yieldS, clearPastS, car.direction);
+      const fromYield = this.road.distance(yieldS, car.s + car.direction * (vehicleLength(car) / 2), car.direction);
+      // Vehicle is already past the yield line and has not cleared the crosswalk yet.
+      if (fromYield < boxSpan + vehicleLength(car)) return false;
+      // Vehicle is approaching the yield line too fast to brake comfortably before it.
+      const toYield = this.road.distance(car.s, yieldS, car.direction) - vehicleLength(car) / 2;
+      if (toYield >= 0 && toYield < car.speed * car.speed / 5.6 + 1.6 && car.speed > 0.6) return false;
+    }
+    return true;
+  }
+  /** Advances deterministic pedestrian walk phases across urban & rural crosswalks. */
+  private stepPedestrians(dt: number) {
+    for (const ped of this.pedestrians) {
+      ped.prevOffset = ped.offset;
+      const cw = this.road.crosswalks.find(item => item.id === ped.crosswalkId);
+      if (!cw) continue;
+
+      if (ped.phase === 'crossing') {
+        const stepDist = ped.speed * dt * ped.direction;
+        const remaining = (ped.targetOffset - ped.offset) * ped.direction;
+        if (Math.abs(stepDist) >= remaining) {
+          ped.offset = ped.targetOffset;
+          ped.phase = 'waiting';
+          // Reverse target for the next crossing cycle.
+          const outerCurb = ped.offset === 0
+            ? (ped.direction > 0 ? -cw.curbOffset : cw.curbOffset)
+            : (cw.dividedMedian ? 0 : -ped.offset);
+          ped.targetOffset = outerCurb;
+          ped.direction = ped.offset < ped.targetOffset ? 1 : -1;
+        } else {
+          ped.offset += stepDist;
+          ped.stridePhase = (ped.stridePhase + dt * ped.speed * 5.2) % (Math.PI * 2);
+        }
+        continue;
+      }
+
+      let walkWindow = false;
+      if (cw.kind === 'signal' && cw.junctionId !== null) {
+        // Walk across the main road during its protected red phase so pedestrians finish before green.
+        const sigT = mod(this.time + cw.junctionId * 7 + ped.cycleOffset, 36);
+        walkWindow = sigT >= 0.7 && sigT < 2.5 && signalPhase(this.time, cw.junctionId) === 'red';
+      } else {
+        const cyc = mod(this.time + ped.cycleOffset, ped.cyclePeriod);
+        walkWindow = cyc >= 0 && cyc < 4.2;
+      }
+
+      if (walkWindow) {
+        ped.phase = 'approaching';
+        if (this.canStepIntoRoad(cw, ped)) {
+          ped.phase = 'crossing';
+        }
+      } else if (ped.phase === 'approaching') {
+        ped.phase = 'waiting';
+      }
+    }
+  }
+  /** Active or imminent pedestrian crossing ahead in this vehicle's carriageway. */
+  crosswalkHazard(car: Vehicle): { crosswalk: Crosswalk; distance: number } | null {
+    if (!this.pedestrians.length || !this.road.crosswalks.length) return null;
+    const carAcross = this.laneOffset(car);
+    let nearest: { crosswalk: Crosswalk; distance: number } | null = null;
+    for (const cw of this.road.crosswalks) {
+      const hasActivePed = this.pedestrians.some(ped => {
+        if (ped.crosswalkId !== cw.id || ped.phase === 'waiting') return false;
+        const spanMin = Math.min(ped.offset, ped.targetOffset) - 1.6;
+        const spanMax = Math.max(ped.offset, ped.targetOffset) + 1.6;
+        return carAcross >= spanMin && carAcross <= spanMax;
+      });
+      if (!hasActivePed) continue;
+      const yieldS = this.crosswalkYieldS(cw, car.direction);
+      const dist = this.road.distance(car.s, yieldS, car.direction);
+      // Ignore if the vehicle's front bumper has already crossed the yield line.
+      if (dist > 115) continue;
+      const bumperDist = dist - vehicleLength(car) / 2;
+      if (bumperDist < -0.4) continue;
+      const anyCrossingOnAsphalt = this.pedestrians.some(ped => ped.crosswalkId === cw.id && ped.phase === 'crossing');
+      if (!anyCrossingOnAsphalt && bumperDist < car.speed * car.speed / 5.8 + 1.2 && car.speed > 0.8) continue;
+      if (!nearest || dist < nearest.distance) {
+        nearest = { crosswalk: cw, distance: dist };
+      }
+    }
+    return nearest;
+  }
+  /** Route-level maneuver & turn-intent lookahead from road spline curvature and active yield horizon. */
+  computeTurnIntent(): TurnIntent {
+    const car = this.ego;
+    const profile = this.model;
+    const lateral = profile.lateralPatience * (this.options.behavior === 'relaxed' ? 0.85 : this.options.behavior === 'responsive' ? 1.15 : 1.0);
+    const horizon = clamp(Math.max(46, car.speed * 3.6), 46, 110);
+    let peakSignedK = 0;
+    let peakDist = 0;
+    let firstBendDist = 0;
+    for (let d = 4; d <= horizon; d += 4) {
+      const k = this.road.curvatureSigned(car.s + d * car.direction) * car.direction;
+      if (Math.abs(k) > 0.0026 && firstBendDist === 0) firstBendDist = d;
+      if (Math.abs(k) > Math.abs(peakSignedK)) {
+        peakSignedK = k;
+        peakDist = d;
+      }
+    }
+    const absK = Math.abs(peakSignedK);
+    const curveDir: 'left' | 'right' | 'none' = absK >= 0.0016 ? (peakSignedK > 0 ? 'left' : 'right') : 'none';
+    const advisoryMps = absK >= 0.0028 ? Math.sqrt(lateral / absK) : null;
+    const advisorySpeedMph = advisoryMps !== null && advisoryMps * 2.23694 < this.options.speed - 2
+      ? Math.round(advisoryMps * 2.23694)
+      : null;
+
+    if (this.yieldingToPedestrian) {
+      return {
+        kind: 'pedestrian-yield',
+        direction: curveDir,
+        label: 'Pedestrian Yield',
+        lookaheadMeters: Math.max(0, Math.round(this.yieldingCrosswalkDistance)),
+        peakCurvature: peakSignedK,
+        advisorySpeedMph: 0,
+        blinker: 'none',
+      };
+    }
+
+    const next = this.nextJunction(car);
+    if (next && next.distance < 72) {
+      const mustStopSignal = next.kind === 'signal' && (this.signal(next.id) === 'red' || (this.signal(next.id) === 'amber' && next.distance > car.speed ** 2 / 5 + 3));
+      const mustStopSign = next.kind === 'stop' && car.released !== next.id;
+      if (mustStopSignal || mustStopSign) {
+        return {
+          kind: 'intersection-stop',
+          direction: curveDir,
+          label: next.kind === 'stop' ? 'Stop Sign Ahead' : 'Red Signal Ahead',
+          lookaheadMeters: Math.max(0, Math.round(next.distance)),
+          peakCurvature: peakSignedK,
+          advisorySpeedMph: 0,
+          blinker: 'none',
+        };
+      }
+    }
+
+    if (absK >= 0.014) {
+      const dir = peakSignedK > 0 ? 'left' : 'right';
+      const dist = firstBendDist || peakDist;
+      return {
+        kind: dir === 'left' ? 'sharp-left' : 'sharp-right',
+        direction: dir,
+        label: dir === 'left' ? 'Sharp Left Turn' : 'Sharp Right Turn',
+        lookaheadMeters: Math.round(dist),
+        peakCurvature: peakSignedK,
+        advisorySpeedMph,
+        blinker: dist <= 58 ? dir : 'none',
+      };
+    }
+
+    if (absK >= 0.0016) {
+      const dir = peakSignedK > 0 ? 'left' : 'right';
+      return {
+        kind: dir === 'left' ? 'sweeping-left' : 'sweeping-right',
+        direction: dir,
+        label: dir === 'left' ? 'Sweeping Left' : 'Sweeping Right',
+        lookaheadMeters: Math.round(firstBendDist || peakDist),
+        peakCurvature: peakSignedK,
+        advisorySpeedMph,
+        blinker: 'none',
+      };
+    }
+
+    return {
+      kind: 'straight',
+      direction: 'none',
+      label: 'Straight',
+      lookaheadMeters: Math.round(horizon),
+      peakCurvature: peakSignedK,
+      advisorySpeedMph: null,
+      blinker: 'none',
+    };
+  }
   lead(car: Vehicle) {
     let gap = this.road.length, speed = car.desired;
     const offsets = this.road.lanes.offsets;
@@ -537,13 +861,16 @@ export class Simulation {
   }
   step(dt = FIXED_STEP) {
     this.time += dt;
+    this.stepPedestrians(dt);
     const profile = this.model;
     const behaviorMod = this.options.behavior === 'relaxed' ? 0.85 : this.options.behavior === 'responsive' ? 1.15 : 1.0;
-    const headwayMod = this.options.behavior === 'relaxed' ? 0.35 : this.options.behavior === 'responsive' ? -0.3 : 0;
+    const headwayMod = this.options.behavior === 'relaxed' ? 0.32 : this.options.behavior === 'responsive' ? -0.28 : 0;
+    this.yieldingToPedestrian = false;
+    this.yieldingCrosswalkDistance = 0;
     const updates = this.cars.map(car => {
       const isEgo = car.id === 0;
       const accelMax = isEgo ? profile.accelerationMax * behaviorMod : 1.6;
-      const headway = isEgo ? Math.max(1.0, profile.headway + headwayMod + ((this.options.followDistance ?? 2) - 2) * .45) : 1.5 + (car.id % 3) * 0.2;
+      const headway = isEgo ? Math.max(1.05, profile.headway + headwayMod + ((this.options.followDistance ?? 2) - 2) * .42) : 1.5 + (car.id % 3) * 0.2;
       const lateral = isEgo ? profile.lateralPatience * (this.options.behavior === 'relaxed' ? 0.85 : this.options.behavior === 'responsive' ? 1.15 : 1.0) : 2;
       let desired = isEgo ? this.options.speed * 0.44704 * profile.cruiseFactor : car.desired;
       if (isEgo && profile.speedOscillation) desired += Math.sin(this.time * 0.8) * profile.speedOscillation;
@@ -579,6 +906,21 @@ export class Simulation {
           leadSpeed = 0;
         }
       }
+      const cwHazard = this.crosswalkHazard(car);
+      let yieldingForPed = false;
+      if (cwHazard) {
+        const cwGap = cwHazard.distance - vehicleLength(car) / 2;
+        if (cwGap < gap) {
+          gap = cwGap;
+          leadSpeed = 0;
+        }
+        mustStop = true;
+        yieldingForPed = cwHazard.distance < 85;
+        if (isEgo && yieldingForPed) {
+          this.yieldingToPedestrian = true;
+          this.yieldingCrosswalkDistance = Math.max(0, cwGap);
+        }
+      }
       const closing = car.speed - leadSpeed;
       const desiredGap = 2.2 + Math.max(0, car.speed * headway + car.speed * closing / (2 * Math.sqrt(accelMax * (isEgo ? Math.abs(profile.comfortDecel) : 2.5))));
       const idm = accelMax * (1 - (car.speed / Math.max(1, desired)) ** 4 - (desiredGap / Math.max(0.25, gap)) ** 2);
@@ -587,6 +929,10 @@ export class Simulation {
       const brakeLimit = isEgo ? Math.min(-1.2, profile.comfortDecel) : -4.5;
       const emergency = gap < Math.max(2.5, car.speed * 0.9);
       let requested = clamp(idm, emergency ? -5.5 : brakeLimit, accelMax);
+      // Smooth S-curve brake feathering near standstill when ample margin to the stop/yield point remains.
+      if (leadSpeed === 0 && !emergency && car.speed < 1.6 && gap > 2.6 && requested < 0) {
+        requested = Math.max(requested, -0.55 - 1.15 * (car.speed / 1.6));
+      }
       if (isEgo) {
         car.requestedAcceleration += (requested - car.requestedAcceleration) * Math.min(1, dt / profile.speedResponseTime);
         requested = emergency ? Math.min(requested, car.requestedAcceleration) : car.requestedAcceleration;
@@ -595,7 +941,7 @@ export class Simulation {
         if (car.waitingForRelease && !blocked && requested > 0.1) {
           car.holdUntil = this.time + profile.departureLag; car.waitingForRelease = false;
         }
-        if (car.speed < 0.2 && mustStop && junction?.kind === 'signal' && profile.creepTendency) {
+        if (car.speed < 0.2 && mustStop && !yieldingForPed && junction?.kind === 'signal' && profile.creepTendency) {
           car.creep = Math.min(0.9, car.creep + dt * 0.22);
         } else if (car.speed > 1.5) car.creep = 0;
       }
@@ -620,7 +966,12 @@ export class Simulation {
       const braking = (isStopped && !isDeparting) || (!isStopped && modelBrakingCommand);
 
       if (isEgo) {
-        if (this.time < car.holdUntil && !mustStop) {
+        if (yieldingForPed && cwHazard) {
+          this.modelReaction = car.speed < 0.2 ? 'Yielding to pedestrian · holding clear' : 'Slowing for crosswalk pedestrian';
+          this.status = car.speed < 0.2
+            ? `${profile.name} · Yielding at ${cwHazard.crosswalk.name}`
+            : `${profile.name} · Pedestrian in crosswalk ahead`;
+        } else if (this.time < car.holdUntil && !mustStop) {
           this.modelReaction = 'Hesitating before departure'; this.status = `${profile.name} · Waiting to pull away`;
         } else if (mustStop && junction && junction.distance < 80) {
           if (junction.kind === 'stop') {
@@ -803,11 +1154,13 @@ export class Simulation {
   skip(metres: number) {
     const probe = Math.sign(metres) * 12;
     let target = this.ego.s + metres;
-    for (let attempt = 0; attempt < 10; attempt++) {
+    for (let attempt = 0; attempt < 12; attempt++) {
       const candidate = mod(target, this.road.length);
-      const clear = this.cars.every(other => other.id === 0 || other.lane !== this.ego.lane
+      const clearCars = this.cars.every(other => other.id === 0 || other.lane !== this.ego.lane
         || Math.min(this.road.distance(candidate, other.s), this.road.distance(other.s, candidate)) > 13);
-      if (clear) break;
+      const clearCrosswalks = this.road.crosswalks.every(cw =>
+        Math.min(this.road.distance(candidate, cw.s), this.road.distance(cw.s, candidate)) > 7);
+      if (clearCars && clearCrosswalks) break;
       target += probe;
     }
     this.ego.s = mod(target, this.road.length);
@@ -846,11 +1199,13 @@ export class Simulation {
       // Recycled cars must appear at the distant boundary beyond fog, never near the viewer
       if (Math.abs(candidateRel) < Math.min(220, limit * 0.65)) continue;
 
-      // A recycled vehicle must approach a signal under its own braking
+      // A recycled vehicle must approach a signal or crosswalk under its own braking
       // controller, never materialize inside a crossing or its stopping zone.
       const approach = 25 + car.speed * car.speed / 4;
       if (this.road.junctions.some(j => this.road.distance(candidate, j.s, car.direction) < approach
         || this.road.distance(j.s, candidate, car.direction) < 25)) continue;
+      if (this.road.crosswalks.some(cw => this.road.distance(candidate, cw.s, car.direction) < approach
+        || this.road.distance(cw.s, candidate, car.direction) < 15)) continue;
       // Never drop a car onto another one: if the slot is taken (a lane that has
       // drifted or bunched at a light), leave it and retry on a later step.
       const carAcross = this.road.lanes.offsets[car.lane] + car.lateral;
@@ -873,24 +1228,31 @@ export class Simulation {
   }
   telemetry(): Telemetry {
     const next = this.nextJunction(this.ego);
+    const cwHazard = this.crosswalkHazard(this.ego);
     const lead = this.lead(this.ego);
     const steerRad = this.computeSteerAngle(this.ego);
+    const activePedestrians = this.pedestrians.filter(p => p.phase === 'crossing').length;
+    const useCwNext = Boolean(cwHazard && (!next || cwHazard.distance < next.distance));
     return {
       speed: this.ego.speed * 2.23694, acceleration: this.ego.acceleration,
       gap: lead.gap < 150 ? lead.gap : null, steering: (steerRad * 180) / Math.PI,
       brake: this.ego.braking,
       elapsed: this.time, distance: this.distance, progress: this.ego.s / this.road.length,
       status: this.status,
-      nextName: next ? next.name : 'Open highway', nextKind: next ? next.kind : 'none',
-      nextDistance: next ? next.distance : 0,
-      phase: !next ? 'none' : next.kind === 'stop' ? 'stop' : this.signal(next.id),
-      remaining: !next || next.kind === 'stop' ? 0 : signalRemaining(this.time, next.id),
+      nextName: useCwNext ? cwHazard!.crosswalk.name : next ? next.name : 'Open highway',
+      nextKind: useCwNext ? 'crosswalk' : next ? next.kind : 'none',
+      nextDistance: useCwNext ? cwHazard!.distance : next ? next.distance : 0,
+      phase: useCwNext ? 'walk' : !next ? 'none' : next.kind === 'stop' ? 'stop' : this.signal(next.id),
+      remaining: useCwNext ? 0 : !next || next.kind === 'stop' ? 0 : signalRemaining(this.time, next.id),
       lane: this.ego.lane, laneCount: this.road.laneCount, lanePosition: this.ego.lateral,
       vehicles: this.cars.length + this.crossCars.length, stops: this.stops,
       laneChanges: this.laneChanges, cutIns: this.cutIns, history: [...this.history],
       lateralAcceleration: this.ego.yawRate * this.ego.speed,
       laneErrorRms: Math.sqrt(this.laneErrorSquared / Math.max(0.01, this.rollingTime)),
       peakJerk: this.peakJerk, interventions: this.interventions,
+      yieldingToPedestrian: this.yieldingToPedestrian,
+      activePedestrians,
+      turnIntent: this.computeTurnIntent(),
       model: this.model, modelReaction: this.modelReaction || `${this.model.steeringFeel} tracking`,
     };
   }

@@ -164,8 +164,9 @@ interface DiscordResearchResult {
     sampleQuotes: string[];
 }
 
+const MODEL_METADATA_FILE = path.join(DATA_DIR, 'model_metadata.json');
+
 const KNOWN_ALIASES: Record<string, string> = {
-    'northdakotav2': 'northdakota',
     'lav2': 'losangelesv2la2',
     'popmodelv2': 'popv2',
     'gwmv9': 'gwmv9gwm9',
@@ -176,11 +177,50 @@ const KNOWN_ALIASES: Record<string, string> = {
     'downtoride6': 'downtoridev6',
     'downtoriderevision6': 'downtoridev6',
     'popmodel': 'popmodel',
-    'lightspeedmodelv11': 'lightspeedmodelv2',
 };
 
 function normalize(s: string): string {
     return s.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+function loadCuratedAliases(): Record<string, string> {
+    const aliases: Record<string, string> = { ...KNOWN_ALIASES };
+    try {
+        if (fs.existsSync(MODEL_METADATA_FILE)) {
+            const raw = JSON.parse(fs.readFileSync(MODEL_METADATA_FILE, 'utf-8')) as Record<string, { aliasOf?: string }>;
+            for (const [slug, entry] of Object.entries(raw)) {
+                if (slug.startsWith('$') || !entry || typeof entry !== 'object' || !entry.aliasOf) continue;
+                aliases[normalize(slug)] = normalize(entry.aliasOf);
+            }
+        }
+    } catch {
+        // Ignore metadata read errors and fall back to built-in aliases
+    }
+    return aliases;
+}
+
+const CURATED_ALIASES = loadCuratedAliases();
+
+/**
+ * Extracts a normalized version signature from a model name so distinct versions
+ * (e.g., "Cinque Terre Model V2" vs "Cinque Terre Model", "BMRLNAP Model v3" vs "BMRLNAP Model",
+ * "Light Speed Model v1.1" vs "Light Speed 2") never collide during fuzzy matching.
+ */
+function extractVersionSignature(name: string): string {
+    const cleaned = name
+        .toLowerCase()
+        .replace(/\s*\([^)]*\)\s*/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    const tokens: string[] = [];
+    const regex = /(?:^|\b|[a-z])(?:v|rev[- ]?)(\d+(?:\.\d+)?)\b|\b(\d+(?:\.\d+)?)\b/g;
+    for (const match of cleaned.matchAll(regex)) {
+        const ver = match[1] ?? match[2];
+        if (ver && !/^20\d{2}$/.test(ver)) {
+            tokens.push(ver);
+        }
+    }
+    return tokens.join('.');
 }
 
 function matchesLocalModel(
@@ -192,7 +232,7 @@ function matchesLocalModel(
     localShort?: string
 ): boolean {
     if (remoteRef && localRef) {
-        if (remoteRef === localRef) return true;
+        return remoteRef === localRef;
     }
 
     const normRemote = normalize(remoteCleanName);
@@ -200,23 +240,43 @@ function matchesLocalModel(
 
     if (normRemote === normLocal) return true;
 
-    // Check known aliases
-    if (KNOWN_ALIASES[normRemote] && KNOWN_ALIASES[normRemote] === normLocal) {
+    // Check curated & known aliases (both directions)
+    if (
+        (CURATED_ALIASES[normRemote] && CURATED_ALIASES[normRemote] === normLocal) ||
+        (CURATED_ALIASES[normLocal] && CURATED_ALIASES[normLocal] === normRemote)
+    ) {
         return true;
     }
 
-    // Strip "Model" suffix
-    const strippedRemote = normalize(remoteCleanName.replace(/\s+Model$/i, ''));
-    const strippedLocal = normalize(localName.replace(/\s+Model$/i, ''));
-    if (strippedRemote === strippedLocal) return true;
+    // Enforce version-number parity before any fuzzy/suffix/shortName fallback
+    const remoteVer = extractVersionSignature(remoteCleanName);
+    const localVer = extractVersionSignature(localName);
+    if (remoteVer !== localVer) {
+        return false;
+    }
+
+    // Strip "Model" word
+    const stripModelWord = (s: string) => s.replace(/\s*\bmodel\b\s*/gi, ' ').replace(/\s+/g, ' ').trim();
+    const strippedRemote = normalize(stripModelWord(remoteCleanName));
+    const strippedLocal = normalize(stripModelWord(localName));
+    if (strippedRemote && strippedRemote === strippedLocal) return true;
 
     // Local names often have suffix like "(gWM9)" or "(LA2)"
-    const localNoParens = normalize(localName.replace(/\s*\([^)]*\)/g, ''));
-    if (normRemote === localNoParens || strippedRemote === localNoParens) return true;
+    const localWithoutParens = localName.replace(/\s*\([^)]*\)/g, '');
+    const localNoParens = normalize(localWithoutParens);
+    const strippedLocalNoParens = normalize(stripModelWord(localWithoutParens));
+    if (
+        normRemote === localNoParens ||
+        strippedRemote === localNoParens ||
+        strippedRemote === strippedLocalNoParens
+    ) {
+        return true;
+    }
 
-    // Only fall back to shortName matching if neither side has a conflicting modelRef
-    // and the normalized name is a plausible abbreviation/match (prevents e.g. "Sharp Cheddar" [SC]
-    // from colliding with "Shredded cheddar" [SC])
+    // Only fall back to shortName matching if neither side has a conflicting modelRef,
+    // version signatures match, and the normalized name is a plausible abbreviation/match
+    // (prevents e.g. "Sharp Cheddar" [SC] from colliding with "Shredded cheddar" [SC],
+    // and prevents "Cinque Terre Model V2" from colliding with "Cinque Terre Model").
     if (
         remoteShort &&
         localShort &&
@@ -232,11 +292,12 @@ function matchesLocalModel(
 }
 
 function parseDisplayName(displayName: string): { cleanName: string; extractedDate?: string } {
-    const dateMatch = displayName.match(/\(([^)]+ \d{1,2}, \d{4})\)/);
-    const cleanName = displayName.replace(/\s*\([^)]*\)\s*$/, '').trim();
+    const cleaned = displayName.replace(/\s*\(BIG\s+MODEL\)\s*$/i, '').trim();
+    const dateMatch = cleaned.match(/\(([^)]+\d{4})\)\s*$/);
+    const cleanName = cleaned.replace(/\s*\([^)]*\)\s*$/, '').trim();
     return {
         cleanName,
-        extractedDate: dateMatch ? dateMatch[1] : undefined
+        extractedDate: dateMatch ? dateMatch[1].trim() : undefined
     };
 }
 
@@ -293,7 +354,8 @@ function loadLocalModels(): LocalModelsData {
 }
 
 /**
- * Fetch and scan GitHub manifests.
+ * Fetch and scan GitHub manifests (scanning the latest 2 selector generations per family
+ * so models landing in e.g. v25 before v26 are never missed).
  */
 async function scanGitHubManifests(localData: LocalModelsData, includeCustomUploads = false): Promise<ScannedModel[]> {
     const results: ScannedModel[] = [];
@@ -309,61 +371,146 @@ async function scanGitHubManifests(localData: LocalModelsData, includeCustomUplo
             return match ? [{ file: name, version: Number(match[1]) }] : [];
         }).sort((a, b) => b.version - a.version);
         if (!versions.length) throw new Error(`No manifest found for ${family.name}`);
-        const source = { ...family, ...versions[0], name: `${family.name} (v${versions[0].version})` };
-        console.log(`  ${source.name}: ${source.file}`);
-        const url = `${GITHUB_RAW_BASE}/${source.file}`;
-        try {
-            const resp = await fetch(url, { signal: AbortSignal.timeout(30000) });
-            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-            const data = await resp.json() as { bundles?: ModelManifestBundle[] };
-            if (!Array.isArray(data.bundles) || !data.bundles.length) throw new Error('Manifest has no model bundles');
-            const bundles = data.bundles;
 
-            for (const bundle of bundles) {
-                const { cleanName, extractedDate } = parseDisplayName(bundle.display_name);
-                const folder = bundle.overrides?.folder?.trim();
+        const seenInFamily = new Set<string>();
+        for (const ver of versions.slice(0, 2)) {
+            const source = { ...family, ...ver, name: `${family.name} (v${ver.version})` };
+            console.log(`  ${source.name}: ${source.file}`);
+            const url = `${GITHUB_RAW_BASE}/${source.file}`;
+            try {
+                const resp = await fetch(url, { signal: AbortSignal.timeout(30000) });
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                const data = await resp.json() as { bundles?: ModelManifestBundle[] };
+                if (!Array.isArray(data.bundles) || !data.bundles.length) throw new Error('Manifest has no model bundles');
 
-                let match: { categoryId: string; model: LocalModel } | undefined;
-                for (const cat of localData.categories) {
-                    for (const m of cat.models) {
-                        if (matchesLocalModel(cleanName, m.name, bundle.ref, m.modelRef, bundle.short_name, m.shortName)) {
-                            match = { categoryId: cat.id, model: m };
-                            break;
+                for (const bundle of data.bundles) {
+                    const { cleanName, extractedDate } = parseDisplayName(bundle.display_name);
+                    const dedupKey = bundle.ref || normalize(cleanName);
+                    if (seenInFamily.has(dedupKey)) continue;
+                    seenInFamily.add(dedupKey);
+
+                    const folder = bundle.overrides?.folder?.trim();
+
+                    let match: { categoryId: string; model: LocalModel } | undefined;
+                    for (const cat of localData.categories) {
+                        for (const m of cat.models) {
+                            if (matchesLocalModel(cleanName, m.name, bundle.ref, m.modelRef, bundle.short_name, m.shortName)) {
+                                match = { categoryId: cat.id, model: m };
+                                break;
+                            }
                         }
+                        if (match) break;
                     }
-                    if (match) break;
-                }
 
-                // Skip uncurated user hash uploads (folder starting with "custom") unless already in catalog or explicitly requested
-                if (!match && !includeCustomUploads && folder && /^custom\b/i.test(folder)) {
-                    continue;
-                }
+                    // Skip uncurated user hash uploads (folder === "custom") unless already in catalog or explicitly requested.
+                    // Note: "Custom Merge Models" is a curated Model Manager folder and must NOT be skipped.
+                    if (!match && !includeCustomUploads && folder && /^custom$/i.test(folder)) {
+                        continue;
+                    }
 
-                results.push({
-                    sourceId: source.id,
-                    sourceName: source.name,
-                    manifestFile: source.file,
-                    targetCategory: source.targetCategory,
-                    rawDisplayName: bundle.display_name,
-                    cleanName,
-                    extractedDate,
-                    shortName: bundle.short_name,
-                    modelRef: bundle.ref,
-                    minimumSelectorVersion: bundle.minimum_selector_version ? Number(bundle.minimum_selector_version) : undefined,
-                    folder,
-                    index: bundle.index,
-                    generation: bundle.generation,
-                    isNew: !match,
-                    localCategory: match?.categoryId,
-                    matchedLocalModel: match?.model
-                });
+                    results.push({
+                        sourceId: source.id,
+                        sourceName: source.name,
+                        manifestFile: source.file,
+                        targetCategory: source.targetCategory,
+                        rawDisplayName: bundle.display_name,
+                        cleanName,
+                        extractedDate,
+                        shortName: bundle.short_name,
+                        modelRef: bundle.ref,
+                        minimumSelectorVersion: bundle.minimum_selector_version ? Number(bundle.minimum_selector_version) : undefined,
+                        folder,
+                        index: bundle.index,
+                        generation: bundle.generation,
+                        isNew: !match,
+                        localCategory: match?.categoryId,
+                        matchedLocalModel: match?.model
+                    });
+                }
+            } catch (err) {
+                throw new Error(`Incomplete scan: ${source.file}`, { cause: err });
             }
-        } catch (err) {
-            throw new Error(`Incomplete scan: ${source.file}`, { cause: err });
         }
     }
 
     return results;
+}
+
+/**
+ * Scan Discourse `model_drop` and `big_model` tags so forum-first official model drops
+ * (e.g., Cinque Terre Model V2) are discovered even before manifest sync.
+ */
+async function scanDiscourseModelDrops(localData: LocalModelsData, existingScanned: ScannedModel[]): Promise<ScannedModel[]> {
+    const discovered: ScannedModel[] = [];
+    const linkedTopicIds = new Set<number>();
+    for (const cat of localData.categories) {
+        for (const m of cat.models) {
+            const idMatch = m.forumUrl?.match(/\/t\/(?:[^/]+\/)?(\d+)/);
+            if (idMatch) linkedTopicIds.add(Number(idMatch[1]));
+        }
+    }
+
+    const topicMap = new Map<number, { id: number; title: string; created_at: string; tags?: Array<string | { name: string }> }>();
+    const tagUrls = [
+        `${DISCOURSE_BASE}/tag/model_drop.json`,
+        `${DISCOURSE_BASE}/tag/big_model.json`,
+    ];
+
+    const responses = await Promise.allSettled(
+        tagUrls.map(u => fetch(u, { signal: AbortSignal.timeout(10000) }))
+    );
+
+    for (const res of responses) {
+        if (res.status === 'fulfilled' && res.value.ok) {
+            try {
+                const payload = await res.value.json() as {
+                    topic_list?: { topics?: Array<{ id: number; title: string; created_at: string; tags?: Array<string | { name: string }> }> };
+                };
+                for (const t of payload.topic_list?.topics || []) {
+                    topicMap.set(t.id, t);
+                }
+            } catch {
+                // ignore malformed tag response
+            }
+        }
+    }
+
+    for (const topic of topicMap.values()) {
+        if (linkedTopicIds.has(topic.id)) continue;
+
+        const tagNames = (topic.tags || []).map(t => (typeof t === 'string' ? t : t.name).toLowerCase());
+        if (!tagNames.includes('model_drop')) continue;
+
+        const { cleanName, extractedDate } = parseDisplayName(topic.title);
+        // Official model drop threads include a parenthetical release year (2026+)
+        if (!extractedDate || !/\b202[6-9]\b/.test(extractedDate)) continue;
+
+        const matchesLocal = localData.categories.some(cat =>
+            cat.models.some(m => matchesLocalModel(cleanName, m.name))
+        );
+        if (matchesLocal) continue;
+
+        const matchesManifest = existingScanned.some(s =>
+            matchesLocalModel(cleanName, s.cleanName)
+        );
+        if (matchesManifest) continue;
+
+        const isBigModel = tagNames.includes('big_model') || /\(big\s+model\)/i.test(topic.title);
+        discovered.push({
+            sourceId: isBigModel ? 'chestnut' : 'discourse',
+            sourceName: isBigModel ? 'Discourse Forum (big_model)' : 'Discourse Forum (model_drop)',
+            manifestFile: '',
+            targetCategory: isBigModel ? 'chestnut_gpu' : 'world_2026',
+            rawDisplayName: topic.title,
+            cleanName,
+            extractedDate,
+            shortName: '',
+            index: `topic#${topic.id}`,
+            isNew: true,
+        });
+    }
+
+    return discovered;
 }
 
 /**
@@ -375,15 +522,19 @@ async function researchDiscourse(modelName: string): Promise<DiscourseResearchRe
         const query = encodeURIComponent(cleanQuery);
         const topicById = new Map<number, { id: number; title: string; created_at: string; posts_count: number }>();
 
-        // Always check Category 9 (Official Model Drops) + search endpoint
-        const [catResp, searchResp] = await Promise.allSettled([
+        // Check Category 9, model_drop/big_model tags, and search endpoint
+        const [catResp, tagResp, bigTagResp, searchResp] = await Promise.allSettled([
             fetch(`${DISCOURSE_BASE}/c/9.json`, { signal: AbortSignal.timeout(10000) }),
+            fetch(`${DISCOURSE_BASE}/tag/model_drop.json`, { signal: AbortSignal.timeout(10000) }),
+            fetch(`${DISCOURSE_BASE}/tag/big_model.json`, { signal: AbortSignal.timeout(10000) }),
             fetch(`${DISCOURSE_BASE}/search.json?q=${query}`, { signal: AbortSignal.timeout(10000) })
         ]);
 
-        if (catResp.status === 'fulfilled' && catResp.value.ok) {
-            const catData = await catResp.value.json() as { topic_list?: { topics?: Array<{ id: number; title: string; created_at: string; posts_count: number }> } };
-            for (const t of catData.topic_list?.topics || []) topicById.set(t.id, t);
+        for (const resp of [catResp, tagResp, bigTagResp]) {
+            if (resp.status === 'fulfilled' && resp.value.ok) {
+                const data = await resp.value.json() as { topic_list?: { topics?: Array<{ id: number; title: string; created_at: string; posts_count: number }> } };
+                for (const t of data.topic_list?.topics || []) topicById.set(t.id, t);
+            }
         }
         if (searchResp.status === 'fulfilled' && searchResp.value.ok) {
             const searchData = await searchResp.value.json() as { topics?: Array<{ id: number; title: string; created_at: string; posts_count: number }> };
@@ -393,30 +544,37 @@ async function researchDiscourse(modelName: string): Promise<DiscourseResearchRe
         const topics = [...topicById.values()];
         if (topics.length === 0) return null;
 
-        // Rank topics by matching precision
+        // Rank topics by matching precision + strict version-signature awareness
         const lowerName = cleanQuery.toLowerCase();
+        const queryVersion = extractVersionSignature(modelName);
         const genericWords = new Set(['model', 'driving', 'the', 'new', 'custom', 'sp']);
         const distinctiveTokens = lowerName.split(/\s+/).filter(t => t.length > 1 && !genericWords.has(t));
 
         const scoredTopics = topics.map(t => {
             const lowerTitle = t.title.toLowerCase();
-            const titleBeforeDate = lowerTitle
-                .replace(/\s*\([^)]*\)\s*$/, '')
+            const rawTitleBeforeDate = t.title
+                .replace(/\s*\(big\s+model\)\s*$/i, '')
+                .replace(/\s*\([^)]*\)\s*$/, '');
+            const titleBeforeDate = rawTitleBeforeDate
+                .toLowerCase()
                 .replace(/\s*\b(?:driving\s+)?model\b\s*/gi, ' ')
                 .replace(/\s+/g, ' ')
                 .trim();
+            const topicVersion = extractVersionSignature(rawTitleBeforeDate);
+
             let score = 0;
             if (titleBeforeDate === lowerName || lowerTitle.startsWith(lowerName + ' (')) score += 80;
-            else if (lowerTitle.includes(lowerName)) score += 50;
+            else if (titleBeforeDate.includes(lowerName)) score += 50;
 
-            // Version match check (e.g. "v6", "v1.1", "2")
-            const vMatch = lowerName.match(/\bv?(\d+(?:\.\d+)?)\b/);
-            if (vMatch) {
-                if (lowerTitle.includes(vMatch[0])) score += 25;
-                else score -= 30;
+            // Strict version-signature match on titleBeforeDate (prevents "2" matching "2026" and V1 matching V2)
+            if (queryVersion !== topicVersion) {
+                score -= 60;
+            } else if (queryVersion) {
+                score += 30;
             }
+
             for (const token of distinctiveTokens) {
-                if (lowerTitle.includes(token)) score += 15;
+                if (titleBeforeDate.includes(token)) score += 15;
                 else score -= 15;
             }
             return { topic: t, score };
@@ -628,10 +786,14 @@ function applyNewModels(
     for (const item of researchedModels) {
         const { scanned, discourse, discord } = item;
 
-        // If this is an existing model that lacked a forumUrl, enrich it when a Discourse topic is found
+        // If this is an existing model that lacked a specific topic forumUrl, enrich it when a Discourse topic is found
         if (!scanned.isNew && scanned.matchedLocalModel) {
             const existing = scanned.matchedLocalModel;
-            if ((!existing.forumUrl || existing.forumUrl === 'https://community.sunnypilot.ai') && discourse?.forumUrl) {
+            const hasPlaceholderForumUrl =
+                !existing.forumUrl ||
+                existing.forumUrl === 'https://community.sunnypilot.ai' ||
+                /\/tag\//i.test(existing.forumUrl);
+            if (hasPlaceholderForumUrl && discourse?.forumUrl) {
                 existing.forumUrl = discourse.forumUrl;
                 if (discourse.pollVoters && discourse.pollVoters > 0 && discourse.pollScore !== undefined && discourse.sentiment) {
                     existing.communityScore = discourse.pollScore;
@@ -683,9 +845,9 @@ function applyNewModels(
             } : {}),
             bestFor: 'Early experimental testing; performance is not yet verified.',
             ...(discourse?.extractedSteering ? { steeringFeel: discourse.extractedSteering } : {}),
-            manifestUrl: `https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/${scanned.manifestFile}`,
+            ...(scanned.manifestFile ? { manifestUrl: `https://github.com/sunnypilot/sunnypilot-models/blob/gh-pages/docs/${scanned.manifestFile}` } : {}),
             ...(scanned.modelRef ? { modelRef: scanned.modelRef } : {}),
-            shortName: scanned.shortName,
+            ...(scanned.shortName ? { shortName: scanned.shortName } : {}),
             ...(scanned.minimumSelectorVersion ? { minimumSelectorVersion: scanned.minimumSelectorVersion } : {}),
             testedOn: [],
             positives: (discourse?.extractedPositives && discourse.extractedPositives.length > 0)
@@ -747,9 +909,19 @@ async function main() {
     console.log(` Local catalog loaded: ${localData.totalModels} models across ${localData.categories.length} categories.`);
 
     console.log('🌐 Fetching GitHub manifests (sunnypilot/sunnypilot-models:gh-pages)...');
-    const scanned = await scanGitHubManifests(localData, includeCustomUploads);
+    const manifestScanned = await scanGitHubManifests(localData, includeCustomUploads);
 
-    const newModels = Array.from(new Map(scanned.filter(m => m.isNew).map(m => [normalize(m.cleanName), m])).values());
+    console.log('💬 Checking Discourse model_drop & big_model tags...');
+    const forumDrops = await scanDiscourseModelDrops(localData, manifestScanned);
+    const scanned = [...manifestScanned, ...forumDrops];
+
+    const newModels = Array.from(
+        new Map(
+            scanned
+                .filter(m => m.isNew)
+                .map(m => [m.modelRef || `${m.sourceId}:${normalize(m.cleanName)}`, m])
+        ).values()
+    );
     const existingModels = scanned.filter(m => !m.isNew);
     const unlinkedByFamily = MANIFEST_FAMILIES.flatMap(family =>
         existingModels
@@ -757,7 +929,11 @@ async function main() {
                 m =>
                     m.sourceId === family.id &&
                     m.matchedLocalModel &&
-                    (!m.matchedLocalModel.forumUrl || m.matchedLocalModel.forumUrl === 'https://community.sunnypilot.ai')
+                    (
+                        !m.matchedLocalModel.forumUrl ||
+                        m.matchedLocalModel.forumUrl === 'https://community.sunnypilot.ai' ||
+                        /\/tag\//i.test(m.matchedLocalModel.forumUrl)
+                    )
             )
             .slice(-5)
     );
@@ -772,9 +948,9 @@ async function main() {
         console.log(`- New / Uncatalogued models: ${newModels.length}\n`);
 
         if (newModels.length > 0) {
-            console.log('🚨 Found New Uncatalogued Models in GitHub:');
+            console.log('🚨 Found New Uncatalogued Models in GitHub / Discourse:');
             for (const m of newModels) {
-                console.log(`  • [${m.sourceName}] "${m.cleanName}" (Index: ${m.index}, Short: ${m.shortName}, Date: ${m.extractedDate || 'N/A'})`);
+                console.log(`  • [${m.sourceName}] "${m.cleanName}" (Index: ${m.index}, Short: ${m.shortName || 'N/A'}, Date: ${m.extractedDate || 'N/A'})`);
             }
             console.log('\n💡 Run `npm run scan:models -- --research` to research these models.');
         } else {
@@ -846,9 +1022,11 @@ async function main() {
 
 export {
     matchesLocalModel,
+    extractVersionSignature,
     isCuratedQualcommDrop,
     parseDisplayName,
     normalize,
+    scanDiscourseModelDrops,
 };
 
 if (process.argv[1]?.endsWith('scan_models.ts')) {

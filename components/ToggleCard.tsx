@@ -3,9 +3,37 @@ import TranslatedText from '@/components/TranslatedText';
 import { useTextTranslation } from '@/lib/i18n';
 
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import DOMPurify from 'dompurify';
 import { useLanguage } from '../lib/i18n';
+
+async function copyTextSafe(text: string): Promise<boolean> {
+  if (typeof navigator !== 'undefined' && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      // Fall through to execCommand fallback
+    }
+  }
+  if (typeof document !== 'undefined') {
+    try {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(textarea);
+      return ok;
+    } catch {
+      return false;
+    }
+  }
+  return false;
+}
 
 interface ToggleSetting {
   key: string;
@@ -36,6 +64,8 @@ interface ToggleCardProps {
   categoryIcon: string;
   categoryId: string;
   isHighlighted: boolean;
+  onFilterCategory?: (categoryId: string) => void;
+  onSelectSetting?: (key: string, shouldScroll?: boolean) => void;
 }
 
 /* ─────────────────────── Simulators ─────────────────────── */
@@ -187,23 +217,27 @@ function DropdownSimulator({
   options,
   defaultValue,
   recommended,
+  settingLabel,
 }: {
   options: string[];
   defaultValue: string;
   recommended?: string;
+  settingLabel?: string;
 }) {
+  const tx = useTextTranslation();
   const [selected, setSelected] = useState(defaultValue);
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-1.5">
       {/* Option list */}
       <div className="rounded-2xl bg-slate-900/70 border border-slate-700/50 overflow-hidden">
         {options.map((option) => (
           <button
             key={option}
+            type="button"
             onClick={() => setSelected(option)}
             className={`
-              w-full text-left px-4 py-3 text-sm flex items-center gap-3 transition-colors
+              w-full text-left px-4 py-3 text-sm flex items-center gap-3 transition-colors cursor-pointer
               ${option === selected
                 ? 'text-slate-100 bg-slate-800/50'
                 : 'text-slate-400 hover:bg-slate-800/30 hover:text-slate-300'
@@ -231,12 +265,25 @@ function DropdownSimulator({
         ))}
       </div>
 
-      {/* Dropdown select */}
-      <div className="rounded-xl bg-slate-900/70 border border-slate-700/50 px-4 py-3 flex items-center justify-between">
-        <span className="text-sm text-slate-100"><TranslatedText text={selected} /></span>
-        <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+      {/* Interactive Dropdown select */}
+      <div className="relative rounded-xl bg-slate-900/70 border border-slate-700/50 hover:border-slate-600/70 transition-colors">
+        <select
+          value={selected}
+          onChange={(e) => setSelected(e.target.value)}
+          aria-label={tx(settingLabel || 'Value')}
+          className="w-full appearance-none bg-transparent px-4 py-3 pr-10 text-sm text-slate-100 outline-none cursor-pointer"
+        >
+          {options.map((option) => (
+            <option key={option} value={option} className="bg-slate-900 text-slate-100">
+              {tx(option)}
+            </option>
+          ))}
+        </select>
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+          <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
       </div>
     </div>
   );
@@ -250,34 +297,78 @@ export default function ToggleCard({
   categoryIcon,
   categoryId,
   isHighlighted,
+  onFilterCategory,
+  onSelectSetting,
 }: ToggleCardProps) {
   const tx = useTextTranslation();
   const [copied, setCopied] = useState(false);
-  const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const [expandedSection, setExpandedSection] = useState<string | null>(() => {
+    if (!isHighlighted) return null;
+    if (setting.deepDive) return 'deepdive';
+    if (setting.discourseHtml) return 'discourse';
+    return null;
+  });
+  const [prevHighlighted, setPrevHighlighted] = useState(Boolean(isHighlighted));
+  if (Boolean(isHighlighted) !== prevHighlighted) {
+    setPrevHighlighted(Boolean(isHighlighted));
+    if (isHighlighted) {
+      if (setting.deepDive) {
+        setExpandedSection((prev) => prev ?? 'deepdive');
+      } else if (setting.discourseHtml) {
+        setExpandedSection((prev) => prev ?? 'discourse');
+      }
+    }
+  }
+  const [deviceNoteOpen, setDeviceNoteOpen] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
 
   const handleCopyLink = async () => {
-    const url = `${window.location.origin}${window.location.pathname}#${encodeURIComponent(setting.key)}`;
-    try {
-      await navigator.clipboard.writeText(url);
+    const encodedKey = encodeURIComponent(setting.key);
+    const url = `${window.location.origin}${window.location.pathname}?setting=${encodedKey}#${encodedKey}`;
+    const ok = await copyTextSafe(url);
+    if (ok) {
       setCopied(true);
-      window.history.replaceState(null, '', `#${encodeURIComponent(setting.key)}`);
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy:', err);
     }
+    try {
+      window.history.replaceState(null, '', `?setting=${encodedKey}#${encodedKey}`);
+    } catch {
+      // Ignore history state errors in restricted webviews
+    }
+    onSelectSetting?.(setting.key, false);
   };
 
   const handleReportIssue = () => {
     const title = encodeURIComponent(`Issue with ${setting.label}`);
     const body = encodeURIComponent(`Flagged from section: ${categoryName}\n\nDescribe the issue here:`);
     const issueUrl = `https://github.com/vinnie291/sunnylink-wiki/issues/new?title=${title}&body=${body}`;
-    window.open(issueUrl, '_blank');
+    try {
+      window.open(issueUrl, '_blank', 'noopener,noreferrer');
+    } catch {
+      // Ignore popup blockers
+    }
   };
 
   const toggleSection = (section: string) => {
     setExpandedSection(expandedSection === section ? null : section);
+  };
+
+  const handleTitleOrCardAction = () => {
+    if (setting.deepDive) {
+      setExpandedSection((prev) => (prev === 'deepdive' ? null : 'deepdive'));
+    } else if (setting.discourseHtml) {
+      setExpandedSection((prev) => (prev === 'discourse' ? null : 'discourse'));
+    }
+    onSelectSetting?.(setting.key, false);
+  };
+
+  const handleCardSurfaceClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement | null;
+    if (!target) return;
+    if (target.closest('button, a, input, select, textarea, label, [role="switch"]')) return;
+    if (typeof window !== 'undefined' && (window.getSelection()?.toString().length ?? 0) > 0) return;
+    handleTitleOrCardAction();
   };
 
   // Map category ID to Sunnylink dashboard path
@@ -419,6 +510,7 @@ export default function ToggleCard({
               options={setting.options}
               defaultValue={String(setting.default || setting.options[0])}
               recommended={typeof setting.recommended === 'string' ? setting.recommended : undefined}
+              settingLabel={setting.label}
             />
           );
         }
@@ -437,6 +529,7 @@ export default function ToggleCard({
       ref={cardRef}
       id={setting.key}
       data-setting-key={setting.key}
+      onClick={handleCardSurfaceClick}
       className={`
         relative group rounded-2xl border transition-colors duration-200 ease-out scroll-mt-32
         ${isHighlighted
@@ -445,8 +538,14 @@ export default function ToggleCard({
         }
       `}
     >
+      {setting.key === 'AdjustCameraOffset' && (
+        <>
+          <span id="CameraOffset" className="sr-only" />
+          <span id="camera-offset" className="sr-only" />
+        </>
+      )}
       {/* Gradient overlay on hover */}
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-cyan-500/5 via-transparent to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-cyan-500/5 via-transparent to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
       <div className="relative p-5 lg:p-7">
 
@@ -455,45 +554,113 @@ export default function ToggleCard({
           {/* Left: Badge + Title + Category */}
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap mb-2">
-              <span className={`px-2.5 py-0.5 text-xs font-semibold rounded-full border ${getTypeBadgeStyle(setting.type)}`}>
+              <span className={`px-2.5 py-0.5 text-xs font-semibold rounded-full border select-none ${getTypeBadgeStyle(setting.type)}`}>
                 <TranslatedText text={getTypeBadgeLabel(setting.type)} />
               </span>
               {setting.recommended && (
-                <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                  ★ {t('settings.recommended')}
-                </span>
+                onFilterCategory ? (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onFilterCategory('recommended');
+                    }}
+                    title={tx('Recommended')}
+                    className="px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/30 transition-colors cursor-pointer"
+                  >
+                    ★ {t('settings.recommended')}
+                  </button>
+                ) : (
+                  <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 select-none">
+                    ★ {t('settings.recommended')}
+                  </span>
+                )
               )}
               {setting.safetyLevel === 'critical' && (
-                <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30">
+                <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30 select-none">
                   ⚠️ {t('settings.critical')}
                 </span>
               )}
               {setting.safetyLevel === 'safe' && (
-                <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 select-none">
                   ✓ {t('settings.safe')}
                 </span>
               )}
               {setting.deviceAvailability === 'comma-3x-only' && (
-                <span
-                  className="px-2 py-0.5 text-xs font-medium rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setDeviceNoteOpen((prev) => !prev);
+                  }}
+                  className="px-2 py-0.5 text-xs font-medium rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 hover:bg-amber-500/30 transition-colors cursor-pointer"
                   title={tx("Supported on comma 3X/3 only. Not supported on comma four screen or UI.")}
                 >
-                   <TranslatedText text={"comma 3X/3 only"} /> </span>
+                  <TranslatedText text={"comma 3X/3 only"} />
+                </button>
               )}
               {setting.deviceAvailability === 'config-hidden' && (
-                <span
-                  className="px-2 py-0.5 text-xs font-medium rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30"
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setDeviceNoteOpen((prev) => !prev);
+                  }}
+                  className="px-2 py-0.5 text-xs font-medium rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 hover:bg-sky-500/30 transition-colors cursor-pointer"
                   title={tx("Supported on all devices. comma four users configure via sunnylink.")}
                 >
-                   <TranslatedText text={"comma four via sunnylink"} /> </span>
+                  <TranslatedText text={"comma four via sunnylink"} />
+                </button>
               )}
             </div>
-            <h2 className="text-xl lg:text-2xl font-bold text-slate-100 group-hover:text-cyan-400 transition-colors leading-tight">
-              <TranslatedText text={setting.label} />
+            {deviceNoteOpen && (
+              <p className="mb-2 rounded-lg border border-sky-500/25 bg-slate-900/80 px-3 py-1.5 text-xs text-slate-300">
+                <TranslatedText
+                  text={
+                    setting.deviceAvailability === 'comma-3x-only'
+                      ? 'Supported on comma 3X/3 only. Not supported on comma four screen or UI.'
+                      : 'Supported on all devices. comma four users configure via sunnylink.'
+                  }
+                />
+              </p>
+            )}
+            <h2 className="text-xl lg:text-2xl font-bold text-slate-100 leading-tight">
+              <a
+                href={`/?setting=${encodeURIComponent(setting.key)}#${encodeURIComponent(setting.key)}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleTitleOrCardAction();
+                }}
+                className="text-left hover:text-cyan-400 transition-colors inline-flex items-center gap-2"
+                title={tx(setting.label)}
+              >
+                <span><TranslatedText text={setting.label} /></span>
+                <span className="text-sm text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity font-mono">#</span>
+              </a>
             </h2>
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-1.5">
-              <span><TranslatedText text={categoryIcon} /></span>
-              <span><TranslatedText text={categoryName} /></span>
+            <div className="flex items-center gap-2 text-xs text-slate-400 mt-1.5">
+              {onFilterCategory && categoryId ? (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onFilterCategory(categoryId);
+                  }}
+                  className="inline-flex items-center gap-1.5 hover:text-cyan-400 transition-colors cursor-pointer"
+                  title={tx(categoryName)}
+                >
+                  <span><TranslatedText text={categoryIcon} /></span>
+                  <span><TranslatedText text={categoryName} /></span>
+                </button>
+              ) : (
+                <div className="inline-flex items-center gap-1.5">
+                  <span><TranslatedText text={categoryIcon} /></span>
+                  <span><TranslatedText text={categoryName} /></span>
+                </div>
+              )}
+              <span className="text-slate-600">•</span>
+              <span className="font-mono text-[11px] text-slate-500">{setting.key}</span>
             </div>
           </div>
 
@@ -502,8 +669,9 @@ export default function ToggleCard({
             <div className="flex items-center gap-2">
               {/* Flag */}
               <button
+                type="button"
                 onClick={handleReportIssue}
-                className="p-2 rounded-lg text-slate-400 hover:text-amber-400 hover:bg-amber-500/10 transition-all duration-200"
+                className="p-2 rounded-lg text-slate-400 hover:text-amber-400 hover:bg-amber-500/10 transition-all duration-200 cursor-pointer"
                 title={tx("Flag this setting")}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -512,8 +680,9 @@ export default function ToggleCard({
               </button>
               {/* Share */}
               <button
+                type="button"
                 onClick={handleCopyLink}
-                className="p-2 rounded-lg text-slate-400 hover:text-cyan-400 hover:bg-cyan-500/10 transition-all duration-200"
+                className="p-2 rounded-lg text-slate-400 hover:text-cyan-400 hover:bg-cyan-500/10 transition-all duration-200 cursor-pointer"
                 title={tx(copied ? "Copied!" : "Share this setting")}
               >
                 {copied ? (
@@ -558,8 +727,9 @@ export default function ToggleCard({
             {setting.discourseHtml && (
               <div className="mb-5">
                 <button
+                  type="button"
                   onClick={() => toggleSection('discourse')}
-                  className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors w-full text-left"
+                  className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors w-full text-left cursor-pointer"
                 >
                   <svg
                     className={`w-4 h-4 transition-transform ${expandedSection === 'discourse' ? 'rotate-90' : ''}`}
@@ -591,11 +761,29 @@ export default function ToggleCard({
 
             {/* Dependencies */}
             {setting.dependencies && setting.dependencies.length > 0 && (
-              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 mb-5">
+              <div className="inline-flex flex-wrap items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 mb-5">
                 <span className="text-amber-400 text-xs">🔗</span>
                 <span className="text-amber-400 text-xs font-medium">
-                   <TranslatedText text={"Requires:"} /> <TranslatedText text={setting.dependencies.map(d => d.label).join(', ')} />
+                  <TranslatedText text={"Requires:"} />
                 </span>
+                {setting.dependencies.map((dep, idx) => (
+                  <a
+                    key={dep.key}
+                    href={`/?setting=${encodeURIComponent(dep.key)}#${encodeURIComponent(dep.key)}`}
+                    onClick={(e) => {
+                      if (onSelectSetting) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        onSelectSetting(dep.key, true);
+                      }
+                    }}
+                    className="text-amber-300 hover:text-cyan-300 underline decoration-amber-400/50 hover:decoration-cyan-300 text-xs font-semibold transition-colors"
+                    title={tx(dep.label)}
+                  >
+                    <TranslatedText text={dep.label} />
+                    {idx < setting.dependencies!.length - 1 ? ',' : ''}
+                  </a>
+                ))}
               </div>
             )}
 
@@ -603,8 +791,9 @@ export default function ToggleCard({
             {setting.deepDive && (
               <div className="mb-5">
                 <button
+                  type="button"
                   onClick={() => toggleSection('deepdive')}
-                  className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors w-full text-left"
+                  className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors w-full text-left cursor-pointer"
                 >
                   <svg
                     className={`w-4 h-4 transition-transform ${expandedSection === 'deepdive' ? 'rotate-90' : ''}`}
